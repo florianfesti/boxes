@@ -17,7 +17,7 @@ class Boxes:
 
     def _init_surface(self):
         width = 700
-        height = 400
+        height = 600
 
         self.surface = cairo.SVGSurface(self.output, width, height)
         self.ctx = ctx = cairo.Context(self.surface)
@@ -82,8 +82,9 @@ class Boxes:
         s, f = space, finger
         for i in xrange(fingers):
             pos = leftover/2.0+i*(space+finger)
-            self.ctx.rectangle(pos+s+b, self.thickness/2-b,
+            self.ctx.rectangle(pos+s+b, -self.thickness/2+b,
                                f-2*b, self.thickness - 2*b)
+
         self.ctx.move_to(0, length)
         self.ctx.translate(*self.ctx.get_current_point())
 
@@ -99,6 +100,7 @@ class Boxes:
 
 
     # helpers for doveTailJoint
+    # not intended for general use
     def _turnLeft(self, radius, angle):
         self.ctx.arc(0, radius, radius,
                      -0.5*math.pi, angle)
@@ -190,6 +192,13 @@ class Boxes:
         self.ctx.translate(*self.ctx.get_current_point())
         self.ctx.rotate(angle)
 
+    def fingerHolesAt(self, x, y, length, angle=90):
+        # XXX burn
+        self.ctx.save()
+        self.moveTo(x, y, angle)
+        self.fingerHoles(length)
+        self.ctx.restore()
+
     ####################################################################
     ### Parts
     ####################################################################
@@ -198,13 +207,26 @@ class Boxes:
         self.ctx.save()
         self.moveTo(r, 0)
 
+        # two walls
+        self.fingerHolesAt(x/3.0-r, 0, 0.5*y-self.thickness)
+        self.fingerHolesAt(x*2/3.0-r, 0, 0.5*y-self.thickness)
+
         self.fingerJoint(0.5*x-r)
         self.fingerJoint(0.5*x-r)
+
         self.corner(90, r)
+
+        # Middle wall
+        self.fingerHolesAt(y/2.0-r, 0, x)
+
         self.fingerJoint(y-2*r)
         self.corner(90, r)
 
+        # single wall
+        self.fingerHolesAt(x/2.0-r, 0, 0.5*y-self.thickness)
+
         self.fingerJoint(x-2*r)
+
         self.corner(90, r)
         self.fingerJoint(y-2*r)
         self.corner(90, r)
@@ -216,18 +238,25 @@ class Boxes:
         self.moveTo(20, 0)
         c4 = (r+self.burn)*math.pi*0.5 # circumference of quarter circle  
 
-        #self.fingerJoint(0.5*x-r, positive=False)
+        self.fingerHolesAt(x/6.0,20, h-20)
         self.fingerHoleEdge(0.5*x-r, 5)
+
         self.flex(c4, h)
-        #self.fingerJoint(y-2*r, positive=False)
+
+        self.fingerHolesAt(y/2.0-r,20, h-20)
         self.fingerHoleEdge(y-2*r, 5)
+
         self.flex(c4, h)
+        self.fingerHolesAt(x/2.0-r, 20, h-20)
         self.fingerHoleEdge(x-2*r, 5)
-        #self.fingerJoint(x-2*r, positive=False)
         self.flex(c4, h)
+
+        self.fingerHolesAt(y/2.0-r,20, h-20)
         self.fingerHoleEdge(y-2*r, 5)
+
         self.flex(c4, h)
-        #self.fingerJoint(0.5*x-r, positive=False)
+
+        self.fingerHolesAt(x/3.0-r, 20, h-20)
         self.fingerHoleEdge(0.5*x-r, 5)
 
             
@@ -245,20 +274,66 @@ class Boxes:
 
         self.ctx.restore()
 
+    def smallWall(self, y, h):
+        l = 0.5*y - self.thickness
+
+        self.ctx.save()
+        self.moveTo(10, 0)
+
+        self.fingerJoint(l)
+        self.corner(90)
+        self.fingerJoint(h-20)
+        self.corner(90)
+        self.edge(l)
+        self.corner(90)
+        self.fingerJoint(h-20)
+        self.corner(90)
+
+        self.ctx.restore()
+
+    def centerWall(self, x, h):
+        self.ctx.save()
+
+        for i in range(2, 5):
+            self.fingerHolesAt(i*x/6.0, 0, h-20)
+
+        self.fingerJoint(x)
+        self.corner(90)
+        self.fingerJoint(h-20)
+        self.corner(90)
+        self.edge(x) # XXX replace with handle
+        self.corner(90)
+        self.fingerJoint(h-20)
+        self.corner(90)
+
+        self.ctx.restore()
+
     ##################################################
     ### main
     ##################################################
 
-    def render(self, x, y, r):
+    def render(self, x, y, h, r):
 
+        self.ctx.save()
         self.moveTo(20,20)
         self.basePlate(x, y, r)
-        self.moveTo(0, y+20)
-        self.wall(x, y, 120, r)
+
+        self.moveTo(x+20, 0)
+        self.smallWall(y, h)
+        self.moveTo(0.5*y+20, 0)
+        self.smallWall(y, h)
+        self.moveTo(0.5*y+20, 0)
+        self.smallWall(y, h)
+
+        self.ctx.restore()
+        self.moveTo(0, y+40)
+        self.wall(x, y, h, r)
+        self.moveTo(x, h+20)
+        self.centerWall(x,h)
         
         self.ctx.stroke()
         self.surface.flush()
 
 if __name__ == '__main__':
     b = Boxes()
-    b.render(200, 150, 30)
+    b.render(200, 150, 120, 30)

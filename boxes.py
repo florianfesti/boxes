@@ -10,13 +10,14 @@ class Boxes:
         self.thickness = thickness
         self.burn = 0.1
         self.fingerJointSettings = (10.0, 10.0)
+        self.doveTailJointSettings = (15, 10, 60, 2) # width, depth, angle, radius
         self.flexSettings = (1.5, 3.0, 15.0) # line distance, connects, width
         self.output = "box.svg"
         self._init_surface()
 
     def _init_surface(self):
-        width = 300
-        height = 200
+        width = 700
+        height = 400
 
         self.surface = cairo.SVGSurface(self.output, width, height)
         self.ctx = ctx = cairo.Context(self.surface)
@@ -45,7 +46,7 @@ class Boxes:
             self.ctx.arc_negative(0, -(radius+self.burn), radius+self.burn,
                      0.5*math.pi, rad + 0.5*math.pi)
             
-        self.continueDirection(degrees)
+        self.continueDirection(rad)
 
     def edge(self, length):
         self.ctx.line_to(length, 0)
@@ -96,6 +97,50 @@ class Boxes:
         self.ctx.line_to(length, 0)
         self.ctx.translate(*self.ctx.get_current_point())
 
+
+    # helpers for doveTailJoint
+    def _turnLeft(self, radius, angle):
+        self.ctx.arc(0, radius, radius,
+                     -0.5*math.pi, angle)
+        self.continueDirection(0.5*math.pi+angle)
+
+    def _turnRight(self, radius, angle):
+        self.ctx.arc_negative(0, -radius, radius,
+                              0.5*math.pi, -angle)
+        self.continueDirection(-0.5*math.pi - angle)
+
+    def _turn(self, radius, angle, right=True):
+        if right:
+            self._turnRight(radius, angle)
+        else:
+            self._turnLeft(radius, angle)
+
+    def doveTailJoint(self, length, positive=True, settings=None):
+        width, depth, angle, radius = settings or self.doveTailJointSettings
+        angle = math.pi*angle/180.0
+        alpha = 0.5*math.pi - angle
+
+        l1 = radius/math.tan(alpha/2.0)
+        diffx = 0.5*depth/math.tan(alpha)
+        l2 = 0.5*depth / math.sin(alpha)
+
+        sections = int((length) // (width*2))
+        leftover = length - sections*width*2
+
+        self.edge((width+leftover)/2.0+diffx-l1)
+        for i in xrange(sections):
+            self._turn(radius+self.burn, angle, right=positive)
+            self.edge(2*(l2-l1))
+            self._turn(radius-self.burn, angle, right=not positive)
+            self.edge(2*(diffx-l1)+width)
+            self._turn(radius-self.burn, angle, right=not positive)
+            self.edge(2*(l2-l1))
+            self._turn(radius+self.burn, angle, right=positive)
+            if i<sections-1: # all but the last
+                self.edge(2*(diffx-l1)+width)
+        self.edge((width+leftover)/2.0+diffx-l1)
+        self.ctx.translate(*self.ctx.get_current_point())
+
     def flex(self, x, h, settings=None):
         dist, connection, width = settings or self.flexSettings
         lines = int(x // dist)
@@ -141,9 +186,9 @@ class Boxes:
         self.ctx.rotate(degrees*math.pi/180.0)
         self.ctx.move_to(0, 0)
 
-    def continueDirection(self, degrees):
+    def continueDirection(self, angle=0):
         self.ctx.translate(*self.ctx.get_current_point())
-        self.ctx.rotate(degrees*math.pi/180.0)
+        self.ctx.rotate(angle)
 
     ####################################################################
     ### Parts
@@ -153,31 +198,49 @@ class Boxes:
         self.ctx.save()
         self.moveTo(r, 0)
 
-        for i in range(2):
-            self.fingerJoint(x-2*r)
-            self.corner(90, r)
-            self.fingerJoint(y-2*r)
-            self.corner(90, r)
+        self.fingerJoint(0.5*x-r)
+        self.fingerJoint(0.5*x-r)
+        self.corner(90, r)
+        self.fingerJoint(y-2*r)
+        self.corner(90, r)
+
+        self.fingerJoint(x-2*r)
+        self.corner(90, r)
+        self.fingerJoint(y-2*r)
+        self.corner(90, r)
+
         self.ctx.restore()
 
     def wall(self, x=100, y=100, h=100, r=0):
         self.ctx.save()
-        self.moveTo(r, 0)
+        self.moveTo(20, 0)
         c4 = (r+self.burn)*math.pi*0.5 # circumference of quarter circle  
-        for i in range(2):
-            self.fingerJoint(x-2*r, positive=False)
-            #self.fingerHoleEdge(x-2*r, 5)            
-            self.flex(c4, h)
-            #self.fingerJoint(y-2*r, positive=False)
-            self.fingerHoleEdge(y-2*r, 5)
-            self.flex(c4, h)
+
+        #self.fingerJoint(0.5*x-r, positive=False)
+        self.fingerHoleEdge(0.5*x-r, 5)
+        self.flex(c4, h)
+        #self.fingerJoint(y-2*r, positive=False)
+        self.fingerHoleEdge(y-2*r, 5)
+        self.flex(c4, h)
+        self.fingerHoleEdge(x-2*r, 5)
+        #self.fingerJoint(x-2*r, positive=False)
+        self.flex(c4, h)
+        self.fingerHoleEdge(y-2*r, 5)
+        self.flex(c4, h)
+        #self.fingerJoint(0.5*x-r, positive=False)
+        self.fingerHoleEdge(0.5*x-r, 5)
+
             
         self.corner(90)
-        self.edge(h)
+        self.edge(20)
+        self.doveTailJoint(h-20, positive=False)
         self.corner(90)
+
         self.edge(2*(x+y-4*r)+4*c4)
+
         self.corner(90)
-        self.edge(h)
+        self.doveTailJoint(h-20)
+        self.edge(20)
         self.corner(90)
 
         self.ctx.restore()

@@ -129,22 +129,27 @@ class Boxes:
         sections = int((length) // (width*2))
         leftover = length - sections*width*2
 
+        p = 1 if positive else -1
+
         self.edge((width+leftover)/2.0+diffx-l1)
         for i in xrange(sections):
-            self._turn(radius+self.burn, angle, right=positive)
+            self._turn(radius-p*self.burn, angle, right=positive)
             self.edge(2*(l2-l1))
-            self._turn(radius-self.burn, angle, right=not positive)
+            self._turn(radius+p*self.burn, angle, right=not positive)
             self.edge(2*(diffx-l1)+width)
-            self._turn(radius-self.burn, angle, right=not positive)
+            self._turn(radius+p*self.burn, angle, right=not positive)
             self.edge(2*(l2-l1))
-            self._turn(radius+self.burn, angle, right=positive)
+            self._turn(radius-p*self.burn, angle, right=positive)
             if i<sections-1: # all but the last
                 self.edge(2*(diffx-l1)+width)
         self.edge((width+leftover)/2.0+diffx-l1)
         self.ctx.translate(*self.ctx.get_current_point())
 
-    def flex(self, x, h, settings=None):
+    def flex(self, x, h, settings=None, burn=None):
         dist, connection, width = settings or self.flexSettings
+        if burn is None:
+            burn = self.burn
+        h += 2*burn
         lines = int(x // dist)
         leftover = x - lines * dist
         sections = int((h-connection) // width)
@@ -192,10 +197,11 @@ class Boxes:
         self.ctx.translate(*self.ctx.get_current_point())
         self.ctx.rotate(angle)
 
-    def fingerHolesAt(self, x, y, length, angle=90):
-        # XXX burn
+    def fingerHolesAt(self, x, y, length, angle=90, burn=None):
+        if burn is None:
+            burn = self.burn
         self.ctx.save()
-        self.moveTo(x, y, angle)
+        self.moveTo(x, y+burn, angle)
         self.fingerHoles(length)
         self.ctx.restore()
 

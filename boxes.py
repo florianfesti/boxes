@@ -6,19 +6,16 @@ import math
 
 class Boxes:
 
-    def __init__(self, thickness=3.0):
+    def __init__(self, width=300, height=200, thickness=3.0):
         self.thickness = thickness
         self.burn = 0.1
         self.fingerJointSettings = (10.0, 10.0)
-        self.doveTailJointSettings = (15, 10, 60, 2) # width, depth, angle, radius
+        self.doveTailJointSettings = (10, 5, 50, 0.4) # width, depth, angle, radius
         self.flexSettings = (1.5, 3.0, 15.0) # line distance, connects, width
         self.output = "box.svg"
-        self._init_surface()
+        self._init_surface(width, height)
 
-    def _init_surface(self):
-        width = 700
-        height = 600
-
+    def _init_surface(self, width, height):
         self.surface = cairo.SVGSurface(self.output, width, height)
         self.ctx = ctx = cairo.Context(self.surface)
         ctx.translate(0, height)
@@ -51,6 +48,14 @@ class Boxes:
     def edge(self, length):
         self.ctx.line_to(length, 0)
         self.ctx.translate(*self.ctx.get_current_point())
+
+    def curveTo(self, x1, y1, x2, y2, x3, y3):
+        """control point 1, control point 2, end point"""
+        self.ctx.curve_to(x1, y1, x2, y2, x3, y3)
+        dx = x3-x2
+        dy = y3-y2
+        rad = math.atan2(dy, dx)
+        self.continueDirection(rad)
 
     def fingerJoint(self, length, positive=True, settings=None):
         # assumes, we are already moved out by self.burn!
@@ -297,6 +302,34 @@ class Boxes:
 
         self.ctx.restore()
 
+
+    def handle(self, x, h, hl, r=20):
+        d = (x-hl-2*r)/2.0
+        if d < 0:
+            print "Handle too wide"
+
+        self.ctx.save()
+
+        # Hole
+        self.moveTo(d+20+r, 0)
+        self.edge(hl-2*r)
+        self.corner(-90, r)
+        self.edge(h-20-2*r)
+        self.corner(-90, r)
+        self.edge(hl-2*r)
+        self.corner(-90, r)
+        self.edge(h-20-2*r)
+        self.corner(-90, r)
+
+        self.ctx.restore()
+        self.moveTo(0,0)
+
+        self.curveTo(d, 0, d, 0, d, -h+r)
+        self.curveTo(r, 0, r, 0, r, r)
+        self.edge(hl)
+        self.curveTo(r, 0, r, 0, r, r)
+        self.curveTo(h-r, 0, h-r, 0, h-r, -d)
+
     def centerWall(self, x, h):
         self.ctx.save()
 
@@ -307,11 +340,10 @@ class Boxes:
         self.corner(90)
         self.fingerJoint(h-20)
         self.corner(90)
-        self.edge(x) # XXX replace with handle
+        self.handle(x, 200, 120)
         self.corner(90)
         self.fingerJoint(h-20)
         self.corner(90)
-
         self.ctx.restore()
 
     ##################################################
@@ -341,5 +373,5 @@ class Boxes:
         self.surface.flush()
 
 if __name__ == '__main__':
-    b = Boxes()
+    b = Boxes(700, 700)
     b.render(200, 150, 120, 30)

@@ -1,0 +1,10 @@
+ * Make output file configurable
+ * Make outer edge continuous even if other parts are drawn intermediately.
+ * Fix burn compensation for building blocks (especially fingerHolesAt)
+ * Fix hexHoles* (leftoover, grow to space, ...)
+ * Add hexHolesCircle and may be other shapes
+ * Try out box with fully mixed fF edges and check if all corners work properly
+ * finish lamp
+ * make fingerJointSettings depending on thickness?
+ * Make settings nicer
+  * offer a collection of different settings

@@ -24,36 +24,6 @@ class Lamp(Boxes):
         self.hexHolesCircle(d-w, 5, 3)
         self.ctx.restore()
 
-    def side(self, r, w, h):
-        self.fingerHoleEdge(w/2.0, 5)
-        for i in range(4):
-            self.flex(r*0.5*math.pi, h)
-            if i < 3:
-                self.fingerHoleEdge(w, 5)
-        self.fingerHoleEdge(w/2.0, 5)
-
-        self.corner(90)
-        self.edge(5)
-        self.doveTailJoint(h-10)
-        self.edge(5)
-        self.corner(90)
-
-        self.fingerHoleEdge(w/2.0, 5)
-        for i in range(4):
-            self.edge(r*0.5*math.pi)
-            if i < 3:
-                self.fingerHoleEdge(w, 5)
-        self.fingerHoleEdge(w/2.0, 5)
-
-        self.corner(90)
-        self.edge(5)
-        self.doveTailJoint(h-10, positive=False)
-        self.edge(5)
-        self.corner(90)
-
-        self.side(r, w, 150)
-        self.moveTo(0, 150+40)
-
     def render(self, r, w):
         """
         r : radius of lamp
@@ -68,7 +38,7 @@ class Lamp(Boxes):
 
         self.ctx.restore()
         self.moveTo(10, 2*(r+w)+40)
-        self.surroundingWall(d, d, r, 150)
+        self.surroundingWall(d, d, r, 150, top='h', bottom='h')
 
         self.moveTo(0, 270)
 

@@ -305,6 +305,9 @@ class Boxes:
                 self.hole(j*2*w+i*w, i*2*dist, r)
                 self.hole(j*2*w+i*w, -i*2*dist, r)
 
+    ##################################################
+    ### parts
+    ##################################################
 
     def roundedPlate(self, x, y, r, callback=None):
         """fits surroundingWall
@@ -325,22 +328,27 @@ class Boxes:
         self.ctx.restore()
 
     def _edge(self, l, style):
-        if style == 'edge':
+        if style in 'eE':
             self.edge(l)
-        elif style == 'holes':
+        elif style == 'h':
             self.fingerHoleEdge(l)
-        elif style == 'finger':
+        elif style == 'f':
+            self.fingerJoint(l)
+        elif style == 'F':
             self.fingerJoint(l, positive=False)
+        elif style in 'dD':
+            self.doveTailJoint(l, positive=(style=='d'))
 
     def _edgewidth(self, style):
-        if style == 'holes':
+        """return how far a given edge type needs to be set out"""
+        if style == 'h':
             return (self.fingerHoleEdgeWidth+1) * self.thickness
-        elif style == 'finger':
+        elif style in 'FE':
             return self.thickness
         return 0.0
 
     def surroundingWall(self, x, y, r, h,
-                        bottom='edge', top='edge',
+                        bottom='e', top='e',
                         callback=None):
         """
         h : inner height, not counting the joints
@@ -382,21 +390,39 @@ class Boxes:
         self.edge(bottomwidth)
         self.corner(90)
 
+    def rectangularWall(self, x, y, edges="eeee"):
+        edges += edges # append for wrapping around
+        for i, l in enumerate((x, y, x, y)):
+            self._edge(self._edgewidth(edges[i-1]), 'e')
+            self._edge(l, edges[i])
+            self._edge(self._edgewidth(edges[i+1]), 'e')
+            self.corner(90)
 
     ##################################################
     ### main
     ##################################################
 
-    def render(self, x, y, h, r):
+    def render(self, x, y, h):
         self.ctx.save()
 
-        # XXX add parts
+        self.moveTo(10, 10)
+        self.roundedPlate(x, y, 0)
+        self.moveTo(x+40, 0)
+        self.rectangularWall(x, y, "FFFF")
 
         self.ctx.restore()
+
+        self.moveTo(10, y+20)
+        for i in range(2):
+            for l in (x, y):
+                self.rectangularWall(l, h, "hffF")
+                self.moveTo(l+20, 0)
+            self.moveTo(-x-y-40, h+20)
+
 
         self.ctx.stroke()
         self.surface.flush()
 
 if __name__ == '__main__':
     b = Boxes(900, 700)
-    b.render(250, 250/1.618, 120, 30)
+    b.render(100, 161.8, 120)

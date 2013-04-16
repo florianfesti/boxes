@@ -112,7 +112,9 @@ class Boxes:
         self.ctx.move_to(0, length)
         self.ctx.translate(*self.ctx.get_current_point())
 
-    def fingerHoleEdge(self, length, dist, settings=None):
+    def fingerHoleEdge(self, length, dist=None, settings=None):
+        if dist is None:
+            dist = self.fingerHoleEdgeWidth * self.thickness
         self.ctx.save()
         self.moveTo(0, dist+self.thickness/2)
         self.fingerHoles(length, settings)
@@ -326,7 +328,7 @@ class Boxes:
         if style == 'edge':
             self.edge(l)
         elif style == 'holes':
-            self.fingerHoleEdge(l, 5)
+            self.fingerHoleEdge(l)
         elif style == 'finger':
             self.fingerJoint(l, positive=False)
 

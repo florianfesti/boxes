@@ -7,35 +7,13 @@ class Silverware(Boxes):
     ### Parts
     ####################################################################
 
-    def basePlate(self, x=100, y=100, r=0):
-        self.ctx.save()
-        self.moveTo(r, 0)
-
-        # two walls
-        self.fingerHolesAt(x/3.0-r, 0, 0.5*y-self.thickness)
-        self.fingerHolesAt(x*2/3.0-r, 0, 0.5*y-self.thickness)
-
-        self.fingerJoint(0.5*x-r)
-        self.fingerJoint(0.5*x-r)
-
-        self.corner(90, r)
-
-        # Middle wall
-        self.fingerHolesAt(y/2.0-r, 0, x)
-
-        self.fingerJoint(y-2*r)
-        self.corner(90, r)
-
-        # single wall
-        self.fingerHolesAt(x/2.0-r, 0, 0.5*y-self.thickness)
-
-        self.fingerJoint(x-2*r)
-
-        self.corner(90, r)
-        self.fingerJoint(y-2*r)
-        self.corner(90, r)
-
-        self.ctx.restore()
+    def basePlate(self, x, y, r):
+        self.roundedPlate(x, y, r, callback=[
+                lambda: self.fingerHolesAt(x/3.0-r, 0, 0.5*y-self.thickness),
+                lambda: self.fingerHolesAt(x/6.0, 0, 0.5*y-self.thickness),
+                lambda: self.fingerHolesAt(y/2.0-r, 0, x),
+                lambda: self.fingerHolesAt(x/2.0-r, 0, 0.5*y-self.thickness)
+                ])
 
     def wall(self, x=100, y=100, h=100, r=0):
         self.surroundingWall(x,y,r,h, bottom='finger', callback={

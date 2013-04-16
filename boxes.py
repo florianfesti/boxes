@@ -10,6 +10,7 @@ class Boxes:
         self.thickness = thickness
         self.burn = 0.1
         self.fingerJointSettings = (10.0, 10.0)
+        self.fingerHoleEdgeWidth = 1.0 # multitudes of self.thickness
         self.doveTailJointSettings = (10, 5, 50, 0.4) # width, depth, angle, radius
         self.flexSettings = (1.5, 3.0, 15.0) # line distance, connects, width
         self.output = "box.svg"
@@ -28,6 +29,24 @@ class Boxes:
         ctx.set_source_rgb(0.0, 0.0, 0.0)
         ctx.set_line_width(0.1)
 
+
+    def cc(self, callback, number, x=0.0, y=0.0):
+        """call callback"""
+        self.ctx.save()
+        self.moveTo(x, y)
+        if callable(callback):
+            callback(number)
+        elif hasattr(callback, '__getitem__'):
+            try:
+                callback = callback[number]
+                if callable(callback):
+                    callback()
+            except KeyError:
+                pass
+            except:
+                self.ctx.restore()
+                raise
+        self.ctx.restore()
 
     ############################################################
     ### Turtle graphics commands
@@ -202,13 +221,92 @@ class Boxes:
         self.ctx.translate(*self.ctx.get_current_point())
         self.ctx.rotate(angle)
 
+    # Building blocks
+
     def fingerHolesAt(self, x, y, length, angle=90, burn=None):
         if burn is None:
             burn = self.burn
+        # XXX burn with callbacks
         self.ctx.save()
         self.moveTo(x, y+burn, angle)
         self.fingerHoles(length)
         self.ctx.restore()
+
+    def roundedPlate(self, x, y, r, callback=None):
+        """fits surroundingWall
+        first edge is split to have a joint in the middle of the side
+        callback is called at the beginning of the straight edges
+        0, 1 for the two part of the first edge, 2, 3, 4 for the others"""
+        self.ctx.save()
+        self.moveTo(r, 0)
+        self.cc(callback, 0)
+        self.fingerJoint(x/2.0-r)
+        self.cc(callback, 1)
+        self.fingerJoint(x/2.0-r)
+        for i, l in zip(range(3), (y, x, y)):
+            self.corner(90, r)
+            self.cc(callback, i+2)
+            self.fingerJoint(l-2*r)
+        self.corner(90, r)
+        self.ctx.restore()
+
+    def _edge(self, l, style):
+        if style == 'edge':
+            self.edge(l)
+        elif style == 'holes':
+            self.fingerHoleEdge(l, 5)
+        elif style == 'finger':
+            self.fingerJoint(l, positive=False)
+
+    def _edgewidth(self, style):
+        if style == 'holes':
+            return (self.fingerHoleEdgeWidth+1) * self.thickness
+        elif style == 'finger':
+            return self.thickness
+        return 0.0
+
+    def surroundingWall(self, x, y, r, h,
+                        bottom='edge', top='edge',
+                        callback=None):
+        """
+        h : inner height, not counting the joints
+        callback is called a beginn of the flat sides with
+          0 for right half of first x side;
+          1 and 3 for y sides;
+          2 for second x side
+          4 for second half of thefirst x side
+        """
+        c4 = (r+self.burn)*math.pi*0.5 # circumference of quarter circle
+        topwidth = self._edgewidth(top)
+        bottomwidth = self._edgewidth(bottom)
+
+        self.cc(callback, 0, y=bottomwidth+self.burn)
+        self._edge(x/2.0-r, bottom)
+        for i, l in zip(range(4), (y, x, y, 0)):
+            self.flex(c4, h+topwidth+bottomwidth)
+            self.cc(callback, i+1, y=bottomwidth+self.burn)
+            if i < 3:
+                self._edge(l-2*r, bottom)
+        self._edge(x/2.0-r, bottom)
+
+        self.corner(90)
+        self.edge(bottomwidth)
+        self.doveTailJoint(h)
+        self.edge(topwidth)
+        self.corner(90)
+
+        self._edge(x/2.0-r, top)
+        for i, l in zip(range(4), (y, x, y, 0)):
+            self.edge(c4)
+            if i < 3:
+                self._edge(l - 2*r, top)
+        self._edge(x/2.0-r, top)
+
+        self.corner(90)
+        self.edge(topwidth)
+        self.doveTailJoint(h, positive=False)
+        self.edge(bottomwidth)
+        self.corner(90)
 
     ####################################################################
     ### Parts
@@ -245,46 +343,13 @@ class Boxes:
         self.ctx.restore()
 
     def wall(self, x=100, y=100, h=100, r=0):
-        self.ctx.save()
-        dh = self.thickness + 5
-        self.moveTo(10, 0)
-        c4 = (r+self.burn)*math.pi*0.5 # circumference of quarter circle  
-
-        self.fingerHolesAt(x/6.0, dh, h-dh)
-        self.fingerHoleEdge(0.5*x-r, 5)
-
-        self.flex(c4, h)
-
-        self.fingerHolesAt(y/2.0-r, dh, h-dh)
-        self.fingerHoleEdge(y-2*r, 5)
-
-        self.flex(c4, h)
-        self.fingerHolesAt(x/2.0-r, dh, h-dh)
-        self.fingerHoleEdge(x-2*r, 5)
-        self.flex(c4, h)
-
-        self.fingerHolesAt(y/2.0-r, dh, h-dh)
-        self.fingerHoleEdge(y-2*r, 5)
-
-        self.flex(c4, h)
-
-        self.fingerHolesAt(x/3.0-r, dh, h-dh)
-        self.fingerHoleEdge(0.5*x-r, 5)
-
-            
-        self.corner(90)
-        self.edge(dh)
-        self.doveTailJoint(h-dh, positive=False)
-        self.corner(90)
-
-        self.edge(2*(x+y-4*r)+4*c4)
-
-        self.corner(90)
-        self.doveTailJoint(h-dh)
-        self.edge(dh)
-        self.corner(90)
-
-        self.ctx.restore()
+        self.surroundingWall(x,y,r,h, bottom='finger', callback={
+                0 : lambda: self.fingerHolesAt(x/6.0, 0, h),
+                4 : lambda: self.fingerHolesAt(x/3.0-r, 0, h),
+                1 : lambda: self.fingerHolesAt(y/2.0-r, 0, h),
+                3 : lambda: self.fingerHolesAt(y/2.0-r, 0, h),
+                2 : lambda: self.fingerHolesAt(x/2.0-r, 0, h),
+                })
 
     def smallWall(self, y, h):
         l = 0.5*y - self.thickness
@@ -370,7 +435,7 @@ class Boxes:
         self.basePlate(x, y, r)
 
         self.ctx.restore()
-        
+
         self.ctx.stroke()
         self.surface.flush()
 

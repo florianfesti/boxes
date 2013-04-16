@@ -20,8 +20,8 @@ class Lamp(Boxes):
         self.ctx.save()
         d = 2*(r+w)
         self.roundedPlate(d, d, r)
-        self.moveTo(0, 0)
-        self.hexHolesHex(2*(r+w), 5, 3, grow='space')
+        self.moveTo(w/2.0, w/2.0)
+        self.hexHolesCircle(d-w, 5, 3)
         self.ctx.restore()
 
     def side(self, r, w, h):
@@ -72,8 +72,8 @@ class Lamp(Boxes):
 
         self.moveTo(0, 270)
 
-        #self.hexHolesHex(200, 20, 5)
-        #self.hexHolesRectangle(400, 200, 20, 5)
+        #self.hexHolesHex(200, 10, 5)
+        #self.hexHolesRectangle(400, 200, 11, 2)
 
         self.ctx.stroke()
         self.surface.flush()

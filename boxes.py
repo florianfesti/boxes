@@ -232,6 +232,50 @@ class Boxes:
         self.fingerHoles(length)
         self.ctx.restore()
 
+
+    def hole(self, x, y, r):
+        self.ctx.save()
+        self.moveTo(x+r, y)
+        self.ctx.arc(-r, 0, r, 0, 2*math.pi)
+        self.ctx.restore()
+
+    def hexHolesRectangle(self, x, y, r, b, style="circle"):
+        w = r+b/2.0
+        dist = w * math.cos(math.pi/6.0)
+        # XXX leftover
+        cx = int(x // dist) # ???
+        cy = int(y // dist) # ???
+        self.moveTo(dist/2, r)
+        for i in xrange(cy//2):
+            for j in xrange(cx):
+                self.hole(2*j*w, i*4*dist, r)
+            for j in xrange(cx-1):
+                self.hole(2*j*w+w, i*4*dist + 2*dist, r)
+
+    def hexHolesHex(self, h, r, b, style="circle", grow=None):
+        self.ctx.rectangle(0, 0, h, h)
+        w = r+b/2.0
+        dist = w * math.cos(math.pi/6.0)
+        cy = 2 * int((h-4*dist)// (4*w)) + 1
+
+        leftover = h-2*r-(cy-1)*2*r
+        print h, leftover
+        if grow=='space ':
+            b += leftover / (cy-1) / 2
+
+        # recalulate with adjusted values
+        w = r+b/2.0
+        dist = w * math.cos(math.pi/6.0)
+
+        self.moveTo(h/2.0-(cy//2)*2*w, h/2.0)
+        for j in xrange(cy):
+            self.hole(2*j*w, 0, r)
+        for i in xrange(1, cy/2+1):
+            for j in xrange(cy-i):
+                self.hole(j*2*w+i*w, i*2*dist, r)
+                self.hole(j*2*w+i*w, -i*2*dist, r)
+
+
     def roundedPlate(self, x, y, r, callback=None):
         """fits surroundingWall
         first edge is split to have a joint in the middle of the side

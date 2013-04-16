@@ -41,7 +41,7 @@ class Boxes:
                 callback = callback[number]
                 if callable(callback):
                     callback()
-            except KeyError:
+            except (KeyError, IndexError):
                 pass
             except:
                 self.ctx.restore()

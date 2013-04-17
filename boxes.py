@@ -294,7 +294,7 @@ class Boxes:
                 px = 2*j*w + r + lx
                 py = i*2*dist + r + ly
                 if i % 2:
-                    px += dist
+                    px += w
                 if skip and skip(x, y, r, b, px, py):
                     continue
                 self.hole(px, py, r)

@@ -3,6 +3,8 @@
 import cairo
 import math
 
+def dist(dx, dy):
+    return (dx*dx+dy*dy)**0.5
 
 class Boxes:
 
@@ -301,12 +303,25 @@ class Boxes:
 
     def __skipcircle(self, x, y, r, b, posx, posy):
         cx, cy = x/2.0, y/2.0
-        return ((((posx-cx)**2+(posy-cy)**2)**0.5) > (cx-r))
+        return (dist(posx-cx, posy-cy) > (cx-r))
 
     def hexHolesCircle(self, d, r, b, style="circle"):
         d2 = d/2.0
         self.hexHolesRectangle(d, d, r, b, style, self.__skipcircle)
 
+    def hexHolesPlate(self, x, y, er, r, b, style='circle'):
+        def skip(x, y, r, b, posx, posy):
+            posx = abs(posx-(x/2.0))
+            posy = abs(posy-(y/2.0))
+
+            wx = 0.5*x-er-r
+            wy = 0.5*y-er-r
+
+            if (posx <= wx) or (posy <= wx):
+                return 0
+            return dist(posx-wx, posy-wy) > er
+
+        self.hexHolesRectangle(x, y, r, b, style, skip=skip)
 
     def hexHolesHex(self, h, r, b, style="circle", grow=None):
         self.ctx.rectangle(0, 0, h, h)

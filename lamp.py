@@ -21,7 +21,7 @@ class Lamp(Boxes):
         d = 2*(r+w)
         self.roundedPlate(d, d, r)
         self.moveTo(w/2.0, w/2.0)
-        self.hexHolesCircle(d-w, 5, 3)
+        self.hexHolesPlate(d-w, d-w, r-w/2.0, 5, 3)
         self.ctx.restore()
 
     def render(self, r, w):

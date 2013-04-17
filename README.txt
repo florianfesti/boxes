@@ -7,7 +7,7 @@ cutting out boxes or other structures from plywood using a laser cutter.
 While there are a couple of other box generators they are all very
 limited in what they can do. This library aims for supporting
 complicated shapes while offering easy way to do simple things. To
-achieve this there are several levels of abstactions. 
+achieve this there are several levels of abstactions.
 
 Basic Concepts
 ==============
@@ -24,23 +24,23 @@ Building blocks and coordinates
 
 To avoid too much coordinate calculations the coordinate system is
 continuously moved to the current point. The most basic functions just
-do drawings relative to the current coordinate system - withou
-changing the coordinate system. Those are found in the Builing block section.
+do drawings relative to the current coordinate system - without
+changing the coordinate system. Those are found in the Builing Blocks section.
 
 Turtle graphics commands
 ------------------------
 
 These start at the current positions and move the coordinate system to
-their end. It is assumed that you are always drawing into the
+their end. It is assumed that you are (roughly) drawing into the
 direction of the x axis, with the inside of the part being above the
 line. You need to turn counter clockwise (mathematically positive) to
-get a closed shape. These are typically some sort of edges.
+get a closed shape. These commands typically procude some sort of edges.
 
 Finger joints
 .............
 
-Finger joints are a smple way of joining two sheets of plywood. They
-wor best at an 90° angle. There are two different sides matching each
+Finger joints are a simple way of joining two sheets of plywood. They
+work best at an 90° angle. There are two different sides matching each
 other. As a third alternative there are holes that the fingers of one
 sheet can plug into. This allows stable T connections especially
 useful for inner walls.

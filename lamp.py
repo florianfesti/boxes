@@ -21,10 +21,10 @@ class Lamp(Boxes):
         d = 2*(r+w)
         self.roundedPlate(d, d, r)
         self.moveTo(w/2.0, w/2.0)
-        self.hexHolesPlate(d-w, d-w, r-w/2.0, 5, 3)
+        self.hexHolesPlate(d-w, d-w, r-w/2.0)
         self.ctx.restore()
 
-    def render(self, r, w):
+    def render(self, r, w, x, y, h):
         """
         r : radius of lamp
         w : width of surrounding ring
@@ -39,15 +39,21 @@ class Lamp(Boxes):
         self.ctx.restore()
         self.moveTo(10, 2*(r+w)+40)
         self.surroundingWall(d, d, r, 150, top='h', bottom='h')
+        self.moveTo(0, 150+20)
 
-        self.moveTo(0, 270)
+        self.rectangularWall(x, y, edges="ffff")
+        self.moveTo(x+20, 0)
+        self.rectangularWall(x, y, edges="ffff")
+        self.moveTo(10, 10)
+        self.hexHolesRectangle(x-20, y-20)
 
-        #self.hexHolesHex(200, 10, 5)
-        #self.hexHolesRectangle(400, 200, 11, 2)
+
+        #self.hexHolesHex(200)
+        #self.hexHolesRectangle(400, 200)
 
         self.ctx.stroke()
         self.surface.flush()
 
 
 l = Lamp()
-l.render(100, 20)
+l.render(100, 20, 250, 140, 120)

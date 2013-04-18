@@ -15,6 +15,7 @@ class Boxes:
         self.fingerHoleEdgeWidth = 1.0    # multitudes of self.thickness
         self.doveTailJointSettings = (10, 5, 50, 0.4) # width, depth, angle, radius
         self.flexSettings = (1.5, 3.0, 15.0) # line distance, connects, width
+        self.hexHolesSettings = (5, 3, 'circle') # r, dist, style
         self.output = "box.svg"
         self._init_surface(width, height)
 
@@ -271,7 +272,9 @@ class Boxes:
         self.ctx.arc(-r, 0, r, 0, 2*math.pi)
         self.ctx.restore()
 
-    def hexHolesRectangle(self, x, y, r, b, style="circle", skip=None):
+    # hexHoles
+
+    def hexHolesRectangle(self, x, y, settings=None, skip=None):
         """
         Fills a rectangle with holes.
         r : radius of holes
@@ -280,6 +283,10 @@ class Boxes:
         skip : function to check if hole should be present
                gets x, y, r, b, posx, posy
         """
+        if settings is None:
+            settings = self.hexHolesSettings
+        r, b, style = settings
+
         w = r+b/2.0
         dist = w * math.cos(math.pi/6.0)
 
@@ -289,7 +296,7 @@ class Boxes:
 
         # what's left on the sides
         lx = (x - (2*r+(cx-2)*w))/2.0
-        ly = (y - (2*r+(cy-3)*dist))/2.0
+        ly = (y - (2*r+((cy//2)*2)*dist-2*dist))/2.0
 
         for i in xrange(cy//2):
             for j in xrange((cx-(i%2))//2):
@@ -305,25 +312,29 @@ class Boxes:
         cx, cy = x/2.0, y/2.0
         return (dist(posx-cx, posy-cy) > (cx-r))
 
-    def hexHolesCircle(self, d, r, b, style="circle"):
+    def hexHolesCircle(self, d, settings=None):
         d2 = d/2.0
-        self.hexHolesRectangle(d, d, r, b, style, self.__skipcircle)
+        self.hexHolesRectangle(d, d, settings=settings, skip=self.__skipcircle)
 
-    def hexHolesPlate(self, x, y, er, r, b, style='circle'):
+    def hexHolesPlate(self, x, y, rc, settings=None):
         def skip(x, y, r, b, posx, posy):
             posx = abs(posx-(x/2.0))
             posy = abs(posy-(y/2.0))
 
-            wx = 0.5*x-er-r
-            wy = 0.5*y-er-r
+            wx = 0.5*x-rc-r
+            wy = 0.5*y-rc-r
 
             if (posx <= wx) or (posy <= wx):
                 return 0
-            return dist(posx-wx, posy-wy) > er
+            return dist(posx-wx, posy-wy) > rc
 
-        self.hexHolesRectangle(x, y, r, b, style, skip=skip)
+        self.hexHolesRectangle(x, y, settings, skip=skip)
 
-    def hexHolesHex(self, h, r, b, style="circle", grow=None):
+    def hexHolesHex(self, h, settings=None, grow=None):
+        if settings is None:
+            settings = self.hexHolesSettings
+        r, b, style = settings
+
         self.ctx.rectangle(0, 0, h, h)
         w = r+b/2.0
         dist = w * math.cos(math.pi/6.0)

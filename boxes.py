@@ -2,9 +2,19 @@
 
 import cairo
 import math
+from functools import wraps
 
 def dist(dx, dy):
     return (dx*dx+dy*dy)**0.5
+
+def restore(func):
+    @wraps(func)
+    def f(self, *args, **kw):
+        self.ctx.save()
+        func(self, *args, **kw)
+        self.ctx.restore()
+    return f
+
 
 class Boxes:
 
@@ -50,6 +60,7 @@ class Boxes:
                 self.ctx.restore()
                 raise
         self.ctx.restore()
+
 
     ############################################################
     ### Turtle graphics commands
@@ -361,11 +372,16 @@ class Boxes:
     ### parts
     ##################################################
 
-    def roundedPlate(self, x, y, r, callback=None):
+    def roundedPlate(self, x, y, r, callback=None,
+                     holesMargin=None, holesSettings=None):
         """fits surroundingWall
         first edge is split to have a joint in the middle of the side
         callback is called at the beginning of the straight edges
-        0, 1 for the two part of the first edge, 2, 3, 4 for the others"""
+        0, 1 for the two part of the first edge, 2, 3, 4 for the others
+
+        set holesMargin to get hex holes.
+        """
+
         self.ctx.save()
         self.moveTo(r, 0)
         self.cc(callback, 0)
@@ -377,9 +393,25 @@ class Boxes:
             self.cc(callback, i+2)
             self.fingerJoint(l-2*r)
         self.corner(90, r)
+
+        self.ctx.restore()
+        self.ctx.save()
+
+        if holesMargin is not None:
+            self.moveTo(holesMargin, holesMargin)
+            if r > holesMargin:
+                r -= holesMargin
+            else:
+                r = 0
+            self.hexHolesPlate(x-2*holesMargin, y-2*holesMargin, r,
+                               settings=holesSettings)
         self.ctx.restore()
 
     def _edge(self, l, style):
+        if type(style) is tuple:
+            style = style[0]
+        if callable(style):
+            return style(l)
         if style in 'eE':
             self.edge(l)
         elif style == 'h':
@@ -393,6 +425,8 @@ class Boxes:
 
     def _edgewidth(self, style):
         """return how far a given edge type needs to be set out"""
+        if type(style) is tuple:
+            return style[1]
         if style == 'h':
             return (self.fingerHoleEdgeWidth+1) * self.thickness
         elif style in 'FE':
@@ -408,7 +442,7 @@ class Boxes:
           0 for right half of first x side;
           1 and 3 for y sides;
           2 for second x side
-          4 for second half of thefirst x side
+          4 for second half of the first x side
         """
         c4 = (r+self.burn)*math.pi*0.5 # circumference of quarter circle
         topwidth = self._edgewidth(top)
@@ -442,13 +476,22 @@ class Boxes:
         self.edge(bottomwidth)
         self.corner(90)
 
-    def rectangularWall(self, x, y, edges="eeee"):
+    @restore
+    def rectangularWall(self, x, y, edges="eeee",
+                        holesMargin=None, holesSettings=None):
+        if len(edges) != 4:
+            raise ValueError, "four edges required"
         edges += edges # append for wrapping around
         for i, l in enumerate((x, y, x, y)):
             self._edge(self._edgewidth(edges[i-1]), 'e')
             self._edge(l, edges[i])
             self._edge(self._edgewidth(edges[i+1]), 'e')
             self.corner(90)
+
+        if holesMargin is not None:
+            self.moveTo(holesMargin+self._edgewidth(edges[-1]),
+                        holesMargin+self._edgewidth(edges[0]))
+            self.hexHolesRectangle(x-2*holesMargin, y-2*holesMargin)
 
     ##################################################
     ### main

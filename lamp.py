@@ -4,7 +4,7 @@ from boxes import Boxes
 
 class Lamp(Boxes):
     def __init__(self):
-        Boxes.__init__(self, width=1000, height=800)
+        Boxes.__init__(self, width=1000, height=1000)
         self.fingerJointSettings = (5, 5)
 
     def ring(self, r, w):
@@ -16,13 +16,10 @@ class Lamp(Boxes):
         self.corner(360, r)
         self.ctx.restore()
 
-    def base(self, r, w):
-        self.ctx.save()
-        d = 2*(r+w)
-        self.roundedPlate(d, d, r)
-        self.moveTo(w/2.0, w/2.0)
-        self.hexHolesPlate(d-w, d-w, r-w/2.0)
-        self.ctx.restore()
+    def holder(self, l):
+        self.ctx.line_to(l/2.0,-l/2.0)
+        self.ctx.line_to(l, 0)
+        self.moveTo(l, 0)
 
     def render(self, r, w, x, y, h):
         """
@@ -34,22 +31,25 @@ class Lamp(Boxes):
         self.moveTo(20, 20)
         self.ring(r, w)
         self.moveTo(2*(r+w)+20, 0)
-        self.base(r, w)
+        self.roundedPlate(d, d, r, holesMargin=w/2.0)
 
         self.ctx.restore()
         self.moveTo(10, 2*(r+w)+40)
         self.surroundingWall(d, d, r, 150, top='h', bottom='h')
         self.moveTo(0, 150+20)
 
-        self.rectangularWall(x, y, edges="ffff")
+        self.rectangularWall(x, y, edges="fFfF", holesMargin=5)
         self.moveTo(x+20, 0)
-        self.rectangularWall(x, y, edges="ffff")
-        self.moveTo(10, 10)
-        self.hexHolesRectangle(x-20, y-20)
+        self.rectangularWall(x, y, edges="fFfF", holesMargin=5)
+        self.moveTo(x+20, 0)
+        self.rectangularWall(y, h, edges="ffff", holesMargin=5)
 
-
-        #self.hexHolesHex(200)
-        #self.hexHolesRectangle(400, 200)
+        self.moveTo(0, y+20)
+        self.rectangularWall(y, h, edges="ffff", holesMargin=5)
+        self.moveTo(-x-20, 0)
+        self.rectangularWall(x, h, edges=['h', 'F', (self.holder, 20), 'F'], holesMargin=5)
+        self.moveTo(-x-20, 0)
+        self.rectangularWall(x, h, edges='hFFF', holesMargin=5)
 
         self.ctx.stroke()
         self.surface.flush()

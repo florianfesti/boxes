@@ -226,6 +226,55 @@ class Boxes:
         self.ctx.line_to(x, 0)
         self.ctx.translate(*self.ctx.get_current_point())
 
+    def grip(self, length, depth):
+        """corrugated edge useful as an gipping area"""
+        grooves = int(length // (depth*2.0)) + 1
+        depth = length / grooves / 4.0
+        for groove in xrange(grooves):
+            self.corner(90, depth)
+            self.corner(-180, depth)
+            self.corner(90, depth)
+
+    def _latchHole(self, length):
+        self.edge(self.thickness)
+        self.corner(-90)
+        self.edge(length/2.0-2*self.burn)
+        self.corner(-90)
+        self.edge(self.thickness)
+
+    def _latchGrip(self, length):
+        self.corner(90, self.thickness/4.0)
+        self.grip(length/2.0-self.thickness/2.0-2.0*self.burn, self.thickness/2.0)
+        self.corner(90, self.thickness/4.0)
+
+    def latch(self, length, positive=True, reverse=False):
+        """Fix a flex box door at the box
+        positive: False: Door side; True: Box side
+        reverse: True when running away from the latch
+        """
+        if positive:
+            if reverse:
+                self.edge(length/2.0-self.burn)
+            self.corner(-90)
+            self.edge(self.thickness)
+            self.corner(90)
+            self.edge(length/2.0)
+            self.corner(90)
+            self.edge(self.thickness)
+            self.corner(-90)
+            if not reverse:
+                self.edge(length/2.0-self.burn)
+        else:
+            if reverse:
+                self._latchGrip(length)
+            else:
+                self.corner(90)
+            self._latchHole(length)
+            if not reverse:
+                self._latchGrip(length)
+            else:
+                self.corner(90)
+
     def handle(self, x, h, hl, r=20):
         """Creates and Edge with a handle"""
         d = (x-hl-2*r)/2.0

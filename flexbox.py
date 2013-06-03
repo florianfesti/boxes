@@ -10,6 +10,8 @@ class FlexBox(boxes.Boxes):
         self.y = y
         self.z = z
         self.r = r or min(x, y)/2.0
+        self.latchsize = 8*thickness
+
         width = 2*x + 2*y - 8*r + 4*c4 + 4*thickness
         height = y + z + 40
         boxes.Boxes.__init__(self, width, height, thickness=thickness)
@@ -17,7 +19,6 @@ class FlexBox(boxes.Boxes):
     @boxes.restore
     def flexBoxSide(self, x, y, r, callback=None):
         space, finger = self.fingerJointSettings
-        lock = 2.1*space + finger
 
         self.moveTo(r, 0)
         for i, l in zip(range(2), (x, y)):
@@ -28,9 +29,9 @@ class FlexBox(boxes.Boxes):
         self.edge(x-2*r)
         self.corner(90, r)
         self.cc(callback, 3)
-        self.fingerJoint(lock)
+        self.latch(self.latchsize)
         self.cc(callback, 4)
-        self.fingerJoint(y-2*r-lock)
+        self.fingerJoint(y-2*r-self.latchsize)
         self.corner(90, r)
 
     def surroundingWall(self):
@@ -39,9 +40,8 @@ class FlexBox(boxes.Boxes):
         c4 = math.pi * r * 0.5
 
         space, finger = self.fingerJointSettings
-        lock = 2.1*space + finger
 
-        self.fingerJoint(y-2*r-lock, False)
+        self.fingerJoint(y-2*r-self.latchsize, False)
         self.flex(c4, z+2*self.thickness)
         self.fingerJoint(x-2*r, False)
         self.flex(c4, z+2*self.thickness)
@@ -49,11 +49,9 @@ class FlexBox(boxes.Boxes):
         self.flex(c4, z+2*self.thickness)
         self.edge(x-2*r)
         self.flex(c4, z+2*self.thickness)
-        self.fingerJoint(lock, False)
-        self.corner(90)
+        self.latch(self.latchsize, False)
         self.edge(z+2*self.thickness)
-        self.corner(90)
-        self.fingerJoint(lock, False)
+        self.latch(self.latchsize, False, True)
         self.edge(c4)
         self.edge(x-2*r)
         self.edge(c4)
@@ -61,7 +59,7 @@ class FlexBox(boxes.Boxes):
         self.edge(c4)
         self.fingerJoint(x-2*r, False)
         self.edge(c4)
-        self.fingerJoint(y-2*r-lock, False)
+        self.fingerJoint(y-2*r-self.latchsize, False)
         self.corner(90)
         self.edge(z+2*self.thickness)
         self.corner(90)

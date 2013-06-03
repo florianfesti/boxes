@@ -9,14 +9,13 @@ class FlexBox(boxes.Boxes):
         self.y = y
         self.z = z
         self.r = r or min(x, y)/2.0
-        c4 = math.pi * r * 0.5
+        self.c4 = c4 = math.pi * r * 0.5
+        self.latchsize = 8*thickness
 
-        width = 2*x + y - 3*r + 2*c4 + 18*thickness # lock
+        width = 2*x + y - 3*r + 2*c4 + 6*thickness + self.latchsize # lock
         height = y + z + 8*thickness
 
         boxes.Boxes.__init__(self, width, height, thickness=thickness)
-        space, finger = self.fingerJointSettings
-        self.lock = 2.1*space + finger
         
     @boxes.restore
     def flexBoxSide(self, x, y, r, callback=None):
@@ -31,30 +30,24 @@ class FlexBox(boxes.Boxes):
         self.edge(x-2*r)
         self.corner(90, r)
         self.cc(callback, 3)
-        self.fingerJoint(self.lock)
+        self.latch(self.latchsize)
         self.cc(callback, 4)
-        self.fingerJoint(y-r-self.lock)
+        self.fingerJoint(y-r-self.latchsize)
         self.corner(90)
 
     def surroundingWall(self):
         x, y, z, r = self.x, self.y, self.z, self.r
         
-        c4 = math.pi * r * 0.5
-
-        lock = self.lock
-
         self.fingerJoint(y-r, False)
-        self.flex(c4, z+2*self.thickness)
+        self.flex(self.c4, z+2*self.thickness)
         self.edge(x-2*r)
-        self.flex(c4, z+2*self.thickness)
-        self.fingerJoint(lock, False)
-        self.corner(90)
+        self.flex(self.c4, z+2*self.thickness)
+        self.latch(self.latchsize, False)
         self.edge(z+2*self.thickness)
-        self.corner(90)
-        self.fingerJoint(lock, False)
-        self.edge(c4)
+        self.latch(self.latchsize, False, True)
+        self.edge(self.c4)
         self.edge(x-2*r)
-        self.edge(c4)
+        self.edge(self.c4)
         self.fingerJoint(y-r, False)        
         self.corner(90)
         self.edge(self.thickness)
@@ -63,11 +56,10 @@ class FlexBox(boxes.Boxes):
         self.corner(90)
 
     def render(self):
-        c4 = math.pi * self.r * 0.5
         self.moveTo(2*self.thickness, self.thickness)
         self.ctx.save()
         self.surroundingWall()
-        self.moveTo(self.x+self.y-3*self.r+2*c4+self.lock+1*self.thickness, 0)
+        self.moveTo(self.x+self.y-3*self.r+2*self.c4+self.latchsize+1*self.thickness, 0)
         self.rectangularWall(self.x, self.z, edges="FFFF")
         self.ctx.restore()
         self.moveTo(0, self.z+4*self.thickness)
@@ -77,7 +69,7 @@ class FlexBox(boxes.Boxes):
         self.flexBoxSide(self.x, self.y, self.r)
         self.ctx.scale(-1, 1)
         self.moveTo(2*self.thickness, 0)
-        self.rectangularWall(self.z, self.y-self.r-self.lock, edges="fFeF")
+        self.rectangularWall(self.z, self.y-self.r-self.latchsize, edges="fFeF")
         self.ctx.stroke()
         self.surface.flush()
 

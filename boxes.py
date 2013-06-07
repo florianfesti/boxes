@@ -140,29 +140,11 @@ class Boxes:
         self.ctx.line_to(length, 0)
         self.ctx.translate(*self.ctx.get_current_point())
 
-
-    # helpers for doveTailJoint
-    # not intended for general use
-    def _turnLeft(self, radius, angle):
-        self.ctx.arc(0, radius, radius,
-                     -0.5*math.pi, angle)
-        self.continueDirection(0.5*math.pi+angle)
-
-    def _turnRight(self, radius, angle):
-        self.ctx.arc_negative(0, -radius, radius,
-                              0.5*math.pi, -angle)
-        self.continueDirection(-0.5*math.pi - angle)
-
-    def _turn(self, radius, angle, right=True):
-        if right:
-            self._turnRight(radius, angle)
-        else:
-            self._turnLeft(radius, angle)
-
     def doveTailJoint(self, length, positive=True, settings=None):
         width, depth, angle, radius = settings or self.doveTailJointSettings
-        angle = math.pi*angle/180.0
-        alpha = 0.5*math.pi - angle
+        radius = max(radius, self.burn) # no smaller than burn
+        a = angle + 90
+        alpha = 0.5*math.pi - math.pi*angle/180.0
 
         l1 = radius/math.tan(alpha/2.0)
         diffx = 0.5*depth/math.tan(alpha)
@@ -175,13 +157,13 @@ class Boxes:
 
         self.edge((width+leftover)/2.0+diffx-l1)
         for i in xrange(sections):
-            self._turn(radius-p*self.burn, angle, right=positive)
+            self.corner(-1*p*a, radius)
             self.edge(2*(l2-l1))
-            self._turn(radius+p*self.burn, angle, right=not positive)
+            self.corner(p*a, radius)
             self.edge(2*(diffx-l1)+width)
-            self._turn(radius+p*self.burn, angle, right=not positive)
+            self.corner(p*a, radius)
             self.edge(2*(l2-l1))
-            self._turn(radius-p*self.burn, angle, right=positive)
+            self.corner(-1*p*a, radius)
             if i<sections-1: # all but the last
                 self.edge(2*(diffx-l1)+width)
         self.edge((width+leftover)/2.0+diffx-l1)

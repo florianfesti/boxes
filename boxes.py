@@ -11,8 +11,10 @@ def restore(func):
     @wraps(func)
     def f(self, *args, **kw):
         self.ctx.save()
+        pt = self.ctx.get_current_point()
         func(self, *args, **kw)
         self.ctx.restore()
+        self.ctx.move_to(*pt)
     return f
 
 
@@ -325,12 +327,10 @@ class Boxes:
         self.fingerHoles(length)
         self.ctx.restore()
 
-
+    @restore
     def hole(self, x, y, r):
-        self.ctx.save()
         self.moveTo(x+r, y)
         self.ctx.arc(-r, 0, r, 0, 2*math.pi)
-        self.ctx.restore()
 
     # hexHoles
 

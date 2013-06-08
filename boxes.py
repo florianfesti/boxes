@@ -75,7 +75,7 @@ class Boxes:
             self.ctx.arc(0, radius+self.burn, radius+self.burn,
                      -0.5*math.pi, rad - 0.5*math.pi)
         else:
-            self.ctx.arc_negative(0, -(radius+self.burn), radius+self.burn,
+            self.ctx.arc_negative(0, -(radius-self.burn), radius-self.burn,
                      0.5*math.pi, rad + 0.5*math.pi)
             
         self.continueDirection(rad)

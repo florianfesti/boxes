@@ -66,17 +66,17 @@ class Silverware(Boxes):
     def render(self, x, y, h, r):
         self.ctx.save()
 
-        self.moveTo(10, 10)
+        self.moveTo(2, 2)
         self.wall(x, y, h+self.thickness+5, r)
-        self.moveTo(0, h+20)
+        self.moveTo(self.thickness, h+7*self.thickness)
         self.centerWall(x,h)
-        self.moveTo(x+20, 0)
+        self.moveTo(x+4*self.thickness, 0)
 
         for i in range(3):
             self.smallWall(y, h)
-            self.moveTo(y/2.0+20, 0)
+            self.moveTo(y/2.0+5, 0)
 
-        self.moveTo(-1.5*y-80, h)
+        self.moveTo(-1.5*y-55, h-15)
         self.basePlate(x, y, r)
 
         self.ctx.restore()

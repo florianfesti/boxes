@@ -41,30 +41,31 @@ class Lamp(Boxes):
         r : radius of lamp
         w : width of surrounding ring
         """
+        t = self.thickness
         d = 2*(r+w)
         self.ctx.save()
-        self.moveTo(20, 20)
+        self.moveTo(2*self.thickness, 2*t)
         self.ring(r, w)
-        self.moveTo(2*(r+w)+20, 0)
+        self.moveTo(2*(r+w)+3*t, 0)
         self.roundedPlate(d, d, r, holesMargin=w/2.0)
 
         self.ctx.restore()
-        self.moveTo(10, 2*(r+w)+40)
+        self.moveTo(2*t, 2*(r+w)+4*t)
         self.surroundingWall(d, d, r, 150, top='h', bottom='h')
-        self.moveTo(0, 150+20)
+        self.moveTo(0, 150+6*t)
 
         self.rectangularWall(x, y, edges="fFfF", holesMargin=5)
-        self.moveTo(x+20, 0)
+        self.moveTo(x+3*t, 0)
         self.rectangularWall(x, y, edges="fFfF", holesMargin=5)
-        self.moveTo(x+20, 0)
+        self.moveTo(x+4*t, 0)
         self.side(y, h)
-        self.moveTo(y+20, 0)
+        self.moveTo(y+3*t, 0)
         self.side(y, h)
 
-        self.moveTo(0, y+20)
-        self.moveTo(-x-y-40, 0)
+        self.moveTo(0, y+3*t)
+        self.moveTo(-x-y-7*t, 0)
         self.rectangularWall(x, h, edges='hFFF', holesMargin=5)
-        self.moveTo(-x-20, 0)
+        self.moveTo(-x-3*t, 0)
         self.rectangularWall(x, h, edges='hFFF', holesMargin=5)
 
         self.ctx.stroke()

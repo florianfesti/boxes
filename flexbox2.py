@@ -1,9 +1,9 @@
 #!/usr/bin/python
 
-import boxes
+from boxes import *
 import math
 
-class FlexBox(boxes.Boxes):
+class FlexBox(Boxes):
     def __init__(self, x, y, z, r=None, thickness=3.0):
         self.x = x
         self.y = y
@@ -15,11 +15,10 @@ class FlexBox(boxes.Boxes):
         width = 2*x + y - 3*r + 2*c4 + 6*thickness + self.latchsize # lock
         height = y + z + 8*thickness
 
-        boxes.Boxes.__init__(self, width, height, thickness=thickness)
+        Boxes.__init__(self, width, height, thickness=thickness)
         
-    @boxes.restore
+    @restore
     def flexBoxSide(self, x, y, r, callback=None):
-
         self.cc(callback, 0)
         self.fingerJoint(x)
         self.corner(90, 0)

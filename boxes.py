@@ -286,7 +286,7 @@ class Boxes:
                     self.ctx.move_to(pos, (2*j+1)* sheight+ (2*j+2)*connection)
                     self.ctx.line_to(pos, (2*j+3)* (sheight+ connection))
                 if not sections % 2:
-                    self.ctx.move_to(pos, h - sheight- 2*connection)
+                    self.ctx.move_to(pos, h - sheight- connection)
                     self.ctx.line_to(pos, h)
             else:
                 if sections % 2:

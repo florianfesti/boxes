@@ -76,10 +76,13 @@ class Boxes:
         self._init_surface(width, height)
 
     def _init_surface(self, width, height):
+        mm2pt = 90 / 25.4 / 1.25
+        width *= mm2pt
+        height *= 3.543307
         self.surface = cairo.SVGSurface(self.output, width, height)
         self.ctx = ctx = cairo.Context(self.surface)
         ctx.translate(0, height)
-        ctx.scale(1, -1)
+        ctx.scale(mm2pt, -mm2pt)
 
         ctx.set_source_rgb(1.0, 1.0, 1.0)
         ctx.rectangle(0, 0, width, height)

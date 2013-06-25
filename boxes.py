@@ -318,15 +318,15 @@ class Boxes:
             self.corner(90, depth)
 
     def _latchHole(self, length):
-        self.edge(self.thickness)
+        self.edge(1.1*self.thickness)
         self.corner(-90)
-        self.edge(length/2.0-2*self.burn)
+        self.edge(length/2.0+0.2*self.thickness)
         self.corner(-90)
-        self.edge(self.thickness)
+        self.edge(1.1*self.thickness)
 
     def _latchGrip(self, length):
         self.corner(90, self.thickness/4.0)
-        self.grip(length/2.0-self.thickness/2.0-2.0*self.burn, self.thickness/2.0)
+        self.grip(length/2.0-self.thickness/2.0-0.2*self.thickness, self.thickness/2.0)
         self.corner(90, self.thickness/4.0)
 
     def latch(self, length, positive=True, reverse=False):

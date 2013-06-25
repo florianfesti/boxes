@@ -12,10 +12,11 @@ class FlexBox(Boxes):
         self.c4 = c4 = math.pi * r * 0.5
         self.latchsize = 8*thickness
 
-        width = 2*x + y - 3*r + 2*c4 + 6*thickness + self.latchsize # lock
+        width = 2*x + y - 3*r + 2*c4 + 7*thickness + self.latchsize # lock
         height = y + z + 8*thickness
 
         Boxes.__init__(self, width, height, thickness=thickness)
+        self.fingerJointSettings = (4, 4)
         
     @restore
     def flexBoxSide(self, x, y, r, callback=None):
@@ -74,5 +75,5 @@ class FlexBox(Boxes):
 
 
 if __name__=="__main__":
-    b = FlexBox(200, 200, 200, r=50)
+    b = FlexBox(70, 100, 70, r=30, thickness=3.0)
     b.render()

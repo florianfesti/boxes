@@ -588,6 +588,7 @@ class Boxes:
           4 for second half of the first x side
         """
         c4 = (r+self.burn)*math.pi*0.5 # circumference of quarter circle
+        c4 = 0.9 * c4 # stretch flex 10%
         topwidth = self._edgewidth(top)
         bottomwidth = self._edgewidth(bottom)
 

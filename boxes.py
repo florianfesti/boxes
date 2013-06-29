@@ -63,9 +63,9 @@ class Bolts(BoltPolicy):
 
 class Boxes:
 
-    def __init__(self, width=300, height=200, thickness=3.0):
+    def __init__(self, width=300, height=200, thickness=3.0, burn=0.1):
         self.thickness = thickness
-        self.burn = 0.1 # radius
+        self.burn = burn
         self.fingerJointSettings = (10.0, 10.0)
         self.fingerHoleEdgeWidth = 1.0    # multitudes of self.thickness
         self.bedBoltSettings = (3, 5.5, 2, 20, 15) #d, d_nut, h_nut, l, l1
@@ -92,8 +92,10 @@ class Boxes:
         ctx.set_line_width(2*self.burn)
 
 
-    def cc(self, callback, number, x=0.0, y=0.0):
+    def cc(self, callback, number, x=0.0, y=None):
         """call callback"""
+        if y is None:
+            y = self.burn
         self.ctx.save()
         self.moveTo(x, y)
         if callable(callback):

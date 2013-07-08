@@ -9,10 +9,10 @@ class Silverware(Boxes):
 
     def basePlate(self, x, y, r):
         self.roundedPlate(x, y, r, callback=[
-                lambda: self.fingerHolesAt(x/3.0-r, 0, 0.5*y-self.thickness),
-                lambda: self.fingerHolesAt(x/6.0, 0, 0.5*y-self.thickness),
+                lambda: self.fingerHolesAt(x/3.0-r, 0, 0.5*(y-self.thickness)),
+                lambda: self.fingerHolesAt(x/6.0, 0, 0.5*(y-self.thickness)),
                 lambda: self.fingerHolesAt(y/2.0-r, 0, x),
-                lambda: self.fingerHolesAt(x/2.0-r, 0, 0.5*y-self.thickness)
+                lambda: self.fingerHolesAt(x/2.0-r, 0, 0.5*(y-self.thickness))
                 ])
 
     def wall(self, x=100, y=100, h=100, r=0):

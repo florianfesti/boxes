@@ -553,7 +553,7 @@ class Boxes:
             else:
                 self.corner(90)
 
-    def handle(self, x, h, hl, r=20):
+    def handle(self, x, h, hl, r=30):
         """Creates and Edge with a handle"""
         d = (x-hl-2*r)/2.0
         if d < 0:
@@ -562,14 +562,14 @@ class Boxes:
         self.ctx.save()
 
         # Hole
-        self.moveTo(d+20+r, 0)
+        self.moveTo(d+2*r, 0)
         self.edge(hl-2*r)
         self.corner(-90, r)
-        self.edge(h-20-2*r)
+        self.edge(h-3*r)
         self.corner(-90, r)
         self.edge(hl-2*r)
         self.corner(-90, r)
-        self.edge(h-20-2*r)
+        self.edge(h-3*r)
         self.corner(-90, r)
 
         self.ctx.restore()

@@ -17,10 +17,10 @@ class Castle(Boxes):
 
     def render(self, t_x=70, t_h=250, w1_x=300, w1_h=120, w2_x=100, w2_h=120):
         self.moveTo(0,0)
-        self.rectangularWall(t_x, t_h, edges="efPf", move="right", callbacks=
+        self.rectangularWall(t_x, t_h, edges="efPf", move="right", callback=
             [lambda: self.fingerHolesAt(t_x*0.5, 0, w1_h, 90),])
         self.rectangularWall(t_x, t_h, edges="efPf", move="right")
-        self.rectangularWall(t_x, t_h, edges="eFPF", move="right", callbacks=
+        self.rectangularWall(t_x, t_h, edges="eFPF", move="right", callback=
             [lambda: self.fingerHolesAt(t_x*0.5, 0, w2_h, 90),])
         self.rectangularWall(t_x, t_h, edges="eFPF", move="right")
 

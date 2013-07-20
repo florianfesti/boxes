@@ -627,13 +627,10 @@ class Boxes:
 
     # Building blocks
 
-    def fingerHolesAt(self, x, y, length, angle=90, burn=None,
+    def fingerHolesAt(self, x, y, length, angle=90,
                       bedBolts=None, bedBoltSettings=None):
-        if burn is None:
-            burn = self.burn
-        # XXX burn with callbacks
         self.ctx.save()
-        self.moveTo(x, y+burn, angle)
+        self.moveTo(x, y, angle)
         self.fingerHoles(length, bedBolts, bedBoltSettings)
         self.ctx.restore()
 

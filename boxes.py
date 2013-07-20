@@ -144,6 +144,8 @@ class FingerJointSettings(Settings):
     relative_params = {
         "space" : 1.0,
         "finger" : 1.0,
+        "height" : 1.0,
+        "width" : 1.0,
         }
 
 class FingerJointEdge(Edge):
@@ -173,11 +175,11 @@ class FingerJointEdge(Edge):
             else:
                 self.edge(s)
             self.corner(-90*p)
-            self.edge(thickness)
+            self.edge(self.settings.height)
             self.corner(90*p)
             self.edge(f)
             self.corner(90*p)
-            self.edge(thickness)
+            self.edge(self.settings.height)
             self.corner(-90*p)
         self.edge(s+leftover/2.0)
 
@@ -349,8 +351,8 @@ class FingerHoles:
             pos = leftover/2.0+i*(s+f)
             if bedBolts and bedBolts.drawBolt(i):
                 self.hole(pos+0.5*s, 0, d*0.5)
-            self.ctx.rectangle(pos+s+b, -self.boxes.thickness/2+b,
-                               f-2*b, self.boxes.thickness - 2*b)
+            self.ctx.rectangle(pos+s+b, -self.settings.width/2+b,
+                               f-2*b, self.settings.width - 2*b)
 
         self.ctx.move_to(0, length)
         self.ctx.translate(*self.ctx.get_current_point())

@@ -18,12 +18,10 @@ class FlexBox(boxes.Boxes):
         
     @boxes.restore
     def flexBoxSide(self, x, y, r, callback=None):
-        space, finger = self.fingerJointSettings
-
         self.moveTo(r, 0)
         for i, l in zip(range(2), (x, y)):
             self.cc(callback, i)
-            self.fingerJoint(l-2*r)
+            self.fingerJointEdge(l-2*r)
             self.corner(90, r)
         self.cc(callback, 2)
         self.edge(x-2*r)
@@ -31,7 +29,7 @@ class FlexBox(boxes.Boxes):
         self.cc(callback, 3)
         self.latch(self.latchsize)
         self.cc(callback, 4)
-        self.fingerJoint(y-2*r-self.latchsize)
+        self.fingerJointEdge(y-2*r-self.latchsize)
         self.corner(90, r)
 
     def surroundingWall(self):
@@ -39,27 +37,25 @@ class FlexBox(boxes.Boxes):
         
         c4 = math.pi * r * 0.5
 
-        space, finger = self.fingerJointSettings
-
-        self.fingerJoint(y-2*r-self.latchsize, False)
-        self.flex(c4, z+2*self.thickness)
-        self.fingerJoint(x-2*r, False)
-        self.flex(c4, z+2*self.thickness)
-        self.fingerJoint(y-2*r, False)
-        self.flex(c4, z+2*self.thickness)
+        self.edges["F"](y-2*r-self.latchsize, False)
+        self.flexEdge(c4, z+2*self.thickness)
+        self.edges["F"](x-2*r, False)
+        self.flexEdge(c4, z+2*self.thickness)
+        self.edges["F"](y-2*r, False)
+        self.flexEdge(c4, z+2*self.thickness)
         self.edge(x-2*r)
-        self.flex(c4, z+2*self.thickness)
+        self.flexEdge(c4, z+2*self.thickness)
         self.latch(self.latchsize, False)
         self.edge(z+2*self.thickness)
         self.latch(self.latchsize, False, True)
         self.edge(c4)
         self.edge(x-2*r)
         self.edge(c4)
-        self.fingerJoint(y-2*r, False)
+        self.edges["F"](y-2*r, False)
         self.edge(c4)
-        self.fingerJoint(x-2*r, False)
+        self.edges["F"](x-2*r, False)
         self.edge(c4)
-        self.fingerJoint(y-2*r-self.latchsize, False)
+        self.edges["F"](y-2*r-self.latchsize, False)
         self.corner(90)
         self.edge(z+2*self.thickness)
         self.corner(90)
@@ -73,7 +69,7 @@ class FlexBox(boxes.Boxes):
         self.ctx.scale(-1, 1)
         self.flexBoxSide(self.x, self.y, self.r)
         self.ctx.stroke()
-        self.surface.flush()
+        self.surface.finish()
 
 
 if __name__=="__main__":

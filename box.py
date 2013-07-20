@@ -15,21 +15,17 @@ class Box(Boxes):
         d3 = Bolts(3)
 
         self.moveTo(t, t)
-        self.rectangularWall(x, h, "FfeF", bedBolts=[d2])
-        self.moveTo(x+3*t, 0)
+        self.rectangularWall(x, h, "FfeF", bedBolts=[d2], move="right")
+        self.rectangularWall(y, h, "FfeF", bedBolts=[d3], move="up")
         self.rectangularWall(y, h, "FfeF", bedBolts=[d3])
-        self.moveTo(-x-3*t, h+3*t)
-
-        self.rectangularWall(x, h, "FfeF", bedBolts=[d2])
-        self.moveTo(x+3*t, 0)
-        self.rectangularWall(y, h, "FfeF", bedBolts=[d3])
-        self.moveTo(-x-2*t, h+5*t)
+        self.rectangularWall(x, h, "FfeF", bedBolts=[d2], move="left up")
         
         self.rectangularWall(x, y, "ffff", bedBolts=[d2, d3, d2, d3])
 
         self.ctx.stroke()
         self.surface.flush()
-
+        self.surface.finish()
 
 b = Box(100, 150, 70)
+b.edges["f"].settings.setValues(b.thickness, space=3, finger=2)
 b.render()

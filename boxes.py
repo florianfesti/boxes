@@ -61,19 +61,339 @@ class Bolts(BoltPolicy):
         #print pos, result, ((float(pos)*(self.bolts+1)/self.fingers)-0.01), ((float(pos+1)*(self.bolts+1)/self.fingers)-0.01)
         return result
 
+
+#############################################################################
+### Settings
+#############################################################################
+
+class Settings:
+    absolute_params = { }
+    relative_params = { }
+
+    def __init__(self, thickness, relative=True, **kw):
+        self.values = self.absolute_params.copy()
+
+        factor = 1.0
+        if relative:
+            factor = thickness
+        for name, value in self.relative_params.iteritems():
+            self.values[name] = value * factor
+        self.setValues(thickness, relative, **kw)
+
+    def setValues(self, thickness, relative=True, **kw):
+        factor = 1.0
+        if relative:
+            factor = thickness
+        for name, value in kw.iteritems():
+            if name in self.absolute_params:
+                self.values[name] = value
+            elif name in self.relative_params:
+                self.values[name] = value * factor
+            else:
+                raise ValueError, "Unknown parameter for %s: %s" % (
+                    self.__class__.__name__, name)
+
+    def __getattr__(self, name):
+        return self.values[name]
+
+#############################################################################
+### Edges
+#############################################################################
+
+
+class Edge:
+    char = 'e'
+
+    def __init__(self, boxes, settings):
+        self.boxes = boxes
+        self.ctx = boxes.ctx
+        self.settings = settings
+
+    def __getattr__(self, name):
+        """Hack for using unalter code form Boxes class"""
+        return getattr(self.boxes, name)
+
+    def __call__(self, length, **kw):
+        self.ctx.move_to(0,0)
+        self.ctx.line_to(length, 0)
+        self.ctx.translate(*self.ctx.get_current_point())
+
+    def width(self):
+        return 0.0
+
+    def margin(self):
+        return self.boxes.spacing
+
+    def spacing(self):
+        return self.width() + self.margin()
+
+    def startAngle(self):
+        return 0.0
+
+    def endAngle(self):
+        return 0.0
+
+class OutSetEdge(Edge):
+    char = 'E'
+
+    def width(self):
+        return self.boxes.thickness
+
+
+class FingerJointSettings(Settings):
+    relative_params = {
+        "space" : 1.0,
+        "finger" : 1.0,
+        }
+
+class FingerJointEdge(Edge):
+    char = 'f'
+    positive = True
+
+    def __call__(self, length,
+                    bedBolts=None, bedBoltSettings=None, **kw):
+        positive = self.positive
+        space, finger = self.settings.space, self.settings.finger
+
+        fingers = int((length-space) // (space+finger))
+        if bedBolts:
+            fingers = bedBolts.numFingers(fingers)
+        leftover = length - fingers*(space+finger) - space
+        s, f, thickness = space, finger, self.thickness
+        d, d_nut, h_nut, l, l1 = bedBoltSettings or self.bedBoltSettings
+        p = 1 if positive else -1
+
+        self.edge(leftover/2.0)
+        for i in xrange(fingers):
+            if not positive and bedBolts and bedBolts.drawBolt(i):
+                self.hole(0.5*space,
+                          0.5*self.thickness, 0.5*d)
+            if positive and bedBolts and bedBolts.drawBolt(i):
+                self.bedBoltHole(s, bedBoltSettings)
+            else:
+                self.edge(s)
+            self.corner(-90*p)
+            self.edge(thickness)
+            self.corner(90*p)
+            self.edge(f)
+            self.corner(90*p)
+            self.edge(thickness)
+            self.corner(-90*p)
+        self.edge(s+leftover/2.0)
+
+    def margin(self):
+        return self.boxes.spacing + self.boxes.thickness
+
+class FingerJointEdgeCounterPart(FingerJointEdge):
+    char = 'F'
+    positive = False
+
+    def width(self):
+        return self.boxes.thickness
+
+    def margin(self):
+        return self.boxes.spacing
+
+class FingerHoleEdge(Edge):
+    char = 'h'
+
+    def __call__(self, length, dist=None,
+                 bedBolts=None, bedBoltSettings=None, **kw):
+        if dist is None:
+            dist = self.fingerHoleEdgeWidth * self.thickness
+        self.ctx.save()
+        self.moveTo(0, dist+self.thickness/2)
+        self.fingerHoles(length, bedBolts, bedBoltSettings)
+        self.ctx.restore()
+        # XXX continue path
+        self.ctx.move_to(0, 0)
+        self.ctx.line_to(length, 0)
+        self.ctx.translate(*self.ctx.get_current_point())
+
+    def width(self):
+        return (self.fingerHoleEdgeWidth+1) * self.thickness
+
+class DoveTailSettings(Settings):
+    absolute_params = {
+        "angle" : 50,
+        }
+    relative_params = {
+        "size" : 3,
+        "depth" : 1.5,
+        "radius" : 0.2,
+        }
+
+class DoveTailJoint(Edge):
+    char = 'd'
+    positive = True
+
+    def __call__(self, length, **kw):
+        s = self.settings
+        radius = max(s.radius, self.boxes.burn) # no smaller than burn
+        positive = self.positive
+        a = s.angle + 90
+        alpha = 0.5*math.pi - math.pi*s.angle/180.0
+
+        l1 = radius/math.tan(alpha/2.0)
+        diffx = 0.5*s.depth/math.tan(alpha)
+        l2 = 0.5*s.depth / math.sin(alpha)
+
+        sections = int((length) // (s.size*2))
+        leftover = length - sections*s.size*2
+
+        p = 1 if positive else -1
+
+        self.edge((s.size+leftover)/2.0+diffx-l1)
+        for i in xrange(sections):
+            self.corner(-1*p*a, radius)
+            self.edge(2*(l2-l1))
+            self.corner(p*a, radius)
+            self.edge(2*(diffx-l1)+s.size)
+            self.corner(p*a, radius)
+            self.edge(2*(l2-l1))
+            self.corner(-1*p*a, radius)
+            if i<sections-1: # all but the last
+                self.edge(2*(diffx-l1)+s.size)
+        self.edge((s.size+leftover)/2.0+diffx-l1)
+        self.ctx.translate(*self.ctx.get_current_point())
+
+    def margin(self):
+        return self.settings.depth + self.boxes.spacing
+
+class DoveTailJointCounterPart(DoveTailJoint):
+    char = 'D'
+
+    positive = False
+
+    def width(self):
+        return self.settings.depth
+
+    def margin(self):
+        return self.boxes.spacing
+
+class FlexSettings(Settings):
+    relative_params = {
+        "distance" : 0.5,
+        "connection" : 1.0,
+        "width" : 5.0,
+        }
+    absolute_params = {
+        "stretch" : 1.0,
+        }
+
+class FlexEdge(Edge):
+    char = 'X'
+
+    def __call__(self, x, h, **kw):
+        dist = self.settings.distance
+        connection = self.settings.connection
+        width = self.settings.width
+
+        burn = self.boxes.burn
+        h += 2*burn
+        lines = int(x // dist)
+        leftover = x - lines * dist
+        sections = int((h-connection) // width)
+        sheight = ((h-connection) / sections)-connection
+
+        for i in xrange(lines):
+            pos = i*dist + leftover/2
+            if i % 2:
+                self.ctx.move_to(pos, 0)
+                self.ctx.line_to(pos, connection+sheight)
+                for j in range((sections-1)/2):
+                    self.ctx.move_to(pos, (2*j+1)* sheight+ (2*j+2)*connection)
+                    self.ctx.line_to(pos, (2*j+3)* (sheight+ connection))
+                if not sections % 2:
+                    self.ctx.move_to(pos, h - sheight- connection)
+                    self.ctx.line_to(pos, h)
+            else:
+                if sections % 2:
+                    self.ctx.move_to(pos, h)
+                    self.ctx.line_to(pos, h-connection-sheight)
+                    for j in range((sections-1)/2):
+                         self.ctx.move_to(
+                             pos, h-((2*j+1)* sheight+ (2*j+2)*connection))
+                         self.ctx.line_to(
+                             pos, h-(2*j+3)* (sheight+ connection))
+
+                else:
+                    for j in range(sections/2):
+                        self.ctx.move_to(pos,
+                                         h-connection-2*j*(sheight+connection))
+                        self.ctx.line_to(pos, h-2*(j+1)*(sheight+connection))
+
+        self.ctx.move_to(0, 0)
+        self.ctx.line_to(x, 0)
+        self.ctx.translate(*self.ctx.get_current_point())
+
+#############################################################################
+### Building blocks
+#############################################################################
+
+class FingerHoles:
+    def __init__(self, boxes, settings):
+        self.boxes = boxes
+        self.ctx = boxes.ctx
+        self.settings = settings
+
+    def __call__(self, length, bedBolts=None, bedBoltSettings=None):
+        s, f = self.settings.space, self.settings.finger
+        fingers = int((length-s) // (s+f))
+        if bedBolts:
+            fingers = bedBolts.numFingers(fingers)
+            d, d_nut, h_nut, l, l1 = bedBoltSettings or self.bedBoltSettings
+        leftover = length - fingers*(s+f) - f
+        b = self.boxes.burn
+        for i in xrange(fingers):
+            pos = leftover/2.0+i*(s+f)
+            if bedBolts and bedBolts.drawBolt(i):
+                self.hole(pos+0.5*s, 0, d*0.5)
+            self.ctx.rectangle(pos+s+b, -self.boxes.thickness/2+b,
+                               f-2*b, self.boxes.thickness - 2*b)
+
+        self.ctx.move_to(0, length)
+        self.ctx.translate(*self.ctx.get_current_point())
+
 class Boxes:
 
     def __init__(self, width=300, height=200, thickness=3.0, burn=0.1):
         self.thickness = thickness
         self.burn = burn
-        self.fingerJointSettings = (10.0, 10.0)
+        self.spacing = 2*self.burn + 0.5 * self.thickness
+
         self.fingerHoleEdgeWidth = 1.0    # multitudes of self.thickness
         self.bedBoltSettings = (3, 5.5, 2, 20, 15) #d, d_nut, h_nut, l, l1
-        self.doveTailJointSettings = (10, 5, 50, 0.4) # width, depth, angle, radius
-        self.flexSettings = (1.5, 3.0, 15.0) # line distance, connects, width
         self.hexHolesSettings = (5, 3, 'circle') # r, dist, style
         self.output = "box.svg"
         self._init_surface(width, height)
+        self._buildObjects()
+
+    def addPart(self, part, name=None):
+        if name is None:
+            name = part.__class__.__name__
+            name = name[0].lower() + name[1:]
+        setattr(self, name, part)
+        if isinstance(part, Edge):
+            self.edges[part.char] = part
+
+    def _buildObjects(self):
+        self.edges = {}
+        self.addPart(Edge(self, None))
+        self.addPart(OutSetEdge(self, None))
+
+        # Share settings object
+        s = FingerJointSettings(self.thickness)
+        self.addPart(FingerJointEdge(self, s))
+        self.addPart(FingerJointEdgeCounterPart(self, s))
+        self.addPart(FingerHoleEdge(self, s))
+        self.addPart(FingerHoles(self, s))
+
+        s = DoveTailSettings(self.thickness)
+        self.addPart(DoveTailJoint(self, s))
+        self.addPart(DoveTailJointCounterPart(self, s))
+        s = FlexSettings(self.thickness)
+        self.addPart(FlexEdge(self, s))
 
     def _init_surface(self, width, height):
         mm2pt = 90 / 25.4 / 1.25
@@ -120,6 +440,7 @@ class Boxes:
                 return None
         else:
             return param
+
 
     ############################################################
     ### Turtle graphics commands
@@ -180,138 +501,6 @@ class Boxes:
         self.corner(90)
         self.edge((length-d)/2.0)
 
-    def fingerJoint(self, length, positive=True, settings=None,
-                    bedBolts=None, bedBoltSettings=None):
-        # assumes, we are already moved out by self.burn!
-        # negative also assumes we are moved out by self.thinkness!
-        space, finger = settings or self.fingerJointSettings
-        fingers = int((length-space) // (space+finger))
-        if bedBolts:
-            fingers = bedBolts.numFingers(fingers)
-        leftover = length - fingers*(space+finger) - finger
-        s, f, thickness = space, finger, self.thickness
-        d, d_nut, h_nut, l, l1 = bedBoltSettings or self.bedBoltSettings
-        p = 1 if positive else -1
-
-        self.edge(leftover/2.0)
-        for i in xrange(fingers):
-            if not positive and bedBolts and bedBolts.drawBolt(i):
-                self.hole(0.5*space,
-                          0.5*self.thickness, 0.5*d)
-            if positive and bedBolts and bedBolts.drawBolt(i):
-                self.bedBoltHole(s, bedBoltSettings)
-            else:
-                self.edge(s)
-            self.corner(-90*p)
-            self.edge(thickness)
-            self.corner(90*p)
-            self.edge(f)
-            self.corner(90*p)
-            self.edge(thickness)
-            self.corner(-90*p)
-        self.edge(s+leftover/2.0)
-
-    def fingerHoles(self, length, settings=None,
-                    bedBolts=None, bedBoltSettings=None):
-        s, f = settings or self.fingerJointSettings
-        fingers = int((length-s) // (s+f))
-        if bedBolts:
-            fingers = bedBolts.numFingers(fingers)
-            d, d_nut, h_nut, l, l1 = bedBoltSettings or self.bedBoltSettings
-        leftover = length - fingers*(s+f) - f
-        b = self.burn
-        for i in xrange(fingers):
-            pos = leftover/2.0+i*(s+f)
-            if bedBolts and bedBolts.drawBolt(i):
-                self.hole(pos+0.5*s, 0, d*0.5)
-            self.ctx.rectangle(pos+s+b, -self.thickness/2+b,
-                               f-2*b, self.thickness - 2*b)
-
-        self.ctx.move_to(0, length)
-        self.ctx.translate(*self.ctx.get_current_point())
-
-    def fingerHoleEdge(self, length, dist=None, settings=None,
-                       bedBolts=None, bedBoltSettings=None):
-        if dist is None:
-            dist = self.fingerHoleEdgeWidth * self.thickness
-        self.ctx.save()
-        self.moveTo(0, dist+self.thickness/2)
-        self.fingerHoles(length, settings, bedBolts, bedBoltSettings)
-        self.ctx.restore()
-        # XXX continue path
-        self.ctx.move_to(0, 0)
-        self.ctx.line_to(length, 0)
-        self.ctx.translate(*self.ctx.get_current_point())
-
-    def doveTailJoint(self, length, positive=True, settings=None):
-        width, depth, angle, radius = settings or self.doveTailJointSettings
-        radius = max(radius, self.burn) # no smaller than burn
-        a = angle + 90
-        alpha = 0.5*math.pi - math.pi*angle/180.0
-
-        l1 = radius/math.tan(alpha/2.0)
-        diffx = 0.5*depth/math.tan(alpha)
-        l2 = 0.5*depth / math.sin(alpha)
-
-        sections = int((length) // (width*2))
-        leftover = length - sections*width*2
-
-        p = 1 if positive else -1
-
-        self.edge((width+leftover)/2.0+diffx-l1)
-        for i in xrange(sections):
-            self.corner(-1*p*a, radius)
-            self.edge(2*(l2-l1))
-            self.corner(p*a, radius)
-            self.edge(2*(diffx-l1)+width)
-            self.corner(p*a, radius)
-            self.edge(2*(l2-l1))
-            self.corner(-1*p*a, radius)
-            if i<sections-1: # all but the last
-                self.edge(2*(diffx-l1)+width)
-        self.edge((width+leftover)/2.0+diffx-l1)
-        self.ctx.translate(*self.ctx.get_current_point())
-
-    def flex(self, x, h, settings=None, burn=None):
-        dist, connection, width = settings or self.flexSettings
-        if burn is None:
-            burn = self.burn
-        h += 2*burn
-        lines = int(x // dist)
-        leftover = x - lines * dist
-        sections = int((h-connection) // width)
-        sheight = ((h-connection) / sections)-connection
-
-        for i in xrange(lines):
-            pos = i*dist + leftover/2
-            if i % 2:
-                self.ctx.move_to(pos, 0)
-                self.ctx.line_to(pos, connection+sheight)
-                for j in range((sections-1)/2):
-                    self.ctx.move_to(pos, (2*j+1)* sheight+ (2*j+2)*connection)
-                    self.ctx.line_to(pos, (2*j+3)* (sheight+ connection))
-                if not sections % 2:
-                    self.ctx.move_to(pos, h - sheight- connection)
-                    self.ctx.line_to(pos, h)
-            else:
-                if sections % 2:
-                    self.ctx.move_to(pos, h)
-                    self.ctx.line_to(pos, h-connection-sheight)
-                    for j in range((sections-1)/2):
-                         self.ctx.move_to(
-                             pos, h-((2*j+1)* sheight+ (2*j+2)*connection))
-                         self.ctx.line_to(
-                             pos, h-(2*j+3)* (sheight+ connection))
-
-                else:
-                    for j in range(sections/2):
-                        self.ctx.move_to(pos, 
-                                         h-connection-2*j*(sheight+connection))
-                        self.ctx.line_to(pos, h-2*(j+1)*(sheight+connection))
-
-        self.ctx.move_to(0, 0)
-        self.ctx.line_to(x, 0)
-        self.ctx.translate(*self.ctx.get_current_point())
 
     def grip(self, length, depth):
         """corrugated edge useful as an gipping area"""
@@ -392,7 +581,8 @@ class Boxes:
 
     ### Navigation
 
-    def moveTo(self, x, y, degrees=0):
+    def moveTo(self, x, y=0.0, degrees=0):
+        self.ctx.move_to(0, 0)
         self.ctx.translate(x, y)
         self.ctx.rotate(degrees*math.pi/180.0)
         self.ctx.move_to(0, 0)
@@ -401,16 +591,48 @@ class Boxes:
         self.ctx.translate(*self.ctx.get_current_point())
         self.ctx.rotate(angle)
 
+    def move(self, x, y, where, before=False):
+        """Intended to be used by parts
+        where can be combinations of "up", "down", "left", "right" and "only"
+        when "only" is included the move is only done when before is True
+        The function returns whether actual drawing of the part
+        should be omited.
+        """
+        if not where:
+            return False
+
+        terms = where.split()
+        dontdraw = before and "only" in terms
+
+        moves = {
+            "up": (0, y, False),
+            "down" : (0, -y, True),
+            "left" : (-x, 0, True),
+            "right" : (x, 0, False),
+            "only" : (0, 0, None),
+            }
+        for term in terms:
+            if not term in moves:
+                raise ValueError, "Unknown direction: '%s'" % term
+            x, y, movebeforeprint = moves[term]
+            if movebeforeprint and before:
+                self.moveTo(x, y)
+            elif (not movebeforeprint and not before) or dontdraw:
+                self.moveTo(x, y)
+        return dontdraw
+
+
+
     # Building blocks
 
     def fingerHolesAt(self, x, y, length, angle=90, burn=None,
-                      settings=None, bedBolts=None, bedBoltSettings=None):
+                      bedBolts=None, bedBoltSettings=None):
         if burn is None:
             burn = self.burn
         # XXX burn with callbacks
         self.ctx.save()
         self.moveTo(x, y+burn, angle)
-        self.fingerHoles(length, settings, bedBolts, bedBoltSettings)
+        self.fingerHoles(length, bedBolts, bedBoltSettings)
         self.ctx.restore()
 
     @restore
@@ -487,7 +709,6 @@ class Boxes:
         cy = 2 * int((h-4*dist)// (4*w)) + 1
 
         leftover = h-2*r-(cy-1)*2*r
-        print h, leftover
         if grow=='space ':
             b += leftover / (cy-1) / 2
 
@@ -509,7 +730,8 @@ class Boxes:
 
     def roundedPlate(self, x, y, r, callback=None,
                      holesMargin=None, holesSettings=None,
-                     bedBolts=None, bedBoltSettings=None):
+                     bedBolts=None, bedBoltSettings=None,
+                     move=None):
         """fits surroundingWall
         first edge is split to have a joint in the middle of the side
         callback is called at the beginning of the straight edges
@@ -518,18 +740,25 @@ class Boxes:
         set holesMargin to get hex holes.
         """
 
+        overallwidth = x+2*self.fingerJointEdge.spacing()
+        overallheight = y+2*self.fingerJointEdge.spacing()
+
+        if self.move(overallwidth, overallheight, move, before=True):
+            return
+
         self.ctx.save()
-        self.moveTo(r, 0)
+
+        self.moveTo(r+self.fingerJointEdge.spacing(), self.fingerJointEdge.spacing())
         self.cc(callback, 0)
-        self.fingerJoint(x/2.0-r, bedBolts=self.getEntry(bedBolts, 0),
+        self.fingerJointEdge(x/2.0-r, bedBolts=self.getEntry(bedBolts, 0),
                          bedBoltSettings=self.getEntry(bedBoltSettings, 0))
         self.cc(callback, 1)
-        self.fingerJoint(x/2.0-r, bedBolts=self.getEntry(bedBolts, 1),
+        self.fingerJointEdge(x/2.0-r, bedBolts=self.getEntry(bedBolts, 1),
                          bedBoltSettings=self.getEntry(bedBoltSettings, 1))
         for i, l in zip(range(3), (y, x, y)):
             self.corner(90, r)
             self.cc(callback, i+2)
-            self.fingerJoint(l-2*r, bedBolts=self.getEntry(bedBolts, i+2),
+            self.fingerJointEdge(l-2*r, bedBolts=self.getEntry(bedBolts, i+2),
                          bedBoltSettings=self.getEntry(bedBoltSettings, i+2))
         self.corner(90, r)
 
@@ -545,40 +774,12 @@ class Boxes:
             self.hexHolesPlate(x-2*holesMargin, y-2*holesMargin, r,
                                settings=holesSettings)
         self.ctx.restore()
-
-    def _edge(self, l, style,
-              bedBolts=None, bedBoltSettings=None):
-        if type(style) is tuple:
-            style = style[0]
-        if callable(style):
-            return style(l)
-        if style in 'eE':
-            self.edge(l)
-        elif style == 'h':
-            self.fingerHoleEdge(l, bedBolts=bedBolts,
-                                bedBoltSettings=bedBoltSettings)
-        elif style == 'f':
-            self.fingerJoint(l, bedBolts=bedBolts,
-                             bedBoltSettings=bedBoltSettings)
-        elif style == 'F':
-            self.fingerJoint(l, positive=False, bedBolts=bedBolts,
-                                bedBoltSettings=bedBoltSettings)
-        elif style in 'dD':
-            self.doveTailJoint(l, positive=(style=='d'))
-
-    def _edgewidth(self, style):
-        """return how far a given edge type needs to be set out"""
-        if type(style) is tuple:
-            return style[1]
-        if style == 'h':
-            return (self.fingerHoleEdgeWidth+1) * self.thickness
-        elif style in 'FE':
-            return self.thickness
-        return 0.0
+        self.move(overallwidth, overallheight, move)
 
     def surroundingWall(self, x, y, r, h,
                         bottom='e', top='e',
-                        callback=None):
+                        callback=None,
+                        move=None):
         """
         h : inner height, not counting the joints
         callback is called a beginn of the flat sides with
@@ -589,17 +790,32 @@ class Boxes:
         """
         c4 = (r+self.burn)*math.pi*0.5 # circumference of quarter circle
         c4 = 0.9 * c4 # stretch flex 10%
-        topwidth = self._edgewidth(top)
-        bottomwidth = self._edgewidth(bottom)
+
+        top = self.edges.get(top, top)
+        bottom = self.edges.get(bottom, bottom)
+
+        topwidth = top.width()
+        bottomwidth = bottom.width()
+
+        overallwidth = 2*x + 2*y - 8*r + 4*c4 + \
+            self.edges["d"].spacing() + self.edges["D"].spacing()
+        overallheight = h + top.spacing() + bottom.spacing()
+
+
+        if self.move(overallwidth, overallheight, move, before=True):
+            return
+
+        self.ctx.save()
+        self.moveTo(self.edges["D"].margin(), bottom.margin())
 
         self.cc(callback, 0, y=bottomwidth+self.burn)
-        self._edge(x/2.0-r, bottom)
+        bottom(x/2.0-r)
         for i, l in zip(range(4), (y, x, y, 0)):
-            self.flex(c4, h+topwidth+bottomwidth)
+            self.flexEdge(c4, h+topwidth+bottomwidth)
             self.cc(callback, i+1, y=bottomwidth+self.burn)
             if i < 3:
-                self._edge(l-2*r, bottom)
-        self._edge(x/2.0-r, bottom)
+                bottom(l-2*r)
+        bottom(x/2.0-r)
 
         self.corner(90)
         self.edge(bottomwidth)
@@ -607,38 +823,59 @@ class Boxes:
         self.edge(topwidth)
         self.corner(90)
 
-        self._edge(x/2.0-r, top)
+        top(x/2.0-r)
         for i, l in zip(range(4), (y, x, y, 0)):
             self.edge(c4)
             if i < 3:
-                self._edge(l - 2*r, top)
-        self._edge(x/2.0-r, top)
+                top(l - 2*r)
+        top(x/2.0-r)
 
         self.corner(90)
         self.edge(topwidth)
-        self.doveTailJoint(h, positive=False)
+        self.doveTailJointCounterPart(h)
         self.edge(bottomwidth)
         self.corner(90)
 
-    @restore
+        self.ctx.restore()
+
+        self.move(overallwidth, overallheight, move)
+
+
     def rectangularWall(self, x, y, edges="eeee",
                         holesMargin=None, holesSettings=None,
-                        bedBolts=None, bedBoltSettings=None):
+                        callbacks=None,
+                        bedBolts=None, bedBoltSettings=None,
+                        move=None):
         if len(edges) != 4:
             raise ValueError, "four edges required"
+        edges = [self.edges.get(e, e,) for e in edges]
         edges += edges # append for wrapping around
+
+        overallwidth = x + edges[-1].spacing() + edges[1].spacing()
+        overallheight = y + edges[0].spacing() + edges[2].spacing()
+
+        if self.move(overallwidth, overallheight, move, before=True):
+            return
+
+        self.ctx.save()
+        self.moveTo(edges[-1].margin(), edges[0].margin())
         for i, l in enumerate((x, y, x, y)):
-            self._edge(self._edgewidth(edges[i-1]), 'e')
-            self._edge(l, edges[i],
-                       bedBolts=self.getEntry(bedBolts, i),
-                       bedBoltSettings=self.getEntry(bedBoltSettings, i))
-            self._edge(self._edgewidth(edges[i+1]), 'e')
-            self.corner(90)
+            self.cc(callbacks, i)
+            self.edge(edges[i-1].width())
+            edges[i](l,
+                     bedBolts=self.getEntry(bedBolts, i),
+                     bedBoltSettings=self.getEntry(bedBoltSettings, i))
+            self.edge(edges[i+1].width())
+            self.corner(90-edges[i].endAngle()-edges[i+1].startAngle())
 
         if holesMargin is not None:
-            self.moveTo(holesMargin+self._edgewidth(edges[-1]),
-                        holesMargin+self._edgewidth(edges[0]))
+            self.moveTo(holesMargin+edges[-1].width(),
+                        holesMargin+edges[0].width())
             self.hexHolesRectangle(x-2*holesMargin, y-2*holesMargin)
+        self.ctx.restore()
+
+        self.move(overallwidth, overallheight, move)
+
 
     ##################################################
     ### main
@@ -664,6 +901,7 @@ class Boxes:
 
         self.ctx.stroke()
         self.surface.flush()
+        self.surface.finish()
 
 if __name__ == '__main__':
     b = Boxes(900, 700)

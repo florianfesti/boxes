@@ -639,6 +639,13 @@ class Boxes:
         self.moveTo(x+r, y)
         self.ctx.arc(-r, 0, r, 0, 2*math.pi)
 
+    @restore
+    def rectangularHole(self, x, y, dx, dy, r=0):
+        self.moveTo(x+r-dx/2.0, y-dy/2.0, 180)
+        for d in (dy, dx, dy, dx):
+            self.corner(-90, r)
+            self.edge(d)
+
     # hexHoles
 
     def hexHolesRectangle(self, x, y, settings=None, skip=None):

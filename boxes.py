@@ -873,8 +873,8 @@ class Boxes:
 
     def rectangularWall(self, x, y, edges="eeee",
                         holesMargin=None, holesSettings=None,
-                        callbacks=None,
                         bedBolts=None, bedBoltSettings=None,
+                        callback=None,
                         move=None):
         if len(edges) != 4:
             raise ValueError, "four edges required"
@@ -890,7 +890,7 @@ class Boxes:
         self.ctx.save()
         self.moveTo(edges[-1].margin(), edges[0].margin())
         for i, l in enumerate((x, y, x, y)):
-            self.cc(callbacks, i)
+            self.cc(callback, i)
             self.edge(edges[i-1].width())
             edges[i](l,
                      bedBolts=self.getEntry(bedBolts, i),

@@ -646,6 +646,30 @@ class Boxes:
             self.corner(-90, r)
             self.edge(d)
 
+    @restore
+    def NEMA(self, size):
+        nema = {
+            #    motor,flange, holes, screws 
+             8 : (20.3, 16,   15.4, 3),
+            11 : (28.2, 22,   23,   4),
+            14 : (35.2, 22,   26,   4),
+            16 : (39.2, 22,   31,   4),
+            17 : (42.2, 22,   31,   4),
+            23 : (56.4, 38.1, 47.1, 5.2),
+            24 : (60,   36,   49.8, 5.1),
+            34 : (86.3, 73,   69.8, 6.6),
+            42 : (110,  55.5, 89,   8.5),
+             }
+        width, flange, holedistance, diameter = nema[size]
+        self.rectangularHole(0, 0, width, width)
+        self.hole(0,0, 0.5*flange)
+        for x in (-1, 1):
+            for y in (-1, 1):
+                self.hole(x*0.5*holedistance,
+                          y*0.5*holedistance,
+                          0.5*diameter)
+
+
     # hexHoles
 
     def hexHolesRectangle(self, x, y, settings=None, skip=None):

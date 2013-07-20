@@ -777,8 +777,10 @@ class Boxes:
             return
 
         self.ctx.save()
+        self.moveTo(self.fingerJointEdge.margin(),
+                    self.fingerJointEdge.margin())
+        self.moveTo(r, 0)
 
-        self.moveTo(r+self.fingerJointEdge.spacing(), self.fingerJointEdge.spacing())
         self.cc(callback, 0)
         self.fingerJointEdge(x/2.0-r, bedBolts=self.getEntry(bedBolts, 0),
                          bedBoltSettings=self.getEntry(bedBoltSettings, 0))
@@ -794,6 +796,9 @@ class Boxes:
 
         self.ctx.restore()
         self.ctx.save()
+
+        self.moveTo(self.fingerJointEdge.margin(),
+                    self.fingerJointEdge.margin())
 
         if holesMargin is not None:
             self.moveTo(holesMargin, holesMargin)

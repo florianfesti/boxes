@@ -359,7 +359,7 @@ class FingerHoles:
 
 class Boxes:
 
-    def __init__(self, width=300, height=200, thickness=3.0, burn=0.1):
+    def __init__(self, width=300, height=200, thickness=3.0, burn=0.05):
         self.thickness = thickness
         self.burn = burn
         self.spacing = 2*self.burn + 0.5 * self.thickness

@@ -647,7 +647,7 @@ class Boxes:
             self.edge(d)
 
     @restore
-    def NEMA(self, size):
+    def NEMA(self, size, x=0, y=0, angle=0):
         nema = {
             #    motor,flange, holes, screws 
              8 : (20.3, 16,   15.4, 3),
@@ -661,6 +661,7 @@ class Boxes:
             42 : (110,  55.5, 89,   8.5),
              }
         width, flange, holedistance, diameter = nema[size]
+        self.moveTo(x, y, angle)
         self.rectangularHole(0, 0, width, width)
         self.hole(0,0, 0.5*flange)
         for x in (-1, 1):

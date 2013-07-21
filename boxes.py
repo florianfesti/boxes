@@ -896,8 +896,8 @@ class Boxes:
         self.ctx.save()
         self.moveTo(edges[-1].margin(), edges[0].margin())
         for i, l in enumerate((x, y, x, y)):
-            self.cc(callback, i)
             self.edge(edges[i-1].width())
+            self.cc(callback, i)
             edges[i](l,
                      bedBolts=self.getEntry(bedBolts, i),
                      bedBoltSettings=self.getEntry(bedBoltSettings, i))

@@ -7,6 +7,7 @@ class Printer(Boxes):
     """Work in progress"""
     def __init__(self, r=250, h=400, d_c=100):
         Boxes.__init__(self, 1000, 800, thickness=5.0, burn=0.05)
+        self.edges["f"].settings.setValues(self.thickness, surroundingspaces=0)
         self.r = r
         self.h = h
         self.d_c = d_c
@@ -55,8 +56,8 @@ class Printer(Boxes):
         self.moveTo(self.spacing+10, self.spacing)
         for i in range(3):
             self.hole(0, 5, 0.3)
-            self.fingerHolesAt(25, 0, 25)
-            self.fingerHolesAt(75, 0, 25)
+            self.fingerHolesAt(25, 0, 20)
+            self.fingerHolesAt(75, 0, 20)
             self.edge(d_c)
             self.hole(0, 5, 0.3)
             self.corner(120, 10)
@@ -126,16 +127,31 @@ class Printer(Boxes):
         for i in range(12):
             self.rectangularWall(30, 30, edges="feee", callback=[
                     lambda: self.hole(15, 15, 3),], move="right")
-
+        # Cable adjustment blocks
+        self.ctx.save()
         for i in range(6):
             def holes():
-                self.hole(3, 3, 1.5)
-                self.hole(8, 3, 1.5)
-            self.rectangularWall(25, 6, edges="feee", callback=[holes,],
+                self.hole(5, 4, 1.5)
+                self.hole(15, 4, 1.5)
+            self.rectangularWall(20, 8, edges="feee", callback=[holes,],
                                  move="right")
+        self.ctx.restore()
+        self.moveTo(0, 20)
+        # Cable adjustment glyders
+        for i in range(6):
+            self.rectangularWall(8, 10, move="right", callback=[
+                    lambda: self.hole(4, 4, 1.5),
+                    None,
+                    lambda: self.hole(4, 1.5, 0.4)])
+            self.rectangularWall(8, 10, move="right", callback=[
+                    lambda: self.nutHole("M3", 4, 4),
+                    None,
+                    lambda: self.hole(4, 1.5, 0.4)])
+
         self.ctx.restore()
         self.moveTo(0, 40)
 
+        # mainPlate
         self.rectangularWall(2*self.r-10, 2*self.r-10, edges="ffff",
                              callback=self.mainPlate, move="right")
                         

@@ -141,6 +141,10 @@ class OutSetEdge(Edge):
 
 
 class FingerJointSettings(Settings):
+    absolute_params = {
+        "surroundingspaces" : 2,
+        }
+
     relative_params = {
         "space" : 1.0,
         "finger" : 1.0,
@@ -157,23 +161,25 @@ class FingerJointEdge(Edge):
         positive = self.positive
         space, finger = self.settings.space, self.settings.finger
 
-        fingers = int((length-space) // (space+finger))
+        fingers = int((length-(self.settings.surroundingspaces-1)*space) //
+                      (space+finger))
         if bedBolts:
             fingers = bedBolts.numFingers(fingers)
-        leftover = length - fingers*(space+finger) - space
+        leftover = length - fingers*(space+finger) + space
         s, f, thickness = space, finger, self.thickness
         d, d_nut, h_nut, l, l1 = bedBoltSettings or self.bedBoltSettings
         p = 1 if positive else -1
 
         self.edge(leftover/2.0)
         for i in xrange(fingers):
-            if not positive and bedBolts and bedBolts.drawBolt(i):
-                self.hole(0.5*space,
-                          0.5*self.thickness, 0.5*d)
-            if positive and bedBolts and bedBolts.drawBolt(i):
-                self.bedBoltHole(s, bedBoltSettings)
-            else:
-                self.edge(s)
+            if i !=0:
+                if not positive and bedBolts and bedBolts.drawBolt(i):
+                    self.hole(0.5*space,
+                              0.5*self.thickness, 0.5*d)
+                if positive and bedBolts and bedBolts.drawBolt(i):
+                    self.bedBoltHole(s, bedBoltSettings)
+                else:
+                    self.edge(s)
             self.corner(-90*p)
             self.edge(self.settings.height)
             self.corner(90*p)
@@ -181,7 +187,7 @@ class FingerJointEdge(Edge):
             self.corner(90*p)
             self.edge(self.settings.height)
             self.corner(-90*p)
-        self.edge(s+leftover/2.0)
+        self.edge(leftover/2.0)
 
     def margin(self):
         return self.boxes.spacing + self.boxes.thickness
@@ -341,7 +347,8 @@ class FingerHoles:
 
     def __call__(self, length, bedBolts=None, bedBoltSettings=None):
         s, f = self.settings.space, self.settings.finger
-        fingers = int((length-s) // (s+f))
+        fingers = int((length-(self.settings.surroundingspaces-1)*s) //
+                      (s+f))
         if bedBolts:
             fingers = bedBolts.numFingers(fingers)
             d, d_nut, h_nut, l, l1 = bedBoltSettings or self.bedBoltSettings

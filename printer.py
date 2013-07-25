@@ -18,6 +18,7 @@ class Printer(Boxes):
 
     def mainPlate(self, nr):
         r = self.r
+        t2 = 0.5 * self.thickness
         if nr:
             return
         self.moveTo(r-5, r, -90)
@@ -34,6 +35,10 @@ class Printer(Boxes):
             if i % 2:
                 self.fingerHolesAt(r-80, (d_c2+20), 70, angle=0)
                 self.fingerHolesAt(r-80, -(d_c2+20), 70, angle=0)
+                if i==5:
+                    self.fingerHolesAt(r-70+t2, -(d_c2+20+t2), 40, angle=-90)
+                else:
+                    self.fingerHolesAt(r-70+t2, (d_c2+20+t2), 40, angle=90)
             # idler buck
             else:
                 d = 0.5*(self.thickness)+w_i2
@@ -56,6 +61,51 @@ class Printer(Boxes):
             self.hole(0, 5, 0.3)
             self.corner(120, 10)
 
+
+    def support(self, x, y, edges="ff", pair=False, callback=None, move=None):
+        if len(edges) != 2:
+            raise ValueError, "two edges required"
+        edges = [self.edges.get(e, e,) for e in edges]
+
+        overallwidth = x + edges[0].spacing() + self.edges["e"].spacing()
+        overallheight = y + edges[1].spacing() + self.edges["e"].spacing()
+
+        r = 2*self.thickness
+
+        if pair:
+            overallwidth+= edges[0].spacing() + r - self.edges["e"].spacing()
+            overallheight+= edges[1].spacing() + r - self.edges["e"].spacing()
+
+        if self.move(overallwidth, overallheight, move, before=True):
+            return
+
+        self.ctx.save()
+        self.moveTo(edges[0].margin(), edges[1].margin())
+
+        angle = math.degrees(math.atan((y-r)/float(x-r)))
+
+        self.cc(callback, 0)
+        edges[1](x)
+        self.corner(90)
+        #self.edge(self.thickness)
+        self.corner(90-angle, r)
+        self.edge(((x-r)**2+(y-r)**2)**0.5)
+        self.corner(angle, r)
+        #self.edge(self.thickness)
+        self.corner(90)
+        self.cc(callback, 0)
+        edges[0](y)
+        self.corner(90)
+        self.ctx.restore()
+
+        if pair:
+            self.ctx.save()
+            self.moveTo(overallwidth, overallheight, 180)
+            self.support(x, y, edges, False, callback)
+            self.ctx.restore()
+
+        self.move(overallwidth, overallheight, move)
+
     def render(self):
         self.ctx.save()
         for i in range(3):
@@ -65,7 +115,10 @@ class Printer(Boxes):
                                  move="right")
             # winch bucks
             self.rectangularWall(70, 50, edges="feee", callback=[
-                    lambda: self.hole(35, 35, 8.5),], move="right")
+                    lambda: self.hole(35, 35, 8.5),
+                    None,
+                    lambda: self.fingerHolesAt(10, 0, 50)], move="right")
+            self.support(40, 50, move="right", pair=True)
         self.ctx.restore()
         self.moveTo(0, 90)
         self.ctx.save()

@@ -364,6 +364,45 @@ class FingerHoles:
         self.ctx.move_to(0, length)
         self.ctx.translate(*self.ctx.get_current_point())
 
+class NutHole:
+    sizes = {
+        "M1.6" : 3.2,
+        "M2" : 4,
+        "M2.5" : 5,
+        "M3" : 5.5,
+        "M4" : 7,
+        "M5" : 8,
+        "M6" : 10,
+        "M8" : 13,
+        "M10" : 16,
+        "M12" : 18,
+        "M14" : 21,
+        "M16" : 24,
+        "M20" : 30,
+        "M24" : 36,
+        "M30" : 46,
+        "M36" : 55,
+        "M42" : 65,
+        "M48" : 75,
+        "M56" : 85,
+        "M64" : 95,
+        }
+
+    def __init__(self, boxes, settings):
+        self.boxes = boxes
+        self.ctx = boxes.ctx
+        self.settings = settings
+
+    @restore
+    def __call__(self, size, x=0, y=0, angle=0):
+        size = self.sizes.get(size, size)
+        side = size / 3**0.5
+        self.boxes.moveTo(x, y, angle)
+        self.boxes.moveTo(-0.5*side, 0.5*size, angle)
+        for i in range(6):
+            self.boxes.edge(side)
+            self.boxes.corner(-60)
+
 class Boxes:
 
     def __init__(self, width=300, height=200, thickness=3.0, burn=0.05):
@@ -403,6 +442,8 @@ class Boxes:
         self.addPart(DoveTailJointCounterPart(self, s))
         s = FlexSettings(self.thickness)
         self.addPart(FlexEdge(self, s))
+
+        self.addPart(NutHole(self, None))
 
     def _init_surface(self, width, height):
         mm2pt = 90 / 25.4 / 1.25

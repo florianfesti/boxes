@@ -163,12 +163,18 @@ class FingerJointEdge(Edge):
 
         fingers = int((length-(self.settings.surroundingspaces-1)*space) //
                       (space+finger))
+
         if bedBolts:
             fingers = bedBolts.numFingers(fingers)
         leftover = length - fingers*(space+finger) + space
+
         s, f, thickness = space, finger, self.thickness
         d, d_nut, h_nut, l, l1 = bedBoltSettings or self.bedBoltSettings
         p = 1 if positive else -1
+
+        if fingers < 0:
+            fingers = 0
+            leftover = length
 
         self.edge(leftover/2.0)
         for i in xrange(fingers):

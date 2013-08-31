@@ -956,7 +956,7 @@ class Boxes:
         self.moveTo(edges[-1].margin(), edges[0].margin())
         for i, l in enumerate((x, y, x, y)):
             self.edge(edges[i-1].width())
-            self.cc(callback, i)
+            self.cc(callback, i, y=edges[i].width()+self.burn)
             edges[i](l,
                      bedBolts=self.getEntry(bedBolts, i),
                      bedBoltSettings=self.getEntry(bedBoltSettings, i))

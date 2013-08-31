@@ -360,6 +360,9 @@ class FingerHoles:
             d, d_nut, h_nut, l, l1 = bedBoltSettings or self.bedBoltSettings
         leftover = length - fingers*(s+f) - f
         b = self.boxes.burn
+        if self.boxes.debug:
+            self.ctx.rectangle(0, -self.settings.width/2+b,
+                               length, self.settings.width - 2*b)
         for i in xrange(fingers):
             pos = leftover/2.0+i*(s+f)
             if bedBolts and bedBolts.drawBolt(i):
@@ -420,6 +423,7 @@ class Boxes:
         self.bedBoltSettings = (3, 5.5, 2, 20, 15) #d, d_nut, h_nut, l, l1
         self.hexHolesSettings = (5, 3, 'circle') # r, dist, style
         self.output = "box.svg"
+        self.debug = 0
         self._init_surface(width, height)
         self._buildObjects()
 
@@ -716,7 +720,8 @@ class Boxes:
              }
         width, flange, holedistance, diameter = nema[size]
         self.moveTo(x, y, angle)
-        self.rectangularHole(0, 0, width, width)
+        if self.debug:
+            self.rectangularHole(0, 0, width, width)
         self.hole(0,0, 0.5*flange)
         for x in (-1, 1):
             for y in (-1, 1):

@@ -172,7 +172,7 @@ class FingerJointEdge(Edge):
         d, d_nut, h_nut, l, l1 = bedBoltSettings or self.bedBoltSettings
         p = 1 if positive else -1
 
-        if fingers < 0:
+        if fingers <= 0:
             fingers = 0
             leftover = length
 

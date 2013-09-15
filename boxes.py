@@ -431,7 +431,8 @@ class Boxes:
         if name is None:
             name = part.__class__.__name__
             name = name[0].lower() + name[1:]
-        setattr(self, name, part)
+        if not hasattr(self, name):
+            setattr(self, name, part)
         if isinstance(part, Edge):
             self.edges[part.char] = part
 

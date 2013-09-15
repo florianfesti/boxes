@@ -11,14 +11,23 @@ class FlexBox(Boxes):
         self.r = r or min(x, y)/2.0
         self.d = d
         self.h = h
-        self.c4 = c4 = math.pi * r * 0.5
+        self.c4 = c4 = math.pi * r * 0.5 * 0.95
         self.latchsize = 8*thickness
 
         width = 2*x + y - 3*r + 2*c4 + 15*thickness + 3*10 # lock
         height = y + z + 8*thickness
 
         Boxes.__init__(self, width, height, thickness=thickness)
-        self.fingerJointSettings = (4, 4)
+        self.edges["f"].settings.setValues(
+            self.thickness, finger=2, space=2, surroundingspaces=1)
+
+        s = FingerJointSettings(self.thickness, surroundingspaces=1)
+        g = FingerJointEdge(self, s)
+        g.char = "g"
+        self.addPart(g)
+        G = FingerJointEdgeCounterPart(self, s)
+        G.char = "G"
+        self.addPart(G)
         
     def rectangleCorner(self, edge1=None, edge2=None):
         edge1 = self.edges.get(edge1, edge1)
@@ -52,11 +61,11 @@ class FlexBox(Boxes):
         self.corner(-90)
         self.edge(d)
         self.corner(90)
-        self.edges["f"](x-r)
+        self.edges["f"](x-r+d)
         self.corner(90)
         self.edges["f"](z+2*self.thickness+2*d)
         self.corner(90)
-        self.edges["f"](x-r)
+        self.edges["f"](x-r+d)
         self.corner(90)
         self.edge(d)
         self.corner(-90)
@@ -79,7 +88,7 @@ class FlexBox(Boxes):
         self.edge(r-r2+2*t)
         self.edges["F"](x-r)
         self.rectangleCorner("F", "f")
-        self.edges["f"](h)
+        self.edges["g"](h)
         self.rectangleCorner("f", "e")
         self.edge(x+2*t)
 
@@ -92,14 +101,14 @@ class FlexBox(Boxes):
         self.moveTo(x+y-2*r+self.c4+self.thickness, -2*d-self.thickness)
         self.rectangularWall(x, z, edges="FFFF", move="right")
         self.rectangularWall(h, z+2*(d+self.thickness),
-                             edges="FeFF", move="right")
+                             edges="GeGF", move="right")
         self.lidSide()
         self.moveTo(2*h+5*self.thickness, 0)
         self.ctx.scale(-1, 1)
         self.lidSide()
 
         self.ctx.restore()
-        self.moveTo(0, z+4*self.thickness)
+        self.moveTo(0, z+4*self.thickness+2*d)
         self.flexBoxSide(x, y, r)
         self.moveTo(2*x+3*self.thickness, 2*d)
         self.ctx.scale(-1, 1)
@@ -112,5 +121,5 @@ class FlexBox(Boxes):
 
 
 if __name__=="__main__":
-    b = FlexBox(50, 70, 50, r=10, h=10, thickness=3.0)
+    b = FlexBox(100, 40, 100, r=20, h=10, thickness=4.0)
     b.render()

@@ -6,15 +6,15 @@ class Printer(Boxes):
 
     """Work in progress"""
     def __init__(self, r=250, h=400, d_c=100):
-        Boxes.__init__(self, 1000, 800, thickness=5.0, burn=0.05)
+        Boxes.__init__(self, 1200, 600, thickness=5.0, burn=0.05)
         self.edges["f"].settings.setValues(self.thickness, surroundingspaces=0)
         self.r = r
         self.h = h
         self.d_c = d_c
-        # idler
-        self.D_i = 22.0
-        self.d_i = 8.0
-        self.w_i = 5.0 # includes washers
+        # idlers
+        self.D_i = 17.0
+        self.d_i = 5.0
+        self.w_i = 7.0 # includes washers
 
 
     def mainPlate(self, nr):
@@ -115,13 +115,15 @@ class Printer(Boxes):
                     lambda: self.NEMA(23, 35, 35),],
                                  move="right")
             # winch bucks
-            self.rectangularWall(70, 50, edges="feee", callback=[
+            self.rectangularWall(50, 70, edges="efee", callback=[
+                    None,
                     lambda: self.hole(35, 35, 8.5),
                     None,
                     lambda: self.fingerHolesAt(10, 0, 50)], move="right")
-            self.support(40, 50, move="right", pair=True)
+        self.support(40, 50, move="right", pair=True)
+        self.support(40, 50, move="right")
         self.ctx.restore()
-        self.moveTo(0, 90)
+        self.moveTo(0, 80)
         self.ctx.save()
         # idler bucks
         for i in range(12):

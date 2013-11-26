@@ -944,7 +944,7 @@ class Boxes:
                         move=None):
         if len(edges) != 4:
             raise ValueError, "four edges required"
-        edges = [self.edges.get(e, e,) for e in edges]
+        edges = [self.edges.get(e, e) for e in edges]
         edges += edges # append for wrapping around
 
         overallwidth = x + edges[-1].spacing() + edges[1].spacing()

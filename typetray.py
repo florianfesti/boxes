@@ -24,7 +24,7 @@ class BottomEdge(FingerJointEdge):
         for x in self.sections[:-1]:
             self.boxes.fingerJointEdge(x)
             self._slot()
-        self.boxes.fingerJointEdge(self.x[-1])
+        self.boxes.fingerJointEdge(self.sections[-1])
 
 class TopEdge(BottomEdge):
     
@@ -36,12 +36,12 @@ class TopEdge(BottomEdge):
         for x in self.sections[:-1]:
             self.boxes.edge(x)
             self._slot()
-        self.boxes.edge(self.x[-1])
+        self.boxes.edge(self.sections[-1])
 
 class TypeTray(Boxes):
     def __init__(self, x, y, h, **kw):
         self.x, self.y, self.h = x, y, h
-        Boxes.__init__(self, width=sum(x)+sum(y)+50, height=sum(y)+2*h+50, **kw)
+        Boxes.__init__(self, width=sum(x)+sum(y)+70, height=sum(y)+8*h+50, **kw)
 
     def xSlots(self):
         posx = -0.5 * self.thickness
@@ -73,6 +73,17 @@ class TypeTray(Boxes):
             posy += y + self.thickness
             self.fingerHolesAt(posy, 0, self.h)
 
+    def fingerHole(self):
+        dx = 50
+        dy = 30
+        x = sum(self.x) + self.thickness * (len(self.x)-1)
+        self.moveTo(0.5*(x-dx), 5)
+        self.edge(dx)
+        self.corner(180, 0.5*dy)
+        self.edge(dx)
+        self.corner(180, 0.5*dy)
+        #self.hole(0.5*x-30, 15, 10)
+        #self.hole(0.5*x+30, 15, 10)
 
     def render(self):
         x = sum(self.x) + self.thickness * (len(self.x)-1)
@@ -81,7 +92,9 @@ class TypeTray(Boxes):
         t = self.thickness
 
         self.moveTo(t, t)
-        self.rectangularWall(x, h, "Ffef", callback=[self.xHoles,],
+        # outer walls
+        self.rectangularWall(x, h, "Ffef", callback=[
+            self.xHoles, None, self.fingerHole],
                              move="right")
         self.rectangularWall(y, h, "FFeF",  callback=[self.yHoles,],
                              move="up")
@@ -89,10 +102,11 @@ class TypeTray(Boxes):
         self.rectangularWall(x, h, "Ffef", callback=[self.xHoles,],
                              move="left up")
         
+        # floor
         self.rectangularWall(x, y, "ffff",
                              callback=[self.xSlots, self.ySlots],
                              move="right")
-
+        # Inner walls
         for i in range(len(self.x)-1):
             e = [BottomEdge(self, self.y, 0.5*h), "f", "e", "f"]
             self.rectangularWall(y, h, e,
@@ -107,7 +121,15 @@ class TypeTray(Boxes):
         self.surface.flush()
         self.surface.finish()
 
-b = TypeTray([100, 100], [50, 50, 100, 100], 50, thickness=4.0)
+x = 260
+nx = 3
+y = 300
+ny = 4
+thickness=4.0
+
+dx = (x-thickness)/nx-thickness
+dy = (y-thickness)/ny-thickness
+b = TypeTray([dx]*nx, [120, 300-3*thickness-120], 78-thickness, thickness=thickness)
 b.edges["f"].settings.setValues(b.thickness, space=3, finger=3,
-                                surroundingspaces=1)
+                                surroundingspaces=0.5, burn=0.13)
 b.render()

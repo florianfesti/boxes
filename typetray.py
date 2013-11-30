@@ -131,7 +131,11 @@ thickness=4.0
 
 dx = (x-thickness)/nx-thickness
 dy = (y-thickness)/ny-thickness
-b = TypeTray([dx]*nx, [120, 300-3*thickness-120], 78-thickness, 40, thickness=thickness)
+sx = [dx] * nx
+#sy = [dy] * ny
+sy = [120, 300-3*thickness-120]
+
+b = TypeTray(sx, sy, 78-thickness, 40, thickness=thickness, burn=0.1)
 b.edges["f"].settings.setValues(b.thickness, space=3, finger=3,
                                 surroundingspaces=0.5)
 b.render()

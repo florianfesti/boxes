@@ -39,8 +39,9 @@ class TopEdge(BottomEdge):
         self.boxes.edge(self.sections[-1])
 
 class TypeTray(Boxes):
-    def __init__(self, x, y, h, **kw):
+    def __init__(self, x, y, h, hi=None, **kw):
         self.x, self.y, self.h = x, y, h
+        self.hi = hi or h
         Boxes.__init__(self, width=sum(x)+sum(y)+70, height=sum(y)+8*h+50, **kw)
 
     def xSlots(self):
@@ -65,13 +66,13 @@ class TypeTray(Boxes):
         posx = -0.5 * self.thickness
         for x in self.x[:-1]:
             posx += x + self.thickness
-            self.fingerHolesAt(posx, 0, self.h)
+            self.fingerHolesAt(posx, 0, self.hi)
 
     def yHoles(self):
         posy = -0.5 * self.thickness
         for y in self.y[:-1]:
             posy += y + self.thickness
-            self.fingerHolesAt(posy, 0, self.h)
+            self.fingerHolesAt(posy, 0, self.hi)
 
     def fingerHole(self):
         dx = 50
@@ -89,6 +90,7 @@ class TypeTray(Boxes):
         x = sum(self.x) + self.thickness * (len(self.x)-1)
         y = sum(self.y) + self.thickness * (len(self.y)-1)
         h = self.h
+        hi = self.hi
         t = self.thickness
 
         self.moveTo(t, t)
@@ -108,13 +110,13 @@ class TypeTray(Boxes):
                              move="right")
         # Inner walls
         for i in range(len(self.x)-1):
-            e = [BottomEdge(self, self.y, 0.5*h), "f", "e", "f"]
-            self.rectangularWall(y, h, e,
+            e = [BottomEdge(self, self.y, 0.5*hi), "f", "e", "f"]
+            self.rectangularWall(y, hi, e,
                                  move="up")
         for i in range(len(self.y)-1):
             e = [BottomEdge(self, self.x), "f",
-                 TopEdge(self, self.x, 0.5*h), "f"]
-            self.rectangularWall(x, h, e,
+                 TopEdge(self, self.x, 0.5*hi), "f"]
+            self.rectangularWall(x, hi, e,
                                  move="up")
 
         self.ctx.stroke()
@@ -129,7 +131,7 @@ thickness=4.0
 
 dx = (x-thickness)/nx-thickness
 dy = (y-thickness)/ny-thickness
-b = TypeTray([dx]*nx, [120, 300-3*thickness-120], 78-thickness, thickness=thickness)
+b = TypeTray([dx]*nx, [120, 300-3*thickness-120], 78-thickness, 40, thickness=thickness)
 b.edges["f"].settings.setValues(b.thickness, space=3, finger=3,
-                                surroundingspaces=0.5, burn=0.13)
+                                surroundingspaces=0.5)
 b.render()

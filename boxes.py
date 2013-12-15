@@ -870,6 +870,7 @@ class Boxes:
             self.hexHolesPlate(x-2*holesMargin, y-2*holesMargin, r,
                                settings=holesSettings)
         self.ctx.restore()
+        self.ctx.stroke()
         self.move(overallwidth, overallheight, move)
 
     def surroundingWall(self, x, y, r, h,
@@ -933,6 +934,7 @@ class Boxes:
         self.corner(90)
 
         self.ctx.restore()
+        self.ctx.stroke()
 
         self.move(overallwidth, overallheight, move)
 
@@ -969,6 +971,7 @@ class Boxes:
                         holesMargin+edges[0].width())
             self.hexHolesRectangle(x-2*holesMargin, y-2*holesMargin)
         self.ctx.restore()
+        self.ctx.stroke()
 
         self.move(overallwidth, overallheight, move)
 

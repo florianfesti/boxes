@@ -17,10 +17,10 @@ class Box(Boxes):
         d2 = d3 = None
 
         self.moveTo(t, t)
-        self.rectangularWall(x, h, "FfeF", bedBolts=d2, move="right")
-        self.rectangularWall(y, h, "FfeF", bedBolts=d3, move="up")
-        self.rectangularWall(y, h, "FfeF", bedBolts=d3)
-        self.rectangularWall(x, h, "FfeF", bedBolts=d2, move="left up")
+        self.rectangularWall(x, h, "FFeF", bedBolts=d2, move="right")
+        self.rectangularWall(y, h, "Ffef", bedBolts=d3, move="up")
+        self.rectangularWall(y, h, "Ffef", bedBolts=d3)
+        self.rectangularWall(x, h, "FFeF", bedBolts=d2, move="left up")
         
         self.rectangularWall(x, y, "ffff", bedBolts=[d2, d3, d2, d3])
 

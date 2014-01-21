@@ -706,6 +706,28 @@ class Boxes:
             self.edge(d)
 
     @restore
+    def text(self, text, x=0, y=0, angle=0, align=""):
+        self.moveTo(x, y, angle)
+        (tx, ty, width, height, dx, dy) = self.ctx.text_extents(text)
+        align = align.split()
+        moves = {
+            "top" : (0, -height),
+            "middle" : (0, -0.5*height),
+            "bottom" : (0, 0),
+            "left" : (0, 0),
+            "center" : (-0.5*width, 0),
+            "right" : (-width, 0),
+        }
+        for a in align:
+            if a in moves:
+                self.moveTo(*moves[a])
+            else:
+                raise ValueError("Unknown alignment: %s" % align)
+
+        self.ctx.scale(1, -1)
+        self.ctx.show_text(text)
+
+    @restore
     def NEMA(self, size, x=0, y=0, angle=0):
         nema = {
             #    motor,flange, holes, screws 

@@ -29,12 +29,10 @@ class Box(Boxes):
         for i in range(4):
             for j in range(6):
                 self.rectangularHole(i*60+30, 20*j+10, 58, 14+1*j)
-                self.ctx.save()
-                self.ctx.move_to(i*60+14, 19*j+6)
                 d = 2.5-0.5*i+2*j
-                self.ctx.scale(1,-1)
-                self.ctx.show_text("%.1f" % d)
-                self.ctx.restore()
+                self.text("%.1f" % d, i*60+20, 19*j+6,
+                          align="center")
+
 
     def render(self):
         x, y, h = self.x, self.y, self.h

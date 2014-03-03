@@ -65,7 +65,7 @@ class Printer(Boxes):
 
     def support(self, x, y, edges="ff", pair=False, callback=None, move=None):
         if len(edges) != 2:
-            raise ValueError, "two edges required"
+            raise ValueError("Two edges required")
         edges = [self.edges.get(e, e,) for e in edges]
 
         overallwidth = x + edges[0].spacing() + self.edges["e"].spacing()

@@ -76,7 +76,7 @@ class Settings:
         factor = 1.0
         if relative:
             factor = thickness
-        for name, value in self.relative_params.iteritems():
+        for name, value in self.relative_params.items():
             self.values[name] = value * factor
         self.setValues(thickness, relative, **kw)
 
@@ -84,14 +84,14 @@ class Settings:
         factor = 1.0
         if relative:
             factor = thickness
-        for name, value in kw.iteritems():
+        for name, value in kw.items():
             if name in self.absolute_params:
                 self.values[name] = value
             elif name in self.relative_params:
                 self.values[name] = value * factor
             else:
-                raise ValueError, "Unknown parameter for %s: %s" % (
-                    self.__class__.__name__, name)
+                raise ValueError("Unknown parameter for %s: %s" % (
+                    self.__class__.__name__, name))
 
     def __getattr__(self, name):
         return self.values[name]
@@ -177,7 +177,7 @@ class FingerJointEdge(Edge):
             leftover = length
 
         self.edge(leftover/2.0)
-        for i in xrange(fingers):
+        for i in range(fingers):
             if i !=0:
                 if not positive and bedBolts and bedBolts.drawBolt(i):
                     self.hole(0.5*space,
@@ -258,7 +258,7 @@ class DoveTailJoint(Edge):
         p = 1 if positive else -1
 
         self.edge((s.size+leftover)/2.0+diffx-l1)
-        for i in xrange(sections):
+        for i in range(sections):
             self.corner(-1*p*a, radius)
             self.edge(2*(l2-l1))
             self.corner(p*a, radius)
@@ -310,12 +310,12 @@ class FlexEdge(Edge):
         sections = int((h-connection) // width)
         sheight = ((h-connection) / sections)-connection
 
-        for i in xrange(lines):
+        for i in range(lines):
             pos = i*dist + leftover/2
             if i % 2:
                 self.ctx.move_to(pos, 0)
                 self.ctx.line_to(pos, connection+sheight)
-                for j in range((sections-1)/2):
+                for j in range((sections-1)//2):
                     self.ctx.move_to(pos, (2*j+1)* sheight+ (2*j+2)*connection)
                     self.ctx.line_to(pos, (2*j+3)* (sheight+ connection))
                 if not sections % 2:
@@ -325,14 +325,14 @@ class FlexEdge(Edge):
                 if sections % 2:
                     self.ctx.move_to(pos, h)
                     self.ctx.line_to(pos, h-connection-sheight)
-                    for j in range((sections-1)/2):
+                    for j in range((sections-1)//2):
                          self.ctx.move_to(
                              pos, h-((2*j+1)* sheight+ (2*j+2)*connection))
                          self.ctx.line_to(
                              pos, h-(2*j+3)* (sheight+ connection))
 
                 else:
-                    for j in range(sections/2):
+                    for j in range(sections//2):
                         self.ctx.move_to(pos,
                                          h-connection-2*j*(sheight+connection))
                         self.ctx.line_to(pos, h-2*(j+1)*(sheight+connection))
@@ -363,7 +363,7 @@ class FingerHoles:
         if self.boxes.debug:
             self.ctx.rectangle(0, -self.settings.width/2+b,
                                length, self.settings.width - 2*b)
-        for i in xrange(fingers):
+        for i in range(fingers):
             pos = leftover/2.0+i*(s+f)
             if bedBolts and bedBolts.drawBolt(i):
                 self.hole(pos+0.5*s, 0, d*0.5)
@@ -567,7 +567,7 @@ class Boxes:
         """corrugated edge useful as an gipping area"""
         grooves = int(length // (depth*2.0)) + 1
         depth = length / grooves / 4.0
-        for groove in xrange(grooves):
+        for groove in range(grooves):
             self.corner(90, depth)
             self.corner(-180, depth)
             self.corner(90, depth)
@@ -616,7 +616,7 @@ class Boxes:
         """Creates and Edge with a handle"""
         d = (x-hl-2*r)/2.0
         if d < 0:
-            print "Handle too wide"
+            print("Handle too wide")
 
         self.ctx.save()
 
@@ -674,7 +674,7 @@ class Boxes:
             }
         for term in terms:
             if not term in moves:
-                raise ValueError, "Unknown direction: '%s'" % term
+                raise ValueError("Unknown direction: '%s'" % term)
             x, y, movebeforeprint = moves[term]
             if movebeforeprint and before:
                 self.moveTo(x, y)
@@ -779,8 +779,8 @@ class Boxes:
         lx = (x - (2*r+(cx-2)*w))/2.0
         ly = (y - (2*r+((cy//2)*2)*dist-2*dist))/2.0
 
-        for i in xrange(cy//2):
-            for j in xrange((cx-(i%2))//2):
+        for i in range(cy//2):
+            for j in range((cx-(i%2))//2):
                 px = 2*j*w + r + lx
                 py = i*2*dist + r + ly
                 if i % 2:
@@ -830,10 +830,10 @@ class Boxes:
         dist = w * math.cos(math.pi/6.0)
 
         self.moveTo(h/2.0-(cy//2)*2*w, h/2.0)
-        for j in xrange(cy):
+        for j in range(cy):
             self.hole(2*j*w, 0, r)
-        for i in xrange(1, cy/2+1):
-            for j in xrange(cy-i):
+        for i in range(1, cy/2+1):
+            for j in range(cy-i):
                 self.hole(j*2*w+i*w, i*2*dist, r)
                 self.hole(j*2*w+i*w, -i*2*dist, r)
 
@@ -967,7 +967,7 @@ class Boxes:
                         callback=None,
                         move=None):
         if len(edges) != 4:
-            raise ValueError, "four edges required"
+            raise ValueError("four edges required")
         edges = [self.edges.get(e, e) for e in edges]
         edges += edges # append for wrapping around
 

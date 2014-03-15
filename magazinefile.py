@@ -3,10 +3,10 @@
 from boxes import *
 
 class Box(Boxes):
-    def __init__(self, x, y, h, h2):
+    def __init__(self, x, y, h, h2, thickness=4.0):
         self.x, self.y, self.h, self.h2 = x, y, h, h2
-        Boxes.__init__(self, width=x+y+40, height=y+2*h+50,
-                       thickness=4.0)
+        Boxes.__init__(self, width=x+y+8*thickness, height=x+h+h2+4*thickness,
+                       thickness=thickness)
 
     def side(self, w, h, h2):
         r = min(h-h2, w) / 2.0

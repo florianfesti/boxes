@@ -42,7 +42,7 @@ class TypeTray(Boxes):
     def __init__(self, x, y, h, hi=None, **kw):
         self.x, self.y, self.h = x, y, h
         self.hi = hi or h
-        Boxes.__init__(self, width=sum(x)+sum(y)+70, height=sum(y)+8*h+50, **kw)
+        Boxes.__init__(self, width=sum(x)+sum(y)+70, height=sum(y)+1*h+50, **kw)
 
     def xSlots(self):
         posx = -0.5 * self.thickness
@@ -123,17 +123,17 @@ class TypeTray(Boxes):
         self.surface.flush()
         self.surface.finish()
 
-x = 260
+x = 260 # outer width
 nx = 3
-y = 300
+y = 300 # outer depth
 ny = 4
 thickness=4.0
 
 dx = (x-thickness)/nx-thickness
 dy = (y-thickness)/ny-thickness
 sx = [dx] * nx
-#sy = [dy] * ny
-sy = [120, 300-3*thickness-120]
+sy = [dy] * ny
+#sy = [120, 300-3*thickness-120]
 
 b = TypeTray(sx, sy, 78-thickness, 40, thickness=thickness, burn=0.1)
 b.edges["f"].settings.setValues(b.thickness, space=3, finger=3,

@@ -6,7 +6,7 @@ class Printer(Boxes):
 
     """Work in progress"""
     def __init__(self, r=250, h=400, d_c=100):
-        Boxes.__init__(self, 1200, 600, thickness=5.0, burn=0.05)
+        Boxes.__init__(self, 650, 600, thickness=5.0, burn=0.05)
         self.edges["f"].settings.setValues(self.thickness, surroundingspaces=0)
         self.r = r
         self.h = h

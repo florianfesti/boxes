@@ -71,7 +71,7 @@ class Silverware(Boxes):
         self.ctx.stroke()
         self.surface.finish()
 
-b = Silverware(900, 700, thickness=5.0, burn=0.05)
+b = Silverware(750, 350, thickness=5.0, burn=0.05)
 b.render(250, 250/1.618, 120, 30)
 #b = Silverware(300, 300, thickness=3.0, burn=0.05)
 #b.fingerJointSettings = (b.thickness, b.thickness)

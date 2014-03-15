@@ -73,5 +73,5 @@ class FlexBox(boxes.Boxes):
 
 
 if __name__=="__main__":
-    b = FlexBox(50, 50, 50, r=10)
+    b = FlexBox(50, 70, 50, r=15)
     b.render()

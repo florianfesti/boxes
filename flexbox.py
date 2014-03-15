@@ -13,7 +13,7 @@ class FlexBox(boxes.Boxes):
         self.latchsize = 8*thickness
 
         width = 2*x + 2*y - 8*r + 4*c4 + 4*thickness
-        height = y + z + 40
+        height = y + z + 4*thickness
         boxes.Boxes.__init__(self, width, height, thickness=thickness)
         
     @boxes.restore
@@ -73,5 +73,5 @@ class FlexBox(boxes.Boxes):
 
 
 if __name__=="__main__":
-    b = FlexBox(200, 200, 200, r=50)
+    b = FlexBox(50, 50, 50, r=10)
     b.render()

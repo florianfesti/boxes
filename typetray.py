@@ -132,10 +132,7 @@ class TypeTray(Boxes):
                  TopEdge(self, self.x, 0.5*hi), "f"]
             self.rectangularWall(x, hi, e,
                                  move="up")
-
-        self.ctx.stroke()
-        self.surface.flush()
-        self.surface.finish()
+        self.close()
 
 x = 260 # outer width
 nx = 3

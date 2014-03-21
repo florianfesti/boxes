@@ -42,9 +42,7 @@ class Castle(Boxes):
         self.rectangularWall(w1_x, w1_h, "efpe", move="right")
         self.rectangularWall(w2_x, w2_h, "efpe", move="right")
 
-        self.ctx.stroke()
-        self.surface.finish()
-
+        self.close()
 
 c = Castle()
 c.render()

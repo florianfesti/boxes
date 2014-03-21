@@ -32,8 +32,7 @@ class FlexTest(Boxes):
         self.edge(y)
         self.corner(90)
 
-        self.ctx.stroke()
-        self.surface.flush()
+        self.close()
 
 x = 40
 y = 100

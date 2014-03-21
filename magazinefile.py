@@ -71,9 +71,7 @@ class Box(Boxes):
         self.moveTo(y+15, h+h2+15, 180)
         self.side(y, h, h2)
 
-        self.ctx.stroke()
-        self.surface.flush()
-        self.surface.finish()
+        self.close()
 
 b = Box(80, 235, 300, 150)
 b.edges["f"].settings.setValues(b.thickness, space=2, finger=2)

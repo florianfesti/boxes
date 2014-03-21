@@ -68,7 +68,6 @@ class Silverware(Boxes):
     def render(self, x, y, h, r):
         t = self.thickness
         b = self.burn
-        self.ctx.save()
 
         self.wall(x, y, h, r)
         self.centerWall(x,h)
@@ -80,10 +79,7 @@ class Silverware(Boxes):
         self.moveTo(-3.0*(l+2*t+8*b), h-10+2*t+8*b)
         self.basePlate(x, y, r)
 
-        self.ctx.restore()
-
-        self.ctx.stroke()
-        self.surface.finish()
+        self.close()
 
 b = Silverware(750, 350, thickness=5.0, burn=0.05)
 b.render(250, 250/1.618, 120, 30)

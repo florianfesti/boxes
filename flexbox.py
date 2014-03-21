@@ -82,9 +82,8 @@ class FlexBox(boxes.Boxes):
         self.moveTo(2*self.x+3*self.thickness, 0)
         self.ctx.scale(-1, 1)
         self.flexBoxSide(self.x, self.y, self.r)
-        self.ctx.stroke()
-        self.surface.finish()
 
+        self.close()
 
 if __name__=="__main__":
     b = FlexBox(50, 70, 50, r=15)

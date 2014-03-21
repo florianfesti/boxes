@@ -516,6 +516,10 @@ class Boxes:
         else:
             return param
 
+    def close(self):
+        self.ctx.stroke()
+        self.surface.flush()
+        self.surface.finish()
 
     ############################################################
     ### Turtle graphics commands
@@ -1034,9 +1038,7 @@ class Boxes:
             self.moveTo(-x-y-40, h+20)
 
 
-        self.ctx.stroke()
-        self.surface.flush()
-        self.surface.finish()
+        self.close()
 
 if __name__ == '__main__':
     b = Boxes(900, 700)

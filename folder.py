@@ -41,9 +41,7 @@ class Folder(Boxes):
         self.edge(y-2*r)
         self.corner(90, r)
         
-        self.ctx.stroke()
-        self.surface.flush()
-        self.surface.finish()
+        self.close()
 
 f = Folder(240, 350, 20, 15)
 f.render()

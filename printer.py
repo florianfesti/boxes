@@ -172,9 +172,7 @@ class Printer(Boxes):
                              callback=self.mainPlate, move="right")
                         
         self.head()
-
-        self.ctx.stroke()
-        self.surface.finish()
+        self.close()
 
 p = Printer()
 p.render()

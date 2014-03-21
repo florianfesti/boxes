@@ -39,9 +39,7 @@ class Box(Boxes):
         self.rectangularWall(x, y, "ffff", bedBolts=[d2, d3, d2, d3], move="right")
         self.rectangularWall(x, y, "ffff", bedBolts=[d2, d3, d2, d3])
 
-        self.ctx.stroke()
-        self.surface.flush()
-        self.surface.finish()
+        self.close()
 
 b = Box(140, 202, 50, thickness=4.0)
 b.edges["f"].settings.setValues(b.thickness, space=3, finger=3,

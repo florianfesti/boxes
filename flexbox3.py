@@ -130,9 +130,8 @@ class FlexBox(Boxes):
         self.ctx.scale(-1, 1)
         self.moveTo(2*self.thickness, -self.thickness)
         self.rectangularWall(z, y, edges="fFeF")
-        self.ctx.stroke()
-        self.surface.finish()
 
+        self.close()
 
 if __name__=="__main__":
     b = FlexBox(100, 40, 100, r=20, h=10, thickness=4.0)

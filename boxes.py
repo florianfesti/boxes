@@ -471,17 +471,18 @@ class Boxes:
         self.addPart(NutHole(self, None))
 
     def _init_surface(self, width, height):
-        mm2pt = 90 / 25.4 / 1.25
-        width *= mm2pt
-        height *= 3.543307
+        #mm2pt = 90 / 25.4 / 1.25
+        mm2pt = 1
+        #width *= mm2pt
+        #height *= mm2pt #3.543307
         self.surface = cairo.SVGSurface(self.output, width, height)
         self.ctx = ctx = cairo.Context(self.surface)
         ctx.translate(0, height)
         ctx.scale(mm2pt, -mm2pt)
 
-        ctx.set_source_rgb(1.0, 1.0, 1.0)
-        ctx.rectangle(0, 0, width, height)
-        ctx.fill()
+        #ctx.set_source_rgb(1.0, 1.0, 1.0)
+        #ctx.rectangle(0, 0, width, height)
+        #ctx.fill()
 
         ctx.set_source_rgb(0.0, 0.0, 0.0)
         ctx.set_line_width(2*self.burn)
@@ -520,6 +521,21 @@ class Boxes:
         self.ctx.stroke()
         self.surface.flush()
         self.surface.finish()
+
+        f = open(self.output, "r+")
+        s = f.read(1024)
+        pos = s.find('pt"')
+        if pos > 0:
+            f.seek(pos)
+            f.write("mm")
+        else:
+            print "Could not replace pt with mm"
+        pos = s.find('pt"', pos+3)
+        if pos > 0:
+            f.seek(pos)
+            f.write("mm")
+        else:
+            print "Could not replace pt with mm"
 
     ############################################################
     ### Turtle graphics commands

@@ -16,42 +16,6 @@
 
 from boxes import *
 
-class BottomEdge(FingerJointEdge):
-    def __init__(self, boxes, sections, slot=0):
-        FingerJointEdge.__init__(self, boxes, None)
-        self.sections = sections
-        self.slot = slot
-
-    def _slot(self):
-        if self.slot:
-            self.boxes.corner(90)
-            self.boxes.edge(self.slot)
-            self.boxes.corner(-90)
-            self.boxes.edge(self.thickness)
-            self.boxes.corner(-90)
-            self.boxes.edge(self.slot)
-            self.boxes.corner(90)
-        else:
-            self.boxes.edge(self.thickness)
-
-    def __call__(self, l, **kw):
-        for x in self.sections[:-1]:
-            self.boxes.fingerJointEdge(x)
-            self._slot()
-        self.boxes.fingerJointEdge(self.sections[-1])
-
-class TopEdge(BottomEdge):
-    
-
-    margin = Edge.margin
-    width = Edge.width
-
-    def __call__(self, l, **kw):
-        for x in self.sections[:-1]:
-            self.boxes.edge(x)
-            self._slot()
-        self.boxes.edge(self.sections[-1])
-
 class TypeTray(Boxes):
     def __init__(self, x, y, h, hi=None, **kw):
         self.x, self.y, self.h = x, y, h
@@ -124,12 +88,12 @@ class TypeTray(Boxes):
                              move="right")
         # Inner walls
         for i in range(len(self.x)-1):
-            e = [BottomEdge(self, self.y, 0.5*hi), "f", "e", "f"]
+            e = [SlottedEdge(self, self.y, "f", slots=0.5*hi), "f", "e", "f"]
             self.rectangularWall(y, hi, e,
                                  move="up")
         for i in range(len(self.y)-1):
-            e = [BottomEdge(self, self.x), "f",
-                 TopEdge(self, self.x, 0.5*hi), "f"]
+            e = [SlottedEdge(self, self.x, "f"), "f",
+                 SlottedEdge(self, self.x[::-1], "e", slots=0.5*hi), "f"]
             self.rectangularWall(x, hi, e,
                                  move="up")
         self.close()

@@ -75,7 +75,6 @@ class Bolts(BoltPolicy):
         #print pos, result, ((float(pos)*(self.bolts+1)/self.fingers)-0.01), ((float(pos+1)*(self.bolts+1)/self.fingers)-0.01)
         return result
 
-
 #############################################################################
 ### Settings
 #############################################################################
@@ -153,6 +152,45 @@ class OutSetEdge(Edge):
     def width(self):
         return self.boxes.thickness
 
+class Slot(Edge):
+    def __init__(self, boxes, depth):
+        Edge.__init__(self, boxes, None)
+        self.depth = depth
+
+    def __call__(self, length, **kw):
+        if self.depth:
+            self.boxes.corner(90)
+            self.boxes.edge(self.depth)
+            self.boxes.corner(-90)
+            self.boxes.edge(length)
+            self.boxes.corner(-90)
+            self.boxes.edge(self.depth)
+            self.boxes.corner(90)
+        else:
+            self.boxes.edge(self.length)
+
+class SlottedEdge(Edge):
+
+    def __init__(self, boxes, sections, edge="e", slots=0):
+        Edge.__init__(self, boxes, None)
+        self.edge = self.edges.get(edge, edge)
+        self.sections = sections
+        self.slots = slots
+
+    def width(self):
+        return self.edge.width()
+
+    def margin(self):
+        return self.edge.margin()
+
+    def __call__(self, length, **kw):
+        for l in self.sections[:-1]:
+            self.edge(l)
+            if self.slots:
+                Slot(self.boxes, self.slots)(self.thickness)
+            else:
+                self.edge(self.thickness)
+        self.edge(self.sections[-1])
 
 class FingerJointSettings(Settings):
     absolute_params = {

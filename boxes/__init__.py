@@ -586,9 +586,81 @@ class Boxes:
 
     def edgeCorner(self, edge1, edge2, angle=90):
         """Make a corner between two Edges. Take width of edges into account"""
-        self.edge(edge2.startwidth() / math.sin(math.radians(180 - angle)))
+        self.edge(edge2.startwidth() * math.tan(math.radians(angle/2.)))
         self.corner(angle)
-        self.edge(edge1.endwidth() / math.sin(math.radians(180 - angle)))
+        self.edge(edge1.endwidth() * math.tan(math.radians(angle/2.)))
+
+    def regularPolygon(self, corners=3, radius=None, h=None, side=None):
+        """Give messures of a regular polygone
+        :param corners: number of corners of the polygone
+        :param radius: distance center to one of the corners
+        :param h: distance center to one of the sides (height of sector)
+        :param side: length of one side
+        :return (radius, h, side)
+        """
+        if radius:
+            side = 2 * math.sin(math.radians(180.0/corners)) * radius
+            h = radius * math.cos(math.radians(180.0/corners))
+        elif h:
+            side = 2 * math.tan(math.radians(180.0/corners)) * h
+            radius = ((side/2.)**2+h**2)**0.5
+        elif side:
+            h = 0.5 * side * math.tan(math.radians(90-180./corners))
+            radius = ((side/2.)**2+h**2)**0.5
+
+        return radius, h, side
+
+    @restore
+    def regularPolygonAt(self, x, y, corners, angle=0, r=None, h=None, side=None):
+        """Draw regular polygone"""
+        self.moveTo(x, y, angle)
+        r, h, side  = self.regularPolygon(corners, r, h, side)
+        self.moveTo(-side/2.0, -h-self.burn)
+        for i in range(corners):
+            self.edge(side)
+            self.corner(360./corners)
+
+    def regularPolygonWall(self, corners=3, r=None, h=None, side=None,
+                           edges='e', hole=None, callback=None, move=None):
+        """Create regular polygone as a wall
+        :param corners: number of corners of the polygone
+        :param radius: distance center to one of the corners
+        :param h: distance center to one of the sides (height of sector)
+        :param side: length of one side
+        :param edges:  (Default value = "e", may be string/list of length corners)
+        :param hole: diameter of central hole (Default value = 0)
+        :param callback:  (Default value = None, middle=0, then sides=1..)
+        :param move:  (Default value = None)
+        """
+        r, h, side  = self.regularPolygon(corners, r, h, side)
+
+        t = self.thickness
+
+        if corners % 2:
+            th = r + h + 2*t
+        else:
+            th = 2*h + 2*t
+        tw = 2*r + 3*t
+
+        if self.move(tw, th, move, before=True):
+            return
+
+        self.moveTo(r-0.5*side, 0)
+
+        if not hasattr(edges, "__getitem__") or len(edges) == 1:
+            edges = [edges] * corners
+        edges = [self.edges.get(e, e) for e in edges]
+        edges += edges # append for wrapping around
+
+        if hole:
+            self.hole(side/2., h+edges[0].startwidth() + self.burn, hole/2.)
+        self.cc(callback, 0, side/2., h+edges[0].startwidth() + self.burn)
+        for i in range(corners):
+            self.cc(callback, i+1, 0, edges[i].startwidth() + self.burn)
+            edges[i](side)
+            self.edgeCorner(edges[i], edges[i+1], 360.0/corners)
+
+        self.move(tw, th, move)
 
     def grip(self, length, depth):
         """Corrugated edge useful as an gipping area

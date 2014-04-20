@@ -606,6 +606,13 @@ class Boxes:
         rad = math.atan2(dy, dx)
         self.continueDirection(rad)
 
+    def polyline(self, *args):
+        for i, arg in enumerate(args):
+            if i % 2:
+                self.corner(arg)
+            else:
+                self.edge(arg)
+
     def bedBoltHole(self, length, bedBoltSettings=None):
         d, d_nut, h_nut, l, l1 = bedBoltSettings or self.bedBoltSettings
         self.edge((length-d)/2.0)

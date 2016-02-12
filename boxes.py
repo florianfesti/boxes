@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # Copyright (C) 2013-2014 Florian Festi
 #
 #   This program is free software: you can redistribute it and/or modify
@@ -567,13 +567,13 @@ class Boxes:
             f.seek(pos)
             f.write("mm")
         else:
-            print "Could not replace pt with mm"
+            print("Could not replace pt with mm")
         pos = s.find('pt"', pos+3)
         if pos > 0:
             f.seek(pos)
             f.write("mm")
         else:
-            print "Could not replace pt with mm"
+            print("Could not replace pt with mm")
 
     ############################################################
     ### Turtle graphics commands

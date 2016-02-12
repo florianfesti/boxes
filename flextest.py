@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # Copyright (C) 2013-2014 Florian Festi
 #
 #   This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@ class FlexTest(Boxes):
     def render(self, x, y):
         self.moveTo(5, 5)
         self.edge(10)
-        self.flex(x, y)
+        self.flexEdge(x, y)
         self.edge(10)
         self.corner(90)
         self.edge(y)

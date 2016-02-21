@@ -279,6 +279,16 @@ class FingerHoleEdge(Edge):
     def width(self):
         return (self.fingerHoleEdgeWidth+1) * self.thickness
 
+class CrossingFingerHoleEdge(Edge):
+    def __init__(self, boxes, height, **kw):
+        Edge.__init__(self, boxes, None, **kw)
+        self.height = height
+
+    def __call__(self, length, **kw):
+        self.fingerHolesAt(length/2.0, 0, self.height)
+        Edge.__call__(self, length)
+
+    
 class DoveTailSettings(Settings):
     absolute_params = {
         "angle" : 50,

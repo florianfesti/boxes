@@ -152,6 +152,26 @@ class OutSetEdge(Edge):
     def width(self):
         return self.boxes.thickness
 
+class CompoundEdge(Edge):
+    def __init__(self, boxes, types, lengths):
+        Edge.__init__(self, boxes, None)
+        self.types = [self.edges.get(edge, edge) for edge in types]
+        self.lengths = lengths
+        self.length = sum(lengths)
+
+    def width(self):
+        return self.types[0].width()
+        
+    def margin(self):
+        return max((e.margin() for e in self.types))
+
+    def __call__(self, length, **kw):
+        if length and abs(length - self.length) > 1E-5:
+            raise ValueError("Wrong length for CompoundEdge")
+        for e, l in zip(self.types, self.lengths):
+            # XXX different margins???
+            e(l)
+
 class Slot(Edge):
     def __init__(self, boxes, depth):
         Edge.__init__(self, boxes, None)

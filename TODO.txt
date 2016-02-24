@@ -4,6 +4,5 @@
  * Fix hexHoles* (leftoover, grow to space, ...)
  * Try out box with fully mixed fF edges and check if all corners work properly
  * finish lamp
- * make fingerJointSettings depending on thickness?
  * Make settings nicer
   * offer a collection of different settings

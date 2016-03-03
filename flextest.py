@@ -17,9 +17,17 @@
 from boxes import *
 
 class FlexTest(Boxes):
+    def __init__(self):
+        Boxes.__init__(self)
+        self.buildArgParser("x", "y")
 
+    def render(self):
+        x, y = self.x, self.y
+        self.open(x+60, y+20)
 
-    def render(self, x, y):
+        # (1.5, 3.0, 15.0) # line distance, connects, width
+        self.flexSettings = (2, 4.0, 16.0)
+
         self.moveTo(5, 5)
         self.edge(10)
         self.flexEdge(x, y)
@@ -34,10 +42,8 @@ class FlexTest(Boxes):
 
         self.close()
 
-x = 40
-y = 100
-f = FlexTest(x+30, y+10, thickness=5.0, burn=0.05)
-# (1.5, 3.0, 15.0) # line distance, connects, width
-f.flexSettings = (2, 4.0, 16.0)
-f.render(x, y)
+if __name__ == '__main__':
+    f = FlexTest()
+    f.parseArgs()
+    f.render()
 

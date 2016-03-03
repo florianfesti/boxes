@@ -66,6 +66,7 @@ class Silverware(Boxes):
     ##################################################
 
     def render(self, x, y, h, r):
+        self.open(750, 450)
         t = self.thickness
         b = self.burn
 
@@ -81,8 +82,7 @@ class Silverware(Boxes):
 
         self.close()
 
-b = Silverware(750, 350, thickness=5.0, burn=0.05)
-b.render(250, 250/1.618, 120, 30)
-#b = Silverware(300, 300, thickness=3.0, burn=0.05)
-#b.fingerJointSettings = (b.thickness, b.thickness)
-#b.render(60, 60/1.618, 40, 10)
+if __name__ == '__main__':
+    b = Silverware()
+    b.parseArgs()
+    b.render(250, 250/1.618, 120, 30)

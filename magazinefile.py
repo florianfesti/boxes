@@ -17,19 +17,18 @@
 from boxes import *
 
 class Box(Boxes):
-    def __init__(self, x, y, h, h2, thickness=4.0):
-        self.x, self.y, self.h, self.h2 = x, y, h, h2
-        Boxes.__init__(self, width=x+y+8*thickness, height=x+h+h2+4*thickness,
-                       thickness=thickness)
+    def __init__(self):
+        Boxes.__init__(self)
+        self.buildArgParser("x", "y", "h", "hi")
 
-    def side(self, w, h, h2):
-        r = min(h-h2, w) / 2.0
-        if (h-h2) > w:
+    def side(self, w, h, hi):
+        r = min(h-hi, w) / 2.0
+        if (h-hi) > w:
             r = w / 2.0
             lx = 0
-            ly = (h-h2) - w
+            ly = (h-hi) - w
         else:
-            r = (h - h2) / 2.0
+            r = (h - hi) / 2.0
             lx = (w - 2*r) / 2.0
             ly = 0
 
@@ -40,7 +39,7 @@ class Box(Boxes):
         self.edge(e_w)
         self.corner(90)
         self.edge(e_w)
-        self.edges["F"](h2)
+        self.edges["F"](hi)
         self.corner(90)
         self.edge(e_w)
         self.edge(lx)
@@ -56,23 +55,29 @@ class Box(Boxes):
 
 
     def render(self):
-        x, y, h, h2 = self.x, self.y, self.h, self.h2
+        x, y, h, = self.x, self.y, self.h
+        self.hi = hi = self.hi or (h / 2.0)
         t = self.thickness
+
+        self.open(width=x+y+8*t, height=x+h+hi+4*t)
+
+        self.edges["f"].settings.setValues(self.thickness, space=2, finger=2)
 
         self.ctx.save()
         self.rectangularWall(x, h, "Ffef", move="up")
-        self.rectangularWall(x, h2, "Ffef", move="up")
+        self.rectangularWall(x, hi, "Ffef", move="up")
 
         self.rectangularWall(y, x, "ffff")
         self.ctx.restore()
 
         self.rectangularWall(x, h, "Ffef", move="right only")
-        self.side(y, h, h2)
-        self.moveTo(y+15, h+h2+15, 180)
-        self.side(y, h, h2)
+        self.side(y, h, hi)
+        self.moveTo(y+15, h+hi+15, 180)
+        self.side(y, h, hi)
 
         self.close()
 
-b = Box(80, 235, 300, 150)
-b.edges["f"].settings.setValues(b.thickness, space=2, finger=2)
-b.render()
+if __name__ == '__main__':
+    b = Box()
+    b.parseArgs()
+    b.render()

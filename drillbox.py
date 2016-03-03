@@ -17,10 +17,9 @@
 from boxes import *
 
 class Box(Boxes):
-    def __init__(self, x, y, h, **kw):
+    def __init__(self, x, y, h):
+        Boxes.__init__(self)
         self.x, self.y, self.h = x, y, h
-        Boxes.__init__(self, width=x+y+40, height=3*y+2*h+50, **kw)
-
 
     def holesx(self):
         self.fingerHolesAt(0, 5, self.x, angle=0)
@@ -52,6 +51,10 @@ class Box(Boxes):
         x, y, h = self.x, self.y, self.h
         t = self.thickness
 
+        self.open(width=x+y+40, height=3*y+2*h+16*t)
+        self.edges["f"].settings.setValues(self.thickness, space=3, finger=3,
+                                surroundingspaces=1)
+
         self.moveTo(t, t)
         self.rectangularWall(x, h, "FfeF", callback=[self.holesx],move="right")
         self.rectangularWall(y, h, "FfeF", callback=[self.holesy], move="up")
@@ -68,7 +71,7 @@ class Box(Boxes):
 
         self.close()
 
-b = Box(120, 240, 60, thickness=4.0)
-b.edges["f"].settings.setValues(b.thickness, space=3, finger=3,
-                                surroundingspaces=1)
-b.render()
+if __name__ == '__main__':
+    b = Box(120, 240, 60)
+    b.parseArgs()
+    b.render()

@@ -19,7 +19,10 @@ from boxes import *
 class Castle(Boxes):
 
     def __init__(self):
-        Boxes.__init__(self, 800, 600)
+        Boxes.__init__(self)
+
+    def render(self, t_x=70, t_h=250, w1_x=300, w1_h=120, w2_x=100, w2_h=120):
+        self.open(800, 600)
         s = FingerJointSettings(self.thickness, relative=False,
                                 space = 10, finger=10, height=10,
                                 width=self.thickness)
@@ -30,7 +33,6 @@ class Castle(Boxes):
         P.char = "P"
         self.addPart(P)
 
-    def render(self, t_x=70, t_h=250, w1_x=300, w1_h=120, w2_x=100, w2_h=120):
         self.moveTo(0,0)
         self.rectangularWall(t_x, t_h, edges="efPf", move="right", callback=
             [lambda: self.fingerHolesAt(t_x*0.5, 0, w1_h, 90),])
@@ -44,5 +46,7 @@ class Castle(Boxes):
 
         self.close()
 
-c = Castle()
-c.render()
+if __name__ == '__main__':
+    c = Castle()
+    c.parseArgs()
+    c.render()

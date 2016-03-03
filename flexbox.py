@@ -18,17 +18,12 @@ import boxes
 import math
 
 class FlexBox(boxes.Boxes):
-    def __init__(self, x, y, z, r=None, thickness=3.0):
-        c4 = math.pi * r * 0.5
-        self.x = x
-        self.y = y
-        self.z = z
-        self.r = r or min(x, y)/2.0
-        self.latchsize = 8*thickness
-
-        width = 2*x + 2*y - 8*r + 4*c4 + 4*thickness
-        height = y + z + 4*thickness
-        boxes.Boxes.__init__(self, width, height, thickness=thickness)
+    def __init__(self):
+        boxes.Boxes.__init__(self)
+        self.buildArgParser("x", "y", "h")
+        self.argparser.add_argument(
+            "--radius",  action="store", type=float, default=15,
+            help="Radius of the latch in mm")
         
     @boxes.restore
     def flexBoxSide(self, x, y, r, callback=None):
@@ -47,20 +42,20 @@ class FlexBox(boxes.Boxes):
         self.corner(90, r)
 
     def surroundingWall(self):
-        x, y, z, r = self.x, self.y, self.z, self.r
+        x, y, h, r = self.x, self.y, self.h, self.radius
         
         c4 = math.pi * r * 0.5
 
         self.edges["F"](y-2*r-self.latchsize, False)
-        self.flexEdge(c4, z+2*self.thickness)
+        self.flexEdge(c4, h+2*self.thickness)
         self.edges["F"](x-2*r, False)
-        self.flexEdge(c4, z+2*self.thickness)
+        self.flexEdge(c4, h+2*self.thickness)
         self.edges["F"](y-2*r, False)
-        self.flexEdge(c4, z+2*self.thickness)
+        self.flexEdge(c4, h+2*self.thickness)
         self.edge(x-2*r)
-        self.flexEdge(c4, z+2*self.thickness)
+        self.flexEdge(c4, h+2*self.thickness)
         self.latch(self.latchsize, False)
-        self.edge(z+2*self.thickness)
+        self.edge(h+2*self.thickness)
         self.latch(self.latchsize, False, True)
         self.edge(c4)
         self.edge(x-2*r)
@@ -71,20 +66,31 @@ class FlexBox(boxes.Boxes):
         self.edge(c4)
         self.edges["F"](y-2*r-self.latchsize, False)
         self.corner(90)
-        self.edge(z+2*self.thickness)
+        self.edge(h+2*self.thickness)
         self.corner(90)
 
     def render(self):
+        x, y, h = self.x, self.y, self.h
+        r = self.radius or min(x, y)/2.0
+        self.latchsize = 8 * self.thickness
+        c4 = math.pi * r * 0.5
+
+        width = 2*x + 2*y - 8*r + 4*c4 + 4*self.thickness
+        height = y + h + 8*self.thickness
+
+        self.open(width, height)
+
         self.moveTo(self.thickness, self.thickness)
         self.surroundingWall()
-        self.moveTo(self.thickness, self.z+4*self.thickness)
-        self.flexBoxSide(self.x, self.y, self.r)
+        self.moveTo(self.thickness, self.h+5*self.thickness)
+        self.flexBoxSide(self.x, self.y, self.radius)
         self.moveTo(2*self.x+3*self.thickness, 0)
         self.ctx.scale(-1, 1)
-        self.flexBoxSide(self.x, self.y, self.r)
+        self.flexBoxSide(self.x, self.y, self.radius)
 
         self.close()
 
 if __name__=="__main__":
-    b = FlexBox(50, 70, 50, r=15)
+    b = FlexBox()
+    b.parseArgs()
     b.render()

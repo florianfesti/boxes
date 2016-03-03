@@ -18,13 +18,16 @@ from boxes import *
 import inspect
 
 class Box(Boxes):
-    def __init__(self, x, y, h, **kw):
-        self.x, self.y, self.h = x, y, h
-        Boxes.__init__(self, width=x+y+40, height=y+2*h+50, **kw)
+    def __init__(self):
+        Boxes.__init__(self)
+        self.buildArgParser("x", "y", "h")
 
     def render(self):
         x, y, h = self.x, self.y, self.h
         t = self.thickness
+        self.open(width=x+y+40, height=y+2*h+50)
+        self.edges["f"].settings.setValues(self.thickness, space=3, finger=3,
+                                           surroundingspaces=1)
 
         d2 = [Bolts(2)]
         d3 = [Bolts(3)]
@@ -41,7 +44,7 @@ class Box(Boxes):
 
         self.close()
 
-b = Box(200, 200, 200, thickness=4.0)
-b.edges["f"].settings.setValues(b.thickness, space=3, finger=3,
-                                surroundingspaces=1)
-b.render()
+if __name__ == '__main__':
+    b = Box()
+    b.parseArgs()
+    b.render()

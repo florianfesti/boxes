@@ -16,6 +16,8 @@
 
 import cairo
 import math
+import argparse
+import re
 from functools import wraps
 
 def dist(dx, dy):
@@ -494,20 +496,87 @@ class NutHole:
             self.boxes.edge(side)
             self.boxes.corner(-60)
 
+def argparseSections(s):
+    m = re.match(r"(\d+(\.\d+)?)/(\d+)", s)
+    if m:
+        n = int(m.group(3))
+        print([ float(m.group(1)) ] * n)
+        return [ float(m.group(1))/n ] * n
+    m = re.match(r"(\d+(\.\d+)?)\*(\d+)", s)
+    if m:
+        n = int(m.group(3))
+        return [ float(m.group(1)) ] * n
+    try:
+        return [float(part) for part in s.split(":")]
+    except ValueError:
+        raise argparse.ArgumentTypeError("Don't understand sections string")
+
 class Boxes:
 
-    def __init__(self, width=300, height=200, thickness=3.0, burn=0.05):
-        self.thickness = thickness
-        self.burn = burn
+    def __init__(self):
+        self.argparser = argparse.ArgumentParser()
+        self.argparser.add_argument(
+            "--thickness",  action="store", type=float, default=4.0,
+            help="thickness of the material")
+        self.argparser.add_argument(
+            "--output",  action="store", type=str, default="box.svg",
+            help="name of resulting file")
+        self.argparser.add_argument(
+            "--debug",  action="store_true", default=False,
+            help="print surrounding boxes for some structures")
+        self.argparser.add_argument(
+            "--burn",  action="store", type=float, default=0.05,
+            help="burn correction in mm")
+
+    def open(self, width, height):
         self.spacing = 2*self.burn + 0.5 * self.thickness
 
         self.fingerHoleEdgeWidth = 1.0    # multitudes of self.thickness
         self.bedBoltSettings = (3, 5.5, 2, 20, 15) #d, d_nut, h_nut, l, l1
         self.hexHolesSettings = (5, 3, 'circle') # r, dist, style
-        self.output = "box.svg"
-        self.debug = 0
         self._init_surface(width, height)
         self._buildObjects()
+
+    def buildArgParser(self, *l):
+        for arg in l:
+            if arg == "x":
+                self.argparser.add_argument(
+                    "--x",  action="store", type=float, default=100.0,
+                    help="inner width in mm")
+            elif arg == "y":
+                self.argparser.add_argument(
+                    "--y",  action="store", type=float, default=100.0,
+                    help="inner depth in mm")
+            elif arg == "sx":
+                self.argparser.add_argument(
+                    "--sx",  action="store", type=argparseSections,
+                    default="50*3",
+                    help="""Sections left to right in mm
+Possible formats:
+ * overallwidth/numberof sections e.g. "250/5"
+ * sectionwith*numberofsections e.g. "50*5"
+ * section widths separated by : e.g. "30:25.5:70"
+""")
+            elif arg == "sy":
+                self.argparser.add_argument(
+                    "--sy",  action="store", type=argparseSections,
+                    default="50*3",
+                    help="""Sections back to front in mm
+
+See --sy for format""")
+            elif arg == "h":
+                self.argparser.add_argument(
+                    "--h",  action="store", type=float, default=100.0,
+                    help="inner height in mm")
+            elif arg == "hi":
+                self.argparser.add_argument(
+                    "--hi",  action="store", type=float, default=None,
+                    help="inner height of inner walls in mm")
+            else:
+                raise ValueError("No default for argument", arg)
+
+    def parseArgs(self):
+        self.argparser.parse_args(namespace=self)
 
     def addPart(self, part, name=None):
         if name is None:
@@ -1111,17 +1180,25 @@ class Boxes:
     ### main
     ##################################################
 
-    def render(self, x, y, h):
+class DemoBox(Boxes):
+
+    def __init__(self):
+        Boxes.__init__(self)
+        self.buildArgParser("x", "y", "h")
+
+    def render(self):
+        x, y, h, t = self.x, self.y, self.h, self.thickness
+        self.open(2*x+10*self.thickness, y+2*h+20*self.thickness)
         self.ctx.save()
 
-        self.moveTo(10, 10)
-        self.roundedPlate(x, y, 0)
-        self.moveTo(x+40, 0)
+        self.moveTo(t, t)
+        self.rectangularWall(x, y, "ffff")
+        self.moveTo(x+4*t, 0)
         self.rectangularWall(x, y, "FFFF")
 
         self.ctx.restore()
 
-        self.moveTo(10, y+20)
+        self.moveTo(t, y+4*t)
         for i in range(2):
             for l in (x, y):
                 self.rectangularWall(l, h, "hffF")
@@ -1132,5 +1209,6 @@ class Boxes:
         self.close()
 
 if __name__ == '__main__':
-    b = Boxes(900, 700)
-    b.render(100, 161.8, 120)
+    b = DemoBox()
+    b.parseArgs()
+    b.render()

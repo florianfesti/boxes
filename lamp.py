@@ -57,13 +57,7 @@ class RoundedTriangle(Edge):
 
 class Lamp(Boxes):
     def __init__(self):
-        Boxes.__init__(self, width=1000, height=1000,
-                       thickness=5.0, burn=0.05)
-        self.fingerJointSettings = (5, 5) # XXX
-
-        s = RoundedTriangleSettings(self.thickness, angle=72, r_hole=2)
-        self.addPart(RoundedTriangle(self, s))
-
+        Boxes.__init__(self)
 
     def side(self, y, h):
         return
@@ -82,6 +76,16 @@ class Lamp(Boxes):
         y : width box
         h : height box
         """
+
+        self.open(width=1000, height=1000)
+
+        self.fingerJointSettings = (5, 5) # XXX
+
+        s = RoundedTriangleSettings(self.thickness, angle=72, r_hole=2)
+        self.addPart(RoundedTriangle(self, s))
+
+        self.flexSettings = (3, 5.0, 20.0)
+
         self.fingerJointEdge.settings.setValues(self.thickness, finger=5, space=5, relative=False)
         d = 2*(r+w)
 
@@ -112,6 +116,7 @@ class Lamp(Boxes):
 
         self.close()
 
-l = Lamp()
-l.flexSettings = (3, 5.0, 20.0)
-l.render(r=4*25.4, w=20, x=270, y=150, h=100)
+if __name__ == '__main__':
+    l = Lamp()
+    l.parseArgs()
+    l.render(r=4*25.4, w=20, x=270, y=150, h=100)

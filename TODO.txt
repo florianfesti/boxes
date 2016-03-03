@@ -6,3 +6,5 @@
  * finish lamp
  * Make settings nicer
   * offer a collection of different settings
+ * Make bolts configurable (e.g. box2.py)
+ * Make flextest.py pattern configurable

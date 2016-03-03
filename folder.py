@@ -19,16 +19,18 @@ import math
 
 class Folder(Boxes):
 
-    def __init__(self, x, y, h, r=0):
-        Boxes.__init__(self, width=2*x+3*h+20, height=y+20)
-        self.x = x
-        self.y = y
-        self.h = h
-        self.r = r
+    def __init__(self):
+        Boxes.__init__(self)
+        self.buildArgParser("x", "y", "h")
+        self.argparser.add_argument(
+            "-r", action="store", type=float, default=10.0,
+            help="radius of the corners")
+        self.argparser.set_defaults(h=20)
 
     def render(self):
         x, y, r, h = self.x, self.y, self.r, self.h
         c2 = math.pi * h
+        self.open(width=2*x+3*h+20, height=y+20)
         self.moveTo(r+self.thickness, self.thickness)
         self.edge(x-r)
         self.flexEdge(c2, y)
@@ -43,5 +45,7 @@ class Folder(Boxes):
         
         self.close()
 
-f = Folder(240, 350, 20, 15)
-f.render()
+if __name__ == '__main__':
+    f = Folder()
+    f.parseArgs()
+    f.render()

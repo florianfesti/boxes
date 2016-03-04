@@ -17,6 +17,7 @@
 import cairo
 import math
 import argparse
+from argparse import ArgumentParser
 import re
 from functools import wraps
 
@@ -514,7 +515,7 @@ def argparseSections(s):
 class Boxes:
 
     def __init__(self):
-        self.argparser = argparse.ArgumentParser()
+        self.argparser = ArgumentParser()
         self.argparser.add_argument(
             "--thickness",  action="store", type=float, default=4.0,
             help="thickness of the material")
@@ -575,8 +576,8 @@ See --sy for format""")
             else:
                 raise ValueError("No default for argument", arg)
 
-    def parseArgs(self):
-        self.argparser.parse_args(namespace=self)
+    def parseArgs(self, args=None):
+        self.argparser.parse_args(args=args, namespace=self)
 
     def addPart(self, part, name=None):
         if name is None:
@@ -1202,8 +1203,8 @@ class DemoBox(Boxes):
         for i in range(2):
             for l in (x, y):
                 self.rectangularWall(l, h, "hffF")
-                self.moveTo(l+20, 0)
-            self.moveTo(-x-y-40, h+20)
+                self.moveTo(l+4*t, 0)
+            self.moveTo(-x-y-8*t, h+4*t)
 
 
         self.close()

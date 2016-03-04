@@ -1,4 +1,3 @@
- * Make output file configurable
  * Make outer edge continuous even if other parts are drawn intermediately.
  * Fix burn compensation for building blocks (especially fingerHolesAt)
  * Fix hexHoles* (leftoover, grow to space, ...)

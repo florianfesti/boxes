@@ -34,7 +34,7 @@ These start at the current positions and move the coordinate system to
 their end. It is assumed that you are (roughly) drawing into the
 direction of the x axis, with the inside of the part being above the
 line. You need to turn counter clockwise (mathematically positive) to
-get a closed shape. These commands typically procude some sort of edges.
+get a closed shape. These commands typically produce some sort of edges.
 
 Finger joints
 .............

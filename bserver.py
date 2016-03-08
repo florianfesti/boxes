@@ -11,8 +11,8 @@ from wsgiref.util import setup_testing_defaults
 from wsgiref.simple_server import make_server
 import wsgiref.util
 
-import box, box2, box3, flexbox, flexbox2, flexbox3, flextest, folder
-import magazinefile, trayinsert, typetray
+import box, box2, box3, drillbox, flexbox, flexbox2, flexbox3, flextest, folder
+import magazinefile, trayinsert, typetray, silverwarebox
 
 
 class ArgumentParserError(Exception): pass
@@ -29,9 +29,16 @@ class BServer:
             "Box" : box.Box(),
             "Box2" : box2.Box(),
             "Box3" : box3.Box(),
+            "DrillBox" : drillbox.Box(),
             "FlexBox" : flexbox.FlexBox(),
             "FlexBox2" : flexbox2.FlexBox(),
             "FlexBox3" : flexbox3.FlexBox(),
+            "FlexTest": flextest.FlexTest(),
+            "Folder": folder.Folder(),
+            "MagazinFile" : magazinefile.Box(),
+            "TrayInsert" : trayinsert.TrayInsert(),
+            "TypeTray" : typetray.TypeTray(),
+            "SilverwareBox" : silverwarebox.Silverware(),
             }
 
     def arg2html(self, a):
@@ -40,10 +47,10 @@ class BServer:
             return ""
         if isinstance(a, argparse._StoreTrueAction):
             return """<tr><td>%s</td><td><input name="%s" type="checkbox" value="%s"></td><td>%s</td></tr>\n""" % \
-            (name, name, a.default or "", a.help)
+            (name, name, a.default, a.help)
         
         return """<tr><td>%s</td><td><input name="%s" type="text" value="%s"></td><td>%s</td></tr>\n""" % \
-            (name, name, a.default or "", a.help)
+            (name, name, a.default, a.help)
     
     def args2html(self, args, msg=""):
         if msg:

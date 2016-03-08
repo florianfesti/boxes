@@ -17,9 +17,9 @@
 from boxes import *
 
 class Box(Boxes):
-    def __init__(self, x, y, h):
+    def __init__(self):
         Boxes.__init__(self)
-        self.x, self.y, self.h = x, y, h
+        self.x, self.y, self.h = 120, 240, 60
 
     def holesx(self):
         self.fingerHolesAt(0, 5, self.x, angle=0)
@@ -72,6 +72,6 @@ class Box(Boxes):
         self.close()
 
 if __name__ == '__main__':
-    b = Box(120, 240, 60)
+    b = Box()
     b.parseArgs()
     b.render()

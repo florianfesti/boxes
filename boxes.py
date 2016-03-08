@@ -571,8 +571,8 @@ See --sy for format""")
                     help="inner height in mm")
             elif arg == "hi":
                 self.argparser.add_argument(
-                    "--hi",  action="store", type=float, default=None,
-                    help="inner height of inner walls in mm")
+                    "--hi",  action="store", type=float, default=0.0,
+                    help="inner height of inner walls in mm (leave to zero for same as outer walls)")
             else:
                 raise ValueError("No default for argument", arg)
 

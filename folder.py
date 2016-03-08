@@ -23,7 +23,7 @@ class Folder(Boxes):
         Boxes.__init__(self)
         self.buildArgParser("x", "y", "h")
         self.argparser.add_argument(
-            "-r", action="store", type=float, default=10.0,
+            "--r", action="store", type=float, default=10.0,
             help="radius of the corners")
         self.argparser.set_defaults(h=20)
 

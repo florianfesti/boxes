@@ -65,7 +65,8 @@ class Silverware(Boxes):
     ### main
     ##################################################
 
-    def render(self, x, y, h, r):
+    def render(self):
+        x, y, h, r = 250, 250/1.618, 120, 30
         self.open(750, 450)
         t = self.thickness
         b = self.burn
@@ -85,4 +86,4 @@ class Silverware(Boxes):
 if __name__ == '__main__':
     b = Silverware()
     b.parseArgs()
-    b.render(250, 250/1.618, 120, 30)
+    b.render()

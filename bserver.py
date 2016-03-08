@@ -35,14 +35,15 @@ class BServer:
             }
 
     def arg2html(self, a):
+        name = a.option_strings[0].replace("-", "")
         if isinstance(a, argparse._HelpAction):
             return ""
         if isinstance(a, argparse._StoreTrueAction):
             return """<tr><td>%s</td><td><input name="%s" type="checkbox" value="%s"></td><td>%s</td></tr>\n""" % \
-            (a.dest, a.dest, a.default or "", a.help)
+            (name, name, a.default or "", a.help)
         
         return """<tr><td>%s</td><td><input name="%s" type="text" value="%s"></td><td>%s</td></tr>\n""" % \
-            (a.dest, a.dest, a.default or "", a.help)
+            (name, name, a.default or "", a.help)
     
     def args2html(self, args, msg=""):
         if msg:

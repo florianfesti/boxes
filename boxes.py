@@ -515,7 +515,7 @@ def argparseSections(s):
 class Boxes:
 
     def __init__(self):
-        self.argparser = ArgumentParser()
+        self.argparser = ArgumentParser(description=self.__doc__)
         self.argparser.add_argument(
             "--thickness",  action="store", type=float, default=4.0,
             help="thickness of the material")
@@ -1182,7 +1182,7 @@ See --sy for format""")
     ##################################################
 
 class DemoBox(Boxes):
-
+    """A simple fully enclosed box showcasing different finger joints"""
     def __init__(self):
         Boxes.__init__(self)
         self.buildArgParser("x", "y", "h")

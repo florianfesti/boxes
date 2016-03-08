@@ -26,7 +26,7 @@ class Box(Boxes):
         t = self.thickness
         self.open(width=x+y+40, height=y+2*h+50)
 
-        b.edges["f"].settings.setValues(self.thickness, space=3, finger=3,
+        self.edges["f"].settings.setValues(self.thickness, space=3, finger=3,
                                         surroundingspaces=1)
 
         d2 = [Bolts(2)]

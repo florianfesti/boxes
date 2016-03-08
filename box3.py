@@ -17,6 +17,7 @@
 from boxes import *
 
 class Box(Boxes):
+    """Box with just 3 walls"""
     def __init__(self):
         Boxes.__init__(self)
         self.buildArgParser("x", "y", "h")

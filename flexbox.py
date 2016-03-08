@@ -18,6 +18,7 @@ import boxes
 import math
 
 class FlexBox(boxes.Boxes):
+    """Box with living hinge and round corners"""
     def __init__(self):
         boxes.Boxes.__init__(self)
         self.buildArgParser("x", "y", "h")

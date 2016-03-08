@@ -18,6 +18,8 @@ from boxes import *
 import inspect
 
 class Box(Boxes):
+    """Simple open box with raised floor"""
+
     def __init__(self):
         Boxes.__init__(self)
         self.buildArgParser("x", "y", "h")

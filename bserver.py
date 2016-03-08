@@ -52,7 +52,7 @@ class BServer:
             
         result = ["""<html><head><title>Foo</title></head>
 <body>%s
-<form action="" method="POST">
+<form action="" method="POST" target="svg">
 <table>
 """ % msg ]
         #for a in args._actions:
@@ -66,6 +66,8 @@ class BServer:
         result.append("""</table>
 <button>Generate</button>
 </form>
+<iframe width=100% height=100% name="svg">
+</iframe>
 </body>
 </html>
 """)
@@ -78,8 +80,13 @@ class BServer:
 Text
 <ul>
 """ ]
-        for name, box in self.boxes.items():
-            result.append("""  <li><a href="%s">%s</a></li>""" % (name, name))
+        for name in sorted(self.boxes):
+            box = self.boxes[name]
+            docs = ""
+            if box.__doc__:
+                docs = " - " + box.__doc__
+            result.append("""  <li><a href="%s">%s</a>%s</li>""" % (
+                name, name, docs))
         result.append("""</ul>
 </body>
 </html>
@@ -93,12 +100,6 @@ Text
         start_response(status, headers)
         
         d = cgi.parse_qs(environ['QUERY_STRING'])
-        print(d)
-        print(environ["PATH_INFO"])
-        print(d)
-        from pprint import pprint
-        print(wsgiref.util.request_uri(environ), environ["QUERY_STRING"])
-        #pprint(environ)
 
         box = self.boxes.get(environ["PATH_INFO"][1:], None)
         if environ["REQUEST_METHOD"] == "GET":
@@ -129,8 +130,6 @@ Text
 
 if __name__=="__main__":
     boxserver = BServer()
-    #boxserver.args2html(boxserver.boxes["DemoBox"].argparser)
-    #sys.exit()
     httpd = make_server('', 8000, boxserver.serve)
     print("Serving on port 8000...")
     httpd.serve_forever()

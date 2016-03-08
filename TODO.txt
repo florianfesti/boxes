@@ -8,3 +8,5 @@
  * Make bolts configurable (e.g. box2.py)
  * Make flextest.py pattern configurable
  * setup.py
+ * Use other formatter (see mx param)
+ * Fix error message on parsing error in web interface

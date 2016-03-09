@@ -52,18 +52,12 @@ class BServer:
         return """<tr><td>%s</td><td><input name="%s" type="text" value="%s"></td><td>%s</td></tr>\n""" % \
             (name, name, a.default, a.help)
     
-    def args2html(self, args, msg=""):
-        if msg:
-            msg = str(msg).replace("--", "")
-            msg = """\n<p><span style="color:red">%s</span></p>\n""" % msg
-            
-        result = ["""<html><head><title>Foo</title></head>
-<body>%s
-<form action="" method="POST" target="svg">
+    def args2html(self, name, args):
+        result = ["""<html><head><title>Boxes - """, name, """</title></head>
+<body>
+<form action="" method="POST" target="_blank">
 <table>
-""" % msg ]
-        #for a in args._actions:
-        #    print(a.__class__.__name__, a.option_strings, repr(a))
+"""]
         for a in args._actions:
             if a.dest == "output":
                 continue
@@ -73,8 +67,6 @@ class BServer:
         result.append("""</table>
 <button>Generate</button>
 </form>
-<iframe width=100% height=100% name="svg">
-</iframe>
 </body>
 </html>
 """)
@@ -100,21 +92,32 @@ Text
 """)
         return (s.encode("utf-8") for s in result)
 
+
+    def errorMessage(self, name, e):
+        return [
+            b"""<html><head><title>Error generating""", name.encode(),
+            b"""</title><head>
+<body>
+<h1>An error occurred!</h1>
+<p>""", str(e).encode(), b"""</p>
+</body>
+</html>
+""" ]
+
     def serve(self, environ, start_response):
         status = '200 OK'
         headers = [('Content-type', 'text/html; charset=utf-8')]
-        #headers = [('Content-type', 'text/plain; charset=utf-8')]
-        start_response(status, headers)
         
         d = cgi.parse_qs(environ['QUERY_STRING'])
+        name = environ["PATH_INFO"][1:]
+        box = self.boxes.get(name, None)
+        if not box:
+            start_response(status, headers)
+            return self.menu()
 
-        box = self.boxes.get(environ["PATH_INFO"][1:], None)
         if environ["REQUEST_METHOD"] == "GET":
-            if box:
-                return self.args2html(box.argparser)
-            else:
-                return self.menu()
-
+            start_response(status, headers)
+            return self.args2html(name, box.argparser)
         elif environ["REQUEST_METHOD"] == "POST":
             try:
                 length = int(environ.get('CONTENT_LENGTH', '0'))
@@ -125,15 +128,16 @@ Text
             try:
                 box.parseArgs(args)
             except (ArgumentParserError) as e:
-                return self.args2html(box.argparser, e)
+                start_response(status, headers)
+                return self.errorMessage(name, e)
+            start_response(status,
+                           [('Content-type', 'image/svg+xml; charset=utf-8')])
             fd, box.output = tempfile.mkstemp()
             box.render()
             result = open(box.output).readlines()
             os.remove(box.output)
             os.close(fd)
             return (l.encode("utf-8") for l in result)
-
-        return [b"???"]
 
 if __name__=="__main__":
     boxserver = BServer()

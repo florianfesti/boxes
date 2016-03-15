@@ -20,6 +20,12 @@ class TypeTray(Boxes):
     def __init__(self):
         Boxes.__init__(self)
         self.buildArgParser("sx", "sy", "h", "hi")
+        self.argparser.add_argument(
+            "--gripheight",  action="store", type=float, default=30,
+            dest="gh", help="height of the grip hole in mm")
+        self.argparser.add_argument(
+            "--gripwidth",  action="store", type=float, default=70,
+            dest="gw", help="width of th grip hole in mm (zero for no hole)")
 
     def xSlots(self):
         posx = -0.5 * self.thickness
@@ -51,17 +57,13 @@ class TypeTray(Boxes):
             posy += y + self.thickness
             self.fingerHolesAt(posy, 0, self.hi)
 
-    def fingerHole(self):
-        dx = 50
-        dy = 30
+    def gripHole(self):
+        if not self.gw:
+            return
+
         x = sum(self.sx) + self.thickness * (len(self.sx)-1)
-        self.moveTo(0.5*(x-dx), 5)
-        self.edge(dx)
-        self.corner(180, 0.5*dy)
-        self.edge(dx)
-        self.corner(180, 0.5*dy)
-        #self.hole(0.5*x-30, 15, 10)
-        #self.hole(0.5*x+30, 15, 10)
+        r = min(self.gw, self.gh) / 2.0
+        self.rectangularHole(x/2.0, self.gh*1.5, self.gw, self.gh, r)
 
     def render(self):
         x = sum(self.sx) + self.thickness * (len(self.sx)-1)
@@ -77,7 +79,7 @@ class TypeTray(Boxes):
         self.moveTo(t, t)
         # outer walls
         self.rectangularWall(x, h, "Ffef", callback=[
-            self.xHoles, None, self.fingerHole],
+            self.xHoles, None, self.gripHole],
                              move="right")
         self.rectangularWall(y, h, "FFeF",  callback=[self.yHoles,],
                              move="up")

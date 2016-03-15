@@ -17,6 +17,7 @@
 from boxes import *
 
 class TypeTray(Boxes):
+    """Type tray - allows only continuous walls"""
     def __init__(self):
         Boxes.__init__(self)
         self.buildArgParser("sx", "sy", "h", "hi")

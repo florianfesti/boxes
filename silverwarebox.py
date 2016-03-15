@@ -17,6 +17,9 @@
 from boxes import Boxes
 
 class Silverware(Boxes):
+    """Not yet parametrized cuttlery stand with carrying grip
+using flex for rounded corners"""
+
     ####################################################################
     ### Parts
     ####################################################################

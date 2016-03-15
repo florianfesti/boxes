@@ -18,6 +18,7 @@ from boxes import *
 import math
 
 class Folder(Boxes):
+    """Book cover with flex for the spine"""
 
     def __init__(self):
         Boxes.__init__(self)

@@ -76,7 +76,15 @@ class BServer:
         result = ["""<html>
 <head><title>Boxes for Laser Cutters</title></head>
 <body>
-Text
+<h1>boxes.py</h1>
+<p>
+A Python based generator for laser cut boxes and other things.
+</p>
+<p>It features both finished parametrized generators as well as a Python API
+for writing your own scripts. It features finger and (flat) dovetail joints,
+flex cuts, holes and slots for screws and more high level functions.
+</p>
+<p>These are the available generators:</p>
 <ul>
 """ ]
         for name in sorted(self.boxes):

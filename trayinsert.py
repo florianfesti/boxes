@@ -17,6 +17,7 @@
 from boxes import *
 
 class TrayInsert(Boxes):
+    """Tray insert without floor and outer walls - allows only continuous walls"""
     def __init__(self):
         Boxes.__init__(self)
         self.buildArgParser("sx", "sy", "h")

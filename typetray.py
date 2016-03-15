@@ -72,7 +72,7 @@ class TypeTray(Boxes):
         hi = self.hi = self.hi or h
         t = self.thickness
 
-        self.open(width=x+y+10*t, height=y+(len(self.sx)+len(self.sy))*h+50)
+        self.open(width=2*max(x,y)+10*t, height=(len(self.sx)+len(self.sy))*(h+2*t)+4*t)
         self.edges["f"].settings.setValues(self.thickness, space=3, finger=3,
                                            surroundingspaces=0.5)
 

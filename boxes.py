@@ -882,7 +882,7 @@ See --sy for format""")
         self.moveTo(x+r-dx/2.0, y-dy/2.0, 180)
         for d in (dy, dx, dy, dx):
             self.corner(-90, r)
-            self.edge(d)
+            self.edge(d-2*r)
 
     @restore
     def text(self, text, x=0, y=0, angle=0, align=""):

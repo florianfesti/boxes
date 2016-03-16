@@ -552,19 +552,13 @@ class Boxes:
                 self.argparser.add_argument(
                     "--sx",  action="store", type=argparseSections,
                     default="50*3",
-                    help="""Sections left to right in mm
-Possible formats:
- * overallwidth/numberof sections e.g. "250/5"
- * sectionwith*numberofsections e.g. "50*5"
- * section widths separated by : e.g. "30:25.5:70"
+                    help="""sections left to right in mm. Possible formats: overallwidth/numberof sections e.g. "250/5"; sectionwith*numberofsections e.g. "50*5"; section widths separated by ":" e.g. "30:25.5:70"
 """)
             elif arg == "sy":
                 self.argparser.add_argument(
                     "--sy",  action="store", type=argparseSections,
                     default="50*3",
-                    help="""Sections back to front in mm
-
-See --sy for format""")
+                    help="""sections back to front in mm. See --sx for format""")
             elif arg == "h":
                 self.argparser.add_argument(
                     "--h",  action="store", type=float, default=100.0,

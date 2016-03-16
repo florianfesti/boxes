@@ -16,22 +16,26 @@
 
 import sys, re
 from boxes import *
-import argparse
+import boxes
 
 class Layout(Boxes):
     """Generate a typetray from a layout file"""
-    def __init__(self, input=None):
+    def __init__(self, input=None, webargs=False):
         Boxes.__init__(self)
         self.buildArgParser("h", "hi")
-        self.argparser.add_argument(
-            "--input",  action="store", type=argparse.FileType('r'),
-            help="layout file")
-        self.argparser.add_argument(
-            "--x",  action="store", type=int, default=None,
-            help="number of compartments side by side")
-        self.argparser.add_argument(
-            "--y",  action="store", type=int, default=None,
-            help="number of compartments back to front")
+        if not webargs:
+            self.argparser.add_argument(
+                "--input",  action="store", type=argparse.FileType('r'),
+                help="layout file")
+            self.argparser.add_argument(
+                "--x",  action="store", type=int, default=None,
+                help="number of compartments side by side")
+            self.argparser.add_argument(
+                "--y",  action="store", type=int, default=None,
+                help="number of compartments back to front")
+        else:
+            self.argparser.add_argument(
+                "--layout",  action="store", type=str)
 
     def fillDefault(self, x, y):
         self.x = [0.0] * x
@@ -255,7 +259,7 @@ class Layout(Boxes):
         vwalls = []
         floors = []
         for line in input:
-            if line[0] == "#":
+            if not line or line[0] == "#":
                 continue
             m = re.match(r"( \|)* ,>\s*(\d*\.?\d+)\s*mm\s*", line)
             if m:
@@ -325,7 +329,22 @@ class Layout(Boxes):
         self.hwalls = hwalls
         self.vwalls = vwalls
         self.floors = floors
-         
+
+class LayoutGenerator(Layout):
+    """Helper class for bserver with only args for generating layout file"""
+    def __init__(self):
+        Boxes.__init__(self)
+        self.argparser = boxes.ArgumentParser()
+        self.argparser.add_argument(
+            "--x",  action="store", type=int, default=2,
+            help="number of compartments side by side")
+        self.argparser.add_argument(
+            "--y",  action="store", type=int, default=2,
+            help="number of compartments back to front")
+
+    def render(self):
+        return
+
 def main():
     l = Layout()
     l.parseArgs()

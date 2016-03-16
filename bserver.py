@@ -6,13 +6,14 @@ import argparse
 import cgi
 import tempfile
 import os
+import urllib
 
 from wsgiref.util import setup_testing_defaults
 from wsgiref.simple_server import make_server
 import wsgiref.util
 
 import box, box2, box3, drillbox, flexbox, flexbox2, flexbox3, flextest, folder
-import magazinefile, trayinsert, typetray, silverwarebox
+import magazinefile, trayinsert, traylayout, typetray, silverwarebox
 
 
 class ArgumentParserError(Exception): pass
@@ -39,8 +40,9 @@ class BServer:
             "TrayInsert" : trayinsert.TrayInsert(),
             "TypeTray" : typetray.TypeTray(),
             "SilverwareBox" : silverwarebox.Silverware(),
+            "TrayLayout" : traylayout.LayoutGenerator(),
+            "TrayLayout2" : traylayout.Layout(webargs=True),
             }
-
     def arg2html(self, a):
         name = a.option_strings[0].replace("-", "")
         if isinstance(a, argparse._HelpAction):
@@ -48,20 +50,24 @@ class BServer:
         if isinstance(a, argparse._StoreTrueAction):
             return """<tr><td>%s</td><td><input name="%s" type="checkbox" value="%s"></td><td>%s</td></tr>\n""" % \
             (name, name, a.default, a.help)
-        
+        if a.dest == "layout":
+            val = a.default.split("\n")
+            return """<tr><td>%s</td><td><textarea name="%s" cols="%s" rows="%s">%s</textarea></td><td>%s</td></tr>\n""" % \
+                (name, name, max((len(l) for l in val))+10, len(val)+1,
+                 a.default, a.help or "")
         return """<tr><td>%s</td><td><input name="%s" type="text" value="%s"></td><td>%s</td></tr>\n""" % \
             (name, name, a.default, a.help)
     
-    def args2html(self, name, box):
+    def args2html(self, name, box, action=""):
         result = ["""<html><head><title>Boxes - """, name, """</title></head>
 <body>
         <h1>""", name, """</h1>
         <p>""", box.__doc__, """</p>
-<form action="" method="POST" target="_blank">
+<form action="%s" method="POST" target="_blank">
 <table>
-"""]
+        """ % (action)]
         for a in box.argparser._actions:
-            if a.dest == "output":
+            if a.dest in ("input", "output"):
                 continue
             result.append(self.arg2html(a))
             if a.dest == "burn":
@@ -90,6 +96,8 @@ flex cuts, holes and slots for screws and more high level functions.
 <ul>
 """ ]
         for name in sorted(self.boxes):
+            if name in ("TrayLayout2", ):
+                continue
             box = self.boxes[name]
             docs = ""
             if box.__doc__:
@@ -140,6 +148,21 @@ flex cuts, holes and slots for screws and more high level functions.
             except (ArgumentParserError) as e:
                 start_response(status, headers)
                 return self.errorMessage(name, e)
+            if name == "TrayLayout":
+                start_response(status, headers)
+                box.fillDefault(box.x, box.y)
+                self.boxes["TrayLayout2"].argparser.set_defaults(layout=str(box))
+                return self.args2html(
+                    name, self.boxes["TrayLayout2"], action="TrayLayout2")
+            if name == "TrayLayout2":
+                try:
+                    print(urllib.parse.unquote_plus(box.layout))
+                    box.parse(urllib.parse.unquote_plus(box.layout).split("\n"))
+                except Exception as e:
+                    raise
+                    start_response(status, headers)
+                    return self.errorMessage(name, e)
+
             start_response(status,
                            [('Content-type', 'image/svg+xml; charset=utf-8')])
             fd, box.output = tempfile.mkstemp()

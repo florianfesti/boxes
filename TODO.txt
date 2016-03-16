@@ -7,4 +7,3 @@
   * offer a collection of different settings
  * Make bolts configurable (e.g. box2.py)
  * setup.py
- * Fix error message on parsing error in web interface

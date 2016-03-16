@@ -52,20 +52,22 @@ class BServer:
         return """<tr><td>%s</td><td><input name="%s" type="text" value="%s"></td><td>%s</td></tr>\n""" % \
             (name, name, a.default, a.help)
     
-    def args2html(self, name, args):
+    def args2html(self, name, box):
         result = ["""<html><head><title>Boxes - """, name, """</title></head>
 <body>
+        <h1>""", name, """</h1>
+        <p>""", box.__doc__, """</p>
 <form action="" method="POST" target="_blank">
 <table>
 """]
-        for a in args._actions:
+        for a in box.argparser._actions:
             if a.dest == "output":
                 continue
             result.append(self.arg2html(a))
             if a.dest == "burn":
                 result.append("</table>\n<hr>\n<table>\n")
         result.append("""</table>
-<button>Generate</button>
+<p><button>Generate</button></p>
 </form>
 </body>
 </html>
@@ -125,7 +127,7 @@ flex cuts, holes and slots for screws and more high level functions.
 
         if environ["REQUEST_METHOD"] == "GET":
             start_response(status, headers)
-            return self.args2html(name, box.argparser)
+            return self.args2html(name, box)
         elif environ["REQUEST_METHOD"] == "POST":
             try:
                 length = int(environ.get('CONTENT_LENGTH', '0'))

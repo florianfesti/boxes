@@ -244,7 +244,7 @@ class FingerJointEdge(Edge):
         leftover = length - fingers*(space+finger) + space
 
         s, f, thickness = space, finger, self.thickness
-        d, d_nut, h_nut, l, l1 = bedBoltSettings or self.bedBoltSettings
+        d, d_nut, h_nut, l, l1 = bedBoltSettings or self.boxes.bedBoltSettings
         p = 1 if positive else -1
 
         if fingers <= 0:
@@ -442,7 +442,7 @@ class FingerHoles:
                       (s+f))
         if bedBolts:
             fingers = bedBolts.numFingers(fingers)
-            d, d_nut, h_nut, l, l1 = bedBoltSettings or self.bedBoltSettings
+            d, d_nut, h_nut, l, l1 = bedBoltSettings or self.boxes.bedBoltSettings
         leftover = length - fingers*(s+f) - f
         b = self.boxes.burn
         if self.boxes.debug:
@@ -451,7 +451,7 @@ class FingerHoles:
         for i in range(fingers):
             pos = leftover/2.0+i*(s+f)
             if bedBolts and bedBolts.drawBolt(i):
-                self.hole(pos+0.5*s, 0, d*0.5)
+                self.boxes.hole(pos+0.5*s, 0, d*0.5)
             self.ctx.rectangle(pos+s+b, -self.settings.width/2+b,
                                f-2*b, self.settings.width - 2*b)
 

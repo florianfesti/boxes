@@ -127,7 +127,7 @@ class Layout(Boxes):
                 while end < lx and self.hwalls[y][end]:
                     edges.append("f") # e for no ground
                     lengths.append(self.x[end])
-                    edges.append("eCs"[self.vWalls(end, y)])
+                    edges.append("eCs"[self.vWalls(end+1, y)])
                     lengths.append(self.thickness)
                     end += 1
 

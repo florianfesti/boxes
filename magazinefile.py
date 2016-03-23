@@ -78,7 +78,10 @@ class Box(Boxes):
 
         self.close()
 
-if __name__ == '__main__':
+def main():
     b = Box()
     b.parseArgs()
     b.render()
+
+if __name__ == '__main__':
+    main()

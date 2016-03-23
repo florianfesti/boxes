@@ -46,7 +46,11 @@ class Folder(Boxes):
         
         self.close()
 
-if __name__ == '__main__':
+
+def main():
     f = Folder()
     f.parseArgs()
     f.render()
+
+if __name__ == '__main__':
+    main()

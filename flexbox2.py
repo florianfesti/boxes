@@ -94,8 +94,10 @@ class FlexBox(Boxes):
         self.rectangularWall(self.h, self.y-self.radius-self.latchsize, edges="fFeF")
         self.close()
 
-
-if __name__=="__main__":
+def main():
     b = FlexBox()
     b.parseArgs()
     b.render()
+
+if __name__=="__main__":
+    main()

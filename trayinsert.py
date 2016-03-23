@@ -44,7 +44,10 @@ class TrayInsert(Boxes):
                                  move="up")
         self.close()
 
-if __name__ == '__main__':
+def main():
     b = TrayInsert()
     b.parseArgs()
     b.render()
+
+if __name__ == '__main__':
+    main()

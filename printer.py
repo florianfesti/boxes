@@ -175,6 +175,10 @@ class Printer(Boxes):
         self.head()
         self.close()
 
-p = Printer()
-p.parseArgs()
-p.render()
+def main():
+    p = Printer()
+    p.parseArgs()
+    p.render()
+
+if __name__ == '__main__':
+    main()

@@ -73,7 +73,10 @@ in 0.5mm steps, 3 holes each size"""
 
         self.close()
 
-if __name__ == '__main__':
+def main():
     b = Box()
     b.parseArgs()
     b.render()
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,39 @@
+#!/usr/bin/python3
+
+import argparse
+import os
+import sys
+from pprint import pprint
+
+import boxes
+
+def printusage():
+    print("""Usage:
+boxes [NAME] [options]
+  --list	list possible names
+  --help	show help for given NAME
+""")
+
+def main():
+    modules = {}
+    for module in os.listdir(os.path.dirname(__file__)):
+        if module in ('__init__.py', 'boxes.py', 'bserver.py') or module[-3:] != '.py':
+            continue
+        name = module[:-3]
+        module = __import__(name, locals(), globals())
+        modules[name] = module
+    #pprint(modules)
+
+    if len(sys.argv) == 1:
+        printusage()
+    elif sys.argv[1] in modules:
+        name = sys.argv[1]
+        sys.argv[0] = "%s %s" % (sys.argv[0], sys.argv[1])
+        del sys.argv[1]
+        modules[name].main()
+    elif sys.argv[1] == '--list':
+        print("Available generators:")
+        for name in sorted(modules):
+            print(" * ", name)
+
+main()

@@ -15,6 +15,7 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
+from boxes.edges import Bolts
 import inspect
 
 class Box(Boxes):
@@ -33,16 +34,16 @@ class Box(Boxes):
         t = self.thickness
         self.open(width=x+y+40, height=y+2*h+50)
 
-        d2 = [edges.Bolts(2)]
-        d3 = [edges.Bolts(3)]
+        d2 = Bolts(2)
+        d3 = Bolts(3)
 
         d2 = d3 = None
 
         self.moveTo(t, t)
-        self.rectangularWall(x, h, "hFeF", bedBolts=d2, move="right")
-        self.rectangularWall(y, h, "hfef", bedBolts=d3, move="up")
-        self.rectangularWall(y, h, "hfef", bedBolts=d3)
-        self.rectangularWall(x, h, "hFeF", bedBolts=d2, move="left up")
+        self.rectangularWall(x, h, "hFeF", bedBolts=[d2], move="right")
+        self.rectangularWall(y, h, "hfef", bedBolts=[d3], move="up")
+        self.rectangularWall(y, h, "hfef", bedBolts=[d3])
+        self.rectangularWall(x, h, "hFeF", bedBolts=[d2], move="left up")
         
         self.rectangularWall(x, y, "ffff", bedBolts=[d2, d3, d2, d3])
 

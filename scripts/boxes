@@ -5,7 +5,13 @@ import os
 import sys
 from pprint import pprint
 
-import boxes
+try:
+    import boxes
+except ImportError:
+    sys.path.append(os.path.dirname(__file__) + "/..")
+    import boxes
+
+import boxes.generators
 
 def printusage():
     print("""Usage:
@@ -15,15 +21,8 @@ boxes [NAME] [options]
 """)
 
 def main():
-    modules = {}
-    for module in os.listdir(os.path.dirname(__file__)):
-        if module in ('__init__.py', 'boxes.py', 'bserver.py') or module[-3:] != '.py':
-            continue
-        name = module[:-3]
-        module = __import__(name, locals(), globals())
-        modules[name] = module
-    #pprint(modules)
-
+    modules = boxes.generators.getAllBoxGenerators()
+    
     if len(sys.argv) == 1:
         printusage()
     elif sys.argv[1] in modules:
@@ -35,5 +34,7 @@ def main():
         print("Available generators:")
         for name in sorted(modules):
             print(" * ", name)
+    else:
+        print("unknown sub command")
 
 main()

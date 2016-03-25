@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 
-import boxes
 import sys
 import argparse
 import cgi
@@ -12,8 +11,16 @@ from wsgiref.util import setup_testing_defaults
 from wsgiref.simple_server import make_server
 import wsgiref.util
 
-import box, box2, box3, drillbox, flexbox, flexbox2, flexbox3, flextest, folder
-import magazinefile, trayinsert, traylayout, typetray, silverwarebox
+try:
+    import boxes.generators
+except ImportError:
+    sys.path.append(os.path.dirname(__file__) + "/..")
+    import boxes.generators
+
+
+from boxes.generators import box, box2, box3, drillbox
+from boxes.generators import flexbox, flexbox2, flexbox3, flextest, folder
+from boxes.generators import magazinefile, trayinsert, traylayout, typetray, silverwarebox
 
 
 class ArgumentParserError(Exception): pass

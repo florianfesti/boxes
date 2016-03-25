@@ -99,8 +99,8 @@ class Layout(Boxes):
 
         self.hi = hi = self.hi or self.h
         
-        self.edges["s"] = Slot(self, self.hi/2.0)
-        self.edges["C"] = CrossingFingerHoleEdge(self, self.hi)
+        self.edges["s"] = boxes.edges.Slot(self, self.hi/2.0)
+        self.edges["C"] = boxes.edges.CrossingFingerHoleEdge(self, self.hi)
 
         lx = len(self.x)
         ly = len(self.y)
@@ -135,7 +135,7 @@ class Layout(Boxes):
                 lengths.pop()
                 edges.pop()
                 self.rectangularWall(sum(lengths), h, [
-                    CompoundEdge(self, edges, lengths),
+                    boxes.edges.CompoundEdge(self, edges, lengths),
                     "f" if self.vWalls(end, y) else "e",
                     "e",
                     "f" if self.vWalls(start, y) else "e"],
@@ -178,9 +178,9 @@ class Layout(Boxes):
                     "C" : "e"}[e] for e in reversed(edges)]
                 edges = ["e" if e == "s" else e for e in edges]
                 self.rectangularWall(sum(lengths), h, [
-                    CompoundEdge(self, edges, lengths),
+                    boxes.edges.CompoundEdge(self, edges, lengths),
                     "eFf"[self.hWalls(x, end)],
-                    CompoundEdge(self, upper, list(reversed(lengths))),
+                    boxes.edges.CompoundEdge(self, upper, list(reversed(lengths))),
                     "eFf"[self.hWalls(x, start)] ],
                 move="right")
                 start = end

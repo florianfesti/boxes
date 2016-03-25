@@ -23,13 +23,13 @@ class Castle(Boxes):
 
     def render(self, t_x=70, t_h=250, w1_x=300, w1_h=120, w2_x=100, w2_h=120):
         self.open(800, 600)
-        s = FingerJointSettings(self.thickness, relative=False,
-                                space = 10, finger=10, height=10,
-                                width=self.thickness)
-        p = FingerJointEdge(self, s)
+        s = edges.FingerJointSettings(self.thickness, relative=False,
+                                      space = 10, finger=10, height=10,
+                                      width=self.thickness)
+        p = edges.FingerJointEdge(self, s)
         p.char = "p"
         self.addPart(p)
-        P = FingerJointEdgeCounterPart(self, s)
+        P = edges.FingerJointEdgeCounterPart(self, s)
         P.char = "P"
         self.addPart(P)
 

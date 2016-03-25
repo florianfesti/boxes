@@ -34,12 +34,12 @@ class TrayInsert(Boxes):
 
         # Inner walls
         for i in range(len(self.sx)-1):
-            e = [SlottedEdge(self, self.sy, slots=0.5*h), "e", "e", "e"]
+            e = [edges.SlottedEdge(self, self.sy, slots=0.5*h), "e", "e", "e"]
             self.rectangularWall(y, h, e,
                                  move="up")
         for i in range(len(self.sy)-1):
             e = ["e", "e",
-                 SlottedEdge(self, self.sx[::-1], "e", slots=0.5*h), "e"]
+                 edges.SlottedEdge(self, self.sx[::-1], "e", slots=0.5*h), "e"]
             self.rectangularWall(x, h, e,
                                  move="up")
         self.close()

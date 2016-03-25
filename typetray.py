@@ -94,12 +94,12 @@ class TypeTray(Boxes):
                              move="right")
         # Inner walls
         for i in range(len(self.sx)-1):
-            e = [SlottedEdge(self, self.sy, "f", slots=0.5*hi), "f", "e", "f"]
+            e = [edges.SlottedEdge(self, self.sy, "f", slots=0.5*hi), "f", "e", "f"]
             self.rectangularWall(y, hi, e,
                                  move="up")
         for i in range(len(self.sy)-1):
-            e = [SlottedEdge(self, self.sx, "f"), "f",
-                 SlottedEdge(self, self.sx[::-1], "e", slots=0.5*hi), "f"]
+            e = [edges.SlottedEdge(self, self.sx, "f"), "f",
+                 edges.SlottedEdge(self, self.sx[::-1], "e", slots=0.5*hi), "f"]
             self.rectangularWall(x, hi, e,
                                  move="up")
         self.close()

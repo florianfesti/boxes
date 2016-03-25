@@ -30,8 +30,8 @@ class Box(Boxes):
         self.edges["f"].settings.setValues(self.thickness, space=3, finger=3,
                                         surroundingspaces=1)
 
-        d2 = [Bolts(2)]
-        d3 = [Bolts(3)]
+        d2 = [edges.Bolts(2)]
+        d3 = [edges.Bolts(3)]
 
         d2 = d3 = None
 

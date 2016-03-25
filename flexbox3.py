@@ -114,11 +114,11 @@ class FlexBox(Boxes):
         self.edges["f"].settings.setValues(
             self.thickness, finger=2, space=2, surroundingspaces=1)
 
-        s = FingerJointSettings(self.thickness, surroundingspaces=1)
-        g = FingerJointEdge(self, s)
+        s = edges.FingerJointSettings(self.thickness, surroundingspaces=1)
+        g = edges.FingerJointEdge(self, s)
         g.char = "g"
         self.addPart(g)
-        G = FingerJointEdgeCounterPart(self, s)
+        G = edges.FingerJointEdgeCounterPart(self, s)
         G.char = "G"
         self.addPart(G)
 

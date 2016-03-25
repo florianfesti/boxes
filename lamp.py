@@ -24,14 +24,14 @@ D=23cm, d=21cm
 d = 8" D = 9"
 """
 
-class RoundedTriangleSettings(Settings):
+class RoundedTriangleSettings(edges.Settings):
     absolute_params = {
         "angle" : 60,
         "radius" : 30,
         "r_hole" : None,
         }
 
-class RoundedTriangle(Edge):
+class RoundedTriangle(edges.Edge):
     char = "t"
     def __call__(self, length, **kw):
         angle = self.settings.angle

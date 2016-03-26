@@ -1,0 +1,8 @@
+ * Make outer edge continuous even if other parts are drawn intermediately.
+ * Check burn compensation for building blocks
+ * Fix hexHoles* (leftoover, grow to space, ...)
+ * Finish lamp
+ * Make settings nicer
+  * Offer a collection of different settings
+ * Make bolts configurable (e.g. box2.py)
+ * Script for generating examples/*.svg

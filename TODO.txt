@@ -1,9 +1,0 @@
- * Make outer edge continuous even if other parts are drawn intermediately.
- * Fix burn compensation for building blocks (especially fingerHolesAt)
- * Fix hexHoles* (leftoover, grow to space, ...)
- * Try out box with fully mixed fF edges and check if all corners work properly
- * finish lamp
- * Make settings nicer
-  * offer a collection of different settings
- * Make bolts configurable (e.g. box2.py)
- * setup.py

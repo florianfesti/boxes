@@ -5,3 +5,6 @@
 *.pyc
 *.pwj
 *.ud
+build/
+dist/
+boxes.py.egg-info/

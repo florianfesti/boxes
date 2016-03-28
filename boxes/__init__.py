@@ -23,9 +23,21 @@ from functools import wraps
 from boxes import edges
 
 def dist(dx, dy):
+    """
+    Return distance
+
+    :param dx: delta x
+    :param dy: delat y
+    """
     return (dx*dx+dy*dy)**0.5
 
 def restore(func):
+    """
+    Wrapper: Restore coordiantes after function
+
+    :param func: function to wrap
+
+    """
     @wraps(func)
     def f(self, *args, **kw):
         self.ctx.save()
@@ -41,6 +53,7 @@ def restore(func):
 #############################################################################
 
 class NutHole:
+    """Draw a hex nut"""
     sizes = {
         "M1.6" : (3.2, 1.3),
         "M2" : (4, 1.6),
@@ -80,6 +93,12 @@ class NutHole:
             self.boxes.corner(-60)
 
 def argparseSections(s):
+    """
+    Parse sections parameter
+
+    :param s: string to parse
+
+    """
     m = re.match(r"(\d+(\.\d+)?)/(\d+)", s)
     if m:
         n = int(m.group(3))
@@ -95,6 +114,7 @@ def argparseSections(s):
         raise argparse.ArgumentTypeError("Don't understand sections string")
 
 class Boxes:
+    """Main class -- Generator should sub class this """
 
     def __init__(self):
         self.argparser = ArgumentParser(description=self.__doc__)
@@ -112,6 +132,15 @@ class Boxes:
             help="burn correction in mm")
 
     def open(self, width, height):
+        """
+        Prepare for rendering
+
+        Call this function from your .render() method
+
+        :param width: width of canvas in mm
+        :param height: height of canvas in mm
+
+        """
         self.spacing = 2*self.burn + 0.5 * self.thickness
 
         self.fingerHoleEdgeWidth = 1.0    # multitudes of self.thickness
@@ -121,6 +150,12 @@ class Boxes:
         self._buildObjects()
 
     def buildArgParser(self, *l):
+        """
+        Add commonly used commandf line parameters
+
+        :param \*l: parameter names
+
+        """
         for arg in l:
             if arg == "x":
                 self.argparser.add_argument(
@@ -153,9 +188,22 @@ class Boxes:
                 raise ValueError("No default for argument", arg)
 
     def parseArgs(self, args=None):
+        """
+        Parse command line parameters
+
+        :param args:  (Default value = None) parameters, None for using sys.argv
+
+        """
         self.argparser.parse_args(args=args, namespace=self)
 
     def addPart(self, part, name=None):
+        """
+        Add Edge or other part instance to this one and add it as attribute
+
+        :param part: Callable
+        :param name:  (Default value = None) attribute name (__name__ as default)
+
+        """
         if name is None:
             name = part.__class__.__name__
             name = name[0].lower() + name[1:]
@@ -165,6 +213,7 @@ class Boxes:
             self.edges[part.char] = part
 
     def _buildObjects(self):
+        """Add default edges and parts """
         self.edges = {}
         self.addPart(edges.Edge(self, None))
         self.addPart(edges.OutSetEdge(self, None))
@@ -185,6 +234,13 @@ class Boxes:
         self.addPart(NutHole(self, None))
 
     def _init_surface(self, width, height):
+        """
+        Initialize cairo canvas
+
+        :param width: canvas size
+        :param height: canvas height
+
+        """
         #mm2pt = 90 / 25.4 / 1.25
         mm2pt = 1
         #width *= mm2pt
@@ -203,7 +259,14 @@ class Boxes:
 
 
     def cc(self, callback, number, x=0.0, y=None):
-        """call callback"""
+        """Call callback from edge of a part
+
+        :param callback: callback (callable or list of callables)
+        :param number: number of the callback
+        :param x:  (Default value = 0.0) x position to be call on
+        :param y:  (Default value = None) y position to be called on (default does burn correction)
+
+        """
         if y is None:
             y = self.burn
         self.ctx.save()
@@ -223,6 +286,13 @@ class Boxes:
         self.ctx.restore()
 
     def getEntry(self, param, idx):
+        """
+        Get entry from list or items itself
+
+        :param param: list or item
+        :param idx: index in list
+
+        """
         if isinstance(param, list):
             if len(param)>idx:
                 return param[idx]
@@ -232,6 +302,9 @@ class Boxes:
             return param
 
     def close(self):
+        """Finish rendering
+
+        Call at the end of your .render() method"""
         self.ctx.stroke()
         self.surface.flush()
         self.surface.finish()
@@ -256,6 +329,15 @@ class Boxes:
     ############################################################
 
     def corner(self, degrees, radius=0):
+        """
+        Draw a corner
+
+        This is what does the burn corrections
+
+        :param degrees: angle
+        :param radius:  (Default value = 0)
+
+        """
         rad = degrees*math.pi/180
         if degrees > 0:
             self.ctx.arc(0, radius+self.burn, radius+self.burn,
@@ -270,12 +352,26 @@ class Boxes:
         self.continueDirection(rad)
 
     def edge(self, length):
+        """
+        Simple line
+        :param length: length in mm
+
+        """
         self.ctx.move_to(0,0)
         self.ctx.line_to(length, 0)
         self.ctx.translate(*self.ctx.get_current_point())
 
     def curveTo(self, x1, y1, x2, y2, x3, y3):
-        """control point 1, control point 2, end point"""
+        """control point 1, control point 2, end point
+
+        :param x1: 
+        :param y1: 
+        :param x2: 
+        :param y2: 
+        :param x3: 
+        :param y3: 
+
+        """
         self.ctx.curve_to(x1, y1, x2, y2, x3, y3)
         dx = x3-x2
         dy = y3-y2
@@ -283,6 +379,12 @@ class Boxes:
         self.continueDirection(rad)
 
     def polyline(self, *args):
+        """
+        Draw multiple connected lines
+
+        :param \*args: Alternating length in mm and angle
+
+        """
         for i, arg in enumerate(args):
             if i % 2:
                 self.corner(arg)
@@ -290,6 +392,13 @@ class Boxes:
                 self.edge(arg)
 
     def bedBoltHole(self, length, bedBoltSettings=None):
+        """
+        Draw an edge with slot for a bed bolt
+
+        :param length: length of the edge in mm
+        :param bedBoltSettings:  (Default value = None) Dimmensions of the slot
+
+        """
         d, d_nut, h_nut, l, l1 = bedBoltSettings or self.bedBoltSettings
         self.edge((length-d)/2.0)
         self.corner(90)
@@ -319,7 +428,12 @@ class Boxes:
 
 
     def grip(self, length, depth):
-        """corrugated edge useful as an gipping area"""
+        """Corrugated edge useful as an gipping area
+
+        :param length: length
+        :param depth: depth of the grooves
+
+        """
         grooves = int(length // (depth*2.0)) + 1
         depth = length / grooves / 4.0
         for groove in range(grooves):
@@ -328,6 +442,11 @@ class Boxes:
             self.corner(90, depth)
 
     def _latchHole(self, length):
+        """
+
+        :param length:
+
+        """
         self.edge(1.1*self.thickness)
         self.corner(-90)
         self.edge(length/2.0+0.2*self.thickness)
@@ -335,14 +454,22 @@ class Boxes:
         self.edge(1.1*self.thickness)
 
     def _latchGrip(self, length):
+        """
+
+        :param length:
+
+        """
         self.corner(90, self.thickness/4.0)
         self.grip(length/2.0-self.thickness/2.0-0.2*self.thickness, self.thickness/2.0)
         self.corner(90, self.thickness/4.0)
 
     def latch(self, length, positive=True, reverse=False):
-        """Fix a flex box door at the box
-        positive: False: Door side; True: Box side
-        reverse: True when running away from the latch
+        """Latch to fix a flex box door to the box
+
+        :param length: length in mm
+        :param positive:  (Default value = True) False: Door side; True: Box side
+        :param reverse:  (Default value = False) True when running away from the latch
+
         """
         if positive:
             if reverse:
@@ -368,7 +495,14 @@ class Boxes:
                 self.corner(90)
 
     def handle(self, x, h, hl, r=30):
-        """Creates and Edge with a handle"""
+        """Creates an Edge with a handle
+
+        :param x: width in mm
+        :param h: height in mm
+        :param hl: height if th grip hole
+        :param r:  (Default value = 30) radius of the corners
+
+        """
         d = (x-hl-2*r)/2.0
         if d < 0:
             print("Handle too wide")
@@ -398,12 +532,26 @@ class Boxes:
     ### Navigation
 
     def moveTo(self, x, y=0.0, degrees=0):
+        """
+        Move coordinate system to given point
+
+        :param x:
+        :param y:  (Default value = 0.0)
+        :param degrees:  (Default value = 0)
+
+        """
         self.ctx.move_to(0, 0)
         self.ctx.translate(x, y)
         self.ctx.rotate(degrees*math.pi/180.0)
         self.ctx.move_to(0, 0)
 
     def continueDirection(self, angle=0):
+        """
+        Set coordinate system to current position (end point)
+
+        :param angle:  (Default value = 0) heading
+
+        """
         self.ctx.translate(*self.ctx.get_current_point())
         self.ctx.rotate(angle)
 
@@ -413,6 +561,12 @@ class Boxes:
         when "only" is included the move is only done when before is True
         The function returns whether actual drawing of the part
         should be omited.
+
+        :param x: width of part
+        :param y: height of part
+        :param where: which direction to move
+        :param before:  (Default value = False) called before or after part being drawn
+
         """
         if not where:
             return False
@@ -443,6 +597,17 @@ class Boxes:
 
     def fingerHolesAt(self, x, y, length, angle=90,
                       bedBolts=None, bedBoltSettings=None):
+        """
+        Draw holes for a matching finger joint edge
+
+        :param x: position
+        :param y: position
+        :param length: length of matching edge
+        :param angle:  (Default value = 90)
+        :param bedBolts:  (Default value = None)
+        :param bedBoltSettings:  (Default value = None)
+
+        """
         self.ctx.save()
         self.moveTo(x, y, angle)
         self.fingerHoles(length, bedBolts, bedBoltSettings)
@@ -450,11 +615,32 @@ class Boxes:
 
     @restore
     def hole(self, x, y, r):
+        """
+        Draw a round hole
+
+        :param x: position
+        :param y: postion
+        :param r: radius
+
+        """
+        radius -= self.burn
+        if radius < 0:
+            radius = 1E-9
         self.moveTo(x+r, y)
         self.ctx.arc(-r, 0, r, 0, 2*math.pi)
 
     @restore
     def rectangularHole(self, x, y, dx, dy, r=0):
+        """
+        Draw an rectangulat hole
+
+        :param x: position
+        :param y: position
+        :param dx: width
+        :param dy: height
+        :param r:  (Default value = 0) radius of the corners
+
+        """
         self.moveTo(x+r-dx/2.0, y-dy/2.0, 180)
         for d in (dy, dx, dy, dx):
             self.corner(-90, r)
@@ -462,6 +648,16 @@ class Boxes:
 
     @restore
     def text(self, text, x=0, y=0, angle=0, align=""):
+        """
+        Draw text
+
+        :param text: text to render
+        :param x:  (Default value = 0)
+        :param y:  (Default value = 0)
+        :param angle:  (Default value = 0)
+        :param align:  (Default value = "") string with combinations of (top|middle|bottom) and (left|center|right) separated by a space
+
+        """
         self.moveTo(x, y, angle)
         (tx, ty, width, height, dx, dy) = self.ctx.text_extents(text)
         align = align.split()
@@ -484,6 +680,14 @@ class Boxes:
 
     @restore
     def NEMA(self, size, x=0, y=0, angle=0):
+        """Draw holes for mounting a NEMA stepper motor
+
+        :param size: Nominal size in tenths of inches
+        :param x:  (Default value = 0)
+        :param y:  (Default value = 0)
+        :param angle:  (Default value = 0)
+
+        """
         nema = {
             #    motor,flange, holes, screws 
              8 : (20.3, 16,   15.4, 3),
@@ -511,13 +715,20 @@ class Boxes:
     # hexHoles
 
     def hexHolesRectangle(self, x, y, settings=None, skip=None):
-        """
-        Fills a rectangle with holes.
+        """Fills a rectangle with holes in a hex pattern.
+
+        Settings have:
         r : radius of holes
         b : space between holes
         style : what types of holes (not yet implemented)
-        skip : function to check if hole should be present
+
+        :param x: width
+        :param y: heigth
+        :param settings:  (Default value = None)
+        :param skip:  (Default value = None) function to check if hole should be present
                gets x, y, r, b, posx, posy
+
+
         """
         if settings is None:
             settings = self.hexHolesSettings
@@ -549,11 +760,37 @@ class Boxes:
         return (dist(posx-cx, posy-cy) > (cx-r))
 
     def hexHolesCircle(self, d, settings=None):
+        """
+        Fill circle with holes in a hex pattern
+
+        :param d: diameter of the circle
+        :param settings:  (Default value = None)
+
+        """
         d2 = d/2.0
         self.hexHolesRectangle(d, d, settings=settings, skip=self.__skipcircle)
 
     def hexHolesPlate(self, x, y, rc, settings=None):
+        """
+        Fill a plate with holes in a hex pattern
+
+        :param x: width
+        :param y: height
+        :param rc: radius of the corners
+        :param settings:  (Default value = None)
+
+        """
         def skip(x, y, r, b, posx, posy):
+            """
+
+            :param x: 
+            :param y: 
+            :param r: 
+            :param b: 
+            :param posx: 
+            :param posy: 
+
+            """
             posx = abs(posx-(x/2.0))
             posy = abs(posy-(y/2.0))
 
@@ -567,6 +804,14 @@ class Boxes:
         self.hexHolesRectangle(x, y, settings, skip=skip)
 
     def hexHolesHex(self, h, settings=None, grow=None):
+        """
+        Fill a hexagon with holes in a hex pattern
+
+        :param h: height
+        :param settings:  (Default value = None)
+        :param grow:  (Default value = None)
+
+        """
         if settings is None:
             settings = self.hexHolesSettings
         r, b, style = settings
@@ -600,12 +845,22 @@ class Boxes:
                      holesMargin=None, holesSettings=None,
                      bedBolts=None, bedBoltSettings=None,
                      move=None):
-        """fits surroundingWall
-        first edge is split to have a joint in the middle of the side
+        """Plate with rounded corner fitting to .surroundingWall()
+
+        First edge is split to have a joint in the middle of the side
         callback is called at the beginning of the straight edges
         0, 1 for the two part of the first edge, 2, 3, 4 for the others
 
-        set holesMargin to get hex holes.
+        :param x: width
+        :param y: hight
+        :param r: radius of the corners
+        :param callback:  (Default value = None)
+        :param holesMargin:  (Default value = None) set to get hex holes
+        :param holesSettings:  (Default value = None)
+        :param bedBolts:  (Default value = None)
+        :param bedBoltSettings:  (Default value = None)
+        :param move:  (Default value = None)
+
         """
 
         overallwidth = x+2*self.fingerJointEdge.spacing()
@@ -654,13 +909,23 @@ class Boxes:
                         bottom='e', top='e',
                         callback=None,
                         move=None):
-        """
-        h : inner height, not counting the joints
+        """h : inner height, not counting the joints
         callback is called a beginn of the flat sides with
-          0 for right half of first x side;
-          1 and 3 for y sides;
-          2 for second x side
-          4 for second half of the first x side
+
+        *  0 for right half of first x side;
+        *  1 and 3 for y sides;
+        *  2 for second x side
+        *  4 for second half of the first x side
+
+        :param x: width of matching roundedPlate
+        :param y: height of matching roundedPlate
+        :param r: corner radius of matching roundedPlate
+        :param h: height of the wall
+        :param bottom:  (Default value = 'e') Edge type
+        :param top:  (Default value = 'e') Edge type
+        :param callback:  (Default value = None)
+        :param move:  (Default value = None)
+
         """
         c4 = (r+self.burn)*math.pi*0.5 # circumference of quarter circle
         c4 = 0.9 * c4 # stretch flex 10%
@@ -721,6 +986,20 @@ class Boxes:
                         bedBolts=None, bedBoltSettings=None,
                         callback=None,
                         move=None):
+        """
+        Rectangular wall for all kind of box like objects
+
+        :param x: width
+        :param y: height
+        :param edges:  (Default value = "eeee") bottom, right, top, left
+        :param holesMargin:  (Default value = None)
+        :param holesSettings:  (Default value = None)
+        :param bedBolts:  (Default value = None)
+        :param bedBoltSettings:  (Default value = None)
+        :param callback:  (Default value = None)
+        :param move:  (Default value = None)
+
+        """
         if len(edges) != 4:
             raise ValueError("four edges required")
         edges = [self.edges.get(e, e) for e in edges]
@@ -764,6 +1043,7 @@ class DemoBox(Boxes):
         self.buildArgParser("x", "y", "h")
 
     def render(self):
+        """ """
         x, y, h, t = self.x, self.y, self.h, self.thickness
         self.open(2*x+10*self.thickness, y+2*h+20*self.thickness)
         self.ctx.save()

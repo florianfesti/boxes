@@ -20,18 +20,39 @@ class BoltPolicy:
     """Abstract class
     Distributes (bed) bolts on a number of segments
     (fingers of a finger joint)
+
     """
     def drawbolt(self, pos):
-        """Add a bolt to this segment?"""
+        """Add a bolt to this segment?
+
+        :param pos: number of the finger
+
+        """
         return False
 
     def numFingers(self, numfingers):
-        """returns next smaller, possible number of fingers"""
+        """Return next smaller, possible number of fingers
+
+        :param numfingers: number of fingers to aim for
+
+        """
         return numFingers
 
     def _even(self, numFingers):
+        """
+        Return same or next smaller even number
+
+        :param numFingers:
+
+        """
         return (numFingers//2) * 2
     def _odd(self, numFingers):
+        """
+        Return same or next smaller odd number
+
+        :param numFingers:
+
+        """
         if numFingers % 2:
             return numFingers
         else:
@@ -41,6 +62,7 @@ class Bolts(BoltPolicy):
     """Distribute a fixed number of bolts evenly"""
     def __init__(self, bolts=1):
         self.bolts = bolts
+
     def numFingers(self, numFingers):
         if self.bolts % 2:
             self.fingers = self._even(numFingers)
@@ -49,6 +71,12 @@ class Bolts(BoltPolicy):
         return self.fingers
 
     def drawBolt(self, pos):
+        """
+        Return if this finger needs a bolt
+
+        :param pos: number of this finger
+
+        """
         if pos > self.fingers//2:
             pos = self.fingers - pos
         if pos==0:
@@ -65,6 +93,12 @@ class Bolts(BoltPolicy):
 #############################################################################
 
 class Settings:
+    """Generic Settings class
+
+    Used by different other classes to store messurements and details.
+    Supports absolutevalues and settings that grow with the thinckness
+    of the material used.
+    """
     absolute_params = { }
     relative_params = { }
 
@@ -79,6 +113,14 @@ class Settings:
         self.setValues(thickness, relative, **kw)
 
     def setValues(self, thickness, relative=True, **kw):
+        """
+        Set values
+
+        :param thickness: thickness of the material used
+        :param relative:  (Default value = True) Do scale by thinckness
+        :param **kw: parameters to set
+
+        """
         factor = 1.0
         if relative:
             factor = thickness
@@ -100,6 +142,7 @@ class Settings:
 
 
 class Edge:
+    """Straight edge"""
     char = 'e'
 
     def __init__(self, boxes, settings):
@@ -117,27 +160,35 @@ class Edge:
         self.ctx.translate(*self.ctx.get_current_point())
 
     def width(self):
+        """Amount of space the beginning of the edge is set below the inner space of the part """
         return 0.0
 
     def margin(self):
+        """Space needed right of the starting point"""
         return self.boxes.spacing
 
     def spacing(self):
+        """Space the edge needs outside of the inner space of the part"""
         return self.width() + self.margin()
 
     def startAngle(self):
+        """Not yet supported"""
         return 0.0
 
     def endAngle(self):
+        """Not yet supported"""
         return 0.0
 
 class OutSetEdge(Edge):
+    """Straight edge out set by one thickness"""
     char = 'E'
 
     def width(self):
         return self.boxes.thickness
 
 class CompoundEdge(Edge):
+    """Edge composed of multiple different Edges"""
+
     def __init__(self, boxes, types, lengths):
         Edge.__init__(self, boxes, None)
         self.types = [self.edges.get(edge, edge) for edge in types]
@@ -158,6 +209,7 @@ class CompoundEdge(Edge):
             e(l)
 
 class Slot(Edge):
+    """Edge with an slot to slid another pice through """
     def __init__(self, boxes, depth):
         Edge.__init__(self, boxes, None)
         self.depth = depth
@@ -175,6 +227,7 @@ class Slot(Edge):
             self.boxes.edge(self.length)
 
 class SlottedEdge(Edge):
+    """Edge with multiple slots"""
 
     def __init__(self, boxes, sections, edge="e", slots=0):
         Edge.__init__(self, boxes, None)
@@ -198,6 +251,10 @@ class SlottedEdge(Edge):
         self.edge(self.sections[-1])
 
 class FingerJointSettings(Settings):
+    """Setting for all different finger joint components
+
+    Both sides should use the same instance to ensure they match"""
+
     absolute_params = {
         "surroundingspaces" : 2,
         }
@@ -210,6 +267,7 @@ class FingerJointSettings(Settings):
         }
 
 class FingerJointEdge(Edge):
+    """Finger joint edge """
     char = 'f'
     positive = True
 
@@ -253,19 +311,24 @@ class FingerJointEdge(Edge):
         self.edge(leftover/2.0)
 
     def margin(self):
+        """ """
         return self.boxes.spacing + self.boxes.thickness
 
 class FingerJointEdgeCounterPart(FingerJointEdge):
+    """Finger joint edge - other side"""
     char = 'F'
     positive = False
 
     def width(self):
+        """ """
         return self.boxes.thickness
 
     def margin(self):
+        """ """
         return self.boxes.spacing
 
 class FingerHoleEdge(Edge):
+    """Edge with holes for a parallel finger joint"""
     char = 'h'
 
     def __call__(self, length, dist=None,
@@ -282,9 +345,11 @@ class FingerHoleEdge(Edge):
         self.ctx.translate(*self.ctx.get_current_point())
 
     def width(self):
+        """ """
         return (self.fingerHoleEdgeWidth+1) * self.thickness
 
 class FingerHoles:
+    """Hole mathcing a finger joint edge"""
     def __init__(self, boxes, settings):
         self.boxes = boxes
         self.ctx = boxes.ctx
@@ -313,6 +378,7 @@ class FingerHoles:
         self.ctx.translate(*self.ctx.get_current_point())
 
 class CrossingFingerHoleEdge(Edge):
+    """Edge with holes for finger joints 90° above"""
     def __init__(self, boxes, height, **kw):
         Edge.__init__(self, boxes, None, **kw)
         self.height = height
@@ -323,6 +389,9 @@ class CrossingFingerHoleEdge(Edge):
 
     
 class DoveTailSettings(Settings):
+    """Settings used for dove tail joints
+
+    Both sides should use the same instance to ensure they match"""
     absolute_params = {
         "angle" : 50,
         }
@@ -333,6 +402,7 @@ class DoveTailSettings(Settings):
         }
 
 class DoveTailJoint(Edge):
+    """Edge with dove tail joints """
     char = 'd'
     positive = True
 
@@ -367,9 +437,11 @@ class DoveTailJoint(Edge):
         self.ctx.translate(*self.ctx.get_current_point())
 
     def margin(self):
+        """ """
         return self.settings.depth + self.boxes.spacing
 
 class DoveTailJointCounterPart(DoveTailJoint):
+    """Edge for other side of dove joints """
     char = 'D'
 
     positive = False
@@ -381,6 +453,7 @@ class DoveTailJointCounterPart(DoveTailJoint):
         return self.boxes.spacing
 
 class FlexSettings(Settings):
+    """Settings for one directional flex cuts"""
     relative_params = {
         "distance" : 0.5,
         "connection" : 1.0,
@@ -391,6 +464,7 @@ class FlexSettings(Settings):
         }
 
 class FlexEdge(Edge):
+    """Edge with flex cuts - use straight edge for the opposing side"""
     char = 'X'
 
     def __call__(self, x, h, **kw):

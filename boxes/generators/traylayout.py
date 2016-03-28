@@ -350,11 +350,14 @@ def main():
     l.parseArgs()
     if l.x and l.y:
         l.fillDefault(l.x, l.y)
-        print(l)
+        if l.output:
+            with open(l.output, "w") as f:
+                f.write(str(l))
+        else:
+            print(l)
     elif l.input:
         l.parse(l.input)
         l.render()
-        print(str(l))
     else:
         l.argparser.print_usage()
 

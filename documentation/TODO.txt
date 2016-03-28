@@ -5,4 +5,3 @@
  * Make settings nicer
   * Offer a collection of different settings
  * Make bolts configurable (e.g. box2.py)
- * Script for generating examples/*.svg

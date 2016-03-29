@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+# -*- coding: utf-8 -*-
 # Copyright (C) 2013-2016 Florian Festi
 #
 #   This program is free software: you can redistribute it and/or modify

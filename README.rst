@@ -6,18 +6,18 @@ cutting out boxes or other structures using a laser cutter.
 
 It also comes with a set of ready-to-use, fully parametrized generators:
 
- * Various simple boxes
- * Flex boxes with rounded corners and living hinges
- * Type trays with and without walls and floors
- * Book cover with flex spine
- * Magazine file
+* Various simple boxes
+* Flex boxes with rounded corners and living hinges
+* Type trays with and without walls and floors
+* Book cover with flex spine
+* Magazine file
 
 And a few one trick ponies:
 
- * A drill stand
- * A castle tower
- * A housing for a special kind of lamp
- * A cutlery stand
+* A drill stand
+* A castle tower
+* A housing for a special kind of lamp
+* A cutlery stand
 
 Have a look into the examples/ directory to see how the results look like.
 
@@ -48,6 +48,6 @@ Usage
 
 There are two ways to use the available generators:
 
- * Execute the scripts/boxes tool and pass the name of the generator
+* Execute the scripts/boxes tool and pass the name of the generator
    together with the measurements on the command line
- * Run scripts/boxesserver which provides an web interface on port 8000
+* Run scripts/boxesserver which provides an web interface on port 8000

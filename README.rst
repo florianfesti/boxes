@@ -5,6 +5,7 @@ This is a small python library for generating SVG drawings used for
 cutting out boxes or other structures using a laser cutter.
 
 It also comes with a set of ready-to-use, fully parametrized generators:
+
  * Various simple boxes
  * Flex boxes with rounded corners and living hinges
  * Type trays with and without walls and floors
@@ -12,6 +13,7 @@ It also comes with a set of ready-to-use, fully parametrized generators:
  * Magazine file
 
 And a few one trick ponies:
+
  * A drill stand
  * A castle tower
  * A housing for a special kind of lamp
@@ -45,6 +47,7 @@ Usage
 =====
 
 There are two ways to use the available generators:
+
  * Execute the scripts/boxes tool and pass the name of the generator
    together with the measurements on the command line
  * Run scripts/boxesserver which provides an web interface on port 8000

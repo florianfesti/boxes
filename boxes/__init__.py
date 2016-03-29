@@ -257,6 +257,14 @@ class Boxes:
         ctx.set_source_rgb(0.0, 0.0, 0.0)
         ctx.set_line_width(2*self.burn)
 
+    def render(self):
+        """Implement this method in your sub class.
+
+        You will typically need to call .parseArgs() before calling this one"""
+        self.open(100, 100)
+        # Change settings and creat new Edges and part classes here
+        raise NotImplemented
+        self.close()
 
     def cc(self, callback, number, x=0.0, y=None):
         """Call callback from edge of a part

@@ -48,6 +48,5 @@ Usage
 
 There are two ways to use the available generators:
 
-* Execute the scripts/boxes tool and pass the name of the generator
-   together with the measurements on the command line
+* Execute the scripts/boxes tool and pass the name of the generator together with the measurements on the command line
 * Run scripts/boxesserver which provides an web interface on port 8000

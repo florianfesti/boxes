@@ -34,13 +34,13 @@ can be press fitted even without any glue.
 
 Finger Joints are the work horse of the library. They allow 90° edges
 and T connections. Their size is scaled up with the material
-"thickness" to maintain the same appearance. The libray also allows
+"thickness" to maintain the same appearance. The library also allows
 putting holes and slots for screws (bed bolts) into finger joints,
 although this is currently not supported for the finished generators.
 
 Dovetail joints can be used to join pieces in the same plane.
 
-Flex allows bending and streching the material in one direction. This
+Flex allows bending and stretching the material in one direction. This
 is used for rounded edges and living hinges.
 
 Usage

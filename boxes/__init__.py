@@ -915,6 +915,7 @@ class Boxes:
 
     def surroundingWall(self, x, y, r, h,
                         bottom='e', top='e',
+                        left="D", right="d",
                         callback=None,
                         move=None):
         """h : inner height, not counting the joints
@@ -940,6 +941,8 @@ class Boxes:
 
         top = self.edges.get(top, top)
         bottom = self.edges.get(bottom, bottom)
+        left = self.edges.get(left, left)
+        right = self.edges.get(right, right)
 
         topwidth = top.width()
         bottomwidth = bottom.width()
@@ -953,7 +956,7 @@ class Boxes:
             return
 
         self.ctx.save()
-        self.moveTo(self.edges["D"].margin(), bottom.margin())
+        self.moveTo(left.margin(), bottom.margin())
 
         self.cc(callback, 0, y=bottomwidth+self.burn)
         bottom(x/2.0-r)
@@ -972,7 +975,7 @@ class Boxes:
 
         self.corner(90)
         self.edge(bottomwidth)
-        self.doveTailJoint(h)
+        right(h)
         self.edge(topwidth)
         self.corner(90)
 
@@ -985,7 +988,7 @@ class Boxes:
 
         self.corner(90)
         self.edge(topwidth)
-        self.doveTailJointCounterPart(h)
+        left(h)
         self.edge(bottomwidth)
         self.corner(90)
 

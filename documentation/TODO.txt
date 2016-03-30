@@ -5,3 +5,4 @@
  * Make settings nicer
   * Offer a collection of different settings
  * Make bolts configurable (e.g. box2.py)
+ * Use stretch seting in flexboxes

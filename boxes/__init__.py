@@ -937,7 +937,7 @@ class Boxes:
 
         """
         c4 = (r+self.burn)*math.pi*0.5 # circumference of quarter circle
-        c4 = 0.9 * c4 # stretch flex 10%
+        c4 = c4 / self.edges["X"].settings.stretch
 
         top = self.edges.get(top, top)
         bottom = self.edges.get(bottom, bottom)

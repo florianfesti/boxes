@@ -461,7 +461,7 @@ class FlexSettings(Settings):
         "width" : 5.0,
         }
     absolute_params = {
-        "stretch" : 1.0,
+        "stretch" : 1.05,
         }
 
 class FlexEdge(Edge):

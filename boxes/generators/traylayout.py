@@ -196,7 +196,6 @@ class Layout(Boxes):
 
         # Horizontal lines
         posy = 0
-        print(self.floors)
         for y in range(ly, -1, -1):
             posx = self.thickness
             for x in range(lx):

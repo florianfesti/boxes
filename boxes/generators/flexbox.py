@@ -31,7 +31,7 @@ class FlexBox(boxes.Boxes):
         self.moveTo(r, 0)
         for i, l in zip(range(2), (x, y)):
             self.cc(callback, i)
-            self.fingerJointEdge(l-2*r)
+            self.edges["f"](l-2*r)
             self.corner(90, r)
         self.cc(callback, 2)
         self.edge(x-2*r)
@@ -39,7 +39,7 @@ class FlexBox(boxes.Boxes):
         self.cc(callback, 3)
         self.latch(self.latchsize)
         self.cc(callback, 4)
-        self.fingerJointEdge(y-2*r-self.latchsize)
+        self.edges["f"](y-2*r-self.latchsize)
         self.corner(90, r)
 
     def surroundingWall(self):
@@ -48,13 +48,13 @@ class FlexBox(boxes.Boxes):
         c4 = math.pi * r * 0.5
 
         self.edges["F"](y-2*r-self.latchsize, False)
-        self.flexEdge(c4, h+2*self.thickness)
+        self.edges["X"](c4, h+2*self.thickness)
         self.edges["F"](x-2*r, False)
-        self.flexEdge(c4, h+2*self.thickness)
+        self.edges["X"](c4, h+2*self.thickness)
         self.edges["F"](y-2*r, False)
-        self.flexEdge(c4, h+2*self.thickness)
+        self.edges["X"](c4, h+2*self.thickness)
         self.edge(x-2*r)
-        self.flexEdge(c4, h+2*self.thickness)
+        self.edges["X"](c4, h+2*self.thickness)
         self.latch(self.latchsize, False)
         self.edge(h+2*self.thickness)
         self.latch(self.latchsize, False, True)

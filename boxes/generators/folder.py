@@ -34,7 +34,7 @@ class Folder(Boxes):
         self.open(width=2*x+3*h+20, height=y+20)
         self.moveTo(r+self.thickness, self.thickness)
         self.edge(x-r)
-        self.flexEdge(c2, y)
+        self.edges["X"](c2, y)
         self.edge(x-r)
         self.corner(90, r)
         self.edge(y-2*r)

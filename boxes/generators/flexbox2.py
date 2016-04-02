@@ -29,10 +29,10 @@ class FlexBox(Boxes):
     @restore
     def flexBoxSide(self, x, y, r, callback=None):
         self.cc(callback, 0)
-        self.fingerJointEdge(x)
+        self.edges["f"](x)
         self.corner(90, 0)
         self.cc(callback, 1)
-        self.fingerJointEdge(y-r)
+        self.edges["f"](y-r)
         self.corner(90, r)
         self.cc(callback, 2)
         self.edge(x-2*r)
@@ -40,7 +40,7 @@ class FlexBox(Boxes):
         self.cc(callback, 3)
         self.latch(self.latchsize)
         self.cc(callback, 4)
-        self.fingerJointEdge(y-r-self.latchsize)
+        self.edges["f"](y-r-self.latchsize)
         self.corner(90)
 
     def surroundingWall(self):
@@ -48,11 +48,11 @@ class FlexBox(Boxes):
         
         self.edges["F"](y-r, False)
         if (x-2*r < 0.1):
-            self.flexEdge(2*self.c4, h+2*self.thickness)
+            self.edges["X"](2*self.c4, h+2*self.thickness)
         else:
-            self.flexEdge(self.c4, h+2*self.thickness)
+            self.edges["X"](self.c4, h+2*self.thickness)
             self.edge(x-2*r)
-            self.flexEdge(self.c4, h+2*self.thickness)
+            self.edges["X"](self.c4, h+2*self.thickness)
         self.latch(self.latchsize, False)
         self.edge(h+2*self.thickness)
         self.latch(self.latchsize, False, True)

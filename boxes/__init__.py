@@ -217,9 +217,10 @@ class Boxes:
             name = part.__class__.__name__
             name = name[0].lower() + name[1:]
         #if not hasattr(self, name):
-        setattr(self, name, part)
         if isinstance(part, edges.Edge):
             self.edges[part.char] = part
+        else:
+            setattr(self, name, part)
 
     def _buildObjects(self):
         """Add default edges and parts """
@@ -884,35 +885,35 @@ class Boxes:
 
         """
 
-        overallwidth = x+2*self.fingerJointEdge.spacing()
-        overallheight = y+2*self.fingerJointEdge.spacing()
+        overallwidth = x+2*self.edges["f"].spacing()
+        overallheight = y+2*self.edges["f"].spacing()
 
         if self.move(overallwidth, overallheight, move, before=True):
             return
 
         self.ctx.save()
-        self.moveTo(self.fingerJointEdge.margin(),
-                    self.fingerJointEdge.margin())
+        self.moveTo(self.edges["f"].margin(),
+                    self.edges["f"].margin())
         self.moveTo(r, 0)
 
         self.cc(callback, 0)
-        self.fingerJointEdge(x/2.0-r, bedBolts=self.getEntry(bedBolts, 0),
+        self.edges["f"](x/2.0-r, bedBolts=self.getEntry(bedBolts, 0),
                          bedBoltSettings=self.getEntry(bedBoltSettings, 0))
         self.cc(callback, 1)
-        self.fingerJointEdge(x/2.0-r, bedBolts=self.getEntry(bedBolts, 1),
+        self.edges["f"](x/2.0-r, bedBolts=self.getEntry(bedBolts, 1),
                          bedBoltSettings=self.getEntry(bedBoltSettings, 1))
         for i, l in zip(range(3), (y, x, y)):
             self.corner(90, r)
             self.cc(callback, i+2)
-            self.fingerJointEdge(l-2*r, bedBolts=self.getEntry(bedBolts, i+2),
+            self.edges["f"](l-2*r, bedBolts=self.getEntry(bedBolts, i+2),
                          bedBoltSettings=self.getEntry(bedBoltSettings, i+2))
         self.corner(90, r)
 
         self.ctx.restore()
         self.ctx.save()
 
-        self.moveTo(self.fingerJointEdge.margin(),
-                    self.fingerJointEdge.margin())
+        self.moveTo(self.edges["f"].margin(),
+                    self.edges["f"].margin())
 
         if holesMargin is not None:
             self.moveTo(holesMargin, holesMargin)
@@ -974,13 +975,13 @@ class Boxes:
         self.cc(callback, 0, y=bottomwidth+self.burn)
         bottom(x/2.0-r)
         if (y-2*r) < 1E-3:
-            self.flexEdge(2*c4, h+topwidth+bottomwidth)
+            self.edges["X"](2*c4, h+topwidth+bottomwidth)
             self.cc(callback, 2, y=bottomwidth+self.burn)
             bottom(x-2*r)
-            self.flexEdge(2*c4, h+topwidth+bottomwidth)
+            self.edges["X"](2*c4, h+topwidth+bottomwidth)
         else:
             for i, l in zip(range(4), (y, x, y, 0)):
-                self.flexEdge(c4, h+topwidth+bottomwidth)
+                self.edges["X"](c4, h+topwidth+bottomwidth)
                 self.cc(callback, i+1, y=bottomwidth+self.burn)
                 if i < 3:
                     bottom(l-2*r)

@@ -63,7 +63,7 @@ class FlexBox(Boxes):
         x, y, z, r, d = self.x, self.y, self.z, self.radius, self.d
         
         self.edges["F"](y-r, False)
-        self.flexEdge(self.c4, z+2*self.thickness)
+        self.edges["X"](self.c4, z+2*self.thickness)
         self.corner(-90)
         self.edge(d)
         self.corner(90)

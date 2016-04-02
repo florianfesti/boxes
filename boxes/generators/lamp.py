@@ -61,11 +61,11 @@ class Lamp(Boxes):
 
     def side(self, y, h):
         return
-        self.fingerJointEdge(y)
+        self.edges["f"](y)
         self.corner(90)
-        self.fingerJointEdge(h)
+        self.edges["f"](h)
         self.roundedTriangle(y, 75, 25)
-        self.fingerJointEdge(h)
+        self.edges["f"](h)
         self.corner(90)
 
     def render(self, r, w, x, y, h):
@@ -79,14 +79,14 @@ class Lamp(Boxes):
 
         self.open(width=1000, height=1000)
 
-        self.fingerJointSettings = (5, 5) # XXX
+        #self.edges["f"].settings = (5, 5) # XXX
 
         s = RoundedTriangleSettings(self.thickness, angle=72, r_hole=2)
         self.addPart(RoundedTriangle(self, s))
 
         self.flexSettings = (3, 5.0, 20.0)
 
-        self.fingerJointEdge.settings.setValues(self.thickness, finger=5, space=5, relative=False)
+        self.edges["f"].settings.setValues(self.thickness, finger=5, space=5, relative=False)
         d = 2*(r+w)
 
         self.roundedPlate(d, d, r, move="right", callback=[

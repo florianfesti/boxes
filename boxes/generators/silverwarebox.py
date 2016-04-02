@@ -45,24 +45,24 @@ using flex for rounded corners"""
     def centerWall(self, x, h):
         self.ctx.save()
 
-        self.moveTo(self.fingerJointEdge.spacing(), self.fingerJointEdge.spacing())
+        self.moveTo(self.edges["f"].spacing(), self.edges["f"].spacing())
         for i in range(2, 5):
             self.fingerHolesAt(i*x/6.0, 0, h-10)
 
-        self.fingerJointEdge(x)
+        self.edges["f"](x)
         self.corner(90)
-        self.fingerJointEdge(h-10)
+        self.edges["f"](h-10)
         self.corner(90)
 
         self.handle(x, 150, 120)
         #self.handle(x, 40, 30, r=2)
 
         self.corner(90)
-        self.fingerJointEdge(h-10)
+        self.edges["f"](h-10)
         self.corner(90)
         self.ctx.restore()
 
-        self.moveTo(x+2*self.fingerJointEdge.spacing())
+        self.moveTo(x+2*self.edges["f"].spacing())
 
     ##################################################
     ### main

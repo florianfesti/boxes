@@ -89,9 +89,9 @@ class BServer:
         
     def menu(self):
         result = ["""<html>
-<head><title>Boxes for Laser Cutters</title></head>
+<head><title>Boxes.py</title></head>
 <body>
-<h1>boxes.py</h1>
+<h1>Boxes.py</h1>
 <p>
 A Python based generator for laser cut boxes and other things.
 </p>

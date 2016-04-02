@@ -47,16 +47,16 @@ class FlexBox(Boxes):
     @restore
     def flexBoxSide(self, x, y, r, callback=None):
         self.cc(callback, 0)
-        self.fingerJointEdge(x)
+        self.edges["f"](x)
         self.corner(90, 0)
         self.cc(callback, 1)
-        self.fingerJointEdge(y-r)
+        self.edges["f"](y-r)
         self.corner(90, r)
         self.cc(callback, 2)
         self.edge(x-r)
         self.corner(90, 0)
         self.cc(callback, 3)
-        self.fingerJointEdge(y)
+        self.edges["f"](y)
         self.corner(90)
 
     def surroundingWall(self):

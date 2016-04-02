@@ -330,7 +330,9 @@ class Layout(Boxes):
         self.floors = floors
 
 class LayoutGenerator(Layout):
-    """Helper class for bserver with only args for generating layout file"""
+
+    """Type tray with each wall and floor tile being optional"""
+
     def __init__(self):
         Boxes.__init__(self)
         self.argparser = boxes.ArgumentParser()

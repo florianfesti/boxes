@@ -27,6 +27,11 @@ class TypeTray(Boxes):
         self.argparser.add_argument(
             "--gripwidth",  action="store", type=float, default=70,
             dest="gw", help="width of th grip hole in mm (zero for no hole)")
+        self.argparser.set_defaults(
+            fingerjointfinger=3.0,
+            fingerjointspace=3.0,
+            fingerjointsurrounding=0.5,
+            )
 
     def xSlots(self):
         posx = -0.5 * self.thickness
@@ -74,8 +79,6 @@ class TypeTray(Boxes):
         t = self.thickness
 
         self.open(width=2*max(x,y)+10*t, height=(len(self.sx)+len(self.sy))*(h+2*t)+4*t)
-        self.edges["f"].settings.setValues(self.thickness, space=3, finger=3,
-                                           surroundingspaces=0.5)
 
         self.moveTo(t, t)
         # outer walls

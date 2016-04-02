@@ -119,6 +119,15 @@ class Boxes:
     def __init__(self):
         self.argparser = ArgumentParser(description=self.__doc__)
         self.argparser.add_argument(
+            "--fingerjointfinger",  action="store", type=float, default=1.0,
+            help="width of the fingers in multiples of thickness")
+        self.argparser.add_argument(
+            "--fingerjointspace",  action="store", type=float, default=1.0,
+            help="width of the space between fingers in multiples of thickness")
+        self.argparser.add_argument(
+            "--fingerjointsurrounding",  action="store", type=float, default=1.0,
+            help="amount of space needed at the end in multiples of normal spaces")
+        self.argparser.add_argument(
             "--thickness",  action="store", type=float, default=4.0,
             help="thickness of the material")
         self.argparser.add_argument(
@@ -220,6 +229,10 @@ class Boxes:
 
         # Share settings object
         s = edges.FingerJointSettings(self.thickness)
+        s.setValues(self.thickness,
+                    finger=getattr(self, "fingerjointfinger", 1.0),
+                    space=getattr(self, "fingerjointspace", 1.0),
+                    surroundingspaces=getattr(self, "fingerjointsurrounding", 1.0))
         self.addPart(edges.FingerJointEdge(self, s))
         self.addPart(edges.FingerJointEdgeCounterPart(self, s))
         self.addPart(edges.FingerHoleEdge(self, s))

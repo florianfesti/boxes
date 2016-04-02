@@ -21,6 +21,10 @@ class Box(Boxes):
     def __init__(self):
         Boxes.__init__(self)
         self.buildArgParser("x", "y", "h", "hi")
+        self.argparser.set_defaults(
+            fingerjointfinger=2.0,
+            fingerjointspace=2.0
+            )
 
     def side(self, w, h, hi):
         r = min(h-hi, w) / 2.0
@@ -61,8 +65,6 @@ class Box(Boxes):
         t = self.thickness
 
         self.open(width=x+y+8*t, height=x+h+hi+4*t)
-
-        self.edges["f"].settings.setValues(self.thickness, space=2, finger=2)
 
         self.ctx.save()
         self.rectangularWall(x, h, "Ffef", move="up")

@@ -19,6 +19,7 @@ import math
 
 class BoltPolicy:
     """Abstract class
+
     Distributes (bed) bolts on a number of segments
     (fingers of a finger joint)
 
@@ -97,8 +98,12 @@ class Settings:
     """Generic Settings class
 
     Used by different other classes to store messurements and details.
-    Supports absolutevalues and settings that grow with the thinckness
+    Supports absolute values and settings that grow with the thickness
     of the material used.
+
+    Overload the absolute_params and relative_params class attributes with
+    the suported keys and default values. The values are available via
+    attribute access.
     """
     absolute_params = { }
     relative_params = { }
@@ -118,8 +123,8 @@ class Settings:
         Set values
 
         :param thickness: thickness of the material used
-        :param relative:  (Default value = True) Do scale by thinckness
-        :param **kw: parameters to set
+        :param relative:  (Default value = True) Do scale by thickness
+        :param \*\*kw: parameters to set
 
         """
         factor = 1.0
@@ -156,6 +161,7 @@ class Edge:
         return getattr(self.boxes, name)
 
     def __call__(self, length, **kw):
+        """Draw edge of length mm"""
         self.ctx.move_to(0,0)
         self.ctx.line_to(length, 0)
         self.ctx.translate(*self.ctx.get_current_point())
@@ -252,9 +258,23 @@ class SlottedEdge(Edge):
         self.edge(self.sections[-1])
 
 class FingerJointSettings(Settings):
-    """Setting for all different finger joint components
+    """Settings for finger joints
 
-    Both sides should use the same instance to ensure they match"""
+Values:
+
+* absolute
+
+  * surroundingspaces : 2 : maximum space at the start and end in multiple
+    of normal spaces
+
+* relative (in multiples of thickness)
+
+  * space : 1.0 : space between fingers
+  * finger : 1.0 : width of the fingers
+  * height : 1.0 : length of the fingers
+  * width : 1.0 : width of finger holes
+
+"""
 
     absolute_params = {
         "surroundingspaces" : 2,
@@ -350,7 +370,7 @@ class FingerHoleEdge(Edge):
         return (self.fingerHoleEdgeWidth+1) * self.thickness
 
 class FingerHoles:
-    """Hole mathcing a finger joint edge"""
+    """Hole matching a finger joint edge"""
     def __init__(self, boxes, settings):
         self.boxes = boxes
         self.ctx = boxes.ctx
@@ -392,7 +412,19 @@ class CrossingFingerHoleEdge(Edge):
 class DoveTailSettings(Settings):
     """Settings used for dove tail joints
 
-    Both sides should use the same instance to ensure they match"""
+Values:
+
+* absolute
+
+  * angle : 50 : how much should fingers widen (-80 to 80)
+
+* relative (in multiples of thickness)
+
+  * size : 3 : from one middle of a dove tail to another
+  * depth : 1.5 : how far the dove tails stick out of/into the edge
+  * radius : 0.2 : radius used on all four corners
+
+"""
     absolute_params = {
         "angle" : 50,
         }
@@ -454,7 +486,21 @@ class DoveTailJointCounterPart(DoveTailJoint):
         return self.boxes.spacing
 
 class FlexSettings(Settings):
-    """Settings for one directional flex cuts"""
+    """Settings for one directional flex cuts
+
+Values:
+
+* absolute
+
+ * stretch : 1.05 : Hint of how much the flex part should be shortend
+
+* relative (in multiples of thickness)
+
+ * distance : 0.5 : width of the pattern perpendicular to the cuts
+ * connection : 1.0 : width of the gaps in the cuts
+ * width" : 5.0 : width of the pattern in direction of the cuts
+
+"""
     relative_params = {
         "distance" : 0.5,
         "connection" : 1.0,

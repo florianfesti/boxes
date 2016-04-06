@@ -15,7 +15,7 @@ Contents:
    edges
    TODO
 
-.. include:: ../README.rst
+.. include:: ../../README.rst
       
 Indices and tables
 ==================

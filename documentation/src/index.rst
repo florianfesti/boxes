@@ -10,13 +10,12 @@ Contents:
 
 .. toctree::
    :maxdepth: 2
-	      
+	
+   README
    Boxes
    edges
    TODO
 
-.. include:: ../../README.rst
-      
 Indices and tables
 ==================
 

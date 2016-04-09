@@ -167,7 +167,7 @@ is accessible as **Boxes.fingerHolesAt**.
 Hexagonal Hole patterns
 .......................
 
-Hexagonal hole patters are one way to have some ventilation for
+Hexagonal hole patterns are one way to have some ventilation for
 housings maded with Boxes.py. Right now both ``.rectangularWall()``
 and ``.roundedPlate()`` do supports this pattern directly by passing
 the parameters to the calls. For other use cases these more low level

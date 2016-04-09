@@ -735,7 +735,7 @@ class Boxes:
         style : what types of holes (not yet implemented)
 
         :param x: width
-        :param y: heigth
+        :param y: height
         :param settings:  (Default value = None)
         :param skip:  (Default value = None) function to check if hole should be present
                gets x, y, r, b, posx, posy

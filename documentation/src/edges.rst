@@ -7,6 +7,8 @@ callables. A set of instances are kept the ``.edges`` attribute of the
 
 * e : Edge
 * E : OutSetEdge
+* s : StackableEdge
+* S : StackableEdgeTop
 * f : FingerJointEdge
 * F : FingerJointEdgeCounterPart
 * h : FingerHoleEdge
@@ -36,6 +38,18 @@ Straight Edges
 
 .. autoclass:: boxes.edges.Edge
 .. autoclass:: boxes.edges.OutSetEdge
+
+Stackable Edges
+---------------
+
+.. autoclass:: boxes.edges.StackableEdge
+.. autoclass:: boxes.edges.StackableEdgeTop
+
+Stackable Edge Settings
+.......................
+
+.. autoclass:: boxes.edges.StackableSettings
+	       :members:
 
 Finger joints
 -------------

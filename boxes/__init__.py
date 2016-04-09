@@ -247,6 +247,10 @@ class Boxes:
         self.addPart(edges.FingerHoleEdge(self, s))
         self.addPart(edges.FingerHoles(self, s))
 
+        ss = edges.StackableSettings(self.thickness)
+        self.addPart(edges.StackableEdge(self, ss, s))
+        self.addPart(edges.StackableEdgeTop(self, ss, s))
+
         s = edges.DoveTailSettings(self.thickness)
         self.addPart(edges.DoveTailJoint(self, s))
         self.addPart(edges.DoveTailJointCounterPart(self, s))

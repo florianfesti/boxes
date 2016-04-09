@@ -417,6 +417,79 @@ class CrossingFingerHoleEdge(Edge):
         Edge.__call__(self, length)
 
 #############################################################################
+####     Stackable Joints
+#############################################################################
+
+class StackableSettings(Settings):
+    """Settings for StackableEdge classes
+
+Values:
+
+* absolute_params
+
+  * angle : 60 : inside angle of the feet
+
+* relative (in multiples of thickness)
+
+  * height : 2.0 : height of the feet
+  * width  : 4.0 : width of the feet
+  * holedistance : 1.0 : distance from finger holes to bottom edge
+
+"""
+
+    absolute_params = {
+        "angle" : 60,
+    }
+    relative_params = {
+        "height" : 2.0,
+        "width"  : 4.0,
+        "holedistance" : 1.0,
+    }
+
+class StackableEdge(Edge):
+    """Edge for having stackable Boxes. The Edge creates feet on the bottom
+    and has matching recesses on the top corners."""
+
+    char = "s"
+
+    bottom = True
+
+    def __init__(self, boxes, settings, fingerjointsettings):
+        Edge.__init__(self, boxes, settings)
+        self.fingerjointsettings = fingerjointsettings
+
+    def __call__(self, length, **kw):
+        s = self.settings
+        r = s.height / 2.0 / (1-math.cos(math.radians(s.angle)))
+        l = r * math.sin(math.radians(s.angle))
+        p = 1 if self.bottom else -1
+
+        if self.bottom:
+            self.boxes.fingerHolesAt(0, s.height+self.settings.holedistance+0.5*self.boxes.thickness,
+                                     length, 0)
+
+        self.boxes.edge(s.width)
+        self.boxes.corner(p*s.angle, r)
+        self.boxes.corner(-p*s.angle, r)
+        self.boxes.edge(length-2*s.width-4*l)
+        self.boxes.corner(-p*s.angle, r)
+        self.boxes.corner(p*s.angle, r)
+        self.boxes.edge(s.width)
+
+    def _height(self):
+        return self.settings.height + self.settings.holedistance + self.settings.thickness
+        
+    def width(self):
+        return self._height() if self.bottom else 0
+
+    def margin(self):
+        return 0 if self.bottom else self._height()
+
+class StackableEdgeTop(StackableEdge):
+    char = "S"
+    bottom = False
+
+#############################################################################
 ####     Dove Tail Joints
 #############################################################################
     

@@ -29,7 +29,7 @@ class Box(Boxes):
     def render(self):
         x, y, h = self.x, self.y, self.h
         t = self.thickness
-        self.open(width=x+y+40, height=y+2*h+50)
+        self.open(width=max(x+y,2*x)+10*t, height=y+2*h+12*t)
 
         d2 = [edges.Bolts(2)]
         d3 = [edges.Bolts(3)]

@@ -244,8 +244,8 @@ class Boxes:
                     surroundingspaces=getattr(self, "fingerjointsurrounding", 1.0))
         self.addPart(edges.FingerJointEdge(self, s))
         self.addPart(edges.FingerJointEdgeCounterPart(self, s))
-        self.addPart(edges.FingerHoleEdge(self, s))
-        self.addPart(edges.FingerHoles(self, s))
+        self.addPart(edges.FingerHoles(self, s), name="fingerHolesAt")
+        self.addPart(edges.FingerHoleEdge(self, None))
 
         ss = edges.StackableSettings(self.thickness)
         self.addPart(edges.StackableEdge(self, ss, s))
@@ -624,28 +624,6 @@ class Boxes:
             elif (not movebeforeprint and not before) or dontdraw:
                 self.moveTo(x, y)
         return dontdraw
-
-
-
-    # Building blocks
-
-    def fingerHolesAt(self, x, y, length, angle=90,
-                      bedBolts=None, bedBoltSettings=None):
-        """
-        Draw holes for a matching finger joint edge
-
-        :param x: position
-        :param y: position
-        :param length: length of matching edge
-        :param angle:  (Default value = 90)
-        :param bedBolts:  (Default value = None)
-        :param bedBoltSettings:  (Default value = None)
-
-        """
-        self.ctx.save()
-        self.moveTo(x, y, angle)
-        self.fingerHoles(length, bedBolts, bedBoltSettings)
-        self.ctx.restore()
 
     @restore
     def hole(self, x, y, r):

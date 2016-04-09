@@ -356,27 +356,6 @@ class FingerJointEdgeCounterPart(FingerJointEdge):
         """ """
         return self.boxes.spacing
 
-class FingerHoleEdge(Edge):
-    """Edge with holes for a parallel finger joint"""
-    char = 'h'
-
-    def __call__(self, length, dist=None,
-                 bedBolts=None, bedBoltSettings=None, **kw):
-        if dist is None:
-            dist = self.fingerHoleEdgeWidth * self.thickness
-        self.ctx.save()
-        self.moveTo(0, dist+self.thickness/2)
-        self.fingerHoles(length, bedBolts, bedBoltSettings)
-        self.ctx.restore()
-        # XXX continue path
-        self.ctx.move_to(0, 0)
-        self.ctx.line_to(length, 0)
-        self.ctx.translate(*self.ctx.get_current_point())
-
-    def width(self):
-        """ """
-        return (self.fingerHoleEdgeWidth+1) * self.thickness
-
 class FingerHoles:
     """Hole matching a finger joint edge"""
     def __init__(self, boxes, settings):
@@ -384,7 +363,21 @@ class FingerHoles:
         self.ctx = boxes.ctx
         self.settings = settings
 
-    def __call__(self, length, bedBolts=None, bedBoltSettings=None):
+    def __call__(self, x, y, length, angle=90, bedBolts=None, bedBoltSettings=None):
+        """
+        Draw holes for a matching finger joint edge
+
+        :param x: position
+        :param y: position
+        :param length: length of matching edge
+        :param angle:  (Default value = 90)
+        :param bedBolts:  (Default value = None)
+        :param bedBoltSettings:  (Default value = None)
+
+        """
+        self.boxes.ctx.save()
+        self.boxes.moveTo(x, y, angle)
+
         s, f = self.settings.space, self.settings.finger
         fingers = int((length-(self.settings.surroundingspaces-1)*s) //
                       (s+f))
@@ -403,17 +396,41 @@ class FingerHoles:
             self.ctx.rectangle(pos+s+b, -self.settings.width/2+b,
                                f-2*b, self.settings.width - 2*b)
 
-        self.ctx.move_to(0, length)
+        self.ctx.restore()
+
+class FingerHoleEdge(Edge):
+    """Edge with holes for a parallel finger joint"""
+    char = 'h'
+    def __init__(self, boxes, fingerHoles=None, **kw):
+        Edge.__init__(self, boxes, None, **kw)
+        self.fingerHoles = fingerHoles or boxes.fingerHolesAt
+
+    def __call__(self, length, dist=None,
+                 bedBolts=None, bedBoltSettings=None, **kw):
+        if dist is None:
+            dist = self.fingerHoleEdgeWidth * self.thickness
+        self.ctx.save()
+        self.fingerHoles(0, dist+self.thickness/2, length, 0,
+                         bedBolts=bedBolts, bedBoltSettings=bedBoltSettings)
+        self.ctx.restore()
+        # XXX continue path
+        self.ctx.move_to(0, 0)
+        self.ctx.line_to(length, 0)
         self.ctx.translate(*self.ctx.get_current_point())
+
+    def width(self):
+        """ """
+        return (self.fingerHoleEdgeWidth+1) * self.thickness
 
 class CrossingFingerHoleEdge(Edge):
     """Edge with holes for finger joints 90° above"""
-    def __init__(self, boxes, height, **kw):
+    def __init__(self, boxes, height, fingerHoles=None, **kw):
         Edge.__init__(self, boxes, None, **kw)
+        self.fingerHoles = fingerHoles or boxes.fingerHolesAt
         self.height = height
 
     def __call__(self, length, **kw):
-        self.fingerHolesAt(length/2.0, 0, self.height)
+        self.fingerHoles(length/2.0, 0, self.height)
         Edge.__call__(self, length)
 
 #############################################################################

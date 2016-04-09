@@ -969,6 +969,7 @@ class Boxes:
             self.cc(callback, 2, y=bottomwidth+self.burn)
             bottom(x-2*r)
             self.edges["X"](2*c4, h+topwidth+bottomwidth)
+            self.cc(callback, 4, y=bottomwidth+self.burn)
         else:
             for i, l in zip(range(4), (y, x, y, 0)):
                 self.edges["X"](c4, h+topwidth+bottomwidth)

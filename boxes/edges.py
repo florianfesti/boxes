@@ -215,6 +215,10 @@ class CompoundEdge(Edge):
             # XXX different margins???
             e(l)
 
+#############################################################################
+####     Slots
+#############################################################################
+
 class Slot(Edge):
     """Edge with an slot to slid another pice through """
     def __init__(self, boxes, depth):
@@ -256,6 +260,10 @@ class SlottedEdge(Edge):
             else:
                 self.edge(self.thickness)
         self.edge(self.sections[-1])
+
+#############################################################################
+####     Finger Joints
+#############################################################################
 
 class FingerJointSettings(Settings):
     """Settings for finger joints
@@ -408,6 +416,9 @@ class CrossingFingerHoleEdge(Edge):
         self.fingerHolesAt(length/2.0, 0, self.height)
         Edge.__call__(self, length)
 
+#############################################################################
+####     Dove Tail Joints
+#############################################################################
     
 class DoveTailSettings(Settings):
     """Settings used for dove tail joints

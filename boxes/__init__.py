@@ -193,6 +193,14 @@ class Boxes:
                 self.argparser.add_argument(
                     "--hi",  action="store", type=float, default=0.0,
                     help="inner height of inner walls in mm (leave to zero for same as outer walls)")
+            elif arg == "bottom_edge":
+                self.argparser.add_argument(
+                    "--bottom_edge",  action="store", type=str, default="h",
+                    help="edge type for bottom edge")
+            elif arg == "top_edge":
+                self.argparser.add_argument(
+                    "--top_edge",  action="store", type=str, default="e",
+                    help="edge type for top edge")
             else:
                 raise ValueError("No default for argument", arg)
 

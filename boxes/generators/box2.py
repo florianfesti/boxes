@@ -23,7 +23,7 @@ class Box(Boxes):
 
     def __init__(self):
         Boxes.__init__(self)
-        self.buildArgParser("x", "y", "h")
+        self.buildArgParser("top_edge", "bottom_edge", "x", "y", "h")
         self.argparser.set_defaults(
             fingerjointfinger=3.0,
             fingerjointspace=3.0
@@ -31,19 +31,26 @@ class Box(Boxes):
 
     def render(self):
         x, y, h = self.x, self.y, self.h
-        t = self.thickness
+
         self.open(width=x+y+40, height=y+2*h+50)
 
+        b = self.edges.get(self.bottom_edge, self.edges["F"])
+        t = self.edges.get(self.top_edge, self.edges["e"])
+        
         d2 = Bolts(2)
         d3 = Bolts(3)
 
         d2 = d3 = None
 
-        self.moveTo(t, t)
-        self.rectangularWall(x, h, "hFeF", bedBolts=[d2], move="right")
-        self.rectangularWall(y, h, "hfef", bedBolts=[d3], move="up")
-        self.rectangularWall(y, h, "hfef", bedBolts=[d3])
-        self.rectangularWall(x, h, "hFeF", bedBolts=[d2], move="left up")
+        self.moveTo(self.thickness, self.thickness)
+        self.rectangularWall(x, h, [b, "F", t, "F"],
+                             bedBolts=[d2], move="right")
+        self.rectangularWall(y, h, [b, "f", t, "f"],
+                             bedBolts=[d3], move="up")
+        self.rectangularWall(y, h, [b, "f", t, "f"],
+                             bedBolts=[d3])
+        self.rectangularWall(x, h, [b, "F", t, "F"],
+                             bedBolts=[d2], move="left up")
         
         self.rectangularWall(x, y, "ffff", bedBolts=[d2, d3, d2, d3])
 

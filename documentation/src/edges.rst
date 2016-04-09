@@ -67,9 +67,11 @@ useful for inner walls.
 
 In addition there is
 
-.. automethod:: boxes.Boxes.fingerHolesAt
+.. autoclass:: boxes.edges.FingerHoles
 
 which is no Edge but fits ``FingerJointEdge``.
+
+An instance of is accessible as **Boxes.fingerHolesAt**.
 
 Finger Joint Settings
 .....................

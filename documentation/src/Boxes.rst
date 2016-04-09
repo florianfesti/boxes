@@ -151,11 +151,18 @@ coordinates passed as parameters. All of them are either som sort of
 hole or text. These artefacts are placed somewhere independently of
 some continuous outline of the part their on.
 
-.. automethod:: boxes.Boxes.fingerHolesAt
 .. automethod:: boxes.Boxes.hole
 .. automethod:: boxes.Boxes.rectangularHole
 .. automethod:: boxes.Boxes.text
 .. automethod:: boxes.Boxes.NEMA
+
+An instance of
+
+.. autoclass:: boxes.edges.FingerHoles
+	       :noindex:
+
+is accessible as **Boxes.fingerHolesAt**.
+
 
 Hexagonal Hole patterns
 .......................

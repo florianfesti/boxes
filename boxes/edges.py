@@ -110,7 +110,7 @@ class Settings:
 
     def __init__(self, thickness, relative=True, **kw):
         self.values = self.absolute_params.copy()
-
+        self.thickness = thickness
         factor = 1.0
         if relative:
             factor = thickness

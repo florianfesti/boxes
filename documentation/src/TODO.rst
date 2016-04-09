@@ -14,7 +14,6 @@ Infrastructure
   * Offer a collection of different settings
 
 * Use stretch setting in flexboxes
-* Add CLI params for finger joint settings
 * Add CLI params for flex settings
 
 Generators
@@ -25,7 +24,6 @@ Generators
   * Inner corners of the floor
   * Bottom edges of walls without floor underneeth
 
-* Finish lamp
 * Make bolts configurable (e.g. box2.py)
 * Treasure Chest with rounded lid and living hinge
 * Treasure Chest with rounded lid (hinges needed)

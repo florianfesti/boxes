@@ -22,6 +22,8 @@ import re
 from functools import wraps
 from boxes import edges
 
+### Helpers
+
 def dist(dx, dy):
     """
     Return distance
@@ -92,6 +94,10 @@ class NutHole:
             self.boxes.edge(side)
             self.boxes.corner(-60)
 
+##############################################################################
+### Argument types
+##############################################################################
+
 def argparseSections(s):
     """
     Parse sections parameter
@@ -112,6 +118,10 @@ def argparseSections(s):
         return [float(part) for part in s.split(":")]
     except ValueError:
         raise argparse.ArgumentTypeError("Don't understand sections string")
+
+##############################################################################
+### Main class
+##############################################################################
 
 class Boxes:
     """Main class -- Generator should sub class this """

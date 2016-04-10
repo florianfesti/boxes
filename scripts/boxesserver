@@ -54,16 +54,23 @@ class BServer:
         name = a.option_strings[0].replace("-", "")
         if isinstance(a, argparse._HelpAction):
             return ""
+        row = """<tr><td>%s</td><td>%%s</td><td>%s</td></tr>\n""" % \
+              (name, a.help or "")
         if isinstance(a, argparse._StoreTrueAction):
-            return """<tr><td>%s</td><td><input name="%s" type="checkbox" value="%s"></td><td>%s</td></tr>\n""" % \
-            (name, name, a.default, a.help)
-        if a.dest == "layout":
+            input = """<input name="%s" type="checkbox" value="%s">""" % \
+                    (name, a.default)
+        elif (isinstance(a, argparse._StoreAction) and
+            isinstance(a.type, boxes.ArgparseEdgeType)):
+            input = a.type.html(name, a.default)
+        elif a.dest == "layout":
             val = a.default.split("\n")
-            return """<tr><td>%s</td><td><textarea name="%s" cols="%s" rows="%s">%s</textarea></td><td>%s</td></tr>\n""" % \
-                (name, name, max((len(l) for l in val))+10, len(val)+1,
-                 a.default, a.help or "")
-        return """<tr><td>%s</td><td><input name="%s" type="text" value="%s"></td><td>%s</td></tr>\n""" % \
-            (name, name, a.default, a.help)
+            input = """<textarea name="%s" cols="%s" rows="%s">%s</textarea>""" % \
+                    (name, max((len(l) for l in val))+10, len(val)+1, a.default)
+        else:
+            input =  """<input name="%s" type="text" value="%s">""" % \
+            (name, a.default)
+
+        return row % input
     
     def args2html(self, name, box, action=""):
         result = ["""<html><head><title>Boxes - """, name, """</title></head>

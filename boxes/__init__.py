@@ -119,6 +119,34 @@ def argparseSections(s):
     except ValueError:
         raise argparse.ArgumentTypeError("Don't understand sections string")
 
+class ArgparseEdgeType:
+    edges = []
+    names = {
+        "e" : "Straight Edge",
+        "E" : "Outset Edge",
+        "f" : "Finger Joint",
+        "F" : "Finger Joint other side",
+        }
+
+    def __init__(self, edges=None):
+        if edges:
+            self.edges = list(edges)
+
+    def __call__(self, pattern):
+        if len(pattern) != 1:
+            raise ValueError("Edge type can only have one letter.")
+        if pattern not in self.edges:
+            raise ValueError("Use one of the following values: " +
+                             ", ".join(edges))
+        return pattern
+
+    def html(self, name, default):
+        options = "\n".join(
+            ("""<option value="%s"%s>%s %s</option>""" %
+             (e, ' selected="selected"' if e == default else "",
+              e, self.names.get(e, "")) for e in self.edges))
+        return """<select name="%s" size="1">\n%s</select>\n""" % (name, options)
+
 ##############################################################################
 ### Main class
 ##############################################################################
@@ -205,11 +233,13 @@ class Boxes:
                     help="inner height of inner walls in mm (leave to zero for same as outer walls)")
             elif arg == "bottom_edge":
                 self.argparser.add_argument(
-                    "--bottom_edge",  action="store", type=str, default="h",
+                    "--bottom_edge",  action="store",
+                    type=ArgparseEdgeType("Fhs"), default="h",
                     help="edge type for bottom edge")
             elif arg == "top_edge":
                 self.argparser.add_argument(
-                    "--top_edge",  action="store", type=str, default="e",
+                    "--top_edge",  action="store",
+                    type=ArgparseEdgeType("eES"), default="e",
                     help="edge type for top edge")
             else:
                 raise ValueError("No default for argument", arg)

@@ -15,6 +15,7 @@ Infrastructure
 
 * Use stretch setting in flexboxes
 * Add CLI params for flex settings
+* Make CompoundEdge support differences in Edge.width()
 
 Generators
 ..........
@@ -22,7 +23,7 @@ Generators
 * Fix traylayout
 
   * Inner corners of the floor
-  * Bottom edges of walls without floor underneeth
+  * Move bottom edges of walls without floor underneeth to E
 
 * Make bolts configurable (e.g. box2.py)
 * Treasure Chest with rounded lid and living hinge

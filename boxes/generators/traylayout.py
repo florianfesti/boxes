@@ -88,6 +88,16 @@ class Layout(Boxes):
             result += 1
         return result
 
+    def vFloor(self, x, y):
+        "Is there floor under vertical wall"
+        return ((x>0 and self.floors[y][x-1]) or
+                (x<len(self.x) and self.floors[y][x]))
+
+    def hFloor(self, x, y):
+        "Is there foor under horizontal wall"
+        return ((y>0 and self.floors[y-1][x]) or
+                (y<len(self.y) and self.floors[y][x]))
+
     @restore
     def edgeAt(self, edge, x, y, length, angle=0):
         self.moveTo(x, y, angle)
@@ -125,7 +135,10 @@ class Layout(Boxes):
                     break
                 end = start
                 while end < lx and self.hwalls[y][end]:
-                    edges.append("f") # e for no ground
+                    if self.hFloor(end, y):
+                        edges.append("f")
+                    else:
+                        edges.append("e") # XXX E?
                     lengths.append(self.x[end])
                     edges.append("eCs"[self.vWalls(end+1, y)])
                     lengths.append(self.thickness)
@@ -162,7 +175,10 @@ class Layout(Boxes):
                     break
                 end = start
                 while  end < ly and self.vwalls[end][x]:
-                    edges.append("f") # e for no ground
+                    if self.vFloor(x, end):
+                        edges.append("f")
+                    else:
+                        edges.append("e") # XXX E?
                     lengths.append(self.y[end])
                     edges.append("eCs"[self.hWalls(x, end+1)])
                     lengths.append(self.thickness)
@@ -175,6 +191,7 @@ class Layout(Boxes):
                     "f" : "e",
                     "s" : "s",
                     "e" : "e",
+                    "E" : "e",
                     "C" : "e"}[e] for e in reversed(edges)]
                 edges = ["e" if e == "s" else e for e in edges]
                 self.rectangularWall(sum(lengths), h, [

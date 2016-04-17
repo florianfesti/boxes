@@ -260,7 +260,7 @@ class Boxes:
             name = part.__class__.__name__
             name = name[0].lower() + name[1:]
         #if not hasattr(self, name):
-        if isinstance(part, edges.Edge):
+        if isinstance(part, edges.BaseEdge):
             self.edges[part.char] = part
         else:
             setattr(self, name, part)
@@ -1061,7 +1061,6 @@ class Boxes:
             raise ValueError("four edges required")
         edges = [self.edges.get(e, e) for e in edges]
         edges += edges # append for wrapping around
-
         overallwidth = x + edges[-1].spacing() + edges[1].spacing()
         overallheight = y + edges[0].spacing() + edges[2].spacing()
 

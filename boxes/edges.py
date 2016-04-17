@@ -185,6 +185,14 @@ class BaseEdge:
         """Space the edge needs outside of the inner space of the part"""
         return self.width() + self.margin()
 
+    def startAngle(self):
+        """Not yet supported"""
+        return 0.0
+
+    def endAngle(self):
+        """Not yet supported"""
+        return 0.0
+
 class Edge(BaseEdge):
     """Straight edge"""
     char = 'e'

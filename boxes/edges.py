@@ -20,7 +20,8 @@ import inspect
 
 def getDescriptions():
     return {edge.char : edge.description for edge in globals().values()
-            if inspect.isclass(edge) and issubclass(edge, Edge) and edge.char}
+            if inspect.isclass(edge) and issubclass(edge, BaseEdge)
+            and edge.char}
 
 class BoltPolicy:
     """Abstract class
@@ -184,7 +185,7 @@ class BaseEdge:
         """Space the edge needs outside of the inner space of the part"""
         return self.width() + self.margin()
 
-class Edge:
+class Edge(BaseEdge):
     """Straight edge"""
     char = 'e'
     description = "Straight Edge"    

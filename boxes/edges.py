@@ -147,9 +147,9 @@ class Settings:
 #############################################################################
 
 
-class Edge:
-    """Straight edge"""
-    char = 'e'
+class BaseEdge:
+    """Abstract base class for all Edges"""
+    char = None
 
     def __init__(self, boxes, settings):
         self.boxes = boxes
@@ -178,22 +178,18 @@ class Edge:
         """Space the edge needs outside of the inner space of the part"""
         return self.width() + self.margin()
 
-    def startAngle(self):
-        """Not yet supported"""
-        return 0.0
+class Edge:
+    """Straight edge"""
+    char = 'e'
 
-    def endAngle(self):
-        """Not yet supported"""
-        return 0.0
-
-class OutSetEdge(Edge):
+class OutSetEdge(BaseEdge):
     """Straight edge out set by one thickness"""
     char = 'E'
 
     def width(self):
         return self.boxes.thickness
 
-class CompoundEdge(Edge):
+class CompoundEdge(BaseEdge):
     """Edge composed of multiple different Edges"""
 
     def __init__(self, boxes, types, lengths):
@@ -219,8 +215,9 @@ class CompoundEdge(Edge):
 ####     Slots
 #############################################################################
 
-class Slot(Edge):
+class Slot(BaseEdge):
     """Edge with an slot to slid another pice through """
+
     def __init__(self, boxes, depth):
         Edge.__init__(self, boxes, None)
         self.depth = depth
@@ -237,7 +234,7 @@ class Slot(Edge):
         else:
             self.boxes.edge(self.length)
 
-class SlottedEdge(Edge):
+class SlottedEdge(BaseEdge):
     """Edge with multiple slots"""
 
     def __init__(self, boxes, sections, edge="e", slots=0):
@@ -295,7 +292,7 @@ Values:
         "width" : 1.0,
         }
 
-class FingerJointEdge(Edge):
+class FingerJointEdge(BaseEdge):
     """Finger joint edge """
     char = 'f'
     positive = True
@@ -398,7 +395,7 @@ class FingerHoles:
 
         self.ctx.restore()
 
-class FingerHoleEdge(Edge):
+class FingerHoleEdge(BaseEdge):
     """Edge with holes for a parallel finger joint"""
     char = 'h'
     def __init__(self, boxes, fingerHoles=None, **kw):
@@ -422,7 +419,7 @@ class FingerHoleEdge(Edge):
         """ """
         return (self.fingerHoleEdgeWidth+1) * self.thickness
 
-class CrossingFingerHoleEdge(Edge):
+class CrossingFingerHoleEdge(BaseEdge):
     """Edge with holes for finger joints 90° above"""
     def __init__(self, boxes, height, fingerHoles=None, **kw):
         Edge.__init__(self, boxes, None, **kw)
@@ -463,7 +460,7 @@ Values:
         "holedistance" : 1.0,
     }
 
-class StackableEdge(Edge):
+class StackableEdge(BaseEdge):
     """Edge for having stackable Boxes. The Edge creates feet on the bottom
     and has matching recesses on the top corners."""
 
@@ -535,7 +532,7 @@ Values:
         "radius" : 0.2,
         }
 
-class DoveTailJoint(Edge):
+class DoveTailJoint(BaseEdge):
     """Edge with dove tail joints """
     char = 'd'
     positive = True
@@ -611,7 +608,7 @@ Values:
         "stretch" : 1.05,
         }
 
-class FlexEdge(Edge):
+class FlexEdge(BaseEdge):
     """Edge with flex cuts - use straight edge for the opposing side"""
     char = 'X'
 

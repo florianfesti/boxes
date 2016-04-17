@@ -120,13 +120,8 @@ def argparseSections(s):
         raise argparse.ArgumentTypeError("Don't understand sections string")
 
 class ArgparseEdgeType:
+    names = edges.getDescriptions()
     edges = []
-    names = {
-        "e" : "Straight Edge",
-        "E" : "Outset Edge",
-        "f" : "Finger Joint",
-        "F" : "Finger Joint other side",
-        }
 
     def __init__(self, edges=None):
         if edges:

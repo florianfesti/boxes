@@ -16,6 +16,11 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import math
+import inspect
+
+def getDescriptions():
+    return {edge.char : edge.description for edge in globals().values()
+            if inspect.isclass(edge) and issubclass(edge, Edge) and edge.char}
 
 class BoltPolicy:
     """Abstract class
@@ -150,6 +155,7 @@ class Settings:
 class BaseEdge:
     """Abstract base class for all Edges"""
     char = None
+    description = "Abstract Edge Class"
 
     def __init__(self, boxes, settings):
         self.boxes = boxes
@@ -181,16 +187,19 @@ class BaseEdge:
 class Edge:
     """Straight edge"""
     char = 'e'
+    description = "Straight Edge"    
 
 class OutSetEdge(BaseEdge):
     """Straight edge out set by one thickness"""
     char = 'E'
+    description = "Straight Edge (outset by thickness)"
 
     def width(self):
         return self.boxes.thickness
 
 class CompoundEdge(BaseEdge):
     """Edge composed of multiple different Edges"""
+    description = "Compound Edge"
 
     def __init__(self, boxes, types, lengths):
         Edge.__init__(self, boxes, None)
@@ -218,6 +227,8 @@ class CompoundEdge(BaseEdge):
 class Slot(BaseEdge):
     """Edge with an slot to slid another pice through """
 
+    description = "Slot"
+
     def __init__(self, boxes, depth):
         Edge.__init__(self, boxes, None)
         self.depth = depth
@@ -236,6 +247,7 @@ class Slot(BaseEdge):
 
 class SlottedEdge(BaseEdge):
     """Edge with multiple slots"""
+    description = "Straight Edge with slots"
 
     def __init__(self, boxes, sections, edge="e", slots=0):
         Edge.__init__(self, boxes, None)
@@ -295,6 +307,7 @@ Values:
 class FingerJointEdge(BaseEdge):
     """Finger joint edge """
     char = 'f'
+    description = "Finger Joint"
     positive = True
 
     def __call__(self, length,
@@ -343,6 +356,7 @@ class FingerJointEdge(BaseEdge):
 class FingerJointEdgeCounterPart(FingerJointEdge):
     """Finger joint edge - other side"""
     char = 'F'
+    description = "Finger Joint (opposing side)"
     positive = False
 
     def width(self):
@@ -398,6 +412,7 @@ class FingerHoles:
 class FingerHoleEdge(BaseEdge):
     """Edge with holes for a parallel finger joint"""
     char = 'h'
+    description = "Edge (parallel Finger Joint Holes)"
     def __init__(self, boxes, fingerHoles=None, **kw):
         Edge.__init__(self, boxes, None, **kw)
         self.fingerHoles = fingerHoles or boxes.fingerHolesAt
@@ -421,6 +436,9 @@ class FingerHoleEdge(BaseEdge):
 
 class CrossingFingerHoleEdge(BaseEdge):
     """Edge with holes for finger joints 90° above"""
+
+    description = "Edge (orthogonal Finger Joint Holes)"
+
     def __init__(self, boxes, height, fingerHoles=None, **kw):
         Edge.__init__(self, boxes, None, **kw)
         self.fingerHoles = fingerHoles or boxes.fingerHolesAt
@@ -465,7 +483,7 @@ class StackableEdge(BaseEdge):
     and has matching recesses on the top corners."""
 
     char = "s"
-
+    description = "Stackable (bottom, finger joint holes)"
     bottom = True
 
     def __init__(self, boxes, settings, fingerjointsettings):
@@ -501,6 +519,7 @@ class StackableEdge(BaseEdge):
 
 class StackableEdgeTop(StackableEdge):
     char = "S"
+    description = "Stackable (top)"
     bottom = False
 
 #############################################################################
@@ -535,6 +554,7 @@ Values:
 class DoveTailJoint(BaseEdge):
     """Edge with dove tail joints """
     char = 'd'
+    description = "Dove Tail Joint"
     positive = True
 
     def __call__(self, length, **kw):
@@ -574,6 +594,7 @@ class DoveTailJoint(BaseEdge):
 class DoveTailJointCounterPart(DoveTailJoint):
     """Edge for other side of dove joints """
     char = 'D'
+    description = "Dove Tail Joint (opposing side)"
 
     positive = False
 
@@ -611,6 +632,7 @@ Values:
 class FlexEdge(BaseEdge):
     """Edge with flex cuts - use straight edge for the opposing side"""
     char = 'X'
+    description = "Flex cut"
 
     def __call__(self, x, h, **kw):
         dist = self.settings.distance

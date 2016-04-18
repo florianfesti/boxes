@@ -120,7 +120,7 @@ class Layout(Boxes):
         self.ctx.save()
 
         # Horizontal Walls
-        for y in range(len(self.y) + 1):
+        for y in range(ly + 1):
             if y == 0 or y == ly:
                 h = self.h
             else:
@@ -160,7 +160,7 @@ class Layout(Boxes):
         self.ctx.save()
         
         # Vertical Walls
-        for x in range(len(self.x) + 1):
+        for x in range(lx + 1):
             if x == 0 or x == lx:
                 h = self.h
             else:

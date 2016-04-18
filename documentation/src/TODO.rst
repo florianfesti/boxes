@@ -22,7 +22,6 @@ Generators
 
 * Fix traylayout
 
-  * Inner corners of the floor
   * Move bottom edges of walls without floor underneeth to E
 
 * Make bolts configurable (e.g. box2.py)

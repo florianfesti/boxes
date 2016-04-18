@@ -983,8 +983,9 @@ class Boxes:
         left = self.edges.get(left, left)
         right = self.edges.get(right, right)
 
-        topwidth = top.width()
-        bottomwidth = bottom.width()
+        # XXX assumes startwidth == endwidth
+        topwidth = top.startwidth()
+        bottomwidth = bottom.startwidth()
 
         overallwidth = 2*x + 2*y - 8*r + 4*c4 + \
             self.edges["d"].spacing() + self.edges["D"].spacing()
@@ -1070,17 +1071,17 @@ class Boxes:
         self.ctx.save()
         self.moveTo(edges[-1].margin(), edges[0].margin())
         for i, l in enumerate((x, y, x, y)):
-            self.edge(edges[i-1].width())
-            self.cc(callback, i, y=edges[i].width()+self.burn)
+            self.edge(edges[i-1].endwidth())
+            self.cc(callback, i, y=edges[i].startwidth()+self.burn)
             edges[i](l,
                      bedBolts=self.getEntry(bedBolts, i),
                      bedBoltSettings=self.getEntry(bedBoltSettings, i))
-            self.edge(edges[i+1].width())
+            self.edge(edges[i+1].startwidth())
             self.corner(90-edges[i].endAngle()-edges[i+1].startAngle())
 
         if holesMargin is not None:
-            self.moveTo(holesMargin+edges[-1].width(),
-                        holesMargin+edges[0].width())
+            self.moveTo(holesMargin+edges[-1].endwidth(),
+                        holesMargin+edges[0].startwidth())
             self.hexHolesRectangle(x-2*holesMargin, y-2*holesMargin)
         self.ctx.restore()
         self.ctx.stroke()

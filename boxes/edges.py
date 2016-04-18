@@ -173,17 +173,20 @@ class BaseEdge:
         self.ctx.line_to(length, 0)
         self.ctx.translate(*self.ctx.get_current_point())
 
-    def width(self):
+    def startwidth(self):
         """Amount of space the beginning of the edge is set below the inner space of the part """
         return 0.0
 
+    def endwidth(self):
+        return self.startwidth()
+    
     def margin(self):
         """Space needed right of the starting point"""
         return self.boxes.spacing
 
     def spacing(self):
         """Space the edge needs outside of the inner space of the part"""
-        return self.width() + self.margin()
+        return self.startwidth() + self.margin()
 
     def startAngle(self):
         """Not yet supported"""
@@ -203,7 +206,7 @@ class OutSetEdge(BaseEdge):
     char = 'E'
     description = "Straight Edge (outset by thickness)"
 
-    def width(self):
+    def startwidth(self):
         return self.boxes.thickness
 
 class CompoundEdge(BaseEdge):
@@ -216,8 +219,11 @@ class CompoundEdge(BaseEdge):
         self.lengths = lengths
         self.length = sum(lengths)
 
-    def width(self):
-        return self.types[0].width()
+    def startwidth(self):
+        return self.types[0].startwidth()
+
+    def endwidth(self):
+        return self.types[-1].endwidth()
         
     def margin(self):
         return max((e.margin() for e in self.types))
@@ -225,9 +231,19 @@ class CompoundEdge(BaseEdge):
     def __call__(self, length, **kw):
         if length and abs(length - self.length) > 1E-5:
             raise ValueError("Wrong length for CompoundEdge")
+        lastwidth = self.types[0].startwidth()
         for e, l in zip(self.types, self.lengths):
-            # XXX different margins???
+            diff = e.startwidth() - lastwidth
+            if diff > 1E-5:
+                self.boxes.corner(-90)
+                self.boxes.edge(diff)
+                self.boxes.corner(90)
+            elif diff < -1E-5:
+                self.boxes.corner(90)
+                self.boxes.edge(-diff)
+                self.boxes.corner(-90)
             e(l)
+            lastwidth = e.endwidth()
 
 #############################################################################
 ####     Slots
@@ -264,8 +280,11 @@ class SlottedEdge(BaseEdge):
         self.sections = sections
         self.slots = slots
 
-    def width(self):
-        return self.edge.width()
+    def startwidth(self):
+        return self.edge.startwidth()
+
+    def endwidth(self):
+        return self.edge.endwidth()
 
     def margin(self):
         return self.edge.margin()
@@ -439,7 +458,7 @@ class FingerHoleEdge(BaseEdge):
         self.ctx.line_to(length, 0)
         self.ctx.translate(*self.ctx.get_current_point())
 
-    def width(self):
+    def startwidth(self):
         """ """
         return (self.fingerHoleEdgeWidth+1) * self.thickness
 
@@ -520,7 +539,7 @@ class StackableEdge(BaseEdge):
     def _height(self):
         return self.settings.height + self.settings.holedistance + self.settings.thickness
         
-    def width(self):
+    def startwidth(self):
         return self._height() if self.bottom else 0
 
     def margin(self):
@@ -607,7 +626,7 @@ class DoveTailJointCounterPart(DoveTailJoint):
 
     positive = False
 
-    def width(self):
+    def startwidth(self):
         return self.settings.depth
 
     def margin(self):

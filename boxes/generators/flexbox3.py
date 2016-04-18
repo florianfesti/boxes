@@ -39,10 +39,10 @@ class FlexBox(Boxes):
         edge1 = self.edges.get(edge1, edge1)
         edge2 = self.edges.get(edge2, edge2)
         if edge2:
-            self.edge(edge2.width())
+            self.edge(edge2.startwidth())
         self.corner(90)
         if edge1:
-            self.edge(edge1.width())
+            self.edge(edge1.endwidth())
 
     @restore
     def flexBoxSide(self, x, y, r, callback=None):

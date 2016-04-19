@@ -229,13 +229,14 @@ class Boxes:
             elif arg == "bottom_edge":
                 self.argparser.add_argument(
                     "--bottom_edge",  action="store",
-                    type=ArgparseEdgeType("Fhs"), default="h",
+                    type=ArgparseEdgeType("Fhs"), choices=list("Fhs"),
+                    default="h",
                     help="edge type for bottom edge")
             elif arg == "top_edge":
                 self.argparser.add_argument(
                     "--top_edge",  action="store",
-                    type=ArgparseEdgeType("eES"), default="e",
-                    help="edge type for top edge")
+                    type=ArgparseEdgeType("eES"), choices=list("eES"),
+                    default="e", help="edge type for top edge")
             else:
                 raise ValueError("No default for argument", arg)
 

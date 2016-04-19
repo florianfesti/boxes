@@ -56,20 +56,6 @@ class Layout(Boxes):
         r.append("".join(("+" + " -"[h] for h in self.hwalls[-1])) + "+\n")
         return "".join(r)
 
-    def hholes(self, y, start, end):
-        posx = -0.5 * self.thickness
-        for i in range(start, end-1):
-            posx += self.x[i] + self.thickness
-            # XXX if no holes: continue
-            self.fingerHolesAt(posx, 0, self.hi)
-
-    def vholes(self, x, start, end):
-        posy = -0.5 * self.thickness
-        for i in range(start, end-1):
-            posy += self.y[i] + self.thickness
-            # XXX if no holes: continue
-            self.fingerHolesAt(posy, 0, self.hi)
-
     def vWalls(self, x, y):
         "Number of vertical walls at a crossing"
         result = 0

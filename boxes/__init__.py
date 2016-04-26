@@ -495,6 +495,11 @@ class Boxes:
         self.corner(90)
         self.edge((length-d)/2.0)
 
+    def edgeCorner(self, edge1, edge2, angle=90):
+        """Make a corner between two Edges. Take widht of edges into account"""
+        self.edge(edge2.startwidth()/math.sin(math.radians(180-angle)))
+        self.corner(angle)
+        self.edge(edge1.endwidth()/math.sin(math.radians(180-angle)))
 
     def grip(self, length, depth):
         """Corrugated edge useful as an gipping area
@@ -996,7 +1001,7 @@ class Boxes:
             return
 
         self.ctx.save()
-        self.moveTo(left.margin(), bottom.margin())
+        self.moveTo(left.spacing(), bottom.margin())
 
         self.cc(callback, 0, y=bottomwidth+self.burn)
         bottom(x/2.0-r)
@@ -1014,11 +1019,9 @@ class Boxes:
                     bottom(l-2*r)
         bottom(x/2.0-r)
 
-        self.corner(90)
-        self.edge(bottomwidth)
+        self.edgeCorner(bottom, right, 90)
         right(h)
-        self.edge(topwidth)
-        self.corner(90)
+        self.edgeCorner(right, top, 90)
 
         top(x/2.0-r)
         for i, l in zip(range(4), (y, x, y, 0)):
@@ -1027,17 +1030,14 @@ class Boxes:
                 top(l - 2*r)
         top(x/2.0-r)
 
-        self.corner(90)
-        self.edge(topwidth)
+        self.edgeCorner(top, left, 90)
         left(h)
-        self.edge(bottomwidth)
-        self.corner(90)
+        self.edgeCorner(left, bottom, 90)
 
         self.ctx.restore()
         self.ctx.stroke()
 
         self.move(overallwidth, overallheight, move)
-
 
     def rectangularWall(self, x, y, edges="eeee",
                         holesMargin=None, holesSettings=None,
@@ -1069,15 +1069,13 @@ class Boxes:
             return
 
         self.ctx.save()
-        self.moveTo(edges[-1].margin(), edges[0].margin())
+        self.moveTo(edges[-1].spacing(), edges[0].margin())
         for i, l in enumerate((x, y, x, y)):
-            self.edge(edges[i-1].endwidth())
             self.cc(callback, i, y=edges[i].startwidth()+self.burn)
             edges[i](l,
                      bedBolts=self.getEntry(bedBolts, i),
                      bedBoltSettings=self.getEntry(bedBoltSettings, i))
-            self.edge(edges[i+1].startwidth())
-            self.corner(90-edges[i].endAngle()-edges[i+1].startAngle())
+            self.edgeCorner(edges[i], edges[i+1], 90)
 
         if holesMargin is not None:
             self.moveTo(holesMargin+edges[-1].endwidth(),

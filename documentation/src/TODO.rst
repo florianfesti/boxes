@@ -15,7 +15,6 @@ Infrastructure
 
 * Use stretch setting in flexboxes
 * Add CLI params for flex settings
-* Make CompoundEdge support differences in Edge.width()
 
 Generators
 ..........

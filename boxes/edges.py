@@ -387,7 +387,7 @@ class FingerJointEdgeCounterPart(FingerJointEdge):
     description = "Finger Joint (opposing side)"
     positive = False
 
-    def width(self):
+    def startwidth(self):
         """ """
         return self.boxes.thickness
 

@@ -626,9 +626,6 @@ class DoveTailJointCounterPart(DoveTailJoint):
 
     positive = False
 
-    def startwidth(self):
-        return self.settings.depth
-
     def margin(self):
         return self.boxes.spacing
 

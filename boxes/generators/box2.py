@@ -52,7 +52,9 @@ class Box(Boxes):
         self.rectangularWall(x, h, [b, "F", t, "F"],
                              bedBolts=[d2], move="left up")
         
-        self.rectangularWall(x, y, "ffff", bedBolts=[d2, d3, d2, d3])
+        self.rectangularWall(x, y, "ffff", bedBolts=[d2, d3, d2, d3], move="right")
+        if self.top_edge == "c":
+            self.rectangularWall(x, y, "CCCC", bedBolts=[d2, d3, d2, d3], move="up")
 
         self.close()
 

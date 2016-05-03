@@ -235,7 +235,7 @@ class Boxes:
             elif arg == "top_edge":
                 self.argparser.add_argument(
                     "--top_edge",  action="store",
-                    type=ArgparseEdgeType("eES"), choices=list("eES"),
+                    type=ArgparseEdgeType("ecES"), choices=list("ecES"),
                     default="e", help="edge type for top edge")
             else:
                 raise ValueError("No default for argument", arg)
@@ -272,6 +272,7 @@ class Boxes:
         self.addPart(edges.Edge(self, None))
         self.addPart(edges.OutSetEdge(self, None))
 
+        # Finger joints
         # Share settings object
         s = edges.FingerJointSettings(self.thickness)
         s.setValues(self.thickness,
@@ -282,17 +283,22 @@ class Boxes:
         self.addPart(edges.FingerJointEdgeCounterPart(self, s))
         self.addPart(edges.FingerHoles(self, s), name="fingerHolesAt")
         self.addPart(edges.FingerHoleEdge(self, None))
-
+        # Stackable
         ss = edges.StackableSettings(self.thickness)
         self.addPart(edges.StackableEdge(self, ss, s))
         self.addPart(edges.StackableEdgeTop(self, ss, s))
-
+        # Dove tail joints
         s = edges.DoveTailSettings(self.thickness)
         self.addPart(edges.DoveTailJoint(self, s))
         self.addPart(edges.DoveTailJointCounterPart(self, s))
+        # Flex
         s = edges.FlexSettings(self.thickness)
         self.addPart(edges.FlexEdge(self, s))
-
+        # Clickable
+        s = edges.ClickSettings(self.thickness)
+        self.addPart(edges.ClickConnector(self, s))
+        self.addPart(edges.ClickEdge(self, s))
+        # Nuts
         self.addPart(NutHole(self, None))
 
     def _init_surface(self, width, height):

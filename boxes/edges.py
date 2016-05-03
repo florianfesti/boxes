@@ -551,6 +551,129 @@ class StackableEdgeTop(StackableEdge):
     bottom = False
 
 #############################################################################
+####     Click Joints
+#############################################################################
+
+class ClickSettings(Settings):
+    absolute_params = {
+        "angle" : 5,
+        }
+
+    relative_params = {
+        "depth" : 3.0,
+        "bottom_radius" : 0.1,
+        }
+
+class ClickConnector(BaseEdge):
+    char = "c"
+    description = "Click on (bottom side)"
+
+    def hook(self, reverse=False):
+        t = self.thickness
+        a = self.settings.angle
+        d = self.settings.depth
+        r = self.settings.bottom_radius
+        c = math.cos(math.radians(a))
+        s = math.sin(math.radians(a))
+
+        p1 = (0, 90-a, c*d)
+        p2 = (
+            d+t,
+            -90,
+            t*0.5,
+            135,
+            t*2**0.5,
+            135,
+            d+2*t+s*0.5*t)
+        p3 = (c*d-s*c*0.2*t, -a, 0)
+
+        if not reverse:
+            self.polyline(*p1)
+            self.corner(-180, r)
+            self.polyline(*p2)
+            self.corner(-180+2*a, r)
+            self.polyline(*p3)
+        else:
+            self.polyline(*reversed(p3))
+            self.corner(-180+2*a, r)
+            self.polyline(*reversed(p2))
+            self.corner(-180, r)
+            self.polyline(*reversed(p1))
+
+    def hookWidth(self):
+        t = self.thickness
+        a = self.settings.angle
+        d = self.settings.depth
+        r = self.settings.bottom_radius
+        c = math.cos(math.radians(a))
+        s = math.sin(math.radians(a))
+        return 2 * s * d * c + 0.5 * c * t + c * 4 * r
+
+    def hookOffset(self):
+        t = self.thickness
+        a = self.settings.angle
+        d = self.settings.depth
+        r = self.settings.bottom_radius
+        c = math.cos(math.radians(a))
+        s = math.sin(math.radians(a))
+        return s * d * c + 2 * r
+
+    def finger(self, length):
+        t = self.thickness
+        self.polyline(
+            2*t,
+            90,
+            length,
+            90,
+            2*t,
+        )
+
+    def __call__(self, length, **kw):
+        t = self.thickness
+        self.edge(4*t)
+        self.hook()
+        self.finger(2*t)
+        self.hook(reverse=True)
+
+        self.edge(length - 2* (6*t + 2*self.hookWidth()))
+
+        self.hook()
+        self.finger(2*t)
+        self.hook(reverse=True)
+        self.edge(4*t)
+
+    def margin(self):
+        return 2 * self.thickness
+
+class ClickEdge(ClickConnector):
+    char ="C"
+    description = "Click on (top)"
+
+    def startwidth(self):
+        return self.boxes.thickness
+
+    def margin(self):
+        return self.boxes.spacing
+
+    def __call__(self, length, **kw):
+        t = self.thickness
+        o = self.hookOffset()
+        w = self.hookWidth()
+        p1 = (
+            4*t + o,
+            90,
+            t,
+            -90,
+            2*(t+w-o),
+            -90,
+            t,
+            90,
+            0)
+        self.polyline(*p1)
+        self.edge(length - 2 * (6*t + 2* w) + 2*o)
+        self.polyline(*reversed(p1))
+
+#############################################################################
 ####     Dove Tail Joints
 #############################################################################
     

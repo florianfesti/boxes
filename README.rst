@@ -50,3 +50,9 @@ There are two ways to use the available generators:
 
 * Execute the scripts/boxes tool and pass the name of the generator together with the measurements on the command line
 * Run scripts/boxesserver which provides an web interface on port 8000
+
+Documentation
+=============
+
+The module comes with Sphinx based documentation. The rendered version can be
+viewed at http://florianfesti.github.io/boxes/html/index.html

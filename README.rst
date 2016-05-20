@@ -46,10 +46,11 @@ is used for rounded edges and living hinges.
 Usage
 =====
 
-There are two ways to use the available generators:
+There are three ways to use the available generators:
 
-* Execute the scripts/boxes tool and pass the name of the generator together with the measurements on the command line
-* Run scripts/boxesserver which provides an web interface on port 8000
+* Execute the scripts/boxes tool and pass the name of the generator together with the measurements on the command line.
+* Run scripts/boxesserver which provides an web interface on port 8000.
+* Add a WSGIScriptAlias to scripts/boxesserver in your httpd config.
 
 Documentation
 =============

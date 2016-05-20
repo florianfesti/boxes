@@ -119,6 +119,10 @@ flex cuts, holes and slots for screws and more high level functions.
             result.append("""  <li><a href="%s">%s</a>%s</li>""" % (
                 name, name, docs))
         result.append("""</ul>
+<ul>
+ <li><a href="https://github.com/florianfesti/boxes">Get Source at GitHub</a></li>
+ <li><a href="http://florianfesti.github.io/boxes/html/index.html">Documentation and API Description</a></li>
+ <li><a href="https://hackaday.io/project/10649-boxespy">Hackaday.io Project Page</a></li>
 </body>
 </html>
 """)

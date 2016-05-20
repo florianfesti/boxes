@@ -23,7 +23,7 @@ def getDescriptions():
             if inspect.isclass(edge) and issubclass(edge, BaseEdge)
             and edge.char}
 
-class BoltPolicy:
+class BoltPolicy(object):
     """Abstract class
 
     Distributes (bed) bolts on a number of segments
@@ -100,7 +100,7 @@ class Bolts(BoltPolicy):
 ### Settings
 #############################################################################
 
-class Settings:
+class Settings(object):
     """Generic Settings class
 
     Used by different other classes to store messurements and details.
@@ -153,7 +153,7 @@ class Settings:
 #############################################################################
 
 
-class BaseEdge:
+class BaseEdge(object):
     """Abstract base class for all Edges"""
     char = None
     description = "Abstract Edge Class"
@@ -214,7 +214,7 @@ class CompoundEdge(BaseEdge):
     description = "Compound Edge"
 
     def __init__(self, boxes, types, lengths):
-        Edge.__init__(self, boxes, None)
+        super(CompoundEdge, self).__init__(boxes, None)
         self.types = [self.edges.get(edge, edge) for edge in types]
         self.lengths = lengths
         self.length = sum(lengths)
@@ -255,7 +255,7 @@ class Slot(BaseEdge):
     description = "Slot"
 
     def __init__(self, boxes, depth):
-        Edge.__init__(self, boxes, None)
+        super(Slot, self).__init__(boxes, None)
         self.depth = depth
 
     def __call__(self, length, **kw):
@@ -275,7 +275,7 @@ class SlottedEdge(BaseEdge):
     description = "Straight Edge with slots"
 
     def __init__(self, boxes, sections, edge="e", slots=0):
-        Edge.__init__(self, boxes, None)
+        super(SlottedEdge, self).__init__(boxes, None)
         self.edge = self.edges.get(edge, edge)
         self.sections = sections
         self.slots = slots
@@ -442,7 +442,7 @@ class FingerHoleEdge(BaseEdge):
     char = 'h'
     description = "Edge (parallel Finger Joint Holes)"
     def __init__(self, boxes, fingerHoles=None, **kw):
-        Edge.__init__(self, boxes, None, **kw)
+        super(FingerHoleEdge, self).__init__(boxes, None, **kw)
         self.fingerHoles = fingerHoles or boxes.fingerHolesAt
 
     def __call__(self, length, dist=None,
@@ -468,7 +468,7 @@ class CrossingFingerHoleEdge(BaseEdge):
     description = "Edge (orthogonal Finger Joint Holes)"
 
     def __init__(self, boxes, height, fingerHoles=None, **kw):
-        Edge.__init__(self, boxes, None, **kw)
+        super(CrossingFingerHoleEdge, self).__init__(boxes, None, **kw)
         self.fingerHoles = fingerHoles or boxes.fingerHolesAt
         self.height = height
 
@@ -515,7 +515,7 @@ class StackableEdge(BaseEdge):
     bottom = True
 
     def __init__(self, boxes, settings, fingerjointsettings):
-        Edge.__init__(self, boxes, settings)
+        super(StackableEdge, self).__init__(boxes, settings)
         self.fingerjointsettings = fingerjointsettings
 
     def __call__(self, length, **kw):

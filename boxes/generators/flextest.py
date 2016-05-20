@@ -41,7 +41,7 @@ class FlexTest(Boxes):
 
         self.moveTo(5, 5)
         self.edge(10)
-        self.flexEdge(x, y)
+        self.edges["X"](x, y)
         self.edge(10)
         self.corner(90)
         self.edge(y)

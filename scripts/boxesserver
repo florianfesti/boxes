@@ -77,7 +77,7 @@ class BServer:
 <body>
         <h1>""", name, """</h1>
         <p>""", box.__doc__, """</p>
-<form action="%s" method="POST" target="_blank">
+<form action="%s" method="GET" target="_blank">
 <table>
         """ % (action)]
         for a in box.argparser._actions:
@@ -87,7 +87,7 @@ class BServer:
             if a.dest == "burn":
                 result.append("</table>\n<hr>\n<table>\n")
         result.append("""</table>
-<p><button>Generate</button></p>
+<p><button name="render" value="1">Generate</button></p>
 </form>
 </body>
 </html>
@@ -151,16 +151,12 @@ flex cuts, holes and slots for screws and more high level functions.
             start_response(status, headers)
             return self.menu()
 
-        if environ["REQUEST_METHOD"] == "GET":
+        args = ["--"+arg for arg in environ['QUERY_STRING'].split("&")]
+        if "--render=1" not in args:
             start_response(status, headers)
             return self.args2html(name, box)
-        elif environ["REQUEST_METHOD"] == "POST":
-            try:
-                length = int(environ.get('CONTENT_LENGTH', '0'))
-            except ValueError:
-                length = 0
-            body = environ['wsgi.input'].read(length).decode()
-            args = ["--"+arg for arg in body.split("&")]
+        else:
+            args = [a for a in args if a != "--render=1"]
             try:
                 box.parseArgs(args)
             except (ArgumentParserError) as e:

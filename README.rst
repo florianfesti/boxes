@@ -48,15 +48,15 @@ Usage
 
 There are multiple ways to use the available generators:
 
-* Try them out `<http://www.festi.info/boxes.py/index.html>online`_
+* Try them out at <http://www.festi.info/boxes.py/index.html>
 * Execute the scripts/boxes tool and pass the name of the generator together with the measurements on the command line.
 * Run *scripts/boxesserver* which provides an web interface on port 8000.
 * Add a *WSGIScriptAlias* to *scripts/boxesserver* in your httpd config.
 
-You can also create your own generators using `<https://github.com/florianfesti/boxes/blob/master/boxes/generators/_template.py>boxes/generators/_template.py`_ or any of the `<https://github.com/florianfesti/boxes/blob/master/boxes/generators>generators`_ as a starting point.
+You can also create your own generators using *boxes/generators/_template.py* or any of the generators in *boxes/generators* as a starting point.
 
 Documentation
 =============
 
 The module comes with Sphinx based documentation. The rendered version can be
-viewed `<http://florianfesti.github.io/boxes/html/index.html>here`_.
+viewed at <http://florianfesti.github.io/boxes/html/index.html>.

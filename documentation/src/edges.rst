@@ -21,10 +21,10 @@ sides match (when the same length is given).
 Edge base class
 ---------------
 
-.. autoclass:: boxes.edges.Edge
+.. autoclass:: boxes.edges.BaseEdge
 	       :members:
 
-.. automethod:: boxes.edges.Edge.__call__
+.. automethod:: boxes.edges.BaseEdge.__call__
 
 Settings Class
 --------------

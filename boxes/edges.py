@@ -474,7 +474,7 @@ class CrossingFingerHoleEdge(BaseEdge):
 
     def __call__(self, length, **kw):
         self.fingerHoles(length/2.0, 0, self.height)
-        Edge.__call__(self, length)
+        super(CrossingFingerHoleEdge, self).__call__(length)
 
 #############################################################################
 ####     Stackable Joints

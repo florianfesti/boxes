@@ -170,7 +170,6 @@ flex cuts, holes and slots for screws and more high level functions.
                     name, self.boxes["TrayLayout2"], action="TrayLayout2")
             if name == "TrayLayout2":
                 try:
-                    print(urllib.parse.unquote_plus(box.layout))
                     box.parse(urllib.parse.unquote_plus(box.layout).split("\n"))
                 except Exception as e:
                     raise

@@ -5,7 +5,13 @@ import argparse
 import cgi
 import tempfile
 import os
-import urllib
+
+# Python 2 vs Python 3 compat
+try:
+    from urllib.parse import unquote_plus
+except ImportError:
+    from urllib import unquote_plus
+
 
 from wsgiref.util import setup_testing_defaults
 from wsgiref.simple_server import make_server
@@ -170,7 +176,7 @@ flex cuts, holes and slots for screws and more high level functions.
                     name, self.boxes["TrayLayout2"], action="TrayLayout2")
             if name == "TrayLayout2":
                 try:
-                    box.parse(urllib.parse.unquote_plus(box.layout).split("\n"))
+                    box.parse(unquote_plus(box.layout).split("\n"))
                 except Exception as e:
                     raise
                     start_response(status, headers)

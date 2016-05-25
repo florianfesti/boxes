@@ -458,12 +458,16 @@ class Boxes:
         """
         Draw multiple connected lines
 
-        :param \*args: Alternating length in mm and angle
+        :param \*args: Alternating length in mm and angle. angle may be tuple
+                       (angle, radius)
 
         """
         for i, arg in enumerate(args):
             if i % 2:
-                self.corner(arg)
+                if isinstance(arg, tuple):
+                    self.corner(*arg)
+                else:
+                    self.corner(arg)
             else:
                 self.edge(arg)
 

@@ -551,6 +551,218 @@ class StackableEdgeTop(StackableEdge):
     bottom = False
 
 #############################################################################
+####     Hinges
+#############################################################################
+
+class HingeSettings(Settings):
+
+    """Settings for Hinge and HingePin classes
+Values:
+
+* absolute_params
+
+ * style : B : currently "A" or "B"
+ * outset : False : have lid overlap at the sides (similar to OutSetEdge)
+ * pinwidth : 1.0 : set to lower value to get disks surrounding the pins
+
+* relative (in multiples of thickness)
+
+ * hingestrength : 1 : thickness of the arc holding the pin in place
+ * axle : 2 : diameter of the pin hole
+
+"""
+    absolute_params = {
+        "style" : "B",
+        "outset" : False,
+        "pinwidth" : 0.5,
+        }
+
+    relative_params = {
+        "hingestrength" : 1,#1.5-0.5*2**0.5,
+        "axle" : 2,
+        }
+
+class Hinge(BaseEdge):
+
+    char = 'i'
+    description = "Straight edge with hinge eye"
+
+    def __init__(self, boxes, settings=None, layout=1):
+        super(Hinge, self).__init__(boxes,settings)
+        self.layout = layout
+        self.char = "eijk"[layout]
+        self.description = self.description + ('', ' (start)', ' (end)', ' (both ends)')[layout]
+
+    def margin(self):
+        return 3 * self.thickness
+
+    def A(self, _reversed=False):
+        t = self.thickness
+        r = t*0.5*2**0.5
+        hinge = (
+            0,
+            45, 0,
+            (-360, r), 0,
+            135,
+            t,
+            90,
+            0.5*t,
+            (180, 1.5*t), 0,
+            (-90, 0.5*t), 0
+        )
+        if _reversed:
+            hinge = reversed(hinge)
+        self.polyline(*hinge)
+
+    def Alen(self):
+        return 2.5 * self.thickness
+
+    def B(self, _reversed=False):
+        t = self.thickness
+
+        hinge = (
+            0, -90,
+            0.5*t,
+            (180, 0.5*self.settings.axle+self.settings.hingestrength), 0,
+            (-90, 0.5*t), 0
+        )
+        pos = 0.5*self.settings.axle+self.settings.hingestrength
+        if _reversed:
+            hinge = reversed(hinge)
+            self.hole(0.5*t+pos, -0.5*t, 0.5*self.settings.axle)
+        else:
+            self.hole(pos, -0.5*t, 0.5*self.settings.axle)
+        self.polyline(*hinge)
+
+    def Blen(self):
+        return self.settings.axle + 2*self.settings.hingestrength + 0.5*self.thickness
+
+    def __call__(self, l, **kw):
+        hlen = getattr(self, self.settings.style+'len')()
+        if self.layout & 1:
+            getattr(self, self.settings.style)()
+        self.edge(l - (self.layout & 1)*hlen - bool(self.layout & 2)*hlen)
+        if self.layout & 2:
+            getattr(self, self.settings.style)(True)
+
+class HingePin(BaseEdge):
+    char = 'I'
+    description = "Edge with hinge pin"
+
+    def __init__(self, boxes, settings=None, layout=1):
+        super(HingePin, self).__init__(boxes,settings)
+        self.layout = layout
+        self.char = "EIJK"[layout]
+        self.description = self.description + ('', ' (start)', ' (end)', ' (both ends)')[layout]
+
+    def startwidth(self):
+        if self.layout & 1:
+            return 0
+        else:
+            return self.settings.outset * self.boxes.thickness
+
+    def endwidth(self):
+        if self.layout & 2:
+            return 0
+        else:
+            return self.settings.outset * self.boxes.thickness
+
+    def margin(self):
+        return self.thickness + self.boxes.spacing
+
+    def A(self, _reversed=False):
+        t = self.thickness
+        pin = (0, -90,
+               t, 90,
+               t,
+               90,
+               t,
+               -90)
+
+        if self.settings.outset:
+            pin += (
+                1.5*t,
+                -90,
+                t,
+                90,
+                0,
+            )
+        else:
+            pin += (0.0,)
+        if _reversed:
+            pin = reversed(pin)
+        self.polyline(*pin)
+
+    def Alen(self):
+        if self.settings.outset:
+            return 2.5* self.thickness
+        else:
+            return self.thickness
+
+    def B(self, _reversed=False):
+        t = self.thickness
+        pinl = (self.settings.axle**2-t**2)**0.5 * self.settings.pinwidth
+        d = (self.settings.axle - pinl) / 2.0
+        pin = (self.settings.hingestrength+d, -90,
+               t, 90,
+               pinl,
+               90,
+               t,
+               -90, d)
+
+        if self.settings.outset:
+            pin += (
+                0,
+                self.settings.hingestrength+0.5*t,
+                -90,
+                t,
+                90,
+                0,
+            )
+        if _reversed:
+            pin = reversed(pin)
+        self.polyline(*pin)
+
+    def parts(self, numhinges, move=''):
+        """Draw additional parts needed"""
+        if self.settings.pinwidth == 1.0:
+            return
+        pinl = (self.settings.axle**2-self.thickness**2)**0.5 * self.settings.pinwidth
+
+        height = self.settings.axle + 2 * self.boxes.spacing
+        width = numhinges * (self.settings.axle + self.boxes.spacing) + self.boxes.spacing
+        a = (self.settings.axle - 0.05*self.thickness)
+
+        if self.boxes.move(width, height, move, before=True):
+            return
+        self.ctx.save()
+
+        self.boxes.moveTo(-0.5 * a)
+        for i in range(numhinges):
+            self.boxes.moveTo(self.boxes.spacing + a)
+            self.boxes.rectangularHole(0, a/2.0, pinl, self.thickness)
+            self.boxes.corner(360, a/2.0)
+
+        self.ctx.restore()
+        self.boxes.move(width, height, move)
+
+    def Blen(self):
+        l = self.settings.hingestrength+self.settings.axle
+        if self.settings.outset:
+            l += self.settings.hingestrength + 0.5 * self.thickness
+        return l
+
+    def __call__(self, l, **kw):
+        plen = getattr(self, self.settings.style+'len')()
+
+        if self.layout & 1:
+            getattr(self, self.settings.style)()
+        self.edge(l - (self.layout & 1)*plen - bool(self.layout & 2)*plen)
+        if self.layout & 2:
+            getattr(self, self.settings.style)(True)
+
+
+#############################################################################
 ####     Click Joints
 #############################################################################
 

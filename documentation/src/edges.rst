@@ -14,6 +14,8 @@ callables. A set of instances are kept the ``.edges`` attribute of the
 * h : FingerHoleEdge
 * d : DoveTailJoint
 * D : DoveTailJointCounterPart
+* ijk : Hinge (start, end, both sides)
+* IJK : HingePin (start, end, both sides)
 
 Edges of the same type share a settings instance to make sure both
 sides match (when the same length is given).
@@ -120,3 +122,20 @@ CompoundEdge
 ------------
 .. autoclass:: boxes.edges.CompoundEdge
 	       
+Hinges
+------
+
+Hinge Settings
+..............
+
+.. autoclass:: boxes.edges.HingeSettings
+
+Hinge
+.....
+
+.. autoclass:: boxes.edges.Hinge
+
+HingePin
+........
+
+.. autoclass:: boxes.edges.HingePin

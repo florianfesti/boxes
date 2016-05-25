@@ -256,7 +256,7 @@ class Boxes:
             elif arg == "top_edge":
                 self.argparser.add_argument(
                     "--top_edge",  action="store",
-                    type=ArgparseEdgeType("ecES"), choices=list("ecES"),
+                    type=ArgparseEdgeType("ecESi"), choices=list("ecESi"),
                     default="e", help="edge type for top edge")
             else:
                 raise ValueError("No default for argument", arg)
@@ -324,6 +324,11 @@ class Boxes:
         s = edges.ClickSettings(self.thickness)
         self.addPart(edges.ClickConnector(self, s))
         self.addPart(edges.ClickEdge(self, s))
+        # Hinges
+        s = edges.HingeSettings(self.thickness)
+        for i in range(1, 4):
+            self.addPart(edges.Hinge(self, s, i))
+            self.addPart(edges.HingePin(self, s, i))
         # Nuts
         self.addPart(NutHole(self, None))
 

@@ -5,6 +5,8 @@ import argparse
 import cgi
 import tempfile
 import os
+import threading
+import time
 
 # Python 2 vs Python 3 compat
 try:
@@ -28,6 +30,38 @@ from boxes.generators import box, box2, box3, drillbox
 from boxes.generators import flexbox, flexbox2, flexbox3, flextest, folder
 from boxes.generators import magazinefile, trayinsert, traylayout, typetray, silverwarebox
 
+
+class FileChecker(threading.Thread):
+    def __init__(self, files=[], checkmodules=True):
+        super(FileChecker, self).__init__()
+        self.checkmodules = checkmodules
+        self.timestamps = {}
+        for path in files:
+            self.timestamps[path] = os.stat(path).st_mtime
+        if checkmodules:
+            self._addModules()
+
+    def _addModules(self):
+        for name, module in sys.modules.items():
+            path = getattr(module, "__file__", None)
+            if not path:
+                continue
+            if path not in self.timestamps:
+                 self.timestamps[path] = os.stat(path).st_mtime
+
+    def filesOK(self):
+        if self.checkmodules:
+            self._addModules()
+        for path, timestamp in self.timestamps.items():
+            if os.stat(path).st_mtime != timestamp:
+                return False
+        return True
+
+    def run(self):
+        while True:
+            if not self.filesOK():
+                os.execv(__file__, sys.argv)
+            time.sleep(1)
 
 class ArgumentParserError(Exception): pass
 
@@ -192,6 +226,8 @@ flex cuts, holes and slots for screws and more high level functions.
             return (l.encode("utf-8") for l in result)
 
 if __name__=="__main__":
+    fc = FileChecker()
+    fc.start()
     boxserver = BServer()
     httpd = make_server('', 8000, boxserver.serve)
     print("Serving on port 8000...")

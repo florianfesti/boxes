@@ -32,8 +32,8 @@ class Box(Boxes):
         # adjust to the variables you want in the local scope
         x, y, h = self.x, self.y, self.h
         t = self.thickness
-        # Calculate canvas size and pass as width and height
-        self.open(width=x+y+40, height=y+2*h+50)
+        # Initialize canvas
+        self.open()
 
         # Change settings of default edges if needed. E.g.:
         self.edges["f"].settings.setValues(self.thickness, space=3, finger=3,

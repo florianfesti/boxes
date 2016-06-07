@@ -109,7 +109,7 @@ class FlexBox(Boxes):
         width = 2*x + y - 2*r + c4 + 14*thickness + 3*h # lock
         height = y + z + 8*thickness
 
-        self.open(width, height)
+        self.open()
 
         self.edges["f"].settings.setValues(
             self.thickness, finger=2, space=2, surroundingspaces=1)

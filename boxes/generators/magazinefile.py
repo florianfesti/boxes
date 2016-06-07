@@ -64,7 +64,7 @@ class Box(Boxes):
         self.hi = hi = self.hi or (h / 2.0)
         t = self.thickness
 
-        self.open(width=x+y+8*t, height=x+h+hi+4*t)
+        self.open()
 
         self.ctx.save()
         self.rectangularWall(x, h, "Ffef", move="up")

@@ -70,7 +70,7 @@ using flex for rounded corners"""
 
     def render(self):
         x, y, h, r = 250, 250/1.618, 120, 30
-        self.open(750, 450)
+        self.open()
         t = self.thickness
         b = self.burn
 

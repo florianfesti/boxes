@@ -78,7 +78,7 @@ class TypeTray(Boxes):
         hi = self.hi = self.hi or h
         t = self.thickness
 
-        self.open(width=2*max(x,y)+10*t, height=(len(self.sx)+len(self.sy))*(h+2*t)+4*t)
+        self.open()
 
         self.moveTo(t, t)
         # outer walls

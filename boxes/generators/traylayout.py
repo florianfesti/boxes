@@ -105,8 +105,7 @@ class Layout(Boxes):
             for f in line:
                 hasfloor |= f
 
-        self.open(max((lx+1)*sum(self.y), (ly+1)*sum(self.x))+lx*ly*4*t,
-                  2*self.h + hasfloor*sum(self.y) + 12*t)
+        self.open()
 
         self.edges["s"] = boxes.edges.Slot(self, self.hi/2.0)
         self.edges["C"] = boxes.edges.CrossingFingerHoleEdge(self, self.hi)

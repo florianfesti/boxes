@@ -22,7 +22,7 @@ class Castle(Boxes):
         Boxes.__init__(self)
 
     def render(self, t_x=70, t_h=250, w1_x=300, w1_h=120, w2_x=100, w2_h=120):
-        self.open(800, 600)
+        self.open()
         s = edges.FingerJointSettings(self.thickness, relative=False,
                                       space = 10, finger=10, height=10,
                                       width=self.thickness)

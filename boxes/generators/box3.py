@@ -30,7 +30,7 @@ class Box(Boxes):
         x, y, h = self.x, self.y, self.h
         t = self.thickness
 
-        self.open(width=x+y+10*t, height=y+h+10*t)
+        self.open()
 
         d2 = [edges.Bolts(2)]
         d3 = [edges.Bolts(3)]

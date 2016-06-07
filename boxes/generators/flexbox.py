@@ -76,10 +76,7 @@ class FlexBox(boxes.Boxes):
         self.latchsize = 8 * self.thickness
         c4 = math.pi * r * 0.5
 
-        width = 2*x + 2*y - 8*r + 4*c4 + 4*self.thickness
-        height = y + h + 8*self.thickness
-
-        self.open(width, height)
+        self.open()
 
         self.moveTo(self.thickness, self.thickness)
         self.surroundingWall()

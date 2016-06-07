@@ -33,7 +33,7 @@ class FlexTest(Boxes):
 
     def render(self):
         x, y = self.x, self.y
-        self.open(x+60, y+20)
+        self.open()
 
         self.edges["X"].settings.setValues(
             self.thickness, relative=True,

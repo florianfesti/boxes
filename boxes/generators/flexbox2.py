@@ -71,10 +71,7 @@ class FlexBox(Boxes):
         self.c4 = c4 = math.pi * self.radius * 0.5
         self.latchsize = 8*self.thickness
 
-        width = 2*self.x + self.y - 3*self.radius + 2*c4 + 7*self.thickness + self.latchsize # lock
-        height = self.y + self.h + 8*self.thickness
-
-        self.open(width, height)
+        self.open()
 
         self.fingerJointSettings = (4, 4)
 

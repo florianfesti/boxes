@@ -28,8 +28,7 @@ class TrayInsert(Boxes):
         h = self.h
         t = self.thickness
 
-        self.open(width=max(x, y) + 4*t,
-                  height=(len(self.sx)+len(self.sy)-2)*(h+t)+2*t)
+        self.open()
         self.moveTo(t, t)
 
         # Inner walls

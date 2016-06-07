@@ -53,7 +53,7 @@ in 0.5mm steps, 3 holes each size"""
         x, y, h = self.x, self.y, self.h
         t = self.thickness
 
-        self.open(width=x+y+40, height=3*y+2*h+16*t)
+        self.open()
         self.edges["f"].settings.setValues(self.thickness, space=3, finger=3,
                                 surroundingspaces=1)
 

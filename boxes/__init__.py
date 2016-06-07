@@ -21,6 +21,7 @@ from argparse import ArgumentParser
 import re
 from functools import wraps
 from boxes import edges
+from boxes import svgutil
 
 ### Helpers
 
@@ -173,22 +174,18 @@ class Boxes:
             "--burn",  action="store", type=float, default=0.05,
             help="burn correction in mm")
 
-    def open(self, width, height):
+    def open(self):
         """
         Prepare for rendering
 
         Call this function from your .render() method
-
-        :param width: width of canvas in mm
-        :param height: height of canvas in mm
-
         """
         self.spacing = 2*self.burn + 0.5 * self.thickness
 
         self.fingerHoleEdgeWidth = 1.0    # multitudes of self.thickness
         self.bedBoltSettings = (3, 5.5, 2, 20, 15) #d, d_nut, h_nut, l, l1
         self.hexHolesSettings = (5, 3, 'circle') # r, dist, style
-        self._init_surface(width, height)
+        self._init_surface(1000, 1000)
         self._buildObjects()
 
     def buildArgParser(self, *l):
@@ -329,7 +326,7 @@ class Boxes:
         """Implement this method in your sub class.
 
         You will typically need to call .parseArgs() before calling this one"""
-        self.open(100, 100)
+        self.open()
         # Change settings and creat new Edges and part classes here
         raise NotImplemented
         self.close()
@@ -385,6 +382,11 @@ class Boxes:
         self.surface.flush()
         self.surface.finish()
 
+
+        svg = svgutil.SVGFile(self.output)
+        svg.getEnvelope()
+        svg.rewriteViewPort()
+        return
         f = open(self.output, "r+")
         s = f.read(1024)
         pos = s.find('pt"')
@@ -1111,7 +1113,7 @@ class DemoBox(Boxes):
     def render(self):
         """ """
         x, y, h, t = self.x, self.y, self.h, self.thickness
-        self.open(2*x+10*self.thickness, y+2*h+20*self.thickness)
+        self.open()
         self.ctx.save()
 
         self.moveTo(t, t)

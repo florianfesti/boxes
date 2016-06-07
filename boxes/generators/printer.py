@@ -121,7 +121,7 @@ class Printer(Boxes):
         self.move(overallwidth, overallheight, move)
 
     def render(self):
-        self.open(650, 600)
+        self.open()
         self.edges["f"].settings.setValues(self.thickness, surroundingspaces=0)
         self.ctx.save()
         for i in range(3):

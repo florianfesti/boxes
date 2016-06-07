@@ -32,7 +32,7 @@ class Box(Boxes):
     def render(self):
         x, y, h = self.x, self.y, self.h
 
-        self.open(width=x+y+40, height=y+2*h+50)
+        self.open()
 
         b = self.edges.get(self.bottom_edge, self.edges["F"])
         t = self.edges.get(self.top_edge, self.edges["e"])

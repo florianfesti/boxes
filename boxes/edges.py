@@ -432,8 +432,8 @@ class FingerHoles:
             pos = leftover/2.0+i*(s+f)
             if bedBolts and bedBolts.drawBolt(i):
                 self.boxes.hole(pos+0.5*s, 0, d*0.5)
-            self.ctx.rectangle(pos+s+b, -self.settings.width/2+b,
-                               f-2*b, self.settings.width - 2*b)
+            self.boxes.rectangularHole(pos+s+0.5*f, 0,
+                               f, self.settings.width)
 
         self.ctx.restore()
 

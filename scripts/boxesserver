@@ -98,16 +98,16 @@ class BServer:
             return ""
         row = """<tr><td>%s</td><td>%%s</td><td>%s</td></tr>\n""" % \
               (name, a.help or "")
-        if isinstance(a, argparse._StoreTrueAction):
-            input = """<input name="%s" type="checkbox" value="%s">""" % \
-                    (name, a.default)
-        elif (isinstance(a, argparse._StoreAction) and
+        if (isinstance(a, argparse._StoreAction) and
             isinstance(a.type, boxes.ArgparseEdgeType)):
             input = a.type.html(name, a.default)
         elif a.dest == "layout":
             val = a.default.split("\n")
             input = """<textarea name="%s" cols="%s" rows="%s">%s</textarea>""" % \
                     (name, max((len(l) for l in val))+10, len(val)+1, a.default)
+        elif a.type is bool:
+            input = """<input name="%s" type="checkbox">""" % \
+                                        (name, )
         else:
             input =  """<input name="%s" type="text" value="%s">""" % \
             (name, a.default)

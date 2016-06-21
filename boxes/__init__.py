@@ -186,7 +186,7 @@ class Boxes:
             "--output",  action="store", type=str, default="box.svg",
             help="name of resulting file")
         self.argparser.add_argument(
-            "--debug",  action="store_true", default=False,
+            "--debug",  action="store", type=bool, default=False,
             help="print surrounding boxes for some structures")
         self.argparser.add_argument(
             "--burn",  action="store", type=float, default=0.05,

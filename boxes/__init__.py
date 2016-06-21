@@ -262,7 +262,8 @@ class Boxes:
         :param args:  (Default value = None) parameters, None for using sys.argv
 
         """
-        self.argparser.parse_args(args=args, namespace=self)
+        for key,value in vars(self.argparser.parse_args(args=args)).items():
+            setattr(self, key, value)
 
     def addPart(self, part, name=None):
         """

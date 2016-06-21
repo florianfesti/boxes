@@ -50,6 +50,23 @@ def restore(func):
         self.ctx.move_to(*pt)
     return f
 
+def holeCol(func):
+    """
+    Wrapper: color holes differently
+
+    :param func: function to wrap
+
+    """
+    @wraps(func)
+    def f(self, *args, **kw):
+        self.ctx.stroke()
+        self.ctx.set_source_rgb(0.0, 0.0, 1.0)
+        func(self, *args, **kw)
+        self.ctx.stroke()
+        self.ctx.set_source_rgb(0.0, 0.0, 0.0)
+    return f
+
+
 
 #############################################################################
 ### Building blocks
@@ -86,6 +103,7 @@ class NutHole:
         self.settings = settings
 
     @restore
+    @holeCol
     def __call__(self, size, x=0, y=0, angle=0):
         size = self.sizes.get(size, (size,))[0]
         side = size / 3**0.5
@@ -679,6 +697,7 @@ class Boxes:
         return dontdraw
 
     @restore
+    @holeCol
     def hole(self, x, y, r):
         """
         Draw a round hole
@@ -695,6 +714,7 @@ class Boxes:
         self.ctx.arc(-r, 0, r, 0, 2*math.pi)
 
     @restore
+    @holeCol
     def rectangularHole(self, x, y, dx, dy, r=0):
         """
         Draw an rectangulat hole

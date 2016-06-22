@@ -69,7 +69,12 @@ class SVGFile(object):
 
         m = re.search(r"""<svg[^>]*width="(\d+pt)" height="(\d+pt)" viewBox="0 (0 (\d+) (\d+))" version="1.1">""", s)
 
-        minx = 10*int(self.minx//10)-10
+        #minx = 10*int(self.minx//10)-10
+        # as we don't rewrite the left border keep it as 0
+        if 0 <= self.minx <= 50:
+            minx = 0
+        else:
+            raise ValueError("Left end of drawing at wrong place: %imm (0-50mm expected)" % self.minx)
         maxx = 10*int(self.maxx//10)+10
         miny = 10*int(self.miny//10)-10
         maxy = 10*int(self.maxy//10)+10

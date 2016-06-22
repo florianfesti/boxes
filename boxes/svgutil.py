@@ -34,8 +34,9 @@ class SVGFile(object):
             if m:
                 matrix = [float(m.group(i)) for i in range(1, 12, 2)]
             else:
-                matrix = [1,0,0,
-                          0,1,0]
+                matrix = [1, 0,
+                          0, 1,
+                          0, 0]
             for m in self.pathre.findall(attrs.get("d", "")):
                 x = float(m[1])
                 y = float(m[3])

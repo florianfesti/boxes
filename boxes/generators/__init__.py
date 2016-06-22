@@ -8,6 +8,7 @@ __all__ = [
     "flexbox",
     "flexbox2",
     "flexbox3",
+    "flexbox4",
     "flextest",
     "folder",
     "lamp",

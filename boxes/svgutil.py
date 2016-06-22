@@ -19,7 +19,7 @@ import re
 
 class SVGFile(object):
 
-    pathre = re.compile(r"[MCL]? *((-?\d+\.\d+) (-?\d+\.\d+) *)+")
+    pathre = re.compile(r"[MCL]? *((-?\d+(\.\d+)?) (-?\d+(\.\d+)?) *)+")
     transformre = re.compile(r"matrix\(" + ",".join([r"(-?\d+(\.\d+)?)"] * 6) + "\)")
 
     def __init__(self, filename):
@@ -38,7 +38,7 @@ class SVGFile(object):
                           0,1,0]
             for m in self.pathre.findall(attrs.get("d", "")):
                 x = float(m[1])
-                y = float(m[2])
+                y = float(m[3])
                 tx = matrix[0]*x+matrix[2]*y+matrix[4]
                 ty = matrix[1]*x+matrix[3]*y+matrix[5]
 

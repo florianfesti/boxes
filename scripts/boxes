@@ -35,6 +35,6 @@ def main():
         for name in sorted(modules):
             print(" * ", name)
     else:
-        print("unknown sub command")
+        print("Unknown generator name. Use boxes --list to get a list of available commands.")
 
 main()

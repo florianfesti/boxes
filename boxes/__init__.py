@@ -401,25 +401,9 @@ class Boxes:
         self.surface.flush()
         self.surface.finish()
 
-
         svg = svgutil.SVGFile(self.output)
         svg.getEnvelope()
         svg.rewriteViewPort()
-        return
-        f = open(self.output, "r+")
-        s = f.read(1024)
-        pos = s.find('pt"')
-        if pos > 0:
-            f.seek(pos)
-            f.write("mm")
-        else:
-            print("Could not replace pt with mm")
-        pos = s.find('pt"', pos+3)
-        if pos > 0:
-            f.seek(pos)
-            f.write("mm")
-        else:
-            print("Could not replace pt with mm")
 
     ############################################################
     ### Turtle graphics commands

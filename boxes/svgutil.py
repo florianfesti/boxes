@@ -68,7 +68,7 @@ class SVGFile(object):
         f = open(self.filename, "r+")
         s = f.read(1024)
 
-        m = re.search(r"""<svg[^>]*width="(\d+pt)" height="(\d+pt)" viewBox="0 (0 (\d+) (\d+))" version="1.1">""", s)
+        m = re.search(r"""<svg[^>]*(width="(\d+pt)" height="(\d+pt)" viewBox="0 (0 (\d+) (\d+))") version="1.1">""", s)
 
         #minx = 10*int(self.minx//10)-10
         # as we don't rewrite the left border keep it as 0
@@ -82,11 +82,11 @@ class SVGFile(object):
 
         if m:
             f.seek(m.start(1))
-            f.write("%4imm" % (maxx-minx))
-            f.seek(m.start(2))
-            f.write("%4imm" % (maxy-miny))
-            f.seek(m.start(3))
-            f.write("%3i %3i %3i" % (miny, maxx, maxy-miny))
+            s = ('width="%imm" height="%imm" viewBox="0 %i %i %i"' %
+                 (maxx-minx, maxy-miny, miny, maxx, maxy-miny))
+            if len(s) > len(m.group(1)):
+                raise ValueError("Not enough space for size")
+            f.write(s + " " * (len(m.group(1))- len(s)))
         else:
             raiseValueError("Could not understand SVG file")
         

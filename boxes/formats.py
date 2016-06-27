@@ -38,7 +38,7 @@ class Formats:
 
     def getSurface(self, fmt, filename):
 
-        width = height = 1000 # mm
+        width = height = 10000 # mm
 
         if fmt == "svg":
             surface = cairo.SVGSurface(filename, width, height)

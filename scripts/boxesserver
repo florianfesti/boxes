@@ -108,6 +108,12 @@ class BServer:
         elif a.type is bool:
             input = """<input name="%s" type="checkbox">""" % \
                                         (name, )
+        elif a.choices:
+            options = "\n".join(
+                ("""<option value="%s"%s>%s</option>""" %
+                 (e, ' selected="selected"' if e == a.default else "",
+                  e) for e in a.choices))
+            input = """<select name="%s" size="1">\n%s</select>\n""" % (name, options)
         else:
             input =  """<input name="%s" type="text" value="%s">""" % \
             (name, a.default)

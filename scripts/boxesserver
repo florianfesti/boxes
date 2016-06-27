@@ -225,7 +225,9 @@ flex cuts, holes and slots for screws and more high level functions.
                     return self.errorMessage(name, e)
 
             start_response(status,
-                           [('Content-type', 'image/svg+xml; charset=utf-8')])
+                           box.formats.http_headers.get(
+                               box.format,
+                               [('Content-type', 'application/unknown; charset=utf-8')]))
             fd, box.output = tempfile.mkstemp()
             box.render()
             result = open(box.output).readlines()

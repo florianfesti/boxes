@@ -21,7 +21,7 @@ from argparse import ArgumentParser
 import re
 from functools import wraps
 from boxes import edges
-from boxes import svgutil
+from boxes import formats
 
 ### Helpers
 
@@ -169,6 +169,7 @@ class Boxes:
     """Main class -- Generator should sub class this """
 
     def __init__(self):
+        self.formats = formats.Formats()
         self.argparser = ArgumentParser(description=self.__doc__)
         self.argparser.add_argument(
             "--fingerjointfinger",  action="store", type=float, default=1.0,
@@ -185,6 +186,10 @@ class Boxes:
         self.argparser.add_argument(
             "--output",  action="store", type=str, default="box.svg",
             help="name of resulting file")
+        self.argparser.add_argument(
+            "--format",  action="store", type=str, default="svg",
+            choices=self.formats.getFormats(),
+            help="format of resulting file")
         self.argparser.add_argument(
             "--debug",  action="store", type=bool, default=False,
             help="print surrounding boxes for some structures")
@@ -203,7 +208,8 @@ class Boxes:
         self.fingerHoleEdgeWidth = 1.0    # multitudes of self.thickness
         self.bedBoltSettings = (3, 5.5, 2, 20, 15) #d, d_nut, h_nut, l, l1
         self.hexHolesSettings = (5, 3, 'circle') # r, dist, style
-        self._init_surface(1000, 1000)
+        self.surface, self.ctx = self.formats.getSurface(self.format, self.output)
+        self.ctx.set_line_width(2*self.burn)
         self._buildObjects()
 
     def buildArgParser(self, *l):
@@ -265,6 +271,10 @@ class Boxes:
         for key,value in vars(self.argparser.parse_args(args=args)).items():
             setattr(self, key, value)
 
+        # Change file ending to format if not given explicitly
+        if getattr(self, 'output', None) == 'box.svg':
+            self.output = 'box.' + getattr(self, "format", "svg")
+
     def addPart(self, part, name=None):
         """
         Add Edge or other part instance to this one and add it as attribute
@@ -316,30 +326,6 @@ class Boxes:
         self.addPart(edges.ClickEdge(self, s))
         # Nuts
         self.addPart(NutHole(self, None))
-
-    def _init_surface(self, width, height):
-        """
-        Initialize cairo canvas
-
-        :param width: canvas size
-        :param height: canvas height
-
-        """
-        #mm2pt = 90 / 25.4 / 1.25
-        mm2pt = 1
-        #width *= mm2pt
-        #height *= mm2pt #3.543307
-        self.surface = cairo.SVGSurface(self.output, width, height)
-        self.ctx = ctx = cairo.Context(self.surface)
-        ctx.translate(0, height)
-        ctx.scale(mm2pt, -mm2pt)
-
-        #ctx.set_source_rgb(1.0, 1.0, 1.0)
-        #ctx.rectangle(0, 0, width, height)
-        #ctx.fill()
-
-        ctx.set_source_rgb(0.0, 0.0, 0.0)
-        ctx.set_line_width(2*self.burn)
 
     def render(self):
         """Implement this method in your sub class.
@@ -401,9 +387,7 @@ class Boxes:
         self.surface.flush()
         self.surface.finish()
 
-        svg = svgutil.SVGFile(self.output)
-        svg.getEnvelope()
-        svg.rewriteViewPort()
+        self.formats.convert(self.output, self.format)
 
     ############################################################
     ### Turtle graphics commands

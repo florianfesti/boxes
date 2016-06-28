@@ -94,7 +94,11 @@ class Box(Boxes):
         self.addPart(G)
 
         b = self.edges.get(self.bottom_edge, self.edges["F"])
-        t = self.edges.get(self.top_edge, self.edges["e"])
+        t1 = t2 = t3 = t4 = self.edges.get(self.top_edge, self.edges["e"])
+
+        if t1.char == "i":
+            t2 = t4 = "e"
+            t3 = "j"
 
         d2 = Bolts(2)
         d3 = Bolts(3)
@@ -102,18 +106,23 @@ class Box(Boxes):
         d2 = d3 = None
 
         self.moveTo(self.thickness, self.thickness)
-        self.rectangularWall(x, h, [b, "F", t, "F"],
-                             bedBolts=[d2], move="right")
-        self.rectangularWall(y, h, [b, "f", t, "f"],
-                             bedBolts=[d3], move="up")
-        self.rectangularWall(y, h, [b, "f", t, "f"],
-                             bedBolts=[d3])
-        self.rectangularWall(x, h, [b, "F", t, "F"],
-                             bedBolts=[d2], move="left up")
+        self.rectangularWall(y, h, [b, "f", t2, "f"],
+                             bedBolts=[d3], move="right")
+        self.rectangularWall(x, h, [b, "F", t1, "F"],
+                             bedBolts=[d2], move="up")
+        self.rectangularWall(x, h, [b, "F", t3, "F"],
+                             bedBolts=[d2])
+        self.rectangularWall(y, h, [b, "f", t4, "f"],
+                             bedBolts=[d3], move="left")
+        self.rectangularWall(x, h, [b, "F", t3, "F"],
+                             bedBolts=[d2], move="up only")
         
         self.rectangularWall(x, y, "ffff", bedBolts=[d2, d3, d2, d3], move="right")
         if self.top_edge == "c":
             self.rectangularWall(x, y, "CCCC", bedBolts=[d2, d3, d2, d3], move="up")
+        elif self.top_edge == "i":
+            self.rectangularWall(x, y, "IEJe", bedBolts=[d2, d3, d2, d3], move="up")
+            self.edges["I"].parts(2, move="up")
         else:
             self.rectangularWall(x, y, "CCCC", bedBolts=[d2, d3, d2, d3], move="up only")
             

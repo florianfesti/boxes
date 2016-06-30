@@ -5,17 +5,18 @@ As edges started out as methods of the main Boxes class they still are
 callables. A set of instances are kept the ``.edges`` attribute of the
 ``Boxes`` class. It is a dict with strings of length one as keys:
 
-* e : Edge
-* E : OutSetEdge
-* s : StackableEdge
-* S : StackableEdgeTop
-* f : FingerJointEdge
-* F : FingerJointEdgeCounterPart
-* h : FingerHoleEdge
 * d : DoveTailJoint
 * D : DoveTailJointCounterPart
+* e : Edge
+* E : OutSetEdge
+* f : FingerJointEdge
+* F : FingerJointEdgeCounterPart
+* g : GrippingEdge
+* h : FingerHoleEdge
 * ijk : Hinge (start, end, both sides)
 * IJK : HingePin (start, end, both sides)
+* s : StackableEdge
+* S : StackableEdgeTop
 
 Edges of the same type share a settings instance to make sure both
 sides match (when the same length is given).
@@ -40,6 +41,12 @@ Straight Edges
 
 .. autoclass:: boxes.edges.Edge
 .. autoclass:: boxes.edges.OutSetEdge
+
+Grip
+----
+
+.. autoclass:: boxes.edges.GripSettings
+.. autoclass:: boxes.edges.GrippingEdge
 
 Stackable Edges
 ---------------

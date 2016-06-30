@@ -297,6 +297,8 @@ class Boxes:
         self.edges = {}
         self.addPart(edges.Edge(self, None))
         self.addPart(edges.OutSetEdge(self, None))
+        s = edges.GripSettings(self.thickness)
+        self.addPart(edges.GrippingEdge(self, s))
 
         # Finger joints
         # Share settings object

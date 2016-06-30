@@ -211,6 +211,79 @@ class OutSetEdge(BaseEdge):
     def startwidth(self):
         return self.boxes.thickness
 
+#############################################################################
+####     Gripping Edge
+#############################################################################
+
+class GripSettings(Settings):
+    """Settings for GrippingEdge
+Values:
+
+* absolute_params
+
+ * style : A : "A" (wiggly line) or "B" (bumps)
+ * outset : True : extend outward the straight edge
+
+* relative (in multiples of thickness)
+
+ * depth : 0.3 : depth of the grooves
+
+"""
+
+    absolute_params = {
+        "style" : "A",
+        "outset" : True,
+    }
+
+    relative_params = {
+        "depth" : 0.3,
+    }
+
+class GrippingEdge(BaseEdge):
+    description = """Corrugated edge useful as an gipping area"""
+    char = 'g'
+
+
+    def A(self, length):
+        depth = self.settings.depth
+        grooves = int(length // (depth*2.0)) + 1
+        depth = length / grooves / 4.0
+
+        o = 1 if self.settings.outset else -1
+        for groove in range(grooves):
+            self.corner(o * -90, depth)
+            self.corner(o * 180, depth)
+            self.corner(o * -90, depth)
+
+    def B(self, length):
+        depth = self.settings.depth
+        grooves = int(length // (depth*2.0)) + 1
+        depth = length / grooves / 2.0
+        o = 1 if self.settings.outset else -1
+        if self.settings.outset:
+            self.corner(-90)
+        else:
+            self.corner(90)
+            self.edge(depth)
+            self.corner(-180)
+        for groove in range(grooves):
+            self.corner(180, depth)
+            self.corner(-180, 0)
+        if self.settings.outset:
+            self.corner(90)
+        else:
+            self.edge(depth)
+            self.corner(90)
+
+    def margin(self):
+        if self.settings.outset:
+            return self.settings.depth + self.boxes.spacing
+        else:
+            return self.boxes.spacing
+
+    def __call__(self, length, **kw):
+        getattr(self, self.settings.style)(length)
+
 class CompoundEdge(BaseEdge):
     """Edge composed of multiple different Edges"""
     description = "Compound Edge"

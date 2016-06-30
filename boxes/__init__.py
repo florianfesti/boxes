@@ -501,7 +501,7 @@ class Boxes:
         self.edge((length-d)/2.0)
 
     def edgeCorner(self, edge1, edge2, angle=90):
-        """Make a corner between two Edges. Take widht of edges into account"""
+        """Make a corner between two Edges. Take width of edges into account"""
         self.edge(edge2.startwidth()/math.sin(math.radians(180-angle)))
         self.corner(angle)
         self.edge(edge1.endwidth()/math.sin(math.radians(180-angle)))

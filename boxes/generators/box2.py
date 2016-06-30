@@ -52,9 +52,9 @@ class Box(Boxes):
         self.moveTo(1.5*t, t)
         self.edge(x)
         self.corner(90+angle)
-        self.edges["g"](3*t)
+        self.edges["a"](3*t)
         self.corner(180-2*angle, r)
-        self.edges["g"](3*t)
+        self.edges["a"](3*t)
         self.corner(90+angle)
         self.ctx.restore()
 
@@ -67,15 +67,15 @@ class Box(Boxes):
 
         l = math.radians(180-2*angle) * self.getR()
 
-        self.edges["G"](3*t)
+        self.edges["A"](3*t)
         self.edges["X"](l, y+2*t)
-        self.edges["G"](3*t)
+        self.edges["A"](3*t)
         self.corner(90)
         self.edge(y+2*t)
         self.corner(90)
-        self.edges["G"](3*t)
+        self.edges["A"](3*t)
         self.edge(l)
-        self.edges["G"](3*t)
+        self.edges["A"](3*t)
         self.corner(90)
         self.edge(y+2*t)
         self.corner(90)
@@ -87,10 +87,10 @@ class Box(Boxes):
         # generate g,G finger joints with default settings
         s = edges.FingerJointSettings(self.thickness)
         g = edges.FingerJointEdge(self, s)
-        g.char = 'g'
+        g.char = 'a'
         self.addPart(g)
         G = edges.FingerJointEdgeCounterPart(self, s)
-        G.char = 'G'
+        G.char = 'A'
         self.addPart(G)
 
         b = self.edges.get(self.bottom_edge, self.edges["F"])

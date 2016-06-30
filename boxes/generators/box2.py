@@ -99,6 +99,9 @@ class Box(Boxes):
         if t1.char == "i":
             t2 = t4 = "e"
             t3 = "j"
+        elif t1.char == "k":
+            t2 = t4 = "e"
+            self.edges["k"].settings.setValues(self.thickness, outset=True)
 
         d2 = Bolts(2)
         d3 = Bolts(3)
@@ -121,8 +124,13 @@ class Box(Boxes):
         if self.top_edge == "c":
             self.rectangularWall(x, y, "CCCC", bedBolts=[d2, d3, d2, d3], move="up")
         elif self.top_edge == "i":
-            self.rectangularWall(x, y, "IEJe", bedBolts=[d2, d3, d2, d3], move="up")
+            self.rectangularWall(x, y, "IEJe", move="up")
             self.edges["I"].parts(2, move="up")
+        elif self.top_edge == "k":
+            lx = x/2.0-0.1*self.thickness
+            self.rectangularWall(lx, y, "IeJe", move="right")
+            self.rectangularWall(lx, y, "IeJe", move="up")
+            self.edges["I"].parts(4, move="up")
         else:
             self.rectangularWall(x, y, "CCCC", bedBolts=[d2, d3, d2, d3], move="up only")
             

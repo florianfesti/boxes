@@ -19,9 +19,11 @@ import math
 import inspect
 
 def getDescriptions():
-    return {edge.char : edge.description for edge in globals().values()
-            if inspect.isclass(edge) and issubclass(edge, BaseEdge)
-            and edge.char}
+    d = {edge.char : edge.description for edge in globals().values()
+         if inspect.isclass(edge) and issubclass(edge, BaseEdge)
+         and edge.char}
+    d['k'] = "Straight edge with hinge eye (both ends)"
+    return d
 
 class BoltPolicy(object):
     """Abstract class

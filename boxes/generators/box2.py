@@ -19,7 +19,7 @@ from boxes.edges import Bolts
 import inspect
 
 class Box(Boxes):
-    """Simple open box with raised floor"""
+    """Box various options for different stypes and lids"""
 
     def __init__(self):
         Boxes.__init__(self)

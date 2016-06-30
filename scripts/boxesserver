@@ -54,7 +54,10 @@ class FileChecker(threading.Thread):
         if self.checkmodules:
             self._addModules()
         for path, timestamp in self.timestamps.items():
-            if os.stat(path).st_mtime != timestamp:
+            try:
+                if os.stat(path).st_mtime != timestamp:
+                    return False
+            except FileNotFoundError:
                 return False
         return True
 

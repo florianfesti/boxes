@@ -1,16 +1,14 @@
 What is this?
 =============
 
-This is a small python library for generating SVG drawings used for
-cutting out boxes or other structures using a laser cutter.
+This is a small python library for generating drawings to be used with a laser
+cutter. It comes with a set of ready-to-use, fully parametrized generators:
 
-It also comes with a set of ready-to-use, fully parametrized generators:
-
-* Various simple boxes
-* Flex boxes with rounded corners and living hinges
-* Type trays with and without walls and floors
-* Book cover with flex spine
-* Magazine file
+* Boxes in various shapes and with various lids
+* Boxes using flex cuts with rounded corners and living hinges
+* Type trays with and without outer walls and floors
+* Book covers with flex spine
+* Magazine files
 
 And a few one trick ponies:
 
@@ -24,6 +22,10 @@ Have a look into the examples/ directory to see how the results look like.
 Features
 ========
 
+It generates SVG images that can be viewed directly in a web brower but also
+postscript and - with pstoedit as external helper - other vector formats
+including dxf, plt (aka hpgl) and gcode.
+
 Of course the library and the generators allow selecting the "thickness"
 of the material used and automatically adjusts lengths and width of
 joining fingers and other elements.
@@ -36,11 +38,11 @@ Finger Joints are the work horse of the library. They allow 90° edges
 and T connections. Their size is scaled up with the material
 "thickness" to maintain the same appearance. The library also allows
 putting holes and slots for screws (bed bolts) into finger joints,
-although this is currently not supported for the finished generators.
+although this is currently not supported for the included generators.
 
 Dovetail joints can be used to join pieces in the same plane.
 
-Flex allows bending and stretching the material in one direction. This
+Flex cuts allows bending and stretching the material in one direction. This
 is used for rounded edges and living hinges.
 
 Usage

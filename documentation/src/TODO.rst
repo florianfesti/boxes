@@ -25,5 +25,3 @@ Generators
 
 * Make bolts configurable (e.g. box2.py)
 * Treasure Chest with rounded lid and living hinge
-* Treasure Chest with rounded lid (hinges needed)
-

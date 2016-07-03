@@ -282,6 +282,8 @@ class GrippingEdge(BaseEdge):
             return self.boxes.spacing
 
     def __call__(self, length, **kw):
+        if length == 0.0:
+            return
         getattr(self, self.settings.style)(length)
 
 class CompoundEdge(BaseEdge):
@@ -639,22 +641,26 @@ Values:
  * style : B : currently "A" or "B"
  * outset : False : have lid overlap at the sides (similar to OutSetEdge)
  * pinwidth : 1.0 : set to lower value to get disks surrounding the pins
+ * grip_percentage" : 0 : percentage of the lid that should get grips
 
 * relative (in multiples of thickness)
 
  * hingestrength : 1 : thickness of the arc holding the pin in place
  * axle : 2 : diameter of the pin hole
+ * grip_length : 0 : fixed length of the grips on he lids
 
 """
     absolute_params = {
         "style" : "B",
         "outset" : False,
         "pinwidth" : 0.5,
+        "grip_percentage" : 0,
         }
 
     relative_params = {
         "hingestrength" : 1,#1.5-0.5*2**0.5,
         "axle" : 2,
+        "grip_length" : 0,
         }
 
 class Hinge(BaseEdge):
@@ -664,6 +670,8 @@ class Hinge(BaseEdge):
 
     def __init__(self, boxes, settings=None, layout=1):
         super(Hinge, self).__init__(boxes,settings)
+        if not (0 < layout <= 3):
+            raise ValueError("layout must be 1, 2 or 3 (got %i)" % layout)
         self.layout = layout
         self.char = "eijk"[layout]
         self.description = self.description + ('', ' (start)', ' (end)', ' (both ends)')[layout]
@@ -726,6 +734,8 @@ class HingePin(BaseEdge):
 
     def __init__(self, boxes, settings=None, layout=1):
         super(HingePin, self).__init__(boxes,settings)
+        if not (0 < layout <= 3):
+            raise ValueError("layout must be 1, 2 or 3 (got %i)" % layout)
         self.layout = layout
         self.char = "EIJK"[layout]
         self.description = self.description + ('', ' (start)', ' (end)', ' (both ends)')[layout]
@@ -829,13 +839,24 @@ class HingePin(BaseEdge):
 
     def __call__(self, l, **kw):
         plen = getattr(self, self.settings.style+'len')()
+        glen = l * self.settings.grip_percentage + \
+               self.settings.grip_length
+        if not self.settings.outset:
+            glen = 0.0
+        glen = min(glen, l-plen)
 
-        if self.layout & 1:
+        if self.layout & 1 and self.layout & 2:
             getattr(self, self.settings.style)()
-        self.edge(l - (self.layout & 1)*plen - bool(self.layout & 2)*plen)
-        if self.layout & 2:
+            self.edge(l - 2 * plen)
             getattr(self, self.settings.style)(True)
-
+        elif self.layout & 1:
+            getattr(self, self.settings.style)()
+            self.edge(l - plen - glen)
+            self.edges['g'](glen)
+        else:
+            self.edges['g'](glen)
+            self.edge(l - plen - glen)
+            getattr(self, self.settings.style)(True)
 
 #############################################################################
 ####     Click Joints

@@ -395,6 +395,7 @@ Values:
   * finger : 1.0 : width of the fingers
   * height : 1.0 : length of the fingers
   * width : 1.0 : width of finger holes
+  * edge_width : 1.0 : space below holes of FingerHoleEdge
 
 """
 
@@ -407,6 +408,7 @@ Values:
         "finger" : 1.0,
         "height" : 1.0,
         "width" : 1.0,
+        "edge_width" : 1.0,
         }
 
 class FingerJointEdge(BaseEdge):
@@ -522,10 +524,9 @@ class FingerHoleEdge(BaseEdge):
         super(FingerHoleEdge, self).__init__(boxes, None, **kw)
         self.fingerHoles = fingerHoles or boxes.fingerHolesAt
 
-    def __call__(self, length, dist=None,
+    def __call__(self, length,
                  bedBolts=None, bedBoltSettings=None, **kw):
-        if dist is None:
-            dist = self.fingerHoleEdgeWidth * self.thickness
+        dist = self.fingerHoles.settings.edge_width
         self.ctx.save()
         self.fingerHoles(0, dist+self.thickness/2, length, 0,
                          bedBolts=bedBolts, bedBoltSettings=bedBoltSettings)
@@ -537,7 +538,7 @@ class FingerHoleEdge(BaseEdge):
 
     def startwidth(self):
         """ """
-        return (self.fingerHoleEdgeWidth+1) * self.thickness
+        return self.fingerHoles.settings.edge_width + self.thickness
 
 class CrossingFingerHoleEdge(BaseEdge):
     """Edge with holes for finger joints 90° above"""

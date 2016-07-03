@@ -205,7 +205,6 @@ class Boxes:
         """
         self.spacing = 2*self.burn + 0.5 * self.thickness
 
-        self.fingerHoleEdgeWidth = 1.0    # multitudes of self.thickness
         self.bedBoltSettings = (3, 5.5, 2, 20, 15) #d, d_nut, h_nut, l, l1
         self.hexHolesSettings = (5, 3, 'circle') # r, dist, style
         self.surface, self.ctx = self.formats.getSurface(self.format, self.output)

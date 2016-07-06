@@ -652,7 +652,7 @@ Values:
 
 """
     absolute_params = {
-        "style" : "B",
+        "style" : "A",
         "outset" : False,
         "pinwidth" : 0.5,
         "grip_percentage" : 0,
@@ -682,24 +682,36 @@ class Hinge(BaseEdge):
 
     def A(self, _reversed=False):
         t = self.thickness
-        r = t*0.5*2**0.5
+        r = 0.5 * self.settings.axle
+        alpha = math.degrees(math.asin(0.5*t/r))
+        print(alpha)
+        pinl = (self.settings.axle**2-self.thickness**2)**0.5 * self.settings.pinwidth
+        pos = math.cos(math.radians(alpha)) * r
         hinge = (
             0,
-            45, 0,
+            90-alpha, 0,
             (-360, r), 0,
-            135,
+            90+alpha,
             t,
             90,
             0.5*t,
-            (180, 1.5*t), 0,
+            (180, t+ pos), 0,
             (-90, 0.5*t), 0
         )
         if _reversed:
             hinge = reversed(hinge)
-        self.polyline(*hinge)
+            self.polyline(*hinge)
+            self.boxes.rectangularHole(-pos, -0.5*t, pinl, self.thickness)
+        else:
+            self.boxes.rectangularHole(pos, -0.5*t, pinl, self.thickness)
+            self.polyline(*hinge)
 
     def Alen(self):
-        return 2.5 * self.thickness
+        t = self.thickness
+        r = 0.5 * self.settings.axle
+        alpha = math.degrees(math.asin(0.5*t/r))
+        pos = math.cos(math.radians(alpha)) * r
+        return 2 * pos + 1.5 * t
 
     def B(self, _reversed=False):
         t = self.thickness
@@ -762,32 +774,41 @@ class HingePin(BaseEdge):
 
     def A(self, _reversed=False):
         t = self.thickness
-        pin = (0, -90,
+        r = 0.5 * self.settings.axle
+        alpha = math.degrees(math.asin(0.5*t/r))
+        pos = math.cos(math.radians(alpha)) * r
+        pinl = (self.settings.axle**2-self.thickness**2)**0.5 * self.settings.pinwidth
+        pin = (pos-0.5*pinl, -90,
                t, 90,
-               t,
+               pinl,
                90,
                t,
                -90)
 
         if self.settings.outset:
             pin += (
-                1.5*t,
+                pos-0.5*pinl+1.5*t,
                 -90,
                 t,
                 90,
                 0,
             )
         else:
-            pin += (0.0,)
+            pin += (pos-0.5*pinl,)
         if _reversed:
             pin = reversed(pin)
         self.polyline(*pin)
 
     def Alen(self):
+        t = self.thickness
+        r = 0.5 * self.settings.axle
+        alpha = math.degrees(math.asin(0.5*t/r))
+        pos = math.cos(math.radians(alpha)) * r
+
         if self.settings.outset:
-            return 2.5* self.thickness
+            return 2 * pos + 1.5* self.thickness
         else:
-            return self.thickness
+            return 2 * pos
 
     def B(self, _reversed=False):
         t = self.thickness

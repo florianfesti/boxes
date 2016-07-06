@@ -711,11 +711,15 @@ class Hinge(BaseEdge):
             (-90, 0.5*t), 0
         )
         pos = 0.5*self.settings.axle+self.settings.hingestrength
+        pinl = (self.settings.axle**2-self.thickness**2)**0.5 * self.settings.pinwidth
+
         if _reversed:
             hinge = reversed(hinge)
             self.hole(0.5*t+pos, -0.5*t, 0.5*self.settings.axle)
+            self.boxes.rectangularHole(0.5*t+pos, -0.5*t, pinl, self.thickness)
         else:
             self.hole(pos, -0.5*t, 0.5*self.settings.axle)
+            self.boxes.rectangularHole(pos, -0.5*t, pinl, self.thickness)
         self.polyline(*hinge)
 
     def Blen(self):
@@ -808,29 +812,6 @@ class HingePin(BaseEdge):
         if _reversed:
             pin = reversed(pin)
         self.polyline(*pin)
-
-    def parts(self, numhinges, move=''):
-        """Draw additional parts needed"""
-        if self.settings.pinwidth == 1.0:
-            return
-        pinl = (self.settings.axle**2-self.thickness**2)**0.5 * self.settings.pinwidth
-
-        height = self.settings.axle + 2 * self.boxes.spacing
-        width = numhinges * (self.settings.axle + self.boxes.spacing) + self.boxes.spacing
-        a = (self.settings.axle - 0.05*self.thickness)
-
-        if self.boxes.move(width, height, move, before=True):
-            return
-        self.ctx.save()
-
-        self.boxes.moveTo(-0.5 * a)
-        for i in range(numhinges):
-            self.boxes.moveTo(self.boxes.spacing + a)
-            self.boxes.rectangularHole(0, a/2.0, pinl, self.thickness)
-            self.boxes.corner(360, a/2.0)
-
-        self.ctx.restore()
-        self.boxes.move(width, height, move)
 
     def Blen(self):
         l = self.settings.hingestrength+self.settings.axle

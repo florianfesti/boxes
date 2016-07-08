@@ -684,7 +684,6 @@ class Hinge(BaseEdge):
         t = self.thickness
         r = 0.5 * self.settings.axle
         alpha = math.degrees(math.asin(0.5*t/r))
-        print(alpha)
         pinl = (self.settings.axle**2-self.thickness**2)**0.5 * self.settings.pinwidth
         pos = math.cos(math.radians(alpha)) * r
         hinge = (

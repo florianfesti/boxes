@@ -69,9 +69,11 @@ class FlexBox(Boxes):
         self.corner(90)
 
     def render(self):
-        self.radius = self.radius or min(self.x, self.y)/2.0
         self.c4 = c4 = math.pi * self.radius * 0.5
         self.latchsize = 8*self.thickness
+        self.radius = self.radius or min(self.x/2.0, self.y-self.latchsize)
+        self.radius = min(self.radius, self.x/2.0)
+        self.radius = min(self.radius, max(0, self.y-self.latchsize))
 
         self.open()
 

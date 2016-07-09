@@ -257,6 +257,10 @@ class Boxes:
                     "--top_edge",  action="store",
                     type=ArgparseEdgeType("ecESik"), choices=list("ecESik"),
                     default="e", help="edge type for top edge")
+            elif arg=="outside":
+                self.argparser.add_argument(
+                    "--outside",  action="store", type=bool, default=False,
+                    help="treat sizes as outside mesurements that include the walls")
             else:
                 raise ValueError("No default for argument", arg)
 
@@ -332,6 +336,29 @@ class Boxes:
             self.addPart(edges.HingePin(self, s, i))
         # Nuts
         self.addPart(NutHole(self, None))
+
+    def adjustSize(self, l, e1=True, e2=True):
+        try:
+            total = sum(l)
+            walls = (len(l)-1) * self.thickness
+        except TypeError:
+            total = l
+            walls = 0
+
+        if isinstance(e1, edges.BaseEdge):
+            walls += e1.startwidth() + e1.margin()
+        elif e1:
+            walls += self.thickness
+        if isinstance(e2, edges.BaseEdge):
+            walls += e2.startwidth + e2.margin()
+        elif e2:
+            walls += self.thickness
+
+        try:
+            factor = (total-walls) / total
+            return [s*factor for s in l]
+        except TypeError:
+            return l - walls
 
     def render(self):
         """Implement this method in your sub class.

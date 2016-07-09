@@ -47,8 +47,8 @@ class FlexBox(Boxes):
         x, y, h, r = self.x, self.y, self.h, self.radius
         
         self.edges["F"](y-r, False)
-        if (x-2*r < 0.1):
-            self.edges["X"](2*self.c4, h+2*self.thickness)
+        if (x-2*r < self.thickness):
+            self.edges["X"](2*self.c4+x-2*r, h+2*self.thickness)
         else:
             self.edges["X"](self.c4, h+2*self.thickness)
             self.edge(x-2*r)

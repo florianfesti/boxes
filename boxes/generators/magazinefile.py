@@ -20,7 +20,7 @@ class Box(Boxes):
     """Open magazine file"""
     def __init__(self):
         Boxes.__init__(self)
-        self.buildArgParser("x", "y", "h", "hi")
+        self.buildArgParser("x", "y", "h", "hi", "outside")
         self.argparser.set_defaults(
             fingerjointfinger=2.0,
             fingerjointspace=2.0
@@ -60,6 +60,11 @@ class Box(Boxes):
 
 
     def render(self):
+        if self.outside:
+            self.x = self.adjustSize(self.x)
+            self.y = self.adjustSize(self.y)
+            self.h = self.adjustSize(self.h, e2=False)
+
         x, y, h, = self.x, self.y, self.h
         self.hi = hi = self.hi or (h / 2.0)
         t = self.thickness

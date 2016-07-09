@@ -22,7 +22,7 @@ class Layout(Boxes):
     """Generate a typetray from a layout file"""
     def __init__(self, input=None, webargs=False):
         Boxes.__init__(self)
-        self.buildArgParser("h", "hi")
+        self.buildArgParser("h", "hi", "outside")
         if not webargs:
             self.argparser.add_argument(
                 "--input",  action="store", type=argparse.FileType('r'),
@@ -91,6 +91,12 @@ class Layout(Boxes):
         edge(length)
 
     def render(self):
+        if self.outside:
+            self.x = self.adjustSize(self.x)
+            self.y = self.adjustSize(self.y)
+            self.h = self.adjustSize(self.h, e2=False)
+            if self.hi:
+                self.hi = self.adjustSize(self.hi, e2=False)
 
         self.hi = hi = self.hi or self.h
 

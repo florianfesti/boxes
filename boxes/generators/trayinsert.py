@@ -20,9 +20,13 @@ class TrayInsert(Boxes):
     """Tray insert without floor and outer walls - allows only continuous walls"""
     def __init__(self):
         Boxes.__init__(self)
-        self.buildArgParser("sx", "sy", "h")
+        self.buildArgParser("sx", "sy", "h", "outside")
 
     def render(self):
+        if self.outside:
+            self.sx = self.adjustSize(self.sx, False, False)
+            self.sy = self.adjustSize(self.sy, False, False)
+
         x = sum(self.sx) + self.thickness * (len(self.sx)-1)
         y = sum(self.sy) + self.thickness * (len(self.sy)-1)
         h = self.h

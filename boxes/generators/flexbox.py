@@ -21,7 +21,7 @@ class FlexBox(boxes.Boxes):
     """Box with living hinge and round corners"""
     def __init__(self):
         boxes.Boxes.__init__(self)
-        self.buildArgParser("x", "y", "h")
+        self.buildArgParser("x", "y", "h", "outside")
         self.argparser.add_argument(
             "--radius",  action="store", type=float, default=15,
             help="Radius of the latch in mm")
@@ -77,6 +77,12 @@ class FlexBox(boxes.Boxes):
         self.corner(90)
 
     def render(self):
+
+        if self.outside:
+            self.x = self.adjustSize(self.x)
+            self.y = self.adjustSize(self.y)
+            self.h = self.adjustSize(self.h)
+
         x, y, h = self.x, self.y, self.h
         self.latchsize = 8 * self.thickness
         r = self.radius or min(x, y-self.latchsize)/2.0

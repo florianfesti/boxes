@@ -20,16 +20,23 @@ class Box(Boxes):
     """Fully closed box"""
     def __init__(self):
         Boxes.__init__(self)
-        self.buildArgParser("x", "y", "h")
+        self.buildArgParser("x", "y", "h", "outside")
         self.argparser.set_defaults(
             fingerjointfinger=3.0,
             fingerjointspace=3.0
             )
 
     def render(self):
-        x, y, h = self.x, self.y, self.h
-        t = self.thickness
         self.open()
+
+        x, y, h = self.x, self.y, self.h
+
+        if self.outside:
+            x = self.adjustSize(x)
+            y = self.adjustSize(y)
+            h = self.adjustSize(h)
+
+        t = self.thickness
 
         d2 = [edges.Bolts(2)]
         d3 = [edges.Bolts(3)]

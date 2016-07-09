@@ -21,7 +21,7 @@ class FlexBox(Boxes):
     """Box with living hinge"""
     def __init__(self):
         Boxes.__init__(self)
-        self.buildArgParser("x", "y")
+        self.buildArgParser("x", "y", "outside")
         self.argparser.add_argument(
             "--z",  action="store", type=float, default=100.0,
             help="height of the box")
@@ -99,6 +99,11 @@ class FlexBox(Boxes):
         self.edge(x+2*t)
 
     def render(self):
+        if self.outside:
+            self.x = self.adjustSize(self.x)
+            self.y = self.adjustSize(self.y)
+            self.z = self.adjustSize(self.z)
+
         x, y, z, d, h = self.x, self.y, self.z, self.d, self.h
         r = self.radius = self.radius or min(x, y)/2.0
         thickness = self.thickness

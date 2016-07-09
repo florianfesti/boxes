@@ -20,7 +20,7 @@ class TypeTray(Boxes):
     """Type tray - allows only continuous walls"""
     def __init__(self):
         Boxes.__init__(self)
-        self.buildArgParser("sx", "sy", "h", "hi")
+        self.buildArgParser("sx", "sy", "h", "hi", "outside")
         self.argparser.add_argument(
             "--gripheight",  action="store", type=float, default=30,
             dest="gh", help="height of the grip hole in mm")
@@ -72,6 +72,13 @@ class TypeTray(Boxes):
         self.rectangularHole(x/2.0, self.gh*1.5, self.gw, self.gh, r)
 
     def render(self):
+        if self.outside:
+            self.sx = self.adjustSize(self.sx)
+            self.sy = self.adjustSize(self.sy)
+            self.h = self.adjustSize(self.h, e2=False)
+            if self.hi:
+                self.hi = self.adjustSize(self.hi, e2=False)
+
         x = sum(self.sx) + self.thickness * (len(self.sx)-1)
         y = sum(self.sy) + self.thickness * (len(self.sy)-1)
         h = self.h

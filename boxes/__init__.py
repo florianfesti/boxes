@@ -260,7 +260,7 @@ class Boxes:
             elif arg=="outside":
                 self.argparser.add_argument(
                     "--outside",  action="store", type=bool, default=False,
-                    help="treat sizes as outside mesurements that include the walls")
+                    help="treat sizes as outside measurements that include the walls")
             else:
                 raise ValueError("No default for argument", arg)
 

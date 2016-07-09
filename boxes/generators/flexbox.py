@@ -44,7 +44,7 @@ class FlexBox(boxes.Boxes):
 
     def surroundingWall(self):
         x, y, h, r = self.x, self.y, self.h, self.radius
-        
+
         c4 = math.pi * r * 0.5
 
         self.edges["F"](y-2*r-self.latchsize, False)
@@ -72,8 +72,10 @@ class FlexBox(boxes.Boxes):
 
     def render(self):
         x, y, h = self.x, self.y, self.h
-        r = self.radius or min(x, y)/2.0
         self.latchsize = 8 * self.thickness
+        r = self.radius or min(x, y-self.latchsize)/2.0
+        r = min(r, x/2.0)
+        self.radius = r = min(r, max(0, (y-self.latchsize)/2.0))
         c4 = math.pi * r * 0.5
 
         self.open()

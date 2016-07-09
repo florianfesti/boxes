@@ -366,7 +366,7 @@ class OptionParser(argparse.ArgumentParser):
         self.add_argument(*names, **kw)
 
 class Gears():
-    def __init__(self, **kw):
+    def __init__(self, boxes, **kw):
         # an alternate way to get debug info:
         # could use inkex.debug(string) instead...
         try:
@@ -375,6 +375,7 @@ class Gears():
             self.tty = open(devnull, 'w')  # '/dev/null' for POSIX, 'nul' for Windows.
             # print >>self.tty, "gears-dev " + __version__
 
+        self.boxes = boxes
         self.OptionParser = OptionParser()
         self.OptionParser.add_option("-t", "--teeth",
                                      action="store", type="int",
@@ -492,6 +493,13 @@ class Gears():
                                      dest="undercut_alert", default=False,
                                      help="Let the user confirm a warning dialog if undercut occurs. This dialog also shows helpful hints against undercut")
 
+    def drawPoints(self, lines):
+        self.boxes.ctx.save()
+        self.boxes.ctx.move_to(*lines[0])
+        for x, y in lines[1:]:
+            self.boxes.ctx.line_to(x, y)
+        self.boxes.ctx.line_to(*lines[0])
+        self.boxes.ctx.restore()
 
     def add_text(self, node, text, position, text_height=12):
         """ Create and insert a single line of text into the svg under node.
@@ -540,11 +548,11 @@ class Gears():
         # unit.
         # The internal inkscape unit is always px, 
         # it is independent of the doc_units!
-        return circular_pitch / uutounit(self, 1.0, 'in')
+        return circular_pitch # XXX / uutounit(self, 1.0, 'in')
 
 
 
-    def effect(self, **kw):
+    def __call__(self, **kw):
         """ Calculate Gear factors from inputs.
             - Make list of radii, angles, and centers for each tooth and 
               iterate through them
@@ -558,7 +566,7 @@ class Gears():
         #
         warnings = [] # list of extra messages to be shown in annotations
         # calculate unit factor for units defined in dialog. 
-        unit_factor = self.calc_unit_factor()
+        unit_factor = 1 # XXX self.calc_unit_factor()
         # User defined options
         teeth = self.options.teeth
         # Angle of tangent to tooth at circular pitch wrt radial line.
@@ -609,7 +617,7 @@ class Gears():
             if self.options.undercut_alert:
                 inkex.debug(msg)
             else:
-                print >>self.tty, msg
+                print(msg)
 
         # All base calcs done. Start building gear
         points = generate_spur_points(teeth, base_radius, pitch_radius, outer_radius, root_radius, accuracy_involute, accuracy_circular)
@@ -651,9 +659,10 @@ class Gears():
 ##
 ##            points.extend( p_tmp )
 
-        path = points_to_svgd( points )
+        self.drawPoints(points)
+        return
         bbox_center = points_to_bbox_center( points )
-
+        path = ""
         # Spokes (add to current path)
         if not self.options.internal_ring:  # only draw internals if spur gear
             spokes_path, msg = generate_spokes_path(root_radius, spoke_width, spoke_count, mount_radius, mount_hole,
@@ -681,7 +690,7 @@ class Gears():
 
         # Embed gear in group to make animation easier:
         #  Translate group, Rotate path.
-        t = 'translate(' + str( self.view_center[0] ) + ',' + str( self.view_center[1] ) + ')'
+        t = "" # XXX 'translate(' + str( self.view_center[0] ) + ',' + str( self.view_center[1] ) + ')'
         g_attribs = { inkex.addNS('label','inkscape'):'Gear' + str( teeth ),
                       inkex.addNS('transform-center-x','inkscape'): str(-bbox_center[0]),
                       inkex.addNS('transform-center-y','inkscape'): str(-bbox_center[1]),

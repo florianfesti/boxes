@@ -668,7 +668,6 @@ class Gears():
 
         self.drawPoints(points)
         bbox_center = points_to_bbox_center( points )
-        path = ""
         # Spokes (add to current path)
         if not self.options.internal_ring:  # only draw internals if spur gear
             msg = self.generate_spokes(root_radius, spoke_width, spoke_count, mount_radius, mount_hole,
@@ -679,20 +678,14 @@ class Gears():
             # A : rx,ry  x-axis-rotation, large-arch-flag, sweepflag  x,y
             r = mount_hole / 2
             self.boxes.hole(0, 0, r)
-            path += (
-                    "M %f,%f" % (0,r) +
-                    "A  %f,%f %s %s %s %f,%f" % (r,r, 0,0,0, 0,-r) +
-                    "A  %f,%f %s %s %s %f,%f" % (r,r, 0,0,0, 0,r) 
-                    )
         else:
             # its a ring gear
             # which only has an outer ring where width = spoke width
-            r = outer_radius + spoke_width
-            path += (
-                    "M %f,%f" % (0,r) +
-                    "A  %f,%f %s %s %s %f,%f" % (r,r, 0,0,0, 0,-r) +
-                    "A  %f,%f %s %s %s %f,%f" % (r,r, 0,0,0, 0,r) 
-                    )
+            r = outer_radius + spoke_width + self.boxes.burn
+            self.boxes.ctx.save()
+            self.boxes.moveTo(r, 0)
+            self.boxes.ctx.arc(-r, 0, r, 0, 2*pi)
+            self.boxes.ctx.restore()
         # Add center
         if centercross:
             cs = pitch / 3.0 # centercross length

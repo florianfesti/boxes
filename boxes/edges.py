@@ -1104,7 +1104,7 @@ class FlexEdge(BaseEdge):
         sections = int((h-connection) // width)
         sheight = ((h-connection) / sections)-connection
 
-        for i in range(lines):
+        for i in range(1, lines):
             pos = i*dist + leftover/2
             if i % 2:
                 self.ctx.move_to(pos, 0)

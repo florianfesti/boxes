@@ -18,6 +18,9 @@ def normalize(v):
     l = (v[0]**2+v[1]**2)**0.5
     return (v[0]/l, v[1]/l)
 
+def vlength(v):
+    return (v[0]**2+v[1]**2)**0.5
+
 def vdiff(p1, p2):
     "vector from point1 to point2"
     return (p2[0]-p1[0], p2[1]-p1[1])

@@ -43,7 +43,7 @@ from os import devnull # for debugging
 from math import pi, cos, sin, tan, radians, degrees, ceil, asin, acos, sqrt
 two_pi = 2 * pi
 import argparse
-from boxes.vectors import kerf
+from boxes.vectors import kerf, vdiff, vlength
 
 __version__ = '0.9'
 
@@ -282,69 +282,6 @@ def generate_spur_points(teeth, base_radius, pitch_radius, outer_radius, root_ra
         points.extend( p_tmp )
     return (points)
 
-def generate_spokes_path(root_radius, spoke_width, spoke_count, mount_radius, mount_hole,
-                         unit_factor, unit_label):
-    """ given a set of constraints
-        - generate the svg path for the gear spokes
-        - lies between mount_radius (inner hole) and root_radius (bottom of the teeth)
-        - spoke width also defines the spacing at the root_radius
-        - mount_radius is adjusted so that spokes fit if there is room
-        - if no room (collision) then spokes not drawn
-    """
-    # Spokes
-    collision = False # assume we draw spokes
-    messages = []     # messages to send back about changes.
-    path = ''
-    r_outer = root_radius - spoke_width
-    # checks for collision with spokes
-    # check for mount hole collision with inner spokes
-    if mount_radius <= mount_hole/2:
-        adj_factor = (r_outer - mount_hole/2) / 5
-        if adj_factor < 0.1:
-            # not enough reasonable room
-            collision = True
-        else:
-            mount_radius = mount_hole/2 + adj_factor # small fix
-            messages.append("Mount support too small. Auto increased to %2.2f%s." % (mount_radius/unit_factor*2, unit_label))
-
-    # then check to see if cross-over on spoke width
-    if spoke_width * spoke_count +0.5 >= two_pi * mount_radius:
-        adj_factor = 1.2 # wrong value. its probably one of the points distances calculated below
-        mount_radius += adj_factor
-        messages.append("Too many spokes. Increased Mount support by %2.3f%s" % (adj_factor/unit_factor, unit_label))
-
-    # check for collision with outer rim
-    if r_outer <= mount_radius:
-        # not enough room to draw spokes so cancel
-        collision = True
-    if collision: # don't draw spokes if no room.
-        messages.append("Not enough room for Spokes. Decrease Spoke width.")
-    else: # draw spokes
-        for i in range(spoke_count):
-            points = []
-            start_a, end_a = i * two_pi / spoke_count, (i+1) * two_pi / spoke_count
-            # inner circle around mount
-            asin_factor = spoke_width/mount_radius/2
-            # check if need to clamp radius
-            asin_factor = max(-1.0, min(1.0, asin_factor)) # no longer needed - resized above
-            a = asin(asin_factor)
-            points += [ point_on_circle(mount_radius, start_a + a), point_on_circle(mount_radius, end_a - a)]
-            # is inner circle too small
-            asin_factor = spoke_width/r_outer/2
-            # check if need to clamp radius
-            asin_factor = max(-1.0, min(1.0, asin_factor)) # no longer needed - resized above
-            a = asin(asin_factor)
-            points += [point_on_circle(r_outer, end_a - a), point_on_circle(r_outer, start_a + a) ]
-
-            path += (
-                    "M %f,%f" % points[0] +
-                    "A  %f,%f %s %s %s %f,%f" % tuple((mount_radius, mount_radius, 0, 0 if spoke_count!=1 else 1, 1 ) + points[1]) +
-                    "L %f,%f" % points[2] +
-                    "A  %f,%f %s %s %s %f,%f" % tuple((r_outer, r_outer, 0, 0 if spoke_count!=1 else 1, 0 ) + points[3]) +
-                    "Z"
-                    )
-    return (path, messages)
-
 def inkbool(val):
     return val not in ("False", False, "0", 0, "None", None)
 
@@ -553,6 +490,73 @@ class Gears():
         # it is independent of the doc_units!
         return circular_pitch # XXX / uutounit(self, 1.0, 'in')
 
+    def generate_spokes(self, root_radius, spoke_width, spoke_count, mount_radius, mount_hole,
+                             unit_factor, unit_label):
+        """ given a set of constraints
+            - generate the svg path for the gear spokes
+            - lies between mount_radius (inner hole) and root_radius (bottom of the teeth)
+            - spoke width also defines the spacing at the root_radius
+            - mount_radius is adjusted so that spokes fit if there is room
+            - if no room (collision) then spokes not drawn
+        """
+        # Spokes
+        collision = False # assume we draw spokes
+        messages = []     # messages to send back about changes.
+        spoke_holes = []
+        r_outer = root_radius - spoke_width
+        # checks for collision with spokes
+        # check for mount hole collision with inner spokes
+        if mount_radius <= mount_hole/2:
+            adj_factor = (r_outer - mount_hole/2) / 5
+            if adj_factor < 0.1:
+                # not enough reasonable room
+                collision = True
+            else:
+                mount_radius = mount_hole/2 + adj_factor # small fix
+                messages.append("Mount support too small. Auto increased to %2.2f%s." % (mount_radius/unit_factor*2, unit_label))
+
+        # then check to see if cross-over on spoke width
+        if spoke_width * spoke_count +0.5 >= two_pi * mount_radius:
+            adj_factor = 1.2 # wrong value. its probably one of the points distances calculated below
+            mount_radius += adj_factor
+            messages.append("Too many spokes. Increased Mount support by %2.3f%s" % (adj_factor/unit_factor, unit_label))
+
+        # check for collision with outer rim
+        if r_outer <= mount_radius:
+            # not enough room to draw spokes so cancel
+            collision = True
+        if collision: # don't draw spokes if no room.
+            messages.append("Not enough room for Spokes. Decrease Spoke width.")
+        else: # draw spokes
+            for i in range(spoke_count):
+                self.boxes.ctx.save()
+                start_a, end_a = i * two_pi / spoke_count, (i+1) * two_pi / spoke_count
+                # inner circle around mount
+                asin_factor = spoke_width/mount_radius/2
+                # check if need to clamp radius
+                asin_factor = max(-1.0, min(1.0, asin_factor)) # no longer needed - resized above
+                a = asin(asin_factor)
+
+                # is inner circle too small
+                asin_factor = spoke_width/r_outer/2
+                # check if need to clamp radius
+                asin_factor = max(-1.0, min(1.0, asin_factor)) # no longer needed - resized above
+                a2 = asin(asin_factor)
+                l = vlength(vdiff(point_on_circle(mount_radius, start_a + a),
+                                  point_on_circle(r_outer, start_a + a2)))
+                self.boxes.moveTo(*point_on_circle(mount_radius, start_a - a), degrees=degrees(start_a))
+                self.boxes.polyline(
+                    l,
+                    -90-degrees(a2), 0,
+                    (-degrees(two_pi / spoke_count-2*a2), r_outer), 0,
+                    -90-degrees(a2),
+                    l, -90+degrees(a), 0,
+                    (degrees(two_pi / spoke_count-2*a), mount_radius),
+                    0, -90-degrees(a2), 0
+                )
+
+                self.boxes.ctx.restore()
+        return messages
 
 
     def __call__(self, **kw):
@@ -663,19 +667,18 @@ class Gears():
 ##            points.extend( p_tmp )
 
         self.drawPoints(points)
-        return
         bbox_center = points_to_bbox_center( points )
         path = ""
         # Spokes (add to current path)
         if not self.options.internal_ring:  # only draw internals if spur gear
-            spokes_path, msg = generate_spokes_path(root_radius, spoke_width, spoke_count, mount_radius, mount_hole,
+            msg = self.generate_spokes(root_radius, spoke_width, spoke_count, mount_radius, mount_hole,
                                                     unit_factor, self.options.units)
             warnings.extend(msg)
-            path += spokes_path
 
             # Draw mount hole
             # A : rx,ry  x-axis-rotation, large-arch-flag, sweepflag  x,y
             r = mount_hole / 2
+            self.boxes.hole(0, 0, r)
             path += (
                     "M %f,%f" % (0,r) +
                     "A  %f,%f %s %s %s %f,%f" % (r,r, 0,0,0, 0,-r) +
@@ -690,7 +693,7 @@ class Gears():
                     "A  %f,%f %s %s %s %f,%f" % (r,r, 0,0,0, 0,-r) +
                     "A  %f,%f %s %s %s %f,%f" % (r,r, 0,0,0, 0,r) 
                     )
-
+        return
         # Embed gear in group to make animation easier:
         #  Translate group, Rotate path.
         t = "" # XXX 'translate(' + str( self.view_center[0] ) + ',' + str( self.view_center[1] ) + ')'

@@ -39,11 +39,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 			Fixed https://github.com/jnweiger/inkscape-gears-dev
 '''
 
-import inkex, simplestyle
 from os import devnull # for debugging
 from math import pi, cos, sin, tan, radians, degrees, ceil, asin, acos, sqrt
 two_pi = 2 * pi
-
+import argparse
 
 __version__ = '0.9'
 
@@ -282,7 +281,6 @@ def generate_spur_points(teeth, base_radius, pitch_radius, outer_radius, root_ra
         points.extend( p_tmp )
     return (points)
 
-
 def generate_spokes_path(root_radius, spoke_width, spoke_count, mount_radius, mount_hole,
                          unit_factor, unit_label):
     """ given a set of constraints
@@ -346,10 +344,29 @@ def generate_spokes_path(root_radius, spoke_width, spoke_count, mount_radius, mo
                     )
     return (path, messages)
 
+def inkbool(val):
+    return val not in ("False", False, "0", 0, "None", None)
 
-class Gears(inkex.Effect):
-    def __init__(self):
-        inkex.Effect.__init__(self)
+class OptionParser(argparse.ArgumentParser):
+
+    types = {
+        "int" : int,
+        "float" : float,
+        "string" : str,
+        "inkbool" : inkbool,
+        }
+
+    def add_option(self, short, long_, **kw):
+        kw["type"] = self.types[kw["type"]]
+        names = []
+        if short:
+            names.append("-" + short.replace("-", "_")[1:])
+        if long_:
+            names.append("--" + long_.replace("-", "_")[2:])
+        self.add_argument(*names, **kw)
+
+class Gears():
+    def __init__(self, **kw):
         # an alternate way to get debug info:
         # could use inkex.debug(string) instead...
         try:
@@ -357,6 +374,8 @@ class Gears(inkex.Effect):
         except:
             self.tty = open(devnull, 'w')  # '/dev/null' for POSIX, 'nul' for Windows.
             # print >>self.tty, "gears-dev " + __version__
+
+        self.OptionParser = OptionParser()
         self.OptionParser.add_option("-t", "--teeth",
                                      action="store", type="int",
                                      dest="teeth", default=24,
@@ -525,12 +544,13 @@ class Gears(inkex.Effect):
 
 
 
-    def effect(self):
+    def effect(self, **kw):
         """ Calculate Gear factors from inputs.
             - Make list of radii, angles, and centers for each tooth and 
               iterate through them
             - Turn on other visual features e.g. cross, rack, annotations, etc
         """
+        self.options = self.OptionParser.parse_args(["--%s=%s" % (name,value) for name, value in kw.items()])
         path_stroke = '#000000'  # might expose one day
         path_fill   = 'none'     # no fill - just a line
         path_stroke_width  = 0.6            # might expose one day

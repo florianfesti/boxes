@@ -693,36 +693,19 @@ class Gears():
                     "A  %f,%f %s %s %s %f,%f" % (r,r, 0,0,0, 0,-r) +
                     "A  %f,%f %s %s %s %f,%f" % (r,r, 0,0,0, 0,r) 
                     )
-        return
-        # Embed gear in group to make animation easier:
-        #  Translate group, Rotate path.
-        t = "" # XXX 'translate(' + str( self.view_center[0] ) + ',' + str( self.view_center[1] ) + ')'
-        g_attribs = { inkex.addNS('label','inkscape'):'Gear' + str( teeth ),
-                      inkex.addNS('transform-center-x','inkscape'): str(-bbox_center[0]),
-                      inkex.addNS('transform-center-y','inkscape'): str(-bbox_center[1]),
-                      'transform':t,
-                      'info':'N:'+str(teeth)+'; Pitch:'+ str(pitch) + '; Pressure Angle: '+str(angle) }
-        # add the group to the current layer
-        g = inkex.etree.SubElement(self.current_layer, 'g', g_attribs )
-
-        # Create gear path under top level group
-        style = { 'stroke': path_stroke, 'fill': path_fill, 'stroke-width': path_stroke_width }
-        gear_attribs = { 'style': simplestyle.formatStyle(style), 'd': path }
-        gear = inkex.etree.SubElement(g, inkex.addNS('path','svg'), gear_attribs )
-
         # Add center
         if centercross:
-            style = { 'stroke': path_stroke, 'fill': path_fill, 'stroke-width': path_stroke_light }
-            cs = str(pitch / 3) # centercross length
-            d = 'M-'+cs+',0L'+cs+',0M0,-'+cs+'L0,'+cs  # 'M-10,0L10,0M0,-10L0,10'
-            center_attribs = { inkex.addNS('label','inkscape'): 'Center cross',
-                               'style': simplestyle.formatStyle(style), 'd': d }
-            center = inkex.etree.SubElement(g, inkex.addNS('path','svg'), center_attribs )
+            cs = pitch / 3.0 # centercross length
+            self.boxes.ctx.save()
+            self.boxes.ctx.move_to(-cs, 0)
+            self.boxes.ctx.line_to(+cs, 0)
+            self.boxes.ctx.move_to(0, -cs)
+            self.boxes.ctx.line_to(0, +cs)
+            self.boxes.ctx.restore()
 
         # Add pitch circle (for mating)
         if pitchcircle:
-            style = { 'stroke': path_stroke, 'fill': path_fill, 'stroke-width': path_stroke_light }
-            draw_SVG_circle(g, pitch_radius, 0, 0, 'Pitch circle', style)
+            self.boxes.hole(0, 0, pitch_radius)
 
         # Add Rack (below)
         if self.options.drawrack:

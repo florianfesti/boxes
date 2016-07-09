@@ -48,13 +48,19 @@ class FlexBox(boxes.Boxes):
         c4 = math.pi * r * 0.5
 
         self.edges["F"](y-2*r-self.latchsize, False)
-        self.edges["X"](c4, h+2*self.thickness)
-        self.edges["F"](x-2*r, False)
-        self.edges["X"](c4, h+2*self.thickness)
+        if x-2*r < self.thickness:
+            self.edges["X"](2*c4+x-2*r, h+2*self.thickness)
+        else:
+            self.edges["X"](c4, h+2*self.thickness)
+            self.edges["F"](x-2*r, False)
+            self.edges["X"](c4, h+2*self.thickness)
         self.edges["F"](y-2*r, False)
-        self.edges["X"](c4, h+2*self.thickness)
-        self.edge(x-2*r)
-        self.edges["X"](c4, h+2*self.thickness)
+        if x-2*r < self.thickness:
+            self.edges["X"](2*c4+x-2*r, h+2*self.thickness)
+        else:
+            self.edges["X"](c4, h+2*self.thickness)
+            self.edge(x-2*r)
+            self.edges["X"](c4, h+2*self.thickness)
         self.latch(self.latchsize, False)
         self.edge(h+2*self.thickness)
         self.latch(self.latchsize, False, True)

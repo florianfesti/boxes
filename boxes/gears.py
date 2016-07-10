@@ -322,7 +322,7 @@ class Gears():
 
         self.OptionParser.add_option("-s", "--system",
                                      action="store", type="string", 
-                                     dest="system", default='CP',
+                                     dest="system", default='MM',
                                      help="Select system: 'CP' (Cyclic Pitch (default)), 'DP' (Diametral Pitch), 'MM' (Metric Module)")
 
         self.OptionParser.add_option("-d", "--dimension",
@@ -457,38 +457,20 @@ class Gears():
         line = inkex.etree.SubElement(node, inkex.addNS('text','svg'), line_attribs)
         line.text = text
 
-
-    def calc_unit_factor(self):
-        """ return the scale factor for all dimension conversions.
-            - The document units are always irrelevant as
-              everything in inkscape is expected to be in 90dpi pixel units
-        """
-        # namedView = self.document.getroot().find(inkex.addNS('namedview', 'sodipodi'))
-        # doc_units = uutounit(self, 1.0, namedView.get(inkex.addNS('document-units', 'inkscape')))
-        dialog_units = uutounit(self, 1.0, self.options.units)
-        unit_factor = 1.0 / dialog_units
-        return unit_factor
-
     def calc_circular_pitch(self):
         """ We use math based on circular pitch.
-            Expressed in inkscape units which is 90dpi 'pixel' units.
         """
         dimension = self.options.dimension
-        # print >> self.tty, "unit_factor=%s, doc_units=%s, dialog_units=%s (%s), system=%s" % (unit_factor, doc_units, dialog_units, self.options.units, self.options.system)
         if   self.options.system == 'CP': # circular pitch
-            circular_pitch = dimension
+            circular_pitch = dimension * 25.4
         elif self.options.system == 'DP': # diametral pitch 
-            circular_pitch = pi / dimension
+            circular_pitch = pi * 25.4 / dimension
         elif self.options.system == 'MM': # module (metric)
-            circular_pitch = dimension * pi / 25.4
+            circular_pitch = dimension
         else:
-            inkex.debug("unknown system '%s', try CP, DP, MM" % self.options.system)
-        # circular_pitch defines the size in inches.
-        # We divide the internal inch factor (px = 90dpi), to remove the inch 
-        # unit.
-        # The internal inkscape unit is always px, 
-        # it is independent of the doc_units!
-        return circular_pitch # XXX / uutounit(self, 1.0, 'in')
+            raise ValueError("unknown system '%s', try CP, DP, MM" % self.options.system)
+        # circular_pitch defines the size in mm
+        return circular_pitch
 
     def generate_spokes(self, root_radius, spoke_width, spoke_count, mount_radius, mount_hole,
                              unit_factor, unit_label):
@@ -573,7 +555,7 @@ class Gears():
         #
         warnings = [] # list of extra messages to be shown in annotations
         # calculate unit factor for units defined in dialog. 
-        unit_factor = 1 # XXX self.calc_unit_factor()
+        unit_factor = 1
         # User defined options
         teeth = self.options.teeth
         # Angle of tangent to tooth at circular pitch wrt radial line.
@@ -740,7 +722,7 @@ class Gears():
             notes.extend(warnings)
             #notes.append('Document (%s) scale conversion = %2.4f' % (self.document.getroot().find(inkex.addNS('namedview', 'sodipodi')).get(inkex.addNS('document-units', 'inkscape')), unit_factor))
             notes.extend(['Teeth: %d   CP: %2.4f(%s) ' % (teeth, pitch / unit_factor, self.options.units),
-                          'DP: %2.3f Module: %2.4f' % (pi / pitch * unit_factor, pitch / pi * 25.4),
+                          'DP: %2.3f Module: %2.4f(mm)' % (25.4 * pi / pitch, pitch),
                           'Pressure Angle: %2.2f degrees' % (angle),
                           'Pitch diameter: %2.3f %s' % (pitch_radius * 2 / unit_factor, self.options.units),
                           'Outer diameter: %2.3f %s' % (outer_dia / unit_factor, self.options.units),
@@ -754,7 +736,8 @@ class Gears():
             # position above
             y = - outer_radius - (len(notes)+1) * text_height * 1.2
             for note in notes:
-                self.add_text(g, note, [0,y], text_height)
+                #self.add_text(g, note, [0,y], text_height)
+                self.boxes.text(note, -outer_radius, y)
                 y += text_height * 1.2
 
 if __name__ == '__main__':

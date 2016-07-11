@@ -43,6 +43,7 @@ from os import devnull # for debugging
 from math import pi, cos, sin, tan, radians, degrees, ceil, asin, acos, sqrt
 two_pi = 2 * pi
 import argparse
+from boxes.vectors import kerf
 
 __version__ = '0.9'
 
@@ -493,7 +494,9 @@ class Gears():
                                      dest="undercut_alert", default=False,
                                      help="Let the user confirm a warning dialog if undercut occurs. This dialog also shows helpful hints against undercut")
 
-    def drawPoints(self, lines):
+    def drawPoints(self, lines, kerfdir=1):
+        if kerfdir != 0:
+            lines = kerf(lines, self.boxes.burn*kerfdir)
         self.boxes.ctx.save()
         self.boxes.ctx.move_to(*lines[0])
         for x, y in lines[1:]:

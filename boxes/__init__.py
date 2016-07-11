@@ -27,6 +27,7 @@ import re
 from functools import wraps
 from boxes import edges
 from boxes import formats
+from boxes import gears
 
 ### Helpers
 
@@ -341,6 +342,8 @@ class Boxes:
             self.addPart(edges.HingePin(self, s, i))
         # Nuts
         self.addPart(NutHole(self, None))
+        # Gears
+        self.addPart(gears.Gears(self))
 
     def adjustSize(self, l, e1=True, e2=True):
         try:

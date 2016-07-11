@@ -9,7 +9,7 @@ setup(name='boxes.py',
       author_email='florian@festi.info',
       url='https://github.com/florianfesti/boxes',
       packages=find_packages(),
-      install_requires=['cairo'],
+      install_requires=['cairocffi'],
       scripts=['scripts/boxes', 'scripts/boxesserver'],
       classifiers=[
           "Development Status :: 4 - Beta",

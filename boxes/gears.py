@@ -47,12 +47,6 @@ from boxes.vectors import kerf, vdiff, vlength
 
 __version__ = '0.9'
 
-def uutounit(self,nn,uu):
-    try:
-        return self.uutounit(nn,uu)		# inkscape 0.91
-    except:
-        return inkex.uutounit(nn,uu)	# inkscape 0.48
-
 def linspace(a,b,n):
     """ return list of linear interp of a to b in n steps
         - if a and b are ints - you'll get an int result.
@@ -70,46 +64,6 @@ def point_on_circle(radius, angle):
     x = radius * cos(angle)
     y = radius * sin(angle)
     return (x, y)
-
-def points_to_bbox(p):
-    """ from a list of points (x,y pairs)
-        - return the lower-left xy and upper-right xy
-    """
-    llx = urx = p[0][0]
-    lly = ury = p[0][1]
-    for x in p[1:]:
-        if   x[0] < llx: llx = x[0]
-        elif x[0] > urx: urx = x[0]
-        if   x[1] < lly: lly = x[1]
-        elif x[1] > ury: ury = x[1]
-    return (llx, lly, urx, ury)
-
-def points_to_bbox_center(p):
-    """ from a list of points (x,y pairs)
-        - find midpoint of bounding box around all points
-        - return (x,y)
-    """
-    bbox = points_to_bbox(p)
-    return ((bbox[0]+bbox[2])/2.0, (bbox[1]+bbox[3])/2.0)
-
-def points_to_svgd(p):
-    " convert list of points into a closed SVG path list"
-    f = p[0]
-    p = p[1:]
-    svgd = 'M%.4f,%.4f' % f
-    for x in p:
-        svgd += 'L%.4f,%.4f' % x
-    svgd += 'z'
-    return svgd
-
-def draw_SVG_circle(parent, r, cx, cy, name, style):
-    " add an SVG circle entity to parent "
-    circ_attribs = {'style': simplestyle.formatStyle(style),
-                    'cx': str(cx), 'cy': str(cy), 
-                    'r': str(r),
-                    inkex.addNS('label','inkscape'):name}
-    circle = inkex.etree.SubElement(parent, inkex.addNS('circle','svg'), circ_attribs )
-
 
 ### Undercut support functions
 def undercut_min_teeth(pitch_angle, k=1.0):
@@ -440,22 +394,6 @@ class Gears():
         self.boxes.ctx.line_to(*lines[0])
         self.boxes.ctx.restore()
 
-    def add_text(self, node, text, position, text_height=12):
-        """ Create and insert a single line of text into the svg under node.
-            - use 'text' type and label as anootation
-            - where color is Ponoko Orange - so ignored when lasercutting
-        """
-        line_style = {'font-size': '%dpx' % text_height, 'font-style':'normal', 'font-weight': 'normal',
-                     'fill': '#F6921E', 'font-family': 'Bitstream Vera Sans,sans-serif',
-                     'text-anchor': 'middle', 'text-align': 'center'}
-        line_attribs = {inkex.addNS('label','inkscape'): 'Annotation',
-                       'style': simplestyle.formatStyle(line_style),
-                       'x': str(position[0]),
-                       'y': str((position[1] + text_height) * 1.2)
-                       }
-        line = inkex.etree.SubElement(node, inkex.addNS('text','svg'), line_attribs)
-        line.text = text
-
     def calc_circular_pitch(self):
         """ We use math based on circular pitch.
         """
@@ -547,11 +485,7 @@ class Gears():
             - Turn on other visual features e.g. cross, rack, annotations, etc
         """
         self.options = self.OptionParser.parse_args(["--%s=%s" % (name,value) for name, value in kw.items()])
-        path_stroke = '#000000'  # might expose one day
-        path_fill   = 'none'     # no fill - just a line
-        path_stroke_width  = 0.6            # might expose one day
-        path_stroke_light  = path_stroke_width * 0.25   # guides are thinner
-        #
+
         warnings = [] # list of extra messages to be shown in annotations
         # calculate unit factor for units defined in dialog. 
         unit_factor = 1
@@ -634,46 +568,8 @@ class Gears():
         # All base calcs done. Start building gear
         points = generate_spur_points(teeth, base_radius, pitch_radius, outer_radius, root_radius, accuracy_involute, accuracy_circular)
 
-##        half_thick_angle = two_pi / (4.0 * teeth ) #?? = pi / (2.0 * teeth)
-##        pitch_to_base_angle  = involute_intersect_angle( base_radius, pitch_radius )
-##        pitch_to_outer_angle = involute_intersect_angle( base_radius, outer_radius ) - pitch_to_base_angle
-##
-##        start_involute_radius = max(base_radius, root_radius)
-##        radii = linspace(start_involute_radius, outer_radius, accuracy_involute)
-##        angles = [involute_intersect_angle(base_radius, r) for r in radii]
-##
-##        centers = [(x * two_pi / float( teeth) ) for x in range( teeth ) ]
-##        points = []
-##
-##        for c in centers:
-##            # Angles
-##            pitch1 = c - half_thick_angle
-##            base1  = pitch1 - pitch_to_base_angle
-##            offsetangles1 = [ base1 + x for x in angles]
-##            points1 = [ point_on_circle( radii[i], offsetangles1[i]) for i in range(0,len(radii)) ]
-##
-##            pitch2 = c + half_thick_angle
-##            base2  = pitch2 + pitch_to_base_angle
-##            offsetangles2 = [ base2 - x for x in angles] 
-##            points2 = [ point_on_circle( radii[i], offsetangles2[i]) for i in range(0,len(radii)) ]
-##
-##            points_on_outer_radius = [ point_on_circle(outer_radius, x) for x in linspace(offsetangles1[-1], offsetangles2[-1], accuracy_circular) ]
-##
-##            if root_radius > base_radius:
-##                pitch_to_root_angle = pitch_to_base_angle - involute_intersect_angle(base_radius, root_radius )
-##                root1 = pitch1 - pitch_to_root_angle
-##                root2 = pitch2 + pitch_to_root_angle
-##                points_on_root = [point_on_circle (root_radius, x) for x in linspace(root2, root1+(two_pi/float(teeth)), accuracy_circular) ]
-##                p_tmp = points1 + points_on_outer_radius[1:-1] + points2[::-1] + points_on_root[1:-1] # [::-1] reverses list; [1:-1] removes first and last element
-##            else:
-##                points_on_root = [point_on_circle (root_radius, x) for x in linspace(base2, base1+(two_pi/float(teeth)), accuracy_circular) ]
-##                p_tmp = points1 + points_on_outer_radius[1:-1] + points2[::-1] + points_on_root # [::-1] reverses list
-##
-##            points.extend( p_tmp )
-
         self.drawPoints(points)
-        bbox_center = points_to_bbox_center( points )
-        # Spokes (add to current path)
+        # Spokes
         if not self.options.internal_ring:  # only draw internals if spur gear
             msg = self.generate_spokes(root_radius, spoke_width, spoke_count, mount_radius, mount_hole,
                                                     unit_factor, self.options.units)
@@ -729,7 +625,6 @@ class Gears():
             # position above
             y = - outer_radius - (len(notes)+1) * text_height * 1.2
             for note in notes:
-                #self.add_text(g, note, [0,y], text_height)
                 self.boxes.text(note, -outer_radius, y)
                 y += text_height * 1.2
 

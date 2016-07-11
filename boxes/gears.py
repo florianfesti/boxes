@@ -235,9 +235,8 @@ def generate_rack_points(tooth_count, pitch, addendum, pressure_angle,
         p = []
         p.append( (x_lhs + 0.5 * tab_length, 0) )
         p.append( (x_rhs - 0.5 * tab_length, 0) )
-        guide_path = points_to_svgd(p)
     # return points ready for use in an SVG 'path'
-    return (points, guide_path)
+    return (points, p)
 
 
 def generate_spur_points(teeth, base_radius, pitch_radius, outer_radius, root_radius, accuracy_involute, accuracy_circular):
@@ -541,7 +540,7 @@ class Gears():
         return messages
 
 
-    def __call__(self, **kw):
+    def __call__(self, move="", callback=None, **kw):
         """ Calculate Gear factors from inputs.
             - Make list of radii, angles, and centers for each tooth and 
               iterate through them
@@ -572,6 +571,7 @@ class Gears():
         # visible guide lines
         centercross = self.options.centercross # draw center or not (boolean)
         pitchcircle = self.options.pitchcircle # draw pitch circle or not (boolean)
+
         # Accuracy of teeth curves
         accuracy_involute = 20 # Number of points of the involute curve
         accuracy_circular = 9  # Number of points on circular parts
@@ -591,6 +591,29 @@ class Gears():
         # Replace section below with this call to get the combined gear_calculations() above
         (pitch_radius, base_radius, addendum, dedendum,
          outer_radius, root_radius, tooth) = gear_calculations(teeth, pitch, angle, clearance, self.options.internal_ring, self.options.profile_shift*0.01)
+
+        s = self.boxes.spacing
+        b = self.boxes.burn
+        # Add Rack (instead)
+        if self.options.drawrack:
+            base_height = self.options.base_height * unit_factor
+            tab_width = self.options.base_tab * unit_factor
+            tooth_count = self.options.teeth_length
+            (points, guide_points) = generate_rack_points(tooth_count, pitch, addendum, angle,
+                                                          base_height, tab_width, clearance, pitchcircle)
+            width = tooth_count * pitch + 2*tab_width + 2 * s
+            height = base_height+ 2* addendum + 2 * s
+            self.boxes.rectangularHole(width/2, height/2, width, height)
+            if self.boxes.move(width, height, move, before=True):
+                return
+            self.boxes.cc(callback, None, s+b, s+b)
+            self.boxes.ctx.save()
+            self.boxes.moveTo(width/2.0+s, base_height+s+addendum, -180)
+            self.drawPoints(points)
+            self.drawPoints(guide_points, kerfdir=0)
+            self.boxes.ctx.restore()
+            self.boxes.move(width, height, move)
+            return
 
         # Detect Undercut of teeth
 ##        undercut = int(ceil(undercut_min_teeth( angle )))
@@ -681,36 +704,6 @@ class Gears():
         # Add pitch circle (for mating)
         if pitchcircle:
             self.boxes.hole(0, 0, pitch_radius)
-
-        # Add Rack (below)
-        if self.options.drawrack:
-            base_height = self.options.base_height * unit_factor
-            tab_width = self.options.base_tab * unit_factor
-            tooth_count = self.options.teeth_length
-            (points, guide_path) = generate_rack_points(tooth_count, pitch, addendum, angle,
-                                                        base_height, tab_width, clearance, pitchcircle)
-            path = points_to_svgd(points)
-            # position below Gear, so that it meshes nicely
-            # xoff = 0          ## if teeth % 4 == 2.
-            # xoff = -0.5*pitch     ## if teeth % 4 == 0.
-            # xoff = -0.75*pitch    ## if teeth % 4 == 3.
-            # xoff = -0.25*pitch    ## if teeth % 4 == 1.
-            xoff = (-0.5, -0.25, 0, -0.75)[teeth % 4] * pitch
-            t = 'translate(' + str( xoff ) + ',' + str( pitch_radius ) + ')'
-            g_attribs = { inkex.addNS('label', 'inkscape'): 'RackGear' + str(tooth_count),
-                          'transform': t }
-            rack = inkex.etree.SubElement(g, 'g', g_attribs)
-
-            # Create SVG Path for gear
-            style = {'stroke': path_stroke, 'fill': 'none', 'stroke-width': path_stroke_width }
-            gear_attribs = { 'style': simplestyle.formatStyle(style), 'd': path }
-            gear = inkex.etree.SubElement(
-                rack, inkex.addNS('path', 'svg'), gear_attribs)
-            if guide_path is not None:
-                style2 = { 'stroke': path_stroke, 'fill': 'none', 'stroke-width': path_stroke_light }
-                gear_attribs2 = { 'style': simplestyle.formatStyle(style2), 'd': guide_path }
-                gear = inkex.etree.SubElement(
-                    rack, inkex.addNS('path', 'svg'), gear_attribs2)
 
 
         # Add Annotations (above)

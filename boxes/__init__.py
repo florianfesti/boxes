@@ -929,6 +929,37 @@ class Boxes:
                 self.hole(j*2*w+i*w, i*2*dist, r)
                 self.hole(j*2*w+i*w, -i*2*dist, r)
 
+    def flex2D(self, x, y, width=1):
+        width *= self.thickness
+        cx = int(x // (5*width))
+        wx = x / 5. / cx
+        cy = int(y // (5*width))
+        wy = y / 5. / cy
+
+        armx = (4*wx, 90, 4*wy, 90, 2*wx, 90, 2*wy)
+        army = (4*wy, 90, 4*wx, 90, 2*wy, 90, 2*wx)
+        for i in range(cx):
+            for j in range(cy):
+                if (i+j) % 2:
+                    self.ctx.save()
+                    self.moveTo((5*i)*wx, (5*j)*wy)
+                    self.polyline(*armx)
+                    self.ctx.restore()
+                    self.ctx.save()
+                    self.moveTo((5*i+5)*wx, (5*j+5)*wy, -180)
+                    self.polyline(*armx)
+                    self.ctx.restore()
+                else:
+                    self.ctx.save()
+                    self.moveTo((5*i+5)*wx, (5*j)*wy, 90)
+                    self.polyline(*army)
+                    self.ctx.restore()
+                    self.ctx.save()
+                    self.moveTo((5*i)*wx, (5*j+5)*wy, -90)
+                    self.polyline(*army)
+                    self.ctx.restore()
+        self.ctx.stroke()
+
     ##################################################
     ### parts
     ##################################################

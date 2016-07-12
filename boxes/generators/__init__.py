@@ -10,6 +10,7 @@ __all__ = [
     "flexbox3",
     "flexbox4",
     "flextest",
+    "flextest2",
     "folder",
     "lamp",
     "magazinefile",

@@ -391,7 +391,10 @@ class Boxes:
         self.ctx.save()
         self.moveTo(x, y)
         if callable(callback):
-            callback(number)
+            if number is None:
+                callback()
+            else:
+                callback(number)
         elif hasattr(callback, '__getitem__'):
             try:
                 callback = callback[number]

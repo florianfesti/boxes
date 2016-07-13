@@ -14,6 +14,7 @@ __all__ = [
     "folder",
     "lamp",
     "magazinefile",
+    "pulley",
     "silverwarebox",
     "trayinsert",
     "traylayout",

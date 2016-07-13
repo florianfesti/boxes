@@ -28,7 +28,7 @@ except ImportError:
 
 from boxes.generators import box, box2, box3, drillbox
 from boxes.generators import flexbox, flexbox2, flexbox3, flexbox4
-from boxes.generators import flextest, flextest2, folder
+from boxes.generators import flextest, flextest2, folder, pulley
 from boxes.generators import magazinefile, trayinsert, traylayout, typetray, silverwarebox
 
 
@@ -90,6 +90,7 @@ class BServer:
             "Folder": folder.Folder(),
             "MagazinFile" : magazinefile.Box(),
             "TrayInsert" : trayinsert.TrayInsert(),
+            "Pulley" : pulley.Pulley(),
             "TypeTray" : typetray.TypeTray(),
             "SilverwareBox" : silverwarebox.Silverware(),
             "TrayLayout" : traylayout.LayoutGenerator(),

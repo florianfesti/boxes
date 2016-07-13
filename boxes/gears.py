@@ -537,7 +537,6 @@ class Gears():
                                                           base_height, tab_width, clearance, pitchcircle)
             width = tooth_count * pitch + 2*tab_width + 2 * s
             height = base_height+ 2* addendum + 2 * s
-            self.boxes.rectangularHole(width/2, height/2, width, height)
             if self.boxes.move(width, height, move, before=True):
                 return
             self.boxes.cc(callback, None, s+b, s+b)
@@ -548,6 +547,12 @@ class Gears():
             self.boxes.ctx.restore()
             self.boxes.move(width, height, move)
             return
+
+        # Move only
+        width = height = 2 * (outer_radius +s)
+        if self.boxes.move(width, height, move, before=True):
+            return
+        self.boxes.ctx.save()
 
         # Detect Undercut of teeth
 ##        undercut = int(ceil(undercut_min_teeth( angle )))
@@ -568,6 +573,8 @@ class Gears():
         # All base calcs done. Start building gear
         points = generate_spur_points(teeth, base_radius, pitch_radius, outer_radius, root_radius, accuracy_involute, accuracy_circular)
 
+        self.boxes.moveTo(width/2, height/2)
+        self.boxes.cc(callback, None, 0, 0)
         self.drawPoints(points)
         # Spokes
         if not self.options.internal_ring:  # only draw internals if spur gear
@@ -627,6 +634,9 @@ class Gears():
             for note in notes:
                 self.boxes.text(note, -outer_radius, y)
                 y += text_height * 1.2
+
+        self.boxes.ctx.restore()
+        self.boxes.move(width, height, move)
 
 if __name__ == '__main__':
     e = Gears()

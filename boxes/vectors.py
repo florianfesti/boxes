@@ -12,6 +12,7 @@
 #
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+import math
 
 def normalize(v):
     "set lenght of vector to one"
@@ -20,6 +21,12 @@ def normalize(v):
 
 def vlength(v):
     return (v[0]**2+v[1]**2)**0.5
+
+def vclip(v, length):
+    l = vlength(v)
+    if l > length:
+        return vscalmul(v, length/l)
+    return v
 
 def vdiff(p1, p2):
     "vector from point1 to point2"
@@ -41,6 +48,24 @@ def vscalmul(v, a):
 def dotproduct(v1, v2):
     "Dot product"
     return v1[0]*v2[0]+v1[1]*v2[1]
+
+def rotm(angle):
+    "Rotation matrix"
+    return [[math.cos(angle), -math.sin(angle), 0],
+            [math.sin(angle), math.cos(angle), 0]]
+
+def vtransl(v, m):
+    m0, m1 = m
+    return [m0[0]*v[0]+m0[1]*v[1]+m0[2],
+            m1[0]*v[0]+m1[1]*v[1]+m1[2]]
+
+def mmul(m0, m1):
+    result = [[0,]*len(m0[0]) for i in range(len(m0))]
+    for i in range(len(m0[0])):
+        for j in range(len(m0)):
+            for k in range(len(m0)):
+                result[j][i] += m0[k][i] * m1[j][k]
+    return result
 
 def kerf(points, k):
     """Outset points by k

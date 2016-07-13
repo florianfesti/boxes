@@ -11,211 +11,49 @@
 // dxf tooth data from http://oem.cadregister.com/asp/PPOW_Entry.asp?company=915217&elementID=07807803/METRIC/URETH/WV0025/F
 // pulley diameter checked and modelled from data at http://www.sdp-si.com/D265/HTML/D265T016.html
 """
-"""
-/**
- * @name Pulley
- * @category Printed
- * @using 1 x m3 nut, normal or nyloc
- * @using 1 x m3x10 set screw or 1 x m3x8 grub screw
- */
+from math import *
+from boxes.vectors import *
 
+def tooth_spaceing_curvefit(teeth, b, c, d):
+    return ((c * teeth**d) / (b + teeth**d)) * teeth
 
-// tuneable constants
-
-teeth = 8;			// Number of teeth, standard Mendel T5 belt = 8, gives Outside Diameter of 11.88mm
-profile = 6;		// 1=MXL 2=40DP 3=XL 4=H 5=T2.5 6=T5 7=T10 8=AT5 9=HTD_3mm 10=HTD_5mm 11=HTD_8mm 12=GT2_2mm 13=GT2_3mm 14=GT2_5mm
-
-motor_shaft = 5.2;	// NEMA17 motor shaft exact diameter = 5
-m3_dia = 3.2;		// 3mm hole diameter
-m3_nut_hex = 1;		// 1 for hex, 0 for square nut
-m3_nut_flats = 5.7;	// normal M3 hex nut exact width = 5.5
-m3_nut_depth = 2.7;	// normal M3 hex nut exact depth = 2.4, nyloc = 4
-
-retainer = 0;		// Belt retainer above teeth, 0 = No, 1 = Yes
-retainer_ht = 1.5;	// height of retainer flange over pulley, standard = 1.5
-idler = 0;			// Belt retainer below teeth, 0 = No, 1 = Yes
-idler_ht = 1.5;		// height of idler flange over pulley, standard = 1.5
-
-pulley_t_ht = 12;	// length of toothed part of pulley, standard = 12
-pulley_b_ht = 8;		// pulley base height, standard = 8. Set to same as idler_ht if you want an idler but no pulley.
-pulley_b_dia = 20;	// pulley base diameter, standard = 20
-no_of_nuts = 1;		// number of captive nuts required, standard = 1
-nut_angle = 90;		// angle between nuts, standard = 90
-nut_shaft_distance = 1.2;	// distance between inner face of nut and shaft, can be negative.
-
-
-//	********************************
-//	** Scaling tooth for good fit **
-//	********************************
-/*	To improve fit of belt to pulley, set the following constant. Decrease or increase by 0.1mm at a time. We are modelling the *BELT* tooth here, not the tooth on the pulley. Increasing the number will *decrease* the pulley tooth size. Increasing the tooth width will also scale proportionately the tooth depth, to maintain the shape of the tooth, and increase how far into the pulley the tooth is indented. Can be negative */
-
-additional_tooth_width = 0.2; //mm
-
-//	If you need more tooth depth than this provides, adjust the following constant. However, this will cause the shape of the tooth to change.
-
-additional_tooth_depth = 0; //mm
-
-// calculated constants
-
-nut_elevation = pulley_b_ht/2;
-m3_nut_points = 2*((m3_nut_flats/2)/cos(30)); // This is needed for the nut trap
-
-// The following set the pulley diameter for a given number of teeth
-
-MXL_pulley_dia = tooth_spacing (2.032,0.254);
-40DP_pulley_dia = tooth_spacing (2.07264,0.1778);
-XL_pulley_dia = tooth_spacing (5.08,0.254);
-H_pulley_dia = tooth_spacing (9.525,0.381);
-T2_5_pulley_dia = tooth_spaceing_curvefit (0.7467,0.796,1.026);
-T5_pulley_dia = tooth_spaceing_curvefit (0.6523,1.591,1.064);
-T10_pulley_dia = tooth_spacing (10,0.93);
-AT5_pulley_dia = tooth_spaceing_curvefit (0.6523,1.591,1.064);
-HTD_3mm_pulley_dia = tooth_spacing (3,0.381);
-HTD_5mm_pulley_dia = tooth_spacing (5,0.5715);
-HTD_8mm_pulley_dia = tooth_spacing (8,0.6858);
-GT2_2mm_pulley_dia = tooth_spacing (2,0.254);
-GT2_3mm_pulley_dia = tooth_spacing (3,0.381);
-GT2_5mm_pulley_dia = tooth_spacing (5,0.5715);
-
-// The following calls the pulley creation part, and passes the pulley diameter and tooth width to that module
-
-if ( profile == 1 ) { pulley ( "MXL" , MXL_pulley_dia , 0.508 , 1.321 ); }
-if ( profile == 2 ) { pulley ( "40 D.P." , 40DP_pulley_dia , 0.457 , 1.226 ); }
-if ( profile == 3 ) { pulley ( "XL" , XL_pulley_dia , 1.27, 3.051 ); }
-if ( profile == 4 ) { pulley ( "H" , H_pulley_dia ,1.905 , 5.359 ); }
-if ( profile == 5 ) { pulley ( "T2.5" , T2_5_pulley_dia , 0.7 , 1.678 ); }
-if ( profile == 6 ) { pulley ( "T5" , T5_pulley_dia , 1.19 , 3.264 ); }
-if ( profile == 7 ) { pulley ( "T10" , T10_pulley_dia , 2.5 , 6.13 ); }
-if ( profile == 8 ) { pulley ( "AT5" , AT5_pulley_dia , 1.19 , 4.268 ); }
-if ( profile == 9 ) { pulley ( "HTD 3mm" , HTD_3mm_pulley_dia , 1.289 , 2.27 ); }
-if ( profile == 10 ) { pulley ( "HTD 5mm" , HTD_5mm_pulley_dia , 2.199 , 3.781 ); }
-if ( profile == 11 ) { pulley ( "HTD 8mm" , HTD_8mm_pulley_dia , 3.607 , 6.603 ); }
-if ( profile == 12 ) { pulley ( "GT2 2mm" , GT2_2mm_pulley_dia , 0.764 , 1.494 ); }
-if ( profile == 13 ) { pulley ( "GT2 3mm" , GT2_3mm_pulley_dia , 1.169 , 2.31 ); }
-if ( profile == 14 ) { pulley ( "GT2 5mm" , GT2_5mm_pulley_dia , 1.969 , 3.952 ); }
-
-// Functions
-
-function tooth_spaceing_curvefit (b,c,d)
-	= ((c * pow(teeth,d)) / (b + pow(teeth,d))) * teeth ;
-
-function tooth_spacing(tooth_pitch,pitch_line_offset)
-	= (2*((teeth*tooth_pitch)/(3.14159265*2)-pitch_line_offset)) ;
-
-// Main Module
-
-module pulley( belt_type , pulley_OD , tooth_depth , tooth_width )
-	{
-	echo (str("Belt type = ",belt_type,"; Number of teeth = ",teeth,"; Pulley Outside Diameter = ",pulley_OD,"mm "));
-	tooth_distance_from_centre = sqrt( pow(pulley_OD/2,2) - pow((tooth_width+additional_tooth_width)/2,2));
-	tooth_width_scale = (tooth_width + additional_tooth_width ) / tooth_width;
-	tooth_depth_scale = ((tooth_depth + additional_tooth_depth ) / tooth_depth) ;
-
-
-//	************************************************************************
-//	*** uncomment the following line if pulley is wider than puller base ***
-//	************************************************************************
-
-//	translate ([0,0, pulley_b_ht + pulley_t_ht + retainer_ht ]) rotate ([0,180,0])
-
-	difference()
-	 {	 
-		union()
-		{
-			//base
-	
-			if ( pulley_b_ht < 2 ) { echo ("CAN'T DRAW PULLEY BASE, HEIGHT LESS THAN 2!!!"); } else {
-				rotate_extrude($fn=pulley_b_dia*2)
-				{
-						square([pulley_b_dia/2-1,pulley_b_ht]);
-						square([pulley_b_dia/2,pulley_b_ht-1]);
-						translate([pulley_b_dia/2-1,pulley_b_ht-1]) circle(1);
-				}
-			}
-	
-		difference()
-			{
-			//shaft - diameter is outside diameter of pulley
-			
-			translate([0,0,pulley_b_ht]) 
-			rotate ([0,0,360/(teeth*4)]) 
-			cylinder(r=pulley_OD/2,h=pulley_t_ht, $fn=teeth*4);
-	
-			//teeth - cut out of shaft
-		
-			for(i=[1:teeth]) 
-			rotate([0,0,i*(360/teeth)])
-			translate([0,-tooth_distance_from_centre,pulley_b_ht -1]) 
-			scale ([ tooth_width_scale , tooth_depth_scale , 1 ]) 
-			{
-			if ( profile == 1 ) { MXL();}
-			if ( profile == 2 ) { 40DP();}
-			if ( profile == 3 ) { XL();}
-			if ( profile == 4 ) { H();}
-			if ( profile == 5 ) { T2_5();}
-			if ( profile == 6 ) { T5();}
-			if ( profile == 7 ) { T10();}
-			if ( profile == 8 ) { AT5();}
-			if ( profile == 9 ) { HTD_3mm();}
-			if ( profile == 10 ) { HTD_5mm();}
-			if ( profile == 11 ) { HTD_8mm();}
-			if ( profile == 12 ) { GT2_2mm();}
-			if ( profile == 13 ) { GT2_3mm();}
-			if ( profile == 14 ) { GT2_5mm();}
-			}
-
-			}
-			
-		//belt retainer / idler
-		if ( retainer > 0 ) {translate ([0,0, pulley_b_ht + pulley_t_ht ]) 
-		rotate_extrude($fn=teeth*4)  
-		polygon([[0,0],[pulley_OD/2,0],[pulley_OD/2 + retainer_ht , retainer_ht],[0 , retainer_ht],[0,0]]);}
-		
-		if ( idler > 0 ) {translate ([0,0, pulley_b_ht - idler_ht ]) 
-		rotate_extrude($fn=teeth*4)  
-		polygon([[0,0],[pulley_OD/2 + idler_ht,0],[pulley_OD/2 , idler_ht],[0 , idler_ht],[0,0]]);}
-	
-		}
-	   
-		//hole for motor shaft
-		translate([0,0,-1])cylinder(r=motor_shaft/2,h=pulley_b_ht + pulley_t_ht + retainer_ht + 2,$fn=motor_shaft*4);
-				
-		//captive nut and grub screw holes
-	
-		if ( pulley_b_ht < m3_nut_flats ) { echo ("CAN'T DRAW CAPTIVE NUTS, HEIGHT LESS THAN NUT DIAMETER!!!"); } else {
-		if ( (pulley_b_dia - motor_shaft)/2 < m3_nut_depth + 3 ) { echo ("CAN'T DRAW CAPTIVE NUTS, DIAMETER TOO SMALL FOR NUT DEPTH!!!"); } else {
-	
-			for(j=[1:no_of_nuts]) rotate([0,0,j*nut_angle])
-			translate([0,0,nut_elevation])rotate([90,0,0])
-	
-			union()
-			{
-				//entrance
-				translate([0,-pulley_b_ht/4-0.5,motor_shaft/2+m3_nut_depth/2+nut_shaft_distance]) cube([m3_nut_flats,pulley_b_ht/2+1,m3_nut_depth],center=true);
-	
-				//nut
-				if ( m3_nut_hex > 0 )
-					{
-						// hex nut
-						translate([0,0.25,motor_shaft/2+m3_nut_depth/2+nut_shaft_distance]) rotate([0,0,30]) cylinder(r=m3_nut_points/2,h=m3_nut_depth,center=true,$fn=6);
-					} else {
-						// square nut
-						translate([0,0.25,motor_shaft/2+m3_nut_depth/2+nut_shaft_distance]) cube([m3_nut_flats,m3_nut_flats,m3_nut_depth],center=true);
-					}
-	
-				//grub screw hole
-				rotate([0,0,22.5])cylinder(r=m3_dia/2,h=pulley_b_dia/2+1,$fn=8);
-			}
-		}}
-	 }
-	   
-	}
-
-
-// Tooth profile modules
-"""
+def tooth_spacing(teeth, tooth_pitch, pitch_line_offset):
+    return (2*((teeth*tooth_pitch)/(3.14159265*2)-pitch_line_offset))
 
 class Pulley:
+
+    spacing = {
+        "MXL" : (False, 2.032,0.254),
+        "40DP" : (False, 2.07264,0.1778),
+        "XL" : (False, 5.08,0.254),
+        "H" : (False, 9.525,0.381),
+        "T2_5" : (True, 0.7467,0.796,1.026),
+        "T5" : (True, 0.6523,1.591,1.064),
+        "T10" : (False, 10,0.93),
+        "AT5" : (True, 0.6523,1.591,1.064),
+        "HTD_3mm" : (False, 3,0.381),
+        "HTD_5mm" : (False, 5,0.5715),
+        "HTD_8mm" : (False, 8,0.6858),
+        "GT2_2mm" : (False, 2,0.254),
+        "GT2_3mm" : (False, 3,0.381),
+        "GT2_5mm" : (False, 5,0.5715),
+    }
+    profile_data = {
+        "MXL" : (0.508 , 1.321 ),
+        "40DP" : (0.457 , 1.226 ),
+        "XL" : (1.27, 3.051 ),
+        "H" : (1.905 , 5.359 ),
+        "T2_5" : (0.7 , 1.678 ),
+        "T5" : (1.19 , 3.264 ),
+        "T10" : (2.5 , 6.13 ),
+        "AT5" : (1.19 , 4.268 ),
+        "HTD_3mm" : (1.289 , 2.27 ),
+        "HTD_5mm" : (2.199 , 3.781 ),
+        "HTD_8mm" : (3.607 , 6.603 ),
+        "GT2_2mm" : (0.764 , 1.494 ),
+        "GT2_3mm" : (1.169 , 2.31 ),
+        "GT2_5mm" : (1.969 , 3.952 ),
+    }
 
     teeth = { "MXL" : [[-0.660421,-0.5],[-0.660421,0],[-0.621898,0.006033],[-0.587714,0.023037],[-0.560056,0.049424],[-0.541182,0.083609],[-0.417357,0.424392],[-0.398413,0.458752],[-0.370649,0.48514],[-0.336324,0.502074],[-0.297744,0.508035],[0.297744,0.508035],[0.336268,0.502074],[0.370452,0.48514],[0.39811,0.458752],[0.416983,0.424392],[0.540808,0.083609],[0.559752,0.049424],[0.587516,0.023037],[0.621841,0.006033],[0.660421,0],[0.660421,-0.5]],
               "40DP" : [[-0.612775,-0.5],[-0.612775,0],[-0.574719,0.010187],[-0.546453,0.0381],[-0.355953,0.3683],[-0.327604,0.405408],[-0.291086,0.433388],[-0.248548,0.451049],[-0.202142,0.4572],[0.202494,0.4572],[0.248653,0.451049],[0.291042,0.433388],[0.327609,0.405408],[0.356306,0.3683],[0.546806,0.0381],[0.574499,0.010187],[0.612775,0],[0.612775,-0.5]],
@@ -232,3 +70,46 @@ class Pulley:
               "GT2_3mm" : [[-1.155171,-0.5],[-1.155171,0],[-1.065317,0.016448],[-0.989057,0.062001],[-0.93297,0.130969],[-0.90364,0.217664],[-0.863705,0.408181],[-0.800056,0.591388],[-0.713587,0.765004],[-0.60519,0.926747],[-0.469751,1.032548],[-0.320719,1.108119],[-0.162625,1.153462],[0,1.168577],[0.162625,1.153462],[0.320719,1.108119],[0.469751,1.032548],[0.60519,0.926747],[0.713587,0.765004],[0.800056,0.591388],[0.863705,0.408181],[0.90364,0.217664],[0.932921,0.130969],[0.988924,0.062001],[1.065168,0.016448],[1.155171,0],[1.155171,-0.5]],
               "GT2_5mm" : [[-1.975908,-0.75],[-1.975908,0],[-1.797959,0.03212],[-1.646634,0.121224],[-1.534534,0.256431],[-1.474258,0.426861],[-1.446911,0.570808],[-1.411774,0.712722],[-1.368964,0.852287],[-1.318597,0.989189],[-1.260788,1.123115],[-1.195654,1.25375],[-1.12331,1.380781],[-1.043869,1.503892],[-0.935264,1.612278],[-0.817959,1.706414],[-0.693181,1.786237],[-0.562151,1.851687],[-0.426095,1.9027],[-0.286235,1.939214],[-0.143795,1.961168],[0,1.9685],[0.143796,1.961168],[0.286235,1.939214],[0.426095,1.9027],[0.562151,1.851687],[0.693181,1.786237],[0.817959,1.706414],[0.935263,1.612278],[1.043869,1.503892],[1.123207,1.380781],[1.195509,1.25375],[1.26065,1.123115],[1.318507,0.989189],[1.368956,0.852287],[1.411872,0.712722],[1.447132,0.570808],[1.474611,0.426861],[1.534583,0.256431],[1.646678,0.121223],[1.798064,0.03212],[1.975908,0],[1.975908,-0.75]],
     }
+
+    def __init__(self, boxes):
+        self.boxes = boxes
+
+    def drawPoints(self, lines, kerfdir=1):
+        if kerfdir != 0:
+            lines = kerf(lines, self.boxes.burn*kerfdir)
+        self.boxes.ctx.save()
+        self.boxes.ctx.move_to(*lines[0])
+        for x, y in lines[1:]:
+            self.boxes.ctx.line_to(x, y)
+        self.boxes.ctx.line_to(*lines[0])
+        self.boxes.ctx.restore()
+
+    def __call__(self, teeth, profile):
+
+        # ********************************
+        # ** Scaling tooth for good fit **
+        # ********************************
+        # To improve fit of belt to pulley, set the following constant. Decrease or increase by 0.1mm at a time. We are modelling the *BELT* tooth here, not the tooth on the pulley. Increasing the number will *decrease* the pulley tooth size. Increasing the tooth width will also scale proportionately the tooth depth, to maintain the shape of the tooth, and increase how far into the pulley the tooth is indented. Can be negative
+
+        additional_tooth_width = 0.2 #mm
+
+        # If you need more tooth depth than this provides, adjust the following constant. However, this will cause the shape of the tooth to change.
+        additional_tooth_depth = 0 #mm
+
+        if self.spacing[profile][0]:
+            pulley_OD = tooth_spaceing_curvefit(
+                teeth, *self.spacing[profile][1:])
+        else:
+            pulley_OD = tooth_spacing(teeth, *self.spacing[profile][1:])
+        tooth_depth, tooth_width = self.profile_data[profile]
+        tooth_distance_from_centre = ((pulley_OD/2)**2 - ((tooth_width+additional_tooth_width)/2)**2)**0.5
+        tooth_width_scale = (tooth_width + additional_tooth_width ) / tooth_width
+        tooth_depth_scale = ((tooth_depth + additional_tooth_depth ) / tooth_depth)
+
+        points = []
+        for i  in range(teeth):
+            m = [[tooth_width_scale, 0, 0],
+                 [0, tooth_depth_scale, -tooth_distance_from_centre]]
+            m = mmul(m, rotm(i*2*pi/teeth))
+            points.extend((vtransl(pt, m) for pt in self.teeth[profile][1:-1]))
+        self.drawPoints(points)

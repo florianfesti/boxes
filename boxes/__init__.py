@@ -28,6 +28,7 @@ from functools import wraps
 from boxes import edges
 from boxes import formats
 from boxes import gears
+from boxes import pulley
 
 ### Helpers
 
@@ -344,6 +345,7 @@ class Boxes:
         self.addPart(NutHole(self, None))
         # Gears
         self.addPart(gears.Gears(self))
+        self.addPart(pulley.Pulley(self))
 
     def adjustSize(self, l, e1=True, e2=True):
         try:

@@ -67,7 +67,7 @@ class Pulley(Boxes):
             self.disk(
                 self.pulley.diameter(self.teeth, self.profile)+2*self.top,
                 self.axle, move="right")
-        for i in range(math.ceil(self.h/self.thickness)):
+        for i in range(int(math.ceil(self.h/self.thickness))):
             self.pulley(self.teeth, self.profile, r_axle=self.axle/2.0, move="right")
 
         self.close()

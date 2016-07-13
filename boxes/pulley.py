@@ -77,6 +77,10 @@ class Pulley:
     def __init__(self, boxes):
         self.boxes = boxes
 
+    @classmethod
+    def getProfiles(cls):
+        return list(cls.teeth.keys())
+
     def drawPoints(self, lines, kerfdir=1):
         if kerfdir != 0:
             lines = kerf(lines, self.boxes.burn*kerfdir)
@@ -86,6 +90,13 @@ class Pulley:
             self.boxes.ctx.line_to(x, y)
         self.boxes.ctx.line_to(*lines[0])
         self.boxes.ctx.restore()
+
+    def diameter(self, teeth, profile):
+        if self.spacing[profile][0]:
+            return tooth_spaceing_curvefit(
+                teeth, *self.spacing[profile][1:])
+        else:
+            return tooth_spacing(teeth, *self.spacing[profile][1:])
 
     def __call__(self, teeth, profile, move="", r_axle=None, callback=None):
 
@@ -99,11 +110,8 @@ class Pulley:
         # If you need more tooth depth than this provides, adjust the following constant. However, this will cause the shape of the tooth to change.
         additional_tooth_depth = 0 #mm
 
-        if self.spacing[profile][0]:
-            pulley_OD = tooth_spaceing_curvefit(
-                teeth, *self.spacing[profile][1:])
-        else:
-            pulley_OD = tooth_spacing(teeth, *self.spacing[profile][1:])
+        pulley_OD = self.diameter(teeth, profile)
+
         tooth_depth, tooth_width = self.profile_data[profile]
         tooth_distance_from_centre = ((pulley_OD/2)**2 - ((tooth_width+additional_tooth_width)/2)**2)**0.5
         tooth_width_scale = (tooth_width + additional_tooth_width ) / tooth_width

@@ -79,7 +79,7 @@ class Portmanteau(Boxes):
         # TODO: param to orient vertically or horizontally
         x = self.y
         r = min(self.gw, self.gh) / 2.0
-        self.rectangularHole(self.handle_height-(2*r), x/2.0, self.gh, self.gw, r)
+        self.rectangularHole(self.handle_height-(2.5*r), x/2.0, self.gh, self.gw, r)
 
 
     def render(self):

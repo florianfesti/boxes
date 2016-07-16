@@ -49,9 +49,9 @@ class TriangleEdge(edges.Edge):
         return self.boxes.spacing + self.boxes.thickness + self.settings.height
 
 
-class Box(Boxes):
-    """Generates parts for one half of a portmanteau style case 
-       with a handle at the top"""
+class Portmanteau(Boxes):
+    """Portmanteau - as in a piece of luggage that open into two equal parts. 
+       Generates parts for one half of a case with a handle at the top"""
     def __init__(self):
         Boxes.__init__(self)
 
@@ -116,7 +116,7 @@ class Box(Boxes):
         self.close()
 
 def main():
-    b = Box()
+    b = Portmanteau()
     b.parseArgs()
     b.render()
 

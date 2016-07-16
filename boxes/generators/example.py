@@ -17,7 +17,7 @@
 from boxes import *
 
 
-class Box(Boxes):
+class Example(Boxes):
     """An example of creating a custom box definition using the Boxes API"""
     def __init__(self):
         Boxes.__init__(self)
@@ -103,7 +103,7 @@ class Box(Boxes):
         self.close()
 
 def main():
-    b = Box()
+    b = Example()
     b.parseArgs()
     b.render()
 

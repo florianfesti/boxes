@@ -51,9 +51,9 @@ class RoundedTriangleEdge(edges.Edge):
         return self.boxes.spacing + self.boxes.thickness + self.settings.height
 
 
-class Box(Boxes):
-    """An open box with two special 'house shaped' sides to make 6-pack 
-       style caddy. A dowel through the sides makes a handle"""
+class Caddy(Boxes):
+    """An open box with two special 'house shaped' sides to generate parts for a 
+       6-pack or other carrying caddy. A dowel through the sides makes a handle"""
     def __init__(self):
         Boxes.__init__(self)
 
@@ -65,9 +65,12 @@ class Box(Boxes):
             "--handle_radius",  action="store", type=float, default=6,
             dest="handle_radius", help="radius of the holes for the handle dowel")
 
-
         self.buildArgParser("x", "y", "h", "outside")
+
+        #Nice size for a 6-pack of 355ml (12oz) bottles, try making inserts with
+        #> ./trayinsert.py --sx 207/3 --sy 136/2 --h 90 --thickness 6
         self.argparser.set_defaults(
+            x=207, y=136, h=100,
             fingerjointfinger=3.0,
             fingerjointspace=3.0
             )
@@ -113,10 +116,12 @@ class Box(Boxes):
 
         self.close()
 
+
 def main():
-    b = Box()
+    b = Caddy()
     b.parseArgs()
     b.render()
+
 
 if __name__ == '__main__':
     main()

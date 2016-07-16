@@ -31,6 +31,8 @@ class RoundedTriangleEdge(edges.Edge):
     def __call__(self, length, **kw):
         angle = math.degrees(math.atan(2*self.settings.height/length))
         r = self.settings.radius
+        if r >  length / 2:
+            r = 0
         l = 0.5 * (length-2*r) / math.cos(math.radians(angle))
 
         self.corner(-90)
@@ -54,25 +56,41 @@ class Box(Boxes):
        style caddy. A dowel through the sides makes a handle"""
     def __init__(self):
         Boxes.__init__(self)
-        #TODO: Get hole, rounding radius and angle from command line
+
+        self.argparser.add_argument(
+            "--handle_height",  action="store", type=float, default=100,
+            dest="handle_height", help="distance handle extends past the edge")
+
+        self.argparser.add_argument(
+            "--handle_radius",  action="store", type=float, default=6,
+            dest="handle_radius", help="radius of the holes for the handle dowel")
+
+
         self.buildArgParser("x", "y", "h", "outside")
         self.argparser.set_defaults(
             fingerjointfinger=3.0,
             fingerjointspace=3.0
             )
 
+
     def render(self):
         x, y, h = self.x, self.y, self.h
         t = self.thickness
+        hh= self.handle_height
+        hr= self.handle_radius
 
         if self.outside:
             x = self.adjustSize(x)
             y = self.adjustSize(y)
             h = self.adjustSize(h)
+            hh= self.adjustSize(hn)
 
         self.open()
 
-        s = RoundedTriangleEdgeSettings(self.thickness, height=100, r_hole=6)
+        s = RoundedTriangleEdgeSettings(
+            self.thickness,
+            height=hh,
+            r_hole=hr)
         self.addPart(RoundedTriangleEdge(self, s))
 
         # Notes on rectangularWall parameters, all reference a 2D part

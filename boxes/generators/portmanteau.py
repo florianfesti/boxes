@@ -16,18 +16,75 @@
 
 from boxes import *
 
+
+class TriangleEdgeSettings(edges.Settings):
+    absolute_params = {
+        "height" : 100,
+        }
+
+class TriangleEdge(edges.Edge):
+    """Makes an 'edge' with a rounded triangular bumpout and
+       optional hole"""
+    char = "q"
+    def __call__(self, length, **kw):
+        t = self.boxes.thickness
+        l = length
+        h = self.settings.height
+        angle = math.degrees(math.atan(self.settings.height/(length-t)))
+        sh = math.hypot(l-t, h)
+        r = 0 #TODO round the corners
+
+        # TODO: Add holes for finger joints along original edge
+        self.corner(-90, r)
+        self.edge(t)
+        self.corner(90-angle, r)
+        self.edge(sh)
+        self.corner(angle, r)
+        self.edge(t)
+        self.corner(90, r)
+        self.edge(h+t)
+        self.corner(-90)
+
+    def margin(self):
+        return self.boxes.spacing + self.boxes.thickness + self.settings.height
+
+
 class Box(Boxes):
-    """Fully closed box"""
+    """Generates parts for one half of a portmanteau style case 
+       with a handle at the top"""
     def __init__(self):
         Boxes.__init__(self)
+
+        self.argparser.add_argument(
+            "--handle_height",  action="store", type=float, default=100,
+            dest="handle_height", help="distance handle extends past the edge")
+        self.argparser.add_argument(
+            "--grip_width",  action="store", type=float, default=80,
+            dest="gw", help="width of the handle hole")
+        self.argparser.add_argument(
+            "--grip_height",  action="store", type=float, default=20,
+            dest="gh", help="height of the handle hole")
+
         self.buildArgParser("x", "y", "h", "outside")
         self.argparser.set_defaults(
             fingerjointfinger=3.0,
             fingerjointspace=3.0
             )
 
+
+    def gripHole(self):
+        if not self.gw:
+            return
+
+        # TODO: param to orient vertically or horizontally
+        x = self.y
+        r = min(self.gw, self.gh) / 2.0
+        self.rectangularHole(self.handle_height-(2*r), x/2.0, self.gh, self.gw, r)
+
+
     def render(self):
         x, y, h = self.x, self.y, self.h
+        hh = self.handle_height
         t = self.thickness
 
         if self.outside:
@@ -37,32 +94,25 @@ class Box(Boxes):
 
         self.open()
 
-        d2 = [edges.Bolts(2)]
-        d3 = [edges.Bolts(3)]
+        s = TriangleEdgeSettings(
+            self.thickness,
+            height = hh,
+            )
+        self.addPart(TriangleEdge(self, s))
 
-        d2 = d3 = None
+        # edges = 'BRTL'
 
         self.moveTo(t, t)
-        self.rectangularWall(h, y, "FfFe")
-        self.moveTo(h+2*t, 0)
-        self.rectangularWall(x, y, "FFFF")
-        self.moveTo(x+3*t, 0)
-        self.rectangularWall(h, y, "feff")
-        self.moveTo(-(x+3*t), y+3*t)
-        self.rectangularWall(x, h, "fhef")
-        #self.moveTo(0, -(h+y+5*t))
+        self.rectangularWall(h, y, "FfFe", move="right")
+        self.rectangularWall(x, y, "FFFF", move="right")
+        self.rectangularWall(h, y, "efef", move="right") #TODO: fingers on top and bottom
+        self.rectangularWall(hh,y, "eeeF", callback=[self.gripHole]) 
+        self.moveTo(-(x+h+6*t), 0)
+        self.moveTo(0, y+3*t)
+        self.rectangularWall(x, h, "fqef")
         self.moveTo(0, (h+3*t))
-        self.rectangularWall(x, h, "ehff")
+        self.rectangularWall(x, h, "fqef") #flip this on horizontal axis
         
-        #self.moveTo(t, t)
-        #self.rectangularWall(x, h, "FFeF", bedBolts=d2)
-        #self.moveTo(x+3*t, 0)
-        #self.rectangularWall(y, h, "Feef", bedBolts=d3)
-        #self.moveTo(0, h+3*t)
-        #self.rectangularWall(y, h, "Feef", bedBolts=d3)
-        #self.moveTo(-x-3*t, 0)
-        #self.rectangularWall(x, y, "efff", bedBolts=[d2, d3, d2, d3])
-
         self.close()
 
 def main():

@@ -19,7 +19,7 @@ from boxes import *
 
 class RoundedTriangleEdgeSettings(edges.Settings):
     absolute_params = {
-        "angle" : 60,
+        "height" : 100,
         "radius" : 20,
         "r_hole" : None,
         }
@@ -29,14 +29,14 @@ class RoundedTriangleEdge(edges.Edge):
        optional hole"""
     char = "q"
     def __call__(self, length, **kw):
-        angle = self.settings.angle
+        angle = math.degrees(math.atan(2*self.settings.height/length))
         r = self.settings.radius
-        x = 0.5 * (length-2*r) * math.tan(math.radians(angle))
-        y = 0.5 * (length)
         l = 0.5 * (length-2*r) / math.cos(math.radians(angle))
 
         self.corner(-90)
         if self.settings.r_hole:
+            x = self.settings.height - 2*self.settings.radius
+            y = 0.5 * (length)
             self.hole(x, y, self.settings.r_hole)
         self.corner(90-angle, r)
         self.edge(l)
@@ -46,8 +46,7 @@ class RoundedTriangleEdge(edges.Edge):
         self.corner(-90)
 
     def margin(self):
-        #TODO: replace hardcoded value with x+r
-        return self.boxes.spacing + self.boxes.thickness + 120
+        return self.boxes.spacing + self.boxes.thickness + self.settings.height
 
 
 class Box(Boxes):
@@ -73,7 +72,7 @@ class Box(Boxes):
 
         self.open()
 
-        s = RoundedTriangleEdgeSettings(self.thickness, angle=60, r_hole=5)
+        s = RoundedTriangleEdgeSettings(self.thickness, height=100, r_hole=6)
         self.addPart(RoundedTriangleEdge(self, s))
 
         # Notes on rectangularWall parameters, all reference a 2D part

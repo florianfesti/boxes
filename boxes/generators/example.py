@@ -47,6 +47,7 @@ class Box(Boxes):
         # Initialize canvas
         self.open()
 
+<<<<<<< HEAD
         # Create new type of edges here. This example uses a new
         # finger joint with sizes set with the 'special_finger' 
         # command line parameter. With relative set to False, the
@@ -56,6 +57,16 @@ class Box(Boxes):
                                       space = self.special_finger, 
                                       finger = self.special_finger,
                                       height = self.thickness)
+=======
+        # Create new type of edges here. This example uses a newwe
+        # finger joint with sizes set with the 'special_finger' 
+        # parameter added to the class above
+        s = edges.FingerJointSettings(self.thickness, relative=False,
+                                      space = self.special_finger, 
+                                      finger = self.special_finger,
+                                      height = self.special_finger,
+                                      width=self.thickness)
+>>>>>>> 4132e65b5cececec3ded865fa6af3d50cec6a72f
 
         # The new joint type will be indicated with an 'n' and a 'N'
         # for its mate.
@@ -94,11 +105,19 @@ class Box(Boxes):
         # at Right and Left (2nd and 4th). Top (3rd) is always and 'e'.
         self.rectangularWall(x, h, "Ffef", bedBolts=None, move="right")
         
+<<<<<<< HEAD
         # Add the next two side. the "FneF' amd 'FfeN' have the same
         # Top and bottom definitions as all the others but with 'N' and
         # 'n' to use the pair of special joints
         self.rectangularWall(x, h, "FneF", bedBolts=None, move="right")
         self.rectangularWall(x, h, "FfeN", bedBolts=None, move="right")
+=======
+        # Add the next two side. the "FNeF' amd 'Ffen' have the same
+        # Top and bottom definitions as all the others but with 'N' and
+        # 'n' to use the pair of special joints
+        self.rectangularWall(x, h, "FNeF", bedBolts=None, move="right")
+        self.rectangularWall(x, h, "Ffen", bedBolts=None, move="right")
+>>>>>>> 4132e65b5cececec3ded865fa6af3d50cec6a72f
 
         self.close()
 

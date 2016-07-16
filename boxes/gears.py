@@ -477,6 +477,30 @@ class Gears():
                 self.boxes.ctx.restore()
         return messages
 
+    def sizes(self, **kw):
+        self.options = self.OptionParser.parse_args(["--%s=%s" % (name,value) for name, value in kw.items()])
+        # Pitch (circular pitch): Length of the arc from one tooth to the next)
+        # Pitch diameter: Diameter of pitch circle.
+        pitch = self.calc_circular_pitch()
+
+        if self.options.drawrack:
+            base_height = self.options.base_height * unit_factor
+            tab_width = self.options.base_tab * unit_factor
+            tooth_count = self.options.teeth_length
+            width = tooth_count * pitch + 2*tab_width
+            height = base_height+ 2* addendum
+            return 0, width, height
+
+        teeth = self.options.teeth
+        # Angle of tangent to tooth at circular pitch wrt radial line.
+        angle = self.options.angle
+        # Clearance: Radial distance between top of tooth on one gear to
+        # bottom of gap on another.
+        clearance = self.options.clearance # * unit_factor
+        # Replace section below with this call to get the combined gear_calculations() above
+        (pitch_radius, base_radius, addendum, dedendum,
+         outer_radius, root_radius, tooth) = gear_calculations(teeth, pitch, angle, clearance, self.options.internal_ring, self.options.profile_shift*0.01)
+        return pitch_radius, 2*outer_radius, 2*outer_radius
 
     def __call__(self, move="", callback=None, **kw):
         """ Calculate Gear factors from inputs.

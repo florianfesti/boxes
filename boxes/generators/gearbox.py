@@ -50,16 +50,21 @@ class GearBox(Boxes):
 
         t = self.thickness
         x = 1.1*t*self.stages
-        y = size1 + size2
+        if self.stages == 1:
+            y = size1 + size2
+            y1 = y/2-(pitch1+pitch2)+pitch1
+            y2 = y/2+(pitch1+pitch2)-pitch2
+        else:
+            y = 2 * size2
+            y1 = y/2 - (pitch1+pitch2)/2
+            y2 = y/2 + (pitch1+pitch2)/2
+
         h = max(size1, size2) + t
 
         b = "F"
         t = "e" # prepare for close box
         mh = self.shaft
         
-        # render your parts here
-        y1 = y/2-(pitch1+pitch2)+pitch1
-        y2 = y/2+(pitch1+pitch2)-pitch2
 
         def sideCB():
             self.hole(y1, h/2, mh/2)

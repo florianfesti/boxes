@@ -78,15 +78,20 @@ class GearBox(Boxes):
         self.rectangularWall(x, h, [b, "F", t, "F"], move="up only")
         
         self.rectangularWall(x, y, "ffff", move="up")
-        
+
+        profile_shift = 20
+        pressure_angle = 20
         for i in range(self.stages-1):
             self.gears(teeth=self.teeth2, dimension=self.modulus,
-                       mount_hole=mh, move="up")
+                       angle=pressure_angle,
+                       mount_hole=mh, profile_shift=profile_shift, move="up")
         self.gears(teeth=self.teeth2, dimension=self.modulus,
-                   mount_hole=mh, move="right")
+                       angle=pressure_angle,
+                   mount_hole=mh, profile_shift=profile_shift, move="right")
         for i in range(self.stages):
             self.gears(teeth=self.teeth1, dimension=self.modulus,
-                       mount_hole=mh, move="down")
+                       angle=pressure_angle,
+                       mount_hole=mh, profile_shift=profile_shift, move="down")
         
         self.close()
 

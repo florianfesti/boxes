@@ -23,18 +23,19 @@ class TriangleEdgeSettings(edges.Settings):
         }
 
 class TriangleEdge(edges.Edge):
-    """Makes an 'edge' with a rounded triangular bumpout and
-       optional hole"""
+    """Extends one corner of the previous edge by 'height' and draws
+       a triangular edge back to the endpoint."""
     char = "q"
     def __call__(self, length, **kw):
         t = self.boxes.thickness
-        l = length
         h = self.settings.height
         angle = math.degrees(math.atan(self.settings.height/(length-t)))
-        sh = math.hypot(l-t, h)
+        sh = math.hypot(length-t, h)
         r = 0 #TODO round the corners
 
         # TODO: Add holes for finger joints along original edge
+        # TODO: Triangle starts at top or bottom for stacking
+        # parts on page and so material has good side out.
         self.corner(-90, r)
         self.edge(t)
         self.corner(90-angle, r)
@@ -102,6 +103,7 @@ class Portmanteau(Boxes):
 
         # edges = 'BRTL'
 
+        # TODO: Stack parts for minimum size
         self.moveTo(t, t)
         self.rectangularWall(h, y, "FfFe", move="right")
         self.rectangularWall(x, y, "FFFF", move="right")

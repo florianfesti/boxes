@@ -106,11 +106,14 @@ class Caddy(Boxes):
         #
         # Arguments x, y, h are 3D parameters of the box we're making.
         #
-        self.rectangularWall(h, y, "FfFq", move="right")    #handle end
-        self.rectangularWall(x, y, "FFFF", move="right")    #bottom
-        self.rectangularWall(h, y, "FqFf", move="up")       #handle end
-        self.rectangularWall(x, h, "ffef", move="up left")  #side
-        self.rectangularWall(x, h, "efff")                  #side
+        # TODO: Parameterize foot option (change s -> F for no feet
+        # or allow e for flat bottom, with s for feet or h for straigt
+        # with holes for fingers)
+        self.rectangularWall(h, y, "FsFq", move="right")    #handle end
+        self.rectangularWall(x, y, "ffff", move="right")    #bottom
+        self.rectangularWall(h, y, "FqFs", move="up")       #handle end
+        self.rectangularWall(x, h, "sfef", move="up left")  #side
+        self.rectangularWall(x, h, "efsf")                  #side
         
         #TODO: Add a slotted Insert
 

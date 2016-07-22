@@ -12,9 +12,11 @@ class Formats:
     formats = {
         "svg" : None,
         "ps" : None,
-        "dxf" : "-f dxf -mm".split(),
+        "dxf" : "-flat 0.1 -f dxf:-mm".split(),
         "gcode" : "-f gcode".split(),
-        "plt" : "-f hpgl".split(),
+        "plt" : "-f plot-hpgl".split(),
+        "ai" : "-f ps2ai".split(),
+        "pdf" : "-f pdf".split(),
     }
 
     http_headers = {
@@ -68,7 +70,6 @@ class Formats:
         else:
             fd, tmpfile = tempfile.mkstemp()
             cmd = [self.pstoedit] + self.formats[fmt] + [filename, tmpfile]
-            print(cmd)
             err = subprocess.call(cmd)
             if err:
                 # XXX show stderr output

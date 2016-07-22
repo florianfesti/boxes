@@ -110,7 +110,7 @@ class Portmanteau(Boxes):
         self.rectangularWall(x, y, "FFFF", move="right")
         self.rectangularWall(h-t, y, "efef", move="right") #TODO: fingers on top and bottom
         self.rectangularWall(hh,y, "eeeF", callback=[self.gripHole]) 
-        self.moveTo(-(x+h+6*t), 0)
+        self.moveTo(-(x+h+5*t), 0)
         self.moveTo(0, y+3*t)
         self.rectangularWall(x, h, "fqef")
         self.moveTo(0, (h+3*t))

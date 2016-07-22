@@ -69,7 +69,8 @@ class Portmanteau(Boxes):
         self.buildArgParser("x", "y", "h", "outside")
         self.argparser.set_defaults(
             fingerjointfinger=3.0,
-            fingerjointspace=3.0
+            fingerjointspace=3.0,
+            outside=False
             )
 
 
@@ -107,7 +108,7 @@ class Portmanteau(Boxes):
         self.moveTo(t, t)
         self.rectangularWall(h, y, "FfFe", move="right")
         self.rectangularWall(x, y, "FFFF", move="right")
-        self.rectangularWall(h, y, "efef", move="right") #TODO: fingers on top and bottom
+        self.rectangularWall(h-t, y, "efef", move="right") #TODO: fingers on top and bottom
         self.rectangularWall(hh,y, "eeeF", callback=[self.gripHole]) 
         self.moveTo(-(x+h+6*t), 0)
         self.moveTo(0, y+3*t)

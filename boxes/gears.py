@@ -515,6 +515,30 @@ class Gears():
             outer_radius += self.options.spoke_width
         return pitch_radius, 2*outer_radius, 2*outer_radius
 
+    def gearCarrier(self, r, spoke_width, positions, mount_radius, mount_hole, circle=True, move=None):
+        width = (r+spoke_width+self.boxes.spacing)*2
+        if self.boxes.move(width, width, move, before=True):
+            return
+        try:
+            positions = [i*360/positions for i in range(positions)]
+        except TypeError:
+            pass
+
+        self.boxes.ctx.save()
+        self.boxes.moveTo(width/2.0, width/2.0)
+        self.generate_spokes(r+0.5*spoke_width, spoke_width, positions, mount_radius, mount_hole, 1, "")
+        self.boxes.hole(0, 0, mount_hole)
+        for angle in positions:
+            self.boxes.ctx.save()
+            self.boxes.moveTo(0, 0, angle)
+            self.boxes.hole(r, 0, mount_hole)
+            self.boxes.ctx.restore()
+        self.boxes.moveTo(r+0.5*spoke_width+self.boxes.burn, 0, 90)
+        self.boxes.corner(360, r+0.5*spoke_width)
+        
+        self.boxes.ctx.restore()
+        self.boxes.move(width, width, move)
+
     def __call__(self, move="", callback=None, **kw):
         """ Calculate Gear factors from inputs.
             - Make list of radii, angles, and centers for each tooth and 

@@ -409,7 +409,7 @@ class Gears():
         # circular_pitch defines the size in mm
         return circular_pitch
 
-    def generate_spokes(self, root_radius, spoke_width, spoke_count, mount_radius, mount_hole,
+    def generate_spokes(self, root_radius, spoke_width, spokes, mount_radius, mount_hole,
                              unit_factor, unit_label):
         """ given a set of constraints
             - generate the svg path for the gear spokes
@@ -423,6 +423,15 @@ class Gears():
         messages = []     # messages to send back about changes.
         spoke_holes = []
         r_outer = root_radius - spoke_width
+
+        try:
+            spoke_count = spokes
+            spokes = [i*2*pi/spokes for i in range(spoke_count)]
+        except TypeError:
+            spoke_count = len(spokes)
+            spokes = [radians(a) for a in spokes]
+        spokes.append(spokes[0]+two_pi)
+
         # checks for collision with spokes
         # check for mount hole collision with inner spokes
         if mount_radius <= mount_hole/2:
@@ -435,10 +444,12 @@ class Gears():
                 messages.append("Mount support too small. Auto increased to %2.2f%s." % (mount_radius/unit_factor*2, unit_label))
 
         # then check to see if cross-over on spoke width
-        if spoke_width * spoke_count +0.5 >= two_pi * mount_radius:
-            adj_factor = 1.2 # wrong value. its probably one of the points distances calculated below
-            mount_radius += adj_factor
-            messages.append("Too many spokes. Increased Mount support by %2.3f%s" % (adj_factor/unit_factor, unit_label))
+        for i in range(spoke_count):
+            angle = spokes[i]-spokes[i-1]
+            if spoke_width >= angle * mount_radius:
+                adj_factor = 1.2 # wrong value. its probably one of the points distances calculated below
+                mount_radius += adj_factor
+                messages.append("Too many spokes. Increased Mount support by %2.3f%s" % (adj_factor/unit_factor, unit_label))
 
         # check for collision with outer rim
         if r_outer <= mount_radius:
@@ -449,7 +460,7 @@ class Gears():
         else: # draw spokes
             for i in range(spoke_count):
                 self.boxes.ctx.save()
-                start_a, end_a = i * two_pi / spoke_count, (i+1) * two_pi / spoke_count
+                start_a, end_a = spokes[i], spokes[i+1]
                 # inner circle around mount
                 asin_factor = spoke_width/mount_radius/2
                 # check if need to clamp radius

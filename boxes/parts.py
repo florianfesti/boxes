@@ -26,7 +26,7 @@ class Parts:
         return getattr(self.boxes, name)
     
     def disc(self, diameter, callback=None, move=""):
-        size = diameter+2*spacing
+        size = diameter+2*self.boxes.spacing
         r = diameter/2.0
         if self.move(size, size, move, before=True):
             return
@@ -36,7 +36,7 @@ class Parts:
         self.moveTo(r+self.burn,0, 90)
         self.corner(360, r)
         self.boxes.ctx.restore()
-        self.move(size, size, move, before=True)
+        self.move(size, size, move)
         
     def waivyKnob(self, diameter, n=20, angle=45, callback=None, move=""):
         size = diameter+pi*diameter/n+2*self.boxes.spacing

@@ -463,15 +463,15 @@ class Gears():
                 a2 = asin(asin_factor)
                 l = vlength(vdiff(point_on_circle(mount_radius, start_a + a),
                                   point_on_circle(r_outer, start_a + a2)))
-                self.boxes.moveTo(*point_on_circle(mount_radius, start_a - a), degrees=degrees(start_a))
+                self.boxes.moveTo(*point_on_circle(mount_radius, start_a + a), degrees=degrees(start_a))
                 self.boxes.polyline(
                     l,
-                    -90-degrees(a2), 0,
-                    (-degrees(two_pi / spoke_count-2*a2), r_outer), 0,
-                    -90-degrees(a2),
-                    l, -90+degrees(a), 0,
-                    (degrees(two_pi / spoke_count-2*a), mount_radius),
-                    0, -90-degrees(a2), 0
+                    +90+degrees(a2), 0,
+                    (degrees(end_a-start_a-2*a2), r_outer), 0,
+                    +90+degrees(a2),
+                    l, 90-degrees(a), 0,
+                    (-degrees(end_a-start_a-2*a), mount_radius),
+                    0, 90+degrees(a2), 0
                 )
 
                 self.boxes.ctx.restore()

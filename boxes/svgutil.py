@@ -75,7 +75,8 @@ class SVGFile(object):
         if 0 <= self.minx <= 50:
             minx = 0
         else:
-            raise ValueError("Left end of drawing at wrong place: %imm (0-50mm expected)" % self.minx)
+            minx = 10*int(self.minx//10)-10
+            #raise ValueError("Left end of drawing at wrong place: %imm (0-50mm expected)" % self.minx)
         maxx = 10*int(self.maxx//10)+10
         miny = 10*int(self.miny//10)-10
         maxy = 10*int(self.maxy//10)+10

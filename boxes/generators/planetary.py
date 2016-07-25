@@ -42,13 +42,14 @@ class Planetary(Boxes):
         self.open()
 
         ringteeth = self.sunteeth+2*self.planetteeth
+        spoke_width = 3*self.shaft
         
         pitch1, size1, xxx = self.gears.sizes(teeth=self.sunteeth,
                                           dimension=self.modulus)
         pitch2, size2, xxx = self.gears.sizes(teeth=self.planetteeth,
                                           dimension=self.modulus)
         pitch3, size3, xxx = self.gears.sizes(
-            teeth=ringteeth, internal_ring=True, spoke_width=10,
+            teeth=ringteeth, internal_ring=True, spoke_width=spoke_width,
             dimension=self.modulus)
 
         t = self.thickness
@@ -65,7 +66,6 @@ class Planetary(Boxes):
         # XXX make configurable?
         profile_shift = 20
         pressure_angle = 20
-        spoke_width = 3*self.shaft
         self.parts.disc(size3, lambda:self.hole(0,0,self.shaft/2), move="up")
         self.gears(teeth=ringteeth, dimension=self.modulus,
                    angle=pressure_angle, internal_ring=True,

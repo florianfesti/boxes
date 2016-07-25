@@ -500,6 +500,8 @@ class Gears():
         # Replace section below with this call to get the combined gear_calculations() above
         (pitch_radius, base_radius, addendum, dedendum,
          outer_radius, root_radius, tooth) = gear_calculations(teeth, pitch, angle, clearance, self.options.internal_ring, self.options.profile_shift*0.01)
+        if self.options.internal_ring:
+            outer_radius += self.options.spoke_width
         return pitch_radius, 2*outer_radius, 2*outer_radius
 
     def __call__(self, move="", callback=None, **kw):
@@ -574,6 +576,8 @@ class Gears():
 
         # Move only
         width = height = 2 * (outer_radius +s)
+        if self.options.internal_ring:
+            width = height = width + 2 * self.options.spoke_width
         if self.boxes.move(width, height, move, before=True):
             return
         self.boxes.ctx.save()

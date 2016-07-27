@@ -691,11 +691,13 @@ class Boxes:
 
         """
         if not where:
-            return False
+            where = ""
 
         terms = where.split()
         dontdraw = before and "only" in terms
 
+        x += self.spacing
+        y += self.spacing
         moves = {
             "up": (0, y, False),
             "down" : (0, -y, True),
@@ -703,6 +705,11 @@ class Boxes:
             "right" : (x, 0, False),
             "only" : (0, 0, None),
             }
+
+        if not before:
+            # restore position
+            self.ctx.restore()
+
         for term in terms:
             if not term in moves:
                 raise ValueError("Unknown direction: '%s'" % term)
@@ -711,6 +718,11 @@ class Boxes:
                 self.moveTo(x, y)
             elif (not movebeforeprint and not before) or dontdraw:
                 self.moveTo(x, y)
+        if not dontdraw:
+            if before:
+                # save position
+                self.ctx.save()
+                self.moveTo(self.spacing/2.0, self.spacing/2.0)
         return dontdraw
 
     @restore
@@ -1002,7 +1014,6 @@ class Boxes:
         if self.move(overallwidth, overallheight, move, before=True):
             return
 
-        self.ctx.save()
         self.moveTo(self.edges["f"].margin(),
                     self.edges["f"].margin())
         self.moveTo(r, 0)
@@ -1034,7 +1045,6 @@ class Boxes:
                 r = 0
             self.hexHolesPlate(x-2*holesMargin, y-2*holesMargin, r,
                                settings=holesSettings)
-        self.ctx.restore()
         self.ctx.stroke()
         self.move(overallwidth, overallheight, move)
 
@@ -1081,7 +1091,6 @@ class Boxes:
         if self.move(overallwidth, overallheight, move, before=True):
             return
 
-        self.ctx.save()
         self.moveTo(left.spacing(), bottom.margin())
 
         self.cc(callback, 0, y=bottomwidth+self.burn)
@@ -1115,7 +1124,6 @@ class Boxes:
         left(h)
         self.edgeCorner(left, bottom, 90)
 
-        self.ctx.restore()
         self.ctx.stroke()
 
         self.move(overallwidth, overallheight, move)
@@ -1149,7 +1157,6 @@ class Boxes:
         if self.move(overallwidth, overallheight, move, before=True):
             return
 
-        self.ctx.save()
         self.moveTo(edges[-1].spacing(), edges[0].margin())
         for i, l in enumerate((x, y, x, y)):
             self.cc(callback, i, y=edges[i].startwidth()+self.burn)
@@ -1162,7 +1169,7 @@ class Boxes:
             self.moveTo(holesMargin+edges[-1].endwidth(),
                         holesMargin+edges[0].startwidth())
             self.hexHolesRectangle(x-2*holesMargin, y-2*holesMargin)
-        self.ctx.restore()
+
         self.ctx.stroke()
 
         self.move(overallwidth, overallheight, move)

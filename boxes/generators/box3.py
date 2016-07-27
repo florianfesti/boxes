@@ -42,7 +42,6 @@ class Box(Boxes):
 
         d2 = d3 = None
 
-        self.moveTo(t, t)
         self.rectangularWall(x, h, "FFeF", bedBolts=d2, move="right")
         self.rectangularWall(y, h, "Feef", bedBolts=d3, move="up")
         self.rectangularWall(y, h, "Feef", bedBolts=d3)

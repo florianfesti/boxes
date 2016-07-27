@@ -184,7 +184,7 @@ class BaseEdge(object):
     
     def margin(self):
         """Space needed right of the starting point"""
-        return self.boxes.spacing
+        return 0.0
 
     def spacing(self):
         """Space the edge needs outside of the inner space of the part"""
@@ -277,9 +277,9 @@ class GrippingEdge(BaseEdge):
 
     def margin(self):
         if self.settings.outset:
-            return self.settings.depth + self.boxes.spacing
+            return self.settings.depth
         else:
-            return self.boxes.spacing
+            return 0.0
 
     def __call__(self, length, **kw):
         if length == 0.0:
@@ -458,7 +458,7 @@ class FingerJointEdge(BaseEdge):
 
     def margin(self):
         """ """
-        return self.boxes.spacing + self.boxes.thickness
+        return self.boxes.thickness
 
 class FingerJointEdgeCounterPart(FingerJointEdge):
     """Finger joint edge - other side"""
@@ -472,7 +472,7 @@ class FingerJointEdgeCounterPart(FingerJointEdge):
 
     def margin(self):
         """ """
-        return self.boxes.spacing
+        return 0.0
 
 class FingerHoles:
     """Hole matching a finger joint edge"""
@@ -769,7 +769,7 @@ class HingePin(BaseEdge):
             return self.settings.outset * self.boxes.thickness
 
     def margin(self):
-        return self.thickness + self.boxes.spacing
+        return self.thickness
 
     def A(self, _reversed=False):
         t = self.thickness
@@ -963,7 +963,7 @@ class ClickEdge(ClickConnector):
         return self.boxes.thickness
 
     def margin(self):
-        return self.boxes.spacing
+        return 0.0
 
     def __call__(self, length, **kw):
         t = self.thickness
@@ -1050,7 +1050,7 @@ class DoveTailJoint(BaseEdge):
 
     def margin(self):
         """ """
-        return self.settings.depth + self.boxes.spacing
+        return self.settings.depth
 
 class DoveTailJointCounterPart(DoveTailJoint):
     """Edge for other side of dove joints """
@@ -1060,7 +1060,7 @@ class DoveTailJointCounterPart(DoveTailJoint):
     positive = False
 
     def margin(self):
-        return self.boxes.spacing
+        return 0.0
 
 class FlexSettings(Settings):
     """Settings for one directional flex cuts

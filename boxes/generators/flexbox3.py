@@ -130,7 +130,7 @@ class FlexBox(Boxes):
         self.moveTo(2*self.thickness, self.thickness+2*d)
         self.ctx.save()
         self.surroundingWall()
-        self.moveTo(x+y-2*r+self.c4+self.thickness, -2*d-self.thickness)
+        self.moveTo(x+y-2*r+self.c4+2*self.thickness, -2*d-self.thickness)
         self.rectangularWall(x, z, edges="FFFF", move="right")
         self.rectangularWall(h, z+2*(d+self.thickness),
                              edges="GeGF", move="right")

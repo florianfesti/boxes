@@ -117,10 +117,9 @@ class Pulley:
         tooth_width_scale = (tooth_width + additional_tooth_width ) / tooth_width
         tooth_depth_scale = ((tooth_depth + additional_tooth_depth ) / tooth_depth)
 
-        total_width = pulley_OD + 2 * self.boxes.spacing
+        total_width = pulley_OD
         if self.boxes.move(total_width, total_width, move, before=True):
             return
-        self.boxes.ctx.save()
         self.boxes.moveTo(total_width/2, total_width/2)
         self.boxes.cc(callback, None, 0.0, 0.0)
         if r_axle:
@@ -133,5 +132,4 @@ class Pulley:
             points.extend((vtransl(pt, m) for pt in self.teeth[profile][1:-1]))
         self.drawPoints(points)
 
-        self.boxes.ctx.restore()
         self.boxes.move(total_width, total_width, move)

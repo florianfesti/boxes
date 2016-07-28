@@ -66,7 +66,7 @@ class Planetary(Boxes):
         # XXX make configurable?
         profile_shift = 20
         pressure_angle = 20
-        self.parts.disc(size3, lambda:self.hole(0,0,self.shaft/2), move="up")
+        self.parts.disc(size3, callback=lambda:self.hole(0,0,self.shaft/2), move="up")
         self.gears(teeth=ringteeth, dimension=self.modulus,
                    angle=pressure_angle, internal_ring=True,
                    spoke_width=spoke_width, mount_hole=self.shaft,

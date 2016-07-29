@@ -28,6 +28,12 @@ class Planetary(Boxes):
             "--planetteeth",  action="store", type=int, default=20,
             help="number of teeth on planets")
         self.argparser.add_argument(
+            "--maxplanets",  action="store", type=int, default=0,
+            help="limit the number of planets (0 for as much as fit)")
+        self.argparser.add_argument(
+            "--deltateeth",  action="store", type=int, default=0,
+            help="enable secondary ring with given delta to the ring gear")
+        self.argparser.add_argument(
             "--modulus",  action="store", type=float, default=3,
             help="modulus of the theeth in mm")
         self.argparser.add_argument(
@@ -54,6 +60,8 @@ class Planetary(Boxes):
 
         t = self.thickness
         planets = int(math.pi//math.asin((self.planetteeth+2)/(self.planetteeth+self.sunteeth)))
+        if self.maxplanets:
+            planets = min(self.maxplanets, planets)
 
         # Make sure the teeth mash
         ta = self.sunteeth+ringteeth
@@ -76,7 +84,16 @@ class Planetary(Boxes):
         self.gears(teeth=self.sunteeth, dimension=self.modulus,
                    angle=pressure_angle,
                    mount_hole=self.shaft, profile_shift=profile_shift, move="up")
-        for i in range(planets):
+        numplanets = planets
+        if self.deltateeth:
+            numplanets += planets
+            deltamodulus = self.modulus*ringteeth/(ringteeth-self.deltateeth)
+            self.gears(teeth=ringteeth-self.deltateeth, dimension=deltamodulus,
+                       angle=pressure_angle, internal_ring=True,
+                       spoke_width=spoke_width, mount_hole=self.shaft,
+                       profile_shift=profile_shift, move="up")
+
+        for i in range(numplanets):
             self.gears(teeth=self.planetteeth, dimension=self.modulus,
                        angle=pressure_angle,
                        mount_hole=self.shaft, profile_shift=profile_shift, move="up")

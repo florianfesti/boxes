@@ -50,14 +50,25 @@ class HangerEdge(edges.BaseEdge):
 
 class RollerEdge(edges.BaseEdge):
     def margin(self):
-        return 30
+        return 20
     def __call__(self, l, **kw):
-        m = 60+100
+        m = 40+100
         self.polyline((l-m)/2.0, -45,
-                      2**0.5*30, 45,
+                      2**0.5*20, 45,
                       100, 45,
-                      2**0.5*30, -45,
+                      2**0.5*20, -45,
                       (l-m)/2.0)
+
+class RollerEdge2(edges.BaseEdge):
+    def margin(self):
+        return self.thickness
+
+    def __call__(self, l, **kw):
+        a = 30
+        f = 1/math.cos(math.radians(a))
+        self.edges["f"](70)
+        self.polyline(0, a, f*25, -a, l-190, -a, f*25, a, 0)
+        self.edges["f"](70)
 
 class Rotary(Boxes):
     """Rotary Attachment for engraving cylindrical objects in a laser cutter"""
@@ -134,13 +145,14 @@ class Rotary(Boxes):
         self.rectangularHole(self.hl/2, 3.6, 32, 7.1)
 
     def holderTopCB(self):
-        d = self.diameter/2.0 + 2
-        y = -0.6*self.diameter + 2*self.hh + 20
+        self.fingerHolesAt(0, 30-0.5*self.thickness, self.hl, 0)
+        d = self.diameter/2.0 + 1
+        y = -0.6*self.diameter + 2*self.hh
+        print(y)
         self.hole(self.hl/2+d, y, self.axle/2.0)
         self.hole(self.hl/2-d, y, self.axle/2.0)
-        y = self.diameter/2-20
-        self.hole(self.hl/2+d, y, self.axle/2.0)
-        self.hole(self.hl/2-d, y, self.axle/2.0)
+        self.hole(self.hl/2+d, y, self.diameter/2.0)
+        self.hole(self.hl/2-d, y, self.diameter/2.0)
 
     def render(self):
         # adjust to the variables you want in the local scope
@@ -171,23 +183,30 @@ class Rotary(Boxes):
             lambda: self.hole(hw/2, 15, 4)],move="right")
         self.rectangularWall(hw, hh, edges="hFeF", move="right")
         # Top
+        th = 30
         #  sides
-        self.rectangularWall(hw+20, hh, edges="fFeF", move="right",
-                             callback=[lambda:self.fingerHolesAt(20-0.5*t,0,hh)])
-        self.rectangularWall(hw+20, hh, edges="fFeF", move="right",
-                             callback=[lambda:self.fingerHolesAt(20-0.5*t,0,hh)])
-
+        self.rectangularWall(hw+20, th, edges="fFeF", move="right",
+                             callback=[lambda:self.fingerHolesAt(20-0.5*t,0,th)])
+        self.rectangularWall(hw+20, th, edges="fFeF", move="right",
+                             callback=[lambda:self.fingerHolesAt(20-0.5*t,0,th)])
         self.ctx.restore()
         self.rectangularWall(hw, hh, edges="hFeF", move="up only")
         outset = OutsetEdge(self, None)
-        self.rectangularWall(hl, hh, edges=["f", "f", "e", "f"], callback=[
-            lambda:self.hole(20, 30, a/2), None, lambda:self.rectangularHole(70, 10, 110, a, r=a/2)], move="up")
-        self.rectangularWall(hl, hh, edges="ffef", callback=[
-            lambda:self.hole(20, 30, a/2), None, lambda:self.rectangularHole(70, 10, 110, a, r=a/2)], move="up")
-        self.rectangularWall(hl, hh, edges=["f", "f", RollerEdge(self, None), "f"], callback=[
+        roller2 = RollerEdge2(self, None)
+        self.rectangularWall(hl, th, edges=[roller2, "f", "e", "f"], callback=[
+            lambda:self.hole(20, 15, a/2), None, lambda:self.rectangularHole(50, th-15, 70, a, r=a/2)], move="up")
+        self.rectangularWall(hl, th, edges=[roller2, "f", "e", "f"], callback=[
+            lambda:self.hole(20, 15, a/2), None, lambda:self.rectangularHole(50, th-15-t, 70, a, r=a/2)], move="up")
+        self.rectangularWall(hl, th, edges=[roller2, "f", RollerEdge(self, None), "f"], callback=[
             self.holderTopCB], move="up")
-        self.rectangularWall(hl, hw+20, edges="FFFF", move="up",
-                             callback=[None, lambda:self.fingerHolesAt(20-0.5*t,0, hl)])
+        self.rectangularWall(hl, 20-t, edges="feee", move="up")
+        tl = 70
+        self.rectangularWall(tl, hw+20, edges="FeFF", move="right",
+                             callback=[None, lambda:self.fingerHolesAt(20-0.5*t,0, tl)])
+        self.rectangularWall(tl, hw+20, edges="FeFF", move="",
+                             callback=[None, lambda:self.fingerHolesAt(20-0.5*t,0, tl)])
+        self.rectangularWall(tl, hw+20, edges="FeFF", move="left up only",
+                             callback=[None, lambda:self.fingerHolesAt(20-0.5*t,0, tl)])
 
         # Links
         self.link(hl-40, 25, a, True, move="up")

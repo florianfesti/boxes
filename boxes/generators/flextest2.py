@@ -16,7 +16,7 @@
 
 from boxes import *
 
-class FlexTest(Boxes):
+class FlexTest2(Boxes):
     "Piece for testing different flex settings"
     def __init__(self):
         Boxes.__init__(self)

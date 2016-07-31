@@ -16,7 +16,7 @@
 
 from boxes import *
 
-class Box(Boxes):
+class MagazinFile(Boxes):
     """Open magazine file"""
     def __init__(self):
         Boxes.__init__(self)
@@ -86,7 +86,7 @@ class Box(Boxes):
         self.close()
 
 def main():
-    b = Box()
+    b = MagazinFile()
     b.parseArgs()
     b.render()
 

@@ -16,7 +16,7 @@
 
 from boxes import *
 
-class Box(Boxes):
+class Box3(Boxes):
     """Box with just 3 walls"""
     def __init__(self):
         Boxes.__init__(self)
@@ -53,7 +53,7 @@ class Box(Boxes):
         self.close()
 
 def main():
-    b = Box()
+    b = Box3()
     b.parseArgs()
     b.render()
 

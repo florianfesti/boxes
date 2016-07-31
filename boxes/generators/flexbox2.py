@@ -17,7 +17,7 @@
 from boxes import *
 import math
 
-class FlexBox(Boxes):
+class FlexBox2(Boxes):
     """Box with living hinge and top corners rounded"""
     def __init__(self):
         Boxes.__init__(self)
@@ -99,7 +99,7 @@ class FlexBox(Boxes):
         self.close()
 
 def main():
-    b = FlexBox()
+    b = FlexBox2()
     b.parseArgs()
     b.render()
 

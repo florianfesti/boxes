@@ -16,7 +16,7 @@
 
 from boxes import *
 
-class Box(Boxes):
+class DrillBox(Boxes):
     """Not yet parametrized box for drills from 1 to 12.5mm
 in 0.5mm steps, 3 holes each size"""
     def __init__(self):
@@ -74,7 +74,7 @@ in 0.5mm steps, 3 holes each size"""
         self.close()
 
 def main():
-    b = Box()
+    b = DrillBox()
     b.parseArgs()
     b.render()
 

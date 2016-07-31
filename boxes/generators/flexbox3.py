@@ -17,7 +17,7 @@
 from boxes import *
 import math
 
-class FlexBox(Boxes):
+class FlexBox3(Boxes):
     """Box with living hinge"""
     def __init__(self):
         Boxes.__init__(self)
@@ -152,7 +152,7 @@ class FlexBox(Boxes):
         self.close()
 
 def main():
-    b = FlexBox() #100, 40, 100, r=20, h=10, thickness=4.0)
+    b = FlexBox3() #100, 40, 100, r=20, h=10, thickness=4.0)
     b.parseArgs()
     b.render()
 

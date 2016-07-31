@@ -18,7 +18,7 @@ from boxes import *
 from boxes.edges import Bolts
 import inspect
 
-class Box(Boxes):
+class Box2(Boxes):
     """Box various options for different stypes and lids"""
 
     def __init__(self):
@@ -140,7 +140,7 @@ class Box(Boxes):
         self.close()
 
 def main():
-    b = Box()
+    b = Box2()
     b.parseArgs()
     b.render()
 

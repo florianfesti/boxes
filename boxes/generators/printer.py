@@ -19,6 +19,9 @@ from boxes import *
 class Printer(Boxes):
 
     """Work in progress"""
+
+    webinterface = False
+
     def __init__(self, r=250, h=400, d_c=100):
         Boxes.__init__(self)
         self.r = r

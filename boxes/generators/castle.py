@@ -18,6 +18,8 @@ from boxes import *
 
 class Castle(Boxes):
 
+    webinterface = False
+
     def __init__(self):
         Boxes.__init__(self)
 

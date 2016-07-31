@@ -56,6 +56,9 @@ class RoundedTriangle(edges.Edge):
         return 90
 
 class Lamp(Boxes):
+
+    webinterface = False
+
     def __init__(self):
         Boxes.__init__(self)
 

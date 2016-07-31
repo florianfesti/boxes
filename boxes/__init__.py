@@ -176,6 +176,8 @@ class ArgparseEdgeType:
 class Boxes:
     """Main class -- Generator should sub class this """
 
+    webinterface = True
+
     def __init__(self):
         self.formats = formats.Formats()
         self.argparser = ArgumentParser(description=self.__doc__)

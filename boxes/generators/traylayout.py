@@ -19,7 +19,11 @@ from boxes import *
 import boxes
 
 class Layout(Boxes):
+
     """Generate a typetray from a layout file"""
+
+    webinterface = False
+
     def __init__(self, input=None, webargs=False):
         Boxes.__init__(self)
         self.buildArgParser("h", "hi", "outside")
@@ -353,9 +357,11 @@ class Layout(Boxes):
         self.vwalls = vwalls
         self.floors = floors
 
-class LayoutGenerator(Layout):
+class TrayLayout(Layout):
 
     """Type tray with each wall and floor tile being optional"""
+
+    webinterface = True
 
     def __init__(self):
         Boxes.__init__(self)
@@ -369,6 +375,18 @@ class LayoutGenerator(Layout):
 
     def render(self):
         return
+
+class TrayLayout2(Layout):
+
+    """Generate a typetray from a layout file"""
+
+    webinterface = True
+
+    def __init__(self, input=None):
+        Boxes.__init__(self)
+        self.buildArgParser("h", "hi", "outside")
+        self.argparser.add_argument(
+            "--layout",  action="store", type=str)
 
 def main():
     l = Layout()

@@ -204,6 +204,9 @@ class Boxes:
             "--debug",  action="store", type=bool, default=False,
             help="print surrounding boxes for some structures")
         self.argparser.add_argument(
+            "--reference",  action="store", type=float, default=100,
+            help="print reference rectangle with given length")
+        self.argparser.add_argument(
             "--burn",  action="store", type=float, default=0.05,
             help="burn correction in mm")
 
@@ -220,6 +223,16 @@ class Boxes:
         self.surface, self.ctx = self.formats.getSurface(self.format, self.output)
         self.ctx.set_line_width(2*self.burn)
         self._buildObjects()
+        if self.reference:
+            self.move(10, 10, "up", before=True)
+            self.ctx.rectangle(0, 0, self.reference, 10)
+            if self.reference < 40:
+                self.text("%.fmm" % self.reference, self.reference+5, 5,
+                          align="middle left")
+            else:
+                self.text("%.fmm" % self.reference, self.reference/2.0, 5,
+                          align="middle center")
+            self.move(10, 10, "up")
 
     def buildArgParser(self, *l):
         """

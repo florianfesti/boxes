@@ -33,17 +33,25 @@ class TriangleEdge(edges.Edge):
         sh = math.hypot(length-t, h)
         r = 0 #TODO round the corners
 
+        burn = self.boxes.burn
+        print(burn, t)
         # TODO: Add holes for finger joints along original edge
         # TODO: Triangle starts at top or bottom for stacking
         # parts on page and so material has good side out.
         self.corner(-90, r)
+        self.fingerHolesAt(t/2, 0, length-t)
+        #self.rectangularHole(0, 0, 1, 1, 0) #DEBUG
         self.edge(t)
+        #self.rectangularHole(0, 0, 1, 1, 0) #DEBUG
         self.corner(90-angle, r)
         self.edge(sh)
         self.corner(angle, r)
         self.edge(t)
         self.corner(90, r)
-        self.edge(h+t)
+        self.edges["F"](h)
+        #self.rectangularHole(0, 0, 1, 1, .5) #DEBUG
+        self.edge(t)
+        #self.rectangularHole(0, 0, 1, 1, .5) #DEBUG
         self.corner(-90)
 
     def margin(self):
@@ -108,8 +116,8 @@ class Portmanteau(Boxes):
         self.moveTo(t, t)
         self.rectangularWall(h, y, "FfFe", move="right")
         self.rectangularWall(x, y, "FFFF", move="right")
-        self.rectangularWall(h-t, y, "efef", move="right") #TODO: fingers on top and bottom
-        self.rectangularWall(hh,y, "eeeF", callback=[self.gripHole]) 
+        self.rectangularWall(h-t, y, "fFff", move="right")
+        self.rectangularWall(hh,y, "feff", callback=[self.gripHole]) 
         self.moveTo(-(x+h+5*t), 0)
         self.moveTo(0, y+3*t)
         self.rectangularWall(x, h, "fqef")

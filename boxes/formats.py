@@ -3,7 +3,25 @@ import subprocess
 import tempfile
 import os
 import cairo
+import re
 from boxes import svgutil
+
+class PSFile:
+
+    def __init__(self, filename):
+        self.filename = filename
+
+    def adjustDocumentMedia(self):
+        with open(self.filename, "r+") as f:
+            s = f.read(1024)
+            m = re.search(r"%%BoundingBox: (\d+) (\d+) (\d+) (\d+)", s)
+            if not m:
+                raise ValueError("%%BoundingBox in Postscript file not found")
+            x1, y1, x2, y2 = m.groups()
+            m = re.search(r"%%DocumentMedia: \d+x\d+mm ((\d+) (\d+)) 0 \(", s)
+            f.seek(m.start(1))
+            media = "%i %i" % (int(x1)+int(x2), int(y1)+int(y2))
+            f.write(media + " " * (len(m.group(1))-len(media)))
 
 class Formats:
 
@@ -65,9 +83,10 @@ class Formats:
             svg = svgutil.SVGFile(filename)
             svg.getEnvelope()
             svg.rewriteViewPort()
-        elif fmt == "ps":
-            pass
         else:
+            ps = PSFile(filename)
+            ps.adjustDocumentMedia()
+        if fmt not in ("svg", "ps"):
             fd, tmpfile = tempfile.mkstemp()
             cmd = [self.pstoedit] + self.formats[fmt] + [filename, tmpfile]
             err = subprocess.call(cmd)

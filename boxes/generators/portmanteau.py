@@ -33,25 +33,18 @@ class TriangleEdge(edges.Edge):
         sh = math.hypot(length-t, h)
         r = 0 #TODO round the corners
 
-        burn = self.boxes.burn
-        print(burn, t)
-        # TODO: Add holes for finger joints along original edge
         # TODO: Triangle starts at top or bottom for stacking
         # parts on page and so material has good side out.
         self.corner(-90, r)
         self.fingerHolesAt(t/2, 0, length-t)
-        #self.rectangularHole(0, 0, 1, 1, 0) #DEBUG
         self.edge(t)
-        #self.rectangularHole(0, 0, 1, 1, 0) #DEBUG
         self.corner(90-angle, r)
         self.edge(sh)
         self.corner(angle, r)
         self.edge(t)
         self.corner(90, r)
         self.edges["F"](h)
-        #self.rectangularHole(0, 0, 1, 1, .5) #DEBUG
         self.edge(t)
-        #self.rectangularHole(0, 0, 1, 1, .5) #DEBUG
         self.corner(-90)
 
     def margin(self):

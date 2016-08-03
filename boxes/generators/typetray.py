@@ -87,7 +87,6 @@ class TypeTray(Boxes):
 
         self.open()
 
-        self.moveTo(t, t)
         # outer walls
         self.rectangularWall(x, h, "Ffef", callback=[
             self.xHoles, None, self.gripHole],

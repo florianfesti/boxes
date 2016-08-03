@@ -33,7 +33,6 @@ class TrayInsert(Boxes):
         t = self.thickness
 
         self.open()
-        self.moveTo(t, t)
 
         # Inner walls
         for i in range(len(self.sx)-1):

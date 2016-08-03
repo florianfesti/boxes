@@ -17,7 +17,7 @@
 from boxes import *
 
 class FlexTest2(Boxes):
-    "Piece for testing different flex settings"
+    "Piece for testing 2D flex settings"
     def __init__(self):
         Boxes.__init__(self)
         self.buildArgParser("x", "y")
@@ -29,7 +29,6 @@ class FlexTest2(Boxes):
         x, y = self.x, self.y
         t = self.thickness
         self.open()
-        self.moveTo(t, t)
         self.rectangularWall(x, y, callback=[lambda:self.flex2D(x, y, self.fw)])
         self.close()
 

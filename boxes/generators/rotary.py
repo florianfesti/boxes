@@ -175,10 +175,9 @@ class Rotary(Boxes):
             self.addPart(HangerEdge(self, self.knifethickness))
         else:
             self.edges["H"] = self.edges["F"]
-        # render your parts here
-        self.moveTo(5*t, 5*t)
+
         # Holder
-        hw = self.hw = 60.
+        hw = self.hw = 70.
         hh = self.hh = 40.
         hl = self.hl = 240
         # Base
@@ -237,9 +236,10 @@ class Rotary(Boxes):
             callback=[lambda:self.hole(7, 23, self.axle/2)], move="right")
         self.rectangularWall(30, 30, edges=["e", "e", slot, "e"],
             callback=[lambda:self.hole(7, 23, self.axle/2)], move="right")
-        slot = edges.SlottedEdge(self, [10, 20, 10], slots=15)
-        self.rectangularWall(40+2*t, 30, edges=[slot, "e", "e", "e"],
-            callback=[lambda:self.hole(20+t, 15, 4)], move="right")
+        leftover = (hw-6*t-6-20) / 2.0
+        slot = edges.SlottedEdge(self, [leftover, 20, leftover], slots=15)
+        self.rectangularWall(hw-4*t-6, 30, edges=[slot, "e", "e", "e"],
+            callback=[lambda:self.hole((hw-4*t-6)/2., 15, 4)], move="right")
         for i in range(3):
             self.rectangularWall(20, 30,
             callback=[lambda:self.nutHole("M8", 10, 15)], move="right")

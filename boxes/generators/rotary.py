@@ -38,13 +38,14 @@ class HangerEdge(edges.BaseEdge):
 
     def __call__(self, l, **kw):
         self.fingerHolesAt(0, -0.5*self.thickness, l, angle=0)
+        w = self.settings
         self.polyline(0, -90,
-                      30, 90,
+                      22+w, 90,
                       70, 135,
                       2**0.5*12, 45,
                       35, -45,
-                      2**0.5*4, -90,
-                      2**0.5*4, -45,
+                      2**0.5*0.5*w, -90,
+                      2**0.5*0.5*w, -45,
                       l -28, 45,
                       2**0.5*5, 45, 5, -90)
 
@@ -86,6 +87,10 @@ class Rotary(Boxes):
         self.argparser.add_argument(
             "--axle",  action="store", type=float, default=6.,
             help="diameter of the axles")
+        self.argparser.add_argument(
+            "--knifethickness",  action="store", type=float, default=8.,
+            help="thickness of the knifes in mm. Use 0 for use with honey comb table.")
+
 
 
     def mainPlate(self):
@@ -166,7 +171,10 @@ class Rotary(Boxes):
         # Change settings of default edges if needed. E.g.:
         self.edges["f"].settings.setValues(self.thickness, space=2, finger=2,
                                         surroundingspaces=1)
-        self.addPart(HangerEdge(self, None))
+        if self.knifethickness:
+            self.addPart(HangerEdge(self, self.knifethickness))
+        else:
+            self.edges["H"] = self.edges["F"]
         # render your parts here
         self.moveTo(5*t, 5*t)
         # Holder
@@ -241,18 +249,19 @@ class Rotary(Boxes):
         self.ctx.restore()
         self.rectangularWall(30, 30, move="up only")
         # Other side
-        ow = 10
-        self.rectangularWall(3.6*d, 1.1*d, edges="hfFf", callback=[
-            lambda:self.rectangularHole(1.8*d, 3.6, 32, 7.1)], move="up")
-        self.rectangularWall(3.6*d, 1.1*d, edges="hfFf", callback=[
-            lambda:self.rectangularHole(1.8*d, 3.6, 32, 7.1)], move="up")
-        self.rectangularWall(3.6*d, ow, edges="ffff", move="up")
-        self.rectangularWall(3.6*d, ow, edges="ffff", move="up")
-        self.ctx.save()
-        self.rectangularWall(ow, 1.1*d, edges="hFFH", move="right")
-        self.rectangularWall(ow, 1.1*d, edges="hFFH", move="right")
-        self.ctx.restore()
-        self.rectangularWall(ow, 1.1*d, edges="hFFH", move="up only")
+        if self.knifethickness:
+            ow = 10
+            self.rectangularWall(3.6*d, 1.1*d, edges="hfFf", callback=[
+                lambda:self.rectangularHole(1.8*d, 3.6, 32, 7.1)], move="up")
+            self.rectangularWall(3.6*d, 1.1*d, edges="hfFf", callback=[
+                lambda:self.rectangularHole(1.8*d, 3.6, 32, 7.1)], move="up")
+            self.rectangularWall(3.6*d, ow, edges="ffff", move="up")
+            self.rectangularWall(3.6*d, ow, edges="ffff", move="up")
+            self.ctx.save()
+            self.rectangularWall(ow, 1.1*d, edges="hFFH", move="right")
+            self.rectangularWall(ow, 1.1*d, edges="hFFH", move="right")
+            self.ctx.restore()
+            self.rectangularWall(ow, 1.1*d, edges="hFFH", move="up only")
         
         # Motor block
         mw = 40

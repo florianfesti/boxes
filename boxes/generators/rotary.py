@@ -80,6 +80,7 @@ class RollerEdge2(edges.BaseEdge):
 
 
 class Rotary(Boxes):
+
     """Rotary Attachment for engraving cylindrical objects in a laser cutter"""
 
     def __init__(self):
@@ -89,7 +90,7 @@ class Rotary(Boxes):
         # Add non default cli params if needed (see argparse std lib)
         self.argparser.add_argument(
             "--diameter", action="store", type=float, default=72.,
-            help="outer diameter of the wheels")
+            help="outer diameter of the wheels (including O rings)")
         self.argparser.add_argument(
             "--rubberthickness", action="store", type=float, default=5.,
             help="diameter of the strings of the O rings")
@@ -99,37 +100,47 @@ class Rotary(Boxes):
         self.argparser.add_argument(
             "--knifethickness", action="store", type=float, default=8.,
             help="thickness of the knifes in mm. Use 0 for use with honey comb table.")
+        self.argparser.add_argument(
+            "--beamwidth",  action="store", type=float, default=32.,
+            help="width of the (aluminium) profile connecting the parts")
+        self.argparser.add_argument(
+            "--beamheight",  action="store", type=float, default=7.1,
+            help="height of the (aluminium) profile connecting the parts")
 
     def mainPlate(self):
         # Motor block outer side
         t = self.thickness
         d = self.diameter
         a = self.axle
-        self.hole(1.0 * d, 0.6 * d, a / 2.)
-        # self.hole(1.0*d, 0.6*d, d/2.)
-        self.hole(2.0 * d + 5, 0.6 * d, a / 2.)
-        # self.hole(2.0*d+5, 0.6*d, d/2.)
+        bw, bh = self.beamwidth, self.beamheight
+        hh = 0.5 * d + bh + 2 # hole height
+        self.hole(1.0 * d, hh, a/2.)
+        #self.hole(1.0 * d, hh, d/2.)
+        self.hole(2.0 * d + 5, hh, a/2.)
+        #self.hole(2.0 * d + 5, hh, d/2.)
         # Main beam
-        self.rectangularHole(1.5 * d + 2.5, 3.6, 32, 7.1)
+        self.rectangularHole(1.5*d+2.5, 0.5*bh, bw, bh)
 
     def frontPlate(self):
         # Motor block inner side with motor mount
         t = self.thickness
         d = self.diameter
         a = self.axle
-        self.hole(1.0 * d, 0.6 * d, a / 2.)
-        # self.hole(1.0*d, 0.6*d, d/2.)
-        self.hole(2.0 * d + 5, 0.6 * d, a / 2.)
-        # self.hole(2.0*d+5, 0.6*d, d/2.)
+        bw, bh = self.beamwidth, self.beamheight
+        hh = 0.5 * d + bh + 2 # hole height
+        self.hole(1.0 * d, hh, a/2.)
+        #self.hole(1.0 * d, hh, d/2.)
+        self.hole(2.0 * d + 5, hh, a/2.)
+        #self.hole(2.0 * d + 5, hh, d/2.)
         # Main beam
-        self.rectangularHole(1.5 * d + 2.5, 3.6, 32, 7.1)
+        self.rectangularHole(1.5 * d+2.5, 0.5 * bh, bw, bh)
         # Motor
         mx = 2.7 * d + 20
-        self.rectangularHole(mx, 0.6 * d, 36 + 20, 36, r=36 / 2.0)
+        self.rectangularHole(mx, hh, 36 + 20, 36, r=36 / 2.0)
 
         for x in (-1, 1):
-            for y in (-1, 1):
-                self.rectangularHole(mx + x * 25, 0.6 * d + y * 25, 20, 4, r=2)
+            for y in (-1,1):
+                self.rectangularHole(mx+x * 25, hh + y * 25, 20, 4, r=2)
 
     def link(self, x, y, a, middleHole=False, move=None):
         t = self.thickness
@@ -155,16 +166,16 @@ class Rotary(Boxes):
         self.move(overallwidth, overallheight, move)
 
     def holderBaseCB(self):
-        self.hole(20, 30, self.a / 2)
+        bw, bh = self.beamwidth, self.beamheight
+        self.hole(20, self.hh - 10, self.a / 2)
         self.rectangularHole(self.hl - 70, self.hh - 10, 110, self.a, r=self.a / 2)
-        self.rectangularHole(self.hl / 2, 3.6, 32, 7.1)
+        self.rectangularHole(self.hl / 2, 0.5 * bh, bw, bh)
 
     def holderTopCB(self):
         self.fingerHolesAt(0, 30 - 0.5 * self.thickness, self.hl, 0)
         d = self.diameter / 2.0 + 1
-        y = -0.6 * self.diameter + 2 * self.hh
-        print(y)
-
+        # XXX
+        y = -0.5 * self.diameter + self.th + self.hh - self.beamheight - 2.
         self.hole(self.hl / 2 + d, y, self.axle / 2.0)
         self.hole(self.hl / 2 - d, y, self.axle / 2.0)
         self.hole(self.hl / 2 + d, y, self.diameter / 2.0)
@@ -175,6 +186,8 @@ class Rotary(Boxes):
         t = self.thickness
         d = self.diameter
         a = self.a = self.axle
+        bw, bh = self.beamwidth, self.beamheight
+
         # Initialize canvas
         self.open()
         # self.spacing = 0.1 * t
@@ -189,7 +202,7 @@ class Rotary(Boxes):
 
         # Holder
         hw = self.hw = 70.
-        hh = self.hh = 40.
+        hh = self.hh = 35. + bh
         hl = self.hl = 240
         # Base
         self.rectangularWall(hl, hh, edges="hfef", callback=[self.holderBaseCB, None,
@@ -198,11 +211,11 @@ class Rotary(Boxes):
         self.rectangularWall(hl, hh, edges="hfef", callback=[self.holderBaseCB], move="up")
         self.rectangularWall(hl, hw, edges="ffff", callback=[lambda: self.hole(hl / 2 - 16 - 20, 25, 5)], move="up")
         self.ctx.save()
-
-        self.rectangularWall(hw, hh, edges="hFeF", callback=[lambda: self.hole(hw / 2, 15, 4)], move="right")
+        self.rectangularWall(hw, hh, edges="hFeF", callback=[
+            lambda: self.hole(hw / 2, hh - 20, 4)],move="right")
         self.rectangularWall(hw, hh, edges="hFeF", move="right")
         # Top
-        th = 30
+        th = self.th = 30
         #  sides
 
         self.rectangularWall(hw + 20, th, edges="fFeF", move="right",
@@ -265,36 +278,37 @@ class Rotary(Boxes):
         self.ctx.restore()
         self.rectangularWall(30, 30, move="up only")
 
+        self.h = h = bh + 2 + 1.0 * d # height of outer pieces
         # Other side
         if self.knifethickness:
             ow = 10
-            self.rectangularWall(3.6 * d, 1.1 * d, edges="hfFf", callback=[
-                lambda: self.rectangularHole(1.8 * d, 3.6, 32, 7.1)], move="up")
-            self.rectangularWall(3.6 * d, 1.1 * d, edges="hfFf", callback=[
-                lambda: self.rectangularHole(1.8 * d, 3.6, 32, 7.1)], move="up")
+            self.rectangularWall(3.6 * d, h, edges="hfFf", callback=[
+                lambda:self.rectangularHole(1.8 * d, 0.5 * bh, bw, bh)],
+                                 move="up")
+            self.rectangularWall(3.6 * d, h, edges="hfFf", callback=[
+                lambda:self.rectangularHole(1.8 * d, 0.5 * bh, bw, bh)],
+                                 move="up")
             self.rectangularWall(3.6 * d, ow, edges="ffff", move="up")
             self.rectangularWall(3.6 * d, ow, edges="ffff", move="up")
             self.ctx.save()
-            self.rectangularWall(ow, 1.1 * d, edges="hFFH", move="right")
-            self.rectangularWall(ow, 1.1 * d, edges="hFFH", move="right")
+            self.rectangularWall(ow, h, edges="hFFH", move="right")
+            self.rectangularWall(ow, h, edges="hFFH", move="right")
             self.ctx.restore()
-            self.rectangularWall(ow, 1.1 * d, edges="hFFH", move="up only")
-
+            self.rectangularWall(ow, h, edges="hFFH", move="up only")
+        
         # Motor block
         mw = 40
-        self.rectangularWall(3.6 * d, 1.1 * d, edges=["h", "f", MotorEdge(self, None), "f"], callback=[self.mainPlate],
-                             move="up")
-        self.rectangularWall(3.6 * d, 1.1 * d, edges=["h", "f", MotorEdge(self, None), "f"], callback=[self.frontPlate],
-                             move="up")
+        self.rectangularWall(3.6 * d, h, edges=["h", "f", MotorEdge(self, None),"f"], callback=[self.mainPlate], move="up")
+        self.rectangularWall(3.6 * d, h, edges=["h", "f", MotorEdge(self, None),"f"], callback=[self.frontPlate], move="up")
         self.rectangularWall(3.6 * d, mw, edges="ffff", move="up")
         self.ctx.save()
-        self.rectangularWall(mw, 1.1 * d, edges="hFeH", move="right")
-        self.rectangularWall(mw, 1.1 * d, edges="hFeH", move="right")
+        self.rectangularWall(mw, h, edges="hFeH", move="right")
+        self.rectangularWall(mw, h, edges="hFeH", move="right")
 
         self.pulley(88, "GT2_2mm", r_axle=a / 2.0, move="right")
         self.pulley(88, "GT2_2mm", r_axle=a / 2.0, move="right")
         self.ctx.restore()
-        self.rectangularWall(mw, 1.1 * d, edges="hFeH", move="up only")
+        self.rectangularWall(mw, h, edges="hFeH", move="up only")
         self.axle = 19
 
         for i in range(3):

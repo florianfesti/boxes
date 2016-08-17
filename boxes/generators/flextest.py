@@ -16,19 +16,21 @@
 
 from boxes import *
 
+
 class FlexTest(Boxes):
     "Piece for testing different flex settings"
+
     def __init__(self):
         Boxes.__init__(self)
         self.buildArgParser("x", "y")
         self.argparser.add_argument(
-            "--fd",  action="store", type=float, default=0.5,
+            "--fd", action="store", type=float, default=0.5,
             help="distance of flex cuts in multiples of thickness")
         self.argparser.add_argument(
-            "--fc",  action="store", type=float, default=1.0,
+            "--fc", action="store", type=float, default=1.0,
             help="connections of flex cuts in multiples of thickness")
         self.argparser.add_argument(
-            "--fw",  action="store", type=float, default=5.0,
+            "--fw", action="store", type=float, default=5.0,
             help="width of flex cuts in multiples of thickness")
 
     def render(self):
@@ -46,17 +48,19 @@ class FlexTest(Boxes):
         self.corner(90)
         self.edge(y)
         self.corner(90)
-        self.edge(x+20)
+        self.edge(x + 20)
         self.corner(90)
         self.edge(y)
         self.corner(90)
 
         self.close()
 
+
 def main():
     f = FlexTest()
     f.parseArgs()
     f.render()
+
 
 if __name__ == '__main__':
     main()

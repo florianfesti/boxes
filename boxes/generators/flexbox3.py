@@ -17,22 +17,24 @@
 from boxes import *
 import math
 
+
 class FlexBox3(Boxes):
     """Box with living hinge"""
+
     def __init__(self):
         Boxes.__init__(self)
         self.buildArgParser("x", "y", "outside")
         self.argparser.add_argument(
-            "--z",  action="store", type=float, default=100.0,
+            "--z", action="store", type=float, default=100.0,
             help="height of the box")
         self.argparser.add_argument(
-            "--h",  action="store", type=float, default=10.0,
+            "--h", action="store", type=float, default=10.0,
             help="height of the lid")
         self.argparser.add_argument(
-            "--radius",  action="store", type=float, default=10.0,
+            "--radius", action="store", type=float, default=10.0,
             help="radius of the lids living hinge")
         self.argparser.add_argument(
-            "--c",  action="store", type=float, default=1.0,
+            "--c", action="store", type=float, default=1.0,
             dest="d", help="clearance of the lid")
 
     def rectangleCorner(self, edge1=None, edge2=None):
@@ -50,10 +52,10 @@ class FlexBox3(Boxes):
         self.edges["f"](x)
         self.corner(90, 0)
         self.cc(callback, 1)
-        self.edges["f"](y-r)
+        self.edges["f"](y - r)
         self.corner(90, r)
         self.cc(callback, 2)
-        self.edge(x-r)
+        self.edge(x - r)
         self.corner(90, 0)
         self.cc(callback, 3)
         self.edges["f"](y)
@@ -61,22 +63,22 @@ class FlexBox3(Boxes):
 
     def surroundingWall(self):
         x, y, z, r, d = self.x, self.y, self.z, self.radius, self.d
-        
-        self.edges["F"](y-r, False)
-        self.edges["X"](self.c4, z+2*self.thickness)
+
+        self.edges["F"](y - r, False)
+        self.edges["X"](self.c4, z + 2 * self.thickness)
         self.corner(-90)
         self.edge(d)
         self.corner(90)
-        self.edges["f"](x-r+d)
+        self.edges["f"](x - r + d)
         self.corner(90)
-        self.edges["f"](z+2*self.thickness+2*d)
+        self.edges["f"](z + 2 * self.thickness + 2 * d)
         self.corner(90)
-        self.edges["f"](x-r+d)
+        self.edges["f"](x - r + d)
         self.corner(90)
         self.edge(d)
         self.corner(-90)
         self.edge(self.c4)
-        self.edges["F"](y-r)
+        self.edges["F"](y - r)
         self.corner(90)
         self.edge(self.thickness)
         self.edges["f"](z)
@@ -87,16 +89,16 @@ class FlexBox3(Boxes):
     def lidSide(self):
         x, y, z, r, d, h = self.x, self.y, self.z, self.radius, self.d, self.h
         t = self.thickness
-        r2 = r+t if r+t <=h+t else h+t
+        r2 = r + t if r + t <= h + t else h + t
         self.moveTo(self.thickness, self.thickness)
-        self.edge(h+self.thickness-r2)
+        self.edge(h + self.thickness - r2)
         self.corner(90, r2)
-        self.edge(r-r2+2*t)
-        self.edges["F"](x-r)
+        self.edge(r - r2 + 2 * t)
+        self.edges["F"](x - r)
         self.rectangleCorner("F", "f")
         self.edges["g"](h)
         self.rectangleCorner("f", "e")
-        self.edge(x+2*t)
+        self.edge(x + 2 * t)
 
     def render(self):
         if self.outside:
@@ -105,56 +107,57 @@ class FlexBox3(Boxes):
             self.z = self.adjustSize(self.z)
 
         x, y, z, d, h = self.x, self.y, self.z, self.d, self.h
-        r = self.radius = self.radius or min(x, y)/2.0
+        r = self.radius = self.radius or min(x, y) / 2.0
         thickness = self.thickness
 
         self.c4 = c4 = math.pi * r * 0.5 * 0.95
-        self.latchsize = 8*thickness
+        self.latchsize = 8 * thickness
 
-        width = 2*x + y - 2*r + c4 + 14*thickness + 3*h # lock
-        height = y + z + 8*thickness
+        width = 2 * x + y - 2 * r + c4 + 14 * thickness + 3 * h  # lock
+        height = y + z + 8 * thickness
 
         self.open()
 
-        self.edges["f"].settings.setValues(
-            self.thickness, finger=2, space=2, surroundingspaces=1)
+        self.edges["f"].settings.setValues(self.thickness, finger=2, space=2, surroundingspaces=1)
 
         s = edges.FingerJointSettings(self.thickness, surroundingspaces=1)
         g = edges.FingerJointEdge(self, s)
         g.char = "g"
         self.addPart(g)
+
         G = edges.FingerJointEdgeCounterPart(self, s)
         G.char = "G"
         self.addPart(G)
 
-        self.moveTo(2*self.thickness, self.thickness+2*d)
+        self.moveTo(2 * self.thickness, self.thickness + 2 * d)
         self.ctx.save()
         self.surroundingWall()
-        self.moveTo(x+y-2*r+self.c4+2*self.thickness, -2*d-self.thickness)
+        self.moveTo(x + y - 2 * r + self.c4 + 2 * self.thickness, -2 * d - self.thickness)
         self.rectangularWall(x, z, edges="FFFF", move="right")
-        self.rectangularWall(h, z+2*(d+self.thickness),
-                             edges="GeGF", move="right")
+        self.rectangularWall(h, z + 2 * (d + self.thickness), edges="GeGF", move="right")
         self.lidSide()
-        self.moveTo(2*h+5*self.thickness, 0)
+        self.moveTo(2 * h + 5 * self.thickness, 0)
         self.ctx.scale(-1, 1)
         self.lidSide()
 
         self.ctx.restore()
-        self.moveTo(0, z+4*self.thickness+2*d)
+        self.moveTo(0, z + 4 * self.thickness + 2 * d)
         self.flexBoxSide(x, y, r)
-        self.moveTo(2*x+3*self.thickness, 2*d)
+        self.moveTo(2 * x + 3 * self.thickness, 2 * d)
         self.ctx.scale(-1, 1)
         self.flexBoxSide(x, y, r)
         self.ctx.scale(-1, 1)
-        self.moveTo(2*self.thickness, -self.thickness)
+        self.moveTo(2 * self.thickness, -self.thickness)
         self.rectangularWall(z, y, edges="fFeF")
 
         self.close()
 
+
 def main():
-    b = FlexBox3() #100, 40, 100, r=20, h=10, thickness=4.0)
+    b = FlexBox3()  # 100, 40, 100, r=20, h=10, thickness=4.0)
     b.parseArgs()
     b.render()
 
-if __name__=="__main__":
+
+if __name__ == "__main__":
     main()

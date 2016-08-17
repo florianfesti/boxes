@@ -17,6 +17,7 @@
 from boxes import *
 import math
 
+
 class Folder(Boxes):
     """Book cover with flex for the spine"""
 
@@ -32,18 +33,18 @@ class Folder(Boxes):
         x, y, r, h = self.x, self.y, self.r, self.h
         c2 = math.pi * h
         self.open()
-        self.moveTo(r+self.thickness, self.thickness)
-        self.edge(x-r)
+        self.moveTo(r + self.thickness, self.thickness)
+        self.edge(x - r)
         self.edges["X"](c2, y)
-        self.edge(x-r)
+        self.edge(x - r)
         self.corner(90, r)
-        self.edge(y-2*r)
+        self.edge(y - 2 * r)
         self.corner(90, r)
-        self.edge(2*x-2*r+c2)
+        self.edge(2 * x - 2 * r + c2)
         self.corner(90, r)
-        self.edge(y-2*r)
+        self.edge(y - 2 * r)
         self.corner(90, r)
-        
+
         self.close()
 
 
@@ -51,6 +52,7 @@ def main():
     f = Folder()
     f.parseArgs()
     f.render()
+
 
 if __name__ == '__main__':
     main()

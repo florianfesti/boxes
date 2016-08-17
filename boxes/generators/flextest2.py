@@ -16,26 +16,30 @@
 
 from boxes import *
 
+
 class FlexTest2(Boxes):
     "Piece for testing 2D flex settings"
+
     def __init__(self):
         Boxes.__init__(self)
         self.buildArgParser("x", "y")
         self.argparser.add_argument(
-            "--fw",  action="store", type=float, default=1,
+            "--fw", action="store", type=float, default=1,
             help="distance of flex cuts in multiples of thickness")
 
     def render(self):
         x, y = self.x, self.y
-        t = self.thickness
+
         self.open()
-        self.rectangularWall(x, y, callback=[lambda:self.flex2D(x, y, self.fw)])
+        self.rectangularWall(x, y, callback=[lambda: self.flex2D(x, y, self.fw)])
         self.close()
+
 
 def main():
     f = FlexTest()
     f.parseArgs()
     f.render()
+
 
 if __name__ == '__main__':
     main()

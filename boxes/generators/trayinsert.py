@@ -16,40 +16,44 @@
 
 from boxes import *
 
+
 class TrayInsert(Boxes):
     """Tray insert without floor and outer walls - allows only continuous walls"""
+
     def __init__(self):
         Boxes.__init__(self)
         self.buildArgParser("sx", "sy", "h", "outside")
 
     def render(self):
+
         if self.outside:
             self.sx = self.adjustSize(self.sx, False, False)
             self.sy = self.adjustSize(self.sy, False, False)
 
-        x = sum(self.sx) + self.thickness * (len(self.sx)-1)
-        y = sum(self.sy) + self.thickness * (len(self.sy)-1)
+        x = sum(self.sx) + self.thickness * (len(self.sx) - 1)
+        y = sum(self.sy) + self.thickness * (len(self.sy) - 1)
         h = self.h
         t = self.thickness
 
         self.open()
 
         # Inner walls
-        for i in range(len(self.sx)-1):
-            e = [edges.SlottedEdge(self, self.sy, slots=0.5*h), "e", "e", "e"]
-            self.rectangularWall(y, h, e,
-                                 move="up")
-        for i in range(len(self.sy)-1):
-            e = ["e", "e",
-                 edges.SlottedEdge(self, self.sx[::-1], "e", slots=0.5*h), "e"]
-            self.rectangularWall(x, h, e,
-                                 move="up")
+        for i in range(len(self.sx) - 1):
+            e = [edges.SlottedEdge(self, self.sy, slots=0.5 * h), "e", "e", "e"]
+            self.rectangularWall(y, h, e, move="up")
+
+        for i in range(len(self.sy) - 1):
+            e = ["e", "e", edges.SlottedEdge(self, self.sx[::-1], "e", slots=0.5 * h), "e"]
+            self.rectangularWall(x, h, e, move="up")
+
         self.close()
+
 
 def main():
     b = TrayInsert()
     b.parseArgs()
     b.render()
+
 
 if __name__ == '__main__':
     main()

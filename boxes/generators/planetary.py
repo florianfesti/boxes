@@ -19,7 +19,8 @@ import math
 
 
 class Planetary(Boxes):
-    """Gearbox with multiple identical stages"""
+
+    """Planetary Gear with possibly multiple identical stages"""
 
     def __init__(self):
         Boxes.__init__(self)

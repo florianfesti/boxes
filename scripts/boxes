@@ -21,8 +21,8 @@ boxes [NAME] [options]
 """)
 
 def main():
-    modules = boxes.generators.getAllBoxGenerators()
-    
+    modules = boxes.generators.getAllGeneratorModules()
+    del modules['_template']
     if len(sys.argv) == 1:
         printusage()
     elif sys.argv[1] in modules:
@@ -33,6 +33,8 @@ def main():
     elif sys.argv[1] == '--list':
         print("Available generators:")
         for name in sorted(modules):
+            if not hasattr(modules[name], "main"):
+                continue
             print(" * ", name)
     else:
         print("Unknown generator name. Use boxes --list to get a list of available commands.")

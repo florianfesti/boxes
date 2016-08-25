@@ -18,7 +18,7 @@ from boxes import *
 from boxes.edges import Bolts
 import inspect
 
-class Box(Boxes):
+class Box2(Boxes):
     """Box various options for different stypes and lids"""
 
     def __init__(self):
@@ -45,22 +45,21 @@ class Box(Boxes):
         x, y, h, angle = self.x, self.y, self.h, self.angle
         t = self.thickness
         r = self.getR()
-        if self.move(x+3*t, 0.5*x+5*t, move, True):
+        if self.move(x+2*t, 0.5*x+3*t, move, True):
             return
 
-        self.ctx.save()
-        self.moveTo(1.5*t, t)
+        self.moveTo(t, 0)
         self.edge(x)
         self.corner(90+angle)
         self.edges["a"](3*t)
         self.corner(180-2*angle, r)
         self.edges["a"](3*t)
         self.corner(90+angle)
-        self.ctx.restore()
 
-        self.move(x+3*t, 0.5*x+5*t, move, False)
+        self.move(x+2*t, 0.5*x+3*t, move, False)
 
     def top(self):
+        # XXX move param
         x, y, h = self.x, self.y, self.h
         t = self.thickness
         angle = 30
@@ -109,7 +108,6 @@ class Box(Boxes):
 
         d2 = d3 = None
 
-        self.moveTo(self.thickness, self.thickness)
         self.rectangularWall(y, h, [b, "f", t2, "f"],
                              bedBolts=[d3], move="right")
         self.rectangularWall(x, h, [b, "F", t1, "F"],
@@ -122,6 +120,7 @@ class Box(Boxes):
                              bedBolts=[d2], move="up only")
         
         self.rectangularWall(x, y, "ffff", bedBolts=[d2, d3, d2, d3], move="right")
+
         if self.top_edge == "c":
             self.rectangularWall(x, y, "CCCC", bedBolts=[d2, d3, d2, d3], move="up")
         elif self.top_edge == "i":
@@ -142,7 +141,7 @@ class Box(Boxes):
         self.close()
 
 def main():
-    b = Box()
+    b = Box2()
     b.parseArgs()
     b.render()
 

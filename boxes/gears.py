@@ -107,26 +107,22 @@ def gear_calculations(num_teeth, circular_pitch, pressure_angle, clearance=0, ri
     pitch_diameter = num_teeth / diametral_pitch
     pitch_radius = pitch_diameter / 2.0
     addendum = 1 / diametral_pitch
-    #dedendum = 1.157 / diametral_pitch # auto calc clearance
     dedendum = addendum
     dedendum *= 1+profile_shift
     addendum *= 1-profile_shift
+
     if ring_gear:
         addendum = addendum + clearance # our method
     else:
         dedendum = dedendum + clearance # our method
-    #
-    #
+
     base_radius = pitch_diameter * cos(radians(pressure_angle)) / 2.0
     outer_radius = pitch_radius + addendum
     root_radius =  pitch_radius - dedendum
+
     # Tooth thickness: Tooth width along pitch circle.
     tooth_thickness  = ( pi * pitch_diameter ) / ( 2.0 * num_teeth )
-    # we don't use these
-    working_depth = 2 / diametral_pitch
-    whole_depth = 2.157 / diametral_pitch
-    #outside_diameter = (num_teeth + 2) / diametral_pitch
-    #
+
     return (pitch_radius, base_radius,
             addendum, dedendum, outer_radius, root_radius,
             tooth_thickness
@@ -146,6 +142,7 @@ def generate_rack_points(tooth_count, pitch, addendum, pressure_angle,
           (one extra tooth on the right hand side, if number of teeth is even)
     """
     spacing = 0.5 * pitch # rolling one pitch distance on the spur gear pitch_diameter.
+
     # roughly center rack in drawing, exact position is so that it meshes
     # nicely with the spur gear.
     # -0.5*spacing has a gap in the center.
@@ -158,7 +155,7 @@ def generate_rack_points(tooth_count, pitch, addendum, pressure_angle,
     base_bot = addendum+clearance+base_height
 
     x_lhs = -pitch * int(0.5*tooth_count-.5) - spacing - tab_length - tasc + fudge
-    #inkex.debug("angle=%s spacing=%s"%(pressure_angle, spacing))
+
     # Start with base tab on LHS
     points = [] # make list of points
     points.append((x_lhs, base_bot))
@@ -175,6 +172,7 @@ def generate_rack_points(tooth_count, pitch, addendum, pressure_angle,
         points.append((x+spacing-tas, -addendum))
         points.append((x+spacing+tasc, base_top)) 
         x += pitch
+
     x -= spacing # remove last adjustment
     # add base on RHS
     x_rhs = x+tasc+tab_length
@@ -189,7 +187,7 @@ def generate_rack_points(tooth_count, pitch, addendum, pressure_angle,
         p = []
         p.append( (x_lhs + 0.5 * tab_length, 0) )
         p.append( (x_rhs - 0.5 * tab_length, 0) )
-    # return points ready for use in an SVG 'path'
+
     return (points, p)
 
 
@@ -233,6 +231,7 @@ def generate_spur_points(teeth, base_radius, pitch_radius, outer_radius, root_ra
             p_tmp = points1 + points_on_outer_radius[1:-1] + points2[::-1] + points_on_root # [::-1] reverses list
 
         points.extend( p_tmp )
+
     return (points)
 
 def inkbool(val):
@@ -257,6 +256,7 @@ class OptionParser(argparse.ArgumentParser):
         self.add_argument(*names, **kw)
 
 class Gears():
+
     def __init__(self, boxes, **kw):
         # an alternate way to get debug info:
         # could use inkex.debug(string) instead...
@@ -385,12 +385,16 @@ class Gears():
                                      help="Let the user confirm a warning dialog if undercut occurs. This dialog also shows helpful hints against undercut")
 
     def drawPoints(self, lines, kerfdir=1):
+
         if kerfdir != 0:
             lines = kerf(lines, self.boxes.burn*kerfdir)
+
         self.boxes.ctx.save()
         self.boxes.ctx.move_to(*lines[0])
+
         for x, y in lines[1:]:
             self.boxes.ctx.line_to(x, y)
+
         self.boxes.ctx.line_to(*lines[0])
         self.boxes.ctx.restore()
 
@@ -406,10 +410,11 @@ class Gears():
             circular_pitch = dimension
         else:
             raise ValueError("unknown system '%s', try CP, DP, MM" % self.options.system)
+
         # circular_pitch defines the size in mm
         return circular_pitch
 
-    def generate_spokes(self, root_radius, spoke_width, spoke_count, mount_radius, mount_hole,
+    def generate_spokes(self, root_radius, spoke_width, spokes, mount_radius, mount_hole,
                              unit_factor, unit_label):
         """ given a set of constraints
             - generate the svg path for the gear spokes
@@ -423,10 +428,20 @@ class Gears():
         messages = []     # messages to send back about changes.
         spoke_holes = []
         r_outer = root_radius - spoke_width
+
+        try:
+            spoke_count = spokes
+            spokes = [i*2*pi/spokes for i in range(spoke_count)]
+        except TypeError:
+            spoke_count = len(spokes)
+            spokes = [radians(a) for a in spokes]
+        spokes.append(spokes[0]+two_pi)
+
         # checks for collision with spokes
         # check for mount hole collision with inner spokes
         if mount_radius <= mount_hole/2:
             adj_factor = (r_outer - mount_hole/2) / 5
+
             if adj_factor < 0.1:
                 # not enough reasonable room
                 collision = True
@@ -435,10 +450,13 @@ class Gears():
                 messages.append("Mount support too small. Auto increased to %2.2f%s." % (mount_radius/unit_factor*2, unit_label))
 
         # then check to see if cross-over on spoke width
-        if spoke_width * spoke_count +0.5 >= two_pi * mount_radius:
-            adj_factor = 1.2 # wrong value. its probably one of the points distances calculated below
-            mount_radius += adj_factor
-            messages.append("Too many spokes. Increased Mount support by %2.3f%s" % (adj_factor/unit_factor, unit_label))
+        for i in range(spoke_count):
+            angle = spokes[i]-spokes[i-1]
+
+            if spoke_width >= angle * mount_radius:
+                adj_factor = 1.2 # wrong value. its probably one of the points distances calculated below
+                mount_radius += adj_factor
+                messages.append("Too many spokes. Increased Mount support by %2.3f%s" % (adj_factor/unit_factor, unit_label))
 
         # check for collision with outer rim
         if r_outer <= mount_radius:
@@ -447,9 +465,10 @@ class Gears():
         if collision: # don't draw spokes if no room.
             messages.append("Not enough room for Spokes. Decrease Spoke width.")
         else: # draw spokes
+
             for i in range(spoke_count):
                 self.boxes.ctx.save()
-                start_a, end_a = i * two_pi / spoke_count, (i+1) * two_pi / spoke_count
+                start_a, end_a = spokes[i], spokes[i+1]
                 # inner circle around mount
                 asin_factor = spoke_width/mount_radius/2
                 # check if need to clamp radius
@@ -463,20 +482,75 @@ class Gears():
                 a2 = asin(asin_factor)
                 l = vlength(vdiff(point_on_circle(mount_radius, start_a + a),
                                   point_on_circle(r_outer, start_a + a2)))
-                self.boxes.moveTo(*point_on_circle(mount_radius, start_a - a), degrees=degrees(start_a))
+                self.boxes.moveTo(*point_on_circle(mount_radius, start_a + a), degrees=degrees(start_a))
                 self.boxes.polyline(
                     l,
-                    -90-degrees(a2), 0,
-                    (-degrees(two_pi / spoke_count-2*a2), r_outer), 0,
-                    -90-degrees(a2),
-                    l, -90+degrees(a), 0,
-                    (degrees(two_pi / spoke_count-2*a), mount_radius),
-                    0, -90-degrees(a2), 0
+                    +90+degrees(a2), 0,
+                    (degrees(end_a-start_a-2*a2), r_outer), 0,
+                    +90+degrees(a2),
+                    l, 90-degrees(a), 0,
+                    (-degrees(end_a-start_a-2*a), mount_radius),
+                    0, 90+degrees(a2), 0
                 )
 
                 self.boxes.ctx.restore()
+
         return messages
 
+    def sizes(self, **kw):
+        self.options = self.OptionParser.parse_args(["--%s=%s" % (name,value) for name, value in kw.items()])
+        # Pitch (circular pitch): Length of the arc from one tooth to the next)
+        # Pitch diameter: Diameter of pitch circle.
+        pitch = self.calc_circular_pitch()
+
+        if self.options.drawrack:
+            base_height = self.options.base_height * unit_factor
+            tab_width = self.options.base_tab * unit_factor
+            tooth_count = self.options.teeth_length
+            width = tooth_count * pitch + 2*tab_width
+            height = base_height+ 2* addendum
+            return 0, width, height
+
+        teeth = self.options.teeth
+        # Angle of tangent to tooth at circular pitch wrt radial line.
+        angle = self.options.angle
+        # Clearance: Radial distance between top of tooth on one gear to
+        # bottom of gap on another.
+        clearance = self.options.clearance # * unit_factor
+        # Replace section below with this call to get the combined gear_calculations() above
+        (pitch_radius, base_radius, addendum, dedendum,
+         outer_radius, root_radius, tooth) = gear_calculations(teeth, pitch, angle, clearance, self.options.internal_ring, self.options.profile_shift*0.01)
+        if self.options.internal_ring:
+            outer_radius += self.options.spoke_width
+        return pitch_radius, 2*outer_radius, 2*outer_radius
+
+    def gearCarrier(self, r, spoke_width, positions, mount_radius, mount_hole, circle=True, move=None):
+        width = (r+spoke_width)*2
+
+        if self.boxes.move(width, width, move, before=True):
+            return
+
+        try:
+            positions = [i*360/positions for i in range(positions)]
+        except TypeError:
+            pass
+
+        self.boxes.ctx.save()
+        self.boxes.moveTo(width/2.0, width/2.0)
+        self.generate_spokes(r+0.5*spoke_width, spoke_width, positions, mount_radius, mount_hole, 1, "")
+        self.boxes.hole(0, 0, mount_hole)
+
+        for angle in positions:
+            self.boxes.ctx.save()
+            self.boxes.moveTo(0, 0, angle)
+            self.boxes.hole(r, 0, mount_hole)
+            self.boxes.ctx.restore()
+
+        self.boxes.moveTo(r+0.5*spoke_width+self.boxes.burn, 0, 90)
+        self.boxes.corner(360, r+0.5*spoke_width)
+        
+        self.boxes.ctx.restore()
+        self.boxes.move(width, width, move)
 
     def __call__(self, move="", callback=None, **kw):
         """ Calculate Gear factors from inputs.
@@ -517,6 +591,7 @@ class Gears():
                 else:            accuracy_involute = 6
             else:
                 accuracy_involute = self.options.accuracy
+
             accuracy_circular = max(3, int(accuracy_involute/2) - 1) # never less than three
         # print >>self.tty, "accuracy_circular=%s accuracy_involute=%s" % (accuracy_circular, accuracy_involute)
         # Pitch (circular pitch): Length of the arc from one tooth to the next)
@@ -526,7 +601,6 @@ class Gears():
         (pitch_radius, base_radius, addendum, dedendum,
          outer_radius, root_radius, tooth) = gear_calculations(teeth, pitch, angle, clearance, self.options.internal_ring, self.options.profile_shift*0.01)
 
-        s = self.boxes.spacing
         b = self.boxes.burn
         # Add Rack (instead)
         if self.options.drawrack:
@@ -535,24 +609,26 @@ class Gears():
             tooth_count = self.options.teeth_length
             (points, guide_points) = generate_rack_points(tooth_count, pitch, addendum, angle,
                                                           base_height, tab_width, clearance, pitchcircle)
-            width = tooth_count * pitch + 2*tab_width + 2 * s
-            height = base_height+ 2* addendum + 2 * s
+            width = tooth_count * pitch + 2*tab_width
+            height = base_height+ 2* addendum
             if self.boxes.move(width, height, move, before=True):
                 return
+
             self.boxes.cc(callback, None, s+b, s+b)
-            self.boxes.ctx.save()
-            self.boxes.moveTo(width/2.0+s, base_height+s+addendum, -180)
+            self.boxes.moveTo(width/2.0, base_height+addendum, -180)
             self.drawPoints(points)
             self.drawPoints(guide_points, kerfdir=0)
-            self.boxes.ctx.restore()
             self.boxes.move(width, height, move)
+
             return
 
         # Move only
-        width = height = 2 * (outer_radius +s)
+        width = height = 2 * outer_radius
+        if self.options.internal_ring:
+            width = height = width + 2 * self.options.spoke_width
+
         if self.boxes.move(width, height, move, before=True):
             return
-        self.boxes.ctx.save()
 
         # Detect Undercut of teeth
 ##        undercut = int(ceil(undercut_min_teeth( angle )))
@@ -565,6 +641,7 @@ class Gears():
             # alas annotation cannot handle the degree symbol. Also it ignore newlines.
             # so split and make a list
             warnings.extend(msg.split("\n"))
+
             if self.options.undercut_alert:
                 inkex.debug(msg)
             else:
@@ -594,6 +671,7 @@ class Gears():
             self.boxes.moveTo(r, 0)
             self.boxes.ctx.arc(-r, 0, r, 0, 2*pi)
             self.boxes.ctx.restore()
+
         # Add center
         if centercross:
             cs = pitch / 3.0 # centercross length
@@ -608,12 +686,13 @@ class Gears():
         if pitchcircle:
             self.boxes.hole(0, 0, pitch_radius)
 
-
         # Add Annotations (above)
         if self.options.annotation:
             outer_dia = outer_radius * 2
+
             if self.options.internal_ring:
                 outer_dia += 2 * spoke_width
+
             notes = []
             notes.extend(warnings)
             #notes.append('Document (%s) scale conversion = %2.4f' % (self.document.getroot().find(inkex.addNS('namedview', 'sodipodi')).get(inkex.addNS('document-units', 'inkscape')), unit_factor))
@@ -631,11 +710,11 @@ class Gears():
             text_height = max(10, min(10+(outer_dia-60)/24, 22))
             # position above
             y = - outer_radius - (len(notes)+1) * text_height * 1.2
+
             for note in notes:
                 self.boxes.text(note, -outer_radius, y)
                 y += text_height * 1.2
 
-        self.boxes.ctx.restore()
         self.boxes.move(width, height, move)
 
 if __name__ == '__main__':

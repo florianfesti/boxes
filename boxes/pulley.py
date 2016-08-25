@@ -14,11 +14,14 @@
 from math import *
 from boxes.vectors import *
 
+
 def tooth_spaceing_curvefit(teeth, b, c, d):
-    return ((c * teeth**d) / (b + teeth**d)) * teeth
+    return ((c * teeth ** d) / (b + teeth ** d)) * teeth
+
 
 def tooth_spacing(teeth, tooth_pitch, pitch_line_offset):
-    return (2*((teeth*tooth_pitch)/(3.14159265*2)-pitch_line_offset))
+    return (2 * ((teeth * tooth_pitch) / (3.14159265 * 2) - pitch_line_offset))
+
 
 def mirrorx(points):
     return [[-x, y] for x, y in points]
@@ -26,36 +29,37 @@ def mirrorx(points):
 class Pulley:
 
     spacing = {
-        "MXL" : (False, 2.032,0.254),
-        "40DP" : (False, 2.07264,0.1778),
-        "XL" : (False, 5.08,0.254),
-        "H" : (False, 9.525,0.381),
-        "T2_5" : (True, 0.7467,0.796,1.026),
-        "T5" : (True, 0.6523,1.591,1.064),
-        "T10" : (False, 10,0.93),
-        "AT5" : (True, 0.6523,1.591,1.064),
-        "HTD_3mm" : (False, 3,0.381),
-        "HTD_5mm" : (False, 5,0.5715),
-        "HTD_8mm" : (False, 8,0.6858),
-        "GT2_2mm" : (False, 2,0.254),
-        "GT2_3mm" : (False, 3,0.381),
-        "GT2_5mm" : (False, 5,0.5715),
+        "MXL": (False, 2.032, 0.254),
+        "40DP": (False, 2.07264, 0.1778),
+        "XL": (False, 5.08, 0.254),
+        "H": (False, 9.525, 0.381),
+        "T2_5": (True, 0.7467, 0.796, 1.026),
+        "T5": (True, 0.6523, 1.591, 1.064),
+        "T10": (False, 10, 0.93),
+        "AT5": (True, 0.6523, 1.591, 1.064),
+        "HTD_3mm": (False, 3, 0.381),
+        "HTD_5mm": (False, 5, 0.5715),
+        "HTD_8mm": (False, 8, 0.6858),
+        "GT2_2mm": (False, 2, 0.254),
+        "GT2_3mm": (False, 3, 0.381),
+        "GT2_5mm": (False, 5, 0.5715),
     }
+
     profile_data = {
-        "MXL" : (0.508 , 1.321 ),
-        "40DP" : (0.457 , 1.226 ),
-        "XL" : (1.27, 3.051 ),
-        "H" : (1.905 , 5.359 ),
-        "T2_5" : (0.7 , 1.678 ),
-        "T5" : (1.19 , 3.264 ),
-        "T10" : (2.5 , 6.13 ),
-        "AT5" : (1.19 , 4.268 ),
-        "HTD_3mm" : (1.289 , 2.27 ),
-        "HTD_5mm" : (2.199 , 3.781 ),
-        "HTD_8mm" : (3.607 , 6.603 ),
-        "GT2_2mm" : (0.764 , 1.494 ),
-        "GT2_3mm" : (1.169 , 2.31 ),
-        "GT2_5mm" : (1.969 , 3.952 ),
+        "MXL": (0.508, 1.321),
+        "40DP": (0.457, 1.226),
+        "XL": (1.27, 3.051),
+        "H": (1.905, 5.359),
+        "T2_5": (0.7, 1.678),
+        "T5": (1.19, 3.264),
+        "T10": (2.5, 6.13),
+        "AT5": (1.19, 4.268),
+        "HTD_3mm": (1.289, 2.27),
+        "HTD_5mm": (2.199, 3.781),
+        "HTD_8mm": (3.607, 6.603),
+        "GT2_2mm": (0.764, 1.494),
+        "GT2_3mm": (1.169, 2.31),
+        "GT2_5mm": (1.969, 3.952),
     }
 
     teeth = { "MXL" : [[-0.660421,-0.5],[-0.660421,0],[-0.621898,0.006033],[-0.587714,0.023037],[-0.560056,0.049424],[-0.541182,0.083609],[-0.417357,0.424392],[-0.398413,0.458752],[-0.370649,0.48514],[-0.336324,0.502074],[-0.297744,0.508035],[0.297744,0.508035],[0.336268,0.502074],[0.370452,0.48514],[0.39811,0.458752],[0.416983,0.424392],[0.540808,0.083609],[0.559752,0.049424],[0.587516,0.023037],[0.621841,0.006033],[0.660421,0],[0.660421,-0.5]],
@@ -83,20 +87,21 @@ class Pulley:
 
     def drawPoints(self, lines, kerfdir=1):
         if kerfdir != 0:
-            lines = kerf(lines, self.boxes.burn*kerfdir)
+            lines = kerf(lines, self.boxes.burn * kerfdir)
         self.boxes.ctx.save()
         self.boxes.ctx.move_to(*lines[0])
+
         for x, y in lines[1:]:
             self.boxes.ctx.line_to(x, y)
+
         self.boxes.ctx.line_to(*lines[0])
         self.boxes.ctx.restore()
 
     def diameter(self, teeth, profile):
         if self.spacing[profile][0]:
-            return tooth_spaceing_curvefit(
-                teeth, *self.spacing[profile][1:])
-        else:
-            return tooth_spacing(teeth, *self.spacing[profile][1:])
+            return tooth_spaceing_curvefit(teeth, *self.spacing[profile][1:])
+
+        return tooth_spacing(teeth, *self.spacing[profile][1:])
 
     def __call__(self, teeth, profile, move="", r_axle=None, callback=None):
 
@@ -105,33 +110,35 @@ class Pulley:
         # ********************************
         # To improve fit of belt to pulley, set the following constant. Decrease or increase by 0.1mm at a time. We are modelling the *BELT* tooth here, not the tooth on the pulley. Increasing the number will *decrease* the pulley tooth size. Increasing the tooth width will also scale proportionately the tooth depth, to maintain the shape of the tooth, and increase how far into the pulley the tooth is indented. Can be negative
 
-        additional_tooth_width = 0.2 #mm
+        additional_tooth_width = 0.2  # mm
 
         # If you need more tooth depth than this provides, adjust the following constant. However, this will cause the shape of the tooth to change.
-        additional_tooth_depth = 0 #mm
+        additional_tooth_depth = 0  # mm
 
         pulley_OD = self.diameter(teeth, profile)
 
         tooth_depth, tooth_width = self.profile_data[profile]
-        tooth_distance_from_centre = ((pulley_OD/2)**2 - ((tooth_width+additional_tooth_width)/2)**2)**0.5
-        tooth_width_scale = (tooth_width + additional_tooth_width ) / tooth_width
-        tooth_depth_scale = ((tooth_depth + additional_tooth_depth ) / tooth_depth)
+        tooth_distance_from_centre = ((pulley_OD / 2) ** 2 - ((tooth_width + additional_tooth_width) / 2) ** 2) ** 0.5
+        tooth_width_scale = (tooth_width + additional_tooth_width) / tooth_width
+        tooth_depth_scale = ((tooth_depth + additional_tooth_depth) / tooth_depth)
 
-        total_width = pulley_OD + 2 * self.boxes.spacing
+        total_width = pulley_OD
+
         if self.boxes.move(total_width, total_width, move, before=True):
             return
-        self.boxes.ctx.save()
-        self.boxes.moveTo(total_width/2, total_width/2)
+
+        self.boxes.moveTo(total_width / 2, total_width / 2)
         self.boxes.cc(callback, None, 0.0, 0.0)
+
         if r_axle:
             self.boxes.hole(0, 0, r_axle)
+
         points = []
-        for i  in range(teeth):
+        for i in range(teeth):
             m = [[tooth_width_scale, 0, 0],
                  [0, tooth_depth_scale, -tooth_distance_from_centre]]
-            m = mmul(m, rotm(i*2*pi/teeth))
+            m = mmul(m, rotm(i * 2 * pi / teeth))
             points.extend((vtransl(pt, m) for pt in self.teeth[profile][1:-1]))
-        self.drawPoints(points)
 
-        self.boxes.ctx.restore()
+        self.drawPoints(points)
         self.boxes.move(total_width, total_width, move)

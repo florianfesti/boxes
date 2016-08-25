@@ -16,8 +16,11 @@
 
 from boxes import *
 
-class Box(Boxes):
+class BOX(Boxes): # change class name here and below
     """DESCRIPTION"""
+    
+    webinterface = False # Change to make visible in web interface
+
     def __init__(self):
         Boxes.__init__(self)
         # remove cli params you do not need
@@ -53,7 +56,7 @@ class Box(Boxes):
         self.close()
 
 def main():
-    b = Box()
+    b = BOX() # change to class name
     b.parseArgs()
     b.render()
 

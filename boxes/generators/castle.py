@@ -16,7 +16,9 @@
 
 from boxes import *
 
+
 class Castle(Boxes):
+    webinterface = False
 
     def __init__(self):
         Boxes.__init__(self)
@@ -24,21 +26,21 @@ class Castle(Boxes):
     def render(self, t_x=70, t_h=250, w1_x=300, w1_h=120, w2_x=100, w2_h=120):
         self.open()
         s = edges.FingerJointSettings(self.thickness, relative=False,
-                                      space = 10, finger=10, height=10,
+                                      space=10, finger=10, height=10,
                                       width=self.thickness)
+
         p = edges.FingerJointEdge(self, s)
         p.char = "p"
         self.addPart(p)
+
         P = edges.FingerJointEdgeCounterPart(self, s)
         P.char = "P"
         self.addPart(P)
 
-        self.moveTo(0,0)
-        self.rectangularWall(t_x, t_h, edges="efPf", move="right", callback=
-            [lambda: self.fingerHolesAt(t_x*0.5, 0, w1_h, 90),])
+        self.moveTo(0, 0)
+        self.rectangularWall(t_x, t_h, edges="efPf", move="right", callback=[lambda: self.fingerHolesAt(t_x * 0.5, 0, w1_h, 90), ])
         self.rectangularWall(t_x, t_h, edges="efPf", move="right")
-        self.rectangularWall(t_x, t_h, edges="eFPF", move="right", callback=
-            [lambda: self.fingerHolesAt(t_x*0.5, 0, w2_h, 90),])
+        self.rectangularWall(t_x, t_h, edges="eFPF", move="right", callback=[lambda: self.fingerHolesAt(t_x * 0.5, 0, w2_h, 90), ])
         self.rectangularWall(t_x, t_h, edges="eFPF", move="right")
 
         self.rectangularWall(w1_x, w1_h, "efpe", move="right")
@@ -46,10 +48,12 @@ class Castle(Boxes):
 
         self.close()
 
+
 def main():
     c = Castle()
     c.parseArgs()
     c.render()
+
 
 if __name__ == '__main__':
     main()

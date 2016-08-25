@@ -14,58 +14,70 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import math
 
+
 def normalize(v):
     "set lenght of vector to one"
-    l = (v[0]**2+v[1]**2)**0.5
-    return (v[0]/l, v[1]/l)
+    l = (v[0] ** 2 + v[1] ** 2) ** 0.5
+    return (v[0] / l, v[1] / l)
+
 
 def vlength(v):
-    return (v[0]**2+v[1]**2)**0.5
+    return (v[0] ** 2 + v[1] ** 2) ** 0.5
+
 
 def vclip(v, length):
     l = vlength(v)
     if l > length:
-        return vscalmul(v, length/l)
+        return vscalmul(v, length / l)
     return v
+
 
 def vdiff(p1, p2):
     "vector from point1 to point2"
-    return (p2[0]-p1[0], p2[1]-p1[1])
+    return (p2[0] - p1[0], p2[1] - p1[1])
+
 
 def vadd(v1, v2):
     "Sum of two vectors"
-    return (v1[0]+ v2[0], v1[1]+v2[1])
+    return (v1[0] + v2[0], v1[1] + v2[1])
+
 
 def vorthogonal(v):
     "orthogonal vector"
     "Orthogonal vector"
     return (-v[1], v[0])
 
+
 def vscalmul(v, a):
     "scale vector by a"
-    return (a*v[0], a*v[1])
+    return (a * v[0], a * v[1])
+
 
 def dotproduct(v1, v2):
     "Dot product"
-    return v1[0]*v2[0]+v1[1]*v2[1]
+    return v1[0] * v2[0] + v1[1] * v2[1]
+
 
 def rotm(angle):
     "Rotation matrix"
     return [[math.cos(angle), -math.sin(angle), 0],
             [math.sin(angle), math.cos(angle), 0]]
 
+
 def vtransl(v, m):
     m0, m1 = m
-    return [m0[0]*v[0]+m0[1]*v[1]+m0[2],
-            m1[0]*v[0]+m1[1]*v[1]+m1[2]]
+    return [m0[0] * v[0] + m0[1] * v[1] + m0[2],
+            m1[0] * v[0] + m1[1] * v[1] + m1[2]]
+
 
 def mmul(m0, m1):
-    result = [[0,]*len(m0[0]) for i in range(len(m0))]
+    result = [[0, ] * len(m0[0]) for i in range(len(m0))]
     for i in range(len(m0[0])):
         for j in range(len(m0)):
             for k in range(len(m0)):
                 result[j][i] += m0[k][i] * m1[j][k]
     return result
+
 
 def kerf(points, k):
     """Outset points by k
@@ -73,13 +85,15 @@ def kerf(points, k):
     """
     result = []
     lp = len(points)
+
     for i in range(len(points)):
         # get normalized orthogonals of both segments
-        v1 = vorthogonal(normalize(vdiff(points[i-1], points[i])))
-        v2 = vorthogonal(normalize(vdiff(points[i], points[(i+1) % lp])))
+        v1 = vorthogonal(normalize(vdiff(points[i - 1], points[i])))
+        v2 = vorthogonal(normalize(vdiff(points[i], points[(i + 1) % lp])))
         # direction the point has to move
         d = normalize(vadd(v1, v2))
         # cos of the half the angle between the segments
         cos_alpha = dotproduct(v1, d)
-        result.append(vadd(points[i], vscalmul(d, -k/cos_alpha)))
+        result.append(vadd(points[i], vscalmul(d, -k / cos_alpha)))
+
     return result

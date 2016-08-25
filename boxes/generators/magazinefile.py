@@ -16,25 +16,28 @@
 
 from boxes import *
 
-class Box(Boxes):
+
+class MagazinFile(Boxes):
     """Open magazine file"""
+
     def __init__(self):
         Boxes.__init__(self)
         self.buildArgParser("x", "y", "h", "hi", "outside")
         self.argparser.set_defaults(
             fingerjointfinger=2.0,
             fingerjointspace=2.0
-            )
+        )
 
     def side(self, w, h, hi):
-        r = min(h-hi, w) / 2.0
-        if (h-hi) > w:
+        r = min(h - hi, w) / 2.0
+
+        if (h - hi) > w:
             r = w / 2.0
             lx = 0
-            ly = (h-hi) - w
+            ly = (h - hi) - w
         else:
             r = (h - hi) / 2.0
-            lx = (w - 2*r) / 2.0
+            lx = (w - 2 * r) / 2.0
             ly = 0
 
         e_w = self.edges["F"].startwidth()
@@ -51,15 +54,15 @@ class Box(Boxes):
         self.corner(-90, r)
         self.edge(ly)
         self.corner(90, r)
-        self.edge(lx)        
+        self.edge(lx)
         self.edge(e_w)
         self.corner(90)
         self.edges["F"](h)
         self.edge(e_w)
         self.corner(90)
 
-
     def render(self):
+
         if self.outside:
             self.x = self.adjustSize(self.x)
             self.y = self.adjustSize(self.y)
@@ -80,15 +83,17 @@ class Box(Boxes):
 
         self.rectangularWall(x, h, "Ffef", move="right only")
         self.side(y, h, hi)
-        self.moveTo(y+15, h+hi+15, 180)
+        self.moveTo(y + 15, h + hi + 15, 180)
         self.side(y, h, hi)
 
         self.close()
 
+
 def main():
-    b = Box()
+    b = MagazinFile()
     b.parseArgs()
     b.render()
+
 
 if __name__ == '__main__':
     main()

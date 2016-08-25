@@ -25,13 +25,6 @@ except ImportError:
     sys.path.append(os.path.dirname(__file__) + "/..")
     import boxes.generators
 
-
-from boxes.generators import box, box2, box3, drillbox
-from boxes.generators import flexbox, flexbox2, flexbox3, flexbox4
-from boxes.generators import flextest, flextest2, folder, pulley
-from boxes.generators import magazinefile, trayinsert, traylayout, typetray, silverwarebox
-
-
 class FileChecker(threading.Thread):
     def __init__(self, files=[], checkmodules=True):
         super(FileChecker, self).__init__()
@@ -76,26 +69,8 @@ boxes.ArgumentParser = ThrowingArgumentParser # Evil hack
 
 class BServer:
     def __init__(self):
-        self.boxes = {
-            "Box" : box.Box(),
-            "Box2" : box2.Box(),
-            "Box3" : box3.Box(),
-            "DrillBox" : drillbox.Box(),
-            "FlexBox" : flexbox.FlexBox(),
-            "FlexBox2" : flexbox2.FlexBox(),
-            "FlexBox3" : flexbox3.FlexBox(),
-            "FlexBox4" : flexbox4.FlexBox(),
-            "FlexTest": flextest.FlexTest(),
-            "FlexTest2": flextest2.FlexTest(),
-            "Folder": folder.Folder(),
-            "MagazinFile" : magazinefile.Box(),
-            "TrayInsert" : trayinsert.TrayInsert(),
-            "Pulley" : pulley.Pulley(),
-            "TypeTray" : typetray.TypeTray(),
-            "SilverwareBox" : silverwarebox.Silverware(),
-            "TrayLayout" : traylayout.LayoutGenerator(),
-            "TrayLayout2" : traylayout.Layout(webargs=True),
-            }
+        self.boxes = {b.__name__ : b() for b in boxes.generators.getAllBoxGenerators().values() if b.webinterface}
+
     def arg2html(self, a):
         name = a.option_strings[0].replace("-", "")
         if isinstance(a, argparse._HelpAction):
@@ -128,7 +103,7 @@ class BServer:
         result = ["""<html><head><title>Boxes - """, name, """</title></head>
 <body>
         <h1>""", name, """</h1>
-        <p>""", box.__doc__, """</p>
+        <p>""", box.__doc__ or "", """</p>
 <form action="%s" method="GET" target="_blank">
 <table>
         """ % (action)]

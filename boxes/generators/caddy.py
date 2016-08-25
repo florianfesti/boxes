@@ -19,8 +19,8 @@ from boxes import *
 
 class RoundedTriangleEdgeSettings(edges.Settings):
     absolute_params = {
-        "height" : 100,
-        "radius" : 20,
+        "height" : 150,
+        "radius" : 30,
         "r_hole" : None,
         }
 
@@ -68,9 +68,9 @@ class Caddy(Boxes):
         self.buildArgParser("x", "y", "h", "outside")
 
         #Nice size for a 6-pack of 355ml (12oz) bottles, try making inserts with
-        #> ./trayinsert.py --sx 207/3 --sy 136/2 --h 90 --thickness 6
+        #> ./trayinsert.py --sx 200/3 --sy 135/2 --h 90 --thickness 5
         self.argparser.set_defaults(
-            x=207, y=136, h=100,
+            x=210, y=140, h=100,
             fingerjointfinger=3.0,
             fingerjointspace=3.0
             )

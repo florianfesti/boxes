@@ -1202,3 +1202,47 @@ class Boxes:
         self.ctx.stroke()
 
         self.move(overallwidth, overallheight, move)
+
+    def rectangularTriangle(self, x, y, edges="ee",
+                        bedBolts=None, bedBoltSettings=None,
+                        callback=None,
+                        move=None):
+        """
+        Rectangular triangular wall
+
+        :param x: width
+        :param y: height
+        :param edges:  (Default value = "ee") bottom, right
+        :param bedBolts:  (Default value = None)
+        :param bedBoltSettings:  (Default value = None)
+        :param callback:  (Default value = None)
+        :param move:  (Default value = None)
+
+        """
+        if len(edges) != 2:
+            raise ValueError("two edges required")
+        edges = [self.edges.get(e, e) for e in edges]
+        edges.append(self.edges["e"])  # append for wrapping around
+        overallwidth = x + edges[-1].spacing() + edges[1].spacing()
+        overallheight = y + edges[0].spacing() + edges[2].spacing()
+        alpha = math.degrees(math.atan(y/float(x)))
+
+        if self.move(overallwidth, overallheight, move, before=True):
+            return
+
+        self.moveTo(edges[-1].spacing(), edges[0].margin())
+        for i, l in enumerate((x, y)):
+            self.cc(callback, i, y=edges[i].startwidth() + self.burn)
+            edges[i](l,
+                     bedBolts=self.getEntry(bedBolts, i),
+                     bedBoltSettings=self.getEntry(bedBoltSettings, i))
+            self.edgeCorner(edges[i], edges[i + 1], 90)
+
+        self.corner(alpha)
+        self.cc(callback, 2)
+        self.edge((x**2+y**2)**0.5)
+        self.corner(180-alpha)
+
+        self.ctx.stroke()
+
+        self.move(overallwidth, overallheight, move)

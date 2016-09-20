@@ -8,6 +8,9 @@ import os
 import threading
 import time
 
+css = (open('self.css').read())
+
+
 # Python 2 vs Python 3 compat
 try:
     from urllib.parse import unquote_plus
@@ -100,9 +103,43 @@ class BServer:
         return row % input
     
     def args2html(self, name, box, action=""):
-        result = ["""<html><head><title>Boxes - """, name, """</title></head>
+        result = ["""<html><head><title>Boxes - """, name, """</title>
+    <link rel="stylesheet" href="https://necolas.github.io/normalize.css/4.1.1/normalize.css" type="text/css" />
+    <style>
+
+     """, css, """
+
+    </style>
+
+</head>
 <body>
-        <h1>""", name, """</h1>
+
+
+
+<div class="container" style="background-color: #FFF8EA;">
+<div style="width: 70%; float: left;">
+<h1>Boxes.py</h1>
+<p>
+A Python based generator for laser cut boxes and other things.
+</p>
+<p>It features both finished parametrized generators as well as a Python API
+for writing your own scripts. It features finger and (flat) dovetail joints,
+flex cuts, holes and slots for screws and more high level functions.
+</p>
+</div>
+<div style="width: 30%; float: left;">
+<img alt="self-Logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Gray_shaded_3D_cube.svg/2000px-Gray_shaded_3D_cube.svg.png" width="300px" >
+</div>
+<div>
+<div class="clear"></div>
+<hr />
+<div style="width: 100%; float: left;">
+
+
+
+
+
+        <h2 style="font-size: 1em; margin: 0px; "> <a href="/">generators</a></h2><h2 style="margin: 0px 0px 0px 20px;" > <span style="margin-right: 10px;"> >> <span>""", name, """</h2>
         <p>""", box.__doc__ or "", """</p>
 <form action="%s" method="GET" target="_blank">
 <table>
@@ -116,15 +153,66 @@ class BServer:
         result.append("""</table>
 <p><button name="render" value="1">Generate</button></p>
 </form>
+
+
+
+
+
+</div>
+<!--
+<div style="width: 5%; float: left;"></div>
+<div style="width: 35%; float: left;">
+<img alt="sample" src="examples/box.svg" width="300px" >
+<span id="sicherheitshinweise">hier kommt dann der AJAX-Inhalt</span>
+</div>
+-->
+<div class="clear"></div>
+<hr />
+</div>
+</div>
+
+<div class="footer container">
+<ul>
+ <li><a href="https://github.com/florianfesti/boxes">Get Source at GitHub</a></li>
+ <li><a href="http://florianfesti.github.io/boxes/html/index.html">Documentation and API Description</a></li>
+ <li><a href="https://hackaday.io/project/10649-boxespy">Hackaday.io Project Page</a></li>
+</ul>
+</div>
+
+
+
+
 </body>
 </html>
 """)
         return (s.encode("utf-8") for s in result)
         
     def menu(self):
+        
         result = ["""<html>
-<head><title>Boxes.py</title></head>
+<head><title>Boxes.py</title>
+    <link rel="stylesheet" href="https://necolas.github.io/normalize.css/4.1.1/normalize.css" type="text/css" />
+   <style>
+
+     """, css, """
+
+    </style>
+          <script>
+  		function change(img_link){
+  				var img = img_link.firstChild.innerHTML;
+  				//alert(img);
+				document.getElementById("sample").src= "examples/" + img + ".svg";
+				
+				}
+				
+		function changeback(img_link){
+				document.getElementById("sample").src= "examples/" + img + ".svg";
+				}
+        </script>
+</head>
 <body>
+<div class="container" style="background-color: #FFF8EA;">
+<div style="width: 70%; float: left;">
 <h1>Boxes.py</h1>
 <p>
 A Python based generator for laser cut boxes and other things.
@@ -133,6 +221,18 @@ A Python based generator for laser cut boxes and other things.
 for writing your own scripts. It features finger and (flat) dovetail joints,
 flex cuts, holes and slots for screws and more high level functions.
 </p>
+
+
+</div>
+<div style="width: 30%; float: left;">
+<img alt="self-Logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Gray_shaded_3D_cube.svg/2000px-Gray_shaded_3D_cube.svg.png" width="300px" >
+</div>
+<div>
+<div class="clear"></div>
+<hr />
+<div style="width: 100%; float: left;">
+
+
 <p>These are the available generators:</p>
 <ul>
 """ ]
@@ -146,10 +246,36 @@ flex cuts, holes and slots for screws and more high level functions.
             result.append("""  <li><a href="%s">%s</a>%s</li>""" % (
                 name, name, docs))
         result.append("""</ul>
+
+
+
+</div>
+
+<!--
+<div style="width: 5%; float: left;"></div>
+<div style="width: 55%; float: left;">
+<img id="sample" src="examples/box.svg" alt="Sample Image" />
+</div>
+-->
+
+<div class="clear"></div>
+<hr />
+</div>
+</div>
+
+<div class="footer container">
+
+
+
 <ul>
  <li><a href="https://github.com/florianfesti/boxes">Get Source at GitHub</a></li>
  <li><a href="http://florianfesti.github.io/boxes/html/index.html">Documentation and API Description</a></li>
  <li><a href="https://hackaday.io/project/10649-boxespy">Hackaday.io Project Page</a></li>
+</ul>
+
+</div>
+
+ 
 </body>
 </html>
 """)
@@ -177,7 +303,8 @@ flex cuts, holes and slots for screws and more high level functions.
         if not box:
             start_response(status, headers)
             return self.menu()
-
+      
+			
         args = ["--"+arg for arg in environ['QUERY_STRING'].split("&")]
         if "--render=1" not in args:
             start_response(status, headers)
@@ -223,3 +350,5 @@ if __name__=="__main__":
     httpd.serve_forever()
 else:
     application = BServer().serve
+
+	

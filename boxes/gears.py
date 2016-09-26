@@ -525,7 +525,7 @@ class Gears():
         return pitch_radius, 2*outer_radius, 2*outer_radius
 
     def gearCarrier(self, r, spoke_width, positions, mount_radius, mount_hole, circle=True, move=None):
-        width = (r+spoke_width)*2
+        width = 2*r+spoke_width
 
         if self.boxes.move(width, width, move, before=True):
             return

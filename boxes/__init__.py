@@ -625,7 +625,7 @@ class Boxes:
         """
         if positive:
             if reverse:
-                self.edge(length / 2.0 - self.burn)
+                self.edge(length / 2.0)
             self.corner(-90)
             self.edge(self.thickness)
             self.corner(90)
@@ -634,7 +634,7 @@ class Boxes:
             self.edge(self.thickness)
             self.corner(-90)
             if not reverse:
-                self.edge(length / 2.0 - self.burn)
+                self.edge(length / 2.0)
         else:
             if reverse:
                 self._latchGrip(length)

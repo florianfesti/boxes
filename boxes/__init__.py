@@ -97,7 +97,7 @@ class NutHole:
         "M4": (7, 3.2),
         "M5": (8, 4.7),
         "M6": (10, 5.2),
-        "M8": (13, 6.8),
+        "M8": (13.7, 6.8),
         "M10": (16, 8.4),
         "M12": (18, 10.8),
         "M14": (21, 12.8),
@@ -1203,7 +1203,7 @@ class Boxes:
 
         self.move(overallwidth, overallheight, move)
 
-    def rectangularTriangle(self, x, y, edges="ee",
+    def rectangularTriangle(self, x, y, edges="eee", num=1,
                         bedBolts=None, bedBoltSettings=None,
                         callback=None,
                         move=None):
@@ -1212,37 +1212,60 @@ class Boxes:
 
         :param x: width
         :param y: height
-        :param edges:  (Default value = "ee") bottom, right
+        :param edges:  (Default value = "eee") bottom, right[, diagonal]
+        :param num: (Default value = 1) number of triangles
         :param bedBolts:  (Default value = None)
         :param bedBoltSettings:  (Default value = None)
         :param callback:  (Default value = None)
         :param move:  (Default value = None)
 
         """
-        if len(edges) != 2:
-            raise ValueError("two edges required")
         edges = [self.edges.get(e, e) for e in edges]
-        edges.append(self.edges["e"])  # append for wrapping around
-        overallwidth = x + edges[-1].spacing() + edges[1].spacing()
-        overallheight = y + edges[0].spacing() + edges[2].spacing()
+        if len(edges) == 2:
+            edges.append(self.edges["e"])
+        if len(edges) != 3:
+            raise ValueError("two or three edges required")
+
+        width = x + edges[-1].spacing() + edges[1].spacing()
+        height = y + edges[0].spacing() + edges[2].spacing()
+        if num > 1:
+            width += edges[-1].spacing() + edges[1].spacing() + 2*self.spacing
+            height += edges[0].spacing() + edges[2].spacing() + self.spacing
+
+        overallwidth = width * (num // 2 + num % 2)
+        overallheight = height
+
         alpha = math.degrees(math.atan(y/float(x)))
 
         if self.move(overallwidth, overallheight, move, before=True):
             return
 
-        self.moveTo(edges[-1].spacing(), edges[0].margin())
-        for i, l in enumerate((x, y)):
-            self.cc(callback, i, y=edges[i].startwidth() + self.burn)
-            edges[i](l,
-                     bedBolts=self.getEntry(bedBolts, i),
-                     bedBoltSettings=self.getEntry(bedBoltSettings, i))
-            self.edgeCorner(edges[i], edges[i + 1], 90)
+        if num > 1:
+            self.moveTo(self.spacing + edges[-1].spacing())
 
-        self.corner(alpha)
-        self.cc(callback, 2)
-        self.edge((x**2+y**2)**0.5)
-        self.corner(180-alpha)
+        for n in range(num):
+            self.moveTo(edges[-1].spacing()+self.spacing, edges[0].margin())
+            if n % 2 == 1:
+                self.moveTo(2*edges[1].spacing()+self.spacing, 0)
+            if num > 1:
+                self.moveTo(edges[1].spacing(), 0)
+            for i, l in enumerate((x, y)):
+                self.cc(callback, i, y=edges[i].startwidth() + self.burn)
+                edges[i](l,
+                         bedBolts=self.getEntry(bedBolts, i),
+                         bedBoltSettings=self.getEntry(bedBoltSettings, i))
+                self.edgeCorner(edges[i], edges[i + 1], 90)
 
-        self.ctx.stroke()
+            self.corner(alpha)
+            self.cc(callback, 2)
+            edges[2]((x**2+y**2)**0.5)
+            self.corner(180-alpha)
+            self.ctx.stroke()
+
+            if n % 2:
+                self.moveTo(-edges[1].spacing()-2*self.spacing-edges[-1].spacing(), height-edges[1].spacing(), 180)
+            else:
+                self.moveTo(width+1*edges[1].spacing()-self.spacing-2*edges[-1].spacing(), height-edges[1].spacing(), 180)
+
 
         self.move(overallwidth, overallheight, move)

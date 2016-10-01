@@ -386,6 +386,9 @@ class Gears():
 
     def drawPoints(self, lines, kerfdir=1):
 
+        if not lines:
+            return
+
         if kerfdir != 0:
             lines = kerf(lines, self.boxes.burn*kerfdir)
 
@@ -614,7 +617,7 @@ class Gears():
             if self.boxes.move(width, height, move, before=True):
                 return
 
-            self.boxes.cc(callback, None, s+b, s+b)
+            self.boxes.cc(callback, None)
             self.boxes.moveTo(width/2.0, base_height+addendum, -180)
             self.drawPoints(points)
             self.drawPoints(guide_points, kerfdir=0)

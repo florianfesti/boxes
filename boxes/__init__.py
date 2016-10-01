@@ -1269,3 +1269,49 @@ class Boxes:
 
 
         self.move(overallwidth, overallheight, move)
+
+    ##################################################
+    ### Place Parts
+    ##################################################
+
+    def partsMatrix(self, n, width, move, part, *l, **kw):
+
+        rows = n//width + (1 if n % width else 0)
+
+        if not move:
+            move = ""
+        move = move.split()
+
+        #move down / left before
+        for m in move:
+            if m == "left":
+                kw["move"] = "left only"
+                for i in range(width):
+                    part(*l, **kw)
+            if m == "down":
+                kw["move"] = "down only"
+                for i in range(rows):
+                    part(*l, **kw)
+        # draw matrix
+        for i in range(rows):
+            self.ctx.save()
+            for j in range(width):
+                if width*i+j >= n:
+                    break
+                kw["move"] = "right"
+                part(*l, **kw)
+            self.ctx.restore()
+            kw["move"] = "up only"
+            part(*l, **kw)
+
+        # Move back down
+        if "up" not in move:
+            kw["move"] = "down only"
+            for i in range(rows):
+                part(*l, **kw)
+
+        # Move right
+        if "right" in move:
+            kw["move"] = "right only"
+            for i in range(n):
+                part(*l, **kw)

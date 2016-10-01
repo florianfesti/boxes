@@ -183,8 +183,8 @@ def generate_rack_points(tooth_count, pitch, addendum, pressure_angle,
 
     # Draw line representing the pitch circle of infinite diameter
     guide_path = None
+    p = []
     if draw_guides:
-        p = []
         p.append( (x_lhs + 0.5 * tab_length, 0) )
         p.append( (x_rhs - 0.5 * tab_length, 0) )
 

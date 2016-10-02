@@ -57,6 +57,8 @@ def dotproduct(v1, v2):
     "Dot product"
     return v1[0] * v2[0] + v1[1] * v2[1]
 
+def circlepoint(r, a):
+    return (r * math.cos(a), r * math.sin(a))
 
 def rotm(angle):
     "Rotation matrix"

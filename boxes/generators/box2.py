@@ -123,6 +123,8 @@ class Box2(Boxes):
 
         if self.top_edge == "c":
             self.rectangularWall(x, y, "CCCC", bedBolts=[d2, d3, d2, d3], move="up")
+        elif self.top_edge == "f":
+            self.rectangularWall(x, y, "FFFF", move="up")
         elif self.top_edge == "i":
             self.rectangularWall(x, y, "IEJe", move="up")
         elif self.top_edge == "k":

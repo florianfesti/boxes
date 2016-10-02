@@ -288,7 +288,7 @@ class Boxes:
             elif arg == "top_edge":
                 self.argparser.add_argument(
                     "--top_edge", action="store",
-                    type=ArgparseEdgeType("ecESik"), choices=list("ecESik"),
+                    type=ArgparseEdgeType("ecESikf"), choices=list("ecESikf"),
                     default="e", help="edge type for top edge")
             elif arg == "outside":
                 self.argparser.add_argument(

@@ -4,11 +4,11 @@ import sys
 import argparse
 import cgi
 import tempfile
-import os
+import os.path
 import threading
 import time
 
-css = (open('self.css').read())
+css = (open(os.path.join(os.path.dirname(__file__), 'self.css')).read())
 
 
 # Python 2 vs Python 3 compat

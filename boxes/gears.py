@@ -384,13 +384,13 @@ class Gears():
                                      dest="undercut_alert", default=False,
                                      help="Let the user confirm a warning dialog if undercut occurs. This dialog also shows helpful hints against undercut")
 
-    def drawPoints(self, lines, kerfdir=1):
+    def drawPoints(self, lines, kerfdir=1, close=True):
 
         if not lines:
             return
 
         if kerfdir != 0:
-            lines = kerf(lines, self.boxes.burn*kerfdir)
+            lines = kerf(lines, self.boxes.burn*kerfdir, closed=close)
 
         self.boxes.ctx.save()
         self.boxes.ctx.move_to(*lines[0])
@@ -398,7 +398,8 @@ class Gears():
         for x, y in lines[1:]:
             self.boxes.ctx.line_to(x, y)
 
-        self.boxes.ctx.line_to(*lines[0])
+        if close:
+            self.boxes.ctx.line_to(*lines[0])
         self.boxes.ctx.restore()
 
     def calc_circular_pitch(self):

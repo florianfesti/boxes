@@ -18,6 +18,8 @@ import math
 def normalize(v):
     "set lenght of vector to one"
     l = (v[0] ** 2 + v[1] ** 2) ** 0.5
+    if l == 0.0:
+        return (0.0, 0.0)
     return (v[0] / l, v[1] / l)
 
 

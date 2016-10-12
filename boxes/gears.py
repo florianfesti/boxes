@@ -147,15 +147,16 @@ def generate_rack_points(tooth_count, pitch, addendum, pressure_angle,
     # nicely with the spur gear.
     # -0.5*spacing has a gap in the center.
     # +0.5*spacing has a tooth in the center.
-    fudge = +0.5 * spacing
+
+    if tab_length <= 0.0:
+        tab_length = 1E-8
 
     tas  = tan(radians(pressure_angle)) * addendum
     tasc = tan(radians(pressure_angle)) * (addendum+clearance)
     base_top = addendum+clearance
     base_bot = addendum+clearance+base_height
 
-    x_lhs = -pitch * int(0.5*tooth_count-.5) - spacing - tab_length - tasc + fudge
-
+    x_lhs = -pitch * 0.5*tooth_count - tab_length
     # Start with base tab on LHS
     points = [] # make list of points
     points.append((x_lhs, base_bot))
@@ -173,9 +174,8 @@ def generate_rack_points(tooth_count, pitch, addendum, pressure_angle,
         points.append((x+spacing+tasc, base_top)) 
         x += pitch
 
-    x -= spacing # remove last adjustment
     # add base on RHS
-    x_rhs = x+tasc+tab_length
+    x_rhs = x - tasc + tab_length
     points.append((x_rhs, base_top))
     points.append((x_rhs, base_bot))
     # We don't close the path here. Caller does it.
@@ -427,6 +427,7 @@ class Gears():
             - mount_radius is adjusted so that spokes fit if there is room
             - if no room (collision) then spokes not drawn
         """
+
         # Spokes
         collision = False # assume we draw spokes
         messages = []     # messages to send back about changes.
@@ -613,14 +614,16 @@ class Gears():
             tooth_count = self.options.teeth_length
             (points, guide_points) = generate_rack_points(tooth_count, pitch, addendum, angle,
                                                           base_height, tab_width, clearance, pitchcircle)
-            width = tooth_count * pitch + 2*tab_width
-            height = base_height+ 2* addendum
+            width = tooth_count * pitch + 2 * tab_width
+            height = base_height + 2 * addendum
             if self.boxes.move(width, height, move, before=True):
                 return
 
             self.boxes.cc(callback, None)
             self.boxes.moveTo(width/2.0, base_height+addendum, -180)
-            self.drawPoints(points)
+            if base_height < 0:
+                points = points[1:-1]
+            self.drawPoints(points, close=base_height >= 0)
             self.drawPoints(guide_points, kerfdir=0)
             self.boxes.move(width, height, move)
 

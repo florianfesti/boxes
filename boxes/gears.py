@@ -428,6 +428,9 @@ class Gears():
             - if no room (collision) then spokes not drawn
         """
 
+        if not spokes:
+            return []
+
         # Spokes
         collision = False # assume we draw spokes
         messages = []     # messages to send back about changes.

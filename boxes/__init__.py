@@ -373,6 +373,8 @@ class Boxes:
         self.addPart(NutHole(self, None))
         # Gears
         self.addPart(gears.Gears(self))
+        s = edges.GearSettings(self.thickness)
+        self.addPart(edges.RackEdge(self, s))
         self.addPart(pulley.Pulley(self))
         self.addPart(parts.Parts(self))
 

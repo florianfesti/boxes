@@ -32,7 +32,8 @@ class MagazinFile(Boxes):
         '''Draws a magazine file side with a classic Ogee curve
         consisting of two opposing 60deg arcs along the line from
         the front hi to h. Details from Chris Schwarz: 
-        https://goo.gl/cyIT5V'''
+        https://goo.gl/cyIT5V
+        # TODO: generalized and make arc=60 a parameter'''
         r = min(h - hi, w) / 2.0
 
         if (h - hi) > w:
@@ -48,7 +49,7 @@ class MagazinFile(Boxes):
         slant = math.hypot(w, h-hi)
         
         e_w = self.edges["F"].startwidth()
-        self.moveTo(3, 3)
+        self.moveTo(3, 0)
         self.edge(e_w)
         self.edges["F"](w)
         self.edge(e_w)
@@ -66,10 +67,12 @@ class MagazinFile(Boxes):
         # 3) Draw another 60deg arc the opposite way
         # 4) Turn the turtle so he faces horizontally
         # 5) Draw one thickness to the back
-        self.corner(theta-60)
-        self.corner(-60, slant/2)
-        self.corner(60, slant/2)
-        self.corner(60-theta)
+        arc = 60
+        print(theta, theta-arc)
+        self.corner(theta-arc)
+        self.corner(-arc, slant/2)
+        self.corner(arc, slant/2)
+        self.corner(arc-theta)
         self.edge(e_w)
 
         self.corner(90)
@@ -77,6 +80,8 @@ class MagazinFile(Boxes):
         self.edge(e_w)
         self.corner(90)
 
+        # Closes the group ?
+        self.ctx.stroke()
  
     def render(self):
 
@@ -100,7 +105,7 @@ class MagazinFile(Boxes):
 
         self.rectangularWall(x, h, "Ffef", move="right only")
         self.side_ogee(y, h, hi)
-        self.moveTo(y + 15, h + hi + 15, 180)
+        self.moveTo(y + 12, h + hi + 12, 180)
         self.side_ogee(y, h, hi)
 
         self.close()

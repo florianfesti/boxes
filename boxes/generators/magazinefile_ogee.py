@@ -28,12 +28,15 @@ class MagazinFile(Boxes):
             fingerjointspace=2.0
         )
 
-    def side_ogee(self, w, h, hi):
+        self.argparser.add_argument(
+            "--arc",  action="store", type=float, default=60,
+            dest="arc", help="Curvature of the sides in degree")
+
+    def side_ogee(self, w, h, hi, arc):
         '''Draws a magazine file side with a classic Ogee curve
         consisting of two opposing 60deg arcs along the line from
         the front hi to h. Details from Chris Schwarz: 
-        https://goo.gl/cyIT5V
-        # TODO: generalized and make arc=60 a parameter'''
+        https://goo.gl/cyIT5V'''
         r = min(h - hi, w) / 2.0
 
         if (h - hi) > w:
@@ -47,9 +50,9 @@ class MagazinFile(Boxes):
 
         theta = math.degrees(math.atan(w / (h-hi)))
         slant = math.hypot(w, h-hi)
-        
+
         e_w = self.edges["F"].startwidth()
-        self.moveTo(3, 0)
+        self.moveTo(3, 3)
         self.edge(e_w)
         self.edges["F"](w)
         self.edge(e_w)
@@ -57,25 +60,22 @@ class MagazinFile(Boxes):
         self.edge(e_w)
         self.edges["F"](hi)
 
-        # The courner at the top of 'hi' and 
+        # The corner at the top of 'hi' and
         # draw one thickness horizontally
         self.corner(90)
         self.edge(e_w)
-        
-        arc = 90 # TODO: set from command line
-        
+
         # secant length for the given arc
         c = 2*math.sin((arc/2)*(math.pi/180))
-        #print(theta, arc, c)
-        
-        # starts pointing west, turn north, 
+
+        # starts pointing west, turn north,
         # then angle to the desired average slope
         # the pre-turn for half the given arc
         self.corner(-90)
         self.corner(theta)
         self.corner(arc/2)
         
-        # Draw the curves, first one way then the other
+        # Draw the curves. First one way, then the other
         self.corner(-arc, slant/(2*c))
         self.corner(arc, slant/(2*c))
 
@@ -94,7 +94,7 @@ class MagazinFile(Boxes):
 
         # Closes the group ?
         self.ctx.stroke()
- 
+
     def render(self):
 
         if self.outside:
@@ -112,13 +112,15 @@ class MagazinFile(Boxes):
         self.rectangularWall(x, h, "Ffef", move="up")
         self.rectangularWall(x, hi, "Ffef", move="up")
 
+        self.moveTo(0, 3) # jog the bottom wall up a bit
         self.rectangularWall(y, x, "ffff")
+
         self.ctx.restore()
 
         self.rectangularWall(x, h, "Ffef", move="right only")
-        self.side_ogee(y, h, hi)
-        self.moveTo(y + 12, h + hi + 12, 180)
-        #self.side_ogee(y, h, hi)
+        self.side_ogee(y, h, hi, self.arc)
+        self.moveTo(y + 15, h + hi + 15, 180)
+        self.side_ogee(y, h, hi, self.arc)
 
         self.close()
 

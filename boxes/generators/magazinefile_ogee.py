@@ -62,17 +62,29 @@ class MagazinFile(Boxes):
         self.corner(90)
         self.edge(e_w)
         
-        # 1) Turn to the calculated heading minus 60deg, 
-        # 2) Draw a 60deg arc for half the length
-        # 3) Draw another 60deg arc the opposite way
-        # 4) Turn the turtle so he faces horizontally
-        # 5) Draw one thickness to the back
-        arc = 60
-        print(theta, theta-arc)
-        self.corner(theta-arc)
-        self.corner(-arc, slant/2)
-        self.corner(arc, slant/2)
-        self.corner(arc-theta)
+        arc = 90 # TODO: set from command line
+        
+        # secant length for the given arc
+        c = 2*math.sin((arc/2)*(math.pi/180))
+        #print(theta, arc, c)
+        
+        # starts pointing west, turn north, 
+        # then angle to the desired average slope
+        # the pre-turn for half the given arc
+        self.corner(-90)
+        self.corner(theta)
+        self.corner(arc/2)
+        
+        # Draw the curves, first one way then the other
+        self.corner(-arc, slant/(2*c))
+        self.corner(arc, slant/(2*c))
+
+        # Reverse the initial turns so it points west again
+        self.corner(-arc/2)
+        self.corner(-theta)
+        self.corner(90)
+        
+        # Draw one thickness to the back edge
         self.edge(e_w)
 
         self.corner(90)
@@ -106,7 +118,7 @@ class MagazinFile(Boxes):
         self.rectangularWall(x, h, "Ffef", move="right only")
         self.side_ogee(y, h, hi)
         self.moveTo(y + 12, h + hi + 12, 180)
-        self.side_ogee(y, h, hi)
+        #self.side_ogee(y, h, hi)
 
         self.close()
 

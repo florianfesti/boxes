@@ -37,20 +37,14 @@ class MagazinFile(Boxes):
         consisting of two opposing 60deg arcs along the line from
         the front hi to h. Details from Chris Schwarz: 
         https://goo.gl/cyIT5V'''
-        r = min(h - hi, w) / 2.0
 
-        if (h - hi) > w:
-            r = w / 2.0
-            lx = 0
-            ly = (h - hi) - w
-        else:
-            r = (h - hi) / 2.0
-            lx = (w - 2 * r) / 2.0
-            ly = 0
-
+        # Calculate the angle and distance between top of h and hi
         theta = math.degrees(math.atan(w / (h-hi)))
         slant = math.hypot(w, h-hi)
 
+        # length of the secant of the given arc
+        secant = (slant/2) / (2*math.sin(math.radians(arc/2)))
+        
         e_w = self.edges["F"].startwidth()
         self.moveTo(3, 3)
         self.edge(e_w)
@@ -65,9 +59,6 @@ class MagazinFile(Boxes):
         self.corner(90)
         self.edge(e_w)
 
-        # secant length for the given arc
-        c = 2*math.sin((arc/2)*(math.pi/180))
-
         # starts pointing west, turn north,
         # then angle to the desired average slope
         # the pre-turn for half the given arc
@@ -76,8 +67,8 @@ class MagazinFile(Boxes):
         self.corner(arc/2)
         
         # Draw the curves. First one way, then the other
-        self.corner(-arc, slant/(2*c))
-        self.corner(arc, slant/(2*c))
+        self.corner(-arc, secant)
+        self.corner(arc, secant)
 
         # Reverse the initial turns so it points west again
         self.corner(-arc/2)

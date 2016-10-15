@@ -539,7 +539,7 @@ class FingerHoles:
             fingers = bedBolts.numFingers(fingers)
             d, d_nut, h_nut, l, l1 = bedBoltSettings or self.boxes.bedBoltSettings
 
-        leftover = length - fingers * (s + f) - f
+        leftover = length - fingers * (s + f) - s
         b = self.boxes.burn
 
         if self.boxes.debug:

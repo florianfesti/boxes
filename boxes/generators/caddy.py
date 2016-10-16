@@ -58,7 +58,7 @@ class Caddy(Boxes):
         Boxes.__init__(self)
 
         self.argparser.add_argument(
-            "--handle_height",  action="store", type=float, default=100,
+            "--handle_height",  action="store", type=float, default=150,
             dest="handle_height", help="distance handle extends past the edge")
 
         self.argparser.add_argument(
@@ -106,7 +106,7 @@ class Caddy(Boxes):
         #
         # Arguments x, y, h are 3D parameters of the box we're making.
         #
-        # TODO: Parameterize foot option (change s -> F for no feet
+        # Todo: Parameterize foot option (change s -> F for no feet
         # or allow e for flat bottom, with s for feet or h for straigt
         # with holes for fingers)
         self.rectangularWall(h, y, "FsFq", move="right")    #handle end
@@ -115,7 +115,7 @@ class Caddy(Boxes):
         self.rectangularWall(x, h, "sfef", move="up left")  #side
         self.rectangularWall(x, h, "efsf")                  #side
         
-        #TODO: Add a slotted Insert
+        #Todo: Add a slotted Insert
 
         self.close()
 

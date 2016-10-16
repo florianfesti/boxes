@@ -31,9 +31,9 @@ class TriangleEdge(edges.Edge):
         h = self.settings.height
         angle = math.degrees(math.atan(self.settings.height/(length-t)))
         sh = math.hypot(length-t, h)
-        r = 0 #TODO round the corners
+        r = 0 #Todo round the corners
 
-        # TODO: Triangle starts at top or bottom for stacking
+        # Todo: Triangle starts at top or bottom for stacking
         # parts on page and so material has good side out.
         self.corner(-90, r)
         self.fingerHolesAt(t/2, 0, length-t)
@@ -79,7 +79,7 @@ class Portmanteau(Boxes):
         if not self.gw:
             return
 
-        # TODO: param to orient vertically or horizontally
+        # Todo: param to orient vertically or horizontally
         x = self.y
         r = min(self.gw, self.gh) / 2.0
         self.rectangularHole(self.handle_height-(2.5*r), x/2.0, self.gh, self.gw, r)
@@ -105,7 +105,7 @@ class Portmanteau(Boxes):
 
         # edges = 'BRTL'
 
-        # TODO: Stack parts for minimum size
+        # Todo: Stack parts for minimum size
         self.moveTo(t, t)
         self.rectangularWall(h, y, "FfFe", move="right")
         self.rectangularWall(x, y, "FFFF", move="right")

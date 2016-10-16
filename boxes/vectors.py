@@ -18,6 +18,8 @@ import math
 def normalize(v):
     "set lenght of vector to one"
     l = (v[0] ** 2 + v[1] ** 2) ** 0.5
+    if l == 0.0:
+        return (0.0, 0.0)
     return (v[0] / l, v[1] / l)
 
 
@@ -57,6 +59,8 @@ def dotproduct(v1, v2):
     "Dot product"
     return v1[0] * v2[0] + v1[1] * v2[1]
 
+def circlepoint(r, a):
+    return (r * math.cos(a), r * math.sin(a))
 
 def rotm(angle):
     "Rotation matrix"
@@ -79,7 +83,7 @@ def mmul(m0, m1):
     return result
 
 
-def kerf(points, k):
+def kerf(points, k, closed=True):
     """Outset points by k
     Assumes a closed loop of points
     """
@@ -90,6 +94,12 @@ def kerf(points, k):
         # get normalized orthogonals of both segments
         v1 = vorthogonal(normalize(vdiff(points[i - 1], points[i])))
         v2 = vorthogonal(normalize(vdiff(points[i], points[(i + 1) % lp])))
+
+        if not closed:
+            if i == 0:
+                v1 = v2
+            if i == lp-1:
+                v2 = v1
         # direction the point has to move
         d = normalize(vadd(v1, v2))
         # cos of the half the angle between the segments

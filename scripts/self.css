@@ -1,0 +1,243 @@
+@import 'https://fonts.googleapis.com/css?family=Amatic+SC|Bungee+Shade|Luckiest+Guy';
+
+html,
+button,
+input,
+select,
+textarea {
+    color: #222;
+}
+
+html {
+    font-size: 1em;
+    line-height: 1.4;
+}
+
+li {
+	color: #666;
+	list-style-type: none;
+	}
+
+a 	{
+	text-decoration: none;
+	color: #333;
+	}
+	
+
+body {min-width: 996px;}
+
+h1 {
+	
+
+    font-family: 'Amatic SC', cursive;
+    
+    font-family: 'Luckiest Guy', cursive;
+
+    font-family: 'Bungee Shade', cursive;
+
+    
+
+	font-size: 3em;
+	
+	}
+
+h2 {
+	font-family: 'Bungee Shade', cursive;
+
+    font-family: 'Amatic SC', cursive;
+    
+    font-family: 'Luckiest Guy', cursive;
+
+    font-size: 2.5em;
+
+    
+	}
+
+/* Container */
+    
+.container {
+	 margin-top: 20px;
+     margin-left: auto;
+     margin-right: auto;
+     padding: 10px;
+     width: 996px;
+     -webkit-border-radius: 30px;
+	border-radius: 30px;
+	-webkit-box-shadow: 0 0 5px 0 #333333;
+	box-shadow: 0 0 5px 0 #333333;
+	
+}
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
+}
+
+audio,
+canvas,
+img,
+video {
+    vertical-align: middle;
+}
+
+
+
+
+/*
+ * Clear after each row
+ */
+
+.clear {
+	clear: both;
+	display: block;
+	overflow: hidden;
+	visibility: hidden;
+	width: 0;
+	height: 0;
+}
+
+.footer {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	text-align: center;
+	margin-top: 0px;
+	}
+
+.footer ul {
+	margin-top: 0px;
+	}
+
+.footer ul li {
+	list-style-type: circle;
+	display: inline-block;
+	font-size: 0.9em;
+	}
+
+.footer ul li a {	
+	color: #999;
+	margin-right: 10px;
+}
+
+ul {
+	padding-left: 5px;
+	} 	
+
+ul li {
+	padding: 5px 5px 5px 10px;
+	}
+
+ul li:hover {
+	background-color: #333;
+	color: #eee;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+	}
+
+ul li:hover a {
+	color: #bbb;
+	}
+
+ul li span {
+	display: none;
+	font-size: 1.8em;
+	font-weight: bold;
+	color: #333;
+	margin-left: 10px;
+}
+
+ul li:hover span {
+	display: inline-block;
+	
+}
+
+input[type=range] {
+  -webkit-appearance: none;
+  margin: 10px 0;
+  width: 100%;
+}
+input[type=range]:focus {
+  outline: none;
+}
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 1px;
+  cursor: pointer;
+  animate: 0.2s;
+  box-shadow: 0px 0px 0px #000000;
+  background: #332816;
+  border-radius: 1px;
+  border: 0px solid #000000;
+}
+input[type=range]::-webkit-slider-thumb {
+  box-shadow: 0px 0px 0px #000000;
+  border: 1px solid #332816;
+  height: 15px;
+  width: 15px;
+  border-radius: 15px;
+  background: #6E572F;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -7.5px;
+}
+input[type=range]:focus::-webkit-slider-runnable-track {
+  background: #332816;
+}
+input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 1px;
+  cursor: pointer;
+  animate: 0.2s;
+  box-shadow: 0px 0px 0px #000000;
+  background: #332816;
+  border-radius: 1px;
+  border: 0px solid #000000;
+}
+input[type=range]::-moz-range-thumb {
+  box-shadow: 0px 0px 0px #000000;
+  border: 1px solid #332816;
+  height: 15px;
+  width: 15px;
+  border-radius: 15px;
+  background: #6E572F;
+  cursor: pointer;
+}
+input[type=range]::-ms-track {
+  width: 100%;
+  height: 1px;
+  cursor: pointer;
+  animate: 0.2s;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+input[type=range]::-ms-fill-lower {
+  background: #332816;
+  border: 0px solid #000000;
+  border-radius: 2px;
+  box-shadow: 0px 0px 0px #000000;
+}
+input[type=range]::-ms-fill-upper {
+  background: #332816;
+  border: 0px solid #000000;
+  border-radius: 2px;
+  box-shadow: 0px 0px 0px #000000;
+}
+input[type=range]::-ms-thumb {
+  box-shadow: 0px 0px 0px #000000;
+  border: 1px solid #332816;
+  height: 15px;
+  width: 15px;
+  border-radius: 15px;
+  background: #6E572F;
+  cursor: pointer;
+}
+input[type=range]:focus::-ms-fill-lower {
+  background: #332816;
+}
+input[type=range]:focus::-ms-fill-upper {
+  background: #332816;
+}

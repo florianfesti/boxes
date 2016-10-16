@@ -17,7 +17,7 @@
 
 import math
 import inspect
-
+from boxes import gears
 
 def getDescriptions():
     d = {edge.char: edge.description for edge in globals().values()
@@ -539,7 +539,7 @@ class FingerHoles:
             fingers = bedBolts.numFingers(fingers)
             d, d_nut, h_nut, l, l1 = bedBoltSettings or self.boxes.bedBoltSettings
 
-        leftover = length - fingers * (s + f) - f
+        leftover = length - fingers * (s + f) - s
         b = self.boxes.burn
 
         if self.boxes.debug:
@@ -1221,3 +1221,38 @@ class FlexEdge(BaseEdge):
         self.ctx.move_to(0, 0)
         self.ctx.line_to(x, 0)
         self.ctx.translate(*self.ctx.get_current_point())
+
+class GearSettings(Settings):
+
+    absolute_params = {
+        "dimension" : 3.0,
+        "angle" : 20.0,
+        "profile_shift" : 20.0,
+        "clearance" : 0.0,
+        }
+
+    relative_params = {}
+
+class RackEdge(BaseEdge):
+
+    char = "R"
+
+    def __init__(self, boxes, settings):
+        super(RackEdge, self).__init__(boxes, settings)
+        self.gear = gears.Gears(boxes)
+
+    def __call__(self, length, **kw):
+        params = self.settings.values.copy()
+        params["draw_rack"] = True
+        params["rack_base_height"] = -1E-36
+        params["rack_teeth_length"] = int(length // params["dimension"])
+        params["rack_base_tab"] = (length - (params["rack_teeth_length"]) * params["dimension"]) / 2.0
+        s_tmp = self.boxes.spacing
+        self.boxes.spacing = 0
+        self.moveTo(length, 0, 180)
+        self.gear(move="", **params)
+        self.moveTo(0, 0, 180)
+        self.boxes.spacing = s_tmp
+
+    def margin(self):
+        return self.settings.dimension * 1.1

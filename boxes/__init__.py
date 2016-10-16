@@ -97,7 +97,7 @@ class NutHole:
         "M4": (7, 3.2),
         "M5": (8, 4.7),
         "M6": (10, 5.2),
-        "M8": (13, 6.8),
+        "M8": (13.7, 6.8),
         "M10": (16, 8.4),
         "M12": (18, 10.8),
         "M14": (21, 12.8),
@@ -288,7 +288,7 @@ class Boxes:
             elif arg == "top_edge":
                 self.argparser.add_argument(
                     "--top_edge", action="store",
-                    type=ArgparseEdgeType("ecESik"), choices=list("ecESik"),
+                    type=ArgparseEdgeType("ecESikf"), choices=list("ecESikf"),
                     default="e", help="edge type for top edge")
             elif arg == "outside":
                 self.argparser.add_argument(
@@ -373,6 +373,8 @@ class Boxes:
         self.addPart(NutHole(self, None))
         # Gears
         self.addPart(gears.Gears(self))
+        s = edges.GearSettings(self.thickness)
+        self.addPart(edges.RackEdge(self, s))
         self.addPart(pulley.Pulley(self))
         self.addPart(parts.Parts(self))
 
@@ -625,7 +627,7 @@ class Boxes:
         """
         if positive:
             if reverse:
-                self.edge(length / 2.0 - self.burn)
+                self.edge(length / 2.0)
             self.corner(-90)
             self.edge(self.thickness)
             self.corner(90)
@@ -634,7 +636,7 @@ class Boxes:
             self.edge(self.thickness)
             self.corner(-90)
             if not reverse:
-                self.edge(length / 2.0 - self.burn)
+                self.edge(length / 2.0)
         else:
             if reverse:
                 self._latchGrip(length)
@@ -1202,3 +1204,116 @@ class Boxes:
         self.ctx.stroke()
 
         self.move(overallwidth, overallheight, move)
+
+    def rectangularTriangle(self, x, y, edges="eee", num=1,
+                        bedBolts=None, bedBoltSettings=None,
+                        callback=None,
+                        move=None):
+        """
+        Rectangular triangular wall
+
+        :param x: width
+        :param y: height
+        :param edges:  (Default value = "eee") bottom, right[, diagonal]
+        :param num: (Default value = 1) number of triangles
+        :param bedBolts:  (Default value = None)
+        :param bedBoltSettings:  (Default value = None)
+        :param callback:  (Default value = None)
+        :param move:  (Default value = None)
+
+        """
+        edges = [self.edges.get(e, e) for e in edges]
+        if len(edges) == 2:
+            edges.append(self.edges["e"])
+        if len(edges) != 3:
+            raise ValueError("two or three edges required")
+
+        width = x + edges[-1].spacing() + edges[1].spacing()
+        height = y + edges[0].spacing() + edges[2].spacing()
+        if num > 1:
+            width += edges[-1].spacing() + edges[1].spacing() + 2*self.spacing
+            height += edges[0].spacing() + edges[2].spacing() + self.spacing
+
+        overallwidth = width * (num // 2 + num % 2)
+        overallheight = height
+
+        alpha = math.degrees(math.atan(y/float(x)))
+
+        if self.move(overallwidth, overallheight, move, before=True):
+            return
+
+        if num > 1:
+            self.moveTo(self.spacing + edges[-1].spacing())
+
+        for n in range(num):
+            self.moveTo(edges[-1].spacing()+self.spacing, edges[0].margin())
+            if n % 2 == 1:
+                self.moveTo(2*edges[1].spacing()+self.spacing, 0)
+            if num > 1:
+                self.moveTo(edges[1].spacing(), 0)
+            for i, l in enumerate((x, y)):
+                self.cc(callback, i, y=edges[i].startwidth() + self.burn)
+                edges[i](l,
+                         bedBolts=self.getEntry(bedBolts, i),
+                         bedBoltSettings=self.getEntry(bedBoltSettings, i))
+                self.edgeCorner(edges[i], edges[i + 1], 90)
+
+            self.corner(alpha)
+            self.cc(callback, 2)
+            edges[2]((x**2+y**2)**0.5)
+            self.corner(180-alpha)
+            self.ctx.stroke()
+
+            if n % 2:
+                self.moveTo(-edges[1].spacing()-2*self.spacing-edges[-1].spacing(), height-edges[1].spacing(), 180)
+            else:
+                self.moveTo(width+1*edges[1].spacing()-self.spacing-2*edges[-1].spacing(), height-edges[1].spacing(), 180)
+
+
+        self.move(overallwidth, overallheight, move)
+
+    ##################################################
+    ### Place Parts
+    ##################################################
+
+    def partsMatrix(self, n, width, move, part, *l, **kw):
+
+        rows = n//width + (1 if n % width else 0)
+
+        if not move:
+            move = ""
+        move = move.split()
+
+        #move down / left before
+        for m in move:
+            if m == "left":
+                kw["move"] = "left only"
+                for i in range(width):
+                    part(*l, **kw)
+            if m == "down":
+                kw["move"] = "down only"
+                for i in range(rows):
+                    part(*l, **kw)
+        # draw matrix
+        for i in range(rows):
+            self.ctx.save()
+            for j in range(width):
+                if width*i+j >= n:
+                    break
+                kw["move"] = "right"
+                part(*l, **kw)
+            self.ctx.restore()
+            kw["move"] = "up only"
+            part(*l, **kw)
+
+        # Move back down
+        if "up" not in move:
+            kw["move"] = "down only"
+            for i in range(rows):
+                part(*l, **kw)
+
+        # Move right
+        if "right" in move:
+            kw["move"] = "right only"
+            for i in range(n):
+                part(*l, **kw)

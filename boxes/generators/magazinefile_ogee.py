@@ -44,7 +44,7 @@ class MagazinFile(Boxes):
 
         # length of the secant of the given arc
         secant = (slant/2) / (2*math.sin(math.radians(arc/2)))
-        
+
         e_w = self.edges["F"].startwidth()
         self.moveTo(3, 3)
         self.edge(e_w)
@@ -86,6 +86,17 @@ class MagazinFile(Boxes):
         # Closes the group ?
         self.ctx.stroke()
 
+
+    def fingerHole(self):
+        if self.hi/2 > 12.5 + 10:
+            if self.x/2 > 12.5 + 10:
+                self.hole(self.x/2, self.hi/2, 12.5)
+            else:
+                print("Warning: box too narrow to allow room for finger hole")
+        else:
+            print("Warning: inner wall to short to allow room for finger hole")
+
+
     def render(self):
 
         if self.outside:
@@ -100,8 +111,8 @@ class MagazinFile(Boxes):
         self.open()
 
         self.ctx.save()
-        self.rectangularWall(x, h, "Ffef", move="up")
-        self.rectangularWall(x, hi, "Ffef", move="up")
+        self.rectangularWall(x, h, "Ffef", move="up", callback=[self.fingerHole])
+        self.rectangularWall(x, hi, "Ffef", move="up", callback=[self.fingerHole])
 
         self.moveTo(0, 3) # jog the bottom wall up a bit
         self.rectangularWall(y, x, "ffff")
@@ -109,6 +120,7 @@ class MagazinFile(Boxes):
         self.ctx.restore()
 
         self.rectangularWall(x, h, "Ffef", move="right only")
+
         self.side_ogee(y, h, hi, self.arc)
         self.moveTo(y + 15, h + hi + 15, 180)
         self.side_ogee(y, h, hi, self.arc)

@@ -28,42 +28,6 @@ class MagazinFile(Boxes):
             fingerjointspace=2.0
         )
 
-    def side1(self, w, h, hi):
-        r = min(h - hi, w) / 2.0
-
-        if (h - hi) > w:
-            r = w / 2.0
-            lx = 0
-            ly = (h - hi) - w
-        else:
-            r = (h - hi) / 2.0
-            lx = (w - 2 * r) / 2.0
-            ly = 0
-
-        print(r, lx, ly)
-        e_w = self.edges["F"].startwidth()
-        self.moveTo(3, 3)
-        self.edge(e_w)
-        self.edges["F"](w)
-        self.edge(e_w)
-        self.corner(90)
-        self.edge(e_w)
-        self.edges["F"](hi)
-
-        self.corner(90)
-        self.edge(e_w)
-        self.edge(lx+.5*r)
-        self.corner(-90, .5*r)
-        self.edge(ly+.5*r)
-        self.corner(90, r)
-        self.edge(lx)
-
-        self.edge(e_w)
-        self.corner(90)
-        self.edges["F"](h)
-        self.edge(e_w)
-        self.corner(90)
-
     def side(self, w, h, hi):
         r = min(h - hi, w) / 2.0
 
@@ -119,7 +83,7 @@ class MagazinFile(Boxes):
         self.ctx.restore()
 
         self.rectangularWall(x, h, "Ffef", move="right only")
-        self.side1(y, h, hi)
+        self.side(y, h, hi)
         self.moveTo(y + 15, h + hi + 15, 180)
         self.side(y, h, hi)
 

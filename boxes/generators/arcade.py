@@ -34,9 +34,9 @@ class Arcade(Boxes):
         if self.move(y+35, h+155, move, True):
             return
         
-        self.moveTo(35, 0)
-        self.fingerHolesAt(20, 10, self.bottom, 0)
-        self.polyline(y-20, (90, 10))
+        self.moveTo(45, 0)
+        self.fingerHolesAt(10, 10, self.bottom, 0)
+        self.polyline(y-30, (90, 10))
         self.fingerHolesAt(0.5*t, 10, self.back, 0)
         self.fingerHolesAt(h-40-40, 10, self.back, 0)
         
@@ -48,7 +48,7 @@ class Arcade(Boxes):
         self.fingerHolesAt(0, 10, self.keyb, 0)
         self.fingerHolesAt(-0.5*t, 10+0.5*t, self.keyback, 90)
         self.fingerHolesAt(150+0.5*t, 10+0.5*t, self.front, 90)
-        self.polyline(150, (90, 10), 72.7, (75, 10), 5)
+        self.polyline(150, (90, 10), 124.45, (75, 10), 5)
 
         self.move(y+35, h+155, move)
         
@@ -61,16 +61,16 @@ class Arcade(Boxes):
         self.hole(self.width*3/4., 50, 40)
         
     def render(self):
-        y, h = self.y, self.h = 540, 400
+        y, h = self.y, self.h = 540, 450
         width = self.width
         t = self.thickness
 
         self.bottom = y-40-0.5*t
         self.back = 40
         self.backwall = h-40
-        self.front = 70
+        self.front = 120
         self.keyb = 150
-        self.keyback = 40
+        self.keyback = 50
         self.speaker = 150
         self.top = 100-t
         self.topback = 200-0.5*t

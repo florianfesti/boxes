@@ -16,22 +16,25 @@
 
 from boxes import *
 
-class Arcade(Boxes): # change class name here and below
+class Arcade(Boxes):
     """Desktop Arcade Maschine"""
     
     def __init__(self):
         Boxes.__init__(self)
-        # remove cli params you do not need
-        #self.buildArgParser("x", "y","h")
+        self.argparser.add_argument(
+            "--width",  action="store", type=float, default=450.0,
+            help="inner width of the console")
 
     def side(self, move=None):
-        x, y, h = self.x, self.y, self.h
+        # TODO: Add callbacks
+
+        y, h = self.y, self.h
         t = self.thickness
 
-        if self.move(x, y, move, True):
+        if self.move(y+35, h+155, move, True):
             return
         
-        self.moveTo(50, 0)
+        self.moveTo(35, 0)
         self.fingerHolesAt(20, 10, self.bottom, 0)
         self.polyline(y-20, (90, 10))
         self.fingerHolesAt(0.5*t, 10, self.back, 0)
@@ -47,18 +50,19 @@ class Arcade(Boxes): # change class name here and below
         self.fingerHolesAt(150+0.5*t, 10+0.5*t, self.front, 90)
         self.polyline(150, (90, 10), 72.7, (75, 10), 5)
 
-        self.move(x, y, move)
+        self.move(y+35, h+155, move)
         
     def keyboard(self):
+        # Add holes for the joystick and buttons here
         pass
 
     def speakers(self):
-        self.hole(self.x/4., 50, 40)
-        self.hole(self.x*3/4., 50, 40)
+        self.hole(self.width/4., 50, 40)
+        self.hole(self.width*3/4., 50, 40)
         
     def render(self):
-        # adjust to the variables you want in the local scope
-        x, y, h = self.x, self.y, self.h = 450, 540, 400
+        y, h = self.y, self.h = 540, 400
+        width = self.width
         t = self.thickness
 
         self.bottom = y-40-0.5*t
@@ -73,22 +77,23 @@ class Arcade(Boxes): # change class name here and below
 
         # Initialize canvas
         self.open()
-        # floor
-        self.rectangularWall(x, self.bottom, "efff", move="up")
+        # Floor
+        self.rectangularWall(width, self.bottom, "efff", move="up")
         # Back
-        self.rectangularWall(x, self.back, "Ffef", move="up")
-        self.rectangularWall(x, self.backwall, move="up")
-        self.rectangularWall(x, self.back, "efef", move="up")
+        self.rectangularWall(width, self.back, "Ffef", move="up")
+        self.rectangularWall(width, self.backwall, move="up")
+        self.rectangularWall(width, self.back, "efef", move="up")
 
-        # front bottom 
-        self.rectangularWall(x, self.front, "efff", move="up")
-        self.rectangularWall(x, self.keyb, "FfFf", callback=[self.keyboard], move="up")
-        self.rectangularWall(x, self.keyback, "ffef", move="up")
-        #top
-        self.rectangularWall(x, self.speaker, "efff", callback=[None, None, self.speakers], move="up")
-        self.rectangularWall(x, self.top, "FfFf", move="up")
-        self.rectangularWall(x, self.topback, "ffef", move="up")
-
+        # Front bottom
+        self.rectangularWall(width, self.front, "efff", move="up")
+        self.rectangularWall(width, self.keyb, "FfFf", callback=[self.keyboard], move="up")
+        self.rectangularWall(width, self.keyback, "ffef", move="up")
+        # Top
+        self.rectangularWall(width, self.speaker, "efff", callback=[None, None, self.speakers], move="up")
+        self.rectangularWall(width, self.top, "FfFf", move="up")
+        self.rectangularWall(width, self.topback, "ffef", move="up")
+        # Sides
+        self.side(move="up")
         self.side(move="up")
 
         self.close()

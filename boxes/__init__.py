@@ -218,7 +218,7 @@ class Boxes:
             help="print reference rectangle with given length")
         self.argparser.add_argument(
             "--burn", action="store", type=float, default=0.05,
-            help="burn correction in mm")
+            help="burn correction in mm (bigger values for tighter fit)")
 
     def open(self):
         """

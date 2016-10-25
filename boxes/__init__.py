@@ -430,26 +430,23 @@ class Boxes:
         """
         if y is None:
             y = self.burn
-        self.ctx.save()
-        self.moveTo(x, y)
-        if callable(callback):
+
+        if hasattr(callback, '__getitem__'):
+            try:
+                callback = callback[number]
+                number = None
+            except (KeyError, IndexError):
+                pass
+
+        if callback and callable(callback):
+            self.ctx.save()
+            self.moveTo(x, y)
             if number is None:
                 callback()
             else:
                 callback(number)
-
-        elif hasattr(callback, '__getitem__'):
-            try:
-                callback = callback[number]
-                if callable(callback):
-                    callback()
-            except (KeyError, IndexError):
-                pass
-            except:
-                self.ctx.restore()
-                raise
-            
-        self.ctx.restore()
+            self.ctx.restore()
+            self.ctx.move_to(0, 0)
 
     def getEntry(self, param, idx):
         """

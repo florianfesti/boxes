@@ -567,6 +567,7 @@ class FingerHoles(FingerJointBase):
                                        f+p, self.settings.width+p)
 
         self.ctx.restore()
+        self.ctx.move_to(0, 0)
 
 
 class FingerHoleEdge(BaseEdge):

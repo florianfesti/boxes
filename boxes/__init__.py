@@ -288,7 +288,7 @@ class Boxes:
             elif arg == "top_edge":
                 self.argparser.add_argument(
                     "--top_edge", action="store",
-                    type=ArgparseEdgeType("ecESikf"), choices=list("ecESikf"),
+                    type=ArgparseEdgeType("ecESikfL"), choices=list("ecESikfL"),
                     default="e", help="edge type for top edge")
             elif arg == "outside":
                 self.argparser.add_argument(
@@ -368,7 +368,15 @@ class Boxes:
         for i in range(1, 4):
             self.addPart(edges.Hinge(self, s, i))
             self.addPart(edges.HingePin(self, s, i))
-
+        # Sliding Lid
+        s = edges.LidSettings(self.thickness, True, finger=2.0, space=2.0,
+                              surroundingspaces=1.0, play=0.05)
+        self.addPart(edges.LidEdge(self, s))
+        self.addPart(edges.LidHoleEdge(self, s))
+        self.addPart(edges.LidSideRight(self, s))
+        self.addPart(edges.LidSideLeft(self, s))
+        self.addPart(edges.LidRight(self, s))
+        self.addPart(edges.LidLeft(self, s))
         # Nuts
         self.addPart(NutHole(self, None))
         # Gears

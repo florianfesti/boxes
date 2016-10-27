@@ -575,7 +575,11 @@ class FingerHoleEdge(BaseEdge):
     description = "Edge (parallel Finger Joint Holes)"
 
     def __init__(self, boxes, fingerHoles=None, **kw):
-        super(FingerHoleEdge, self).__init__(boxes, None, **kw)
+        settings = None
+        if isinstance(fingerHoles, Settings):
+            settings = fingerHoles
+            fingerHoles = FingerHoles(boxes, settings)
+        super(FingerHoleEdge, self).__init__(boxes, settings, **kw)
 
         self.fingerHoles = fingerHoles or boxes.fingerHolesAt
 
@@ -940,6 +944,100 @@ class HingePin(BaseEdge):
             self.edge(l - plen - glen)
             getattr(self, self.settings.style)(True)
 
+
+#############################################################################
+####     Slide-in lid
+#############################################################################
+
+class LidSettings(FingerJointSettings):
+    absolute_params = FingerJointSettings.absolute_params.copy()
+    relative_params = FingerJointSettings.relative_params.copy()
+
+    relative_params.update( {
+        "play" : 0.05,
+        "second_pin" : 2,
+        } )
+
+class LidEdge(FingerJointEdge):
+    char = "l"
+    description = "Edge for slide on lid"
+
+class LidHoleEdge(FingerHoleEdge):
+    char = "L"
+    description = "Edge for slide on lid"
+
+class LidRight(BaseEdge):
+    char = "n"
+    description = "Edge for slide on lid (right)"
+    rightside = True
+
+    def __call__(self, length, **kw):
+        t = self.boxes.thickness
+        p = [t, 90, t, -90, length-t]
+        pin = self.settings.second_pin
+
+        if pin:
+            p[-1:] = [length-2*t-pin, -90, t, 90, pin, 90, t, -90, t]
+
+        if not self.rightside:
+            p = list(reversed(p))
+        self.polyline(*p)
+
+    def startwidth(self):
+        if self.rightside: # or self.settings.second_pin:
+            return self.boxes.thickness
+        else:
+            return 0.0
+
+    def endwidth(self):
+        if not self.rightside: # or self.settings.second_pin:
+            return self.boxes.thickness
+        else:
+            return 0.0
+
+    def margin(self):
+        if not self.rightside: # and not self.settings.second_pin:
+            return self.boxes.thickness
+        else:
+            return 0.0
+
+class LidLeft(LidRight):
+    char = "m"
+    description = "Edge for slide on lid (left)"
+    rightside = False
+
+class LidSideRight(BaseEdge):
+    char = "N"
+    description = "Edge for slide on lid (box right)"
+
+    rightside = True
+    def __call__(self, length,  **kw):
+        t = self.boxes.thickness
+        s = self.settings.play
+        pin = self.settings.second_pin
+
+        p = [t+s, -90, t+s, -90, 2*t+s, 90, t-s, 90, length+t]
+
+        if pin:
+            p[-1:] = [p[-1]-t-2*pin, 90, 2*t+s, -90, 2*pin+s, -90, t+s, -90,
+                      pin, 90, t, 90, pin+t-s]
+        if not self.rightside:
+            p = list(reversed(p))
+        self.polyline(*p)
+
+    def startwidth(self):
+        return 2*self.boxes.thickness if not self.rightside else 0.0
+
+    def endwidth(self):
+        return 2*self.boxes.thickness if self.rightside else 0.0
+
+    def margin(self):
+        return 2*self.boxes.thickness # if not self.rightside else 0.0
+
+class LidSideLeft(LidSideRight):
+    char = "M"
+    description = "Edge for slide on lid (box left)"
+    rightside = False
 
 #############################################################################
 ####     Click Joints

@@ -100,6 +100,10 @@ class Box2(Boxes):
             t3 = "j"
         elif t1.char == "k":
             t2 = t4 = "e"
+        elif t1.char == "L":
+            t1 = "M"
+            t2 = "e"
+            t3 = "N"
 
         self.edges["k"].settings.setValues(self.thickness, outset=True)
 
@@ -125,6 +129,8 @@ class Box2(Boxes):
             self.rectangularWall(x, y, "CCCC", bedBolts=[d2, d3, d2, d3], move="up")
         elif self.top_edge == "f":
             self.rectangularWall(x, y, "FFFF", move="up")
+        elif self.top_edge == "L":
+            self.rectangularWall(x, y, "nlmE", move="up")
         elif self.top_edge == "i":
             self.rectangularWall(x, y, "IEJe", move="up")
         elif self.top_edge == "k":

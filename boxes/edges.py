@@ -425,6 +425,7 @@ Values:
   * height : 1.0 : length of the fingers
   * width : 1.0 : width of finger holes
   * edge_width : 1.0 : space below holes of FingerHoleEdge
+  * play : 0.0 : extra space to allow movement
 
 """
 
@@ -438,6 +439,7 @@ Values:
         "height": 1.0,
         "width": 1.0,
         "edge_width": 1.0,
+        "play" : 0.0,
     }
 
 class FingerJointBase:
@@ -474,6 +476,11 @@ class FingerJointEdge(BaseEdge, FingerJointBase):
 
         fingers, leftover = self.calcFingers(length, bedBolts)
 
+        if not positive:
+            play = self.settings.play
+            f += play
+            s -= play
+            leftover -= play
 
         self.edge(leftover / 2.0)
 
@@ -542,6 +549,7 @@ class FingerHoles(FingerJointBase):
         self.boxes.moveTo(x, y, angle)
 
         s, f = self.settings.space, self.settings.finger
+        p = self.settings.play
         b = self.boxes.burn
 
         fingers, leftover = self.calcFingers(length, bedBolts)
@@ -556,7 +564,7 @@ class FingerHoles(FingerJointBase):
                 self.boxes.hole(pos + 0.5 * s, 0, d * 0.5)
 
             self.boxes.rectangularHole(pos + 0.5 * f, 0,
-                                       f, self.settings.width)
+                                       f+p, self.settings.width+p)
 
         self.ctx.restore()
 

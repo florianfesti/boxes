@@ -440,8 +440,25 @@ Values:
         "edge_width": 1.0,
     }
 
+class FingerJointBase:
 
-class FingerJointEdge(BaseEdge):
+    def calcFingers(self, length, bedBolts):
+        space, finger = self.settings.space, self.settings.finger
+        fingers = int((length - (self.settings.surroundingspaces - 1) * space) //
+                      (space + finger))
+        if not finger:
+            fingers = 0
+        if bedBolts:
+            fingers = bedBolts.numFingers(fingers)
+        leftover = length - fingers * (space + finger) + space
+
+        if fingers <= 0:
+            fingers = 0
+            leftover = length
+
+        return fingers, leftover
+
+class FingerJointEdge(BaseEdge, FingerJointBase):
     """Finger joint edge """
     char = 'f'
     description = "Finger Joint"
@@ -450,20 +467,13 @@ class FingerJointEdge(BaseEdge):
     def __call__(self, length, bedBolts=None, bedBoltSettings=None, **kw):
 
         positive = self.positive
-        space, finger = self.settings.space, self.settings.finger
-        fingers = int((length - (self.settings.surroundingspaces - 1) * space) //
-                      (space + finger))
 
-        if bedBolts:
-            fingers = bedBolts.numFingers(fingers)
-        leftover = length - fingers * (space + finger) + space
+        s, f, thickness = self.settings.space, self.settings.finger, self.thickness
 
-        s, f, thickness = space, finger, self.thickness
         p = 1 if positive else -1
 
-        if fingers <= 0:
-            fingers = 0
-            leftover = length
+        fingers, leftover = self.calcFingers(length, bedBolts)
+
 
         self.edge(leftover / 2.0)
 
@@ -508,7 +518,7 @@ class FingerJointEdgeCounterPart(FingerJointEdge):
         return 0.0
 
 
-class FingerHoles:
+class FingerHoles(FingerJointBase):
     """Hole matching a finger joint edge"""
 
     def __init__(self, boxes, settings):
@@ -532,13 +542,9 @@ class FingerHoles:
         self.boxes.moveTo(x, y, angle)
 
         s, f = self.settings.space, self.settings.finger
-        fingers = int((length - (self.settings.surroundingspaces - 1) * s) //
-                      (s + f))
-        if bedBolts:
-            fingers = bedBolts.numFingers(fingers)
-
-        leftover = length - fingers * (s + f) - s
         b = self.boxes.burn
+
+        fingers, leftover = self.calcFingers(length, bedBolts)
 
         if self.boxes.debug:
             self.ctx.rectangle(0, -self.settings.width / 2 + b,
@@ -549,7 +555,7 @@ class FingerHoles:
             if bedBolts and bedBolts.drawBolt(i):
                 self.boxes.hole(pos + 0.5 * s, 0, d * 0.5)
 
-            self.boxes.rectangularHole(pos + s + 0.5 * f, 0,
+            self.boxes.rectangularHole(pos + 0.5 * f, 0,
                                        f, self.settings.width)
 
         self.ctx.restore()

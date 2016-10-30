@@ -191,32 +191,37 @@ class Boxes:
     def __init__(self):
         self.formats = formats.Formats()
         self.argparser = ArgumentParser(description=self.__doc__)
-        self.argparser.add_argument(
+        self.argparser._action_groups[1].title = "Generator Settings"
+        fingergroup = self.argparser.add_argument_group(
+            "Finger Joint Settings")
+        fingergroup.add_argument(
             "--fingerjointfinger", action="store", type=float, default=1.0,
             help="width of the fingers in multiples of thickness")
-        self.argparser.add_argument(
+        fingergroup.add_argument(
             "--fingerjointspace", action="store", type=float, default=1.0,
             help="width of the space between fingers in multiples of thickness")
-        self.argparser.add_argument(
+        fingergroup.add_argument(
             "--fingerjointsurrounding", action="store", type=float, default=1.0,
             help="amount of space needed at the end in multiples of normal spaces")
-        self.argparser.add_argument(
+        defaultgroup = self.argparser.add_argument_group(
+                        "Default Settings")
+        defaultgroup.add_argument(
             "--thickness", action="store", type=float, default=4.0,
             help="thickness of the material")
-        self.argparser.add_argument(
+        defaultgroup.add_argument(
             "--output", action="store", type=str, default="box.svg",
             help="name of resulting file")
-        self.argparser.add_argument(
+        defaultgroup.add_argument(
             "--format", action="store", type=str, default="svg",
             choices=self.formats.getFormats(),
             help="format of resulting file")
-        self.argparser.add_argument(
+        defaultgroup.add_argument(
             "--debug", action="store", type=bool, default=False,
             help="print surrounding boxes for some structures")
-        self.argparser.add_argument(
+        defaultgroup.add_argument(
             "--reference", action="store", type=float, default=100,
             help="print reference rectangle with given length")
-        self.argparser.add_argument(
+        defaultgroup.add_argument(
             "--burn", action="store", type=float, default=0.05,
             help="burn correction in mm (bigger values for tighter fit)")
 

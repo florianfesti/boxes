@@ -142,15 +142,17 @@ flex cuts, holes and slots for screws and more high level functions.
         <h2 style="font-size: 1em; margin: 0px; "> <a href="/">generators</a></h2><h2 style="margin: 0px 0px 0px 20px;" > <span style="margin-right: 10px;"> >> <span>""", name, """</h2>
         <p>""", box.__doc__ or "", """</p>
 <form action="%s" method="GET" target="_blank">
-<table>
         """ % (action)]
-        for a in box.argparser._actions:
-            if a.dest in ("input", "output"):
+        for group in box.argparser._action_groups[2:] + box.argparser._action_groups[:2]:
+            if not group._group_actions:
                 continue
-            result.append(self.arg2html(a))
-            if a.dest == "burn":
-                result.append("</table>\n<hr>\n<table>\n")
-        result.append("""</table>
+            result.append("<h3>%s</h3>\n<table>\n" % group.title)
+            for a in group._group_actions:
+                if a.dest in ("input", "output"):
+                    continue
+                result.append(self.arg2html(a))
+            result.append("</table>")
+        result.append("""
 <p><button name="render" value="1">Generate</button></p>
 </form>
 

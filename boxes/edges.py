@@ -143,8 +143,9 @@ class Settings(object):
                 descriptions[m.group(1)] = m.group(2)
 
         group = parser.add_argument_group(lines[0] or lines[1])
-        for name, default in (list(cls.absolute_params.items()) +
-                              list(cls.relative_params.items())):
+        group.prefix = prefix
+        for name, default in (sorted(cls.absolute_params.items()) +
+                              sorted(cls.relative_params.items())):
             group.add_argument("--%s_%s" % (prefix, name),
                                type=type(default),
                                action="store", default=default,
@@ -435,14 +436,13 @@ class SlottedEdge(BaseEdge):
 #############################################################################
 
 class FingerJointSettings(Settings):
-    """Settings for finger joints
+    """Settings for Finger Joints
 
 Values:
 
 * absolute
 
-  * surroundingspaces : 2 : maximum space at the start and end in multiple
-    of normal spaces
+  * surroundingspaces : 2 : maximum space at the start and end in multiple of normal spaces
 
 * relative (in multiples of thickness)
 
@@ -647,7 +647,7 @@ class CrossingFingerHoleEdge(BaseEdge):
 #############################################################################
 
 class StackableSettings(Settings):
-    """Settings for StackableEdge classes
+    """Settings for Stackable Edges
 
 Values:
 
@@ -726,7 +726,7 @@ class StackableEdgeTop(StackableEdge):
 #############################################################################
 
 class HingeSettings(Settings):
-    """Settings for Hinge and HingePin classes
+    """Settings for Hinges and HingePins
 Values:
 
 * absolute_params
@@ -1198,7 +1198,7 @@ class ClickEdge(ClickConnector):
 #############################################################################
 
 class DoveTailSettings(Settings):
-    """Settings used for dove tail joints
+    """Settings for Dove Tail Joints
 
 Values:
 
@@ -1281,7 +1281,7 @@ class DoveTailJointCounterPart(DoveTailJoint):
 
 
 class FlexSettings(Settings):
-    """Settings for one directional flex cuts
+    """Settings for one directional Flex Cuts
 
 Values:
 

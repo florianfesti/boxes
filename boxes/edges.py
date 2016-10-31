@@ -17,6 +17,9 @@
 
 import math
 import inspect
+import argparse
+import re
+
 from boxes import gears
 
 def getDescriptions():
@@ -125,6 +128,28 @@ class Settings(object):
     absolute_params = {}
     relative_params = {}
 
+    @classmethod
+    def parserArguments(cls, parser, prefix=None):
+        prefix = prefix or cls.__name__[:-len("Settings")]
+
+        lines  = cls.__doc__.split("\n")
+
+        # Parse doc string
+        descriptions = {}
+        r = re.compile(r"^ +\* +(\S+) +: .* : +(.*)")
+        for l in lines:
+            m = r.search(l)
+            if m:
+                descriptions[m.group(1)] = m.group(2)
+
+        group = parser.add_argument_group(lines[0] or lines[1])
+        for name, default in (list(cls.absolute_params.items()) +
+                              list(cls.relative_params.items())):
+            group.add_argument("--%s_%s" % (prefix, name),
+                               type=type(default),
+                               action="store", default=default,
+                               help=descriptions.get(name))
+
     def __init__(self, thickness, relative=True, **kw):
         self.values = self.absolute_params.copy()
         self.thickness = thickness
@@ -147,6 +172,7 @@ class Settings(object):
         factor = 1.0
         if relative:
             factor = thickness
+        print(kw.items())
         for name, value in kw.items():
             if name in self.absolute_params:
                 self.values[name] = value

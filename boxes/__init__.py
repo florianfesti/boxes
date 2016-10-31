@@ -191,18 +191,10 @@ class Boxes:
     def __init__(self):
         self.formats = formats.Formats()
         self.argparser = ArgumentParser(description=self.__doc__)
+        self.edgesettings = {}
         self.argparser._action_groups[1].title = "Generator Settings"
-        fingergroup = self.argparser.add_argument_group(
-            "Finger Joint Settings")
-        fingergroup.add_argument(
-            "--fingerjointfinger", action="store", type=float, default=1.0,
-            help="width of the fingers in multiples of thickness")
-        fingergroup.add_argument(
-            "--fingerjointspace", action="store", type=float, default=1.0,
-            help="width of the space between fingers in multiples of thickness")
-        fingergroup.add_argument(
-            "--fingerjointsurrounding", action="store", type=float, default=1.0,
-            help="amount of space needed at the end in multiples of normal spaces")
+        self.addSettingsArgs(edges.FingerJointSettings)
+
         defaultgroup = self.argparser.add_argument_group(
                         "Default Settings")
         defaultgroup.add_argument(
@@ -302,6 +294,12 @@ class Boxes:
             else:
                 raise ValueError("No default for argument", arg)
 
+    def addSettingsArgs(self, settings, prefix=None):
+        prefix = prefix or settings.__name__[:-len("Settings")]
+        settings.parserArguments(self.argparser, prefix)
+        self.edgesettings[prefix] =  {}
+        
+
     def parseArgs(self, args=None):
         """
         Parse command line parameters
@@ -310,6 +308,11 @@ class Boxes:
 
         """
         for key, value in vars(self.argparser.parse_args(args=args)).items():
+            # treat edge settings separately 
+            for setting in self.edgesettings:
+                if key.startswith(setting + '_'):
+                    self.edgesettings[setting][key[len(setting)+1:]] = value
+                    continue
             setattr(self, key, value)
 
         # Change file ending to format if not given explicitly
@@ -343,11 +346,8 @@ class Boxes:
 
         # Finger joints
         # Share settings object
-        s = edges.FingerJointSettings(self.thickness)
-        s.setValues(self.thickness,
-                    finger=getattr(self, "fingerjointfinger", 1.0),
-                    space=getattr(self, "fingerjointspace", 1.0),
-                    surroundingspaces=getattr(self, "fingerjointsurrounding", 1.0))
+        s = edges.FingerJointSettings(self.thickness, True,
+                **self.edgesettings.get("FingerJoint", {}))
         self.addPart(edges.FingerJointEdge(self, s))
         self.addPart(edges.FingerJointEdgeCounterPart(self, s))
         self.addPart(edges.FingerHoles(self, s), name="fingerHolesAt")

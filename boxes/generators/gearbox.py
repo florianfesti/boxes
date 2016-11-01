@@ -22,6 +22,7 @@ class GearBox(Boxes):
 
     def __init__(self):
         Boxes.__init__(self)
+        self.addSettingsArgs(edges.FingerJointSettings)
         self.argparser.add_argument(
             "--teeth1", action="store", type=int, default=8,
             help="number of teeth on ingoing shaft")

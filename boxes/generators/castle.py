@@ -22,6 +22,7 @@ class Castle(Boxes):
 
     def __init__(self):
         Boxes.__init__(self)
+        self.addSettingsArgs(boxes.edges.FingerJointSettings)
 
     def render(self, t_x=70, t_h=250, w1_x=300, w1_h=120, w2_x=100, w2_h=120):
         self.open()

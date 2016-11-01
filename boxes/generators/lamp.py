@@ -63,6 +63,7 @@ class Lamp(Boxes):
 
     def __init__(self):
         Boxes.__init__(self)
+        self.addSettingsArgs(edges.FingerJointSettings)
 
     def side(self, y, h):
         return

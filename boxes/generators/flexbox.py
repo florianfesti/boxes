@@ -23,6 +23,8 @@ class FlexBox(boxes.Boxes):
 
     def __init__(self):
         boxes.Boxes.__init__(self)
+        self.addSettingsArgs(boxes.edges.FingerJointSettings)
+        self.addSettingsArgs(boxes.edges.FlexSettings)
         self.buildArgParser("x", "y", "h", "outside")
         self.argparser.add_argument(
             "--radius", action="store", type=float, default=15,

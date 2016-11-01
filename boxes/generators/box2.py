@@ -23,15 +23,17 @@ class Box2(Boxes):
 
     def __init__(self):
         Boxes.__init__(self)
+        self.addSettingsArgs(edges.FingerJointSettings, finger=3, space=3)
+        self.addSettingsArgs(edges.StackableSettings)
+        self.addSettingsArgs(edges.HingeSettings)
+        self.addSettingsArgs(edges.LidSettings)
+        self.addSettingsArgs(edges.ClickSettings)
+        self.addSettingsArgs(edges.FlexSettings)
         self.buildArgParser("top_edge", "bottom_edge", "x", "y", "h")
         self.argparser.add_argument(
             "--chestlid",  action="store", type=bool, default=False,
             help="add chest lid (needs hinges)")
         self.angle = 0
-        self.argparser.set_defaults(
-            fingerjointfinger=3.0,
-            fingerjointspace=3.0
-            )
 
     def getR(self):
         x, y, h, angle = self.x, self.y, self.h, self.angle

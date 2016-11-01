@@ -26,6 +26,7 @@ class Layout(Boxes):
 
     def __init__(self, input=None, webargs=False):
         Boxes.__init__(self)
+        self.addSettingsArgs(boxes.edges.FingerJointSettings)
         self.buildArgParser("h", "hi", "outside")
         if not webargs:
             self.argparser.add_argument(
@@ -404,6 +405,7 @@ class TrayLayout2(Layout):
 
     def __init__(self, input=None):
         Boxes.__init__(self)
+        self.addSettingsArgs(boxes.edges.FingerJointSettings)
         self.buildArgParser("h", "hi", "outside")
         self.argparser.add_argument(
             "--layout", action="store", type=str)

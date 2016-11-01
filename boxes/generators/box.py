@@ -22,11 +22,8 @@ class Box(Boxes):
 
     def __init__(self):
         Boxes.__init__(self)
+        self.addSettingsArgs(edges.FingerJointSettings, finger=3.0, space=3.0)
         self.buildArgParser("x", "y", "h", "outside")
-        self.argparser.set_defaults(
-            fingerjointfinger=3.0,
-            fingerjointspace=3.0
-        )
 
     def render(self):
         self.open()

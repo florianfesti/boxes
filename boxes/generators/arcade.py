@@ -21,6 +21,7 @@ class Arcade(Boxes):
     
     def __init__(self):
         Boxes.__init__(self)
+        self.addSettingsArgs(edges.FingerJointSettings)
         self.argparser.add_argument(
             "--width",  action="store", type=float, default=450.0,
             help="inner width of the console")

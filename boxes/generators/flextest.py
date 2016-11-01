@@ -22,24 +22,12 @@ class FlexTest(Boxes):
 
     def __init__(self):
         Boxes.__init__(self)
+        self.addSettingsArgs(edges.FlexSettings)
         self.buildArgParser("x", "y")
-        self.argparser.add_argument(
-            "--fd", action="store", type=float, default=0.5,
-            help="distance of flex cuts in multiples of thickness")
-        self.argparser.add_argument(
-            "--fc", action="store", type=float, default=1.0,
-            help="connections of flex cuts in multiples of thickness")
-        self.argparser.add_argument(
-            "--fw", action="store", type=float, default=5.0,
-            help="width of flex cuts in multiples of thickness")
 
     def render(self):
         x, y = self.x, self.y
         self.open()
-
-        self.edges["X"].settings.setValues(
-            self.thickness, relative=True,
-            distance=self.fd, connection=self.fc, width=self.fw)
 
         self.moveTo(5, 5)
         self.edge(10)

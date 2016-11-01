@@ -199,7 +199,6 @@ class Settings(object):
         factor = 1.0
         if relative:
             factor = thickness
-        print(kw.items())
         for name, value in kw.items():
             if name in self.absolute_params:
                 self.values[name] = value

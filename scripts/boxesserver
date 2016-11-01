@@ -8,7 +8,8 @@ import os.path
 import threading
 import time
 
-css = (open(os.path.join(os.path.dirname(__file__), 'self.css')).read())
+csspath = os.path.join(os.path.dirname(__file__), 'self.css')
+css = (open(csspath).read())
 
 
 # Python 2 vs Python 3 compat
@@ -126,10 +127,14 @@ class BServer:
          e.style.display = "none";
       }
     }
+    function hideargs() {
+     for ( i=1; i<""" + str(len(box.argparser._action_groups)-2) + """; i++) {
+       showHide(i);
+     }
+    }
    </script>
 </head>
-<body>
-
+<body onload="hideargs()">
 
 
 <div class="container" style="background-color: #FFF8EA;">
@@ -160,12 +165,12 @@ flex cuts, holes and slots for screws and more high level functions.
 <form action="%s" method="GET" target="_blank">
         """ % (action)]
         groupid = 0
-        for group in box.argparser._action_groups[2:] + box.argparser._action_groups[:2]:
+        for group in box.argparser._action_groups[3:] + box.argparser._action_groups[:3]:
             groupid += 1
             if not group._group_actions:
                 continue
             prefix = getattr(group, "prefix", None)
-            result.append('<h3 onclick="showHide(%s)">%s ></h3>\n<table id="%s">\n' % (groupid, group.title, groupid))
+            result.append('<h3 onclick="showHide(%s)">%s</h3>\n<table id="%s">\n' % (groupid, group.title, groupid))
             for a in group._group_actions:
                 if a.dest in ("input", "output"):
                     continue
@@ -363,7 +368,7 @@ flex cuts, holes and slots for screws and more high level functions.
             return (l.encode("utf-8") for l in result)
 
 if __name__=="__main__":
-    fc = FileChecker()
+    fc = FileChecker(files=[csspath])
     fc.start()
     boxserver = BServer()
     httpd = make_server('', 8000, boxserver.serve)

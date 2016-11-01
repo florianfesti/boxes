@@ -192,7 +192,7 @@ class Boxes:
         self.formats = formats.Formats()
         self.argparser = ArgumentParser(description=self.__doc__)
         self.edgesettings = {}
-        self.argparser._action_groups[1].title = "Generator Settings"
+        self.argparser._action_groups[1].title = self.__class__.__name__ + " Settings"
 
         defaultgroup = self.argparser.add_argument_group(
                         "Default Settings")

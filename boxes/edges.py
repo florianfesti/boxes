@@ -1003,6 +1003,14 @@ class HingePin(BaseEdge):
 #############################################################################
 
 class LidSettings(FingerJointSettings):
+
+    """Settings for Slide-on Lids
+
+Inherited:
+
+    """
+    __doc__ += FingerJointSettings.__doc__
+
     absolute_params = FingerJointSettings.absolute_params.copy()
     relative_params = FingerJointSettings.relative_params.copy()
 
@@ -1097,6 +1105,10 @@ class LidSideLeft(LidSideRight):
 #############################################################################
 
 class ClickSettings(Settings):
+    """Settings for Click-on Lids
+
+    """
+
     absolute_params = {
         "angle": 5,
     }
@@ -1307,7 +1319,7 @@ class DoveTailJointCounterPart(DoveTailJoint):
 
 
 class FlexSettings(Settings):
-    """Settings for one directional Flex Cuts
+    """Settings for Flex
 
 Values:
 

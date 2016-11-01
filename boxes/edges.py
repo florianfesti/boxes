@@ -287,7 +287,7 @@ Values:
 
 * absolute_params
 
- * style : A : "A" (wiggly line) or "B" (bumps)
+ * style : "wave : "wave" or "bumps"
  * outset : True : extend outward the straight edge
 
 * relative (in multiples of thickness)
@@ -297,7 +297,7 @@ Values:
 """
 
     absolute_params = {
-        "style": ("A", "B"),
+        "style": ("wave", "bumps"),
         "outset": True,
     }
 
@@ -310,7 +310,7 @@ class GrippingEdge(BaseEdge):
     description = """Corrugated edge useful as an gipping area"""
     char = 'g'
 
-    def A(self, length):
+    def wave(self, length):
         depth = self.settings.depth
         grooves = int(length // (depth * 2.0)) + 1
         depth = length / grooves / 4.0
@@ -321,7 +321,7 @@ class GrippingEdge(BaseEdge):
             self.corner(o * 180, depth)
             self.corner(o * -90, depth)
 
-    def B(self, length):
+    def bumps(self, length):
         depth = self.settings.depth
         grooves = int(length // (depth * 2.0)) + 1
         depth = length / grooves / 2.0
@@ -757,7 +757,7 @@ Values:
 
 * absolute_params
 
- * style : B : currently "A" or "B"
+ * style : "outset" : "outset" or "flush"
  * outset : False : have lid overlap at the sides (similar to OutSetEdge)
  * pinwidth : 1.0 : set to lower value to get disks surrounding the pins
  * grip_percentage" : 0 : percentage of the lid that should get grips
@@ -770,7 +770,7 @@ Values:
 
 """
     absolute_params = {
-        "style": ("A", "B"),
+        "style": ("outset", "flush"),
         "outset": False,
         "pinwidth": 0.5,
         "grip_percentage": 0,
@@ -800,7 +800,7 @@ class Hinge(BaseEdge):
     def margin(self):
         return 3 * self.thickness
 
-    def A(self, _reversed=False):
+    def outset(self, _reversed=False):
         t = self.thickness
         r = 0.5 * self.settings.axle
         alpha = math.degrees(math.asin(0.5 * t / r))
@@ -826,7 +826,7 @@ class Hinge(BaseEdge):
             self.boxes.rectangularHole(pos, -0.5 * t, pinl, self.thickness)
             self.polyline(*hinge)
 
-    def Alen(self):
+    def outsetlen(self):
         t = self.thickness
         r = 0.5 * self.settings.axle
         alpha = math.degrees(math.asin(0.5 * t / r))
@@ -834,7 +834,7 @@ class Hinge(BaseEdge):
 
         return 2 * pos + 1.5 * t
 
-    def B(self, _reversed=False):
+    def flush(self, _reversed=False):
         t = self.thickness
 
         hinge = (
@@ -856,19 +856,19 @@ class Hinge(BaseEdge):
 
         self.polyline(*hinge)
 
-    def Blen(self):
+    def flushlen(self):
         return self.settings.axle + 2 * self.settings.hingestrength + 0.5 * self.thickness
 
     def __call__(self, l, **kw):
-        hlen = getattr(self, self.settings.style + 'len', self.Alen)()
+        hlen = getattr(self, self.settings.style + 'len', self.outsetlen)()
 
         if self.layout & 1:
-            getattr(self, self.settings.style, self.A)()
+            getattr(self, self.settings.style, self.outset)()
 
         self.edge(l - (self.layout & 1) * hlen - bool(self.layout & 2) * hlen)
 
         if self.layout & 2:
-            getattr(self, self.settings.style, self.A)(True)
+            getattr(self, self.settings.style, self.outset)(True)
 
 
 class HingePin(BaseEdge):
@@ -900,7 +900,7 @@ class HingePin(BaseEdge):
     def margin(self):
         return self.thickness
 
-    def A(self, _reversed=False):
+    def outset(self, _reversed=False):
         t = self.thickness
         r = 0.5 * self.settings.axle
         alpha = math.degrees(math.asin(0.5 * t / r))
@@ -929,7 +929,7 @@ class HingePin(BaseEdge):
 
         self.polyline(*pin)
 
-    def Alen(self):
+    def outsetlen(self):
         t = self.thickness
         r = 0.5 * self.settings.axle
         alpha = math.degrees(math.asin(0.5 * t / r))
@@ -940,7 +940,7 @@ class HingePin(BaseEdge):
         else:
             return 2 * pos
 
-    def B(self, _reversed=False):
+    def flush(self, _reversed=False):
         t = self.thickness
         pinl = (self.settings.axle ** 2 - t ** 2) ** 0.5 * self.settings.pinwidth
         d = (self.settings.axle - pinl) / 2.0
@@ -966,7 +966,7 @@ class HingePin(BaseEdge):
 
         self.polyline(*pin)
 
-    def Blen(self):
+    def flushlen(self):
         l = self.settings.hingestrength + self.settings.axle
 
         if self.settings.outset:
@@ -975,7 +975,7 @@ class HingePin(BaseEdge):
         return l
 
     def __call__(self, l, **kw):
-        plen = getattr(self, self.settings.style + 'len', self.Alen)()
+        plen = getattr(self, self.settings.style + 'len', self.outsetlen)()
         glen = l * self.settings.grip_percentage + \
                self.settings.grip_length
 
@@ -985,17 +985,17 @@ class HingePin(BaseEdge):
         glen = min(glen, l - plen)
 
         if self.layout & 1 and self.layout & 2:
-            getattr(self, self.settings.style, self.A)()
+            getattr(self, self.settings.style, self.outset)()
             self.edge(l - 2 * plen)
-            getattr(self, self.settings.style, self.A)(True)
+            getattr(self, self.settings.style, self.outset)(True)
         elif self.layout & 1:
-            getattr(self, self.settings.style, self.A)()
+            getattr(self, self.settings.style, self.outset)()
             self.edge(l - plen - glen)
             self.edges['g'](glen)
         else:
             self.edges['g'](glen)
             self.edge(l - plen - glen)
-            getattr(self, self.settings.style, self.A)(True)
+            getattr(self, self.settings.style, self.outset)(True)
 
 
 #############################################################################

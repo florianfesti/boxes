@@ -129,7 +129,7 @@ class Settings(object):
     relative_params = {}
 
     @classmethod
-    def parserArguments(cls, parser, prefix=None):
+    def parserArguments(cls, parser, prefix=None, **defaults):
         prefix = prefix or cls.__name__[:-len("Settings")]
 
         lines  = cls.__doc__.split("\n")
@@ -146,6 +146,8 @@ class Settings(object):
         group.prefix = prefix
         for name, default in (sorted(cls.absolute_params.items()) +
                               sorted(cls.relative_params.items())):
+            if name in defaults:
+                default = defaults[name]
             group.add_argument("--%s_%s" % (prefix, name),
                                type=type(default),
                                action="store", default=default,

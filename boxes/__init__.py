@@ -294,9 +294,9 @@ class Boxes:
             else:
                 raise ValueError("No default for argument", arg)
 
-    def addSettingsArgs(self, settings, prefix=None):
+    def addSettingsArgs(self, settings, prefix=None, **defaults):
         prefix = prefix or settings.__name__[:-len("Settings")]
-        settings.parserArguments(self.argparser, prefix)
+        settings.parserArguments(self.argparser, prefix, **defaults)
         self.edgesettings[prefix] =  {}
         
 

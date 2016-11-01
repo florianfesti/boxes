@@ -193,7 +193,6 @@ class Boxes:
         self.argparser = ArgumentParser(description=self.__doc__)
         self.edgesettings = {}
         self.argparser._action_groups[1].title = "Generator Settings"
-        self.addSettingsArgs(edges.FingerJointSettings)
 
         defaultgroup = self.argparser.add_argument_group(
                         "Default Settings")

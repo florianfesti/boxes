@@ -146,15 +146,39 @@ class Settings(object):
         group.prefix = prefix
         for name, default in (sorted(cls.absolute_params.items()) +
                               sorted(cls.relative_params.items())):
+            # Handle choices
+            choices = None
+            if isinstance(default, tuple):
+                choices = default
+                t = type(default[0])
+                for val in default:
+                    if (type(val) is not t or
+                        type(val) not in (bool, int, float, str)):
+                        raise ValueError("Type not supported: %r", val)
+                default = default[0]
+
+            # Overwrite default
             if name in defaults:
                 default = defaults[name]
+
+            if type(default) not in (bool, int, float, str):
+                raise ValueError("Type not supported: %r", default)
+
             group.add_argument("--%s_%s" % (prefix, name),
                                type=type(default),
                                action="store", default=default,
+                               choices=choices,
                                help=descriptions.get(name))
 
     def __init__(self, thickness, relative=True, **kw):
-        self.values = self.absolute_params.copy()
+        self.values = {}
+        for name, value in self.absolute_params.items():
+            if isinstance(value, tuple):
+                value = value[0]
+            if type(value) not in (bool, int, float, str):
+                raise ValueError("Type not supported: %r", value)
+            self.values[name] = value
+
         self.thickness = thickness
         factor = 1.0
         if relative:
@@ -273,7 +297,7 @@ Values:
 """
 
     absolute_params = {
-        "style": "A",
+        "style": ("A", "B"),
         "outset": True,
     }
 
@@ -746,7 +770,7 @@ Values:
 
 """
     absolute_params = {
-        "style": "A",
+        "style": ("A", "B"),
         "outset": False,
         "pinwidth": 0.5,
         "grip_percentage": 0,

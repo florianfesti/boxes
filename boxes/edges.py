@@ -836,15 +836,15 @@ class Hinge(BaseEdge):
         return self.settings.axle + 2 * self.settings.hingestrength + 0.5 * self.thickness
 
     def __call__(self, l, **kw):
-        hlen = getattr(self, self.settings.style + 'len')()
+        hlen = getattr(self, self.settings.style + 'len', self.Alen)()
 
         if self.layout & 1:
-            getattr(self, self.settings.style)()
+            getattr(self, self.settings.style, self.A)()
 
         self.edge(l - (self.layout & 1) * hlen - bool(self.layout & 2) * hlen)
 
         if self.layout & 2:
-            getattr(self, self.settings.style)(True)
+            getattr(self, self.settings.style, self.A)(True)
 
 
 class HingePin(BaseEdge):
@@ -951,7 +951,7 @@ class HingePin(BaseEdge):
         return l
 
     def __call__(self, l, **kw):
-        plen = getattr(self, self.settings.style + 'len')()
+        plen = getattr(self, self.settings.style + 'len', self.Alen)()
         glen = l * self.settings.grip_percentage + \
                self.settings.grip_length
 
@@ -961,17 +961,17 @@ class HingePin(BaseEdge):
         glen = min(glen, l - plen)
 
         if self.layout & 1 and self.layout & 2:
-            getattr(self, self.settings.style)()
+            getattr(self, self.settings.style, self.A)()
             self.edge(l - 2 * plen)
-            getattr(self, self.settings.style)(True)
+            getattr(self, self.settings.style, self.A)(True)
         elif self.layout & 1:
-            getattr(self, self.settings.style)()
+            getattr(self, self.settings.style, self.A)()
             self.edge(l - plen - glen)
             self.edges['g'](glen)
         else:
             self.edges['g'](glen)
             self.edge(l - plen - glen)
-            getattr(self, self.settings.style)(True)
+            getattr(self, self.settings.style, self.A)(True)
 
 
 #############################################################################

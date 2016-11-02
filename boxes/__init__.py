@@ -499,6 +499,14 @@ class Boxes:
         :param radius:  (Default value = 0)
 
         """
+        if radius > 0.5* self.thickness:
+            while degrees > 100:
+                self.corner(90, radius)
+                degrees -= 90
+            while degrees < -100:
+                self.corner(-90, radius)
+                degrees -= -90
+
         rad = degrees * math.pi / 180
         if degrees > 0:
             self.ctx.arc(0, radius + self.burn, radius + self.burn,
@@ -788,7 +796,12 @@ class Boxes:
         if r < 0:
             r = 1E-9
         self.moveTo(x + r, y)
-        self.ctx.arc(-r, 0, r, 0, 2 * math.pi)
+        a = 0
+        n = 10
+        da = 2 * math.pi / n
+        for i in range(n):
+            self.ctx.arc(-r, 0, r, a, a+da)
+            a += da
 
     @restore
     @holeCol

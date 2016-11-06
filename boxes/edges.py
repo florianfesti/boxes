@@ -1015,9 +1015,13 @@ Inherited:
 
     relative_params.update( {
         "play": 0.05,
-        "second_pin": 2,
         "finger": 3.0,
         "space": 2.0,
+        } )
+
+    absolute_params.update( {
+        "second_pin": True,
+        "spring": ("both", "none", "left", "right", "both"),
         } )
 
 class LidEdge(FingerJointEdge):
@@ -1035,11 +1039,26 @@ class LidRight(BaseEdge):
 
     def __call__(self, length, **kw):
         t = self.boxes.thickness
-        p = [t, 90, t, -90, length-t]
+
+        if self.rightside:
+            spring = self.settings.spring in ("right", "both")
+        else:
+            spring = self.settings.spring in ("left", "both")
+
+        if spring:
+            l = min(6*t, length - 2*t)
+            a = 30
+            sqt = 0.4 * t / math.cos(math.radians(a))
+            sw = 0.5 * t
+            p = [0, 90, 1.5*t+sw, -90, l, (-180, 0.25*t), l-0.2*t, 90, sw, 90-a, sqt, 2*a, sqt, -a, length-t ]
+        else:
+            p = [t, 90, t, -90, length-t]
+
         pin = self.settings.second_pin
 
         if pin:
-            p[-1:] = [length-2*t-pin, -90, t, 90, pin, 90, t, -90, t]
+            pinl = 2*t
+            p[-1:] = [length-2*t-pinl, -90, t, 90, pinl, 90, t, -90, t]
 
         if not self.rightside:
             p = list(reversed(p))
@@ -1073,28 +1092,46 @@ class LidSideRight(BaseEdge):
     description = "Edge for slide on lid (box right)"
 
     rightside = True
+
     def __call__(self, length,  **kw):
         t = self.boxes.thickness
         s = self.settings.play
         pin = self.settings.second_pin
 
-        p = [t+s, -90, t+s, -90, 2*t+s, 90, t-s, 90, length+t]
+        if self.rightside:
+            spring = self.settings.spring in ("right", "both")
+        else:
+            spring = self.settings.spring in ("left", "both")
+
+        if spring:
+            p = [s, -90, t+s, -90, t+s, 90, t-s, 90, length+t]
+        else:
+            p = [t+s, -90, t+s, -90, 2*t+s, 90, t-s, 90, length+t]
 
         if pin:
-            p[-1:] = [p[-1]-t-2*pin, 90, 2*t+s, -90, 2*pin+s, -90, t+s, -90,
-                      pin, 90, t, 90, pin+t-s]
-        if not self.rightside:
+            pinl = 2*t
+            p[-1:] = [p[-1]-t-2*pinl, 90, 2*t+s, -90, 2*pinl+s, -90, t+s, -90,
+                      pinl, 90, t, 90, pinl+t-s]
+
+        holex = 0.6 * t
+        holey = -0.5*t
+        if self.rightside:
             p = list(reversed(p))
+            holex = length - holex
+            holey = 1.5*t
+
+        if spring:
+            self.rectangularHole(holex, holey, 0.4*t, t+2*s)
         self.polyline(*p)
 
     def startwidth(self):
-        return 2*self.boxes.thickness if not self.rightside else 0.0
-
-    def endwidth(self):
         return 2*self.boxes.thickness if self.rightside else 0.0
 
+    def endwidth(self):
+        return 2*self.boxes.thickness if not self.rightside else 0.0
+
     def margin(self):
-        return 2*self.boxes.thickness # if not self.rightside else 0.0
+        return 2*self.boxes.thickness if not self.rightside else 0.0
 
 class LidSideLeft(LidSideRight):
     char = "M"

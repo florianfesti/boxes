@@ -998,7 +998,7 @@ class HingePin(BaseEdge):
 
 
 #############################################################################
-####     Slide-in lid
+####     Slide-on lid
 #############################################################################
 
 class LidSettings(FingerJointSettings):
@@ -1014,8 +1014,10 @@ Inherited:
     relative_params = FingerJointSettings.relative_params.copy()
 
     relative_params.update( {
-        "play" : 0.05,
-        "second_pin" : 2,
+        "play": 0.05,
+        "second_pin": 2,
+        "finger": 3.0,
+        "space": 2.0,
         } )
 
 class LidEdge(FingerJointEdge):

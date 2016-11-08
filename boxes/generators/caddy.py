@@ -107,8 +107,9 @@ class Caddy(Boxes):
         # Arguments x, y, h are 3D parameters of the box we're making.
         #
         # Todo: Parameterize foot option (change s -> F for no feet
-        # or allow e for flat bottom, with s for feet or h for straigt
-        # with holes for fingers)
+        # or allow e for flat bottom, with s for feet or h for straight
+        # with holes for fingers)  edges = 'BRTL'
+    
         self.rectangularWall(h, y, "FsFq", move="right")    #handle end
         self.rectangularWall(x, y, "ffff", move="right")    #bottom
         self.rectangularWall(h, y, "FqFs", move="up")       #handle end

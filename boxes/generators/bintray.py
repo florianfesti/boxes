@@ -23,18 +23,26 @@ class BinFrontEdge(edges.BaseEdge):
         f = self.settings.front
         a1 = math.degrees(math.atan(f/(1-f)))
         a2 = 45 + a1
+        self.corner(-a1)
         for i, l in enumerate(self.settings.sy):
-            self.corner(-a1)
             self.edges["e"](l* (f**2+(1-f)**2)**0.5)
             self.corner(a2)            
             self.edges["f"](l*f*2**0.5)
-            self.corner(-45)
             if i < len(self.settings.sy)-1:
-                self.edge(self.thickness)
+                if self.char == "B":
+                    self.polyline(0, 45, 0.5*self.settings.hi,
+                                  -90, self.thickness, -90, 0.5*self.settings.hi, 90-a1)
+                else:
+                    self.polyline(0, -45, self.thickness, -a1)
+            else:
+                self.corner(-45)
 
     def margin(self):
-        return max(self.settings.sy) * 0.5*2**0.5
-        
+        return max(self.settings.sy) * self.settings.front
+
+class BinFrontSideEdge(BinFrontEdge):
+    char = 'b'
+
 class BinTray(Boxes):
     """A Type tray variant to be used up right with sloped walls in front"""
 
@@ -100,11 +108,12 @@ class BinTray(Boxes):
         self.open()
 
         self.addPart(BinFrontEdge(self, self))
+        self.addPart(BinFrontSideEdge(self, self))
 
         # outer walls
         self.rectangularWall(x, h, "Ffef", callback=[self.xHoles],  move="right")
-        self.rectangularWall(y, h, "FFBF", callback=[self.yHoles, ], move="up")
-        self.rectangularWall(y, h, "FFBF", callback=[self.yHoles, ])
+        self.rectangularWall(y, h, "FFbF", callback=[self.yHoles, ], move="up")
+        self.rectangularWall(y, h, "FFbF", callback=[self.yHoles, ])
         self.rectangularWall(x, h, "Ffef", callback=[self.xHoles, ], move="left")
         self.rectangularWall(y, h, "FFBF", move="up only")
 
@@ -112,12 +121,12 @@ class BinTray(Boxes):
         self.rectangularWall(x, y, "ffff", callback=[self.xSlots, self.ySlots],move="right")
         # Inner walls
         for i in range(len(self.sx) - 1):
-            e = [edges.SlottedEdge(self, self.sy, "f", slots=0.5 * hi), "f", "B", "f"]
+            e = [edges.SlottedEdge(self, self.sy, "f"), "f", "B", "f"]
             self.rectangularWall(y, hi, e, move="up")
 
         for i in range(len(self.sy) - 1):
-            e = [edges.SlottedEdge(self, self.sx, "f"), "f",
-                 edges.SlottedEdge(self, self.sx[::-1], "e", slots=0.5 * hi), "f"]
+            e = [edges.SlottedEdge(self, self.sx, "f", slots=0.5 * hi), "f",
+                 edges.SlottedEdge(self, self.sx[::-1], "e"), "f"]
             self.rectangularWall(x, hi, e, move="up")
 
         # Front walls

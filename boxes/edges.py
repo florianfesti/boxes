@@ -501,7 +501,6 @@ Values:
 
   * space : 1.0 : space between fingers
   * finger : 1.0 : width of the fingers
-  * height : 1.0 : length of the fingers
   * width : 1.0 : width of finger holes
   * edge_width : 1.0 : space below holes of FingerHoleEdge
   * play : 0.0 : extra space to allow movement
@@ -509,13 +508,13 @@ Values:
 """
 
     absolute_params = {
-        "surroundingspaces": 2,
+        "surroundingspaces": 2.0,
+        "angle" : 90.0,
     }
 
     relative_params = {
         "space": 1.0,
         "finger": 1.0,
-        "height": 1.0,
         "width": 1.0,
         "edge_width": 1.0,
         "play" : 0.0,
@@ -546,6 +545,16 @@ class FingerJointBase:
 
         return fingers, leftover
 
+    def fingerLength(self, angle):
+        if angle >=90:
+            return self.thickness, 0
+
+        a = 90 - (180-angle) / 2.0
+        fingerlength = self.thickness * math.tan(math.radians(a))
+        b = 2*a
+        spacerecess = -math.sin(math.degrees(b)) * fingerlength
+        return fingerlength, spacerecess
+
 class FingerJointEdge(BaseEdge, FingerJointBase):
     """Finger joint edge """
     char = 'f'
@@ -570,7 +579,8 @@ class FingerJointEdge(BaseEdge, FingerJointBase):
 
         self.edge(leftover / 2.0)
 
-        h = self.settings.height
+        l1,l2 = self.fingerLength(self.settings.angle)
+        h = l1-l2
 
         for i in range(fingers):
             if i != 0:
@@ -589,7 +599,15 @@ class FingerJointEdge(BaseEdge, FingerJointBase):
 
     def margin(self):
         """ """
-        return self.settings.height
+        widths = self.fingerLength(self.settings.angle)
+        if self.positive:
+            return widths[0]
+        else:
+            return 0
+
+    def startwidth(self):
+        widths = self.fingerLength(self.settings.angle)
+        return widths[self.positive]
 
 
 class FingerJointEdgeCounterPart(FingerJointEdge):
@@ -597,14 +615,6 @@ class FingerJointEdgeCounterPart(FingerJointEdge):
     char = 'F'
     description = "Finger Joint (opposing side)"
     positive = False
-
-    def startwidth(self):
-        """ """
-        return self.boxes.thickness
-
-    def margin(self):
-        """ """
-        return 0.0
 
 
 class FingerHoles(FingerJointBase):

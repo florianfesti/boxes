@@ -558,7 +558,7 @@ class FingerJointEdge(BaseEdge, FingerJointBase):
 
     def margin(self):
         """ """
-        return self.boxes.thickness
+        return self.settings.height
 
 
 class FingerJointEdgeCounterPart(FingerJointEdge):

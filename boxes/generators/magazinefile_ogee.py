@@ -17,8 +17,8 @@
 from boxes import *
 
 
-class MagazinFile(Boxes):
-    """Open magazine file"""
+class MagazineFile(Boxes):
+    """Varient of open magazine file with parameter for side's curve"""
 
     def __init__(self):
         Boxes.__init__(self)
@@ -129,7 +129,7 @@ class MagazinFile(Boxes):
 
 
 def main():
-    b = MagazinFile()
+    b = MagazineFile()
     b.parseArgs()
     b.render()
 

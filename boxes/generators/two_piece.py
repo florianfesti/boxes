@@ -17,7 +17,7 @@
 from boxes import *
 
 
-class Example(Boxes):
+class TwoPiece(Boxes):
     """A two piece box where top slips over the bottom half to form 
         the enclosure. For the inner part, generate a with an overhang
         of two thickness. For the outer part, use the same height but
@@ -109,7 +109,7 @@ class Example(Boxes):
         self.close()
 
 def main():
-    b = Example()
+    b = TwoPiece()
     b.parseArgs()
     b.render()
 

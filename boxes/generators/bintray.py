@@ -110,8 +110,12 @@ class BinTray(Boxes):
         self.addPart(BinFrontEdge(self, self))
         self.addPart(BinFrontSideEdge(self, self))
 
+        edges.FingerJointSettings(self.thickness, True, angle=45).edgeObjects(self, chars="gGH")
+
         # outer walls
-        self.rectangularWall(x, h, "Ffef", callback=[self.xHoles],  move="right")
+        e = ["F", "f", edges.SlottedEdge(self, self.sx[::-1], "G"), "f"]
+
+        self.rectangularWall(x, h, e, callback=[self.xHoles],  move="right")
         self.rectangularWall(y, h, "FFbF", callback=[self.yHoles, ], move="up")
         self.rectangularWall(y, h, "FFbF", callback=[self.yHoles, ])
         self.rectangularWall(x, h, "Ffef", callback=[self.xHoles, ], move="left")
@@ -126,12 +130,13 @@ class BinTray(Boxes):
 
         for i in range(len(self.sy) - 1):
             e = [edges.SlottedEdge(self, self.sx, "f", slots=0.5 * hi), "f",
-                 edges.SlottedEdge(self, self.sx[::-1], "e"), "f"]
+                 edges.SlottedEdge(self, self.sx[::-1], "G"), "f"]
             self.rectangularWall(x, hi, e, move="up")
 
         # Front walls
         for i in range(len(self.sy)):
-            self.rectangularWall(x, self.sy[i]*self.front*2**0.5, "eFeF", callback=[self.frontHoles(i)], move="up")
+            e = [edges.SlottedEdge(self, self.sx, "g"), "F", "e", "F"]
+            self.rectangularWall(x, self.sy[i]*self.front*2**0.5, e, callback=[self.frontHoles(i)], move="up")
 
         self.close()
 

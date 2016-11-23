@@ -335,58 +335,43 @@ class Boxes:
         else:
             setattr(self, name, part)
 
+    def addParts(self, parts):
+        for part in parts:
+            self.addPart(part)
+
     def _buildObjects(self):
         """Add default edges and parts """
         self.edges = {}
         self.addPart(edges.Edge(self, None))
         self.addPart(edges.OutSetEdge(self, None))
-        s = edges.GripSettings(self.thickness)
-        self.addPart(edges.GrippingEdge(self, s))
+        edges.GripSettings(self.thickness).edgeObjects(self)
 
         # Finger joints
         # Share settings object
         s = edges.FingerJointSettings(self.thickness, True,
                 **self.edgesettings.get("FingerJoint", {}))
-        self.addPart(edges.FingerJointEdge(self, s))
-        self.addPart(edges.FingerJointEdgeCounterPart(self, s))
+        s.edgeObjects(self)
         self.addPart(edges.FingerHoles(self, s), name="fingerHolesAt")
-        self.addPart(edges.FingerHoleEdge(self, None))
         # Stackable
-        ss = edges.StackableSettings(self.thickness, True,
-                **self.edgesettings.get("Stackable", {}))
-        self.addPart(edges.StackableEdge(self, ss, s))
-        self.addPart(edges.StackableEdgeTop(self, ss, s))
+        edges.StackableSettings(self.thickness, True,
+            **self.edgesettings.get("Stackable", {})).edgeObjects(self)
         # Dove tail joints
-        s = edges.DoveTailSettings(self.thickness, True,
-                **self.edgesettings.get("DoveTail", {}))
-        self.addPart(edges.DoveTailJoint(self, s))
-        self.addPart(edges.DoveTailJointCounterPart(self, s))
+        edges.DoveTailSettings(self.thickness, True,
+            **self.edgesettings.get("DoveTail", {})).edgeObjects(self)
         # Flex
         s = edges.FlexSettings(self.thickness, True,
                 **self.edgesettings.get("Flex", {}))
         self.addPart(edges.FlexEdge(self, s))
         # Clickable
-        s = edges.ClickSettings(self.thickness, True,
-                **self.edgesettings.get("Click", {}))
-        self.addPart(edges.ClickConnector(self, s))
-        self.addPart(edges.ClickEdge(self, s))
+        edges.ClickSettings(self.thickness, True,
+                **self.edgesettings.get("Click", {})).edgeObjects(self)
         # Hinges
-        s = edges.HingeSettings(self.thickness, True,
-                **self.edgesettings.get("Hinge", {}))
-
-        for i in range(1, 4):
-            self.addPart(edges.Hinge(self, s, i))
-            self.addPart(edges.HingePin(self, s, i))
+        edges.HingeSettings(self.thickness, True,
+                **self.edgesettings.get("Hinge", {})).edgeObjects(self)
         # Sliding Lid
-        s = edges.LidSettings(self.thickness, True,
-                **self.edgesettings.get("Lid", {}))
+        edges.LidSettings(self.thickness, True,
+                **self.edgesettings.get("Lid", {})).edgeObjects(self)
 
-        self.addPart(edges.LidEdge(self, s))
-        self.addPart(edges.LidHoleEdge(self, s))
-        self.addPart(edges.LidSideRight(self, s))
-        self.addPart(edges.LidSideLeft(self, s))
-        self.addPart(edges.LidRight(self, s))
-        self.addPart(edges.LidLeft(self, s))
         # Nuts
         self.addPart(NutHole(self, None))
         # Gears

@@ -187,6 +187,31 @@ class Settings(object):
             self.values[name] = value * factor
         self.setValues(thickness, relative, **kw)
 
+    def edgeObjects(self, boxes, chars="", add=True):
+        """
+        Generate Edge objects using this kind of settings
+
+        :param boxes: Boxes object
+        :param chars: sequence of chars to be used by Edge objects
+        :param add: add the resulting Edge objects to the Boxes object's edges
+
+        """
+        edges = []
+        return self._edgeObjects(edges, boxes, chars, add)
+
+    def _edgeObjects(self, edges, boxes, chars, add):
+        for i, edge in enumerate(edges):
+            try:
+                char = chars[i]
+                edge.char = char
+            except IndexError:
+                pass
+            except TypeError:
+                pass
+        if add:
+            boxes.addParts(edges)
+        return edges
+
     def setValues(self, thickness, relative=True, **kw):
         """
         Set values
@@ -304,6 +329,9 @@ Values:
         "depth": 0.3,
     }
 
+    def edgeObjects(self, boxes, chars="g", add=True):
+        edges = [GrippingEdge(boxes, self)]
+        return self._edgeObjects(edges, boxes, chars, add)
 
 class GrippingEdge(BaseEdge):
     description = """Corrugated edge useful as an gipping area"""
@@ -493,6 +521,13 @@ Values:
         "play" : 0.0,
     }
 
+    def edgeObjects(self, boxes, chars="fFh", add=True):
+        edges = [FingerJointEdge(boxes, self),
+                 FingerJointEdgeCounterPart(boxes, self),
+                 FingerHoleEdge(boxes, self),
+        ]
+        return self._edgeObjects(edges, boxes, chars, add)
+
 class FingerJointBase:
 
     def calcFingers(self, length, bedBolts):
@@ -598,11 +633,9 @@ class FingerHoles(FingerJointBase):
         """
         self.boxes.ctx.save()
         self.boxes.moveTo(x, y, angle)
-
         s, f = self.settings.space, self.settings.finger
         p = self.settings.play
         b = self.boxes.burn
-
         fingers, leftover = self.calcFingers(length, bedBolts)
 
         if self.boxes.debug:
@@ -698,6 +731,11 @@ Values:
         "holedistance": 1.0,
     }
 
+    def edgeObjects(self, boxes, chars="sS", add=True, fingersettings=None):
+        fingersettings = fingersettings or boxes.edges["f"].settings
+        edges = [StackableEdge(boxes, self, fingersettings),
+                 StackableEdgeTop(boxes, self, fingersettings)]
+        return self._edgeObjects(edges, boxes, chars, add)
 
 class StackableEdge(BaseEdge):
     """Edge for having stackable Boxes. The Edge creates feet on the bottom
@@ -781,6 +819,16 @@ Values:
         "grip_length": 0,
     }
 
+    def edgeObjects(self, boxes, chars="iIjJkK", add=True):
+        edges = [
+            Hinge(boxes, self, 1),
+            HingePin(boxes, self, 1),
+            Hinge(boxes, self, 2),
+            HingePin(boxes, self, 2),
+            Hinge(boxes, self, 3),
+            HingePin(boxes, self, 3),
+        ]
+        return self._edgeObjects(edges, boxes, chars, add)
 
 class Hinge(BaseEdge):
     char = 'i'
@@ -1024,6 +1072,16 @@ Inherited:
         "spring": ("both", "none", "left", "right", "both"),
         } )
 
+    def edgeObjects(self, boxes, chars=None, add=True):
+        edges = [LidEdge(boxes, self),
+                 LidHoleEdge(boxes, self),
+                 LidRight(boxes, self),
+                 LidLeft(boxes, self),
+                 LidSideRight(boxes, self),
+                 LidSideLeft(boxes, self),
+        ]
+        return self._edgeObjects(edges, boxes, chars, add)
+
 class LidEdge(FingerJointEdge):
     char = "l"
     description = "Edge for slide on lid"
@@ -1156,6 +1214,10 @@ class ClickSettings(Settings):
         "bottom_radius": 0.1,
     }
 
+    def edgeObjects(self, boxes, chars="cC", add=True):
+        edges = [ClickConnector(boxes, self),
+                 ClickEdge(boxes, self)]
+        return self._edgeObjects(edges, boxes, chars, add)
 
 class ClickConnector(BaseEdge):
     char = "c"
@@ -1299,6 +1361,10 @@ Values:
         "radius": 0.2,
     }
 
+    def edgeObjects(self, boxes, chars="dD", add=True):
+        edges = [DoveTailJoint(boxes, self),
+                 DoveTailJointCounterPart(boxes, self)]
+        return self._edgeObjects(edges, boxes, chars, add)
 
 class DoveTailJoint(BaseEdge):
     """Edge with dove tail joints """

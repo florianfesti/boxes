@@ -570,6 +570,8 @@ class FingerJointEdge(BaseEdge, FingerJointBase):
 
         self.edge(leftover / 2.0)
 
+        h = self.settings.height
+
         for i in range(fingers):
             if i != 0:
                 if not positive and bedBolts and bedBolts.drawBolt(i):
@@ -581,13 +583,7 @@ class FingerJointEdge(BaseEdge, FingerJointBase):
                 else:
                     self.edge(s)
 
-            self.corner(-90 * p)
-            self.edge(self.settings.height)
-            self.corner(90 * p)
-            self.edge(f)
-            self.corner(90 * p)
-            self.edge(self.settings.height)
-            self.corner(-90 * p)
+            self.polyline(0, -90 * p, h, 90 * p, f, 90 * p, h, -90 * p)
 
         self.edge(leftover / 2.0)
 

@@ -140,13 +140,6 @@ class BServer:
 <div class="container" style="background-color: #FFF8EA;">
 <div style="width: 70%; float: left;">
 <h1>Boxes.py</h1>
-<p>
-A Python based generator for laser cut boxes and other things.
-</p>
-<p>It features both finished parametrized generators as well as a Python API
-for writing your own scripts. It features finger and (flat) dovetail joints,
-flex cuts, holes and slots for screws and more high level functions.
-</p>
 </div>
 <div style="width: 30%; float: left;">
 <img alt="self-Logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Gray_shaded_3D_cube.svg/2000px-Gray_shaded_3D_cube.svg.png" width="300px" >

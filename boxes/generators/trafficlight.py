@@ -25,18 +25,18 @@ class ShadyEdge(edges.BaseEdge):
         h = self.h
         a = math.atan(s/h)
         angle = math.degrees(a)
-        for i in range(3):
+        for i in range(self.n):
             self.polyline(0, -angle, h / math.cos(a), angle+90)
             self.edges["f"](s)
             self.corner(-90)
-            if i < 2:
+            if i < self.n-1:
                 self.edge(self.thickness)
 
     def margin(self):
         return self.shades
 
 class TrafficLight(Boxes): # change class name here and below
-    """Traffic light with 3 lights"""
+    """Traffic light"""
     
     def __init__(self):
         Boxes.__init__(self)
@@ -52,17 +52,20 @@ class TrafficLight(Boxes): # change class name here and below
         self.argparser.add_argument(
             "--shades",  action="store", type=float, default=50,
             help="depth of the shaders")
+        self.argparser.add_argument(
+            "--n",  action="store", type=int, default=3,
+            help="number of lights")
 
     def backCB(self):
         t = self.thickness
-        for i in range(1,3):
+        for i in range(1, self.n):
             self.fingerHolesAt(i*(self.h+t)-0.5*t, 0, self.h)
 
     def sideCB(self):
         t = self.thickness
-        for i in range(1,3):
+        for i in range(1, self.n):
             self.fingerHolesAt(i*(self.h+t)-0.5*t, 0, self.depth)
-        for i in range(3):
+        for i in range(self.n):
             self.fingerHolesAt(i*(self.h+t),
                                self.depth-2*t, self.h, 0)
 
@@ -71,11 +74,11 @@ class TrafficLight(Boxes): # change class name here and below
     
     def render(self):
         # adjust to the variables you want in the local scope
-        d, h = self.depth, self.h
+        d, h, n = self.depth, self.h, self.n
         s = self.shades
         t = self.thickness
 
-        th = 3 * h + 2*t
+        th = n * (h + t) - t
         
         # Initialize canvas
         self.open()
@@ -88,12 +91,12 @@ class TrafficLight(Boxes): # change class name here and below
         
         e = edges.CompoundEdge(self, "fF", (d, s))
         e2 = edges.CompoundEdge(self, "Ff", (s, d))
-        for i in range(3):
+        for i in range(n):
             self.rectangularWall(h, d+s, ['f', e, 'e', e2],
-                                 move="right" if i<2 else "right up")
-        for i in range(3):
+                                 move="right" if i<n-1 else "right up")
+        for i in range(n):
             self.rectangularWall(h, h, "ffff", callback=[self.frontCB],
-                                 move="left" if i<2 else "left up")
+                                 move="left" if i<n-1 else "left up")
         self.rectangularWall(h, d, "ffef")
         
         self.close()

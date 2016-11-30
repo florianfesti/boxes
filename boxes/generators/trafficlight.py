@@ -85,19 +85,28 @@ class TrafficLight(Boxes): # change class name here and below
 
         self.addPart(ShadyEdge(self, None))
 
+        # back
         self.rectangularWall(th, h, "FFFF", callback=[self.backCB], move="up")
+        # sides
         self.rectangularWall(th, d, "fFsF", callback=[self.sideCB], move="up")
         self.rectangularWall(th, d, "fFsF", callback=[self.sideCB], move="up")
-        
+
+        # horizontal Walls / blinds tops
         e = edges.CompoundEdge(self, "fF", (d, s))
         e2 = edges.CompoundEdge(self, "Ff", (s, d))
         for i in range(n):
             self.rectangularWall(h, d+s, ['f', e, 'e', e2],
                                  move="right" if i<n-1 else "right up")
+        # fronts
         for i in range(n):
             self.rectangularWall(h, h, "efef", callback=[self.frontCB],
                                  move="left" if i<n-1 else "left up")
-        self.rectangularWall(h, d, "ffef")
+        # bottom wall
+        self.rectangularWall(h, d, "ffef", move="up")
+
+        # Colored windows
+        for i in range(n):
+            self.parts.disc(h-2*t, move="right")
         
         self.close()
 

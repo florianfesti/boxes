@@ -23,6 +23,15 @@ class BOX(Boxes): # change class name here and below
 
     def __init__(self):
         Boxes.__init__(self)
+
+        # Uncomment the settings for the edge types you use
+        # self.addSettingsArgs(edges.FingerJointSettings)
+        # self.addSettingsArgs(edges.StackableSettings)
+        # self.addSettingsArgs(edges.HingeSettings)
+        # self.addSettingsArgs(edges.LidSettings)
+        # self.addSettingsArgs(edges.ClickSettings)
+        # self.addSettingsArgs(edges.FlexSettings)
+
         # remove cli params you do not need
         self.buildArgParser("x", "sx", "y", "sy", "h", "hi")
         # Add non default cli params if needed (see argparse std lib)

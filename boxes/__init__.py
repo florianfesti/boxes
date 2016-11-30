@@ -191,34 +191,30 @@ class Boxes:
     def __init__(self):
         self.formats = formats.Formats()
         self.argparser = ArgumentParser(description=self.__doc__)
-        self.argparser.add_argument(
-            "--fingerjointfinger", action="store", type=float, default=1.0,
-            help="width of the fingers in multiples of thickness")
-        self.argparser.add_argument(
-            "--fingerjointspace", action="store", type=float, default=1.0,
-            help="width of the space between fingers in multiples of thickness")
-        self.argparser.add_argument(
-            "--fingerjointsurrounding", action="store", type=float, default=1.0,
-            help="amount of space needed at the end in multiples of normal spaces")
-        self.argparser.add_argument(
+        self.edgesettings = {}
+        self.argparser._action_groups[1].title = self.__class__.__name__ + " Settings"
+
+        defaultgroup = self.argparser.add_argument_group(
+                        "Default Settings")
+        defaultgroup.add_argument(
             "--thickness", action="store", type=float, default=4.0,
             help="thickness of the material")
-        self.argparser.add_argument(
+        defaultgroup.add_argument(
             "--output", action="store", type=str, default="box.svg",
             help="name of resulting file")
-        self.argparser.add_argument(
+        defaultgroup.add_argument(
             "--format", action="store", type=str, default="svg",
             choices=self.formats.getFormats(),
             help="format of resulting file")
-        self.argparser.add_argument(
+        defaultgroup.add_argument(
             "--debug", action="store", type=bool, default=False,
             help="print surrounding boxes for some structures")
-        self.argparser.add_argument(
+        defaultgroup.add_argument(
             "--reference", action="store", type=float, default=100,
             help="print reference rectangle with given length")
-        self.argparser.add_argument(
+        defaultgroup.add_argument(
             "--burn", action="store", type=float, default=0.05,
-            help="burn correction in mm")
+            help="burn correction in mm (bigger values for tighter fit)")
 
     def open(self):
         """
@@ -288,7 +284,7 @@ class Boxes:
             elif arg == "top_edge":
                 self.argparser.add_argument(
                     "--top_edge", action="store",
-                    type=ArgparseEdgeType("ecESikf"), choices=list("ecESikf"),
+                    type=ArgparseEdgeType("ecESikfL"), choices=list("ecESikfL"),
                     default="e", help="edge type for top edge")
             elif arg == "outside":
                 self.argparser.add_argument(
@@ -296,6 +292,12 @@ class Boxes:
                     help="treat sizes as outside measurements that include the walls")
             else:
                 raise ValueError("No default for argument", arg)
+
+    def addSettingsArgs(self, settings, prefix=None, **defaults):
+        prefix = prefix or settings.__name__[:-len("Settings")]
+        settings.parserArguments(self.argparser, prefix, **defaults)
+        self.edgesettings[prefix] =  {}
+        
 
     def parseArgs(self, args=None):
         """
@@ -305,6 +307,11 @@ class Boxes:
 
         """
         for key, value in vars(self.argparser.parse_args(args=args)).items():
+            # treat edge settings separately 
+            for setting in self.edgesettings:
+                if key.startswith(setting + '_'):
+                    self.edgesettings[setting][key[len(setting)+1:]] = value
+                    continue
             setattr(self, key, value)
 
         # Change file ending to format if not given explicitly
@@ -328,52 +335,49 @@ class Boxes:
         else:
             setattr(self, name, part)
 
+    def addParts(self, parts):
+        for part in parts:
+            self.addPart(part)
+
     def _buildObjects(self):
         """Add default edges and parts """
         self.edges = {}
         self.addPart(edges.Edge(self, None))
         self.addPart(edges.OutSetEdge(self, None))
-        s = edges.GripSettings(self.thickness)
-        self.addPart(edges.GrippingEdge(self, s))
+        edges.GripSettings(self.thickness).edgeObjects(self)
 
         # Finger joints
         # Share settings object
-        s = edges.FingerJointSettings(self.thickness)
-        s.setValues(self.thickness,
-                    finger=getattr(self, "fingerjointfinger", 1.0),
-                    space=getattr(self, "fingerjointspace", 1.0),
-                    surroundingspaces=getattr(self, "fingerjointsurrounding", 1.0))
-        self.addPart(edges.FingerJointEdge(self, s))
-        self.addPart(edges.FingerJointEdgeCounterPart(self, s))
+        s = edges.FingerJointSettings(self.thickness, True,
+                **self.edgesettings.get("FingerJoint", {}))
+        s.edgeObjects(self)
         self.addPart(edges.FingerHoles(self, s), name="fingerHolesAt")
-        self.addPart(edges.FingerHoleEdge(self, None))
         # Stackable
-        ss = edges.StackableSettings(self.thickness)
-        self.addPart(edges.StackableEdge(self, ss, s))
-        self.addPart(edges.StackableEdgeTop(self, ss, s))
+        edges.StackableSettings(self.thickness, True,
+            **self.edgesettings.get("Stackable", {})).edgeObjects(self)
         # Dove tail joints
-        s = edges.DoveTailSettings(self.thickness)
-        self.addPart(edges.DoveTailJoint(self, s))
-        self.addPart(edges.DoveTailJointCounterPart(self, s))
+        edges.DoveTailSettings(self.thickness, True,
+            **self.edgesettings.get("DoveTail", {})).edgeObjects(self)
         # Flex
-        s = edges.FlexSettings(self.thickness)
+        s = edges.FlexSettings(self.thickness, True,
+                **self.edgesettings.get("Flex", {}))
         self.addPart(edges.FlexEdge(self, s))
         # Clickable
-        s = edges.ClickSettings(self.thickness)
-        self.addPart(edges.ClickConnector(self, s))
-        self.addPart(edges.ClickEdge(self, s))
+        edges.ClickSettings(self.thickness, True,
+                **self.edgesettings.get("Click", {})).edgeObjects(self)
         # Hinges
-        s = edges.HingeSettings(self.thickness)
-
-        for i in range(1, 4):
-            self.addPart(edges.Hinge(self, s, i))
-            self.addPart(edges.HingePin(self, s, i))
+        edges.HingeSettings(self.thickness, True,
+                **self.edgesettings.get("Hinge", {})).edgeObjects(self)
+        # Sliding Lid
+        edges.LidSettings(self.thickness, True,
+                **self.edgesettings.get("Lid", {})).edgeObjects(self)
 
         # Nuts
         self.addPart(NutHole(self, None))
         # Gears
         self.addPart(gears.Gears(self))
-        s = edges.GearSettings(self.thickness)
+        s = edges.GearSettings(self.thickness, True,
+                **self.edgesettings.get("Gear", {}))
         self.addPart(edges.RackEdge(self, s))
         self.addPart(pulley.Pulley(self))
         self.addPart(parts.Parts(self))
@@ -422,26 +426,23 @@ class Boxes:
         """
         if y is None:
             y = self.burn
-        self.ctx.save()
-        self.moveTo(x, y)
-        if callable(callback):
+
+        if hasattr(callback, '__getitem__'):
+            try:
+                callback = callback[number]
+                number = None
+            except (KeyError, IndexError):
+                pass
+
+        if callback and callable(callback):
+            self.ctx.save()
+            self.moveTo(x, y)
             if number is None:
                 callback()
             else:
                 callback(number)
-
-        elif hasattr(callback, '__getitem__'):
-            try:
-                callback = callback[number]
-                if callable(callback):
-                    callback()
-            except (KeyError, IndexError):
-                pass
-            except:
-                self.ctx.restore()
-                raise
-            
-        self.ctx.restore()
+            self.ctx.restore()
+            self.ctx.move_to(0, 0)
 
     def getEntry(self, param, idx):
         """
@@ -483,6 +484,14 @@ class Boxes:
         :param radius:  (Default value = 0)
 
         """
+        if radius > 0.5* self.thickness:
+            while degrees > 100:
+                self.corner(90, radius)
+                degrees -= 90
+            while degrees < -100:
+                self.corner(-90, radius)
+                degrees -= -90
+
         rad = degrees * math.pi / 180
         if degrees > 0:
             self.ctx.arc(0, radius + self.burn, radius + self.burn,
@@ -772,7 +781,12 @@ class Boxes:
         if r < 0:
             r = 1E-9
         self.moveTo(x + r, y)
-        self.ctx.arc(-r, 0, r, 0, 2 * math.pi)
+        a = 0
+        n = 10
+        da = 2 * math.pi / n
+        for i in range(n):
+            self.ctx.arc(-r, 0, r, a, a+da)
+            a += da
 
     @restore
     @holeCol

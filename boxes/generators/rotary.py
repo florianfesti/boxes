@@ -85,9 +85,9 @@ class Rotary(Boxes):
 
     def __init__(self):
         Boxes.__init__(self)
-        # remove cli params you do not need
-        # self.buildArgParser("x", "sx", "y", "sy", "h", "hi")
-        # Add non default cli params if needed (see argparse std lib)
+
+        self.addSettingsArgs(edges.FingerJointSettings)
+
         self.argparser.add_argument(
             "--diameter", action="store", type=float, default=72.,
             help="outer diameter of the wheels (including O rings)")

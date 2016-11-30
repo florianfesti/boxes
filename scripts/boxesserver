@@ -8,7 +8,8 @@ import os.path
 import threading
 import time
 
-css = (open(os.path.join(os.path.dirname(__file__), 'self.css')).read())
+csspath = os.path.join(os.path.dirname(__file__), 'self.css')
+css = (open(csspath).read())
 
 
 # Python 2 vs Python 3 compat
@@ -74,12 +75,16 @@ class BServer:
     def __init__(self):
         self.boxes = {b.__name__ : b() for b in boxes.generators.getAllBoxGenerators().values() if b.webinterface}
 
-    def arg2html(self, a):
+    def arg2html(self, a, prefix):
         name = a.option_strings[0].replace("-", "")
         if isinstance(a, argparse._HelpAction):
             return ""
+        viewname = name
+        if prefix and name.startswith(prefix + '_'):
+            viewname = name[len(prefix)+1:]
+
         row = """<tr><td>%s</td><td>%%s</td><td>%s</td></tr>\n""" % \
-              (name, a.help or "")
+              (viewname, a.help or "")
         if (isinstance(a, argparse._StoreAction) and
             isinstance(a.type, boxes.ArgparseEdgeType)):
             input = a.type.html(name, a.default)
@@ -111,21 +116,30 @@ class BServer:
 
     </style>
 
-</head>
-<body>
 
+
+    <script type="text/javascript">
+     function showHide(id) {
+       var e = document.getElementById(id);
+       if(e.style.display == null || e.style.display == "none") {
+         e.style.display = "block";
+       } else {
+         e.style.display = "none";
+      }
+    }
+    function hideargs() {
+     for ( i=1; i<""" + str(len(box.argparser._action_groups)-2) + """; i++) {
+       showHide(i);
+     }
+    }
+   </script>
+</head>
+<body onload="hideargs()">
 
 
 <div class="container" style="background-color: #FFF8EA;">
 <div style="width: 70%; float: left;">
 <h1>Boxes.py</h1>
-<p>
-A Python based generator for laser cut boxes and other things.
-</p>
-<p>It features both finished parametrized generators as well as a Python API
-for writing your own scripts. It features finger and (flat) dovetail joints,
-flex cuts, holes and slots for screws and more high level functions.
-</p>
 </div>
 <div style="width: 30%; float: left;">
 <img alt="self-Logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Gray_shaded_3D_cube.svg/2000px-Gray_shaded_3D_cube.svg.png" width="300px" >
@@ -142,15 +156,20 @@ flex cuts, holes and slots for screws and more high level functions.
         <h2 style="font-size: 1em; margin: 0px; "> <a href="/">generators</a></h2><h2 style="margin: 0px 0px 0px 20px;" > <span style="margin-right: 10px;"> >> <span>""", name, """</h2>
         <p>""", box.__doc__ or "", """</p>
 <form action="%s" method="GET" target="_blank">
-<table>
         """ % (action)]
-        for a in box.argparser._actions:
-            if a.dest in ("input", "output"):
+        groupid = 0
+        for group in box.argparser._action_groups[3:] + box.argparser._action_groups[:3]:
+            groupid += 1
+            if not group._group_actions:
                 continue
-            result.append(self.arg2html(a))
-            if a.dest == "burn":
-                result.append("</table>\n<hr>\n<table>\n")
-        result.append("""</table>
+            prefix = getattr(group, "prefix", None)
+            result.append('<h3 onclick="showHide(%s)">%s</h3>\n<table id="%s">\n' % (groupid, group.title, groupid))
+            for a in group._group_actions:
+                if a.dest in ("input", "output"):
+                    continue
+                result.append(self.arg2html(a, prefix))
+            result.append("</table>")
+        result.append("""
 <p><button name="render" value="1">Generate</button></p>
 </form>
 
@@ -342,7 +361,7 @@ flex cuts, holes and slots for screws and more high level functions.
             return (l.encode("utf-8") for l in result)
 
 if __name__=="__main__":
-    fc = FileChecker()
+    fc = FileChecker(files=[csspath])
     fc.start()
     boxserver = BServer()
     httpd = make_server('', 8000, boxserver.serve)

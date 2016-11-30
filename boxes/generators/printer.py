@@ -24,6 +24,9 @@ class Printer(Boxes):
 
     def __init__(self, r=250, h=400, d_c=100):
         Boxes.__init__(self)
+
+        self.addSettingsArgs(edges.FingerJointSettings)
+
         self.r = r
         self.h = h
         self.d_c = d_c

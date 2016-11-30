@@ -23,6 +23,8 @@ class FlexBox3(Boxes):
 
     def __init__(self):
         Boxes.__init__(self)
+        self.addSettingsArgs(edges.FingerJointSettings)
+        self.addSettingsArgs(edges.FlexSettings)
         self.buildArgParser("x", "y", "outside")
         self.argparser.add_argument(
             "--z", action="store", type=float, default=100.0,

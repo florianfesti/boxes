@@ -23,6 +23,7 @@ in 0.5mm steps, 3 holes each size"""
 
     def __init__(self):
         Boxes.__init__(self)
+        self.addSettingsArgs(edges.FingerJointSettings)
         self.x, self.y, self.h = 120, 240, 60
 
     def holesx(self):

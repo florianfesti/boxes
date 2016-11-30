@@ -23,17 +23,14 @@ class TypeTray(Boxes):
     def __init__(self):
         Boxes.__init__(self)
         self.buildArgParser("sx", "sy", "h", "hi", "outside")
+        self.addSettingsArgs(edges.FingerJointSettings, finger=3.0, space=3.0,
+                             surroundingspaces=0.5)
         self.argparser.add_argument(
             "--gripheight", action="store", type=float, default=30,
             dest="gh", help="height of the grip hole in mm")
         self.argparser.add_argument(
             "--gripwidth", action="store", type=float, default=70,
             dest="gw", help="width of th grip hole in mm (zero for no hole)")
-        self.argparser.set_defaults(
-            fingerjointfinger=3.0,
-            fingerjointspace=3.0,
-            fingerjointsurrounding=0.5,
-        )
 
     def xSlots(self):
         posx = -0.5 * self.thickness

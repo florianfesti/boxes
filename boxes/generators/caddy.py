@@ -21,7 +21,7 @@ class RoundedTriangleEdgeSettings(edges.Settings):
     absolute_params = {
         "height" : 150,
         "radius" : 30,
-        "r_hole" : None,
+        "r_hole" : 0,
         }
 
 class RoundedTriangleEdge(edges.Edge):
@@ -56,6 +56,7 @@ class Caddy(Boxes):
        6-pack or other carrying caddy. A dowel through the sides makes a handle"""
     def __init__(self):
         Boxes.__init__(self)
+        self.addSettingsArgs(edges.FingerJointSettings, finger=2.0, space=2.0)
 
         self.argparser.add_argument(
             "--handle_height",  action="store", type=float, default=150,
@@ -70,10 +71,7 @@ class Caddy(Boxes):
         #Nice size for a 6-pack of 355ml (12oz) bottles, try making inserts with
         #> ./trayinsert.py --sx 200/3 --sy 135/2 --h 90 --thickness 5
         self.argparser.set_defaults(
-            x=210, y=140, h=100,
-            fingerjointfinger=3.0,
-            fingerjointspace=3.0
-            )
+            x=210, y=140, h=100)
 
 
     def render(self):

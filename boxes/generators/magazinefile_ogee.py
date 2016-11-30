@@ -23,10 +23,7 @@ class MagazineFile(Boxes):
     def __init__(self):
         Boxes.__init__(self)
         self.buildArgParser("x", "y", "h", "hi", "outside")
-        self.argparser.set_defaults(
-            fingerjointfinger=2.0,
-            fingerjointspace=2.0
-        )
+        self.addSettingsArgs(edges.FingerJointSettings, finger=2.0, space=2.0)
 
         self.argparser.add_argument(
             "--arc",  action="store", type=float, default=60,

@@ -95,7 +95,7 @@ class TrafficLight(Boxes): # change class name here and below
             self.rectangularWall(h, d+s, ['f', e, 'e', e2],
                                  move="right" if i<n-1 else "right up")
         for i in range(n):
-            self.rectangularWall(h, h, "ffff", callback=[self.frontCB],
+            self.rectangularWall(h, h, "efef", callback=[self.frontCB],
                                  move="left" if i<n-1 else "left up")
         self.rectangularWall(h, d, "ffef")
         

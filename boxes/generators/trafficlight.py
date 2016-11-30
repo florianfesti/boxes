@@ -55,6 +55,9 @@ class TrafficLight(Boxes): # change class name here and below
         self.argparser.add_argument(
             "--n",  action="store", type=int, default=3,
             help="number of lights")
+        self.argparser.add_argument(
+            "--upright",  action="store", type=bool, default=False,
+            help="stack lights upright (or side by side)")
 
     def backCB(self):
         t = self.thickness
@@ -66,11 +69,48 @@ class TrafficLight(Boxes): # change class name here and below
         for i in range(1, self.n):
             self.fingerHolesAt(i*(self.h+t)-0.5*t, 0, self.depth)
         for i in range(self.n):
-            self.fingerHolesAt(i*(self.h+t),
-                               self.depth-2*t, self.h, 0)
+            self.fingerHolesAt(i*(self.h+t), self.depth-2*t, self.h, 0)
+
+    def topCB(self):
+        t = self.thickness
+        for i in range(1, self.n):
+            self.fingerHolesAt(i*(self.h+t)-0.5*t, 0, self.depth + self.shades)
+        for i in range(self.n):
+            self.fingerHolesAt(i*(self.h+t), self.depth-2*t, self.h, 0)
 
     def frontCB(self):
         self.hole(self.h/2, self.h/2, self.h/2-self.thickness)
+
+    def wall(self, h1, h2, w, edges="ffef", callback=None, move=""):
+        edges = [self.edges.get(e, e) for e in edges]
+        edges += edges  # append for wrapping around
+        overallwidth = w + edges[-1].spacing() + edges[1].spacing()
+        overallheight = max(h1, h2) + edges[0].spacing() + edges[2].spacing()
+
+        if self.move(overallwidth, overallheight, move, before=True):
+            return
+
+        a = math.atan((h2-h1)/float(w))
+        angle = math.degrees(a)
+
+        self.moveTo(edges[-1].spacing(), edges[0].margin())
+        for i, l in [(0, w), (1, h2)]:
+            self.cc(callback, i, y=edges[i].startwidth() + self.burn)
+            edges[i](l)
+            self.edgeCorner(edges[i], edges[i + 1], 90)
+
+        self.corner(angle)
+        self.cc(callback, i, y=edges[2].startwidth() + self.burn)
+        edges[2](w / math.cos(a))
+        self.corner(-angle)
+        self.edgeCorner(edges[2], edges[2 + 1], 90)
+        self.cc(callback, i, y=edges[3].startwidth() + self.burn)
+        edges[3](h1)
+        self.edgeCorner(edges[3], edges[3 + 1], 90)
+
+        self.ctx.stroke()
+
+        self.move(overallwidth, overallheight, move)
     
     def render(self):
         # adjust to the variables you want in the local scope
@@ -87,22 +127,40 @@ class TrafficLight(Boxes): # change class name here and below
 
         # back
         self.rectangularWall(th, h, "FFFF", callback=[self.backCB], move="up")
-        # sides
-        self.rectangularWall(th, d, "fFsF", callback=[self.sideCB], move="up")
-        self.rectangularWall(th, d, "fFsF", callback=[self.sideCB], move="up")
 
-        # horizontal Walls / blinds tops
-        e = edges.CompoundEdge(self, "fF", (d, s))
-        e2 = edges.CompoundEdge(self, "Ff", (s, d))
-        for i in range(n):
-            self.rectangularWall(h, d+s, ['f', e, 'e', e2],
-                                 move="right" if i<n-1 else "right up")
+        if self.upright:
+            # sides
+            self.rectangularWall(th, d, "fFsF", callback=[self.sideCB], move="up")
+            self.rectangularWall(th, d, "fFsF", callback=[self.sideCB], move="up")
+
+            # horizontal Walls / blinds tops
+            e = edges.CompoundEdge(self, "fF", (d, s))
+            e2 = edges.CompoundEdge(self, "Ff", (s, d))
+            for i in range(n):
+                self.rectangularWall(h, d+s, ['f', e, 'e', e2],
+                                     move="right" if i<n-1 else "right up")
+        else:
+            # bottom
+            self.rectangularWall(th, d, "fFeF", callback=[self.sideCB],
+                                 move="up")
+            # top
+            self.rectangularWall(th, d+s, "fFeF", callback=[self.topCB],
+                                 move="up")
+            # vertical walls
+            for i in range(n):
+                self.wall(d, d+s, h, move="right" if i<n-1 else "right up")
+
         # fronts
         for i in range(n):
             self.rectangularWall(h, h, "efef", callback=[self.frontCB],
                                  move="left" if i<n-1 else "left up")
-        # bottom wall
-        self.rectangularWall(h, d, "ffef", move="up")
+
+        if self.upright:
+            # bottom wall
+            self.rectangularWall(h, d, "ffef", move="up")
+        else:
+            # vertical wall
+            self.wall(d, d+s, h, move="up")
 
         # Colored windows
         for i in range(n):

@@ -93,8 +93,8 @@ class BServer:
             input = """<textarea name="%s" cols="%s" rows="%s">%s</textarea>""" % \
                     (name, max((len(l) for l in val))+10, len(val)+1, a.default)
         elif a.type is bool:
-            input = """<input name="%s" type="checkbox">""" % \
-                                        (name, )
+            input = """<input name="%s" type="checkbox" value="1"%s>""" % \
+                                        (name, ' checked="checked"' if a.default else "")
         elif a.choices:
             options = "\n".join(
                 ("""<option value="%s"%s>%s</option>""" %

@@ -37,10 +37,6 @@ class Drawer(Boxes):
             "--overhang",  action="store", type=float, default=1,
             dest="overhang", help="Make overhanging edges on bottom")        
 
-        # Set default you might want
-        self.argparser.set_defaults(
-            fingerjointfinger=2, fingerjointspace=2)
-
     def render(self):
         # adjust to the variables you want in the local scope
         x, y, h = self.x, self.y, self.h

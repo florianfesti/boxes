@@ -29,8 +29,8 @@ class Drawer(Boxes):
     """
     def __init__(self):
         Boxes.__init__(self)
-        # remove cli params you do not need
-        self.buildArgParser("x", "y", "h", "hi", "outside")
+        self.buildArgParser("x", "y", "h", "outside")
+        self.addSettingsArgs(edges.FingerJointSettings, finger=2.0, space=2.0)
 
         # Add non default cli params if needed (see argparse std lib)
         self.argparser.add_argument(
@@ -69,7 +69,7 @@ class Drawer(Boxes):
         ## Draw the Drawer parts
         ##
         #Jog things over to make room for the flanges
-        self.moveTo(40, 0)
+        #self.moveTo(self.thickness, 0)
 
         # Now render the parts. These 5 calls to rectangularWall()
         # defines a simple box that is open at the top and a special
@@ -83,7 +83,6 @@ class Drawer(Boxes):
         # forms a smooth edge that is outset by 1 thickness to make it
         # flush with an enclosure
         # The third argument specifies the edge type in order 'BRTL'
-        print(x, y, h)
         self.rectangularWall(x, y, "ttEt", bedBolts=None, move="right")
 
         # Makes the left side, back and right side of the drawer
@@ -94,7 +93,6 @@ class Drawer(Boxes):
         # Makes the floor
         self.rectangularWall(h, x, "FfFf", bedBolts=None)
 
-
         ##
         ## Draw the enclosure, a simple box open at the front 2 thickness
         ## larger in X & Y and an extra thinckness in h (the drawer depth)
@@ -102,7 +100,7 @@ class Drawer(Boxes):
         x_outer = x + 2*self.thickness
         y_outer = y + 2*self.thickness
         h_outer = h   #No change so drawer sticks out one thickness
-        self.moveTo(-1*(2*h+2*x+13.5*self.thickness), 3*self.thickness + x)
+        self.moveTo(-1*(2*h+2*x+12*self.thickness), 4*self.thickness + x)
         self.rectangularWall(h_outer, y_outer, "FFFE", bedBolts=None, move="right")
         self.rectangularWall(x_outer, y_outer, "ffff", bedBolts=None, move="right")
         self.rectangularWall(h_outer, y_outer, "FEFF", bedBolts=None, move="right")

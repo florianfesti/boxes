@@ -56,6 +56,8 @@ class Portmanteau(Boxes):
        Generates parts for one half of a case with a handle at the top"""
     def __init__(self):
         Boxes.__init__(self)
+        self.buildArgParser("x", "y", "h", "outside")
+        self.addSettingsArgs(edges.FingerJointSettings, finger=3.0, space=3.0)
 
         self.argparser.add_argument(
             "--handle_height",  action="store", type=float, default=100,
@@ -66,14 +68,6 @@ class Portmanteau(Boxes):
         self.argparser.add_argument(
             "--grip_height",  action="store", type=float, default=20,
             dest="gh", help="height of the handle hole")
-
-        self.buildArgParser("x", "y", "h", "outside")
-        self.argparser.set_defaults(
-            fingerjointfinger=3.0,
-            fingerjointspace=3.0,
-            outside=False
-            )
-
 
     def gripHole(self):
         if not self.gw:

@@ -25,24 +25,21 @@ class TwoPiece(Boxes):
         two_piece.py --overhang 2 --x 100 --y 100 --h 50 --thickness 5 --output box_inner.svg 
         two_piece.py --overhang 1 --x 110 --y 110 --h 50 --thickness 5 --output box_outer.svg 
 
-        This leaves a one thickness flange visible at the top and
-        bottom when fully assembled.
+        This leaves a flange that is one thickness at the top and
+        bottom that is visible when fully assembled.
 
         TODO: Generate both sets of pieces from a single command line
+        TODO: Replace 'stackable' edge abuse with one based on 'outset' 
     """
     def __init__(self):
         Boxes.__init__(self)
-        # remove cli params you do not need
-        self.buildArgParser("x", "y", "h", "hi", "outside")
+        self.buildArgParser("x", "y", "h", "outside")
+        self.addSettingsArgs(edges.FingerJointSettings, finger=2.0, space=2.0)
 
-        # Add non default cli params if needed (see argparse std lib)
+        # Add CLI param to controll overhand
         self.argparser.add_argument(
             "--overhang",  action="store", type=float, default=1,
             dest="overhang", help="Make overhanging edges on bottom")        
-
-        # Set default you might want
-        self.argparser.set_defaults(
-            fingerjointfinger=2, fingerjointspace=2)
 
     def render(self):
         # adjust to the variables you want in the local scope
@@ -67,9 +64,6 @@ class TwoPiece(Boxes):
         tp = edges.StackableEdge(self, ts, s)
         tp.char = "t"
         self.addPart(tp)
-
-        #Jog thing over to make room for the flange
-        self.moveTo(10, 0)
 
         # Now render the parts. These 5 calls to rectangularWall()
         # defines a simple box that is open at the top. To keep things

@@ -170,6 +170,10 @@ ul li:hover span {
 	
 }
 
+textarea {
+ font-family: monospace;
+}
+
 input[type=range] {
   -webkit-appearance: none;
   margin: 10px 0;

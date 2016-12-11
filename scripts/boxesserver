@@ -324,7 +324,7 @@ flex cuts, holes and slots for screws and more high level functions.
             return self.menu()
       
 			
-        args = ["--"+arg for arg in environ['QUERY_STRING'].split("&")]
+        args = ["--"+unquote_plus(arg) for arg in environ['QUERY_STRING'].split("&")]
         if "--render=1" not in args:
             start_response(status, headers)
             return self.args2html(name, box)
@@ -343,7 +343,7 @@ flex cuts, holes and slots for screws and more high level functions.
                     name, self.boxes["TrayLayout2"], action="TrayLayout2")
             if name == "TrayLayout2":
                 try:
-                    box.parse(unquote_plus(box.layout).split("\n"))
+                    box.parse(box.layout.split("\n"))
                 except Exception as e:
                     raise
                     start_response(status, headers)

@@ -551,8 +551,8 @@ class FingerJointBase:
 
         a = 90 - (180-angle) / 2.0
         fingerlength = self.thickness * math.tan(math.radians(a))
-        b = 2*a
-        spacerecess = -math.sin(math.degrees(b)) * fingerlength
+        b = 90-2*a
+        spacerecess = -math.sin(math.radians(b)) * fingerlength
         return fingerlength, spacerecess
 
 class FingerJointEdge(BaseEdge, FingerJointBase):
@@ -601,7 +601,7 @@ class FingerJointEdge(BaseEdge, FingerJointBase):
         """ """
         widths = self.fingerLength(self.settings.angle)
         if self.positive:
-            return widths[0]
+            return widths[0] - widths[1]
         else:
             return 0
 

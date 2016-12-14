@@ -54,7 +54,7 @@ class RegularBox(Boxes):
 
         self.ctx.save()
         self.regularPolygonWall(corners=n, r=r, edges='F', move="right")
-        if self.top == "angled top":
+        if self.top == "angled lid":
             self.regularPolygonWall(corners=n, r=r, edges='e', move="right")
             self.regularPolygonWall(corners=n, r=r, edges='E', move="right")
         elif self.top == "angled lid2":

@@ -40,11 +40,14 @@ class RegularBox(Boxes):
 
         r, h, n = self.radius, self.h, self.n
 
-        # XXX
         if self.outside:
-            x = self.adjustSize(x)
-            y = self.adjustSize(y)
-            h = self.adjustSize(h)
+            r = r = r - self.thickness / math.cos(math.radians(360/(2*n)))
+            if self.top == "none":
+                h = self.adjustSize(h, False)
+            elif "lid" in self.top and self.top != "angled lid":
+                h = self.adjustSize(h) - self.thickness
+            else:
+                h = self.adjustSize(h)
 
         t = self.thickness
 

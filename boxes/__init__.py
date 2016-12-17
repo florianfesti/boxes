@@ -660,6 +660,7 @@ class Boxes:
             edges[i](side)
             self.edgeCorner(edges[i], edges[i+1], 360.0/corners)
 
+        self.ctx.stroke()
         self.move(tw, th, move)
 
     def grip(self, length, depth):

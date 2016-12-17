@@ -32,7 +32,7 @@ class RegularBox(Boxes):
             help="number of sides")
         self.argparser.add_argument(
             "--top",  action="store", type=str, default="none",
-            choices=["none", "hole", "angled lid", "angled lid2", "round lid"],
+            choices=["none", "hole", "angled hole", "angled lid", "angled lid2", "round lid"],
             help="style of the top and lid")
 
     def render(self):
@@ -57,11 +57,12 @@ class RegularBox(Boxes):
         if self.top == "angled lid":
             self.regularPolygonWall(corners=n, r=r, edges='e', move="right")
             self.regularPolygonWall(corners=n, r=r, edges='E', move="right")
-        elif self.top == "angled lid2":
+        elif self.top in ("angled hole", "angled lid2"):
             self.regularPolygonWall(corners=n, r=r, edges='F', move="right",
                                     callback=[lambda:self.regularPolygonAt(
                                         0, 0, n, h=sh-t)])
-            self.regularPolygonWall(corners=n, r=r, edges='E', move="right")
+            if self.top == "angled lid2":
+                self.regularPolygonWall(corners=n, r=r, edges='E', move="right")
         elif self.top in ("hole", "round lid"):
             self.regularPolygonWall(corners=n, r=r, edges='F', move="right",
                           hole=(sh-t)*2)

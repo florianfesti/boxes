@@ -178,6 +178,18 @@ class ArgparseEdgeType:
               e, self.names.get(e, "")) for e in self.edges))
         return """<select name="%s" size="1">\n%s</select>\n""" % (name, options)
 
+class BoolArg:
+    def __call__(self, arg):
+        if not arg or arg in ("None", "0", "off", "False"):
+            return False
+        return True
+
+    def html(self, name, default):
+        return """<input name="%s" type="hidden" value="0">
+<input name="%s" type="checkbox" value="1"%s>""" % \
+            (name, name, ' checked="checked"' if default else "")
+
+boolarg = BoolArg()
 
 ##############################################################################
 ### Main class
@@ -207,7 +219,7 @@ class Boxes:
             choices=self.formats.getFormats(),
             help="format of resulting file")
         defaultgroup.add_argument(
-            "--debug", action="store", type=bool, default=False,
+            "--debug", action="store", type=boolarg, default=False,
             help="print surrounding boxes for some structures")
         defaultgroup.add_argument(
             "--reference", action="store", type=float, default=100,
@@ -288,7 +300,7 @@ class Boxes:
                     default="e", help="edge type for top edge")
             elif arg == "outside":
                 self.argparser.add_argument(
-                    "--outside", action="store", type=bool, default=False,
+                    "--outside", action="store", type=boolarg, default=True,
                     help="treat sizes as outside measurements that include the walls")
             else:
                 raise ValueError("No default for argument", arg)

@@ -56,7 +56,7 @@ class TrafficLight(Boxes): # change class name here and below
             "--n",  action="store", type=int, default=3,
             help="number of lights")
         self.argparser.add_argument(
-            "--upright",  action="store", type=bool, default=False,
+            "--upright",  action="store", type=boolarg, default=True,
             help="stack lights upright (or side by side)")
 
     def backCB(self):

@@ -31,7 +31,7 @@ class Box2(Boxes):
         self.addSettingsArgs(edges.FlexSettings)
         self.buildArgParser("top_edge", "bottom_edge", "x", "y", "h")
         self.argparser.add_argument(
-            "--chestlid",  action="store", type=bool, default=False,
+            "--chestlid",  action="store", type=boolarg, default=False,
             help="add chest lid (needs hinges)")
         self.angle = 0
 

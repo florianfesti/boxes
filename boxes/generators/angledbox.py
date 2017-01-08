@@ -115,7 +115,7 @@ class AngledBox(Boxes):
         self.ctx.restore()
         self.floor(x, y , n, edge='F', move="up only")
 
-        fingers = self.top in ("angled lid2")
+        fingers = self.top in ("angled lid2", "angled hole")
 
         self.rectangularWall(lx, h, move="right",
                              edges="fGfG" if fingers else "fGeG")

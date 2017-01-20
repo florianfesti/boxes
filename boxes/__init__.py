@@ -1117,7 +1117,7 @@ class Boxes:
     ### parts
     ##################################################
 
-    def roundedPlate(self, x, y, r, callback=None,
+    def roundedPlate(self, x, y, r, edge="f", callback=None,
                      holesMargin=None, holesSettings=None,
                      bedBolts=None, bedBoltSettings=None,
                      move=None):
@@ -1139,34 +1139,38 @@ class Boxes:
 
         """
 
-        overallwidth = x + 2 * self.edges["f"].spacing()
-        overallheight = y + 2 * self.edges["f"].spacing()
+        overallwidth = x + 2 * self.edges[edge].spacing()
+        overallheight = y + 2 * self.edges[edge].spacing()
 
         if self.move(overallwidth, overallheight, move, before=True):
             return
 
-        self.moveTo(self.edges["f"].margin(),
-                    self.edges["f"].margin())
+        lx = x - 2*r
+        ly = y - 2*r
+        r += self.edges[edge].startwidth()
+
+        self.moveTo(self.edges[edge].margin(),
+                    self.edges[edge].margin())
         self.moveTo(r, 0)
 
         self.cc(callback, 0)
-        self.edges["f"](x / 2.0 - r, bedBolts=self.getEntry(bedBolts, 0),
+        self.edges[edge](lx / 2.0 , bedBolts=self.getEntry(bedBolts, 0),
                         bedBoltSettings=self.getEntry(bedBoltSettings, 0))
         self.cc(callback, 1)
-        self.edges["f"](x / 2.0 - r, bedBolts=self.getEntry(bedBolts, 1),
+        self.edges[edge](lx / 2.0, bedBolts=self.getEntry(bedBolts, 1),
                         bedBoltSettings=self.getEntry(bedBoltSettings, 1))
-        for i, l in zip(range(3), (y, x, y)):
+        for i, l in zip(range(3), (ly, lx, ly)):
             self.corner(90, r)
             self.cc(callback, i + 2)
-            self.edges["f"](l - 2 * r, bedBolts=self.getEntry(bedBolts, i + 2),
+            self.edges[edge](l, bedBolts=self.getEntry(bedBolts, i + 2),
                             bedBoltSettings=self.getEntry(bedBoltSettings, i + 2))
         self.corner(90, r)
 
         self.ctx.restore()
         self.ctx.save()
 
-        self.moveTo(self.edges["f"].margin(),
-                    self.edges["f"].margin())
+        self.moveTo(self.edges[edge].margin(),
+                    self.edges[edge].margin())
 
         if holesMargin is not None:
             self.moveTo(holesMargin, holesMargin)

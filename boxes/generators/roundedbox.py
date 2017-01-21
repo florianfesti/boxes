@@ -27,6 +27,30 @@ class RoundedBox(Boxes):
         self.argparser.add_argument(
             "--radius", action="store", type=float, default=15,
             help="Radius of the corners in mm")
+        self.argparser.add_argument(
+            "--top",  action="store", type=str, default="none",
+            choices=["closed", "hole", "lid",],
+            help="style of the top and lid")
+
+    def hole(self):
+        t = self.thickness
+        x, y, r = self.x, self.y, self.radius
+
+        if r > 2*t:
+            r -= 2*t
+        else:
+            x += 2*t - 2*r
+            y += 2*t - 2*r
+            self.moveTo(2*t-r, 0)
+            r = 0
+
+        lx = x - 2*r - 6*t
+        ly = y - 2*r - 6*t
+
+        self.moveTo(0, 2*t)
+        for l in (lx, ly, lx, ly):
+            self.edge(l);
+            self.corner(90, r)
 
     def render(self):
         self.open()
@@ -38,11 +62,16 @@ class RoundedBox(Boxes):
             y = self.adjustSize(y)
             h = self.adjustSize(h)
 
+        r = self.radius = min(r, y / 2.0)
+
         t = self.thickness
 
         self.ctx.save()
         self.roundedPlate(x, y, r, move="right")
-        self.roundedPlate(x, y, r, move="right")
+        self.roundedPlate(x, y, r, move="right",
+                callback=[self.hole] if self.top != "closed" else None)
+        if self.top == "lid":
+            self.roundedPlate(x, y, r, "E", move="right")
         self.ctx.restore()
         self.roundedPlate(x, y, r, move="up only")
 

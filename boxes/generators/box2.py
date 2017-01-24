@@ -31,8 +31,9 @@ class Box2(Boxes):
         self.addSettingsArgs(edges.FlexSettings)
         self.buildArgParser("top_edge", "bottom_edge", "x", "y", "h")
         self.argparser.add_argument(
-            "--chestlid",  action="store", type=boolarg, default=False,
-            help="add chest lid (needs hinges)")
+            "--lid",  action="store", type=str, default="default (none)",
+            choices=("default (none)", "chest", "flat"),
+            help="additional lid")
         self.angle = 0
 
     def getR(self):
@@ -143,7 +144,10 @@ class Box2(Boxes):
         else:
             self.rectangularWall(x, y, "CCCC", bedBolts=[d2, d3, d2, d3], move="up only")
             
-        if self.chestlid:
+        if self.lid == "flat":
+            self.rectangularWall(x, y, "eeee")
+            self.rectangularWall(x, y, "EEEE", move="left")
+        elif self.lid == "chest":
             self.side()
             self.side(move="left up")
             self.top()

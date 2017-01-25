@@ -89,7 +89,7 @@ class Formats:
             ps.adjustDocumentMedia()
 
         if fmt not in ("svg", "ps"):
-            fd, tmpfile = tempfile.mkstemp()
+            fd, tmpfile = tempfile.mkstemp(dir=os.path.dirname(filename))
             cmd = [self.pstoedit] + self.formats[fmt] + [filename, tmpfile]
             err = subprocess.call(cmd)
 

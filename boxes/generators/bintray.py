@@ -49,8 +49,7 @@ class BinTray(Boxes):
     def __init__(self):
         Boxes.__init__(self)
         self.buildArgParser("sx", "sy", "h", "outside")
-        self.addSettingsArgs(edges.FingerJointSettings, finger=2.0, space=2.0,
-                             surroundingspaces=0.5)
+        self.addSettingsArgs(edges.FingerJointSettings, surroundingspaces=0.5)
         self.argparser.add_argument(
             "--front", action="store", type=float, default=0.4,
             help="fraction of bin height covert with slope")

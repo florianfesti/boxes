@@ -22,7 +22,6 @@ class AngledBox(Boxes):
 
     def __init__(self):
         Boxes.__init__(self)
-        self.addSettingsArgs(edges.FingerJointSettings, finger=2.0, space=2.0)
         self.buildArgParser("x", "y", "h", "outside")
         self.argparser.add_argument(
             "--n",  action="store", type=int, default=5,
@@ -100,7 +99,7 @@ class AngledBox(Boxes):
         else:
             lx = x - 2 * r + side
         
-        edges.FingerJointSettings(self.thickness, True, angle=360./(2 * (n+1)), finger=2, space=2).edgeObjects(self, chars="gGH")
+        edges.FingerJointSettings(self.thickness, True, angle=360./(2 * (n+1))).edgeObjects(self, chars="gGH")
 
 
         self.ctx.save()

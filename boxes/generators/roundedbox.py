@@ -22,7 +22,6 @@ class RoundedBox(Boxes):
 
     def __init__(self):
         Boxes.__init__(self)
-        self.addSettingsArgs(edges.FingerJointSettings, finger=3.0, space=3.0)
         self.buildArgParser("x", "y", "h", "outside")
         self.argparser.add_argument(
             "--radius", action="store", type=float, default=15,

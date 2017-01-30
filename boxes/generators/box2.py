@@ -23,7 +23,6 @@ class Box2(Boxes):
 
     def __init__(self):
         Boxes.__init__(self)
-        self.addSettingsArgs(edges.FingerJointSettings, finger=3, space=3)
         self.addSettingsArgs(edges.StackableSettings)
         self.addSettingsArgs(edges.HingeSettings)
         self.addSettingsArgs(edges.LidSettings)

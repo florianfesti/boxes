@@ -209,7 +209,7 @@ class Boxes:
         defaultgroup = self.argparser.add_argument_group(
                         "Default Settings")
         defaultgroup.add_argument(
-            "--thickness", action="store", type=float, default=4.0,
+            "--thickness", action="store", type=float, default=3.0,
             help="thickness of the material")
         defaultgroup.add_argument(
             "--output", action="store", type=str, default="box.svg",
@@ -225,7 +225,7 @@ class Boxes:
             "--reference", action="store", type=float, default=100,
             help="print reference rectangle with given length")
         defaultgroup.add_argument(
-            "--burn", action="store", type=float, default=0.05,
+            "--burn", action="store", type=float, default=0.1,
             help="burn correction in mm (bigger values for tighter fit)")
 
     def open(self):

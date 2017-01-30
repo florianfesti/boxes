@@ -514,8 +514,8 @@ Values:
 
     relative_params = {
         "space": 1.0,
-        "finger": 1.0,
-        "width": 1.0,
+        "finger": 2.0,
+        "width": 2.0,
         "edge_width": 1.0,
         "play" : 0.0,
     }

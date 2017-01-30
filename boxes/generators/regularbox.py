@@ -22,7 +22,6 @@ class RegularBox(Boxes):
 
     def __init__(self):
         Boxes.__init__(self)
-        self.addSettingsArgs(edges.FingerJointSettings, finger=2.0, space=2.0)
         self.buildArgParser("h", "outside")
         self.argparser.add_argument(
             "--radius",  action="store", type=float, default=50.0,
@@ -51,7 +50,7 @@ class RegularBox(Boxes):
 
         t = self.thickness
 
-        edges.FingerJointSettings(self.thickness, True, angle=360./n, finger=2, space=2).edgeObjects(self, chars="gGH")
+        edges.FingerJointSettings(self.thickness, True, angle=360./n).edgeObjects(self, chars="gGH")
 
         r, sh, side  = self.regularPolygon(n, radius=r)
 

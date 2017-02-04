@@ -1308,7 +1308,7 @@ class Boxes:
 
         self.move(overallwidth, overallheight, move)
 
-    def rectangularTriangle(self, x, y, edges="eee", num=1,
+    def rectangularTriangle(self, x, y, edges="eee", r=0.0, num=1,
                         bedBolts=None, bedBoltSettings=None,
                         callback=None,
                         move=None):
@@ -1318,6 +1318,7 @@ class Boxes:
         :param x: width
         :param y: height
         :param edges:  (Default value = "eee") bottom, right[, diagonal]
+        :param r: radius towards the hypothenuse
         :param num: (Default value = 1) number of triangles
         :param bedBolts:  (Default value = None)
         :param bedBoltSettings:  (Default value = None)
@@ -1334,8 +1335,8 @@ class Boxes:
         width = x + edges[-1].spacing() + edges[1].spacing()
         height = y + edges[0].spacing() + edges[2].spacing()
         if num > 1:
-            width += edges[-1].spacing() + edges[1].spacing() + 2*self.spacing
-            height += edges[0].spacing() + edges[2].spacing() + self.spacing
+            width += 0.7*r + edges[-1].spacing() + edges[1].spacing() + 2*self.spacing
+            height += 0.7*r + edges[0].spacing() + edges[2].spacing() + self.spacing
 
         overallwidth = width * (num // 2 + num % 2)
         overallheight = height
@@ -1351,7 +1352,7 @@ class Boxes:
         for n in range(num):
             self.moveTo(edges[-1].spacing()+self.spacing, edges[0].margin())
             if n % 2 == 1:
-                self.moveTo(2*edges[1].spacing()+self.spacing, 0)
+                self.moveTo(2*edges[1].spacing()+self.spacing+0.7*r, 0)
             if num > 1:
                 self.moveTo(edges[1].spacing(), 0)
             for i, l in enumerate((x, y)):
@@ -1361,10 +1362,11 @@ class Boxes:
                          bedBoltSettings=self.getEntry(bedBoltSettings, i))
                 self.edgeCorner(edges[i], edges[i + 1], 90)
 
-            self.corner(alpha)
+            self.corner(alpha, r)
             self.cc(callback, 2)
-            edges[2]((x**2+y**2)**0.5)
-            self.corner(180-alpha)
+            edges[2](((x-r)**2+(y-r)**2)**0.5)
+            self.corner(90-alpha, r)
+            self.corner(90)
             self.ctx.stroke()
 
             if n % 2:

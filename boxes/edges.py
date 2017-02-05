@@ -496,11 +496,12 @@ Values:
 * absolute
 
   * surroundingspaces : 2 : maximum space at the start and end in multiple of normal spaces
+  * angle: 90 : Angle of the walls meeting
 
 * relative (in multiples of thickness)
 
-  * space : 1.0 : space between fingers
-  * finger : 1.0 : width of the fingers
+  * space : 2.0 : space between fingers
+  * finger : 2.0 : width of the fingers
   * width : 1.0 : width of finger holes
   * edge_width : 1.0 : space below holes of FingerHoleEdge
   * play : 0.0 : extra space to allow movement
@@ -513,9 +514,9 @@ Values:
     }
 
     relative_params = {
-        "space": 1.0,
+        "space": 2.0,
         "finger": 2.0,
-        "width": 2.0,
+        "width": 1.0,
         "edge_width": 1.0,
         "play" : 0.0,
     }

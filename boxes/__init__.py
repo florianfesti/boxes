@@ -1332,16 +1332,18 @@ class Boxes:
         if len(edges) != 3:
             raise ValueError("two or three edges required")
 
+        r = min(r, x, y)
+
         width = x + edges[-1].spacing() + edges[1].spacing()
         height = y + edges[0].spacing() + edges[2].spacing()
         if num > 1:
-            width += 0.7*r + edges[-1].spacing() + edges[1].spacing() + 2*self.spacing
+            width += edges[-1].spacing() + edges[1].spacing() + 2*self.spacing
             height += 0.7*r + edges[0].spacing() + edges[2].spacing() + self.spacing
 
         overallwidth = width * (num // 2 + num % 2)
         overallheight = height
 
-        alpha = math.degrees(math.atan(y/float(x)))
+        alpha = math.degrees(math.atan((y-r)/float(x-r)))
 
         if self.move(overallwidth, overallheight, move, before=True):
             return
@@ -1352,7 +1354,7 @@ class Boxes:
         for n in range(num):
             self.moveTo(edges[-1].spacing()+self.spacing, edges[0].margin())
             if n % 2 == 1:
-                self.moveTo(2*edges[1].spacing()+self.spacing+0.7*r, 0)
+                self.moveTo(2*edges[1].spacing()+self.spacing, 0)
             if num > 1:
                 self.moveTo(edges[1].spacing(), 0)
             for i, l in enumerate((x, y)):

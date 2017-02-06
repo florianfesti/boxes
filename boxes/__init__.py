@@ -380,6 +380,8 @@ class Boxes:
         # Hinges
         edges.HingeSettings(self.thickness, True,
                 **self.edgesettings.get("Hinge", {})).edgeObjects(self)
+        edges.ChestHingeSettings(self.thickness, True,
+                **self.edgesettings.get("ChestHinge", {})).edgeObjects(self)
         # Sliding Lid
         edges.LidSettings(self.thickness, True,
                 **self.edgesettings.get("Lid", {})).edgeObjects(self)

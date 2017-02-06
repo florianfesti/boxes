@@ -1051,6 +1051,141 @@ class HingePin(BaseEdge):
             self.edge(l - plen - glen)
             getattr(self, self.settings.style, self.outset)(True)
 
+#############################################################################
+####     Chest Hinge
+#############################################################################
+
+class ChestHingeSettings(Settings):
+    """Settings for Chest Hinges
+Values:
+
+* relative (in multiples of thickness)
+
+ * pin_height : 2.0 : radius of the disc rotating in the hinge
+ * hinge_strength : 1.0 : thickness of the arc holding the pin in place
+"""
+
+    relative_params = {
+        "pin_height" : 2.0,
+        "hinge_strength" : 1.0,
+        }
+
+    def pinheight(self):
+        return ((0.9*self.pin_height)**2-self.thickness**2)**0.5
+
+    def edgeObjects(self, boxes, chars="oOpPqQ", add=True):
+        edges = [
+            ChestHinge(boxes, self),
+            ChestHinge(boxes, self, 1),
+            ChestHingeTop(boxes, self),
+            ChestHingeTop(boxes, self, 1),
+            ChestHingePin(boxes, self),
+            ChestHingeFront(boxes, self),
+        ]
+        return self._edgeObjects(edges, boxes, chars, add)
+
+class ChestHinge(BaseEdge):
+
+    "Edge with chest hinge"
+
+    char = "o"
+
+    def __init__(self, boxes, settings=None, reversed=False):
+        super(ChestHinge, self).__init__(boxes, settings)
+
+        self.reversed = reversed
+        self.char = "oO"[reversed]
+        self.description = self.description + (' (start)', ' (end)')[reversed]
+
+    def __call__(self, l, **kw):
+        t = self.settings.thickness
+        p = self.settings.pin_height
+        s = self.settings.hinge_strength
+        pinh = self.settings.pinheight()
+        if self.reversed:
+            self.hole(l+t, 0, p)
+            self.rectangularHole(l+0.5*t, -0.5*pinh, t, pinh)
+        else:
+            self.hole(-t, -s-p, p)
+            self.rectangularHole(-0.5*t, -s-p-0.5*pinh, t, pinh)
+
+        poly = (0, -180, t, (270, p+s), 0, -90, l+t-p-s)
+        if self.reversed:
+            poly = reversed(poly)
+        self.polyline(*poly)
+
+    def margin(self):
+        if self.reversed:
+            return 0*(self.settings.pin_height+self.settings.hinge_strength)
+        else:
+            return 1*(self.settings.pin_height+self.settings.hinge_strength)
+
+    def startwidth(self):
+        if self.reversed:
+            return self.settings.pin_height+self.settings.hinge_strength
+        return 0
+
+    def endwidth(self):
+        if self.reversed:
+            return 0
+        return self.settings.pin_height+self.settings.hinge_strength
+
+class ChestHingeTop(ChestHinge):
+
+    "Edge above a chest hinge"
+
+    char = "p"
+
+    def __init__(self, boxes, settings=None, reversed=False):
+        super(ChestHingeTop, self).__init__(boxes, settings)
+
+        self.reversed = reversed
+        self.char = "oO"[reversed]
+        self.description = self.description + (' (start)', ' (end)')[reversed]
+
+    def __call__(self, l, **kw):
+        t = self.settings.thickness
+        p = self.settings.pin_height
+        s = self.settings.hinge_strength
+        play = 0.1 * self.settings.thickness
+        poly = (0, -180, t, -90, play, -90, 0, (-90, p+s+play), 0, 90, l+t-p-s-play)
+        if self.reversed:
+            poly = reversed(poly)
+        self.polyline(*poly)
+
+    def margin(self):
+        if self.reversed:
+            return 0.
+        else:
+            return 1*(self.settings.pin_height+self.settings.hinge_strength)
+
+class ChestHingePin(BaseEdge):
+
+    "Edge with pins for an chest hinge"
+
+    char = "q"
+
+    def __call__(self, l, **kw):
+        t = self.settings.thickness
+        p = self.settings.pin_height
+        s = self.settings.hinge_strength
+        pinh = self.settings.pinheight()
+        poly = [0, -90, s+p-pinh, -90, t, 90, pinh, 90,]
+        poly += [l+2*t,] + list(reversed(poly))
+        self.polyline(*poly)
+
+    def margin(self):
+        return (self.settings.pin_height+self.settings.hinge_strength)
+
+
+class ChestHingeFront(BaseEdge):
+
+    "Edge opposing a chest hinge"
+
+    char = "Q"
+
+    def startwidth(self):
+        return self.settings.pin_height+self.settings.hinge_strength
 
 #############################################################################
 ####     Slide-on lid

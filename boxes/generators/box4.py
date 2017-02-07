@@ -42,14 +42,20 @@ class Box4(Boxes):
 
         t = self.thickness
 
-        self.rectangularWall(x, h, "FfOf", move="up")
-        self.rectangularWall(x, hl, "pfFf", move="up")
-        self.rectangularWall(x, h, "Ffof", move="up")
-        self.rectangularWall(x, hl, "PfFf", move="up")
-        self.rectangularWall(y, h, "FFQF", move="up")
-        self.rectangularWall(y, h, "FFQF", move="up")
-        self.rectangularWall(y, hl, "FFQF", move="up")
-        self.rectangularWall(y, hl, "FFqF", move="up")
+        hx = self.edges["O"].startwidth()
+
+        e1 = edges.CompoundEdge(self, "Fe", (h-hx, hx))
+        e2 = edges.CompoundEdge(self, "eF", (hx, h-hx))
+        e_back = ("F", e1, "e", e2)
+
+        self.rectangularWall(x, h-hx, "FfOf", ignore_widths=[2], move="up")
+        self.rectangularWall(x, hl-hx, "pfFf", ignore_widths=[1], move="up")
+        self.rectangularWall(x, h-hx, "Ffof", ignore_widths=[5], move="up")
+        self.rectangularWall(x, hl-hx, "PfFf", ignore_widths=[6], move="up")
+        self.rectangularWall(y, h, "FFeF", move="up")
+        self.rectangularWall(y, h, e_back, move="up")
+        self.rectangularWall(y, hl, "FFeF", move="up")
+        self.rectangularWall(y, hl-hx, "FFqF", move="up")
 
         self.rectangularWall(x, y, "ffff", move="up")
         self.rectangularWall(x, y, "ffff")

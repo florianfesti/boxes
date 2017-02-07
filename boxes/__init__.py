@@ -1265,6 +1265,7 @@ class Boxes:
         self.move(overallwidth, overallheight, move)
 
     def rectangularWall(self, x, y, edges="eeee",
+                        ignore_widths=[],
                         holesMargin=None, holesSettings=None,
                         bedBolts=None, bedBoltSettings=None,
                         callback=None,
@@ -1275,6 +1276,7 @@ class Boxes:
         :param x: width
         :param y: height
         :param edges:  (Default value = "eeee") bottom, right, top, left
+        :param ignore_widths: list of edge_widths added to adjacent edge
         :param holesMargin:  (Default value = None)
         :param holesSettings:  (Default value = None)
         :param bedBolts:  (Default value = None)
@@ -1296,10 +1298,20 @@ class Boxes:
         self.moveTo(edges[-1].spacing(), edges[0].margin())
         for i, l in enumerate((x, y, x, y)):
             self.cc(callback, i, y=edges[i].startwidth() + self.burn)
+            e1, e2 = edges[i], edges[i + 1]
+            if (2*i-1 in ignore_widths or
+                2*i-1+8 in ignore_widths):
+                l += edges[i-1].endwidth()
+            if 2*i in ignore_widths:
+                l += edges[i+1].startwidth()
+                e2 = self.edges["e"]
+            if 2*i+1in ignore_widths:
+                e1 = self.edges["e"]
+
             edges[i](l,
                      bedBolts=self.getEntry(bedBolts, i),
                      bedBoltSettings=self.getEntry(bedBoltSettings, i))
-            self.edgeCorner(edges[i], edges[i + 1], 90)
+            self.edgeCorner(e1, e2, 90)
 
         if holesMargin is not None:
             self.moveTo(holesMargin + edges[-1].endwidth(),

@@ -652,7 +652,8 @@ class FingerHoles(FingerJointBase):
             pos = leftover / 2.0 + i * (s + f)
 
             if bedBolts and bedBolts.drawBolt(i):
-                self.boxes.hole(pos + 0.5 * s, 0, d * 0.5)
+                d = (bedBoltSettings or self.boxes.bedBoltSettings)[0]
+                self.boxes.hole(pos - 0.5 * s, 0, d * 0.5)
 
             self.boxes.rectangularHole(pos + 0.5 * f, 0,
                                        f+p, self.settings.width+p)

@@ -32,15 +32,7 @@ class OttoLegs(Boxes):
     def __init__(self):
         Boxes.__init__(self)
 
-        # Uncomment the settings for the edge types you use
         self.addSettingsArgs(edges.FingerJointSettings)
-
-        # remove cli params you do not need
-        #self.buildArgParser("x", "sx", "y", "sy", "h", "hi")
-        # Add non default cli params if needed (see argparse std lib)
-        #self.argparser.add_argument(
-        #    "--XX",  action="store", type=float, default=0.5,
-        #    help="DESCRIPTION")
 
     def foot(self, x, y, ly, l, r=5., move=None):
         if self.move(x, y, move, True):
@@ -54,8 +46,6 @@ class OttoLegs(Boxes):
 
         for l in (x, y, x, y):
             self.polyline(l - 2*r, 45, r*2**0.5, 45)
-        
-        
         
         self.move(x, y, move)
 
@@ -77,29 +67,29 @@ class OttoLegs(Boxes):
         # Initialize canvas
         self.open()
 
-        lx, ly, lh = 12.4, 22.5, 40.0
+        lx, ly, lh = 12.4, 23.5, 40.0
 
         self.ctx.save()
         # Legs
 
-        c1 = edges.CompoundEdge(self, "EF", (6.0, lh-6.0))
-        e = ["F", c1, "F", "F"]
-        self.rectangularWall(lx, lh-6., [LegEdge(self, None), "f", "F", "f"], move="right")
+        c1 = edges.CompoundEdge(self, "FE", (ly-7.0, 7.0))
+        c2 = edges.CompoundEdge(self, "EF", (8.0, lh-8.0))
+        e = [c1, c2, "F", "F"]
+        self.rectangularWall(lx, lh-8., [LegEdge(self, None), "f", "F", "f"], move="right")
         self.rectangularWall(lx, lh, "FfFf", callback=[
-            lambda:self.hole(6, 6, 1.5)], move="right")
+            lambda:self.hole(6, 8, 1.5)], move="right")
         self.rectangularWall(ly, lh, e, move="right")
-        self.rectangularWall(ly, lh, e, move="right")
-        self.rectangularWall(lx, ly, "Efff", callback=[
-            lambda:self.rectangularHole(6.1, 6.35, 12, 2.4), None,
-            lambda:self.rectangularHole(4, 8, 8, 2.)], move="right")
+        self.rectangularWall(ly, lh, e, callback=[
+            lambda:self.hole(ly/2, 32, 5)], move="right")
+        self.rectangularWall(lx, ly-7.0, "efff", move="right")
         self.rectangularWall(lx, ly, "ffff", callback=[lambda: self.hole(lx/2, ly/2, 2.3)], move="right")
         self.rectangularWall(lx, ly, "eeee", callback=[lambda: self.hole(lx/2, ly/2, 1.5)], move="right")
         self.ctx.restore()
         self.rectangularWall(lx, lh, "ffff", move="up only")
 
         # feet
-        self.rectangularTriangle(30, 25, "fee", r=20, num=4, callback=[None, self.ankle1], move="right")
-        self.rectangularTriangle(30, 25, "fee", r=20, num=4, callback=[None, self.ankle2], move="right")
+        self.rectangularTriangle(30, 25, "fee", r=20, num=2, callback=[None, self.ankle1], move="right")
+        self.rectangularTriangle(30, 25, "fee", r=20, num=2, callback=[None, self.ankle2], move="right")
         self.foot(60, 40, ly, 30, move="right")
         self.foot(60, 40, ly, 30, move="right")
         self.close()

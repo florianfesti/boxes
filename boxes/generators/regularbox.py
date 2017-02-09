@@ -22,7 +22,7 @@ class RegularBox(Boxes):
 
     def __init__(self):
         Boxes.__init__(self)
-        self.addSettingsArgs(boxes.edges.FingerJointSettings)
+        self.addSettingsArgs(edges.FingerJointSettings)
         self.buildArgParser("h", "outside")
         self.argparser.add_argument(
             "--radius",  action="store", type=float, default=50.0,

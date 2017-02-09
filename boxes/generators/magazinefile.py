@@ -23,7 +23,7 @@ class MagazinFile(Boxes):
     def __init__(self):
         Boxes.__init__(self)
         self.buildArgParser("x", "y", "h", "hi", "outside")
-        self.addSettingsArgs(boxes.edges.FingerJointSettings)
+        self.addSettingsArgs(edges.FingerJointSettings)
 
     def side(self, w, h, hi):
         r = min(h - hi, w) / 2.0

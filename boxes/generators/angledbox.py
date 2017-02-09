@@ -22,7 +22,7 @@ class AngledBox(Boxes):
 
     def __init__(self):
         Boxes.__init__(self)
-        self.addSettingsArgs(boxes.edges.FingerJointSettings)
+        self.addSettingsArgs(edges.FingerJointSettings)
         self.buildArgParser("x", "y", "h", "outside")
         self.argparser.add_argument(
             "--n",  action="store", type=int, default=5,

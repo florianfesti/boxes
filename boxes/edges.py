@@ -1189,6 +1189,127 @@ class ChestHingeFront(BaseEdge):
         return self.settings.pin_height+self.settings.hinge_strength
 
 #############################################################################
+####     Cabinet Hinge
+#############################################################################
+
+class CabinetHingeSettings(Settings):
+    """Settings for Cabinet Hinges
+Values:
+
+* absolute_params
+
+ * bore : 3.2 : diameter of the pin hole in mm
+ * eyes_per_hinge : 5 : pieces per hinge
+
+* relative (in multiples of thickness)
+
+ * eye : 1.5 : radius of the eye (in multiples of thickness)
+ * play : 0.05 : space between eyes (in multiples of thickness)
+"""
+    absolute_params = {
+        "bore": 3.2,
+        "eyes_per_hinge" : 5,
+    }
+
+    relative_params = {
+        "eye": 1.5,
+        "play" : 0.05,
+    }
+
+    def edgeObjects(self, boxes, chars="uUvV", add=True):
+        edges = [CabinetHingeEdge(boxes, self),
+                 CabinetHingeEdge(boxes, self, top=True),
+                 CabinetHingeEdge(boxes, self, angled=True),
+                 CabinetHingeEdge(boxes, self, top=True, angled=True),
+        ]
+        for e, c in zip(edges, chars):
+            e.char = c
+        return self._edgeObjects(edges, boxes, chars, add)
+
+class CabinetHingeEdge(BaseEdge):
+    """Edge with cabinet hinges"""
+
+    char = "v"
+    description = "Edge with cabinet hinges"
+
+    def __init__(self, boxes, settings=None, top=False, angled=False):
+        super(CabinetHingeEdge, self).__init__(boxes, settings)
+        self.top = top
+        self.angled = angled
+        self.char = "uUvV"[bool(top)+2*bool(angled)]
+
+    def startwidth(self):
+        return self.thickness if self.top and self.angled else 0.0
+
+    def __call__(self, l, **kw):
+        p = self.settings.play
+        n = self.settings.eyes_per_hinge
+        e = self.settings.eye
+        t = self.thickness
+
+        if self.angled and not self.top:
+            # move hinge up to leave space for lid
+            e -= t
+
+        if self.top:
+            # start with space
+            poly = [0, 90, e+p, 180, 0]
+        else:
+            # start with hinge eye
+            poly = [p, 90, e+p, 0]
+        for i in range(n):
+            if (i % 2) ^ self.top:
+                # space
+                poly += [90, t + 2*p, 90]
+            else:
+                # hinge eye
+                poly += [t-p, -90, t, -90, t-p]
+
+        if (n % 2) ^ self.top:
+            # stopped with hinge eye
+            poly += [0, e+p, 90, p]
+        else:
+            # stopped with space
+            poly += [0, 180, e+p, 90, 0 ]
+
+        width = (t+p) * n + p
+
+        for i in range(n):
+            if not (i % 2) ^ self.top:
+                self.rectangularHole(2*t+0.5*t+p+i*(t+p), e+2.5*t, t, t)
+                self.rectangularHole(l-(2*t+0.5*t+p+i*(t+p)), e+2.5*t, t, t)
+        self.polyline(*([2*t, 0] + poly + [0, l - 2*(width+2*t), 0]+ list(reversed(poly)) + [0, 2*t]))
+
+    def parts(self, move=None):
+        e, b = self.settings.eye, self.settings.bore
+        t = self.thickness
+
+        th = 4*e+3*t+self.boxes.spacing
+        tw = max(e, 2*t) * self.settings.eyes_per_hinge
+
+        if self.move(th, tw, move, True):
+            return
+
+        if e <= 2*t:
+            if self.angled:
+                corner = [2*e-t, (90, 2*t - e), 0, -90, t, (90, e)]
+            else:
+                corner = [2*e, (90, 2*t)]
+        else:
+            a = math.asin(2*t/e)
+            ang = math.degrees(a)
+            corner = [e*(1-math.cos(a))+2*t, -90+ang, 0, (180-ang, e)]
+        self.moveTo(max(e, 2*t))
+        for i in range(2*self.settings.eyes_per_hinge):
+            self.hole(0, e, b/2.0)
+            self.polyline(*[0, (180, e), 0, -90, t, 90, t, -90, t, -90, t, 90, t, 90, t, (90, t)] + corner)
+            self.moveTo(self.boxes.spacing, 4*e+3*t+self.boxes.spacing, 180)
+            if i % 2:
+                self.moveTo(2*max(e, 2*t) + 2*self.boxes.spacing)
+
+        self.move(th, tw, move)
+
+#############################################################################
 ####     Slide-on lid
 #############################################################################
 

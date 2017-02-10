@@ -382,6 +382,8 @@ class Boxes:
                 **self.edgesettings.get("Hinge", {})).edgeObjects(self)
         edges.ChestHingeSettings(self.thickness, True,
                 **self.edgesettings.get("ChestHinge", {})).edgeObjects(self)
+        edges.CabinetHingeSettings(self.thickness, True,
+                **self.edgesettings.get("CabinetHinge", {})).edgeObjects(self)
         # Sliding Lid
         edges.LidSettings(self.thickness, True,
                 **self.edgesettings.get("Lid", {})).edgeObjects(self)

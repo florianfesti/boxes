@@ -26,6 +26,7 @@ class Box2(Boxes):
         self.addSettingsArgs(edges.FingerJointSettings)
         self.addSettingsArgs(edges.StackableSettings)
         self.addSettingsArgs(edges.HingeSettings)
+        self.addSettingsArgs(edges.CabinetHingeSettings)
         self.addSettingsArgs(edges.LidSettings)
         self.addSettingsArgs(edges.ClickSettings)
         self.addSettingsArgs(edges.FlexSettings)
@@ -107,6 +108,8 @@ class Box2(Boxes):
             t1 = "M"
             t2 = "e"
             t3 = "N"
+        elif t1.char == "v":
+            t2 = t3 = t4 = "e"
 
         self.edges["k"].settings.setValues(self.thickness, outset=True)
 
@@ -141,6 +144,10 @@ class Box2(Boxes):
             self.edges['k'].settings.setValues(self.thickness, grip_length=5)
             self.rectangularWall(lx, y, "IeJe", move="right")
             self.rectangularWall(lx, y, "IeJe", move="up")
+        elif self.top_edge == "v":
+            self.rectangularWall(x, y, "VEEE", move="up")
+            self.rectangularWall(x, y, "VEEE", move="left only")
+            self.edges["v"].parts()
         else:
             self.rectangularWall(x, y, "CCCC", bedBolts=[d2, d3, d2, d3], move="up only")
             

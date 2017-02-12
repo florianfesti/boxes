@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (C) 2013-2014 Florian Festi
+# Copyright (C) 2013-2017 Florian Festi
 #
 #   This program is free software: you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -15,12 +15,10 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
-from boxes.generators.box2 import TopEdge, ChestLid
-from boxes.edges import Bolts
-import inspect
+from boxes.lids import _TopEdge, _ChestLid
 import math
 
-class UBox(TopEdge, ChestLid):
+class UBox(_TopEdge, _ChestLid):
     """Box various options for different stypes and lids"""
 
     def __init__(self):

@@ -13,7 +13,8 @@ def getAllBoxGenerators():
         for k, v in module.__dict__.items():
             if v is boxes.Boxes:
                 continue
-            if inspect.isclass(v) and issubclass(v, boxes.Boxes):
+            if (inspect.isclass(v) and issubclass(v, boxes.Boxes) and
+                v.__name__[0] != '_'):
                 generators[modname + '.' + v.__name__] = v
     return generators
 

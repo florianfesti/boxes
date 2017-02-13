@@ -14,7 +14,6 @@ Infrastructure
   * Offer a collection of different settings
 
 * Use stretch setting in flexboxes
-* Add CLI params for flex settings
 * Move settings out of Boxes class (see .open())
 
   * .bedBoltSettings
@@ -31,4 +30,3 @@ Generators
 
 * Make bolts configurable (e.g. in box2.py)
 * Treasure Chest with rounded lid and living hinge
-* Box with hinge connecting non flat lid (needs new hinge type)

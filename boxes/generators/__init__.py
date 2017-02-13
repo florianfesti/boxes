@@ -3,6 +3,31 @@ import inspect
 import importlib
 import boxes
 
+ui_groups_by_name = {}
+
+class UIGroup:
+
+    def __init__(self, name, title=None, description=""):
+        self.name = name
+        self.title = title or name
+        self.description = description
+        self.generators = []
+        # register
+        ui_groups_by_name[name] = self
+
+    def add(self, box):
+        self.generators.append(box)
+        self.generators.sort(key=lambda b:b.__class__.__name__)
+
+ui_groups = [
+    UIGroup("Box", "Boxes"),
+    UIGroup("FlexBox", "Boxes with flex"),
+    UIGroup("Tray", "Trays and Drawer Inserts"),
+    UIGroup("Shelf", "Shelves"),
+    UIGroup("Part", "Parts and Samples"),
+    UIGroup("Misc"),
+    ]
+
 def getAllBoxGenerators():
     generators = {}
     for importer, modname, ispkg in pkgutil.walk_packages(

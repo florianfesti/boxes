@@ -152,13 +152,7 @@ class BServer:
 <div>
 <div class="clear"></div>
 <hr />
-<div style="width: 100%; float: left;">
-
-
-
-
-
-        <h2 style="font-size: 1em; margin: 0px; "> <a href="/">generators</a></h2><h2 style="margin: 0px 0px 0px 20px;" > <span style="margin-right: 10px;"> >> <span>""", name, """</h2>
+<h2 style="margin: 0px 0px 0px 20px;" ><span>""", name, """</h2>
         <p>""", box.__doc__ or "", """</p>
 <form action="%s" method="GET" target="_blank">
         """ % (action)]
@@ -177,10 +171,6 @@ class BServer:
         result.append("""
 <p><button name="render" value="1">Generate</button></p>
 </form>
-
-
-
-
 
 </div>
 <!--
@@ -255,9 +245,6 @@ flex cuts, holes and slots for screws and more high level functions.
 <div class="clear"></div>
 <hr />
 <div style="width: 100%; float: left;">
-
-
-<p>These are the available generators:</p>
 """ ]
         for nr, group in enumerate(self.groups):
             result.append('''<h3 onclick="showHide('%s')">%s</h3>\n<div id="%s">\n<ul>\n''' % (nr, group.title, nr))

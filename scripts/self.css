@@ -27,35 +27,29 @@ a 	{
 body {min-width: 996px;}
 
 h1 {
-	
-
     font-family: 'Amatic SC', cursive;
-    
     font-family: 'Luckiest Guy', cursive;
-
     font-family: 'Bungee Shade', cursive;
 
-    
-
-	font-size: 3em;
-	
-	}
+    font-size: 3em;
+}
 
 h2 {
-	font-family: 'Bungee Shade', cursive;
-
+    font-family: 'Bungee Shade', cursive;
     font-family: 'Amatic SC', cursive;
-    
     font-family: 'Luckiest Guy', cursive;
 
     font-size: 2.5em;
+}
 
-    
-	}
 h3 {
     padding: 5px;
     padding-left: 15px;
     margin: 0px;
+}
+
+h3::before {
+    content: "▶ ";
 }
 
 h3:hover {

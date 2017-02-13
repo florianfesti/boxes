@@ -22,6 +22,8 @@ import math
 class Pulley(Boxes):
     """Timing belt pulleys for different profiles"""
 
+    ui_group = "Part"
+
     def __init__(self):
         Boxes.__init__(self)
         # remove cli params you do not need

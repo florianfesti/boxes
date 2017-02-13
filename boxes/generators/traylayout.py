@@ -384,6 +384,8 @@ class TrayLayout(Layout):
 
     webinterface = True
 
+    ui_group = "Tray"
+
     def __init__(self):
         Boxes.__init__(self)
         self.argparser = boxes.ArgumentParser()

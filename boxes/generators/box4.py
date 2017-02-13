@@ -20,6 +20,8 @@ from boxes import *
 class Box4(Boxes):
     """Box with lid and integraded hinge"""
 
+    ui_group = "Box"
+
     def __init__(self):
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings)

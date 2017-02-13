@@ -19,6 +19,8 @@ from boxes import *
 class DisplayShelf(Boxes): # change class name here and below
     """Shelf with forward slanted floors"""
     
+    ui_group = "Shelf"
+
     def __init__(self):
         Boxes.__init__(self)
 

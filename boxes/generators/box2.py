@@ -21,6 +21,8 @@ from boxes.lids import _TopEdge, _ChestLid
 class Box2(_TopEdge, _ChestLid):
     """Box various options for different stypes and lids"""
 
+    ui_group = "Box"
+
     def __init__(self):
         Boxes.__init__(self)
         self.addTopEdgeSettings()

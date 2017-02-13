@@ -19,6 +19,8 @@ from boxes import *
 class Box5(Boxes):
     """Box with lid attached by cabinet hinges"""
 
+    ui_group = "Box"
+
     def __init__(self):
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings)

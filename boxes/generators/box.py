@@ -20,6 +20,8 @@ from boxes import *
 class Box(Boxes):
     """Fully closed box"""
 
+    ui_group = "Box"
+
     def __init__(self):
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings)

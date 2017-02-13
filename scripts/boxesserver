@@ -74,6 +74,12 @@ boxes.ArgumentParser = ThrowingArgumentParser # Evil hack
 class BServer:
     def __init__(self):
         self.boxes = {b.__name__ : b() for b in boxes.generators.getAllBoxGenerators().values() if b.webinterface}
+        self.groups = boxes.generators.ui_groups
+        self.groups_by_name = boxes.generators.ui_groups_by_name
+
+        for name, box in self.boxes.items():
+            self.groups_by_name.get(box.ui_group,
+                                    self.groups_by_name["Misc"]).add(box)
 
     def arg2html(self, a, prefix):
         name = a.option_strings[0].replace("-", "")
@@ -103,20 +109,10 @@ class BServer:
             (name, a.default)
 
         return row % input
-    
-    def args2html(self, name, box, action=""):
-        result = ["""<html><head><title>Boxes - """, name, """</title>
-    <link rel="stylesheet" href="https://necolas.github.io/normalize.css/4.1.1/normalize.css" type="text/css" />
-    <style>
 
-     """, css, """
-
-    </style>
-
-
-
+    scripts = """
     <script type="text/javascript">
-     function showHide(id) {
+    function showHide(id) {
        var e = document.getElementById(id);
        if(e.style.display == null || e.style.display == "none") {
          e.style.display = "block";
@@ -125,10 +121,22 @@ class BServer:
       }
     }
     function hideargs() {
-     for ( i=1; i<""" + str(len(box.argparser._action_groups)-2) + """; i++) {
+     for ( i=0; i<%i; i++) {
        showHide(i);
      }
     }
+    </script>
+"""
+
+    def args2html(self, name, box, action=""):
+        result = ["""<html><head><title>Boxes - """, name, """</title>
+    <link rel="stylesheet" href="https://necolas.github.io/normalize.css/4.1.1/normalize.css" type="text/css" />
+    <style>
+
+     """, css, """
+
+     </style>""", self.scripts % (len(box.argparser._action_groups)-3), """
+    <script>
    </script>
 </head>
 <body onload="hideargs()">
@@ -156,16 +164,16 @@ class BServer:
         """ % (action)]
         groupid = 0
         for group in box.argparser._action_groups[3:] + box.argparser._action_groups[:3]:
-            groupid += 1
             if not group._group_actions:
                 continue
             prefix = getattr(group, "prefix", None)
-            result.append('<h3 onclick="showHide(%s)">%s</h3>\n<table id="%s">\n' % (groupid, group.title, groupid))
+            result.append('''<h3 onclick="showHide(%s)">%s</h3>\n<table id="%s">\n''' % (groupid, group.title, groupid))
             for a in group._group_actions:
                 if a.dest in ("input", "output"):
                     continue
                 result.append(self.arg2html(a, prefix))
             result.append("</table>")
+            groupid += 1
         result.append("""
 <p><button name="render" value="1">Generate</button></p>
 </form>
@@ -224,9 +232,9 @@ class BServer:
 		function changeback(img_link){
 				document.getElementById("sample").src= "examples/" + img + ".svg";
 				}
-        </script>
+        </script>""", self.scripts % len(self.groups), """
 </head>
-<body>
+<body onload="hideargs()">
 <div class="container" style="background-color: #FFF8EA;">
 <div style="width: 70%; float: left;">
 <h1>Boxes.py</h1>
@@ -250,21 +258,20 @@ flex cuts, holes and slots for screws and more high level functions.
 
 
 <p>These are the available generators:</p>
-<ul>
 """ ]
-        for name in sorted(self.boxes):
-            if name in ("TrayLayout2", ):
-                continue
-            box = self.boxes[name]
-            docs = ""
-            if box.__doc__:
-                docs = " - " + box.__doc__
-            result.append("""  <li><a href="%s">%s</a>%s</li>""" % (
-                name, name, docs))
-        result.append("""</ul>
-
-
-
+        for nr, group in enumerate(self.groups):
+            result.append('''<h3 onclick="showHide('%s')">%s</h3>\n<div id="%s">\n<ul>\n''' % (nr, group.title, nr))
+            for box in group.generators:
+                name = box.__class__.__name__
+                if name in ("TrayLayout2", ):
+                    continue
+                docs = ""
+                if box.__doc__:
+                    docs = " - " + box.__doc__
+                result.append("""  <li><a href="%s">%s</a>%s</li>\n""" % (
+                    name, name, docs))
+            result.append("</ul>\n</div>\n")
+        result.append("""
 </div>
 
 <!--

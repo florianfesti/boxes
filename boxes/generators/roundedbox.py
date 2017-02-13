@@ -20,6 +20,8 @@ from boxes import *
 class RoundedBox(Boxes):
     """Box with rounded corners"""
 
+    ui_group = "FlexBox"
+
     def __init__(self):
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings)

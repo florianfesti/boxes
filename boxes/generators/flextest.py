@@ -20,6 +20,8 @@ from boxes import *
 class FlexTest(Boxes):
     "Piece for testing different flex settings"
 
+    ui_group = "Part"
+
     def __init__(self):
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FlexSettings)

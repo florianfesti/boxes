@@ -46,6 +46,8 @@ class BinFrontSideEdge(BinFrontEdge):
 class BinTray(Boxes):
     """A Type tray variant to be used up right with sloped walls in front"""
 
+    ui_group = "Shelf"
+
     def __init__(self):
         Boxes.__init__(self)
         self.buildArgParser("sx", "sy", "h", "outside")

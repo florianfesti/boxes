@@ -21,6 +21,8 @@ import math
 class UBox(_TopEdge, _ChestLid):
     """Box various options for different stypes and lids"""
 
+    ui_group = "FlexBox"
+
     def __init__(self):
         Boxes.__init__(self)
         self.addTopEdgeSettings()

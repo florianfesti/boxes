@@ -19,6 +19,8 @@ from boxes import *
 class Box3(Boxes):
     """Box with just 3 walls"""
 
+    ui_group = "Box"
+
     def __init__(self):
         Boxes.__init__(self)
         self.buildArgParser("x", "y", "h", "outside")

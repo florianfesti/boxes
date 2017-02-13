@@ -20,6 +20,8 @@ from boxes import *
 class GearBox(Boxes):
     """Gearbox with multiple identical stages"""
 
+    ui_group = "Part"
+
     def __init__(self):
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings)

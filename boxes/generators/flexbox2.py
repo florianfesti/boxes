@@ -21,6 +21,8 @@ import math
 class FlexBox2(Boxes):
     """Box with living hinge and top corners rounded"""
 
+    ui_group = "FlexBox"
+
     def __init__(self):
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings)

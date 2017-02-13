@@ -20,6 +20,8 @@ import math
 class AngledBox(Boxes):
     """Box with both ends cornered"""
 
+    ui_group = "Box"
+
     def __init__(self):
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings)

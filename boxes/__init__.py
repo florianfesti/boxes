@@ -199,6 +199,7 @@ class Boxes:
     """Main class -- Generator should sub class this """
 
     webinterface = True
+    ui_group = "Misc"
 
     def __init__(self):
         self.formats = formats.Formats()

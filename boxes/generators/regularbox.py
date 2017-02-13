@@ -20,6 +20,8 @@ from boxes import *
 class RegularBox(Boxes):
     """Regular box"""
 
+    ui_group = "Box"
+
     def __init__(self):
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings)

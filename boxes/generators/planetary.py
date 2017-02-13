@@ -22,6 +22,8 @@ class Planetary(Boxes):
 
     """Planetary Gear with possibly multiple identical stages"""
 
+    ui_group = "Part"
+
     def __init__(self):
         Boxes.__init__(self)
         self.argparser.add_argument(

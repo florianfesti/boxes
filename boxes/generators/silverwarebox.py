@@ -21,6 +21,8 @@ class Silverware(Boxes):
     """Not yet parametrized cuttlery stand with carrying grip
 using flex for rounded corners"""
 
+    ui_group = "FlexBox"
+
     ####################################################################
     ### Parts
     ####################################################################

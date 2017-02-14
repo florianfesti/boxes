@@ -75,15 +75,27 @@ class OttoLegs(Boxes):
         c1 = edges.CompoundEdge(self, "FE", (ly-7.0, 7.0))
         c2 = edges.CompoundEdge(self, "EF", (8.0, lh-8.0))
         e = [c1, c2, "F", "F"]
-        self.rectangularWall(lx, lh-8., [LegEdge(self, None), "f", "F", "f"], move="right")
-        self.rectangularWall(lx, lh, "FfFf", callback=[
-            lambda:self.hole(6, 8, 1.5)], move="right")
-        self.rectangularWall(ly, lh, e, move="right")
-        self.rectangularWall(ly, lh, e, callback=[
-            lambda:self.hole(ly/2, 32, 5)], move="right")
-        self.rectangularWall(lx, ly-7.0, "efff", move="right")
-        self.rectangularWall(lx, ly, "ffff", callback=[lambda: self.hole(lx/2, ly/2, 2.3)], move="right")
-        self.rectangularWall(lx, ly, "eeee", callback=[lambda: self.hole(lx/2, ly/2, 1.5)], move="right")
+
+        for i in range(2):
+            self.rectangularWall(lx, lh-8., [LegEdge(self, None), "f", "F", "f"], move="right")
+            self.rectangularWall(lx, lh, "FfFf", callback=[
+                lambda:self.hole(6, 8, 1.5)], move="right")
+            self.rectangularWall(ly, lh, e, move="right")
+            self.rectangularWall(ly, lh, e, callback=[
+                lambda:self.hole(ly/2, 32, 5)], move="right")
+
+        self.rectangularWall(ly, lx, "ffff", callback=[None, lambda: self.hole(lx/2, ly/2, 2.3)], move="up")
+        self.rectangularWall(ly, lx, "ffff", callback=[None, lambda: self.hole(lx/2, ly/2, 2.3)], move="")
+        self.rectangularWall(ly, lx, "ffff", callback=[None, lambda: self.hole(lx/2, ly/2, 2.3)], move="down right only")
+
+        self.rectangularWall(lx, ly, "eeee", callback=[lambda: self.hole(lx/2, ly/2, 1.5)], move="up")
+        self.rectangularWall(lx, ly, "eeee", callback=[lambda: self.hole(lx/2, ly/2, 1.5)], move="")
+        self.rectangularWall(lx, ly, "eeee", callback=[lambda: self.hole(lx/2, ly/2, 1.5)], move="down right only")
+
+        self.rectangularWall(lx, ly-7.0, "efff", move="up")
+        self.rectangularWall(lx, ly-7.0, "efff", move="")
+        self.rectangularWall(lx, ly-7.0, "efff", move="down right only")
+
         self.ctx.restore()
         self.rectangularWall(lx, lh, "ffff", move="up only")
 

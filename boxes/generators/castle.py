@@ -18,25 +18,21 @@ from boxes import *
 
 
 class Castle(Boxes):
-    webinterface = False
+    "Castle tower with two walls"
+
+    ui_group = "Unstable"
 
     def __init__(self):
         Boxes.__init__(self)
-        self.addSettingsArgs(boxes.edges.FingerJointSettings)
+        self.addSettingsArgs(edges.FingerJointSettings)
 
     def render(self, t_x=70, t_h=250, w1_x=300, w1_h=120, w2_x=100, w2_h=120):
         self.open()
-        s = edges.FingerJointSettings(self.thickness, relative=False,
-                                      space=10, finger=10, height=10,
+        s = edges.FingerJointSettings(10.0, relative=True,
+                                      space=1, finger=1,
                                       width=self.thickness)
 
-        p = edges.FingerJointEdge(self, s)
-        p.char = "p"
-        self.addPart(p)
-
-        P = edges.FingerJointEdgeCounterPart(self, s)
-        P.char = "P"
-        self.addPart(P)
+        s.edgeObjects(self, "pPQ")
 
         self.moveTo(0, 0)
         self.rectangularWall(t_x, t_h, edges="efPf", move="right", callback=[lambda: self.fingerHolesAt(t_x * 0.5, 0, w1_h, 90), ])

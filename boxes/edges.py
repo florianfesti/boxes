@@ -456,7 +456,7 @@ class SlottedEdge(BaseEdge):
     description = "Straight Edge with slots"
 
     def __init__(self, boxes, sections, edge="e", slots=0):
-        super(SlottedEdge, self).__init__(boxes, None)
+        super(SlottedEdge, self).__init__(boxes, Settings(boxes.thickness))
 
         self.edge = self.edges.get(edge, edge)
         self.sections = sections
@@ -477,9 +477,9 @@ class SlottedEdge(BaseEdge):
             self.edge(l)
 
             if self.slots:
-                Slot(self.boxes, self.slots)(self.thickness)
+                Slot(self.boxes, self.slots)(self.settings.thickness)
             else:
-                self.edge(self.thickness)
+                self.edge(self.settings.thickness)
 
         self.edge(self.sections[-1])
 
@@ -548,10 +548,10 @@ class FingerJointBase:
 
     def fingerLength(self, angle):
         if angle >=90:
-            return self.thickness, 0
+            return self.settings.thickness, 0
 
         a = 90 - (180-angle) / 2.0
-        fingerlength = self.thickness * math.tan(math.radians(a))
+        fingerlength = self.settings.thickness * math.tan(math.radians(a))
         b = 90-2*a
         spacerecess = -math.sin(math.radians(b)) * fingerlength
         return fingerlength, spacerecess
@@ -566,7 +566,7 @@ class FingerJointEdge(BaseEdge, FingerJointBase):
 
         positive = self.positive
 
-        s, f, thickness = self.settings.space, self.settings.finger, self.thickness
+        s, f, thickness = self.settings.space, self.settings.finger, self.settings.thickness
 
         p = 1 if positive else -1
 
@@ -587,7 +587,7 @@ class FingerJointEdge(BaseEdge, FingerJointBase):
             if i != 0:
                 if not positive and bedBolts and bedBolts.drawBolt(i):
                     self.hole(0.5 * space,
-                              0.5 * self.thickness, 0.5 * d)
+                              0.5 * self.settings.thickness, 0.5 * d)
 
                 if positive and bedBolts and bedBolts.drawBolt(i):
                     self.bedBoltHole(s, bedBoltSettings)
@@ -679,7 +679,7 @@ class FingerHoleEdge(BaseEdge):
     def __call__(self, length, bedBolts=None, bedBoltSettings=None, **kw):
         dist = self.fingerHoles.settings.edge_width
         self.ctx.save()
-        self.fingerHoles(0, dist + self.thickness / 2, length, 0,
+        self.fingerHoles(0, dist + self.settings.thickness / 2, length, 0,
                          bedBolts=bedBolts, bedBoltSettings=bedBoltSettings)
         self.ctx.restore()
         # XXX continue path
@@ -689,7 +689,7 @@ class FingerHoleEdge(BaseEdge):
 
     def startwidth(self):
         """ """
-        return self.fingerHoles.settings.edge_width + self.thickness
+        return self.fingerHoles.settings.edge_width + self.settings.thickness
 
 
 class CrossingFingerHoleEdge(BaseEdge):
@@ -853,13 +853,13 @@ class Hinge(BaseEdge):
         self.description = self.description + ('', ' (start)', ' (end)', ' (both ends)')[layout]
 
     def margin(self):
-        return 3 * self.thickness
+        return 3 * self.settings.thickness
 
     def outset(self, _reversed=False):
-        t = self.thickness
+        t = self.settings.thickness
         r = 0.5 * self.settings.axle
         alpha = math.degrees(math.asin(0.5 * t / r))
-        pinl = (self.settings.axle ** 2 - self.thickness ** 2) ** 0.5 * self.settings.pinwidth
+        pinl = (self.settings.axle ** 2 - self.settings.thickness ** 2) ** 0.5 * self.settings.pinwidth
         pos = math.cos(math.radians(alpha)) * r
         hinge = (
             0,
@@ -876,13 +876,13 @@ class Hinge(BaseEdge):
         if _reversed:
             hinge = reversed(hinge)
             self.polyline(*hinge)
-            self.boxes.rectangularHole(-pos, -0.5 * t, pinl, self.thickness)
+            self.boxes.rectangularHole(-pos, -0.5 * t, pinl, self.settings.thickness)
         else:
-            self.boxes.rectangularHole(pos, -0.5 * t, pinl, self.thickness)
+            self.boxes.rectangularHole(pos, -0.5 * t, pinl, self.settings.thickness)
             self.polyline(*hinge)
 
     def outsetlen(self):
-        t = self.thickness
+        t = self.settings.thickness
         r = 0.5 * self.settings.axle
         alpha = math.degrees(math.asin(0.5 * t / r))
         pos = math.cos(math.radians(alpha)) * r
@@ -890,7 +890,7 @@ class Hinge(BaseEdge):
         return 2 * pos + 1.5 * t
 
     def flush(self, _reversed=False):
-        t = self.thickness
+        t = self.settings.thickness
 
         hinge = (
             0, -90,
@@ -899,20 +899,20 @@ class Hinge(BaseEdge):
             (-90, 0.5 * t), 0
         )
         pos = 0.5 * self.settings.axle + self.settings.hingestrength
-        pinl = (self.settings.axle ** 2 - self.thickness ** 2) ** 0.5 * self.settings.pinwidth
+        pinl = (self.settings.axle ** 2 - self.settings.thickness ** 2) ** 0.5 * self.settings.pinwidth
 
         if _reversed:
             hinge = reversed(hinge)
             self.hole(0.5 * t + pos, -0.5 * t, 0.5 * self.settings.axle)
-            self.boxes.rectangularHole(0.5 * t + pos, -0.5 * t, pinl, self.thickness)
+            self.boxes.rectangularHole(0.5 * t + pos, -0.5 * t, pinl, self.settings.thickness)
         else:
             self.hole(pos, -0.5 * t, 0.5 * self.settings.axle)
-            self.boxes.rectangularHole(pos, -0.5 * t, pinl, self.thickness)
+            self.boxes.rectangularHole(pos, -0.5 * t, pinl, self.settings.thickness)
 
         self.polyline(*hinge)
 
     def flushlen(self):
-        return self.settings.axle + 2 * self.settings.hingestrength + 0.5 * self.thickness
+        return self.settings.axle + 2 * self.settings.hingestrength + 0.5 * self.settings.thickness
 
     def __call__(self, l, **kw):
         hlen = getattr(self, self.settings.style + 'len', self.outsetlen)()
@@ -953,14 +953,14 @@ class HingePin(BaseEdge):
             return self.settings.outset * self.boxes.thickness
 
     def margin(self):
-        return self.thickness
+        return self.settings.thickness
 
     def outset(self, _reversed=False):
-        t = self.thickness
+        t = self.settings.thickness
         r = 0.5 * self.settings.axle
         alpha = math.degrees(math.asin(0.5 * t / r))
         pos = math.cos(math.radians(alpha)) * r
-        pinl = (self.settings.axle ** 2 - self.thickness ** 2) ** 0.5 * self.settings.pinwidth
+        pinl = (self.settings.axle ** 2 - self.settings.thickness ** 2) ** 0.5 * self.settings.pinwidth
         pin = (pos - 0.5 * pinl, -90,
                t, 90,
                pinl,
@@ -985,18 +985,18 @@ class HingePin(BaseEdge):
         self.polyline(*pin)
 
     def outsetlen(self):
-        t = self.thickness
+        t = self.settings.thickness
         r = 0.5 * self.settings.axle
         alpha = math.degrees(math.asin(0.5 * t / r))
         pos = math.cos(math.radians(alpha)) * r
 
         if self.settings.outset:
-            return 2 * pos + 1.5 * self.thickness
+            return 2 * pos + 1.5 * self.settings.thickness
         else:
             return 2 * pos
 
     def flush(self, _reversed=False):
-        t = self.thickness
+        t = self.settings.thickness
         pinl = (self.settings.axle ** 2 - t ** 2) ** 0.5 * self.settings.pinwidth
         d = (self.settings.axle - pinl) / 2.0
         pin = (self.settings.hingestrength + d, -90,
@@ -1025,7 +1025,7 @@ class HingePin(BaseEdge):
         l = self.settings.hingestrength + self.settings.axle
 
         if self.settings.outset:
-            l += self.settings.hingestrength + 0.5 * self.thickness
+            l += self.settings.hingestrength + 0.5 * self.settings.thickness
 
         return l
 
@@ -1072,7 +1072,7 @@ Values:
         }
 
     def pinheight(self):
-        return ((0.9*self.pin_height)**2-self.thickness**2)**0.5
+        return ((0.9*self.pin_height)**2-self.settings.thickness**2)**0.5
 
     def edgeObjects(self, boxes, chars="oOpPqQ", add=True):
         edges = [
@@ -1239,13 +1239,13 @@ class CabinetHingeEdge(BaseEdge):
         self.char = "uUvV"[bool(top)+2*bool(angled)]
 
     def startwidth(self):
-        return self.thickness if self.top and self.angled else 0.0
+        return self.settings.thickness if self.top and self.angled else 0.0
 
     def __call__(self, l, **kw):
         p = self.settings.play
         n = self.settings.eyes_per_hinge
         e = self.settings.eye
-        t = self.thickness
+        t = self.settings.thickness
 
         if self.angled and not self.top:
             # move hinge up to leave space for lid
@@ -1282,7 +1282,7 @@ class CabinetHingeEdge(BaseEdge):
 
     def parts(self, move=None):
         e, b = self.settings.eye, self.settings.bore
-        t = self.thickness
+        t = self.settings.thickness
 
         th = 4*e+3*t+self.boxes.spacing
         tw = max(e, 2*t) * self.settings.eyes_per_hinge
@@ -1488,7 +1488,7 @@ class ClickConnector(BaseEdge):
     description = "Click on (bottom side)"
 
     def hook(self, reverse=False):
-        t = self.thickness
+        t = self.settings.thickness
         a = self.settings.angle
         d = self.settings.depth
         r = self.settings.bottom_radius
@@ -1520,7 +1520,7 @@ class ClickConnector(BaseEdge):
             self.polyline(*reversed(p1))
 
     def hookWidth(self):
-        t = self.thickness
+        t = self.settings.thickness
         a = self.settings.angle
         d = self.settings.depth
         r = self.settings.bottom_radius
@@ -1539,7 +1539,7 @@ class ClickConnector(BaseEdge):
         return s * d * c + 2 * r
 
     def finger(self, length):
-        t = self.thickness
+        t = self.settings.thickness
         self.polyline(
             2 * t,
             90,
@@ -1549,7 +1549,7 @@ class ClickConnector(BaseEdge):
         )
 
     def __call__(self, length, **kw):
-        t = self.thickness
+        t = self.settings.thickness
         self.edge(4 * t)
         self.hook()
         self.finger(2 * t)
@@ -1563,7 +1563,7 @@ class ClickConnector(BaseEdge):
         self.edge(4 * t)
 
     def margin(self):
-        return 2 * self.thickness
+        return 2 * self.settings.thickness
 
 
 class ClickEdge(ClickConnector):
@@ -1577,7 +1577,7 @@ class ClickEdge(ClickConnector):
         return 0.0
 
     def __call__(self, length, **kw):
-        t = self.thickness
+        t = self.settings.thickness
         o = self.hookOffset()
         w = self.hookWidth()
         p1 = (

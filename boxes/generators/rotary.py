@@ -83,6 +83,8 @@ class Rotary(Boxes):
 
     """Rotary Attachment for engraving cylindrical objects in a laser cutter"""
 
+    ui_group = "Unstable"
+
     def __init__(self):
         Boxes.__init__(self)
 

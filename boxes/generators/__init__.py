@@ -26,6 +26,7 @@ ui_groups = [
     UIGroup("Shelf", "Shelves"),
     UIGroup("Part", "Parts and Samples"),
     UIGroup("Misc"),
+    UIGroup("Unstable", description="Generators are still untested or need manual adjustment to be useful."),
     ]
 
 def getAllBoxGenerators():

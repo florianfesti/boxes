@@ -75,9 +75,12 @@ class UBox(_TopEdge, _ChestLid):
 
         for nr, flex in enumerate("XE"):
             self.edges["F"](y-r)
-            self.edges[flex](cl, h=th)
-            self.edges["F"](x-2*r)
-            self.edges[flex](cl, h=th)
+            if x-2*r > 0.1 * self.thickness:
+                self.edges[flex](cl, h=th)
+                self.edges["F"](x-2*r)
+                self.edges[flex](cl, h=th)
+            else:
+                self.edges[flex](2*cl+x-2*r, h=th)
             self.edges["F"](y-r)
             self.edgeCorner("F", e[nr])
             e[nr](h)
@@ -87,6 +90,8 @@ class UBox(_TopEdge, _ChestLid):
 
     def render(self):
         x, y, h, r = self.x, self.y, self.h, self.radius
+
+        self.radius = r = min(r, x/2.0, y)
 
         self.open()
 

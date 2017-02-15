@@ -159,7 +159,7 @@ class BServer:
 
 <div class="container" style="background-color: #FFF8EA;">
 <div style="float: left;">
-<a href=".."><h1>Boxes.py</h1></a>
+<a href="../"><h1>Boxes.py</h1></a>
 </div>
 <div style="width: 150px; float: right;">
 <img alt="self-Logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Gray_shaded_3D_cube.svg/2000px-Gray_shaded_3D_cube.svg.png" width="150px" >

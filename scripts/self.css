@@ -23,7 +23,7 @@ li {
 	list-style-type: none;
 	}
 
-li a 	{
+li a, a h1 	{
 	text-decoration: none;
 	color: #333;
 	}

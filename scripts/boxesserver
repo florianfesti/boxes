@@ -243,11 +243,11 @@ class BServer:
 <div style="width: 70%; float: left;">
 <h1>Boxes.py</h1>
 <p>
-A Python based generator for laser cut boxes and other things.
+Create boxes and more with a laser cutter!
 </p>
-<p>It features both finished parametrized generators as well as a Python API
-for writing your own scripts. It features finger and (flat) dovetail joints,
-flex cuts, holes and slots for screws and more high level functions.
+<p>
+
+        <a href="https://hackaday.io/project/10649-boxespy">Boxes.py</a> is an <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">Open Source</a> box generator written in <a href="https://www.python.org/">Python</a>. It features both finished parametrized generators as well as a Python API for writing your own. It features finger and (flat) dovetail joints, flex cuts, holes and slots for screws, hinges, gears, pulleys and much more.
 </p>
 
 

@@ -21,9 +21,10 @@ import tempfile
 import os.path
 import threading
 import time
+import codecs
 
 csspath = os.path.join(os.path.dirname(__file__), 'self.css')
-css = (open(csspath).read())
+css = codecs.open(csspath, "r", "utf-8").read()
 
 
 # Python 2 vs Python 3 compat

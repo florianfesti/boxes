@@ -94,15 +94,26 @@ class FlexBox3(Boxes):
         x, y, z, r, d, h = self.x, self.y, self.z, self.radius, self.d, self.h
         t = self.thickness
         r2 = r + t if r + t <= h + t else h + t
-        self.moveTo(self.thickness, self.thickness)
-        self.edge(h + self.thickness - r2)
-        self.corner(90, r2)
-        self.edge(r - r2 + 2 * t)
+        self.moveTo(self.thickness, 0)
+        if r < h:
+            r2 = r + t
+            self.edge(h + self.thickness - r2)
+            self.corner(90, r2)
+            self.edge(r - r2 + 2 * t)
+            base_l = x + 2 * t
+        else:
+            a = math.acos((r-h)/(r+t))
+            ang = math.degrees(a)
+            base_l = x + (r+t) * math.sin(a) - r
+            self.corner(90-ang)
+            self.corner(ang, r+t)
+
         self.edges["F"](x - r)
         self.rectangleCorner("F", "f")
         self.edges["g"](h)
         self.rectangleCorner("f", "e")
-        self.edge(x + 2 * t)
+        self.edge(base_l)
+        self.corner(90)
 
     def render(self):
         if self.outside:

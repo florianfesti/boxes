@@ -25,7 +25,7 @@ class FlexBox3(Boxes):
 
     def __init__(self):
         Boxes.__init__(self)
-        self.addSettingsArgs(edges.FingerJointSettings)
+        self.addSettingsArgs(edges.FingerJointSettings, surroundingspaces=1)
         self.addSettingsArgs(edges.FlexSettings)
         self.buildArgParser("x", "y", "outside")
         self.argparser.add_argument(
@@ -122,16 +122,9 @@ class FlexBox3(Boxes):
 
         self.open()
 
-        self.edges["f"].settings.setValues(self.thickness, finger=2, space=2, surroundingspaces=1)
-
-        s = edges.FingerJointSettings(self.thickness, surroundingspaces=1)
-        g = edges.FingerJointEdge(self, s)
-        g.char = "g"
-        self.addPart(g)
-
-        G = edges.FingerJointEdgeCounterPart(self, s)
-        G.char = "G"
-        self.addPart(G)
+        s = edges.FingerJointSettings(self.thickness, finger=1.,
+                                      space=1., surroundingspaces=1)
+        s.edgeObjects(self, "gGH")
 
         self.moveTo(2 * self.thickness, self.thickness + 2 * d)
         self.ctx.save()

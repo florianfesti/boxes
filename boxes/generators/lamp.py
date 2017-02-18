@@ -28,7 +28,7 @@ class RoundedTriangleSettings(edges.Settings):
     absolute_params = {
         "angle": 60,
         "radius": 30,
-        "r_hole": None,
+        "r_hole": 0.0,
     }
 
 

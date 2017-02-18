@@ -1301,7 +1301,10 @@ class Boxes:
         if self.move(overallwidth, overallheight, move, before=True):
             return
 
-        self.moveTo(edges[-1].spacing(), edges[0].margin())
+        if 7 not in ignore_widths:
+            self.moveTo(edges[-1].spacing())
+        if 6 not in ignore_widths:
+            self.moveTo(0, edges[0].margin())
         for i, l in enumerate((x, y, x, y)):
             self.cc(callback, i, y=edges[i].startwidth() + self.burn)
             e1, e2 = edges[i], edges[i + 1]

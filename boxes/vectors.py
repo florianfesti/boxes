@@ -62,6 +62,15 @@ def dotproduct(v1, v2):
 def circlepoint(r, a):
     return (r * math.cos(a), r * math.sin(a))
 
+def tangent(x, y, r):
+    "angle and length of a tangent to a circle at x,y with raduis r"
+    l1 = vlength((x, y))
+    a1 = math.atan2(y, x)
+    a2 = math.asin(r / l1)
+    l2 = math.cos(a2) * l1
+
+    return (a1+a2, l2)
+
 def rotm(angle):
     "Rotation matrix"
     return [[math.cos(angle), -math.sin(angle), 0],

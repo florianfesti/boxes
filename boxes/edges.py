@@ -163,9 +163,14 @@ class Settings(object):
 
             if type(default) not in (bool, int, float, str):
                 raise ValueError("Type not supported: %r", default)
+            if type(default) is bool:
+                from boxes import BoolArg
+                t = BoolArg()
+            else:
+                t = type(default)
 
             group.add_argument("--%s_%s" % (prefix, name),
-                               type=type(default),
+                               type=t,
                                action="store", default=default,
                                choices=choices,
                                help=descriptions.get(name))

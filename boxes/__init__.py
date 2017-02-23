@@ -26,6 +26,8 @@ import argparse
 from argparse import ArgumentParser
 import re
 from functools import wraps
+from xml.sax.saxutils import quoteattr
+
 from boxes import edges
 from boxes import formats
 from boxes import gears
@@ -177,6 +179,14 @@ class ArgparseEdgeType:
              (e, ' selected="selected"' if e == default else "",
               e, self.names.get(e, "")) for e in self.edges))
         return """<select name="%s" size="1">\n%s</select>\n""" % (name, options)
+
+    def inx(self, name, viewname, arg):
+        return ('      <param name="%s" type="enum" gui-text="%s" gui-description=%s>\n' %
+                (name, viewname, quoteattr(arg.help or "")) +
+                ''.join(('        <item value="%s">%s %s</item>\n' % (
+                    e, e, self.names.get(e, ""))
+                         for e in self.edges)) +
+                '      </param>\n')
 
 class BoolArg:
     def __call__(self, arg):

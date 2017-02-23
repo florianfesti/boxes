@@ -1077,7 +1077,7 @@ Values:
         }
 
     def pinheight(self):
-        return ((0.9*self.pin_height)**2-self.settings.thickness**2)**0.5
+        return ((0.9*self.pin_height)**2-self.thickness**2)**0.5
 
     def edgeObjects(self, boxes, chars="oOpPqQ", add=True):
         edges = [

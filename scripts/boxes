@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from __future__ import print_function
 import argparse
 import os
 import sys
@@ -26,9 +27,15 @@ def main():
     del modules['_template']
     if len(sys.argv) == 1:
         printusage()
-    elif sys.argv[1] in modules:
+    elif (sys.argv[1] in modules or
+          (sys.argv[1].startswith("--generator=") and
+           sys.argv[1][12:] in modules)):
+        if sys.argv[1].startswith("--generator="):
+            sys.argv[1] = sys.argv[1][12:]
         name = sys.argv[1]
         sys.argv[0] = "%s %s" % (sys.argv[0], sys.argv[1])
+        sys.argv[1] = '--tab="0"'
+        del sys.argv[0]
         del sys.argv[1]
         modules[name].main()
     elif sys.argv[1] == '--list':

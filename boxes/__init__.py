@@ -22,6 +22,7 @@ except ImportError:
     pass
 import cairo
 import math
+import sys
 import argparse
 from argparse import ArgumentParser
 import re
@@ -30,6 +31,7 @@ from xml.sax.saxutils import quoteattr
 
 from boxes import edges
 from boxes import formats
+from boxes import svgutil
 from boxes import gears
 from boxes import pulley
 from boxes import parts
@@ -215,6 +217,7 @@ class Boxes:
         self.formats = formats.Formats()
         self.argparser = ArgumentParser(description=self.__doc__)
         self.edgesettings = {}
+        self.inkscapefile = None
         self.argparser._action_groups[1].title = self.__class__.__name__ + " Settings"
 
         defaultgroup = self.argparser.add_argument_group(
@@ -330,6 +333,11 @@ class Boxes:
         :param args:  (Default value = None) parameters, None for using sys.argv
 
         """
+        args = args or sys.argv
+        if args[-1][0] != "-":
+            self.inkscapefile = args[-1]
+            del args[-1]
+        args = [a for a in args if not a.startswith('--tab=')]
         for key, value in vars(self.argparser.parse_args(args=args)).items():
             # treat edge settings separately 
             for setting in self.edgesettings:
@@ -497,6 +505,8 @@ class Boxes:
         self.surface.finish()
 
         self.formats.convert(self.output, self.format)
+        if self.inkscapefile:
+            svgutil.svgMerge(self.output, self.inkscapefile, sys.stdout)
 
     ############################################################
     ### Turtle graphics commands

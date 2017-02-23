@@ -180,7 +180,7 @@ class ArgparseEdgeType:
 
 class BoolArg:
     def __call__(self, arg):
-        if not arg or arg in ("None", "0", "off", "False"):
+        if not arg or arg.lower() in ("none", "0", "off", "false"):
             return False
         return True
 

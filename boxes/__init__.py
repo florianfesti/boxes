@@ -252,6 +252,7 @@ class Boxes:
                 self.text("%.fmm" % self.reference, self.reference / 2.0, 5,
                           align="middle center")
             self.move(10, 10, "up")
+            self.ctx.stroke()
 
     def buildArgParser(self, *l):
         """

@@ -15,6 +15,7 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import xml.parsers.expat
+from lxml import etree as et
 import re
 
 
@@ -99,6 +100,31 @@ class SVGFile(object):
         else:
             raise ValueError("Could not understand SVG file")
 
+
+def svgMerge(box, inkscape, output):
+    parser = et.XMLParser(remove_blank_text=True)
+
+    src_tree = et.parse(box, parser)
+    dest_tree = et.parse(inkscape, parser)
+    dest_root = dest_tree.getroot()
+
+    m = re.match(r"(\d+\.?\d*)(\D+)", dest_root.get("height"))
+    height, units = m.groups()
+
+    scale = {"mm" : 1.0,
+             "pt" : 7.2, # XXX
+    }.get(units, 1.0)
+
+
+    for el in src_tree.getroot():
+        import sys
+        dest_root.append(el)
+        if el.tag.endswith("g"):
+            el.set("transform", "matrix(%f,0,0,%f, 0, %i)" % (
+                scale, scale, -10000+float(height)*scale))
+
+    # write the xml file
+    et.ElementTree(dest_root).write(output, pretty_print=True, encoding='utf-8', xml_declaration=True)
 
 if __name__ == "__main__":
     svg = SVGFile("examples/box.svg")

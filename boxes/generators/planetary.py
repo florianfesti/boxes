@@ -64,7 +64,7 @@ class Planetary(Boxes):
             dimension=self.modulus)
 
         t = self.thickness
-        planets = int(math.pi // math.asin((self.planetteeth + 2) / (self.planetteeth + self.sunteeth)))
+        planets = int(math.pi / (math.asin(float(self.planetteeth + 2) / (self.planetteeth + self.sunteeth))))
 
         if self.maxplanets:
             planets = min(self.maxplanets, planets)
@@ -109,7 +109,7 @@ class Planetary(Boxes):
 
 
 def main():
-    b = Box()
+    b = Planetary()
     b.parseArgs()
     b.render()
 

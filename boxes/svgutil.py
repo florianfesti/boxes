@@ -100,6 +100,40 @@ class SVGFile(object):
         else:
             raise ValueError("Could not understand SVG file")
 
+unit2mm = {"mm" : 1.0,
+           "cm" : 10.0,
+           "in" : 25.4,
+           "px" : 90.0/25.4,
+           "pt" : 90.0/25.4/1.25,
+           "pc" : 90.0/25.4/15,
+}
+
+def getSizeInMM(tree):
+    root = tree.getroot()
+    m = re.match(r"(\d+\.?\d*)(\D+)", root.get("height"))
+    height, units = m.groups()
+    height = float(height) * unit2mm.get(units, 1.0)
+
+    m = re.match(r"(\d+\.?\d*)(\D+)", root.get("width"))
+    width, units = m.groups()
+    width = float(width) * unit2mm.get(units, 1.0)
+
+    return width, height
+
+def getViewBox(tree):
+    root = tree.getroot()
+    m = re.match(r"\s*(\d+\.?\d*)\s+"
+                     "(\d+\.?\d*)\s+"
+                     "(\d+\.?\d*)\s+"
+                     "(\d+\.?\d)\s*", root.get("viewBox"))
+
+    return [float(m) for m in m.groups()]
+
+def ticksPerMM(tree):
+    width, height = getSizeInMM(tree)
+    x1, y1, x2, y2 = getViewBox(tree)
+
+    return x2/width, y2/height
 
 def svgMerge(box, inkscape, output):
     parser = et.XMLParser(remove_blank_text=True)
@@ -108,20 +142,26 @@ def svgMerge(box, inkscape, output):
     dest_tree = et.parse(inkscape, parser)
     dest_root = dest_tree.getroot()
 
-    m = re.match(r"(\d+\.?\d*)(\D+)", dest_root.get("height"))
-    height, units = m.groups()
+    src_width, src_height = getSizeInMM(src_tree)
+    dest_width, dest_height = getSizeInMM(dest_tree)
 
-    scale = {"mm" : 1.0,
-             "pt" : 7.2, # XXX
-    }.get(units, 1.0)
+    src_scale_x, src_scale_y = ticksPerMM(src_tree)
+    dest_scale_x, dest_scale_y = ticksPerMM(dest_tree)
 
+    scale_x = dest_scale_x / src_scale_x
+    scale_y = dest_scale_y / src_scale_y
+
+    src_view = getViewBox(src_tree)
+
+    off_x = src_view[0] * -scale_x
+    off_y = (src_view[1]+src_view[3]) * -scale_y + dest_height * scale_y
 
     for el in src_tree.getroot():
         import sys
         dest_root.append(el)
         if el.tag.endswith("g"):
-            el.set("transform", "matrix(%f,0,0,%f, 0, %i)" % (
-                scale, scale, -10000+float(height)*scale))
+            el.set("transform", "matrix(%f,0,0,%f, %f, %f)" % (
+                scale_x, scale_y, off_x, off_y))
 
     # write the xml file
     et.ElementTree(dest_root).write(output, pretty_print=True, encoding='utf-8', xml_declaration=True)

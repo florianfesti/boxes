@@ -83,7 +83,7 @@ class Pulley(Boxes):
 
 
 def main():
-    b = Box()
+    b = Pulley()
     b.parseArgs()
     b.render()
 

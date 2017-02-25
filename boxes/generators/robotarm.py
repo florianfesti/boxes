@@ -35,10 +35,10 @@ class RobotArm(Boxes): # change class name here and below
                 help="type of arm segment")
             self.argparser.add_argument(
                 "--servo%ia" % i,  action="store", type=sa, default="Servo9g",
-                help="type of servo to use")
+                choices=sa.choices(), help="type of servo to use")
             self.argparser.add_argument(
                 "--servo%ib" % i,  action="store", type=sa, default="Servo9g",
-                help="type of servo to use on second side (if different is supported)")
+                choices=sa.choices(), help="type of servo to use on second side (if different is supported)")
             self.argparser.add_argument(
                 "--length%i" % i,  action="store", type=float, default=50.,
                 help="length of segment axle to axle")

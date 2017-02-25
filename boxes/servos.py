@@ -50,13 +50,13 @@ class ServoArg:
     def __init__(self, includenone=False):
         self.servos = ["Servo9g"]
         if includenone:
-            self.robotarms[0:0] = ["none"]
+            self.servos[0:0] = ["none"]
 
     def __call__(self, arg):
         return str(arg)
 
     def choices(self):
-        return [name for name, descr in self.robotarms]
+        return [name for name in self.servos]
 
     def html(self, name, default):
         options = "\n".join(

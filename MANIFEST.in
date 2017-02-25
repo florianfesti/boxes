@@ -1,3 +1,4 @@
 include README.txt LICENSE.txt
 include examples/*.svg
 include documentation/presentation.odp documentation/TODO.txt
+include inkex/*.txt

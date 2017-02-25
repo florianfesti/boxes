@@ -46,8 +46,8 @@ class RoundedBox(Boxes):
             self.moveTo(2*t-r, 0)
             r = 0
 
-        lx = x - 2*r - 6*t
-        ly = y - 2*r - 6*t
+        lx = x - 2*r - 4*t
+        ly = y - 2*r - 4*t
 
         self.moveTo(0, 2*t)
         for l in (lx, ly, lx, ly):
@@ -60,9 +60,9 @@ class RoundedBox(Boxes):
         x, y, h, r = self.x, self.y, self.h, self.radius
 
         if self.outside:
-            x = self.adjustSize(x)
-            y = self.adjustSize(y)
-            h = self.adjustSize(h)
+            self.x = x = self.adjustSize(x)
+            self.y = y = self.adjustSize(y)
+            self.h = h = self.adjustSize(h)
 
         r = self.radius = min(r, y / 2.0)
 

@@ -7,5 +7,6 @@
 *.ud
 build/
 dist/
+inkex/*.inx
 boxes.py.egg-info/
 .idea

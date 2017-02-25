@@ -73,19 +73,19 @@ class Boxes2INX:
                 t = { int : "int",
                       float : "float",
                       str : "string",
-                      }.get(a.type, a.type)
+                      }.get(a.type, "string")
             return '''      <param name="%s" type="%s" max="9999" _gui-text="%s" gui-description=%s>%s</param>\n''' % (name, t, viewname, quoteattr(a.help or ""), a.default)
 
     def generator2inx(self, name, box):
         result = [ """<?xml version="1.0" encoding="UTF-8"?>
 <inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
   <_name>%s</_name>
+  <dependency type="executable" location="path">boxes</dependency>
   <id>info.festi.boxes.py.%s</id>
 
   <param name="generator" type="string" gui-hidden="true">%s</param>
   <param name="tab" type="notebook">
 """ % (name, name, name.lower())]
-#   <dependency type="executable" location="[extensions|path|plugins|{location}]">boxes</dependency>
         groupid = 0
         for group in box.argparser._action_groups:
             if not group._group_actions:
@@ -111,7 +111,7 @@ class Boxes2INX:
       </effects-menu>
   </effect>
   <script>
-    <command reldir="extensions" interpreter="python">boxes</command>
+    <command reldir="extensions">boxes</command>
   </script>
 </inkscape-extension>
 """ % self.groups_by_name[box.ui_group].title)

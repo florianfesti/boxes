@@ -25,6 +25,8 @@ boxes [NAME] [options]
 def main():
     modules = boxes.generators.getAllGeneratorModules()
     del modules['_template']
+    if sys.argv[1].startswith("--id="):
+        del sys.argv[1]
     if len(sys.argv) == 1:
         printusage()
     elif (sys.argv[1] in modules or
@@ -45,6 +47,7 @@ def main():
                 continue
             print(" * ", name)
     else:
-        print("Unknown generator name. Use boxes --list to get a list of available commands.")
+        sys.stderr.write(str(sys.argv))
+        sys.stderr.write("Unknown generator name. Use boxes --list to get a list of available commands.")
 
 main()

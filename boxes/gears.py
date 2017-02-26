@@ -652,11 +652,6 @@ class Gears():
             # so split and make a list
             warnings.extend(msg.split("\n"))
 
-            if self.options.undercut_alert:
-                inkex.debug(msg)
-            else:
-                print(msg)
-
         # All base calcs done. Start building gear
         points = generate_spur_points(teeth, base_radius, pitch_radius, outer_radius, root_radius, accuracy_involute, accuracy_circular)
 

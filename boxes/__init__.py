@@ -147,7 +147,6 @@ def argparseSections(s):
     m = re.match(r"(\d+(\.\d+)?)/(\d+)", s)
     if m:
         n = int(m.group(3))
-        print([float(m.group(1))] * n)
         return [float(m.group(1)) / n] * n
     m = re.match(r"(\d+(\.\d+)?)\*(\d+)", s)
     if m:
@@ -781,8 +780,6 @@ class Boxes:
 
         """
         d = (x - hl - 2 * r) / 2.0
-        if d < 0:
-            print("Handle too wide")
 
         self.ctx.save()
 

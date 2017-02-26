@@ -12,9 +12,9 @@ Contents:
    :maxdepth: 2
 	
    README
+   install
    Boxes
    edges
-   TODO
 
 Indices and tables
 ==================

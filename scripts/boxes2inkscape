@@ -123,6 +123,9 @@ class Boxes2INX:
 
     def writeAllINX(self, path):
         for name, box in self.boxes.items():
+            if name.startswith("TrayLayout"):
+                # The two stage thing does not work (yet?)
+                continue
             self.writeINX(name, box, path)
 
 if __name__=="__main__":

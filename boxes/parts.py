@@ -1,5 +1,5 @@
 from math import *
-
+from boxes import vectors
 
 def arcOnCircle(spanning_angle, outgoing_angle, r=1.0):
     angle = spanning_angle + 2 * outgoing_angle
@@ -90,3 +90,21 @@ class Parts:
             self.corner(angle)
 
         self.move(size, size, move)
+
+    def ringSegment(self, r_outside, r_inside, angle, n=1, move=None):
+        space = 360 * r_inside / self.spacing
+        n = min(n, 360 / (angle+space))
+
+        # XXX be smarter about space
+        if self.move(r_outside, r_outside, move, True):
+            return
+
+        self.moveTo(r_outside)
+        for i in range(n):
+            self.polyline(0, (angle, r_outside), 0, 90, (r_outside-r_inside),
+                          90, (angle, r_inside), 0, 90, (r_outside-r_inside),
+                          90)
+            x, y = vectors.circlepoint(r_outside, math.radians(angle+space))
+            self.moveTo(y, r_outside-x, angle+space)
+        self.move(r_outside, r_outside)
+        return n

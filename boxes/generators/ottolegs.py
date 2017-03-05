@@ -32,7 +32,8 @@ class OttoLegs(Boxes):
     def __init__(self):
         Boxes.__init__(self)
 
-        self.addSettingsArgs(edges.FingerJointSettings)
+        self.addSettingsArgs(edges.FingerJointSettings, finger=1.0, space=1.0,
+                             surroundingspaces=1.0)
 
     def foot(self, x, y, ly, l, r=5., move=None):
         if self.move(x, y, move, True):
@@ -67,7 +68,7 @@ class OttoLegs(Boxes):
         # Initialize canvas
         self.open()
 
-        lx, ly, lh = 12.4, 23.5, 40.0
+        lx, ly, lh = 12.4, 23.5, 37.0
 
         self.ctx.save()
         # Legs
@@ -75,26 +76,47 @@ class OttoLegs(Boxes):
         c1 = edges.CompoundEdge(self, "FE", (ly-7.0, 7.0))
         c2 = edges.CompoundEdge(self, "EF", (8.0, lh-8.0))
         e = [c1, c2, "F", "F"]
+        ws = 25
 
         for i in range(2):
-            self.rectangularWall(lx, lh-8., [LegEdge(self, None), "f", "F", "f"], move="right")
+            # front
+            self.rectangularWall(lx, lh-8., [LegEdge(self, None), "f", "F", "f"], callback=[None, lambda:self.fingerHolesAt(ws-8., 0, lx)], move="right")
+            # back
             self.rectangularWall(lx, lh, "FfFf", callback=[
                 lambda:self.hole(6, 8, 1.5)], move="right")
-            self.rectangularWall(ly, lh, e, move="right")
+            # sides
+            self.rectangularWall(ly, lh, e, callback=[None,
+                lambda:self.fingerHolesAt(ws, 7.0, ly-7.0)], move="right")
             self.rectangularWall(ly, lh, e, callback=[
-                lambda:self.hole(ly/2, 32, 5)], move="right")
+                lambda:self.rectangularHole(ly/2, lh-7, 12, 6, 3),
+                lambda:self.fingerHolesAt(ws, 7.0, ly-7.0)], move="right")
 
+        # top
         self.rectangularWall(ly, lx, "ffff", callback=[None, lambda: self.hole(lx/2, ly/2, 2.3)], move="up")
         self.rectangularWall(ly, lx, "ffff", callback=[None, lambda: self.hole(lx/2, ly/2, 2.3)], move="")
         self.rectangularWall(ly, lx, "ffff", callback=[None, lambda: self.hole(lx/2, ly/2, 2.3)], move="down right only")
 
+        # hold servo at the front
+        self.rectangularWall(5.15, lx, "efee", move="up")
+        self.rectangularWall(5.15, lx, "efee", move="")
+        self.rectangularWall(5.15, lx, "efee", move="down right only")
+
+        # strengthen top
         self.rectangularWall(lx, ly, "eeee", callback=[lambda: self.hole(lx/2, ly/2, 1.5)], move="up")
         self.rectangularWall(lx, ly, "eeee", callback=[lambda: self.hole(lx/2, ly/2, 1.5)], move="")
         self.rectangularWall(lx, ly, "eeee", callback=[lambda: self.hole(lx/2, ly/2, 1.5)], move="down right only")
 
+        # hold servo bottom
         self.rectangularWall(lx, ly-7.0, "efff", move="up")
         self.rectangularWall(lx, ly-7.0, "efff", move="")
         self.rectangularWall(lx, ly-7.0, "efff", move="down right only")
+
+        # hold servo inside
+        self.rectangularWall(lx, ly-7.0, "efef", callback=[
+            lambda:self.rectangularHole(lx/2, 2, 5, 4)], move="up")
+        self.rectangularWall(lx, ly-7.0, "efef", callback=[
+            lambda:self.rectangularHole(lx/2, 2, 5, 4)], move="")
+        self.rectangularWall(lx, ly-7.0, "efef", move="down right only")
 
         self.ctx.restore()
         self.rectangularWall(lx, lh, "ffff", move="up only")

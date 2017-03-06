@@ -18,7 +18,7 @@ from boxes import *
 
 
 class RoundedBox(Boxes):
-    """Box with rounded corners"""
+    """Box with vertical edges rounded"""
 
     ui_group = "FlexBox"
 

@@ -17,7 +17,7 @@
 from boxes import *
 
 
-class Box4(Boxes):
+class IntegratedHingeBox(Boxes):
     """Box with lid and integraded hinge"""
 
     ui_group = "Box"
@@ -66,7 +66,7 @@ class Box4(Boxes):
 
 
 def main():
-    b = Box4()
+    b = IntegratedHingeBox()
     b.parseArgs()
     b.render()
 

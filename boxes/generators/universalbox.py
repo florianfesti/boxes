@@ -18,8 +18,8 @@ from boxes import *
 from boxes.edges import Bolts
 from boxes.lids import _TopEdge, _ChestLid
 
-class Box2(_TopEdge, _ChestLid):
-    """Box various options for different stypes and lids"""
+class UniversalBox(_TopEdge, _ChestLid):
+    """Box with various options for different styles and lids"""
 
     ui_group = "Box"
 
@@ -67,7 +67,7 @@ class Box2(_TopEdge, _ChestLid):
         self.close()
 
 def main():
-    b = Box2()
+    b = UniversalBox()
     b.parseArgs()
     b.render()
 

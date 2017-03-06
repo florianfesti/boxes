@@ -16,8 +16,8 @@
 
 from boxes import *
 
-class Box3(Boxes):
-    """Box with just 3 walls"""
+class OpenBox(Boxes):
+    """Box with top and front open"""
 
     ui_group = "Box"
 
@@ -53,7 +53,7 @@ class Box3(Boxes):
         self.close()
 
 def main():
-    b = Box3()
+    b = OpenBox()
     b.parseArgs()
     b.render()
 

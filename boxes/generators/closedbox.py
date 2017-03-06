@@ -17,7 +17,7 @@
 from boxes import *
 
 
-class Box(Boxes):
+class ClosedBox(Boxes):
     """Fully closed box"""
 
     ui_group = "Box"
@@ -56,7 +56,7 @@ class Box(Boxes):
 
 
 def main():
-    b = Box()
+    b = ClosedBox()
     b.parseArgs()
     b.render()
 

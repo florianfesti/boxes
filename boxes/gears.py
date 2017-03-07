@@ -532,7 +532,7 @@ class Gears():
             outer_radius += self.options.spoke_width
         return pitch_radius, 2*outer_radius, 2*outer_radius
 
-    def gearCarrier(self, r, spoke_width, positions, mount_radius, mount_hole, circle=True, move=None):
+    def gearCarrier(self, r, spoke_width, positions, mount_radius, mount_hole, circle=True, callback=None, move=None):
         width = 2*r+spoke_width
 
         if self.boxes.move(width, width, move, before=True):
@@ -545,6 +545,8 @@ class Gears():
 
         self.boxes.ctx.save()
         self.boxes.moveTo(width/2.0, width/2.0)
+        if callback:
+            self.boxes.cc(callback, None)
         self.generate_spokes(r+0.5*spoke_width, spoke_width, positions, mount_radius, mount_hole, 1, "")
         self.boxes.hole(0, 0, mount_hole)
 

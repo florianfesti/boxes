@@ -18,7 +18,7 @@ from boxes import *
 
 
 class RegularBox(Boxes):
-    """Regular box"""
+    """Box with regular polygon as base"""
 
     ui_group = "Box"
 

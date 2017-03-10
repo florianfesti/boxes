@@ -15,6 +15,12 @@ Boxes.py is based on the cairo graphics library. It supoprts both the PyPi
 version *cairocffi* and python-cairo that might be shipped with your
 distribution.
 
+LXML
+....
+
+lxml (package name may be python-lxml or python3-lxml) is needed for
+the Inkscape plugin.
+
 ps2edit
 .......
 

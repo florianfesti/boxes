@@ -15,7 +15,6 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import xml.parsers.expat
-from lxml import etree as et
 import re
 
 
@@ -136,6 +135,8 @@ def ticksPerMM(tree):
     return x2/width, y2/height
 
 def svgMerge(box, inkscape, output):
+    from lxml import etree as et
+
     parser = et.XMLParser(remove_blank_text=True)
 
     src_tree = et.parse(box, parser)

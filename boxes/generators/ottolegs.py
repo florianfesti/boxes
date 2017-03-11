@@ -34,6 +34,9 @@ class OttoLegs(Boxes):
 
         self.addSettingsArgs(edges.FingerJointSettings, finger=1.0, space=1.0,
                              surroundingspaces=1.0)
+        self.argparser.add_argument(
+            "--anklebolt",  action="store", type=float, default=2.5,
+            help="diameter for hole for ankle bolts")
 
     def foot(self, x, y, ly, l, r=5., move=None):
         if self.move(x, y, move, True):
@@ -56,7 +59,7 @@ class OttoLegs(Boxes):
         
     def ankle2(self):
         # from vertical edge
-        self.hole(15, 10, 1.5)
+        self.hole(15, 10, self.anklebolt/2)
 
     def servoHole(self):
         self.hole(6, 6, 11.6/2)
@@ -83,7 +86,7 @@ class OttoLegs(Boxes):
             self.rectangularWall(lx, lh-8., [LegEdge(self, None), "f", "F", "f"], callback=[None, lambda:self.fingerHolesAt(ws-8., 0, lx)], move="right")
             # back
             self.rectangularWall(lx, lh, "FfFf", callback=[
-                lambda:self.hole(6, 8, 1.5)], move="right")
+                lambda:self.hole(lx/2, 7.5, self.anklebolt/2)], move="right")
             # sides
             self.rectangularWall(ly, lh, e, callback=[None,
                 lambda:self.fingerHolesAt(ws, 7.0, ly-7.0)], move="right")

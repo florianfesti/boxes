@@ -77,16 +77,16 @@ class OttoLegs(Boxes):
         # Legs
 
         c1 = edges.CompoundEdge(self, "FE", (ly-7.0, 7.0))
-        c2 = edges.CompoundEdge(self, "EF", (8.0, lh-8.0))
+        c2 = edges.CompoundEdge(self, "EF", (7.0, lh-7.0))
         e = [c1, c2, "F", "F"]
         ws = 25
 
         for i in range(2):
             # front
-            self.rectangularWall(lx, lh-8., [LegEdge(self, None), "f", "F", "f"], callback=[None, lambda:self.fingerHolesAt(ws-8., 0, lx)], move="right")
+            self.rectangularWall(lx, lh-7., [LegEdge(self, None), "f", "F", "f"], callback=[None, lambda:self.fingerHolesAt(ws-7., 0, lx)], move="right")
             # back
             self.rectangularWall(lx, lh, "FfFf", callback=[
-                lambda:self.hole(lx/2, 7.5, self.anklebolt/2)], move="right")
+                lambda:self.hole(lx/2, 7, self.anklebolt/2)], move="right")
             # sides
             self.rectangularWall(ly, lh, e, callback=[None,
                 lambda:self.fingerHolesAt(ws, 7.0, ly-7.0)], move="right")
@@ -100,9 +100,9 @@ class OttoLegs(Boxes):
         self.rectangularWall(ly, lx, "ffff", callback=[None, lambda: self.hole(lx/2, ly/2, 2.3)], move="down right only")
 
         # hold servo at the front
-        self.rectangularWall(5.15, lx, "efee", move="up")
-        self.rectangularWall(5.15, lx, "efee", move="")
-        self.rectangularWall(5.15, lx, "efee", move="down right only")
+        self.rectangularWall(4.6, lx, "efee", move="up")
+        self.rectangularWall(4.6, lx, "efee", move="")
+        self.rectangularWall(4.6, lx, "efee", move="down right only")
 
         # strengthen top
         self.rectangularWall(lx, ly, "eeee", callback=[lambda: self.hole(lx/2, ly/2, 1.5)], move="up")

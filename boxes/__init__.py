@@ -349,8 +349,9 @@ class Boxes:
         :param args:  (Default value = None) parameters, None for using sys.argv
 
         """
-        args = args or sys.argv
-        if args[-1][0] != "-":
+        if args is None:
+            args = sys.argv[1:]
+        if len(args) > 1 and args[-1][0] != "-":
             self.inkscapefile = args[-1]
             del args[-1]
         args = [a for a in args if not a.startswith('--tab=')]

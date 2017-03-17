@@ -23,31 +23,37 @@ boxes [NAME] [options]
 """)
 
 def main():
-    modules = boxes.generators.getAllGeneratorModules()
-    del modules['_template']
+    generators = {name.split('.')[-1].lower() : box for name, box in
+                  boxes.generators.getAllBoxGenerators().items()}
+    groups = boxes.generators.ui_groups
+    groups_by_name = boxes.generators.ui_groups_by_name
+    for name, box in generators.items():
+        groups_by_name.get(box.ui_group,
+                           groups_by_name["Misc"]).add(box)
     if len(sys.argv) > 1 and sys.argv[1].startswith("--id="):
         del sys.argv[1]
     if len(sys.argv) == 1:
         printusage()
-    elif (sys.argv[1] in modules or
-          (sys.argv[1].startswith("--generator=") and
-           sys.argv[1][12:] in modules)):
-        if sys.argv[1].startswith("--generator="):
-            sys.argv[1] = sys.argv[1][12:]
-        name = sys.argv[1]
-        sys.argv[0] = "%s %s" % (sys.argv[0], sys.argv[1])
-        sys.argv[1] = '--tab="0"'
-        del sys.argv[0]
-        del sys.argv[1]
-        modules[name].main()
     elif sys.argv[1] == '--list':
         print("Available generators:")
-        for name in sorted(modules):
-            if not hasattr(modules[name], "main"):
-                continue
-            print(" * ", name)
+        for group in groups:
+            print('\n' + group.title)
+            if group.description:
+                print('\n%s\n' % group.description)
+            else:
+                print()
+            for box in group.generators:
+                print(" * ", box.__name__, ' - ',  box.__doc__ or '')
     else:
-        sys.stderr.write(str(sys.argv))
-        sys.stderr.write("Unknown generator name. Use boxes --list to get a list of available commands.")
+        name = sys.argv[1].lower()
+        if name.startswith("--generator="):
+            name = name[12:]
+        if (name in generators):
+            box = generators[name]()
+            box.parseArgs(sys.argv[2:])
+            box.render()
+        else:
+            sys.stderr.write(str(sys.argv))
+            sys.stderr.write("Unknown generator name. Use boxes --list to get a list of available commands.")
 
 main()

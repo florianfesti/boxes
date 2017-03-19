@@ -17,7 +17,7 @@ class UIGroup:
 
     def add(self, box):
         self.generators.append(box)
-        self.generators.sort(key=lambda b:b.__class__.__name__)
+        self.generators.sort(key=lambda b:getattr(b, '__name__', None) or b.__class__.__name__)
 
 ui_groups = [
     UIGroup("Box", "Boxes"),

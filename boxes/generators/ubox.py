@@ -107,10 +107,3 @@ class UBox(_TopEdge, _ChestLid):
 
         self.close()
 
-def main():
-    b = UBox()
-    b.parseArgs()
-    b.render()
-
-if __name__ == '__main__':
-    main()

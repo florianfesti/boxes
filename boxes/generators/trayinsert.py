@@ -51,11 +51,3 @@ class TrayInsert(Boxes):
         self.close()
 
 
-def main():
-    b = TrayInsert()
-    b.parseArgs()
-    b.render()
-
-
-if __name__ == '__main__':
-    main()

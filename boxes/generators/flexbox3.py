@@ -161,11 +161,3 @@ class FlexBox3(Boxes):
         self.close()
 
 
-def main():
-    b = FlexBox3()  # 100, 40, 100, r=20, h=10, thickness=4.0)
-    b.parseArgs()
-    b.render()
-
-
-if __name__ == "__main__":
-    main()

@@ -89,11 +89,3 @@ class JigsawPuzzle(Boxes):  # change class name here and below
         self.close()
 
 
-def main():
-    b = JigsawPuzzle()
-    b.parseArgs()
-    b.render()
-
-
-if __name__ == '__main__':
-    main()

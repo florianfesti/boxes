@@ -108,11 +108,3 @@ class TypeTray(Boxes):
         self.close()
 
 
-def main():
-    b = TypeTray()
-    b.parseArgs()
-    b.render()
-
-
-if __name__ == '__main__':
-    main()

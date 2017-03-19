@@ -168,10 +168,3 @@ class TrafficLight(Boxes): # change class name here and below
         
         self.close()
 
-def main():
-    b = TrafficLight() # change to class name
-    b.parseArgs()
-    b.render()
-
-if __name__ == '__main__':
-    main()

@@ -190,11 +190,3 @@ class Printer(Boxes):
         self.close()
 
 
-def main():
-    p = Printer()
-    p.parseArgs()
-    p.render()
-
-
-if __name__ == '__main__':
-    main()

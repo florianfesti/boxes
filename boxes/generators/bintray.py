@@ -142,11 +142,3 @@ class BinTray(Boxes):
         self.close()
 
 
-def main():
-    b = BinTray()
-    b.parseArgs()
-    b.render()
-
-
-if __name__ == '__main__':
-    main()

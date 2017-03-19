@@ -141,11 +141,3 @@ class AngledBox(Boxes):
         self.close()
 
 
-def main():
-    b = AngledBox()
-    b.parseArgs()
-    b.render()
-
-
-if __name__ == '__main__':
-    main()

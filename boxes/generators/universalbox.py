@@ -66,10 +66,3 @@ class UniversalBox(_TopEdge, _ChestLid):
 
         self.close()
 
-def main():
-    b = UniversalBox()
-    b.parseArgs()
-    b.render()
-
-if __name__ == '__main__':
-    main()

@@ -99,11 +99,3 @@ class GearBox(Boxes):
         self.close()
 
 
-def main():
-    b = GearBox()
-    b.parseArgs()
-    b.render()
-
-
-if __name__ == '__main__':
-    main()

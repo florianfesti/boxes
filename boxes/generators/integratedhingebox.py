@@ -65,11 +65,3 @@ class IntegratedHingeBox(Boxes):
         self.close()
 
 
-def main():
-    b = IntegratedHingeBox()
-    b.parseArgs()
-    b.render()
-
-
-if __name__ == '__main__':
-    main()

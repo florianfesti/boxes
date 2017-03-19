@@ -69,11 +69,3 @@ in 0.5mm steps, 3 holes each size"""
         self.close()
 
 
-def main():
-    b = DrillBox()
-    b.parseArgs()
-    b.render()
-
-
-if __name__ == '__main__':
-    main()

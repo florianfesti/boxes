@@ -60,10 +60,3 @@ class RobotArm(Boxes): # change class name here and below
             armcls(self, servoClsA(self), servoClsB(self))(length, move="up")
         self.close()
 
-def main():
-    b = RobotArm()
-    b.parseArgs()
-    b.render()
-
-if __name__ == '__main__':
-    main()

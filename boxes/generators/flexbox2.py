@@ -112,11 +112,3 @@ class FlexBox2(Boxes):
         self.close()
 
 
-def main():
-    b = FlexBox2()
-    b.parseArgs()
-    b.render()
-
-
-if __name__ == "__main__":
-    main()

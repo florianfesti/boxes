@@ -134,10 +134,3 @@ class OttoLegs(Boxes):
         self.foot(60, 40, ly, 30, move="right")
         self.close()
 
-def main():
-    b = OttoLegs()
-    b.parseArgs()
-    b.render()
-
-if __name__ == '__main__':
-    main()

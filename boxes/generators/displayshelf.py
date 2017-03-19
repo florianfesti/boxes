@@ -78,10 +78,3 @@ class DisplayShelf(Boxes): # change class name here and below
 
         self.close()
 
-def main():
-    b = DisplayShelf() # change to class name
-    b.parseArgs()
-    b.render()
-
-if __name__ == '__main__':
-    main()

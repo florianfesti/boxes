@@ -37,11 +37,3 @@ class FlexTest2(Boxes):
         self.close()
 
 
-def main():
-    f = FlexTest()
-    f.parseArgs()
-    f.render()
-
-
-if __name__ == '__main__':
-    main()

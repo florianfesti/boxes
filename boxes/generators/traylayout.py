@@ -413,22 +413,3 @@ class TrayLayout2(Layout):
             "--layout", action="store", type=str)
 
 
-def main():
-    l = Layout()
-    l.parseArgs()
-    if l.x and l.y:
-        l.fillDefault(l.x, l.y)
-        if l.output:
-            with open(l.output, "w") as f:
-                f.write(str(l))
-        else:
-            print(l)
-    elif l.input:
-        l.parse(l.input)
-        l.render()
-    else:
-        l.argparser.print_usage()
-
-
-if __name__ == '__main__':
-    main()

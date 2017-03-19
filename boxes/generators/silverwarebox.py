@@ -91,11 +91,3 @@ using flex for rounded corners"""
         self.close()
 
 
-def main():
-    b = Silverware()
-    b.parseArgs()
-    b.render()
-
-
-if __name__ == '__main__':
-    main()

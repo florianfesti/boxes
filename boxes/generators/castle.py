@@ -46,11 +46,3 @@ class Castle(Boxes):
         self.close()
 
 
-def main():
-    c = Castle()
-    c.parseArgs()
-    c.render()
-
-
-if __name__ == '__main__':
-    main()

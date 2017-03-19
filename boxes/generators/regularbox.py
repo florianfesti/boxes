@@ -95,11 +95,3 @@ class RegularBox(Boxes):
         self.close()
 
 
-def main():
-    b = RegularBox()
-    b.parseArgs()
-    b.render()
-
-
-if __name__ == '__main__':
-    main()

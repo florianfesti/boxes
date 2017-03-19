@@ -124,11 +124,3 @@ class Lamp(Boxes):
         self.close()
 
 
-def main():
-    l = Lamp()
-    l.parseArgs()
-    l.render(r=4 * 25.4, w=20, x=270, y=150, h=100)
-
-
-if __name__ == '__main__':
-    main()

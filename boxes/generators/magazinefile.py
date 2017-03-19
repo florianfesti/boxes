@@ -86,11 +86,3 @@ class MagazinFile(Boxes):
         self.close()
 
 
-def main():
-    b = MagazinFile()
-    b.parseArgs()
-    b.render()
-
-
-if __name__ == '__main__':
-    main()

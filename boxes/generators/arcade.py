@@ -99,10 +99,3 @@ class Arcade(Boxes):
 
         self.close()
 
-def main():
-    b = Arcade() # change to class name
-    b.parseArgs()
-    b.render()
-
-if __name__ == '__main__':
-    main()

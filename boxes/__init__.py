@@ -878,6 +878,26 @@ class Boxes:
         return dontdraw
 
     @restore
+    def circle(self, x, y, r):
+        """
+        Draw a round disc
+
+        :param x: position
+        :param y: postion
+        :param r: radius
+
+        """
+        r += self.burn
+        self.moveTo(x + r, y)
+        a = 0
+        n = 10
+        da = 2 * math.pi / n
+        for i in range(n):
+            self.ctx.arc(-r, 0, r, a, a+da)
+            a += da
+        self.ctx.stroke()
+
+    @restore
     @holeCol
     def hole(self, x, y, r):
         """

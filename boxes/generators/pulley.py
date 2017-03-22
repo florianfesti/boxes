@@ -39,6 +39,9 @@ class Pulley(Boxes):
             "--axle", action="store", type=float, default=5,
             help="diameter of the axle")
         self.argparser.add_argument(
+            "--insideout", action="store", type=BoolArg(), default=False,
+            help="create a ring gear with the belt being pushed against from within")
+        self.argparser.add_argument(
             "--top", action="store", type=float, default=0,
             help="overlap of top rim (zero for none)")
 
@@ -77,7 +80,7 @@ class Pulley(Boxes):
                 self.axle, move="right")
 
         for i in range(int(math.ceil(self.h / self.thickness))):
-            self.pulley(self.teeth, self.profile, r_axle=self.axle / 2.0, move="right")
+            self.pulley(self.teeth, self.profile, insideout=self.insideout, r_axle=self.axle / 2.0, move="right")
 
         self.close()
 

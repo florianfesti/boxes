@@ -83,7 +83,7 @@ class Pulley:
 
     @classmethod
     def getProfiles(cls):
-        return list(cls.teeth.keys())
+        return list(sorted(cls.teeth.keys()))
 
     def drawPoints(self, lines, kerfdir=1):
         if kerfdir != 0:
@@ -103,7 +103,8 @@ class Pulley:
 
         return tooth_spacing(teeth, *self.spacing[profile][1:])
 
-    def __call__(self, teeth, profile, move="", r_axle=None, callback=None):
+    def __call__(self, teeth, profile, insideout=False, r_axle=None,
+                 callback=None, move=""):
 
         # ********************************
         # ** Scaling tooth for good fit **
@@ -122,7 +123,11 @@ class Pulley:
         tooth_width_scale = (tooth_width + additional_tooth_width) / tooth_width
         tooth_depth_scale = ((tooth_depth + additional_tooth_depth) / tooth_depth)
 
-        total_width = pulley_OD
+        if insideout:
+            pulley_OD += 2*tooth_depth * tooth_depth_scale
+            tooth_depth_scale *= -1
+
+        total_width = max(pulley_OD, 2*r_axle)
 
         if self.boxes.move(total_width, total_width, move, before=True):
             return
@@ -131,7 +136,10 @@ class Pulley:
         self.boxes.cc(callback, None, 0.0, 0.0)
 
         if r_axle:
-            self.boxes.hole(0, 0, r_axle)
+            if insideout:
+                self.boxes.circle(0, 0, r_axle)
+            else:
+                self.boxes.hole(0, 0, r_axle)
 
         points = []
         for i in range(teeth):
@@ -140,5 +148,5 @@ class Pulley:
             m = mmul(m, rotm(i * 2 * pi / teeth))
             points.extend((vtransl(pt, m) for pt in self.teeth[profile][1:-1]))
 
-        self.drawPoints(points)
+        self.drawPoints(points, kerfdir=-1 if insideout else 1)
         self.boxes.move(total_width, total_width, move)

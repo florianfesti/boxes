@@ -89,6 +89,7 @@ boxes.ArgumentParser = ThrowingArgumentParser # Evil hack
 class BServer:
     def __init__(self):
         self.boxes = {b.__name__ : b() for b in boxes.generators.getAllBoxGenerators().values() if b.webinterface}
+        self.boxes['TrayLayout2'] = boxes.generators.traylayout.TrayLayout2(self, webargs=True)
         self.groups = boxes.generators.ui_groups
         self.groups_by_name = boxes.generators.ui_groups_by_name
 

@@ -17,30 +17,28 @@
 import sys, re
 from boxes import *
 import boxes
+import argparse
 
 
-class Layout(Boxes):
+class TrayLayout(Boxes):
     """Generate a typetray from a layout file"""
 
-    webinterface = False
+    webinterface = True
+
+    ui_group = "Tray"
 
     def __init__(self, input=None, webargs=False):
         Boxes.__init__(self)
-        self.addSettingsArgs(boxes.edges.FingerJointSettings)
-        self.buildArgParser("h", "hi", "outside")
-        if not webargs:
-            self.argparser.add_argument(
-                "--input", action="store", type=argparse.FileType('r'),
-                help="layout file")
-            self.argparser.add_argument(
-                "--x", action="store", type=int, default=None,
-                help="number of compartments side by side")
-            self.argparser.add_argument(
-                "--y", action="store", type=int, default=None,
-                help="number of compartments back to front")
-        else:
-            self.argparser.add_argument(
-                "--layout", action="store", type=str)
+        self.argparser = argparse.ArgumentParser()
+        self.argparser.add_argument(
+            "--x", action="store", type=int, default=2,
+            help="number of compartments side by side")
+        self.argparser.add_argument(
+            "--y", action="store", type=int, default=2,
+            help="number of compartments back to front")
+        self.argparser.add_argument(
+            "--output", action="store", type=str, default="traylayout.txt",
+            help="name of the layout text file")
 
     def fillDefault(self, x, y):
         self.x = [0.0] * x
@@ -63,6 +61,30 @@ class Layout(Boxes):
         r.append("".join(("+" + " -"[h] for h in self.hwalls[-1])) + "+\n")
 
         return "".join(r)
+
+    def render(self):
+        self.fillDefault(self.x, self.y)
+        with open(self.output, 'w') as f:
+            f.write(str(self))
+
+class TrayLayout2(TrayLayout):
+    """Generate a typetray from a layout file"""
+
+    webinterface = True
+
+    def __init__(self, input=None, webargs=False):
+        Boxes.__init__(self)
+        self.addSettingsArgs(boxes.edges.FingerJointSettings)
+        self.buildArgParser("h", "hi", "outside")
+        if not webargs:
+            self.argparser.add_argument(
+                "--input", action="store", type=argparse.FileType('r'),
+                default='traylayout.txt',
+                help="layout file")
+            self.layout = None
+        else:
+            self.argparser.add_argument(
+                "--layout", action="store", type=str)
 
     def vWalls(self, x, y):
         "Number of vertical walls at a crossing"
@@ -101,6 +123,12 @@ class Layout(Boxes):
         edge(length)
 
     def render(self):
+
+        if self.layout:
+            self.parse(self.layout.split('\n'))
+        else:
+            self.parse(self.input)
+
         if self.outside:
             self.x = self.adjustSize(self.x)
             self.y = self.adjustSize(self.y)
@@ -377,39 +405,3 @@ class Layout(Boxes):
         self.hwalls = hwalls
         self.vwalls = vwalls
         self.floors = floors
-
-
-class TrayLayout(Layout):
-    """Type tray with each wall and floor tile being optional"""
-
-    webinterface = True
-
-    ui_group = "Tray"
-
-    def __init__(self):
-        Boxes.__init__(self)
-        self.argparser = boxes.ArgumentParser()
-        self.argparser.add_argument(
-            "--x", action="store", type=int, default=2,
-            help="number of compartments side by side")
-        self.argparser.add_argument(
-            "--y", action="store", type=int, default=2,
-            help="number of compartments back to front")
-
-    def render(self):
-        return
-
-
-class TrayLayout2(Layout):
-    """Generate a typetray from a layout file"""
-
-    webinterface = True
-
-    def __init__(self, input=None):
-        Boxes.__init__(self)
-        self.addSettingsArgs(boxes.edges.FingerJointSettings)
-        self.buildArgParser("h", "hi", "outside")
-        self.argparser.add_argument(
-            "--layout", action="store", type=str)
-
-

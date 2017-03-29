@@ -127,7 +127,7 @@ class Pulley:
             pulley_OD += 2*tooth_depth * tooth_depth_scale
             tooth_depth_scale *= -1
 
-        total_width = max(pulley_OD, 2*r_axle)
+        total_width = max(pulley_OD, 2*(r_axle or 0.0))
 
         if self.boxes.move(total_width, total_width, move, before=True):
             return

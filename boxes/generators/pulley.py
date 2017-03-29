@@ -27,7 +27,7 @@ class Pulley(Boxes):
     def __init__(self):
         Boxes.__init__(self)
         # remove cli params you do not need
-        self.buildArgParser("h")
+        self.buildArgParser(h=6.)
         self.argparser.add_argument(
             "--profile", action="store", type=str, default="GT2_2mm",
             choices=pulley.Pulley.getProfiles(),

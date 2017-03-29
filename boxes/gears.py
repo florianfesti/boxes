@@ -321,7 +321,7 @@ class Gears():
 
         self.OptionParser.add_option("", "--mount-hole",
                                      action="store", type="float",
-                                     dest="mount_hole", default=5,
+                                     dest="mount_hole", default=0.,
                                      help="Mount hole diameter")
 
         self.OptionParser.add_option("", "--mount-diameter",

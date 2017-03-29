@@ -560,7 +560,7 @@ class Gears():
         self.boxes.ctx.restore()
         self.boxes.move(width, width, move)
 
-    def __call__(self, move="", callback=None, **kw):
+    def __call__(self, teeth_only=False, move="", callback=None, **kw):
         """ Calculate Gear factors from inputs.
             - Make list of radii, angles, and centers for each tooth and 
               iterate through them
@@ -637,7 +637,7 @@ class Gears():
         if self.options.internal_ring:
             width = height = width + 2 * self.options.spoke_width
 
-        if self.boxes.move(width, height, move, before=True):
+        if not teeth_only and self.boxes.move(width, height, move, before=True):
             return
 
         # Detect Undercut of teeth
@@ -655,11 +655,12 @@ class Gears():
         # All base calcs done. Start building gear
         points = generate_spur_points(teeth, base_radius, pitch_radius, outer_radius, root_radius, accuracy_involute, accuracy_circular)
 
-        self.boxes.moveTo(width/2, height/2)
+        if not teeth_only:
+            self.boxes.moveTo(width/2, height/2)
         self.boxes.cc(callback, None, 0, 0)
         self.drawPoints(points)
         # Spokes
-        if not self.options.internal_ring:  # only draw internals if spur gear
+        if not teeth_only and not self.options.internal_ring:  # only draw internals if spur gear
             msg = self.generate_spokes(root_radius, spoke_width, spoke_count, mount_radius, mount_hole,
                                                     unit_factor, self.options.units)
             warnings.extend(msg)
@@ -668,7 +669,7 @@ class Gears():
             # A : rx,ry  x-axis-rotation, large-arch-flag, sweepflag  x,y
             r = mount_hole / 2
             self.boxes.hole(0, 0, r)
-        else:
+        elif not teeth_only:
             # its a ring gear
             # which only has an outer ring where width = spoke width
             r = outer_radius + spoke_width + self.boxes.burn
@@ -720,7 +721,8 @@ class Gears():
                 self.boxes.text(note, -outer_radius, y)
                 y += text_height * 1.2
 
-        self.boxes.move(width, height, move)
+        if not teeth_only:
+            self.boxes.move(width, height, move)
 
 if __name__ == '__main__':
     e = Gears()

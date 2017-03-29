@@ -266,7 +266,7 @@ class Boxes:
             self.move(10, 10, "up")
             self.ctx.stroke()
 
-    def buildArgParser(self, *l):
+    def buildArgParser(self, *l, **kw):
         """
         Add commonly used commandf line parameters
 
@@ -274,47 +274,58 @@ class Boxes:
 
         """
         for arg in l:
+            kw[arg] = None
+        for arg, default in kw.items():
             if arg == "x":
+                if default is None: default = 100.0
                 self.argparser.add_argument(
-                    "--x", action="store", type=float, default=100.0,
+                    "--x", action="store", type=float, default=default,
                     help="inner width in mm")
             elif arg == "y":
+                if default is None: default = 100.0
                 self.argparser.add_argument(
-                    "--y", action="store", type=float, default=100.0,
+                    "--y", action="store", type=float, default=default,
                     help="inner depth in mm")
             elif arg == "sx":
+                if default is None: default = "50*3"
                 self.argparser.add_argument(
                     "--sx", action="store", type=argparseSections,
-                    default="50*3",
+                    default=default,
                     help="""sections left to right in mm. Possible formats: overallwidth/numberof sections e.g. "250/5"; sectionwidth*numberofsections e.g. "50*5"; section widths separated by ":" e.g. "30:25.5:70"
 """)
             elif arg == "sy":
+                if default is None: default = "50*3"
                 self.argparser.add_argument(
                     "--sy", action="store", type=argparseSections,
-                    default="50*3",
+                    default=default,
                     help="""sections back to front in mm. See --sx for format""")
             elif arg == "h":
+                if default is None: default = 100.0
                 self.argparser.add_argument(
-                    "--h", action="store", type=float, default=100.0,
+                    "--h", action="store", type=float, default=default,
                     help="inner height in mm")
             elif arg == "hi":
+                if default is None: default = 0.0
                 self.argparser.add_argument(
-                    "--hi", action="store", type=float, default=0.0,
+                    "--hi", action="store", type=float, default=default,
                     help="inner height of inner walls in mm (leave to zero for same as outer walls)")
             elif arg == "bottom_edge":
+                if default is None: default = "h"
                 self.argparser.add_argument(
                     "--bottom_edge", action="store",
                     type=ArgparseEdgeType("Fhs"), choices=list("Fhs"),
-                    default="h",
+                    default=default,
                     help="edge type for bottom edge")
             elif arg == "top_edge":
+                if default is None: default = "e"
                 self.argparser.add_argument(
                     "--top_edge", action="store",
                     type=ArgparseEdgeType("ecESikvfL"), choices=list("ecESikvfL"),
-                    default="e", help="edge type for top edge")
+                    default=default, help="edge type for top edge")
             elif arg == "outside":
+                if default is None: default = True
                 self.argparser.add_argument(
-                    "--outside", action="store", type=boolarg, default=True,
+                    "--outside", action="store", type=boolarg, default=default,
                     help="treat sizes as outside measurements that include the walls")
             else:
                 raise ValueError("No default for argument", arg)

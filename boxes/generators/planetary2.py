@@ -164,12 +164,19 @@ class Planetary2(Boxes):
         tl = 0.5*size3*(2**0.5-1)*2**0.5
         self.rectangularTriangle(tl, tl, num=8, callback=[
             None, lambda:self.hole(2*t, 2*t, screw)], move='up')
-        self.pulley(pulleyteeth, belt, callback=
-            lambda:self.gears(teeth=ringteeth - self.deltateeth,
-                              dimension=deltamodulus,
-                              angle=pressure_angle, internal_ring=True,
-                              spoke_width=spoke_width, teeth_only=True,
-                              profile_shift=profile_shift), move="up")
+
+        def ring():
+            self.gears(teeth=ringteeth - self.deltateeth,
+                       dimension=deltamodulus,
+                       angle=pressure_angle, internal_ring=True,
+                       spoke_width=spoke_width, teeth_only=True,
+                       profile_shift=profile_shift)
+            for i in range(3):
+                self.hole((size3-6*t)/2+0.5*pinsize, 0, pinsize)
+                self.moveTo(0, 0, 120)
+
+        self.pulley(pulleyteeth, belt, callback=ring, move="up")
+        self.pulley(pulleyteeth, belt, callback=ring, move="up")
 
         for i in range(numplanets):
             self.ctx.save()

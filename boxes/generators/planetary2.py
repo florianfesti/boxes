@@ -139,7 +139,8 @@ class Planetary2(Boxes):
                 self.moveTo(0, 0, angle)
                 self.hole((pitch1+pitch2), 0, size2/2)
                 self.moveTo(0, 0, -angle)
-        
+
+        # Base
         self.rectangularWall(size3, size3, callback=[
             lambda: self.NEMA(self.nema_mount, size3 / 2, size3 / 2),
             holes(screw), planets],
@@ -151,20 +152,15 @@ class Planetary2(Boxes):
                        angle=pressure_angle, internal_ring=True,
                        spoke_width=spoke_width, teeth_only=True,
                        profile_shift=profile_shift, move="up")
-            
-        self.rectangularWall(size3, size3, callback=[gear, holes(screw)], move="up")
-        screw = self.screw2 / 2
-        self.rectangularWall(size3, size3, callback=[gear, holes(screw)], move="up")
-        self.rectangularWall(size3, size3, callback=[holes(screw)], move="up")
 
-        self.partsMatrix(4, 4, 'up', self.gears, teeth=self.sunteeth,
-                         dimension=self.modulus,
-                         angle=pressure_angle, mount_hole=self.shaft,
-                         profile_shift=profile_shift)
+        # Lower primary ring gear
+        self.rectangularWall(size3, size3, callback=[gear, holes(screw)], move="up")
         tl = 0.5*size3*(2**0.5-1)*2**0.5
+        screw = self.screw2 / 2
         self.rectangularTriangle(tl, tl, num=8, callback=[
             None, lambda:self.hole(2*t, 2*t, screw)], move='up')
 
+        # Secondary ring gears
         def ring():
             self.gears(teeth=ringteeth - self.deltateeth,
                        dimension=deltamodulus,
@@ -178,6 +174,18 @@ class Planetary2(Boxes):
         self.pulley(pulleyteeth, belt, callback=ring, move="up")
         self.pulley(pulleyteeth, belt, callback=ring, move="up")
 
+        # Upper primary ring gear
+        self.rectangularWall(size3, size3, callback=[gear, holes(screw)], move="up")
+        # top cover plate
+        self.rectangularWall(size3, size3, callback=[holes(screw)], move="up")
+
+        # Sun gear
+        self.partsMatrix(4, 4, 'up', self.gears, teeth=self.sunteeth,
+                         dimension=self.modulus,
+                         angle=pressure_angle, mount_hole=self.shaft,
+                         profile_shift=profile_shift)
+
+        # Planets
         for i in range(numplanets):
             self.ctx.save()
             self.gears(teeth=self.planetteeth, dimension=self.modulus,

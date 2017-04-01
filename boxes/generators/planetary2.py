@@ -180,8 +180,11 @@ class Planetary2(Boxes):
         self.rectangularWall(size3, size3, callback=[holes(screw)], move="up")
 
         # Sun gear
+        def sunpins():
+            self.hole(0.5*self.shaft+1.5*pinsize ,0, pinsize)
+            self.hole(-0.5*self.shaft-1.5*pinsize ,0, pinsize)
         self.partsMatrix(4, 4, 'up', self.gears, teeth=self.sunteeth,
-                         dimension=self.modulus,
+                         dimension=self.modulus, callback=sunpins,
                          angle=pressure_angle, mount_hole=self.shaft,
                          profile_shift=profile_shift)
 

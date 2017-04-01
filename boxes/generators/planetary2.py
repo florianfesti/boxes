@@ -31,7 +31,7 @@ class Planetary2(Boxes):
             choices=pulley.Pulley.getProfiles(),
             help="profile of the teeth/belt")        
         self.argparser.add_argument(
-            "--sunteeth", action="store", type=int, default=8,
+            "--sunteeth", action="store", type=int, default=20,
             help="number of teeth on sun gear")
         self.argparser.add_argument(
             "--planetteeth", action="store", type=int, default=20,
@@ -107,9 +107,6 @@ class Planetary2(Boxes):
                               for pos in planetpositions]
 
         ratio = (1 + (ringteeth / self.sunteeth)) * (-ringteeth/self.deltateeth)
-        print(planetpositions)
-        print(secondary_offsets)
-        print(ratio)
         # XXX make configurable?
         profile_shift = 20
         pressure_angle = 20
@@ -211,6 +208,7 @@ class Planetary2(Boxes):
                        angle=pressure_angle,
                        profile_shift=profile_shift, move="up only")
 
+        self.text("1:%.1f" % abs(ratio))
         self.close()
 
 

@@ -180,17 +180,20 @@ class Planetary2(Boxes):
 
         for i in range(numplanets):
             self.ctx.save()
-            for j in range(2):
-                self.gears(teeth=self.planetteeth, dimension=self.modulus,
-                           angle=pressure_angle,
-                           callback=lambda:self.pins(0.25*size2, pinsize, i),
-                           profile_shift=profile_shift, move="right")
+            self.gears(teeth=self.planetteeth, dimension=self.modulus,
+                       angle=pressure_angle,
+                       callback=lambda:self.pins(0.25*size2, pinsize, i),
+                       profile_shift=profile_shift, move="right")
             for j in range(2):
                 self.gears(teeth=self.planetteeth, dimension=self.modulus,
                            angle=pressure_angle,
                            callback=lambda:self.pins(0.25*size2, pinsize, i,
                                                      secondary_offsets[i]),
                            profile_shift=profile_shift, move="right")
+            self.gears(teeth=self.planetteeth, dimension=self.modulus,
+                       angle=pressure_angle,
+                       callback=lambda:self.pins(0.25*size2, pinsize, i),
+                       profile_shift=profile_shift, move="right")
             self.ctx.restore()
 
             self.gears(teeth=self.planetteeth, dimension=self.modulus,

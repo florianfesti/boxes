@@ -48,10 +48,11 @@ class FlexBox4(Boxes):
         self.cc(callback, 4)
         self.latch(self.latchsize)
         self.corner(90)
+        self.ctx.stroke()
 
     def surroundingWall(self):
         x, y, h, r = self.x, self.y, self.h, self.radius
-
+        t = self.thickness
         self.edges["F"](y - r, False)
         if (x - 2 * r < self.thickness):
             self.edges["X"](2 * self.c4 + x - 2 * r, h + 2 * self.thickness)
@@ -61,9 +62,9 @@ class FlexBox4(Boxes):
             self.edges["X"](self.c4, h + 2 * self.thickness)
 
         self.edge(y - r - self.latchsize)
-        self.latch(self.latchsize, False)
+        self.latch(self.latchsize+t, False)
         self.edge(h + 2 * self.thickness)
-        self.latch(self.latchsize, False, True)
+        self.latch(self.latchsize+t, False, True)
         self.edge(y - r - self.latchsize)
         self.edge(self.c4)
         self.edge(x - 2 * r)
@@ -74,6 +75,7 @@ class FlexBox4(Boxes):
         self.edges["f"](h)
         self.edge(self.thickness)
         self.corner(90)
+        self.ctx.stroke()
 
     def render(self):
         if self.outside:

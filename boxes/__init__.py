@@ -1527,6 +1527,8 @@ class Boxes:
         for i in range(rows):
             self.ctx.save()
             for j in range(width):
+                if "only" in move:
+                    break
                 if width*i+j >= n:
                     break
                 kw["move"] = "right"

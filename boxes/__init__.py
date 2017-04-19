@@ -877,6 +877,7 @@ class Boxes:
         }
 
         if not before:
+            self.ctx.stroke()
             # restore position
             self.ctx.restore()
 

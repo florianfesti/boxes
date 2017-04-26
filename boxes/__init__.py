@@ -987,6 +987,47 @@ class Boxes:
         self.ctx.scale(1, -1)
         self.ctx.show_text(text)
 
+    tx_sizes = {
+        1 : 0.61,
+        2 : 0.70,
+        3 : 0.82,
+        4 : 0.96,
+        5 : 1.06,
+        6 : 1.27,
+        7 : 1.49,
+        8 : 1.75,
+        9 : 1.87,
+        10 : 2.05,
+        15 : 2.40,
+        20 : 2.85,
+        25 : 3.25,
+        30 : 4.05,
+        40 : 4.85,
+        45 : 5.64,
+        50 : 6.45,
+        55 : 8.05,
+        60 : 9.60,
+        70 : 11.20,
+        80 : 12.80,
+        90 : 14.40,
+        100 : 16.00,
+        }
+
+    @restore
+    @holeCol
+    def TX(self, size, x=0, y=0, angle=0):
+        self.moveTo(x, y, angle)
+
+        size = self.tx_sizes.get(size, 0)
+        ri = 0.5 * size * math.tan(math.radians(30))
+        ro = ri * (2**0.5-1)
+
+        self.moveTo(size * 0.5 - self.burn, 0, -90)
+        for i in range(6):
+            self.corner(45, ri)
+            self.corner(-150, ro)
+            self.corner(45, ri)
+
     nema_sizes = {
         #    motor,flange, holes, screws
         8: (20.3, 16, 15.4, 3),

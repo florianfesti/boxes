@@ -22,6 +22,8 @@ import os.path
 import threading
 import time
 import codecs
+import mimetypes
+import re
 
 csspath = os.path.join(os.path.dirname(__file__), 'self.css')
 css = codecs.open(csspath, "r", "utf-8").read()
@@ -96,6 +98,8 @@ class BServer:
         for name, box in self.boxes.items():
             self.groups_by_name.get(box.ui_group,
                                     self.groups_by_name["Misc"]).add(box)
+
+        self.staticdir = os.path.join(os.path.dirname(__file__), '../static/')
 
     def arg2html(self, a, prefix):
         name = a.option_strings[0].replace("-", "")
@@ -319,12 +323,35 @@ Create boxes and more with a laser cutter!
 </html>
 """ ]
 
+    def serveStatic(self, environ, start_response):
+        filename = environ["PATH_INFO"][len("/static/"):]
+        path = os.path.join(self.staticdir, filename)
+        print(filename, path)
+        if (not re.match(r"[a-zA-Z0-9_-/]+\.[a-zA-Z0-9]+", filename) or
+            not os.path.exists(path)):
+            start_response("404 Not Found", [('Content-type', 'text/plain')])
+            return [b"Not found"]
+
+        type_, encoding = mimetypes.guess_type(filename)
+        if encoding is None:
+            encoding = "utf8"
+
+        start_response("200 OK", [('Content-type', "%s; charset=%s" % (type_, encoding))])
+
+        f = open(path, 'rb')
+        return f
+
     def serve(self, environ, start_response):
+
+        if environ["PATH_INFO"].startswith("/static/"):
+            return self.serveStatic(environ, start_response)
+
         status = '200 OK'
         headers = [('Content-type', 'text/html; charset=utf-8')]
-        
+
         d = cgi.parse_qs(environ['QUERY_STRING'])
         name = environ["PATH_INFO"][1:]
+
         box = self.boxes.get(name, None)
         if not box:
             start_response(status, headers)

@@ -11,7 +11,7 @@ Requirements
 
 Cairo
 .....
-Boxes.py is based on the cairo graphics library. It supoprts both the PyPi
+Boxes.py is based on the cairo graphics library. It supports both the PyPi
 version *cairocffi* and python-cairo that might be shipped with your
 distribution.
 

@@ -25,10 +25,6 @@ import codecs
 import mimetypes
 import re
 
-csspath = os.path.join(os.path.dirname(__file__), 'self.css')
-css = codecs.open(csspath, "r", "utf-8").read()
-
-
 # Python 2 vs Python 3 compat
 try:
     from urllib.parse import unquote_plus
@@ -151,11 +147,8 @@ class BServer:
     def args2html(self, name, box, action=""):
         result = ["""<html><head><title>Boxes - """, name, """</title>
     <link rel="stylesheet" href="https://necolas.github.io/normalize.css/4.1.1/normalize.css" type="text/css" />
-    <style>
-
-     """, css, """
-
-     </style>""", self.scripts % (len(box.argparser._action_groups)-3), """
+    <link rel="stylesheet" href="static/self.css" type="text/css" />
+""", self.scripts % (len(box.argparser._action_groups)-3), """
     <script>
    </script>
 </head>
@@ -226,11 +219,7 @@ class BServer:
         result = ["""<html>
 <head><title>Boxes.py</title>
     <link rel="stylesheet" href="https://necolas.github.io/normalize.css/4.1.1/normalize.css" type="text/css" />
-   <style>
-
-     """, css, """
-
-    </style>
+    <link rel="stylesheet" href="static/self.css" type="text/css" />
           <script>
   		function change(img_link){
   				var img = img_link.firstChild.innerHTML;
@@ -327,7 +316,7 @@ Create boxes and more with a laser cutter!
         filename = environ["PATH_INFO"][len("/static/"):]
         path = os.path.join(self.staticdir, filename)
         print(filename, path)
-        if (not re.match(r"[a-zA-Z0-9_-/]+\.[a-zA-Z0-9]+", filename) or
+        if (not re.match(r"[a-zA-Z0-9_/-]+\.[a-zA-Z0-9]+", filename) or
             not os.path.exists(path)):
             start_response("404 Not Found", [('Content-type', 'text/plain')])
             return [b"Not found"]
@@ -395,7 +384,7 @@ Create boxes and more with a laser cutter!
             return (l.encode("utf-8") for l in result)
 
 if __name__=="__main__":
-    fc = FileChecker(files=[csspath])
+    fc = FileChecker()
     fc.start()
     boxserver = BServer()
     httpd = make_server('', 8000, boxserver.serve)

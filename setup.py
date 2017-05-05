@@ -32,7 +32,7 @@ setup(
     author_email='florian@festi.info',
     url='https://github.com/florianfesti/boxes',
     packages=find_packages(),
-    install_requires=['cairocffi'],
+    install_requires=['cairocffi==0.8.0'],
     scripts=['scripts/boxes', 'scripts/boxesserver'],
     cmdclass={
         'build_py': CustomBuildExtCommand,

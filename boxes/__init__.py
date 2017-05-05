@@ -957,6 +957,26 @@ class Boxes:
             self.edge(d - 2 * r)
 
     @restore
+    @holeCol
+    def dHole(self, x, y, r=None, d=None, w=None, rel_w=0.75, angle=0):
+        if r is None:
+            r = d / 2.0
+        if w is None:
+            w = 2.0 * r * rel_w
+        w -= r
+        if r < 0.0:
+            return
+        if abs(w) > r:
+            return self.hole(x, y, r)
+
+        a = math.degrees(math.acos(w / r))
+        self.moveTo(x, y, angle-a)
+        self.moveTo(r-self.burn, 0, -90)
+        self.corner(-360+2*a, r)
+        self.corner(-a)
+        self.edge(2*r*math.sin(math.radians(a)))
+
+    @restore
     def text(self, text, x=0, y=0, angle=0, align=""):
         """
         Draw text

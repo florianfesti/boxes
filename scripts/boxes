@@ -1,59 +1,98 @@
 #!/usr/bin/env python3
+"""boxes.py
 
-from __future__ import print_function
-import argparse
-import os
+Generate stencils for wooden boxes.
+
+Usage:
+  boxes <generator> [<args>...]
+  boxes --list
+  boxes (-h | --help)
+  boxes --version
+
+Options:
+  -h --help     Show this screen.
+  --version     Show version.
+  --list        List available generators.
+"""
+
 import sys
-from pprint import pprint
-
+from docopt import docopt
+from pkg_resources import get_distribution
 
 try:
     import boxes
 except ImportError:
-    sys.path.append(os.path.dirname(os.path.realpath(__file__)) + "/..")
+    sys.path.append(os.path.dirname(os.path.realpath(__file__)) + '/..')
     import boxes
 
 import boxes.generators
 
-def printusage():
-    print("""Usage:
-boxes [NAME] [options]
-  --list	list possible names
-  --help	show help for given NAME
-""")
+__version__ = get_distribution('boxes').version
+
 
 def main():
-    generators = {name.split('.')[-1].lower() : box for name, box in
-                  boxes.generators.getAllBoxGenerators().items()}
+    version = 'boxes.py v{}'.format(__version__)
+    args = docopt(__doc__, version=version, options_first=True)
+    generator = args['<generator>']
+
+    if args['--list']:
+        list_grouped_generators()
+    elif generator is not None:
+        generator_args = args['<args>']
+        run_generator(generator, generator_args)
+
+
+def list_grouped_generators():
+    print('Available generators:')
+    for group in generator_groups():
+        print('\n' + group.title)
+        if group.description:
+            print('\n%s\n' % group.description)
+        else:
+            print()
+        for box in group.generators:
+            print(' *  {}  -  {}'.format(box.__name__, box.__doc__ or ''))
+
+
+def run_generator(name, args):
+    generators = generators_by_name()
+    lower_name = name.lower()
+
+    if lower_name in generators.keys():
+        box = generators[lower_name]()
+        box.parseArgs(sys.argv[2:])
+        box.render()
+    else:
+        msg = ('Unknown generator \'{}\'. Use boxes --list to get a list of '
+               'available commands.\n').format(name)
+        sys.stderr.write(msg)
+
+
+def generator_groups():
+    generators = generators_by_name()
+    return group_generators(generators)
+
+
+def group_generators(generators):
     groups = boxes.generators.ui_groups
     groups_by_name = boxes.generators.ui_groups_by_name
-    for name, box in generators.items():
-        groups_by_name.get(box.ui_group,
-                           groups_by_name["Misc"]).add(box)
-    if len(sys.argv) > 1 and sys.argv[1].startswith("--id="):
-        del sys.argv[1]
-    if len(sys.argv) == 1:
-        printusage()
-    elif sys.argv[1] == '--list':
-        print("Available generators:")
-        for group in groups:
-            print('\n' + group.title)
-            if group.description:
-                print('\n%s\n' % group.description)
-            else:
-                print()
-            for box in group.generators:
-                print(" * ", box.__name__, ' - ',  box.__doc__ or '')
-    else:
-        name = sys.argv[1].lower()
-        if name.startswith("--generator="):
-            name = name[12:]
-        if (name in generators):
-            box = generators[name]()
-            box.parseArgs(sys.argv[2:])
-            box.render()
-        else:
-            sys.stderr.write(str(sys.argv))
-            sys.stderr.write("Unknown generator name. Use boxes --list to get a list of available commands.")
 
-main()
+    for name, generator in generators.items():
+        group_for_generator = groups_by_name.get(generator.ui_group,
+                                                 groups_by_name['Misc'])
+        group_for_generator.add(generator)
+
+    return groups
+
+
+def generators_by_name():
+    all_generators = boxes.generators.getAllBoxGenerators()
+
+    return {
+        name.split('.')[-1].lower(): generator
+        for name, generator in all_generators.items()
+    }
+
+
+if __name__ == '__main__':
+    main()

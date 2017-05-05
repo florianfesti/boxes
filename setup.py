@@ -26,13 +26,16 @@ class CustomBuildExtCommand(build_py):
 
 setup(
     name='boxes',
-    version='0.1',
+    version='0.1.0',
     description='Boxes generator for laser cutters',
     author='Florian Festi',
     author_email='florian@festi.info',
     url='https://github.com/florianfesti/boxes',
     packages=find_packages(),
-    install_requires=['cairocffi==0.8.0'],
+    install_requires=[
+        'cairocffi==0.8.0',
+        'docopt==0.6.2',
+    ],
     scripts=['scripts/boxes', 'scripts/boxesserver'],
     cmdclass={
         'build_py': CustomBuildExtCommand,

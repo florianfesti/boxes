@@ -35,6 +35,7 @@ setup(
     install_requires=[
         'cairocffi==0.8.0',
         'docopt==0.6.2',
+        'watchdog==0.8.3',
     ],
     scripts=['scripts/boxes', 'scripts/boxesserver'],
     cmdclass={

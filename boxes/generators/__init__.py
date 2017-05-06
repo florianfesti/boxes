@@ -37,12 +37,19 @@ def getAllBoxGenerators():
             onerror=lambda x: None):
         module = importlib.import_module(modname)
         for k, v in module.__dict__.items():
-            if v is boxes.Boxes:
+            if not is_generator(v):
                 continue
-            if (inspect.isclass(v) and issubclass(v, boxes.Boxes) and
-                v.__name__[0] != '_'):
-                generators[modname + '.' + v.__name__] = v
+
+            v.module = module
+            generators[modname + '.' + v.__name__] = v
+
     return generators
+
+def is_generator(x):
+    return (x is not boxes.Boxes) \
+        and inspect.isclass(x) \
+        and issubclass(x, boxes.Boxes) \
+        and x.__name__[0] != '_'
 
 def getAllGeneratorModules():
     generators = {}

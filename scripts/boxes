@@ -4,7 +4,7 @@
 Generate stencils for wooden boxes.
 
 Usage:
-  boxes <generator> [<args>...]
+  boxes [--watch] <generator> [<args>...]
   boxes --list
   boxes (-h | --help)
   boxes --version
@@ -13,11 +13,22 @@ Options:
   -h --help     Show this screen.
   --version     Show version.
   --list        List available generators.
+  --watch       Watch generator file for changes and regenerate if changed.
 """
 
+import importlib
+import logging
+import os
 import sys
+import time
+import traceback
+
 from docopt import docopt
 from pkg_resources import get_distribution
+from watchdog.events import FileSystemEventHandler
+from watchdog.observers import Observer
+
+import boxes.generators
 
 try:
     import boxes
@@ -25,21 +36,39 @@ except ImportError:
     sys.path.append(os.path.dirname(os.path.realpath(__file__)) + '/..')
     import boxes
 
-import boxes.generators
+################################################################################
 
-__version__ = get_distribution('boxes').version
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
+################################################################################
+
+
+class GeneratorEventHandler(FileSystemEventHandler):
+    def __init__(self, generator, generator_args):
+        super().__init__()
+        self.generator = generator
+        self.generator_args = generator_args
+
+    def on_modified(self, event):
+        if not event.src_path == self.generator.module.__file__:
+            return
+
+        rerun_generator(self.generator, self.generator_args)
+
+
+################################################################################
 
 
 def main():
-    version = 'boxes.py v{}'.format(__version__)
-    args = docopt(__doc__, version=version, options_first=True)
-    generator = args['<generator>']
+    __version__ = get_distribution('boxes').version
+    version_str = 'boxes.py v{}'.format(__version__)
+    args = docopt(__doc__, version=version_str, options_first=True)
 
     if args['--list']:
         list_grouped_generators()
-    elif generator is not None:
-        generator_args = args['<args>']
-        run_generator(generator, generator_args)
+    elif args['<generator>'] is not None:
+        generator_command(args)
 
 
 def list_grouped_generators():
@@ -54,23 +83,18 @@ def list_grouped_generators():
             print(' *  {}  -  {}'.format(box.__name__, box.__doc__ or ''))
 
 
-def run_generator(name, args):
-    generators = generators_by_name()
-    lower_name = name.lower()
-
-    if lower_name in generators.keys():
-        box = generators[lower_name]()
-        box.parseArgs(sys.argv[2:])
-        box.render()
-    else:
-        msg = ('Unknown generator \'{}\'. Use boxes --list to get a list of '
-               'available commands.\n').format(name)
-        sys.stderr.write(msg)
-
-
 def generator_groups():
     generators = generators_by_name()
     return group_generators(generators)
+
+
+def generators_by_name():
+    all_generators = boxes.generators.getAllBoxGenerators()
+
+    return {
+        name.split('.')[-1].lower(): generator
+        for name, generator in all_generators.items()
+    }
 
 
 def group_generators(generators):
@@ -85,13 +109,86 @@ def group_generators(generators):
     return groups
 
 
-def generators_by_name():
-    all_generators = boxes.generators.getAllBoxGenerators()
+def generator_command(args):
+    generator_name = args['<generator>']
+    generator_args = args['<args>']
 
-    return {
-        name.split('.')[-1].lower(): generator
-        for name, generator in all_generators.items()
-    }
+    generator = get_generator_or_exit(generator_name)
+    run_generator(generator, generator_args)
+
+    if args['--watch']:
+        log_to_stderr()
+        watch_generator(generator, generator_args)
+
+
+def get_generator_or_exit(name):
+    try:
+        return get_generator(name)
+    except KeyError:
+        msg = ('Unknown generator \'{}\'. Use boxes --list to get a list of '
+               'available commands.\n').format(name)
+        sys.stderr.write(msg)
+        sys.exit(1)
+
+
+def get_generator(name):
+    return generators_by_name()[name.lower()]
+
+
+def run_generator(generator, args):
+    logger.debug('Running generator \'%s\'', generator.__name__)
+    box = generator()
+    box.parseArgs(args)
+    box.render()
+    logger.debug('Finished running generator')
+
+
+def log_to_stderr():
+    handler = logging.StreamHandler()
+    handler.setLevel(logging.DEBUG)
+    formatter = logging.Formatter(
+        '%(asctime)s [%(levelname)s] %(message)s')
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+
+
+def watch_generator(generator, args):
+    logger.info('Watching generator \'%s\' for changes', generator.__name__)
+
+    event_handler = GeneratorEventHandler(generator, args)
+    generator_path = generator.module.__file__
+    generator_dir = os.path.dirname(generator_path)
+
+    observer = Observer()
+    observer.schedule(event_handler, generator_dir)
+    observer.start()
+
+    watch_loop(observer)
+    observer.join()
+
+
+def watch_loop(observer):
+    try:
+        while True:
+            time.sleep(0.1)
+    except KeyboardInterrupt:
+        logger.info('Received keyboard interrupt. Exiting.')
+        observer.stop()
+
+
+def rerun_generator(generator, args):
+    logger.info('Generator has been modified. Regenerating.')
+    generator = reload_generator(generator)
+
+    try:
+        run_generator(generator, args)
+    except Exception as e:
+        logger.error('Failed running generator:\n%s', traceback.format_exc())
+
+
+def reload_generator(generator):
+    importlib.reload(generator.module)
+    return get_generator(generator.__name__)
 
 
 if __name__ == '__main__':

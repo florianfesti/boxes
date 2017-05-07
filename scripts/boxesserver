@@ -328,7 +328,7 @@ Create boxes and more with a laser cutter!
         start_response("200 OK", [('Content-type', "%s; charset=%s" % (type_, encoding))])
 
         f = open(path, 'rb')
-        return f
+        return environ['wsgi.file_wrapper'](f, 512*1024)
 
     def serve(self, environ, start_response):
 

@@ -220,17 +220,16 @@ class BServer:
 <head><title>Boxes.py</title>
     <link rel="stylesheet" href="https://necolas.github.io/normalize.css/4.1.1/normalize.css" type="text/css" />
     <link rel="stylesheet" href="static/self.css" type="text/css" />
-          <script>
-  		function change(img_link){
-  				var img = img_link.firstChild.innerHTML;
-  				//alert(img);
-				document.getElementById("sample").src= "examples/" + img + ".svg";
+    <script>
+	function change(group, img_link){
+	  document.getElementById("sample-"+group).src = img_link;
+	  document.getElementById("sample-"+group).style.height = "auto";
+	}
 				
-				}
-				
-		function changeback(img_link){
-				document.getElementById("sample").src= "examples/" + img + ".svg";
-				}
+	function changeback(group){
+	  document.getElementById("sample-" + group).src= "static/nothing.png";
+	  document.getElementById("sample-" + group).style.height= "0px";
+	}
         </script>""", self.scripts % len(self.groups), """
 </head>
 <body onload="hideargs()">
@@ -253,10 +252,14 @@ Create boxes and more with a laser cutter!
 <div>
 <div class="clear"></div>
 <hr />
-<div style="width: 100%; float: left;">
+<div style="width: 100%">
 """ ]
         for nr, group in enumerate(self.groups):
             result.append('''<h3 onclick="showHide('%s')">%s</h3>\n<div id="%s">\n<ul>\n''' % (nr, group.title, nr))
+            result.append("""
+            <div style="width: 20%%; float: right;">
+            <img width="100%%" id="sample-%s" src="static/nothing.png" alt="" />
+            </div>""" % (group))
             for box in group.generators:
                 name = box.__class__.__name__
                 if name in ("TrayLayout2", ):
@@ -264,19 +267,13 @@ Create boxes and more with a laser cutter!
                 docs = ""
                 if box.__doc__:
                     docs = " - " + box.__doc__
-                result.append("""  <li><a href="%s">%s</a>%s</li>\n""" % (
-                    name, name, docs))
+                result.append("""  <li onmouseenter="change('%s', 'static/samples/%s.jpg')" onmouseleave="changeback('%s')"><a href="%s">%s</a>%s</li>\n""" % (
+                    group, name, group, name, name, docs))
             result.append("</ul>\n</div>\n")
         result.append("""
 </div>
 
-<!--
 <div style="width: 5%; float: left;"></div>
-<div style="width: 55%; float: left;">
-<img id="sample" src="examples/box.svg" alt="Sample Image" />
-</div>
--->
-
 <div class="clear"></div>
 <hr />
 </div>

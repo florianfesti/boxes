@@ -523,7 +523,11 @@ class Boxes:
 
         self.formats.convert(self.output, self.format)
         if self.inkscapefile:
-            svgutil.svgMerge(self.output, self.inkscapefile, sys.stdout.buffer)
+            try:
+                out = sys.stdout.buffer
+            except AttributeError:
+                out= sys.stdout
+            svgutil.svgMerge(self.output, self.inkscapefile, out)
 
     ############################################################
     ### Turtle graphics commands

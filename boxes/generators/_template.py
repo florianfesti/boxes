@@ -16,10 +16,12 @@
 
 from boxes import *
 
-class BOX(Boxes): # change class name here and below
+class BOX(Boxes): # Change class name!
     """DESCRIPTION"""
     
     webinterface = False # Change to make visible in web interface
+
+    ui_group = "Unstable" # see ./__init__.py for names
 
     def __init__(self):
         Boxes.__init__(self)

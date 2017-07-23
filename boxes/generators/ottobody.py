@@ -58,7 +58,7 @@ class OttoBody(Boxes):
         self.hole(self.x/2-13,self.hl/2, 8)
 
     def IOCB(self):
-        self.rectangularHole(26, 20, 10, 7)
+        self.rectangularHole(26, 19, 14, 12)
         # self.rectangularHole(42.2, 10.2, 9.5, 11.5)
 
     def render(self):

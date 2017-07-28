@@ -95,10 +95,10 @@ class AngledBox(Boxes):
 
         t = self.thickness
 
-        r, h, side  = self.regularPolygon(2*n+2, h=y/2.0)
+        r, hp, side  = self.regularPolygon(2*n+2, h=y/2.0)
         
         if n % 2:
-            lx = x - 2 * h + side
+            lx = x - 2 * hp + side
         else:
             lx = x - 2 * r + side
         

@@ -65,6 +65,15 @@ class OttoBody(Boxes):
         self.rectangularHole(26, 18, 12, 10)
         # self.rectangularHole(42.2, 10.2, 9.5, 11.5)
 
+    def PCB_Clip(self, x , y, move=None):
+
+        if self.move(x+4, y, move, True):
+            return
+        self.moveTo(1.5)
+        self.polyline(x-1.5, 90, y, 90, x, 85, y-2, (180, 1.), y-7, -175, y-5)
+
+        self.move(x+4, y, move)
+
     def render(self):
         self.open()
 
@@ -80,7 +89,8 @@ class OttoBody(Boxes):
         e1 = edges.CompoundEdge(self, "Fe", (h-hx, hx))
         e2 = edges.CompoundEdge(self, "eF", (hx, h-hx))
         e_back = ("F", e1, "e", e2)
-        
+
+        # sides
         self.moveTo(hx)
         self.rectangularWall(x, h-hx, "FfOf", ignore_widths=[2], move="up")
         self.rectangularWall(x, hl-hx, "pfFf", ignore_widths=[1], move="up")
@@ -88,14 +98,25 @@ class OttoBody(Boxes):
         self.rectangularWall(x, h-hx, "Ffof", ignore_widths=[5], move="up")
         self.rectangularWall(x, hl-hx, "PfFf", ignore_widths=[6],
                              callback=[None, None, self.IOCB], move="up")
+
+        # lower walls
         self.rectangularWall(y, h, "FFeF", move="up")
         self.rectangularWall(y, h, e_back, move="up")
+        # upper walls
         self.rectangularWall(y, hl, "FFeF", callback=[self.eyeCB], move="up")
         self.rectangularWall(y, hl-hx, "FFqF", move="up")
 
+        # top
         self.rectangularWall(x, y, "ffff", move="up")
+        # bottom
         self.rectangularWall(x, y, "ffff", callback=[self.bottomCB], move="up")
-
+        # PCB mounts
+        self.rectangularWall(x, y-53.5, move="up")
+        self.rectangularWall(hl-2*t, y-51, move="right")
+        self.rectangularWall(hl-2*t, y-48, move="")
+        self.rectangularWall(hl-2*t, y-48, move="left up only")
+        self.PCB_Clip(3.5, hl, move="up")
+        # servo mounts
         self.rectangularWall(y, 14, callback=[None, self.leftBottomCB], move="up")
         self.rectangularWall(y, 14, callback=[None, self.rightBottomCB], move="up")
 

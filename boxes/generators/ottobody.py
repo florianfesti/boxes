@@ -61,6 +61,11 @@ class OttoBody(Boxes):
         self.hole(self.x/2+13,self.hl/2, 8)
         self.hole(self.x/2-13,self.hl/2, 8)
 
+    def frontCB(self):
+        t = self.thickness
+        self.rectangularHole(0.5*t, 2+t, t, 2.5)
+        self.rectangularHole(self.x-0.5*t, 2+t, t, 2.5)
+
     def IOCB(self):
         self.rectangularHole(26, 18, 12, 10)
         # self.rectangularHole(42.2, 10.2, 9.5, 11.5)
@@ -75,10 +80,14 @@ class OttoBody(Boxes):
         self.move(x+4, y, move)
 
     def PCB_Clamp(self, w, s, h, move=None):
-        if self.move(w+4, h, move, True):
+        t = self. thickness
+        f = 2**0.5
+        
+        if self.move(w+4, h+8+t, move, True):
             return
-        self.polyline(w, 90, s, -90, 1, (90, 1), h-s-1, 90, w+2, 90, h)
-        self.move(w+4, h, move)
+        self.polyline(w, 90, s, -90, 1, (90, 1), h-s-1, 90, w-2, 90,
+                      h-8, (-180, 1), h-8+3*t, 135, f*(4), 90, f*2, -45, h+t)
+        self.move(w+4, h+8+t, move)
 
     def render(self):
         self.open()
@@ -106,7 +115,8 @@ class OttoBody(Boxes):
                              callback=[None, None, self.IOCB], move="up")
 
         # lower walls
-        self.rectangularWall(y, h, "FFeF", move="up")
+        self.rectangularWall(y, h, "FFeF", callback=[
+            None, None, self.frontCB], move="up")
         self.rectangularWall(y, h, e_back, move="up")
         # upper walls
         self.rectangularWall(y, hl, "FFeF", callback=[self.eyeCB], move="up")
@@ -117,9 +127,12 @@ class OttoBody(Boxes):
         # bottom
         self.rectangularWall(x, y, "ffff", callback=[self.bottomCB], move="up")
         # PCB mounts
-        self.PCB_Clamp(y-53.5, 4.5, hl, move="up")
-        self.PCB_Clamp(y-50, 4.5, hl, move="up")
-        self.PCB_Clip(3.5, hl, move="up")
+        self.ctx.save()
+        self.PCB_Clamp(y-53.5, 4.5, hl, move="right")
+        self.PCB_Clamp(y-50, 4.5, hl, move="right")
+        self.PCB_Clip(3.5, hl, move="right")
+        self.ctx.restore()
+        self.PCB_Clamp(y-53.5, 4.5, hl, move="up only")
         # servo mounts
         self.rectangularWall(y, 14, callback=[None, self.leftBottomCB], move="up")
         self.rectangularWall(y, 14, callback=[None, self.rightBottomCB], move="up")

@@ -74,6 +74,12 @@ class OttoBody(Boxes):
 
         self.move(x+4, y, move)
 
+    def PCB_Clamp(self, w, s, h, move=None):
+        if self.move(w+4, h, move, True):
+            return
+        self.polyline(w, 90, s, -90, 1, (90, 1), h-s-1, 90, w+2, 90, h)
+        self.move(w+4, h, move)
+
     def render(self):
         self.open()
 
@@ -111,10 +117,8 @@ class OttoBody(Boxes):
         # bottom
         self.rectangularWall(x, y, "ffff", callback=[self.bottomCB], move="up")
         # PCB mounts
-        self.rectangularWall(x, y-53.5, move="up")
-        self.rectangularWall(hl-2*t, y-51, move="right")
-        self.rectangularWall(hl-2*t, y-48, move="")
-        self.rectangularWall(hl-2*t, y-48, move="left up only")
+        self.PCB_Clamp(y-53.5, 4.5, hl, move="up")
+        self.PCB_Clamp(y-50, 4.5, hl, move="up")
         self.PCB_Clip(3.5, hl, move="up")
         # servo mounts
         self.rectangularWall(y, 14, callback=[None, self.leftBottomCB], move="up")

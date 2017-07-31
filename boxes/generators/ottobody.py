@@ -70,6 +70,12 @@ class OttoBody(Boxes):
         self.rectangularHole(26, 18, 12, 10)
         # self.rectangularHole(42.2, 10.2, 9.5, 11.5)
 
+    def buttonCB(self):
+        px, py = 7.5, 7.5
+
+        self.rectangularHole(px, py-2.25, 5.2, 2.5)
+        self.rectangularHole(px, py+2.25, 5.2, 2.5)
+
     def PCB_Clip(self, x , y, move=None):
 
         if self.move(x+4, y, move, True):
@@ -110,7 +116,9 @@ class OttoBody(Boxes):
         self.rectangularWall(x, h-hx, "FfOf", ignore_widths=[2], move="up")
         self.rectangularWall(x, hl-hx, "pfFf", ignore_widths=[1], move="up")
         self.moveTo(-hx)        
-        self.rectangularWall(x, h-hx, "Ffof", ignore_widths=[5], move="up")
+        self.rectangularWall(x, h-hx, "Ffof", ignore_widths=[5], callback=[
+            None, None, lambda: self.rectangularHole(7.5, 7.5, 6.2, 7.)],
+                             move="up")
         self.rectangularWall(x, hl-hx, "PfFf", ignore_widths=[6],
                              callback=[None, None, self.IOCB], move="up")
 
@@ -131,6 +139,7 @@ class OttoBody(Boxes):
         self.PCB_Clamp(y-53.5, 4.5, hl, move="right")
         self.PCB_Clamp(y-50, 4.5, hl, move="right")
         self.PCB_Clip(3.5, hl, move="right")
+        self.rectangularWall(15, 15, callback=[self.buttonCB])
         self.ctx.restore()
         self.PCB_Clamp(y-53.5, 4.5, hl, move="up only")
         # servo mounts

@@ -35,11 +35,14 @@ class OttoLegs(Boxes):
         self.addSettingsArgs(edges.FingerJointSettings, finger=1.0, space=1.0,
                              surroundingspaces=1.0)
         self.argparser.add_argument(
-            "--anklebolt1",  action="store", type=float, default=2.5,
+            "--anklebolt1",  action="store", type=float, default=2.6,
             help="diameter for hole for ankle bolts - foot side")
         self.argparser.add_argument(
-            "--anklebolt2",  action="store", type=float, default=3.2,
+            "--anklebolt2",  action="store", type=float, default=3.0,
             help="diameter for hole for ankle bolts - leg side")
+        self.argparser.add_argument(
+            "--length",  action="store", type=float, default=37.0,
+	    help="length of feet (34mm min)")
 
     def foot(self, x, y, ly, l, r=5., move=None):
         if self.move(x, y, move, True):
@@ -74,7 +77,8 @@ class OttoLegs(Boxes):
         # Initialize canvas
         self.open()
 
-        lx, ly, lh = 12.4, 23.5, 37.0
+        ws = 25
+        lx, ly, lh = 12.4, 23.5, max(self.length, ws+6+t)
 
         self.ctx.save()
         # Legs
@@ -82,7 +86,6 @@ class OttoLegs(Boxes):
         c1 = edges.CompoundEdge(self, "FE", (ly-7.0, 7.0))
         c2 = edges.CompoundEdge(self, "EF", (7.0, lh-7.0))
         e = [c1, c2, "F", "F"]
-        ws = 25
 
         for i in range(2):
             # front
@@ -94,7 +97,7 @@ class OttoLegs(Boxes):
             self.rectangularWall(ly, lh, e, callback=[None,
                 lambda:self.fingerHolesAt(ws, 7.0, ly-7.0)], move="right")
             self.rectangularWall(ly, lh, e, callback=[
-                lambda:self.rectangularHole(ly/2, lh-7, 12, 6, 3),
+                lambda:self.rectangularHole(ly/2, ws+3+0.5*t, 12, 6, 3),
                 lambda:self.fingerHolesAt(ws, 7.0, ly-7.0)], move="right")
 
         # top

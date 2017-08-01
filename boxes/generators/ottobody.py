@@ -117,7 +117,7 @@ class OttoBody(Boxes):
         self.rectangularWall(x, hl-hx, "pfFf", ignore_widths=[1], move="up")
         self.moveTo(-hx)        
         self.rectangularWall(x, h-hx, "Ffof", ignore_widths=[5], callback=[
-            None, None, lambda: self.rectangularHole(7.5, 7.5, 6.2, 7.)],
+            lambda: self.rectangularHole(y-7.5, h-4-7.5, 6.2, 7.)],
                              move="up")
         self.rectangularWall(x, hl-hx, "PfFf", ignore_widths=[6],
                              callback=[None, None, self.IOCB], move="up")

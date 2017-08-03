@@ -81,7 +81,7 @@ class OttoBody(Boxes):
         if self.move(x+4, y, move, True):
             return
         self.moveTo(1.5)
-        self.polyline(x-1.5, 90, y, 90, x, 85, y-2, (180, 1.), y-7, -175, y-5)
+        self.polyline(x-1.5, 90, y, 90, x, 85, y-2-4, -30, 2, 120, 1, -90, 2, (180, 1.), y-7, -175, y-5)
 
         self.move(x+4, y, move)
 

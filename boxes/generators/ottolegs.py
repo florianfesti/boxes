@@ -59,6 +59,25 @@ class OttoLegs(Boxes):
         
         self.move(x, y, move)
 
+    def ankles(self, x, h, callback=None, move=None):
+
+        f = 0.5
+        tw = x
+        th = 2 * h + self.thickness
+
+        if self.move(tw, th, move, True):
+            return
+
+        self.moveTo(0, self.thickness)
+        for i in range(2):
+            self.cc(callback, 0)
+            self.edges["f"](x)
+            self.polyline(0, 90)
+            self.cc(callback, 1)
+            self.polyline(h, 90, f*x, 45, (2**0.5)*(1-f)*x, 45, h-(1-f)*x, 90)
+            self.moveTo(tw, th, 180)
+        self.move(tw, th, move)
+
     def ankle1(self):
         # from vertical edge
         self.hole(15, 10, 2.3) # 3.45 for servo arm
@@ -131,9 +150,9 @@ class OttoLegs(Boxes):
         self.rectangularWall(lx, lh, "ffff", move="up only")
 
         # feet
-        self.rectangularTriangle(30, 25, "fee", r=20, num=2, callback=[None, self.ankle1], move="right")
-        self.rectangularTriangle(30, 25, "fee", r=20, num=2, callback=[None, self.ankle2], move="right")
         self.foot(60, 40, ly, 30, move="right")
         self.foot(60, 40, ly, 30, move="right")
+        self.ankles(30, 20, callback=[None, self.ankle1], move="right")
+        self.ankles(30, 20, callback=[None, self.ankle2], move="right")
         self.close()
 

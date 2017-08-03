@@ -76,6 +76,7 @@ class OttoLegs(Boxes):
             self.cc(callback, 1)
             self.polyline(h, 90, f*x, 45, (2**0.5)*(1-f)*x, 45, h-(1-f)*x, 90)
             self.moveTo(tw, th, 180)
+            self.ctx.stroke()
         self.move(tw, th, move)
 
     def ankle1(self):

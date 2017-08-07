@@ -1570,5 +1570,5 @@ class Boxes:
         # Move right
         if "right" in move:
             kw["move"] = "right only"
-            for i in range(n):
+            for i in range(width):
                 part(*l, **kw)

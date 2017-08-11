@@ -121,25 +121,13 @@ class OttoLegs(Boxes):
                 lambda:self.fingerHolesAt(ws, 7.0, ly-7.0-3.0)], move="right")
 
         # top
-        self.rectangularWall(ly, lx, "ffff", callback=[None, lambda: self.hole(lx/2, ly/2, 2.3)], move="up")
-        self.rectangularWall(ly, lx, "ffff", callback=[None, lambda: self.hole(lx/2, ly/2, 2.3)], move="")
-        self.rectangularWall(ly, lx, "ffff", callback=[None, lambda: self.hole(lx/2, ly/2, 2.3)], move="down right only")
-
+        self.partsMatrix(2, 1, "right", self.rectangularWall, ly, lx, "ffff",
+                         callback=[None, lambda: self.hole(lx/2, ly/2, 2.3)])
+        self.partsMatrix(2, 1, "right", self.rectangularWall, lx, ly, "eeee", callback=[lambda: self.hole(lx/2, ly/2, 1.5)])
         # hold servo at the front
-        self.rectangularWall(4.6, lx, "efee", move="up")
-        self.rectangularWall(4.6, lx, "efee", move="")
-        self.rectangularWall(4.6, lx, "efee", move="down right only")
-
-        # strengthen top
-        self.rectangularWall(lx, ly, "eeee", callback=[lambda: self.hole(lx/2, ly/2, 1.5)], move="up")
-        self.rectangularWall(lx, ly, "eeee", callback=[lambda: self.hole(lx/2, ly/2, 1.5)], move="")
-        self.rectangularWall(lx, ly, "eeee", callback=[lambda: self.hole(lx/2, ly/2, 1.5)], move="down right only")
-
+        self.partsMatrix(2, 1, "right", self.rectangularWall, 4.6, lx, "efee")
         # bottom
-        self.rectangularWall(lx, ly-7.0, "efff", move="up")
-        self.rectangularWall(lx, ly-7.0, "efff", move="")
-        self.rectangularWall(lx, ly-7.0, "efff", move="down right only")
-
+        self.partsMatrix(2, 1, "right", self.rectangularWall, lx, ly-7.0, "efff")
         # hold servo inside
         self.partsMatrix(2, 1, "right", self.rectangularWall, lx, ly-7.0-3.0, "efef")
 

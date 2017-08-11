@@ -35,10 +35,10 @@ class OttoLegs(Boxes):
         self.addSettingsArgs(edges.FingerJointSettings, finger=1.0, space=1.0,
                              surroundingspaces=1.0)
         self.argparser.add_argument(
-            "--anklebolt1",  action="store", type=float, default=2.6,
+            "--anklebolt1",  action="store", type=float, default=3.0,
             help="diameter for hole for ankle bolts - foot side")
         self.argparser.add_argument(
-            "--anklebolt2",  action="store", type=float, default=3.0,
+            "--anklebolt2",  action="store", type=float, default=2.6,
             help="diameter for hole for ankle bolts - leg side")
         self.argparser.add_argument(
             "--length",  action="store", type=float, default=37.0,

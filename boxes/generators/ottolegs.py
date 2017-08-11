@@ -59,7 +59,7 @@ class OttoLegs(Boxes):
         
         self.move(x, y, move)
 
-    def ankles(self, x, h, callback=None, move=None):
+    def ankles(self, x, h, edge="f", callback=None, move=None):
 
         f = 0.5
         tw = x
@@ -71,7 +71,7 @@ class OttoLegs(Boxes):
         self.moveTo(0, self.thickness)
         for i in range(2):
             self.cc(callback, 0)
-            self.edges["f"](x)
+            self.edges[edge](x)
             self.polyline(0, 90)
             self.cc(callback, 1)
             self.polyline(h, 90, f*x, 45, (2**0.5)*(1-f)*x, 45, h-(1-f)*x, 90)
@@ -81,7 +81,13 @@ class OttoLegs(Boxes):
 
     def ankle1(self):
         # from vertical edge
-        self.hole(15, 10, 2.3) # 3.45 for servo arm
+        self.hole(15, 10, 3.45) # 3.45 for servo arm, 2.3 for knob
+
+    def ankle11(self):
+        # from vertical edge
+        self.moveTo(15, 10, 90-3)
+        self.moveTo(3.45, 0, -90)
+        self.polyline(0, (-264, 3.45), 0, 36, 12, (-174, 2), 12)
         
     def ankle2(self):
         # from vertical edge
@@ -138,6 +144,7 @@ class OttoLegs(Boxes):
         self.foot(60, 40, ly, 30, move="right")
         self.foot(60, 40, ly, 30, move="right")
         self.ankles(30, 20, callback=[None, self.ankle1], move="right")
+        self.ankles(30, 20, "e", callback=[None, self.ankle11], move="right")
         self.ankles(30, 20, callback=[None, self.ankle2], move="right")
         self.close()
 

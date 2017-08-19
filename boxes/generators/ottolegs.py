@@ -83,12 +83,15 @@ class OttoLegs(Boxes):
         # from vertical edge
         self.hole(15, 10, 3.45) # 3.45 for servo arm, 2.3 for knob
 
-    def ankle11(self):
-        # from vertical edge
-        self.moveTo(15, 10, 90-3)
+    def servoring(self, move=""):
+        if self.move(20, 20, move, True):
+            return
+        self.moveTo(10, 10, 90)
         self.moveTo(3.45, 0, -90)
-        self.polyline(0, (-264, 3.45), 0, 36, 12, (-174, 2), 12)
+        self.polyline(0, (-264, 3.45), 0, 36, 6.55, 108, 0, (330, 9.0), 0, 108, 6.55)
+        self.move(20, 20, move)
         
+
     def ankle2(self):
         # from vertical edge
         self.hole(15, 10, self.anklebolt1/2)
@@ -143,8 +146,8 @@ class OttoLegs(Boxes):
         # feet
         self.foot(60, 40, ly, 30, move="right")
         self.foot(60, 40, ly, 30, move="right")
-        self.ankles(30, 20, callback=[None, self.ankle1], move="right")
-        self.ankles(30, 20, "e", callback=[None, self.ankle11], move="right")
-        self.ankles(30, 20, callback=[None, self.ankle2], move="right")
+        self.ankles(30, 25, callback=[None, self.ankle1], move="right")
+        self.ankles(30, 25, callback=[None, self.ankle2], move="right")
+        self.partsMatrix(2, 2, "right", self.servoring)
         self.close()
 

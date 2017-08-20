@@ -78,6 +78,12 @@ class SVGFile(object):
 
         # minx = 10*int(self.minx//10)-10
         # as we don't rewrite the left border keep it as 0
+
+        self.minx = self.minx or 0
+        self.miny = self.miny or 0
+        self.maxx = self.maxx or (self.minx + 10)
+        self.maxy = self.maxy or (self.miny + 10)
+
         if 0 <= self.minx <= 50:
             minx = 0
         else:

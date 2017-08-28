@@ -1531,6 +1531,9 @@ class Boxes:
 
     def partsMatrix(self, n, width, move, part, *l, **kw):
 
+        if n <= 0:
+            return
+
         rows = n//width + (1 if n % width else 0)
 
         if not move:

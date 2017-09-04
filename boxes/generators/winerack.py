@@ -41,7 +41,7 @@ class WineRack(Boxes):
         self.fingerHolesAt(0, 0, l-2*self.delta, 0)
         self.ctx.restore()
 
-    def backWall(self, backwall=False):
+    def wallCB(self, frontwall=False, backwall=False):
         r = self.r
         x, y, h = self.x, self.y, self.h
         dx, dy = self.dx, self.dy
@@ -56,10 +56,13 @@ class WineRack(Boxes):
         self.moveTo((x-dx*2*cx)/2, (y-ty) / 2)
         
         for i in range(cy//2 + cy % 2):
-            self.hexFingerHoles(0, (2*r+2*dy)*i+dy, r, 90)
+            if not frontwall:
+                self.hexFingerHoles(0, (2*r+2*dy)*i+dy, r, 90)
             for j in range(cx):
                 if not backwall:
                     self.hole(j*2*dx+dx, (2*r+2*dy)*i + r, dx-t)
+                if frontwall:
+                    continue
                 self.hexFingerHoles(j*2*dx+dx, (2*r+2*dy)*i, r, 150)
                 self.hexFingerHoles(j*2*dx+dx, (2*r+2*dy)*i, r, 30)
                 self.hexFingerHoles(j*2*dx+2*dx, (2*r+2*dy)*i+dy, r, 90)
@@ -67,7 +70,8 @@ class WineRack(Boxes):
                 self.hexFingerHoles(j*2*dx+dx, (2*r+2*dy)*i+r+2*dy, r, -30)
             if i < cy//2:
                 for j in range(cx):
-                    self.hexFingerHoles(j*2*dx+dx, (2*r+2*dy)*i+r+2*dy, r, 90)
+                    if not frontwall:
+                        self.hexFingerHoles(j*2*dx+dx, (2*r+2*dy)*i+r+2*dy, r, 90)
                 if not backwall:
                     for j in range(1, cx):
                         self.hole(j*2*dx, (2*r+2*dy)*i + 2*r + dy, dx-t)
@@ -76,12 +80,12 @@ class WineRack(Boxes):
         else:
             i = cy // 2
             for j in range(cx):
+                if frontwall:
+                    break
                 if j > 0:
                     self.hexFingerHoles(j*2*dx+dx, (2*r+2*dy)*i, r, 150)
                 if j < cx -1:
                     self.hexFingerHoles(j*2*dx+dx, (2*r+2*dy)*i, r, 30)
-                
-                
 
         
     def render(self):
@@ -97,8 +101,9 @@ class WineRack(Boxes):
         self.delta = 3**0.5/6.*t
 
         self.open()
-        self.rectangularWall(x, y, callback=[self.backWall], move="up")
-        self.rectangularWall(x, y, callback=[lambda:self.backWall(True)], move="up")
+        self.rectangularWall(x, y, callback=[self.wallCB], move="up")
+        self.rectangularWall(x, y, callback=[lambda:self.wallCB(backwall=True)], move="up")
+        self.rectangularWall(x, y, callback=[lambda:self.wallCB(frontwall=True)], move="up")
         tc = (cy//2 + cy % 2) * (6 * cx + 1)
         if cy % 2:
             tc -= cx

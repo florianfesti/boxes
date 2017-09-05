@@ -39,7 +39,6 @@ class WineRack(Boxes):
             help="which of the honey comb walls to add")
 
     def hexFingerHoles(self, x, y, l, angle=90):
-        self.cnt += 1
         self.ctx.save()
         self.moveTo(x, y, angle)
         self.moveTo(self.delta, 0, 0)
@@ -111,7 +110,6 @@ class WineRack(Boxes):
         self.cx = cx = int((x-2*t) // (2*dx))
         self.cy = cy = int((y-dy-t) // (r+dy))
         self.delta = 3**0.5/6.*t
-        self.cnt = 0
 
         self.open()
         self.rectangularWall(x, y, callback=[self.wallCB], move="up")
@@ -132,7 +130,6 @@ class WineRack(Boxes):
             if self.walls != "minimal":
                 tc += 2 * cx - 2 # very top row
 
-        print(self.cnt/2., tc)
         self.partsMatrix(tc, cx, "up", self.rectangularWall, r-2*self.delta, h, "fefe")
 
         self.close()

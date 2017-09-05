@@ -33,8 +33,13 @@ class WineRack(Boxes):
         self.argparser.add_argument(
             "--radius",  action="store", type=float, default=46.,
             help="Radius of comb")
+        self.argparser.add_argument(
+            "--walls", action="store", type=str, default="all",
+            choices=("minimal", "no_verticals", "all"),
+            help="which of the honey comb walls to add")
 
     def hexFingerHoles(self, x, y, l, angle=90):
+        self.cnt += 1
         self.ctx.save()
         self.moveTo(x, y, angle)
         self.moveTo(self.delta, 0, 0)
@@ -54,9 +59,11 @@ class WineRack(Boxes):
             ty = cy // 2 * (2*dy + 2*r) + dy
 
         self.moveTo((x-dx*2*cx)/2, (y-ty) / 2)
+
+        wmin = self.walls == "minimal"
         
         for i in range(cy//2 + cy % 2):
-            if not frontwall:
+            if not frontwall and self.walls == "all":
                 self.hexFingerHoles(0, (2*r+2*dy)*i+dy, r, 90)
             for j in range(cx):
                 if not backwall:
@@ -65,12 +72,17 @@ class WineRack(Boxes):
                     continue
                 self.hexFingerHoles(j*2*dx+dx, (2*r+2*dy)*i, r, 150)
                 self.hexFingerHoles(j*2*dx+dx, (2*r+2*dy)*i, r, 30)
-                self.hexFingerHoles(j*2*dx+2*dx, (2*r+2*dy)*i+dy, r, 90)
-                self.hexFingerHoles(j*2*dx+dx, (2*r+2*dy)*i+r+2*dy, r, -150)
-                self.hexFingerHoles(j*2*dx+dx, (2*r+2*dy)*i+r+2*dy, r, -30)
+                if self.walls == "all":
+                    self.hexFingerHoles(j*2*dx+2*dx, (2*r+2*dy)*i+dy, r, 90)
+                if wmin and i == cy//2: # top row
+                    continue
+                if j>0 or not wmin:
+                    self.hexFingerHoles(j*2*dx+dx, (2*r+2*dy)*i+r+2*dy, r, -150)
+                if j<cx-1 or not wmin:
+                    self.hexFingerHoles(j*2*dx+dx, (2*r+2*dy)*i+r+2*dy, r, -30)
             if i < cy//2:
                 for j in range(cx):
-                    if not frontwall:
+                    if not frontwall and self.walls == "all":
                         self.hexFingerHoles(j*2*dx+dx, (2*r+2*dy)*i+r+2*dy, r, 90)
                 if not backwall:
                     for j in range(1, cx):
@@ -80,7 +92,7 @@ class WineRack(Boxes):
         else:
             i = cy // 2
             for j in range(cx):
-                if frontwall:
+                if frontwall or wmin:
                     break
                 if j > 0:
                     self.hexFingerHoles(j*2*dx+dx, (2*r+2*dy)*i, r, 150)
@@ -94,22 +106,33 @@ class WineRack(Boxes):
         t = self.thickness
         r = self.r = 2 * (radius + t) * math.tan(math.pi/6)
         
-        self.dx = dx = r * math.cos(math.pi/6) # XXX thickness
+        self.dx = dx = r * math.cos(math.pi/6)
         self.dy = dy = r * math.sin(math.pi/6)
-        self.cx = cx = int(x // (2*dx))
-        self.cy = cy = int((y-dy) // (r+dy))
+        self.cx = cx = int((x-2*t) // (2*dx))
+        self.cy = cy = int((y-dy-t) // (r+dy))
         self.delta = 3**0.5/6.*t
+        self.cnt = 0
 
         self.open()
         self.rectangularWall(x, y, callback=[self.wallCB], move="up")
         self.rectangularWall(x, y, callback=[lambda:self.wallCB(backwall=True)], move="up")
         self.rectangularWall(x, y, callback=[lambda:self.wallCB(frontwall=True)], move="up")
-        tc = (cy//2 + cy % 2) * (6 * cx + 1)
-        if cy % 2:
-            tc -= cx
+        if self.walls == "all":
+            tc = (cy//2 + cy % 2) * (6 * cx + 1)
         else:
-            tc += 2 * cx - 2
+            tc = (cy//2 + cy % 2) * (4 * cx)
 
+        if self.walls == "minimal":
+            tc -= 2 * (cy//2) # roofs of outer cells
+
+        if cy % 2:
+            if self.walls == "all":
+                tc -= cx
+        else:
+            if self.walls != "minimal":
+                tc += 2 * cx - 2 # very top row
+
+        print(self.cnt/2., tc)
         self.partsMatrix(tc, cx, "up", self.rectangularWall, r-2*self.delta, h, "fefe")
 
         self.close()

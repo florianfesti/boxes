@@ -588,10 +588,12 @@ class FingerJointEdge(BaseEdge, FingerJointBase):
         l1,l2 = self.fingerLength(self.settings.angle)
         h = l1-l2
 
+        d = (bedBoltSettings or self.bedBoltSettings)[0]
+
         for i in range(fingers):
             if i != 0:
                 if not positive and bedBolts and bedBolts.drawBolt(i):
-                    self.hole(0.5 * space,
+                    self.hole(0.5 * s,
                               0.5 * self.settings.thickness, 0.5 * d)
 
                 if positive and bedBolts and bedBolts.drawBolt(i):

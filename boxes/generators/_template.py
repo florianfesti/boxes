@@ -27,7 +27,8 @@ class BOX(Boxes): # Change class name!
         Boxes.__init__(self)
 
         # Uncomment the settings for the edge types you use
-        # self.addSettingsArgs(edges.FingerJointSettings)
+        # use keyword args to set default values
+        # self.addSettingsArgs(edges.FingerJointSettings, finger=1.0,space=1.0)
         # self.addSettingsArgs(edges.StackableSettings)
         # self.addSettingsArgs(edges.HingeSettings)
         # self.addSettingsArgs(edges.LidSettings)
@@ -35,7 +36,7 @@ class BOX(Boxes): # Change class name!
         # self.addSettingsArgs(edges.FlexSettings)
 
         # remove cli params you do not need
-        self.buildArgParser("x", "sx", "y", "sy", "h", "hi")
+        self.buildArgParser(x=100, sx="3*50", y=100, sy="3*50", h=100, hi=0)
         # Add non default cli params if needed (see argparse std lib)
         self.argparser.add_argument(
             "--XX",  action="store", type=float, default=0.5,
@@ -49,9 +50,6 @@ class BOX(Boxes): # Change class name!
         # Initialize canvas
         self.open()
 
-        # Change settings of default edges if needed. E.g.:
-        self.edges["f"].settings.setValues(self.thickness, space=3, finger=3,
-                                        surroundingspaces=1)
         # Create new Edges here if needed E.g.:
         s = edges.FingerJointSettings(self.thickness, relative=False,
                                       space = 10, finger=10, height=10,

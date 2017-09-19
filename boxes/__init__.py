@@ -253,6 +253,7 @@ class Boxes:
         self.hexHolesSettings = (5, 3, 'circle')  # r, dist, style
         self.surface, self.ctx = self.formats.getSurface(self.format, self.output)
         self.ctx.set_line_width(2 * self.burn)
+        self.ctx.select_font_face("sans-serif")
         self._buildObjects()
         if self.reference:
             self.move(10, 10, "up", before=True)

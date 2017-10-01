@@ -43,6 +43,10 @@ class Parts:
         self.move(size, size, move)
 
     def waivyKnob(self, diameter, n=20, angle=45, hole=0, callback=None, move=""):
+
+        if n < 2:
+            return
+
         size = diameter + pi * diameter / n
 
         if self.move(size, size, move, before=True):
@@ -67,6 +71,9 @@ class Parts:
     def concaveKnob(self, diameter, n=3, rounded=0.2, angle=70, hole=0,
                     callback=None, move=""):
         size = diameter
+
+        if n < 2:
+            return
 
         if self.move(size, size, move, before=True):
             return

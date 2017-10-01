@@ -27,19 +27,19 @@ class WaivyKnob(Boxes):
         # Add non default cli params if needed (see argparse std lib)
         self.argparser.add_argument(
             "--diameter",  action="store", type=float, default=50.,
-            help="Diameter of the knob")
+            help="Diameter of the knob (mm)")
         self.argparser.add_argument(
             "--serrations",  action="store", type=int, default=20,
             help="Number of serrations")
         self.argparser.add_argument(
             "--serrationangle",  action="store", type=float, default=45.,
-            help="higher values for deeper serrations")
+            help="higher values for deeper serrations (degrees)")
         self.argparser.add_argument(
             "--bolthole",  action="store", type=float, default=6.,
-            help="Diameter of the bolt hole")
+            help="Diameter of the bolt hole (mm)")
         self.argparser.add_argument(
             "--hexhead",  action="store", type=float, default=10.,
-            help="Width of the hex bolt head")
+            help="Width of the hex bolt head (mm)")
 
     def render(self):
         t = self.thickness

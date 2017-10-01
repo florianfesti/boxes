@@ -17,7 +17,7 @@
 from boxes import *
 
 class ConcaveKnob(Boxes):
-    """Round knob serraded outside for better gripping"""
+    """Round knob serrated outside for better gripping"""
     
     ui_group = "Part"
 
@@ -27,7 +27,7 @@ class ConcaveKnob(Boxes):
         # Add non default cli params if needed (see argparse std lib)
         self.argparser.add_argument(
             "--diameter",  action="store", type=float, default=50.,
-            help="Diameter of the knob")
+            help="Diameter of the knob (mm)")
         self.argparser.add_argument(
             "--serrations",  action="store", type=int, default=3,
             help="Number of serrations")
@@ -39,10 +39,10 @@ class ConcaveKnob(Boxes):
             help="Angle between convex and concave parts")        
         self.argparser.add_argument(
             "--bolthole",  action="store", type=float, default=6.,
-            help="Diameter of the bolt hole")
+            help="Diameter of the bolt hole (mm)")
         self.argparser.add_argument(
             "--hexhead",  action="store", type=float, default=10.,
-            help="Width of the hex bolt head")
+            help="Width of the hex bolt head (mm)")
 
     def render(self):
         t = self.thickness

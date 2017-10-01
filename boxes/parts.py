@@ -55,10 +55,10 @@ class Parts:
             self.hole(0, 0, hole / 2)
 
         self.moveTo(diameter / 2, 0, 90-angle)
-        a, r = arcOnCircle(360. / n, angle, diameter / 2)
-        a2, r2 = arcOnCircle(360. / n, -angle, diameter / 2)
+        a, r = arcOnCircle(360. / n / 2, angle, diameter / 2)
+        a2, r2 = arcOnCircle(360. / n / 2, -angle, diameter / 2)
 
-        for i in range(n // 2):
+        for i in range(n):
             self.boxes.corner(a, r)
             self.boxes.corner(a2, r2)
 

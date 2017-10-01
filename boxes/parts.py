@@ -54,7 +54,7 @@ class Parts:
         if hole:
             self.hole(0, 0, hole / 2)
 
-        self.moveTo(diameter / 2, 0, angle)
+        self.moveTo(diameter / 2, 0, 90-angle)
         a, r = arcOnCircle(360. / n, angle, diameter / 2)
         a2, r2 = arcOnCircle(360. / n, -angle, diameter / 2)
 

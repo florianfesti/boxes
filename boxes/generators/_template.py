@@ -18,7 +18,7 @@ from boxes import *
 
 class BOX(Boxes): # Change class name!
     """DESCRIPTION"""
-    
+
     webinterface = False # Change to make visible in web interface
 
     ui_group = "Unstable" # see ./__init__.py for names
@@ -41,7 +41,7 @@ class BOX(Boxes): # Change class name!
         self.argparser.add_argument(
             "--XX",  action="store", type=float, default=0.5,
             help="DESCRIPTION")
-        
+
 
     def render(self):
         # adjust to the variables you want in the local scope
@@ -52,15 +52,12 @@ class BOX(Boxes): # Change class name!
 
         # Create new Edges here if needed E.g.:
         s = edges.FingerJointSettings(self.thickness, relative=False,
-                                      space = 10, finger=10, height=10,
+                                      space = 10, finger=10,
                                       width=self.thickness)
         p = edges.FingerJointEdge(self, s)
         p.char = "p"
         self.addPart(p)
 
-        
         # render your parts here
 
-
         self.close()
-

@@ -41,6 +41,9 @@ class ConcaveKnob(Boxes):
             "--bolthole",  action="store", type=float, default=6.,
             help="Diameter of the bolt hole (mm)")
         self.argparser.add_argument(
+            "--dhole",  action="store", type=float, default=1.,
+            help="D-Flat in fraction of the diameter")
+        self.argparser.add_argument(
             "--hexhead",  action="store", type=float, default=10.,
             help="Width of the hex bolt head (mm)")
 
@@ -50,7 +53,10 @@ class ConcaveKnob(Boxes):
         self.open()
         self.parts.concaveKnob(self.diameter, self.serrations,
                                self.rounded, self.angle,
-                               hole=self.bolthole, move="right")
+                               callback=lambda:self.dHole(0, 0,
+                                                          d=self.bolthole,
+                                                          rel_w=self.dhole),
+                               move="right")
         self.parts.concaveKnob(self.diameter, self.serrations,
                                self.rounded, self.angle,
                                callback=lambda: self.nutHole(self.hexhead),

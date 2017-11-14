@@ -27,6 +27,9 @@ class TypeTray(Boxes):
         self.buildArgParser("sx", "sy", "h", "hi", "outside")
         self.addSettingsArgs(edges.FingerJointSettings, surroundingspaces=0.5)
         self.argparser.add_argument(
+            "--closedtop", action="store", type=boolarg, default=False,
+            help="close the box on top")
+        self.argparser.add_argument(
             "--gripheight", action="store", type=float, default=30,
             dest="gh", help="height of the grip hole in mm")
         self.argparser.add_argument(
@@ -82,27 +85,50 @@ class TypeTray(Boxes):
         x = sum(self.sx) + self.thickness * (len(self.sx) - 1)
         y = sum(self.sy) + self.thickness * (len(self.sy) - 1)
         h = self.h
+        sameh = not self.hi
         hi = self.hi = self.hi or h
         t = self.thickness
 
         self.open()
 
         # outer walls
-        self.rectangularWall(x, h, "Ffef", callback=[self.xHoles, None, self.gripHole],  move="right")
-        self.rectangularWall(y, h, "FFeF", callback=[self.yHoles, ], move="up")
-        self.rectangularWall(y, h, "FFeF", callback=[self.yHoles, ])
-        self.rectangularWall(x, h, "Ffef", callback=[self.xHoles, ], move="left up")
+        e1 = "Ffef"
+        e2 = "FFeF"
+        if self.closedtop:
+            e1 = "FfFf"
+            e2 = "FFFF"
+
+        self.rectangularWall(x, h, e1, callback=[self.xHoles, None, self.gripHole],  move="right")
+        self.rectangularWall(y, h, e2, callback=[self.yHoles, ], move="up")
+        self.rectangularWall(y, h, e2, callback=[self.yHoles, ])
+        self.rectangularWall(x, h, e1, callback=[self.xHoles, ], move="left up")
 
         # floor
-        self.rectangularWall(x, y, "ffff", callback=[self.xSlots, self.ySlots],move="right")
+        self.rectangularWall(x, y, "ffff", callback=[
+            self.xSlots, self.ySlots],move="right")
+        if self.closedtop:
+            if sameh:
+                self.rectangularWall(x, y, "ffff", callback=[
+                    self.xSlots, self.ySlots], move="right")
+            else:
+                self.rectangularWall(x, y, "ffff", move="right")
+
         # Inner walls
         for i in range(len(self.sx) - 1):
-            e = [edges.SlottedEdge(self, self.sy, "f", slots=0.5 * hi), "f", "e", "f"]
+            e = [edges.SlottedEdge(self, self.sy, "f", slots=0.5 * hi),
+                 "f", "e", "f"]
+            if self.closedtop and sameh:
+                e = [edges.SlottedEdge(self, self.sy, "f", slots=0.5 * hi),"f",
+                     edges.SlottedEdge(self, self.sy[::-1], "f"), "f"]
             self.rectangularWall(y, hi, e, move="up")
 
         for i in range(len(self.sy) - 1):
             e = [edges.SlottedEdge(self, self.sx, "f"), "f",
                  edges.SlottedEdge(self, self.sx[::-1], "e", slots=0.5 * hi), "f"]
+            if self.closedtop and sameh:
+                e = [edges.SlottedEdge(self, self.sx, "f"), "f",
+                     edges.SlottedEdge(self, self.sx[::-1], "f", slots=0.5 * hi), "f"]
+                
             self.rectangularWall(x, hi, e, move="up")
 
         self.close()

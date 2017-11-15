@@ -923,7 +923,7 @@ class Boxes:
 
     @restore
     @holeCol
-    def hole(self, x, y, r):
+    def hole(self, x, y, r=0.0, d=0.0):
         """
         Draw a round hole
 
@@ -932,6 +932,9 @@ class Boxes:
         :param r: radius
 
         """
+
+        if not r:
+            r = d / 2.0
         r -= self.burn
         if r < 0:
             r = 1E-9

@@ -212,6 +212,8 @@ class Boxes:
     webinterface = True
     ui_group = "Misc"
 
+    description = "" # Markdown syntax is supported
+
     def __init__(self):
         self.formats = formats.Formats()
         self.argparser = ArgumentParser(description=self.__doc__)

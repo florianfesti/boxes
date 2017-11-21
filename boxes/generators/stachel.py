@@ -17,26 +17,14 @@
 from boxes import *
 import math
 
-class Stachel(Boxes): # Change class name!
+class Stachel(Boxes):
     """Bass Recorder Endpin"""
     
-    ui_group = "Unstable" # see ./__init__.py for names
+    ui_group = "Misc"
 
     def __init__(self):
         Boxes.__init__(self)
 
-        # Uncomment the settings for the edge types you use
-        # use keyword args to set default values
-        # self.addSettingsArgs(edges.FingerJointSettings, finger=1.0,space=1.0)
-        # self.addSettingsArgs(edges.StackableSettings)
-        # self.addSettingsArgs(edges.HingeSettings)
-        # self.addSettingsArgs(edges.LidSettings)
-        # self.addSettingsArgs(edges.ClickSettings)
-        # self.addSettingsArgs(edges.FlexSettings)
-
-        # remove cli params you do not need
-        #self.buildArgParser(x=100, sx="3*50", y=100, sy="3*50", h=100, hi=0)
-        # Add non default cli params if needed (see argparse std lib)
         self.argparser.add_argument(
             "--flutediameter",  action="store", type=float, default=115.0,
             help="diameter of the flutes bottom in mm")
@@ -98,8 +86,6 @@ class Stachel(Boxes): # Change class name!
         
 
     def render(self):
-        # adjust to the variables you want in the local scope
-        t = self.thickness
         # Initialize canvas
         self.open()
 

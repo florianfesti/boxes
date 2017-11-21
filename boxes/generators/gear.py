@@ -64,15 +64,32 @@ class Gears(Boxes):
         if not self.dpercentage2:
             self.dpercentage2 = self.dpercentage1
 
-        self.gears(teeth=self.teeth1, dimension=self.modulus,
-                   angle=self.pressure_angle, profile_shift=self.profile_shift,
-                   callback=lambda:self.dHole(0, 0, d=self.shaft1,
-                                              rel_w=self.dpercentage1/100.),
-                   move="up")
         self.gears(teeth=self.teeth2, dimension=self.modulus,
                    angle=self.pressure_angle, profile_shift=self.profile_shift,
                    callback=lambda:self.dHole(0, 0, d=self.shaft2,
                                               rel_w=self.dpercentage2/100.),
                    move="up")
+        r2, d2, d2 = self.gears.sizes(
+            teeth=self.teeth2, dimension=self.modulus,
+            angle=self.pressure_angle, profile_shift=self.profile_shift)
 
+        self.gears(teeth=self.teeth1, dimension=self.modulus,
+                   angle=self.pressure_angle, profile_shift=self.profile_shift,
+                   callback=lambda:self.dHole(0, 0, d=self.shaft1,
+                                              rel_w=self.dpercentage1/100.),
+                   move="up")
+        r1, d1, d1 = self.gears.sizes(
+            teeth=self.teeth1, dimension=self.modulus,
+            angle=self.pressure_angle, profile_shift=self.profile_shift)
+
+
+        self.text("""Pitch radius 1: %.1fmm
+Outer diameter 1: %.1fmm
+Pitch radius 2: %.1fmm
+Outer diameter 2: %.1fmm
+Axis distance: %.1fmm
+        """ % (r1, d1, r2, d2, r1+r2), align="bottom left")
+        self.moveTo(0, 200)
+        self.hole(0, 0, 0.001)
+        
         self.close()

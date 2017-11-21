@@ -39,47 +39,49 @@ class Stachel(Boxes): # Change class name!
         # Add non default cli params if needed (see argparse std lib)
         self.argparser.add_argument(
             "--flutediameter",  action="store", type=float, default=115.0,
-            help="DESCRIPTION")
+            help="diameter of the flutes bottom in mm")
         self.argparser.add_argument(
             "--polediameter",  action="store", type=float, default=25.,
-            help="DESCRIPTION")
+            help="diameter if the pin in mm")
         self.argparser.add_argument(
             "--wall",  action="store", type=float, default=7.,
-            help="DESCRIPTION")
+            help="width of the surrounding wall in mm")
 
     def layer(self, ri, ro, rp, holes=False, move=""):
 
-        l = 20
+        r = 2.5 # radius
+        l = 25 # depth of clamp
+        w = 20 # width of clamp
+
+        wp = rp+8 # width pole
+
         tw = 2*ro + 2*rp
         th = 2*ro + l
-        r = 2.5
-
         
         if self.move(tw, th, move, True):
             return
 
         self.moveTo(ro, r, 90)
 
-        a1 = math.degrees(math.asin(30 / ro))
-        a2 = math.degrees(math.asin(25 / ro))
+        a1 = math.degrees(math.asin(w / ro))
+        a2 = math.degrees(math.asin(wp / ro))
         l1 = ro*(1-math.cos(math.radians(a1)))
         a3 = math.degrees(math.asin(1./rp))
-        print(a1, a2, a3, ro)
         self.polyline(ro-ri+l-r, 90, 0, (-355, ri), 0, 90, ro-ri+l-r, # inside
-                      (90, r), 30-2*r, (90, r))
+                      (90, r), w-2*r, (90, r))
         if holes: # right side main clamp
-            poly1 = [(l+l1-2)/2-r, 90, 27, -90, 2, -90, 27, 90,
+            poly1 = [(l+l1-2)/2-r, 90, w-2, -90, 2, -90, w-2, 90,
                           (l+l1-2)/2]
             self.polyline(*poly1)
         else:
             self.polyline(l+l1-r)
         self.polyline(0, -90+a1, 0 , (90-a1-a2, ro), 0, -90+a2)
         if holes:
-            poly2 = [2*rp+15, 90, 22, -90, 2, -90, 22, 90, 10-r]
+            poly2 = [2*rp+15, 90, wp-2, -90, 2, -90, wp-2, 90, 10-r]
             self.polyline(*poly2)
         else:
             self.polyline(25+2*rp-r)
-        self.polyline(0, (90, r), 24-r, 90, 20, 90-a3, 0, (-360+2*a3, rp), 0, 90-a3, 20, 90, 24-r, (90, r))
+        self.polyline(0, (90, r), wp-1-r, 90, 20, 90-a3, 0, (-360+2*a3, rp), 0, 90-a3, 20, 90, wp-1-r, (90, r))
         if holes:
             self.polyline(*list(reversed(poly2)))
         else:
@@ -89,7 +91,7 @@ class Stachel(Boxes): # Change class name!
             self.polyline(*list(reversed(poly1)))
         else:
             self.polyline(l+l1-r)
-        self.polyline(0, (90, r), 30-2*r, (90, r))
+        self.polyline(0, (90, r), w-2*r, (90, r))
         
         self.move(tw, th, move)
         

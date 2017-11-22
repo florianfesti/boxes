@@ -81,7 +81,10 @@ class Gears(Boxes):
         r1, d1, d1 = self.gears.sizes(
             teeth=self.teeth1, dimension=self.modulus,
             angle=self.pressure_angle, profile_shift=self.profile_shift)
-
+        r = max(self.shaft1, self.shaft2)/2
+        self.hole(t+r, t+r, self.shaft1/2)
+        self.hole(t+r+r1+r2, t+r, self.shaft2/2)
+        self.moveTo(0, 2*r+t)
 
         self.text("""Pitch radius 1: %.1fmm
 Outer diameter 1: %.1fmm
@@ -89,7 +92,5 @@ Pitch radius 2: %.1fmm
 Outer diameter 2: %.1fmm
 Axis distance: %.1fmm
         """ % (r1, d1, r2, d2, r1+r2), align="bottom left")
-        self.moveTo(0, 200)
-        self.hole(0, 0, 0.001)
         
         self.close()

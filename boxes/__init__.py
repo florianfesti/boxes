@@ -997,7 +997,16 @@ class Boxes:
 
         """
         self.moveTo(x, y, angle)
-        (tx, ty, width, height, dx, dy) = self.ctx.text_extents(text)
+        text = text.split("\n")
+        width = lheight = 0.0
+        for line in text:
+            (tx, ty, w, h, dx, dy) = self.ctx.text_extents(line)
+            print(tx, ty, w, h, dx, dy)
+            lheight = max(lheight, h)
+            width = max(width, w)
+
+        lines = len(text)
+        height = lines * lheight + (lines - 1) * 0.4 * lheight
         align = align.split()
         moves = {
             "top": (0, -height),
@@ -1013,8 +1022,16 @@ class Boxes:
             else:
                 raise ValueError("Unknown alignment: %s" % align)
 
+        self.ctx.stroke()
+        self.ctx.set_source_rgb(1.0, 1.0, 1.0)
+        self.ctx.rectangle(0, 0, width, height)
+        self.ctx.stroke()
+        self.ctx.set_source_rgb(0.0, 0.0, 0.0)
         self.ctx.scale(1, -1)
-        self.ctx.show_text(text)
+        for line in reversed(text):
+            self.ctx.show_text(line)
+            self.moveTo(0, 1.4 * -lheight)
+
 
     tx_sizes = {
         1 : 0.61,

@@ -65,7 +65,7 @@ class Stachel(Boxes):
             self.polyline(l+l1-r)
         self.polyline(0, -90+a1, 0 , (90-a1-a2, ro), 0, -90+a2)
         if holes:
-            poly2 = [2*rp+15, 90, wp-2, -90, 2, -90, wp-2, 90, 10-r]
+            poly2 = [2*rp+15, 90, wp-2, -90, 2, -90, wp-2, 90, 10-2-r]
             self.polyline(*poly2)
         else:
             self.polyline(25+2*rp-r)

@@ -212,6 +212,9 @@ class Boxes:
     webinterface = True
     ui_group = "Misc"
 
+    description = None # description of the generator; Markdown syntax is supported
+    url = None # URL that links to "more information"
+
     def __init__(self):
         self.formats = formats.Formats()
         self.argparser = ArgumentParser(description=self.__doc__)

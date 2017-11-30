@@ -41,7 +41,7 @@ in 0.5mm steps, 3 holes each size"""
                     r = (12.5 - 2 * i - 0.5 * j) * 0.5
                     self.hole(i * 20 + 10, j * 60 + k * 20 + 10, r + 0.05)
 
-    def description(self):
+    def descriptionText(self):
         self.ctx.set_font_size(6)
         for i in range(4):
             for j in range(6):
@@ -64,7 +64,7 @@ in 0.5mm steps, 3 holes each size"""
 
         self.rectangularWall(x, y, "ffff", move="up")
         self.rectangularWall(x, y, "ffff", callback=[self.drillholes], move="up")
-        self.rectangularWall(x, y, "ffff", callback=[self.drillholes, self.description], move="up")
+        self.rectangularWall(x, y, "ffff", callback=[self.drillholes, self.descriptionText], move="up")
 
         self.close()
 

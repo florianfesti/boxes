@@ -18,6 +18,7 @@ Contents:
    CONTRIBUTING.rst
    apidoc
    generators
+   give_back
 
 Indices and tables
 ==================

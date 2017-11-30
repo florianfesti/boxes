@@ -458,6 +458,7 @@ class BServer:
   <li><a href="https://florianfesti.github.io/boxes/html/index.html" target="_blank" rel="noopener">{_("Documentation")}</a></li>
   <li><a href="https://github.com/florianfesti/boxes" target="_blank" rel="noopener">{_("Sources")}</a></li>
 {f'<li><a href="{self.legal_url}" target="_blank" rel="noopener">{_("Legal")}</a></li>' if self.legal_url else ''}
+  <li><a href="https://florianfesti.github.io/boxes/html/give_back.html" target="_blank" rel="noopener">{_("Give Back")}</a></li>
   <li class="right">{self.genHTMLLanguageSelection(lang)}</li>
 """
 

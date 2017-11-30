@@ -216,7 +216,10 @@ class Boxes:
 
     def __init__(self):
         self.formats = formats.Formats()
-        self.argparser = ArgumentParser(description=self.__doc__)
+        description = self.__doc__
+        if self.description:
+            description += "\n\n" + self.description
+        self.argparser = ArgumentParser(description=description)
         self.edgesettings = {}
         self.inkscapefile = None
         self.argparser._action_groups[1].title = self.__class__.__name__ + " Settings"

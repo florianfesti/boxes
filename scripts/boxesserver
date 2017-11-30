@@ -24,6 +24,7 @@ import time
 import codecs
 import mimetypes
 import re
+import markdown
 
 # Python 2 vs Python 3 compat
 try:
@@ -195,6 +196,10 @@ class BServer:
 -->
 <div class="clear"></div>
 <hr />
+""")
+        if box.description:
+            result.append(markdown.markdown(box.description))
+        result.append("""
 </div>
 </div>
 
@@ -211,7 +216,7 @@ class BServer:
 
 </body>
 </html>
-""")
+        """ )
         return (s.encode("utf-8") for s in result)
         
     def menu(self):

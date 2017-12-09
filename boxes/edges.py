@@ -1076,6 +1076,7 @@ Values:
     relative_params = {
         "pin_height" : 2.0,
         "hinge_strength" : 1.0,
+        "play" : 0.1,
         }
 
     def pinheight(self):
@@ -1155,30 +1156,27 @@ class ChestHingeTop(ChestHinge):
         t = self.settings.thickness
         p = self.settings.pin_height
         s = self.settings.hinge_strength
-        play = 0.1 * self.settings.thickness
+        play = self.settings.play
         poly = (0, -180, t, -180, 0, (-90, p+s+play), 0, 90, l+t-p-s-play)
         if self.reversed:
             poly = reversed(poly)
         self.polyline(*poly)
 
     def startwidth(self):
-        play = 0.1 * self.settings.thickness
         if self.reversed:
-            return play+self.settings.pin_height+self.settings.hinge_strength
+            return self.settings.play+self.settings.pin_height+self.settings.hinge_strength
         return 0
 
     def endwidth(self):
-        play = 0.1 * self.settings.thickness
         if self.reversed:
             return 0
-        return play+self.settings.pin_height+self.settings.hinge_strength
+        return self.settings.play+self.settings.pin_height+self.settings.hinge_strength
 
     def margin(self):
         if self.reversed:
             return 0.
         else:
-            play = 0.1 * self.settings.thickness
-            return 1*(play+self.settings.pin_height+self.settings.hinge_strength)
+            return 1*(self.settings.play+self.settings.pin_height+self.settings.hinge_strength)
 
 class ChestHingePin(BaseEdge):
 

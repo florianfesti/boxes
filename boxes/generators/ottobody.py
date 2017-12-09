@@ -106,6 +106,7 @@ class OttoBody(Boxes):
         t = self.thickness
 
         hx = self.edges["O"].startwidth()
+        hx2 = self.edges["P"].startwidth()
 
         e1 = edges.CompoundEdge(self, "Fe", (h-hx, hx))
         e2 = edges.CompoundEdge(self, "eF", (hx, h-hx))
@@ -114,12 +115,12 @@ class OttoBody(Boxes):
         # sides
         self.moveTo(hx)
         self.rectangularWall(x, h-hx, "FfOf", ignore_widths=[2], move="up")
-        self.rectangularWall(x, hl-hx, "pfFf", ignore_widths=[1], move="up")
+        self.rectangularWall(x, hl-hx2, "pfFf", ignore_widths=[1], move="up")
         self.moveTo(-hx)        
         self.rectangularWall(x, h-hx, "Ffof", ignore_widths=[5], callback=[
             lambda: self.rectangularHole(y-7.5, h-4-7.5, 6.2, 7.)],
                              move="up")
-        self.rectangularWall(x, hl-hx, "PfFf", ignore_widths=[6],
+        self.rectangularWall(x, hl-hx2, "PfFf", ignore_widths=[6],
                              callback=[None, None, self.IOCB], move="up")
 
         # lower walls
@@ -128,7 +129,7 @@ class OttoBody(Boxes):
         self.rectangularWall(y, h, e_back, move="up")
         # upper walls
         self.rectangularWall(y, hl, "FFeF", callback=[self.eyeCB], move="up")
-        self.rectangularWall(y, hl-hx, "FFqF", move="up")
+        self.rectangularWall(y, hl-hx2, "FFqF", move="up")
 
         # top
         self.rectangularWall(x, y, "ffff", move="up")

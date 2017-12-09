@@ -34,7 +34,7 @@ def getAllBoxGenerators():
     for importer, modname, ispkg in pkgutil.walk_packages(
             path=__path__,
             prefix=__name__+'.',
-            onerror=lambda x: None):
+            onerror=lambda x: print(x)):
         module = importlib.import_module(modname)
         for k, v in module.__dict__.items():
             if v is boxes.Boxes:

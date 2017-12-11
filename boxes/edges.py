@@ -263,9 +263,7 @@ class BaseEdge(object):
 
     def __call__(self, length, **kw):
         """Draw edge of length mm"""
-        self.ctx.move_to(0, 0)
-        self.ctx.line_to(length, 0)
-        self.ctx.translate(*self.ctx.get_current_point())
+        self.edge(length, tabs=2)
 
     def startwidth(self):
         """Amount of space the beginning of the edge is set below the inner space of the part """
@@ -583,7 +581,7 @@ class FingerJointEdge(BaseEdge, FingerJointBase):
             s -= play
             leftover -= play
 
-        self.edge(leftover / 2.0)
+        self.edge(leftover / 2.0, tabs=1)
 
         l1,l2 = self.fingerLength(self.settings.angle)
         h = l1-l2
@@ -603,7 +601,7 @@ class FingerJointEdge(BaseEdge, FingerJointBase):
 
             self.polyline(0, -90 * p, h, 90 * p, f, 90 * p, h, -90 * p)
 
-        self.edge(leftover / 2.0)
+        self.edge(leftover / 2.0, tabs=1)
 
     def margin(self):
         """ """
@@ -775,13 +773,13 @@ class StackableEdge(BaseEdge):
             self.boxes.fingerHolesAt(0, s.height + self.settings.holedistance + 0.5 * self.boxes.thickness,
                                      length, 0)
 
-        self.boxes.edge(s.width)
+        self.boxes.edge(s.width, tabs=1)
         self.boxes.corner(p * s.angle, r)
         self.boxes.corner(-p * s.angle, r)
         self.boxes.edge(length - 2 * s.width - 4 * l)
         self.boxes.corner(-p * s.angle, r)
         self.boxes.corner(p * s.angle, r)
-        self.boxes.edge(s.width)
+        self.boxes.edge(s.width, tabs=1)
 
     def _height(self):
         return self.settings.height + self.settings.holedistance + self.settings.thickness
@@ -927,7 +925,8 @@ class Hinge(BaseEdge):
         if self.layout & 1:
             getattr(self, self.settings.style, self.outset)()
 
-        self.edge(l - (self.layout & 1) * hlen - bool(self.layout & 2) * hlen)
+        self.edge(l - (self.layout & 1) * hlen - bool(self.layout & 2) * hlen,
+                  tabs=2)
 
         if self.layout & 2:
             getattr(self, self.settings.style, self.outset)(True)
@@ -1048,15 +1047,15 @@ class HingePin(BaseEdge):
 
         if self.layout & 1 and self.layout & 2:
             getattr(self, self.settings.style, self.outset)()
-            self.edge(l - 2 * plen)
+            self.edge(l - 2 * plen, tabs=2)
             getattr(self, self.settings.style, self.outset)(True)
         elif self.layout & 1:
             getattr(self, self.settings.style, self.outset)()
-            self.edge(l - plen - glen)
+            self.edge(l - plen - glen, tabs=2)
             self.edges['g'](glen)
         else:
             self.edges['g'](glen)
-            self.edge(l - plen - glen)
+            self.edge(l - plen - glen, tabs=2)
             getattr(self, self.settings.style, self.outset)(True)
 
 #############################################################################
@@ -1296,7 +1295,9 @@ class CabinetHingeEdge(BaseEdge):
             if not (i % 2) ^ self.top:
                 self.rectangularHole(2*t+0.5*t+p+i*(t+p), e+2.5*t, t, t)
                 self.rectangularHole(l-(2*t+0.5*t+p+i*(t+p)), e+2.5*t, t, t)
-        self.polyline(*([2*t, 0] + poly + [0, l - 2*(width+2*t), 0]+ list(reversed(poly)) + [0, 2*t]))
+        self.polyline(*([2*t, 0] + poly))
+        self.edge(l - 2*(width+2*t), tabs=2)
+        self.polyline(*(list(reversed(poly)) + [0, 2*t]))
 
     def parts(self, move=None):
         e, b = self.settings.eye, self.settings.bore
@@ -1573,7 +1574,7 @@ class ClickConnector(BaseEdge):
         self.finger(2 * t)
         self.hook(reverse=True)
 
-        self.edge(length - 2 * (6 * t + 2 * self.hookWidth()))
+        self.edge(length - 2 * (6 * t + 2 * self.hookWidth()), tabs=2)
 
         self.hook()
         self.finger(2 * t)
@@ -1609,7 +1610,7 @@ class ClickEdge(ClickConnector):
             90,
             0)
         self.polyline(*p1)
-        self.edge(length - 2 * (6 * t + 2 * w) + 2 * o)
+        self.edge(length - 2 * (6 * t + 2 * w) + 2 * o, tabs=2)
         self.polyline(*reversed(p1))
 
 
@@ -1671,7 +1672,7 @@ class DoveTailJoint(BaseEdge):
 
         p = 1 if positive else -1
 
-        self.edge((s.size + leftover) / 2.0 + diffx - l1)
+        self.edge((s.size + leftover) / 2.0 + diffx - l1, tabs=1)
 
         for i in range(sections):
             self.corner(-1 * p * a, radius)
@@ -1685,7 +1686,7 @@ class DoveTailJoint(BaseEdge):
             if i < sections - 1:  # all but the last
                 self.edge(2 * (diffx - l1) + s.size)
 
-        self.edge((s.size + leftover) / 2.0 + diffx - l1)
+        self.edge((s.size + leftover) / 2.0 + diffx - l1, tabs=1)
         self.ctx.translate(*self.ctx.get_current_point())
 
     def margin(self):

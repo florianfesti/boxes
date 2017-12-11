@@ -55,7 +55,7 @@ class OttoLegs(Boxes):
         self.moveTo(r, 0)
 
         for l in (x, y, x, y):
-            self.polyline(l - 2*r, 45, r*2**0.5, 45)
+            self.polyline((l - 2*r, 1), 45, r*2**0.5, 45)
         
         self.move(x, y, move)
 
@@ -74,7 +74,7 @@ class OttoLegs(Boxes):
             self.edges[edge](x)
             self.polyline(0, 90)
             self.cc(callback, 1)
-            self.polyline(h, 90, f*x, 45, (2**0.5)*(1-f)*x, 45, h-(1-f)*x, 90)
+            self.polyline(h, 90, (f*x, 2), 45, (2**0.5)*(1-f)*x, 45, h-(1-f)*x, 90)
             self.moveTo(tw, th, 180)
             self.ctx.stroke()
         self.move(tw, th, move)
@@ -88,7 +88,7 @@ class OttoLegs(Boxes):
             return
         self.moveTo(10, 10, 90)
         self.moveTo(3.45, 0, -90)
-        self.polyline(0, (-264, 3.45), 0, 36, 6.55, 108, 0, (330, 9.0), 0, 108, 6.55)
+        self.polyline(0, (-264, 3.45), 0, 36, (6.55, 2), 108, 0, (330, 9.0), 0, 108, (6.55, 2))
         self.move(20, 20, move)
         
 

@@ -237,6 +237,9 @@ class Boxes:
             choices=self.formats.getFormats(),
             help="format of resulting file")
         defaultgroup.add_argument(
+            "--tabs", action="store", type=float, default=0.0,
+            help="width of tabs holding th parts in place (not supported everywhere)")
+        defaultgroup.add_argument(
             "--debug", action="store", type=boolarg, default=False,
             help="print surrounding boxes for some structures")
         defaultgroup.add_argument(
@@ -570,14 +573,31 @@ class Boxes:
 
         self.continueDirection(rad)
 
-    def edge(self, length):
+    def edge(self, length, tabs=0):
         """
         Simple line
         :param length: length in mm
 
         """
         self.ctx.move_to(0, 0)
-        self.ctx.line_to(length, 0)
+        if tabs and self.tabs:
+            if self.tabs > length:
+                self.ctx.move_to(length, 0)
+            else:
+                tabs = min(tabs, max(1, int(length // (tabs*3*self.tabs))))
+                l = (length - tabs * self.tabs) / tabs
+                self.ctx.line_to(0.5*l, 0)
+                for i in range(tabs-1):
+                    self.ctx.move_to((i+0.5)*l+self.tabs, 0)
+                    self.ctx.line_to((i+0.5)*l+self.tabs+l, 0)
+                if tabs == 1:
+                    self.ctx.move_to((tabs-0.5)*l+self.tabs, 0)
+                else:
+                    self.ctx.move_to((tabs-0.5)*l+2*self.tabs, 0)
+
+                self.ctx.line_to(length, 0)
+        else:
+            self.ctx.line_to(length, 0)
         self.ctx.translate(*self.ctx.get_current_point())
 
     def curveTo(self, x1, y1, x2, y2, x3, y3):
@@ -612,7 +632,10 @@ class Boxes:
                 else:
                     self.corner(arg)
             else:
-                self.edge(arg)
+                if isinstance(arg, tuple):
+                    self.edge(*arg)
+                else:
+                    self.edge(arg)
 
     def bedBoltHole(self, length, bedBoltSettings=None):
         """

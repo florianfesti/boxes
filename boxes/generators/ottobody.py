@@ -20,7 +20,7 @@ from boxes import *
 class OttoBody(Boxes):
     """Otto LC - a laser cut chassis for Otto DIY - body"""
 
-    ui_group = "Unstable"
+    ui_group = "Misc"
 
     def __init__(self):
         Boxes.__init__(self)

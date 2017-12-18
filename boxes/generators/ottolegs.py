@@ -27,7 +27,7 @@ class LegEdge(edges.BaseEdge):
 class OttoLegs(Boxes):
     """Otto LC - a laser cut chassis for Otto DIY - legs"""
 
-    ui_group = "Unstable"
+    ui_group = "Misc"
 
     def __init__(self):
         Boxes.__init__(self)
@@ -41,8 +41,8 @@ class OttoLegs(Boxes):
             "--anklebolt2",  action="store", type=float, default=2.6,
             help="diameter for hole for ankle bolts - leg side")
         self.argparser.add_argument(
-            "--length",  action="store", type=float, default=37.0,
-	    help="length of feet (34mm min)")
+            "--length",  action="store", type=float, default=34.0,
+	    help="length of legs (34mm min)")
 
     def foot(self, x, y, ly, l, r=5., move=None):
         if self.move(x, y, move, True):

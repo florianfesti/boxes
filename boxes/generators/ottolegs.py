@@ -88,7 +88,7 @@ class OttoLegs(Boxes):
             return
         self.moveTo(10, 10, 90)
         self.moveTo(3.45, 0, -90)
-        self.polyline(0, (-264, 3.45), 0, 36, (6.55, 2), 108, 0, (330, 9.0), 0, 108, (6.55, 2))
+        self.polyline(0, (-264, 3.45), 0, 36, 6.55, 108, 0, (330, 9.0, 4), 0, 108, 6.55)
         self.move(20, 20, move)
         
 

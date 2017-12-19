@@ -870,6 +870,23 @@ class Boxes:
         self.ctx.rotate(degrees * math.pi / 180.0)
         self.ctx.move_to(0, 0)
 
+    def moveArc(self, angle, r=0.0):
+        """
+        :param angle:
+        :param r: (Default value = 0.0)
+        """
+        if r < 0:
+            r = -r
+            angle = -angle
+
+        rad = math.radians(angle)
+        if angle > 0:
+            self.moveTo(r*math.sin(rad),
+                        r*(1-math.cos(rad)), angle)
+        else:
+            self.moveTo(r*math.sin(-rad),
+                        -r*(1-math.cos(rad)), angle)
+
     def continueDirection(self, angle=0):
         """
         Set coordinate system to current position (end point)

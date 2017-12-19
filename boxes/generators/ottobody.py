@@ -82,7 +82,7 @@ class OttoBody(Boxes):
         if self.move(x+4, y, move, True):
             return
         self.moveTo(1.5)
-        self.polyline(x-1.5, 90, y, 90, x, 85, y-2-4, -30, 2, 120, 1, -90, 2, (180, 1.), y-7, -175, y-5)
+        self.polyline(x-1.5, 90, (y, 2), 90, x, 85, (y-2-4, 2), -30, 2, 120, 1, -90, 2, (180, 1.), y-7, -175, y-5)
 
         self.move(x+4, y, move)
 
@@ -92,8 +92,9 @@ class OttoBody(Boxes):
         
         if self.move(w+4, h+8+t, move, True):
             return
-        self.polyline(w, 90, s, -90, 1, (90, 1), h-s-1, 90, w-2, 90,
-                      h-8, (-180, 1), h-8+3*t, 135, f*(4), 90, f*2, -45, h+t)
+        self.polyline(w, 90, s, -90, 1, (90, 1), (h-s-1, 2), 90, w-2, 90,
+                      h-8, (-180, 1), h-8+3*t, 135, f*(4), 90, f*2, -45,
+                      (h+t, 2))
         self.move(w+4, h+8+t, move)
 
     def render(self):

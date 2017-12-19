@@ -1111,10 +1111,10 @@ class ChestHinge(BaseEdge):
         s = self.settings.hinge_strength
         pinh = self.settings.pinheight()
         if self.reversed:
-            self.hole(l+t, 0, p)
+            self.hole(l+t, 0, p, tabs=4)
             self.rectangularHole(l+0.5*t, -0.5*pinh, t, pinh)
         else:
-            self.hole(-t, -s-p, p)
+            self.hole(-t, -s-p, p, tabs=4)
             self.rectangularHole(-0.5*t, -s-p-0.5*pinh, t, pinh)
 
         poly = (0, -180, t, (270, p+s), 0, -90, l+t-p-s)

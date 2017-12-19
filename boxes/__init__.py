@@ -992,7 +992,7 @@ class Boxes:
 
     @restore
     @holeCol
-    def hole(self, x, y, r=0.0, d=0.0):
+    def hole(self, x, y, r=0.0, d=0.0, tabs=0):
         """
         Draw a round hole
 
@@ -1004,16 +1004,11 @@ class Boxes:
 
         if not r:
             r = d / 2.0
-        r -= self.burn
-        if r < 0:
-            r = 1E-9
-        self.moveTo(x + r, y)
-        a = 0
-        n = 10
-        da = 2 * math.pi / n
-        for i in range(n):
-            self.ctx.arc(-r, 0, r, a, a+da)
-            a += da
+        if r < self.burn:
+            r = self.burn + 1E-9
+        r_ = r - self.burn
+        self.moveTo(x + r_, y, -90)
+        self.corner(-360, r, tabs)
 
     @restore
     @holeCol

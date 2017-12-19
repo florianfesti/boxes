@@ -542,7 +542,7 @@ class Boxes:
     ### Turtle graphics commands
     ############################################################
 
-    def corner(self, degrees, radius=0):
+    def corner(self, degrees, radius=0, tabs=0):
         """
         Draw a corner
 
@@ -552,15 +552,39 @@ class Boxes:
         :param radius:  (Default value = 0)
 
         """
-        if radius > 0.5* self.thickness:
-            while degrees > 100:
-                self.corner(90, radius)
-                degrees -= 90
-            while degrees < -100:
-                self.corner(-90, radius)
-                degrees -= -90
 
         rad = degrees * math.pi / 180
+
+        if tabs and self.tabs:
+            if degrees > 0:
+                r_ = radius + self.burn
+                tabrad = self.tabs / r_
+            else:
+                r_ = radius - self.burn
+                tabrad = -self.tabs / r_
+
+            length = abs(r_ * rad)
+            tabs = min(tabs, max(1, int(abs(length) // (tabs*3*self.tabs))))
+            l = (length - tabs * self.tabs) / tabs
+            lang = math.degrees(l / r_)
+            if degrees < 0:
+                lang = -lang
+            print(degrees, radius, l, lang, tabs, math.degrees(tabrad))
+            self.corner(lang/2., radius)
+            for i in range(tabs-1):
+                self.moveArc(math.degrees(tabrad), r_)
+                self.corner(lang, radius)
+            if tabs:
+                self.moveArc(math.degrees(tabrad), r_)
+            self.corner(lang/2., radius)
+            return
+
+        if radius > 0.5* self.thickness and abs(degrees) > 36:
+            steps = int(abs(degrees)/ 36.) + 1
+            for i in range(steps):
+                self.corner(float(degrees)/steps, radius)
+            return
+
         if degrees > 0:
             self.ctx.arc(0, radius + self.burn, radius + self.burn,
                          -0.5 * math.pi, rad - 0.5 * math.pi)

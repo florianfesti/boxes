@@ -381,8 +381,8 @@ Create boxes and more with a laser cutter!
             fd, box.output = tempfile.mkstemp()
             box.render()
             result = open(box.output).readlines()
-            os.remove(box.output)
             os.close(fd)
+            os.remove(box.output)
             return (l.encode("utf-8") for l in result)
 
 if __name__=="__main__":

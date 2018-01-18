@@ -19,6 +19,7 @@ import math
 import inspect
 import argparse
 import re
+import abc
 
 from boxes import gears
 
@@ -261,9 +262,9 @@ class BaseEdge(object):
         """Hack for using unalter code form Boxes class"""
         return getattr(self.boxes, name)
 
+    @abc.abstractmethod
     def __call__(self, length, **kw):
-        """Draw edge of length mm"""
-        self.edge(length, tabs=2)
+        pass
 
     def startwidth(self):
         """Amount of space the beginning of the edge is set below the inner space of the part """
@@ -294,8 +295,12 @@ class Edge(BaseEdge):
     char = 'e'
     description = "Straight Edge"
 
+    def __call__(self, length, bedBolts=None, bedBoltSettings=None, **kw):
+        """Draw edge of length mm"""
+        self.edge(length, tabs=2)
 
-class OutSetEdge(BaseEdge):
+
+class OutSetEdge(Edge):
     """Straight edge out set by one thickness"""
     char = 'E'
     description = "Straight Edge (outset by thickness)"

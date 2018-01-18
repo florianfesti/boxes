@@ -294,16 +294,31 @@ class Edge(BaseEdge):
     """Straight edge"""
     char = 'e'
     description = "Straight Edge"
+    positive = False
 
     def __call__(self, length, bedBolts=None, bedBoltSettings=None, **kw):
         """Draw edge of length mm"""
-        self.edge(length, tabs=2)
+        if bedBolts:
+            # distribute the bolts aequidistantly
+            interval_length = length / bedBolts.bolts
+            if self.positive:
+                d = (bedBoltSettings or self.bedBoltSettings)[0]
+                for i in range(bedBolts.bolts):
+                    self.hole(0.5 * interval_length,
+                              0.5 * self.thickness, 0.5 * d)
+                    self.edge(interval_length, tabs=2)
+            else:
+                for i in range(bedBolts.bolts):
+                    self.bedBoltHole(interval_length, bedBoltSettings)
+        else:
+            self.edge(length, tabs=2)
 
 
 class OutSetEdge(Edge):
     """Straight edge out set by one thickness"""
     char = 'E'
     description = "Straight Edge (outset by thickness)"
+    positive = True
 
     def startwidth(self):
         return self.boxes.thickness

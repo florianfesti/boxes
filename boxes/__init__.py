@@ -1579,6 +1579,9 @@ class Boxes:
         if self.move(overallwidth, overallheight, move, before=True):
             return
 
+        if self.debug:
+            self.rectangularHole(width/2., height/2., width, height)
+
         if num > 1:
             self.moveTo(self.spacing + edges[-1].spacing())
 
@@ -1603,9 +1606,9 @@ class Boxes:
             self.ctx.stroke()
 
             if n % 2:
-                self.moveTo(-edges[1].spacing()-2*self.spacing-edges[-1].spacing(), height-edges[1].spacing(), 180)
+                self.moveTo(-edges[1].spacing()-2*self.spacing-edges[-1].spacing(), height-edges[0].spacing(), 180)
             else:
-                self.moveTo(width+1*edges[1].spacing()-self.spacing-2*edges[-1].spacing(), height-edges[1].spacing(), 180)
+                self.moveTo(width+1*edges[1].spacing()-self.spacing-2*edges[-1].spacing(), height-edges[0].spacing(), 180)
 
 
         self.move(overallwidth, overallheight, move)

@@ -81,37 +81,31 @@ class ElectronicsBox(Boxes):
     def render(self):
         self.open()
 
+        t = self.thickness
+        self.h = h = self.h + 2*t # compensate for lid
         x, y, h = self.x, self.y, self.h
         d1, d2, d3 =self.d1, self.d2, self.d3
         hd = self.holedist
-        t = self.thickness
         
         if self.outside:
             self.x = x = self.adjustSize(x)
             self.y = y = self.adjustSize(y)
-            h = self.adjustSize(h)
-            self.h = h = h + 2*t
+            self.h = h = h - 3*t
 
-        self.rectangularWall(x, h, "fFFF", callback=[self.wallxCB],
+        self.rectangularWall(x, h, "fFeF", callback=[self.wallxCB],
                              move="right")
-        self.rectangularWall(y, h, "ffFf", callback=[self.wallyCB], move="up")
-        self.rectangularWall(y, h, "ffFf", callback=[self.wallyCB])
-        self.rectangularWall(x, h, "fFFF", callback=[self.wallxCB],
+        self.rectangularWall(y, h, "ffef", callback=[self.wallyCB], move="up")
+        self.rectangularWall(y, h, "ffef", callback=[self.wallyCB])
+        self.rectangularWall(x, h, "fFeF", callback=[self.wallxCB],
                              move="left up")
 
         if not self.outsidemounts:
             self.rectangularWall(x, y, "FFFF", callback=[
-            lambda:self.hole(hd, hd, d=d3),
-            lambda:self.hole(hd, hd, d=d3),
-            lambda:self.hole(hd, hd, d=d3),
-            lambda:self.hole(hd, hd, d=d3)], move="right")
+            lambda:self.hole(hd, hd, d=d3)] *4, move="right")
         else:
             self.bottom(move='up')
         self.rectangularWall(x, y, callback=[
-            lambda:self.hole(hd, hd, d=d2),
-            lambda:self.hole(hd, hd, d=d2),
-            lambda:self.hole(hd, hd, d=d2),
-            lambda:self.hole(hd, hd, d=d2)], move='up')
+            lambda:self.hole(hd, hd, d=d2)] * 4, move='up')
 
         self.rectangularTriangle(self.triangle, self.triangle, "ffe", num=4,
             callback=[None, lambda: self.hole(hd, hd, d=d1)])

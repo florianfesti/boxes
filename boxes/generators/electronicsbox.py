@@ -63,6 +63,8 @@ class ElectronicsBox(Boxes):
         x, y, h = self.x, self.y, self.h
         d1, d2, d3 =self.d1, self.d2, self.d3
         hd = self.holedist
+        tr = self.triangle
+        trh = tr / 3.
         
         if self.outside:
             self.x = x = self.adjustSize(x)
@@ -85,10 +87,10 @@ class ElectronicsBox(Boxes):
                              callback=[
                     lambda:self.hole(hd, hd, d=d2)] * 4, move='up')
         self.rectangularWall(x, y, callback=[
-            lambda:self.hole(hd, hd, d=d2)] * 4, move='up')
+            lambda:self.hole(trh, trh, d=d2)] * 4, move='up')
 
-        self.rectangularTriangle(self.triangle, self.triangle, "ffe", num=4,
-            callback=[None, lambda: self.hole(hd, hd, d=d1)])
+        self.rectangularTriangle(tr, tr, "ffe", num=4,
+            callback=[None, lambda: self.hole(trh, trh, d=d1)])
 
         self.close()
 

@@ -1539,6 +1539,58 @@ class Boxes:
 
         self.move(overallwidth, overallheight, move)
 
+    def flangedWall(self, x, y, edges="FFFF", flanges=None, r=0.0,
+               callback=None, move=None):
+        """Rectangular wall with flanges extending the regular size
+
+        This is similar to the rectangularWall but it may extend to either side
+        replacing the F edge with fingerHoles. Use with E and F for edges only.
+        :param x: width
+        :param y: height
+        :param edges:  (Default value = "FFFF") bottom, right, top, left
+        :param flanges: (Default value = None) list of width of the flanges
+        :param r: radius of the corners of the flange
+        :param callback:  (Default value = None)
+        :param move:  (Default value = None)
+        """
+
+        t = self.thickness
+
+        if not flanges:
+            flanges = [0.0] * 4
+
+        while len(flanges) < 4:
+            flanges.append(0.0)
+
+        flanges = flanges + flanges # double to allow looping around
+
+        tw = x + 2*t + flanges[1] + flanges[3]
+        th = y + 2*t + flanges[0] + flanges[2]
+
+        if self.move(tw, th, move, True):
+            return
+
+        rl = min(r, max(flanges[-1], flanges[0]))
+        self.moveTo(rl)
+
+        for i in range(4):
+            l = y if i % 2 else x
+
+            rl = min(r, max(flanges[i-1], flanges[i]))
+            rr = min(r, max(flanges[i], flanges[i+1]))
+            self.cc(callback, i, x=-rl)
+            if flanges[i]:
+                if edges[i] == "F":
+                    self.fingerHolesAt(flanges[i-1]+t-rl, 0.5*t+flanges[i], l,
+                                       angle=0)
+                self.edge(l+flanges[i-1]+flanges[i+1]+2*t-rl-rr)
+            else:
+                self.edge(flanges[i-1]+t-rl)
+                self.edges.get(edges[i], edges[i])(l)
+                self.edge(flanges[i+1]+t-rr)
+            self.corner(90, rr)
+        self.move(tw, th, move)
+
     def rectangularTriangle(self, x, y, edges="eee", r=0.0, num=1,
                         bedBolts=None, bedBoltSettings=None,
                         callback=None,

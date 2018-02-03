@@ -54,29 +54,6 @@ class ElectronicsBox(Boxes):
         t = self.thickness
         self.fingerHolesAt(0, self.h-1.5*t, self.triangle, 0)
         self.fingerHolesAt(self.y, self.h-1.5*t, self.triangle, 180)
-
-    def bottom(self, move=None):
-        x, y = self.x, self.y
-        hd = self.holedist
-        t = self.thickness
-
-        if self.move(x+2*t+4*hd, y+2*t, move, True):
-            return
-
-        self.moveTo(hd, 0)
-        self.hole(0, hd, d=self.d3)
-        self.edge(hd+t)
-        self.fingerHolesAt(-0.5*t, t, y, 90)
-        self.edges['F'](x)
-        self.fingerHolesAt(0.5*t, t, y, 90)
-        self.hole(hd+t, hd, d=self.d3)
-        self.polyline(hd+t, (90, hd), y+2*t-2*hd, (90, hd), hd+t)
-        self.hole(-hd-t, hd, d=self.d3)
-        self.edges['F'](x)
-        self.hole(hd+t, hd, d=self.d3)
-        self.polyline(hd+t, (90, hd), y+2*t-2*hd, (90, hd))
-        
-        self.move(x+2*t+4*hd, y+2*t, move)
         
     def render(self):
         self.open()
@@ -103,7 +80,10 @@ class ElectronicsBox(Boxes):
             self.rectangularWall(x, y, "FFFF", callback=[
             lambda:self.hole(hd, hd, d=d3)] *4, move="right")
         else:
-            self.bottom(move='up')
+            self.flangedWall(x, y, edges="FFFF",
+                             flanges=[0.0, 2*hd, 0., 2*hd], r=hd,
+                             callback=[
+                    lambda:self.hole(hd, hd, d=d2)] * 4, move='up')
         self.rectangularWall(x, y, callback=[
             lambda:self.hole(hd, hd, d=d2)] * 4, move='up')
 

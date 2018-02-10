@@ -463,7 +463,10 @@ class Boxes:
             walls += self.thickness
 
         try:
-            factor = (total - walls) / total
+            if total > 0.0:
+                factor = (total - walls) / total
+            else:
+                factor = 1.0
             return [s * factor for s in l]
         except TypeError:
             return l - walls

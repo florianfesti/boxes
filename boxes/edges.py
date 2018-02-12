@@ -719,7 +719,7 @@ class FingerHoleEdge(BaseEdge):
         return self.fingerHoles.settings.edge_width + self.settings.thickness
 
 
-class CrossingFingerHoleEdge(BaseEdge):
+class CrossingFingerHoleEdge(Edge):
     """Edge with holes for finger joints 90° above"""
 
     description = "Edge (orthogonal Finger Joint Holes)"

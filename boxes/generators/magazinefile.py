@@ -37,6 +37,7 @@ class MagazinFile(Boxes):
             lx = (w - 2 * r) / 2.0
             ly = 0
 
+        print(r, lx, ly)
         e_w = self.edges["F"].startwidth()
         self.moveTo(3, 3)
         self.edge(e_w)

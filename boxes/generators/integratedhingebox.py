@@ -44,24 +44,24 @@ class IntegratedHingeBox(Boxes):
 
         t = self.thickness
 
-        hx = self.edges["O"].startwidth()
-        hx2 = self.edges["P"].startwidth()
+        hy = self.edges["O"].startwidth()
+        hy2 = self.edges["P"].startwidth()
 
-        e1 = edges.CompoundEdge(self, "Fe", (h-hx, hx))
-        e2 = edges.CompoundEdge(self, "eF", (hx, h-hx))
+        e1 = edges.CompoundEdge(self, "Fe", (h-hy, hy))
+        e2 = edges.CompoundEdge(self, "eF", (hy, h-hy))
         e_back = ("F", e1, "e", e2)
 
-        self.rectangularWall(x, h-hx, "FfOf", ignore_widths=[2], move="up")
-        self.rectangularWall(x, hl-hx2, "pfFf", ignore_widths=[1], move="up")
-        self.rectangularWall(x, h-hx, "Ffof", ignore_widths=[5], move="up")
-        self.rectangularWall(x, hl-hx2, "PfFf", ignore_widths=[6], move="up")
-        self.rectangularWall(y, h, "FFeF", move="up")
-        self.rectangularWall(y, h, e_back, move="up")
-        self.rectangularWall(y, hl, "FFeF", move="up")
-        self.rectangularWall(y, hl-hx2, "FFqF", move="up")
+        self.rectangularWall(y, h-hy, "FfOf", ignore_widths=[2], move="up")
+        self.rectangularWall(y, hl-hy2, "pfFf", ignore_widths=[1], move="up")
+        self.rectangularWall(y, h-hy, "Ffof", ignore_widths=[5], move="up")
+        self.rectangularWall(y, hl-hy2, "PfFf", ignore_widths=[6], move="up")
+        self.rectangularWall(x, h, "FFeF", move="up")
+        self.rectangularWall(x, h, e_back, move="up")
+        self.rectangularWall(x, hl, "FFeF", move="up")
+        self.rectangularWall(x, hl-hy2, "FFqF", move="up")
 
-        self.rectangularWall(x, y, "ffff", move="up")
-        self.rectangularWall(x, y, "ffff")
+        self.rectangularWall(y, x, "ffff", move="up")
+        self.rectangularWall(y, x, "ffff")
 
         self.close()
 

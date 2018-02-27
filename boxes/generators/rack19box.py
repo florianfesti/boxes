@@ -49,11 +49,11 @@ class Rack19Box(Boxes):
         
     def wallxfCB(self): # front
         t = self.thickness
-        for x in (12.7, self.x+3*12.7+2*t):
+        for x in (8.5, self.x+2*17.+2*t-8.5):
             for y in (6., self.h-6.+t):
                 self.rectangularHole(x, y, 10, 6.5, r=3.25)
         
-        self.moveTo(t+23., t)
+        self.moveTo(t+17., t)
         self.wallxCB()
         
     def wallyCB(self):
@@ -67,7 +67,7 @@ class Rack19Box(Boxes):
 
         t = self.thickness
         self.h = h = self.height * 44.45 - 0.787 - t
-        x = self.x = 436.0 - 2*t
+        x = self.x = 448.0 - 2*t
         y = self.y = self.depth
 
         d1, d2 =self.d1, self.d2
@@ -78,7 +78,7 @@ class Rack19Box(Boxes):
         self.rectangularWall(x, h, "fFeF", callback=[self.wallxCB],
                              move="up")
         self.flangedWall(x, h, "FFeF", callback=[self.wallxfCB], r=t,
-                         flanges=[0., 23., -t, 23.])
+                         flanges=[0., 17., -t, 17.])
         self.rectangularWall(y, h, "ffef", callback=[self.wallyCB],
                              move="left up")
 

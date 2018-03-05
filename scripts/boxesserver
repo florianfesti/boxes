@@ -265,11 +265,11 @@ Create boxes and more with a laser cutter!
 <div style="width: 100%">
 """ ]
         for nr, group in enumerate(self.groups):
-            result.append('''<h3 onclick="showHide('%s')">%s</h3>\n<div id="%s">\n<ul>\n''' % (nr, group.title, nr))
+            result.append('''<h3 onclick="showHide('%s')">%s</h3>\n<div id="%s">\n''' % (nr, group.title, nr))
             result.append("""
             <div style="width: 20%%; float: right;">
             <img width="100%%" id="sample-%s" src="static/nothing.png" alt="" />
-            </div>""" % (group))
+            </div>\n<ul>\n""" % (group.name))
             for box in group.generators:
                 name = box.__class__.__name__
                 if name in ("TrayLayout2", ):
@@ -278,7 +278,7 @@ Create boxes and more with a laser cutter!
                 if box.__doc__:
                     docs = " - " + box.__doc__
                 result.append("""  <li onmouseenter="change('%s', 'static/samples/%s.jpg')" onmouseleave="changeback('%s')"><a href="%s">%s</a>%s</li>\n""" % (
-                    group, name, group, name, name, docs))
+                    group.name, name, group.name, name, name, docs))
             result.append("</ul>\n</div>\n")
         result.append("""
 </div>

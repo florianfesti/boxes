@@ -153,8 +153,7 @@ class BServer:
     <link rel="stylesheet" href="https://necolas.github.io/normalize.css/4.1.1/normalize.css" type="text/css" />
     <link rel="stylesheet" href="static/self.css" type="text/css" />
 """, self.scripts % (len(box.argparser._action_groups)-3), """
-    <script>
-   </script>
+   <meta name="flattr:id" content="456799">
 </head>
 <body onload="hideargs()">
 
@@ -241,6 +240,7 @@ class BServer:
 	  document.getElementById("sample-" + group).style.height= "0px";
 	}
         </script>""", self.scripts % len(self.groups), """
+     <meta name="flattr:id" content="456799">
 </head>
 <body onload="hideargs()">
 <div class="container" style="background-color: #FFF8EA;">
@@ -310,8 +310,12 @@ Create boxes and more with a laser cutter!
 
     def errorMessage(self, name, e):
         return [
-            b"""<html><head><title>Error generating""", name.encode(),
-            b"""</title><head>
+            b"""<html>
+<head>
+  <title>Error generating""", name.encode(),
+            b"""</title>
+  <meta name="flattr:id" content="456799">
+</head>
 <body>
 <h1>An error occurred!</h1>
 <p>""", str(e).encode(), b"""</p>

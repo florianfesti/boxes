@@ -1374,7 +1374,7 @@ Inherited:
 
     absolute_params.update( {
         "second_pin": True,
-        "spring": ("both", "none", "left", "right", "both"),
+        "spring": ("both", "none", "left", "right"),
         } )
 
     def edgeObjects(self, boxes, chars=None, add=True):

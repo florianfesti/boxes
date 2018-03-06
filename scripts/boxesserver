@@ -202,6 +202,7 @@ class BServer:
         if box.description:
             result.append(markdown.markdown(box.description))
         result.append("""
+</div>
 <div class="footer container">
 <ul>
  <li><a href="https://github.com/florianfesti/boxes">Get Source at GitHub</a></li>
@@ -209,9 +210,6 @@ class BServer:
  <li><a href="https://hackaday.io/project/10649-boxespy">Hackaday.io Project Page</a></li>
 </ul>
 </div>
-
-
-
 
 </body>
 </html>

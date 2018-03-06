@@ -286,11 +286,8 @@ Create boxes and more with a laser cutter!
 <div style="width: 5%; float: left;"></div>
 <div class="clear"></div>
 <hr />
-</div>
 
 <div class="footer container">
-
-
 
 <ul>
  <li><a href="https://github.com/florianfesti/boxes">Get Source at GitHub</a></li>
@@ -299,7 +296,6 @@ Create boxes and more with a laser cutter!
 </ul>
 
 </div>
-
  
 </body>
 </html>

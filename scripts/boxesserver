@@ -202,9 +202,6 @@ class BServer:
         if box.description:
             result.append(markdown.markdown(box.description))
         result.append("""
-</div>
-</div>
-
 <div class="footer container">
 <ul>
  <li><a href="https://github.com/florianfesti/boxes">Get Source at GitHub</a></li>

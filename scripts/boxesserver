@@ -168,7 +168,7 @@ class BServer:
 <div>
 <div class="clear"></div>
 <hr />
-<h2 style="margin: 0px 0px 0px 20px;" ><span>""", name, """</h2>
+<h2 style="margin: 0px 0px 0px 20px;" >""", name, """</h2>
         <p>""", box.__doc__ or "", """</p>
 <form action="%s" method="GET" target="_blank">
         """ % (action)]
@@ -286,7 +286,6 @@ Create boxes and more with a laser cutter!
 <div style="width: 5%; float: left;"></div>
 <div class="clear"></div>
 <hr />
-</div>
 </div>
 
 <div class="footer container">

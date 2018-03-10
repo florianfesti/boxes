@@ -352,7 +352,7 @@ Create boxes and more with a laser cutter!
         args = ["--"+unquote_plus(arg) for arg in environ['QUERY_STRING'].split("&")]
         if "--render=1" not in args:
             start_response(status, headers)
-            return self.args2html(name, box)
+            return self.args2html(name, box, "./" + name)
         else:
             args = [a for a in args if a != "--render=1"]
             try:

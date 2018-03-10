@@ -203,7 +203,6 @@ class BServer:
             result.append(markdown.markdown(box.description))
         result.append("""
 </div>
-</div>
 
 <div class="footer container">
 <ul>

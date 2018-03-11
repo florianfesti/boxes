@@ -44,23 +44,30 @@ class OttoSoles(Boxes):
         w = self.width
         w2 = w * 2**0.5 - c2 / 2
         d = w * math.tan(math.radians(22.5))
-        
+
         # Initialize canvas
         self.open()
         
+        self.edges["d"].settings.setValues(w, size=0.4, depth=0.3,
+                                           radius=0.05)
+
         self.moveTo(0, y, -90)
 
         for i in range(self.num*2):
             if c2 >= 2 * d:
-                self.polyline((c2, 1), 45, (y-2*c, 1), 45, c2/2., 90, (w, 1),
-                              90, c2/2-d, -45, (y-2*c-2*d, 1), -45,
+                self.polyline((c2, 1), 45, (y-2*c, 1), 45, c2/2., 90)
+                self.edges["d"](w)
+                self.polyline(0, 90, c2/2-d, -45, (y-2*c-2*d, 1), -45,
                               (c2-2*d, 1), -45,
-                              (x-2*c-2*d, 1), -45, c2/2-d, 90, (w, 1), 90,
-                              c2/2., 45, (x-2*c, 1), 45)
+                              (x-2*c-2*d, 1), -45, c2/2-d, 90)
+                self.edges["D"](w)
+                self.polyline(0, 90, c2/2., 45, (x-2*c, 1), 45)
                 self.moveTo(0, w + c2/2. + 2*2**0.5*self.burn)
             else:
-                self.polyline((c2, 1), 45, (y-2*c, 1), 45, c2/2., 90, (w2, 1),
-                              45, (y-2*w, 1), -90, (x-2*w, 1), 45, (w2, 1), 90,
-                              c2/2., 45, (x-2*c, 3), 45)
+                self.polyline((c2, 1), 45, (y-2*c, 1), 45, c2/2., 90)
+                self.edges["d"](w2)
+                self.polyline(0, 45, (y-2*w, 1), -90, (x-2*w, 1), 45)
+                self.edges["D"](w2)
+                self.polyline(0, 90, c2/2., 45, (x-2*c, 3), 45)
                 self.moveTo(0, w * 2**0.5 + 2*2**0.5*self.burn)
         self.close()

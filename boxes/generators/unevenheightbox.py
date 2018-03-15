@@ -25,7 +25,7 @@ class UnevenHeightBox(Boxes):
     def __init__(self):
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings)
-        self.buildArgParser("x", "y", "outside")
+        self.buildArgParser("x", "y", "outside", bottom_edge="F")
         self.argparser.add_argument(
             "--height0", action="store", type=float, default=50,
             help="height of the front left corner in mm")
@@ -81,11 +81,12 @@ class UnevenHeightBox(Boxes):
 
         t = self.thickness
         h0 , h1, h2 , h3 = heights
+        b = self.bottom_edge
 
-        self.wall(x, h0, h1, "FFF", move="right")
-        self.wall(y, h1, h2, "Fff", move="right")
-        self.wall(x, h2, h3, "FFF", move="right")
-        self.wall(y, h3, h0, "Fff", move="right")
+        self.wall(x, h0, h1, [b, "F", "F"], move="right")
+        self.wall(y, h1, h2, [b, "f", "f"], move="right")
+        self.wall(x, h2, h3, [b, "F", "F"], move="right")
+        self.wall(y, h3, h0, [b, "f", "f"], move="right")
 
         self.rectangularWall(x, y, "ffff", move="right")
 

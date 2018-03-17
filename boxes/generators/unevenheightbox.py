@@ -38,6 +38,9 @@ class UnevenHeightBox(Boxes):
         self.argparser.add_argument(
             "--height3", action="store", type=float, default=100,
             help="height of the left back corner in mm")
+        self.argparser.add_argument(
+            "--lid", action="store", type=boolarg, default=False,
+            help="add a lid (works best with high corners opposing each other)")
 
     def wall(self, w, h0, h1, edges="eee", move=None):
 
@@ -88,7 +91,29 @@ class UnevenHeightBox(Boxes):
         self.wall(x, h2, h3, [b, "F", "F"], move="right")
         self.wall(y, h3, h0, [b, "f", "f"], move="right")
 
-        self.rectangularWall(x, y, "ffff", move="right")
+        self.ctx.save()
+        self.rectangularWall(x, y, "ffff", move="up")
+
+        if self.lid:
+            maxh = max(heights)
+            lidheights = [maxh-h for h in heights]
+            h0 , h1, h2 , h3 = lidheights
+            lidheights += lidheights
+
+            edges = ["E" if (lidheights[i] == 0.0 and lidheights[i+1] == 0.0) else "f" for i in range(4)]
+            self.rectangularWall(x, y, edges, move="up") # XXX E
+
+            self.ctx.restore()
+
+            self.moveTo(0, maxh+self.edges["F"].spacing()+self.edges[b].spacing()+2*self.spacing, 180)
+            self.wall(y, h0, h1, "Fff", move="right" +
+                      (" only" if h0 == h1 == 0.0 else ""))
+            self.wall(x, h1, h2, "FFF", move="right" +
+                      (" only" if h1 == h2 == 0.0 else ""))
+            self.wall(y, h2, h3, "Fff", move="right" +
+                      (" only" if h2 == h3 == 0.0 else ""))
+            self.wall(x, h3, h0, "FFF", move="right" +
+                      (" only" if h3 == h0 == 0.0 else ""))
 
         self.close()
 

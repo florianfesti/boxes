@@ -83,7 +83,7 @@ class UnevenHeightBox(Boxes):
                 heights[i] = self.adjustSize(heights[i], None)
 
         t = self.thickness
-        h0 , h1, h2 , h3 = heights
+        h0, h1, h2, h3 = heights
         b = self.bottom_edge
 
         self.wall(x, h0, h1, [b, "F", "F"], move="right")
@@ -97,7 +97,7 @@ class UnevenHeightBox(Boxes):
         if self.lid:
             maxh = max(heights)
             lidheights = [maxh-h for h in heights]
-            h0 , h1, h2 , h3 = lidheights
+            h0, h1, h2, h3 = lidheights
             lidheights += lidheights
 
             edges = ["E" if (lidheights[i] == 0.0 and lidheights[i+1] == 0.0) else "f" for i in range(4)]
@@ -106,14 +106,14 @@ class UnevenHeightBox(Boxes):
             self.ctx.restore()
 
             self.moveTo(0, maxh+self.edges["F"].spacing()+self.edges[b].spacing()+3*self.spacing, 180)
-            self.wall(y, h0, h1, "Fff", move="right" +
-                      (" only" if h0 == h1 == 0.0 else ""))
-            self.wall(x, h1, h2, "FFF", move="right" +
-                      (" only" if h1 == h2 == 0.0 else ""))
-            self.wall(y, h2, h3, "Fff", move="right" +
-                      (" only" if h2 == h3 == 0.0 else ""))
-            self.wall(x, h3, h0, "FFF", move="right" +
-                      (" only" if h3 == h0 == 0.0 else ""))
+            self.wall(y, h0, h3, "Fff", move="right" +
+                      (" only" if h0 == h3 == 0.0 else ""))
+            self.wall(x, h3, h2, "FFF", move="right" +
+                      (" only" if h3 == h2 == 0.0 else ""))
+            self.wall(y, h2, h1, "Fff", move="right" +
+                      (" only" if h2 == h1 == 0.0 else ""))
+            self.wall(x, h1, h0, "FFF", move="right" +
+                      (" only" if h1 == h0 == 0.0 else ""))
 
         self.close()
 

@@ -101,11 +101,11 @@ class UnevenHeightBox(Boxes):
             lidheights += lidheights
 
             edges = ["E" if (lidheights[i] == 0.0 and lidheights[i+1] == 0.0) else "f" for i in range(4)]
-            self.rectangularWall(x, y, edges, move="up") # XXX E
+            self.rectangularWall(x, y, edges, move="up")
 
             self.ctx.restore()
 
-            self.moveTo(0, maxh+self.edges["F"].spacing()+self.edges[b].spacing()+2*self.spacing, 180)
+            self.moveTo(0, maxh+self.edges["F"].spacing()+self.edges[b].spacing()+3*self.spacing, 180)
             self.wall(y, h0, h1, "Fff", move="right" +
                       (" only" if h0 == h1 == 0.0 else ""))
             self.wall(x, h1, h2, "FFF", move="right" +

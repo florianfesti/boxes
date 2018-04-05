@@ -289,12 +289,12 @@ class Boxes:
                 if default is None: default = 100.0
                 self.argparser.add_argument(
                     "--x", action="store", type=float, default=default,
-                    help="inner width in mm")
+                    help="inner width in mm (unless outside selected)")
             elif arg == "y":
                 if default is None: default = 100.0
                 self.argparser.add_argument(
                     "--y", action="store", type=float, default=default,
-                    help="inner depth in mm")
+                    help="inner depth in mm (unless outside selected)")
             elif arg == "sx":
                 if default is None: default = "50*3"
                 self.argparser.add_argument(
@@ -312,12 +312,12 @@ class Boxes:
                 if default is None: default = 100.0
                 self.argparser.add_argument(
                     "--h", action="store", type=float, default=default,
-                    help="inner height in mm")
+                    help="inner height in mm (unless outside selected)")
             elif arg == "hi":
                 if default is None: default = 0.0
                 self.argparser.add_argument(
                     "--hi", action="store", type=float, default=default,
-                    help="inner height of inner walls in mm (leave to zero for same as outer walls)")
+                    help="inner height of inner walls in mm (unless outside selected)(leave to zero for same as outer walls)")
             elif arg == "bottom_edge":
                 if default is None: default = "h"
                 self.argparser.add_argument(

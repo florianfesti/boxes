@@ -26,7 +26,7 @@ class DisplayShelf(Boxes): # change class name here and below
 
         self.addSettingsArgs(edges.FingerJointSettings)
 
-        self.buildArgParser("x", "y", "h", "outside")
+        self.buildArgParser(x=400, y=100, h=300, outside=True)
         self.argparser.add_argument(
             "--num",  action="store", type=int, default=3,
             help="number of shelves")

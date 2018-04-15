@@ -2,6 +2,7 @@
 
 import glob
 import os
+import sys
 from setuptools import setup, find_packages
 from setuptools.command.build_py import build_py
 
@@ -10,8 +11,9 @@ class CustomBuildExtCommand(build_py):
     """Customized setuptools install command - prints a friendly greeting."""
 
     def buildInkscapeExt(self):
-        os.system("%s %s" % (os.path.join("scripts", "boxes2inkscape"),
-                             "inkex"))
+        os.system("%s %s %s" % (sys.executable,
+                                os.path.join("scripts", "boxes2inkscape"),
+                                "inkex"))
 
     def run(self):
         self.execute(self.buildInkscapeExt, ())

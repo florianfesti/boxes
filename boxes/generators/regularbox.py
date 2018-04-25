@@ -80,7 +80,8 @@ class RegularBox(Boxes):
         self.regularPolygonWall(corners=n, r=r, edges='F', move="up only")
 
         side = 2 * math.sin(math.radians(180.0/n)) * r
-        fingers = self.top in ("hole", "round lid", "angled lid2")
+        fingers = self.top in ("hole", "angled hole", "round lid",
+                               "angled lid2")
         
         if n % 2:
             for i in range(n):

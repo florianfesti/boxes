@@ -240,8 +240,9 @@ class Settings(object):
                     self.__class__.__name__, name))
 
     def __getattr__(self, name):
-        return self.values[name]
-
+        if "values" in self.__dict__ and name in self.values:
+            return self.values[name]
+        raise AttributeError
 
 #############################################################################
 ### Edges

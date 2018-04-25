@@ -15,7 +15,7 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
-
+import copy
 
 class RegularBox(Boxes):
     """Box with regular polygon as base"""
@@ -53,7 +53,9 @@ class RegularBox(Boxes):
 
         t = self.thickness
 
-        edges.FingerJointSettings(self.thickness, True, angle=360./n).edgeObjects(self, chars="gGH")
+        fingerJointSettings = copy.deepcopy(self.edges["f"].settings)
+        fingerJointSettings.setValues(self.thickness, angle=360./n)
+        fingerJointSettings.edgeObjects(self, chars="gGH")
 
         r, sh, side  = self.regularPolygon(n, radius=r)
 

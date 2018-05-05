@@ -1052,6 +1052,30 @@ class Boxes:
         self.edge(2*r*math.sin(math.radians(a)))
 
     @restore
+    @holeCol
+    def flatHole(self, x, y, r=None, d=None, w=None, rel_w=0.75, angle=0):
+        if r is None:
+            r = d / 2.0
+        if w is None:
+            w = r * rel_w
+        else:
+            w = w / 2.0
+
+        if r < 0.0:
+            return
+        if abs(w) > r:
+            return self.hole(x, y, r)
+
+        a = math.degrees(math.acos(w / r))
+        self.moveTo(x, y, angle-a)
+        self.moveTo(r-self.burn, 0, -90)
+        for i in range(2):
+            self.corner(-180+2*a, r)
+            self.corner(-a)
+            self.edge(2*r*math.sin(math.radians(a)))
+            self.corner(-a)
+
+    @restore
     def text(self, text, x=0, y=0, angle=0, align=""):
         """
         Draw text

@@ -1240,20 +1240,24 @@ Values:
 
  * bore : 3.2 : diameter of the pin hole in mm
  * eyes_per_hinge : 5 : pieces per hinge
+ * hinges : 2 : number of hinges per edge
 
 * relative (in multiples of thickness)
 
  * eye : 1.5 : radius of the eye (in multiples of thickness)
  * play : 0.05 : space between eyes (in multiples of thickness)
+ * spacing : 2.0 : minimum space around the hinge
 """
     absolute_params = {
         "bore": 3.2,
         "eyes_per_hinge" : 5,
+        "hinges" : 2,
     }
 
     relative_params = {
         "eye": 1.5,
         "play" : 0.05,
+        "spacing": 2.0,
     }
 
     def edgeObjects(self, boxes, chars="uUvV", add=True):
@@ -1281,11 +1285,13 @@ class CabinetHingeEdge(BaseEdge):
     def startwidth(self):
         return self.settings.thickness if self.top and self.angled else 0.0
 
-    def __call__(self, l, **kw):
-        p = self.settings.play
+
+    def __poly(self):
         n = self.settings.eyes_per_hinge
+        p = self.settings.play
         e = self.settings.eye
         t = self.settings.thickness
+        spacing = self.settings.spacing
 
         if self.angled and not self.top:
             # move hinge up to leave space for lid
@@ -1293,10 +1299,10 @@ class CabinetHingeEdge(BaseEdge):
 
         if self.top:
             # start with space
-            poly = [0, 90, e+p, 180, 0]
+            poly = [spacing, 90, e+p, 180, 0]
         else:
             # start with hinge eye
-            poly = [p, 90, e+p, 0]
+            poly = [spacing+p, 90, e+p, 0]
         for i in range(n):
             if (i % 2) ^ self.top:
                 # space
@@ -1307,27 +1313,53 @@ class CabinetHingeEdge(BaseEdge):
 
         if (n % 2) ^ self.top:
             # stopped with hinge eye
-            poly += [0, e+p, 90, p]
+            poly += [0, e+p, 90, p+spacing]
         else:
             # stopped with space
-            poly += [0, 180, e+p, 90, 0 ]
+            poly += [0, 180, e+p, 90, 0+spacing ]
 
-        width = (t+p) * n + p
+        width = (t+p) * n + p + 2 * spacing
 
-        for i in range(n):
-            if not (i % 2) ^ self.top:
-                self.rectangularHole(2*t+0.5*t+p+i*(t+p), e+2.5*t, t, t)
-                self.rectangularHole(l-(2*t+0.5*t+p+i*(t+p)), e+2.5*t, t, t)
-        self.polyline(*([2*t, 0] + poly))
-        self.edge(l - 2*(width+2*t), tabs=2)
-        self.polyline(*(list(reversed(poly)) + [0, 2*t]))
+        return poly, width
+
+    def __call__(self, l, **kw):
+        n = self.settings.eyes_per_hinge
+        p = self.settings.play
+        e = self.settings.eye
+        t = self.settings.thickness
+        hn = self.settings.hinges
+
+        poly, width = self.__poly()
+
+        if self.angled and not self.top:
+            # move hinge up to leave space for lid
+            e -= t
+
+        hn = min(hn, int(l // width))
+
+        if hn == 1:
+            self.edge((l-width) / 2, tabs=2)
+
+        for j in range(hn):
+            for i in range(n):
+                if not (i % 2) ^ self.top:
+                    self.rectangularHole(self.settings.spacing+0.5*t+p+i*(t+p), e+2.5*t, t, t)
+            self.polyline(*poly)
+            if j < (hn - 1):
+                self.edge((l-hn*width) / (hn-1), tabs=2)
+
+        if hn == 1:
+            self.edge((l-width) / 2, tabs=2)
 
     def parts(self, move=None):
         e, b = self.settings.eye, self.settings.bore
         t = self.settings.thickness
 
+        n = self.settings.eyes_per_hinge * self.settings.hinges
+        pairs = n // 2 + 2 * (n % 2)
+
         th = 4*e+3*t+self.boxes.spacing
-        tw = max(e, 2*t) * self.settings.eyes_per_hinge
+        tw = max(e, 2*t) * pairs
 
         if self.move(th, tw, move, True):
             return
@@ -1342,7 +1374,7 @@ class CabinetHingeEdge(BaseEdge):
             ang = math.degrees(a)
             corner = [e*(1-math.cos(a))+2*t, -90+ang, 0, (180-ang, e)]
         self.moveTo(max(e, 2*t))
-        for i in range(2*self.settings.eyes_per_hinge):
+        for i in range(n):
             self.hole(0, e, b/2.0)
             self.polyline(*[0, (180, e), 0, -90, t, 90, t, -90, t, -90, t, 90, t, 90, t, (90, t)] + corner)
             self.moveTo(self.boxes.spacing, 4*e+3*t+self.boxes.spacing, 180)

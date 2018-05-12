@@ -67,7 +67,7 @@ class OrganPipe(Boxes): # Change class name!
             help="Cutup to mouth ratio")
         self.argparser.add_argument(
             "--mensur",  action="store", type=int, default=0,
-            help="Distance in halftones in the Normalmensur by Töpfer")
+            help=u"Distance in halftones in the Normalmensur by Töpfer")
         self.argparser.add_argument(
             "--windpressure",  action="store", type=float, default=588.4,
             help="in Pa")

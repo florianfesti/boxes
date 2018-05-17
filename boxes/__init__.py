@@ -260,7 +260,7 @@ class Boxes:
         self.bedBoltSettings = (3, 5.5, 2, 20, 15)  # d, d_nut, h_nut, l, l1
         self.hexHolesSettings = (5, 3, 'circle')  # r, dist, style
         self.surface, self.ctx = self.formats.getSurface(self.format, self.output)
-        self.ctx.set_line_width(2 * self.burn)
+        self.ctx.set_line_width(max(2 * self.burn, 0.05))
         self.ctx.select_font_face("sans-serif")
         self._buildObjects()
         if self.reference:

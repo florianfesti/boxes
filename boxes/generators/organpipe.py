@@ -23,6 +23,12 @@ from  math import *
 
 pitches = ['c', 'c#', 'd', 'd#', 'e', 'f', 'f#', 'g', 'g#', 'a', 'a#' ,'b']
 
+pressure_units = { 'Pa' : 1.0,
+                   'mBar' : 100.,
+                   'mmHg' : 133.322,
+                   'mmH2O' : 9.80665,
+}
+
 class OrganPipe(Boxes): # Change class name!
     """Rectangular organ pipe based on pipecalc"""
 
@@ -70,6 +76,10 @@ class OrganPipe(Boxes): # Change class name!
             help=u"Distance in halftones in the Normalmensur by Töpfer")
         self.argparser.add_argument(
             "--windpressure",  action="store", type=float, default=588.4,
+            help="uses unit selected below")
+        self.argparser.add_argument(
+            "--windpressure_units",  action="store", type=str, default='Pa',
+            choices=pressure_units.keys(),
             help="in Pa")
         self.argparser.add_argument(
             "--stopped",  action="store", type=boolarg, default=False,
@@ -79,6 +89,8 @@ class OrganPipe(Boxes): # Change class name!
     def render(self):
         t = self.thickness
         f = self.getFrequency(self.pitch, self.octave, 440)
+
+        self.windpressure *= pressure_units.get(self.windpressure_units, 1.0)
         
         speed_of_sound = 343.6 # XXX util::speed_of_sound(self.air_temperature); // in m/s
         air_density = 1.2

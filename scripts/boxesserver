@@ -180,7 +180,7 @@ class BServer:
             if not group._group_actions:
                 continue
             prefix = getattr(group, "prefix", None)
-            result.append('''<h3 id="h-%s" onclick="showHide(%s)">%s</h3>\n<table id="%s">\n''' % (groupid, groupid, group.title, groupid))
+            result.append('''<h3 id="h-%s" class="open" onclick="showHide(%s)">%s</h3>\n<table id="%s">\n''' % (groupid, groupid, group.title, groupid))
             for a in group._group_actions:
                 if a.dest in ("input", "output"):
                     continue
@@ -264,7 +264,7 @@ Create boxes and more with a laser cutter!
 <div style="width: 100%">
 """ ]
         for nr, group in enumerate(self.groups):
-            result.append('''<h3 id="h-%s" onclick="showHide('%s')">%s</h3>\n<div id="%s">\n''' % (nr, nr, group.title, nr))
+            result.append('''<h3 id="h-%s" class="open" onclick="showHide('%s')">%s</h3>\n<div id="%s">\n''' % (nr, nr, group.title, nr))
             result.append("""
             <div style="width: 20%%; float: right;">
             <img style="width: 100%%;" id="sample-%s" src="static/nothing.png" alt="" />

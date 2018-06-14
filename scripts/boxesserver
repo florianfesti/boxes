@@ -131,10 +131,13 @@ class BServer:
     <script type="text/javascript">
     function showHide(id) {
        var e = document.getElementById(id);
+       var h = document.getElementById("h-" + id);
        if(e.style.display == null || e.style.display == "none") {
          e.style.display = "block";
+         h.classList.add("open");
        } else {
          e.style.display = "none";
+         h.classList.remove("open");
       }
     }
     function hideargs() {
@@ -177,7 +180,7 @@ class BServer:
             if not group._group_actions:
                 continue
             prefix = getattr(group, "prefix", None)
-            result.append('''<h3 onclick="showHide(%s)">%s</h3>\n<table id="%s">\n''' % (groupid, group.title, groupid))
+            result.append('''<h3 id="h-%s" onclick="showHide(%s)">%s</h3>\n<table id="%s">\n''' % (groupid, groupid, group.title, groupid))
             for a in group._group_actions:
                 if a.dest in ("input", "output"):
                     continue
@@ -216,9 +219,9 @@ class BServer:
 </html>
         """ )
         return (s.encode("utf-8") for s in result)
-        
+
     def menu(self):
-        
+
         result = ["""<!DOCTYPE html>
 <html>
 <head>
@@ -230,7 +233,7 @@ class BServer:
 	  document.getElementById("sample-"+group).src = img_link;
 	  document.getElementById("sample-"+group).style.height = "auto";
 	}
-				
+
 	function changeback(group){
 	  document.getElementById("sample-" + group).src= "static/nothing.png";
 	  document.getElementById("sample-" + group).style.height= "0px";
@@ -261,7 +264,7 @@ Create boxes and more with a laser cutter!
 <div style="width: 100%">
 """ ]
         for nr, group in enumerate(self.groups):
-            result.append('''<h3 onclick="showHide('%s')">%s</h3>\n<div id="%s">\n''' % (nr, group.title, nr))
+            result.append('''<h3 id="h-%s" onclick="showHide('%s')">%s</h3>\n<div id="%s">\n''' % (nr, nr, group.title, nr))
             result.append("""
             <div style="width: 20%%; float: right;">
             <img style="width: 100%%;" id="sample-%s" src="static/nothing.png" alt="" />
@@ -292,7 +295,7 @@ Create boxes and more with a laser cutter!
  <li><a href="https://hackaday.io/project/10649-boxespy">Hackaday.io Project Page</a></li>
 </ul>
 </div>
- 
+
 </body>
 </html>
 """)
@@ -347,8 +350,8 @@ Create boxes and more with a laser cutter!
         if not box:
             start_response(status, headers)
             return self.menu()
-      
-			
+
+
         args = ["--"+unquote_plus(arg) for arg in environ['QUERY_STRING'].split("&")]
         if "--render=1" not in args:
             start_response(status, headers)
@@ -395,4 +398,4 @@ if __name__=="__main__":
 else:
     application = BServer().serve
 
-	
+

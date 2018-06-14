@@ -27,7 +27,7 @@ li a, a h1 	{
 	text-decoration: none;
 	color: #333;
 	}
-	
+
 
 body {min-width: 996px;}
 
@@ -57,6 +57,10 @@ h3::before {
     content: "▶ ";
 }
 
+h3.open::before {
+    content: "▼ ";
+}
+
 h3:hover {
 	background-color: #333;
 	color: #eee;
@@ -69,7 +73,7 @@ table {
 }
 
 /* Container */
-    
+
 .container {
 	 margin-top: 20px;
      margin-left: auto;
@@ -80,7 +84,7 @@ table {
 	border-radius: 30px;
 	-webkit-box-shadow: 0 0 5px 0 #333333;
 	box-shadow: 0 0 5px 0 #333333;
-	
+
 }
 
 hr {
@@ -132,14 +136,14 @@ video {
 	font-size: 0.9em;
 	}
 
-.footer ul li a {	
+.footer ul li a {
 	color: #999;
 	margin-right: 10px;
 }
 
 ul {
 	padding-left: 5px;
-	} 	
+	}
 
 ul li {
 	padding: 5px 5px 5px 10px;
@@ -166,7 +170,7 @@ ul li span {
 
 ul li:hover span {
 	display: inline-block;
-	
+
 }
 
 textarea {

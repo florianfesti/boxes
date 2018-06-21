@@ -62,12 +62,16 @@ class Rack19Box(Boxes):
         self.fingerHolesAt(self.y, self.h-1.5*t, self.triangle, 180)
         
         
-    def render(self):
+    def _render(self, type):
         self.open()
 
         t = self.thickness
         self.h = h = self.height * 44.45 - 0.787 - t
-        x = self.x = 448.0 - 2*t
+        if type == 10:
+            self.x = 219.0 - 2*t
+        else:
+            self.x = 448.0 - 2*t
+        x = self.x
         y = self.y = self.depth
 
         d1, d2 =self.d1, self.d2
@@ -90,3 +94,6 @@ class Rack19Box(Boxes):
             callback=[None, lambda: self.hole(trh, trh, d=d1)])
 
         self.close()
+
+    def render(self):
+        self._render(type=19)

@@ -1076,7 +1076,7 @@ class Boxes:
             self.corner(-a)
 
     @restore
-    def text(self, text, x=0, y=0, angle=0, align=""):
+    def text(self, text, x=0, y=0, angle=0, align="", fontsize=10, color=[0.0, 0.0, 0.0]):
         """
         Draw text
 
@@ -1087,6 +1087,7 @@ class Boxes:
         :param align:  (Default value = "") string with combinations of (top|middle|bottom) and (left|center|right) separated by a space
 
         """
+        self.ctx.set_font_size(fontsize)
         self.moveTo(x, y, angle)
         text = text.split("\n")
         width = lheight = 0.0
@@ -1117,12 +1118,13 @@ class Boxes:
         self.ctx.set_source_rgb(1.0, 1.0, 1.0)
         self.ctx.rectangle(0, 0, width, height)
         self.ctx.stroke()
-        self.ctx.set_source_rgb(0.0, 0.0, 0.0)
+        self.ctx.set_source_rgb(*color)
         self.ctx.scale(1, -1)
         for line in reversed(text):
             self.ctx.show_text(line)
             self.moveTo(0, 1.4 * -lheight)
-
+        self.ctx.set_source_rgb(0.0, 0.0, 0.0)
+        self.ctx.set_font_size(10)
 
     tx_sizes = {
         1 : 0.61,

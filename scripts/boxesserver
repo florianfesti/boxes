@@ -153,7 +153,6 @@ class BServer:
 <html>
 <head>
     <title>Boxes - """, name, """</title>
-    <link rel="stylesheet" href="https://necolas.github.io/normalize.css/4.1.1/normalize.css" type="text/css" />
     <link rel="stylesheet" href="static/self.css" type="text/css" />
 """, self.scripts % (len(box.argparser._action_groups)-3), """
    <meta name="flattr:id" content="456799">
@@ -226,7 +225,6 @@ class BServer:
 <html>
 <head>
     <title>Boxes.py</title>
-    <link rel="stylesheet" href="https://necolas.github.io/normalize.css/4.1.1/normalize.css" type="text/css" />
     <link rel="stylesheet" href="static/self.css" type="text/css" />
     <script>
 	function change(group, img_link){

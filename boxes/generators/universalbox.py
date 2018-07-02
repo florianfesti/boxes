@@ -34,9 +34,27 @@ class UniversalBox(_TopEdge, _ChestLid):
             help="additional lid")
         self.angle = 0
 
+    def top_hole(self, x, y, top_edge):
+        t = self.thickness
+
+        if top_edge == "f":
+            edge = self.edges["F"]
+            self.moveTo(2*t+self.burn, 2*t, 90)
+        elif top_edge == "F":
+            edge = self.edges["f"]
+            self.moveTo(t+self.burn, 2*t, 90)
+        else:
+            raise ValueError("Only f and F supported")
+
+        for l in (y, x, y, x):
+            edge(l)
+            if top_edge == "F": self.edge(t)
+            self.corner(-90)
+            if top_edge == "F": self.edge(t)
 
     def render(self):
         x, y, h = self.x, self.y, self.h
+        t = self.thickness
 
         self.open()
 
@@ -62,6 +80,11 @@ class UniversalBox(_TopEdge, _ChestLid):
         self.rectangularWall(x, y, "ffff", bedBolts=[d2, d3, d2, d3], move="right")
         if self.drawLid(x, y, self.top_edge, [d2, d3]):
             self.rectangularWall(x, y, "ffff", move="left only")
+        if self.top_edge in "fF":
+            self.ctx.set_source_rgb(1., 0, 0)
+            self.rectangularWall(x+4*t, y+4*t, callback=[
+                lambda:self.top_hole(x, y, self.top_edge)], move="right")
+            self.ctx.set_source_rgb(0, 0, 0)
         self.drawAddOnLid(x, y, self.lid)
 
         self.close()

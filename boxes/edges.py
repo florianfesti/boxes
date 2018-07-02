@@ -724,6 +724,7 @@ class CrossingFingerHoleEdge(Edge):
     """Edge with holes for finger joints 90° above"""
 
     description = "Edge (orthogonal Finger Joint Holes)"
+    char = '|'
 
     def __init__(self, boxes, height, fingerHoles=None, **kw):
         super(CrossingFingerHoleEdge, self).__init__(boxes, None, **kw)

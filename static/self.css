@@ -1,4 +1,4 @@
-@import 'https://fonts.googleapis.com/css?family=Amatic+SC|Bungee+Shade|Luckiest+Guy';
+@import 'fonts.css';
 
 html,
 button,
@@ -32,16 +32,12 @@ li a, a h1 	{
 body {min-width: 996px;}
 
 h1 {
-    font-family: 'Amatic SC', cursive;
-    font-family: 'Luckiest Guy', cursive;
     font-family: 'Bungee Shade', cursive;
 
     font-size: 3em;
 }
 
 h2 {
-    font-family: 'Bungee Shade', cursive;
-    font-family: 'Amatic SC', cursive;
     font-family: 'Luckiest Guy', cursive;
 
     font-size: 2.5em;

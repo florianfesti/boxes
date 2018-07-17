@@ -23,7 +23,7 @@ And a few one trick ponies:
 * A castle tower
 * A cutlery stand
 
-Have a look into the  examples/  directory <https://github.com/florianfesti/boxes/tree/master/examples/>or the online generator <http://www.festi.info/boxes.py/index.html> to see how the results look like.
+Have a look into the  examples/  directory <https://github.com/florianfesti/boxes/tree/master/examples/>or the online generator <https://www.festi.info/boxes.py/index.html> to see how the results look like.
 
 Features
 --------
@@ -56,7 +56,7 @@ Usage
 
 There are multiple ways to use the available generators:
 
-* Try them out at <http://www.festi.info/boxes.py/index.html>
+* Try them out at <https://www.festi.info/boxes.py/index.html>
 * Use them as Inkscape extensions under *Extensions->Boxes.py*
 * Execute the scripts/boxes tool and pass the name of the generator together with the measurements on the command line.
 * Run *scripts/boxesserver* which provides an web interface on port 8000.
@@ -68,4 +68,4 @@ Documentation
 -------------
 
 The module comes with Sphinx based documentation. The rendered version can be
-viewed at <http://florianfesti.github.io/boxes/html/index.html>.
+viewed at <https://florianfesti.github.io/boxes/html/index.html>.

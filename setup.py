@@ -18,10 +18,14 @@ class CustomBuildExtCommand(build_py):
     def run(self):
         self.execute(self.buildInkscapeExt, ())
         if os.name == "posix":
+            if sys.platform == "darwin":
+                path = "/usr/local/share/inkscape/extensions/"
+            else:
+                path = "/usr/share/inkscape/extensions/"
             if self.distribution.data_files is None:
                 self.distribution.data_files = []
             self.distribution.data_files.append(
-                ("/usr/share/inkscape/extensions/",
+                (path,
                  [i for i in glob.glob(os.path.join("inkex", "*.inx"))]))
         build_py.run(self)
 

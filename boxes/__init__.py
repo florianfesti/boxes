@@ -572,7 +572,7 @@ class Boxes:
             lang = math.degrees(l / r_)
             if degrees < 0:
                 lang = -lang
-            print(degrees, radius, l, lang, tabs, math.degrees(tabrad))
+            #print(degrees, radius, l, lang, tabs, math.degrees(tabrad))
             self.corner(lang/2., radius)
             for i in range(tabs-1):
                 self.moveArc(math.degrees(tabrad), r_)
@@ -1093,7 +1093,6 @@ class Boxes:
         width = lheight = 0.0
         for line in text:
             (tx, ty, w, h, dx, dy) = self.ctx.text_extents(line)
-            print(tx, ty, w, h, dx, dy)
             lheight = max(lheight, h)
             width = max(width, w)
 

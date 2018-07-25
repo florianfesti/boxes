@@ -44,10 +44,10 @@ class ClosedBox(Boxes):
 
         d2 = d3 = None
 
-        self.rectangularWall(x, h, "FFFF", bedBolts=[d2], move="right")
-        self.rectangularWall(y, h, "FfFf", bedBolts=[d3], move="up")
-        self.rectangularWall(y, h, "FfFf", bedBolts=[d3])
-        self.rectangularWall(x, h, "FFFF", bedBolts=[d2], move="left up")
+        self.rectangularWall(x, h, "FFFF", bedBolts=[d2] * 4, move="right")
+        self.rectangularWall(y, h, "FfFf", bedBolts=[d3, d2, d3, d2], move="up")
+        self.rectangularWall(y, h, "FfFf", bedBolts=[d3, d2, d3, d2])
+        self.rectangularWall(x, h, "FFFF", bedBolts=[d2] *4, move="left up")
 
         self.rectangularWall(x, y, "ffff", bedBolts=[d2, d3, d2, d3], move="right")
         self.rectangularWall(x, y, "ffff", bedBolts=[d2, d3, d2, d3])

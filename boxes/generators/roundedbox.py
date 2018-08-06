@@ -30,6 +30,9 @@ class RoundedBox(Boxes):
             "--radius", action="store", type=float, default=15,
             help="Radius of the corners in mm")
         self.argparser.add_argument(
+            "--wallpieces", action="store", type=int, default=1,
+            choices=[1, 2, 3, 4], help="# pieces of outer wall")
+        self.argparser.add_argument(
             "--top",  action="store", type=str, default="none",
             choices=["closed", "hole", "lid",],
             help="style of the top and lid")
@@ -69,16 +72,15 @@ class RoundedBox(Boxes):
         t = self.thickness
 
         self.ctx.save()
-        self.roundedPlate(x, y, r, move="right")
-        self.roundedPlate(x, y, r, move="right",
+        self.roundedPlate(x, y, r, wallpieces=self.wallpieces, move="right")
+        self.roundedPlate(x, y, r, wallpieces=self.wallpieces, move="right",
                 callback=[self.hole] if self.top != "closed" else None)
         if self.top == "lid":
-            self.roundedPlate(x, y, r, "E", move="right")
+            self.roundedPlate(x, y, r, "E", wallpieces=self.wallpieces, move="right")
         self.ctx.restore()
-        self.roundedPlate(x, y, r, move="up only")
+        self.roundedPlate(x, y, r, wallpieces=self.wallpieces, move="up only")
 
-        self.surroundingWall(x, y, r, h, "F", "F")
-
+        self.surroundingWall(x, y, r, h, "F", "F", pieces=self.wallpieces)
         self.close()
 
 

@@ -1361,15 +1361,26 @@ class Boxes:
     ### parts
     ##################################################
 
+    def _splitWall(self, pieces, side):
+        """helper for roundedPlate and surroundingWall
+        figures out what sides to split
+        """
+        return [
+            (False, False, False, False, True),
+            (True, False, False, False, True),
+            (True, False, True, False, True),
+            (True, True, True, False, True),
+            (True, True, True, True, True),
+        ][pieces][side]
+
     def roundedPlate(self, x, y, r, edge="f", callback=None,
                      holesMargin=None, holesSettings=None,
                      bedBolts=None, bedBoltSettings=None,
+                     wallpieces=1,
                      move=None):
         """Plate with rounded corner fitting to .surroundingWall()
 
-        First edge is split to have a joint in the middle of the side
-        callback is called at the beginning of the straight edges
-        0, 1 for the two part of the first edge, 2, 3, 4 for the others
+        For the callbacks the sides are counted depending on wallpieces
 
         :param x: width
         :param y: hight
@@ -1379,6 +1390,7 @@ class Boxes:
         :param holesSettings:  (Default value = None)
         :param bedBolts:  (Default value = None)
         :param bedBoltSettings:  (Default value = None)
+        :param wallpieces: (Default value = 1) # of separate surrounding walls
         :param move:  (Default value = None)
 
         """
@@ -1398,17 +1410,26 @@ class Boxes:
         self.moveTo(r, 0)
 
         self.cc(callback, 0)
-        self.edges[edge](lx / 2.0 , bedBolts=self.getEntry(bedBolts, 0),
-                        bedBoltSettings=self.getEntry(bedBoltSettings, 0))
-        self.cc(callback, 1)
-        self.edges[edge](lx / 2.0, bedBolts=self.getEntry(bedBolts, 1),
-                        bedBoltSettings=self.getEntry(bedBoltSettings, 1))
-        for i, l in zip(range(3), (ly, lx, ly)):
+
+        if wallpieces > 4:
+            wallpieces = 4
+
+        wallcount = 0
+        for nr, l in enumerate((lx, ly, lx, ly)):
+            if self._splitWall(wallpieces, nr):
+                for i in range(2):
+                    self.cc(callback, wallcount)
+                    self.edges[edge](l / 2.0 ,
+                        bedBolts=self.getEntry(bedBolts, wallcount),
+                        bedBoltSettings=self.getEntry(bedBoltSettings, wallcount))
+                    wallcount += 1
+            else:
+                self.cc(callback, wallcount)
+                self.edges[edge](l,
+                    bedBolts=self.getEntry(bedBolts, wallcount),
+                    bedBoltSettings=self.getEntry(bedBoltSettings, wallcount))
+                wallcount += 1
             self.corner(90, r)
-            self.cc(callback, i + 2)
-            self.edges[edge](l, bedBolts=self.getEntry(bedBolts, i + 2),
-                            bedBoltSettings=self.getEntry(bedBoltSettings, i + 2))
-        self.corner(90, r)
 
         self.ctx.restore()
         self.ctx.save()
@@ -1430,22 +1451,23 @@ class Boxes:
     def surroundingWall(self, x, y, r, h,
                         bottom='e', top='e',
                         left="D", right="d",
+                        pieces=1,
                         callback=None,
                         move=None):
-        """h : inner height, not counting the joints
-        callback is called a beginn of the flat sides with
+        """
+        Wall(s) with flex fiting around a roundedPlate()
 
-        *  0 for right half of first x side;
-        *  1 and 3 for y sides;
-        *  2 for second x side
-        *  4 for second half of the first x side
+        For the callbacks the sides are counted depending on pieces
 
         :param x: width of matching roundedPlate
         :param y: height of matching roundedPlate
         :param r: corner radius of matching roundedPlate
-        :param h: height of the wall
+        :param h: inner height of the wall (without edges) 
         :param bottom:  (Default value = 'e') Edge type
         :param top:  (Default value = 'e') Edge type
+        :param left: (Default value = 'D') left edge(s)
+        :param right: (Default value = 'd') right edge(s)
+        :param pieces: (Default value = 1) number of separate pieces
         :param callback:  (Default value = None)
         :param move:  (Default value = None)
 
@@ -1462,8 +1484,7 @@ class Boxes:
         topwidth = top.startwidth()
         bottomwidth = bottom.startwidth()
 
-        overallwidth = 2 * x + 2 * y - 8 * r + 4 * c4 + \
-                       self.edges["d"].spacing() + self.edges["D"].spacing()
+        overallwidth = 2*x + 2*y - 8*r + 4*c4 + (self.edges["d"].spacing() + self.edges["D"].spacing() + self.spacing) * pieces
         overallheight = h + top.spacing() + bottom.spacing()
 
         if self.move(overallwidth, overallheight, move, before=True):
@@ -1471,36 +1492,57 @@ class Boxes:
 
         self.moveTo(left.spacing(), bottom.margin())
 
-        self.cc(callback, 0, y=bottomwidth + self.burn)
-        bottom(x / 2.0 - r)
-        if (y - 2 * r) < 1E-3:
-            self.edges["X"](2 * c4, h + topwidth + bottomwidth)
-            self.cc(callback, 2, y=bottomwidth + self.burn)
-            bottom(x - 2 * r)
-            self.edges["X"](2 * c4, h + topwidth + bottomwidth)
-            self.cc(callback, 4, y=bottomwidth + self.burn)
+        wallcount = 0
+        tops = [] # edges needed on the top for this wall segment
+
+        if pieces<=2 and (y - 2 * r) < 1E-3:
+            # remove zero length y sides
+            c4 *= 2
+            sides = (x/2-r, x - 2*r, x - 2*r)
+            if pieces > 0: # hack to get the right splits
+                pieces += 1
         else:
-            for i, l in zip(range(4), (y, x, y, 0)):
-                self.edges["X"](c4, h + topwidth + bottomwidth)
-                self.cc(callback, i + 1, y=bottomwidth + self.burn)
-                if i < 3:
-                    bottom(l - 2 * r)
-        bottom(x / 2.0 - r)
+            sides = (x/2-r, y - 2*r, x - 2*r, y - 2*r, x - 2*r)
 
-        self.edgeCorner(bottom, right, 90)
-        right(h)
-        self.edgeCorner(right, top, 90)
+        for nr, l in enumerate(sides):
+            if self._splitWall(pieces, nr) and nr > 0:
+                self.cc(callback, wallcount, y=bottomwidth + self.burn)
+                wallcount += 1
+                bottom(l / 2.)
+                tops.append(l / 2.)
 
-        top(x / 2.0 - r)
-        for i, l in zip(range(4), (y, x, y, 0)):
-            self.edge(c4)
-            if i < 3:
-                top(l - 2 * r)
-        top(x / 2.0 - r)
+                self.ctx.save()
+                # complete wall segment
+                self.edgeCorner(bottom, right, 90)
+                right(h)
+                self.edgeCorner(right, top, 90)
+                for n, d in enumerate(reversed(tops)):
+                    if n % 2: # flex
+                        self.edge(d)
+                    else:
+                        top(d)
+                self.edgeCorner(top, left, 90)
+                left(h)
+                self.edgeCorner(left, bottom, 90)
 
-        self.edgeCorner(top, left, 90)
-        left(h)
-        self.edgeCorner(left, bottom, 90)
+                self.ctx.restore()
+
+                if nr == len(sides) - 1:
+                    break
+                # start new wall segment
+                tops = []
+                self.moveTo(right.margin() + left.margin() + self.spacing)
+                self.cc(callback, wallcount, y=bottomwidth + self.burn)
+                wallcount += 1
+                bottom(l / 2.)
+                tops.append(l / 2.)
+            else:
+                self.cc(callback, wallcount, y=bottomwidth + self.burn)
+                wallcount += 1
+                bottom(l)
+                tops.append(l)
+            self.edges["X"](c4, h + topwidth + bottomwidth)
+            tops.append(c4)
 
         self.ctx.stroke()
 

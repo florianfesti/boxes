@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (C) 2013-2016 Florian Festi
+# Copyright (C) 2013-2018 Florian Festi
 #
 #   This program is free software: you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -17,28 +17,46 @@
 from boxes import *
 import math
 
-HEIGHT = 5
-GRID = 25
+class Hook(Boxes):
+    """A hook wit a rectangular mouth to mount at the wall"""
 
-
-class Hook(Boxes):  # Change class name!
-    """DESCRIPTION"""
-
-    webinterface = False  # Change to make visible in web interface
-    ui_group = "Unstable"  # see ./__init__.py for names
+    ui_group = "Misc"  # see ./__init__.py for names
 
     def __init__(self):
         Boxes.__init__(self)
 
         self.addSettingsArgs(edges.FingerJointSettings, surroundingspaces=0.5)
+        self.argparser.add_argument("--width", action="store",
+            type=float, default=40.,
+            help="width of the hook (back plate is a bit wider)")
+        self.argparser.add_argument("--height", action="store",
+            type=float, default=40.,
+            help="inner height of the hook")
+        self.argparser.add_argument("--depth",	action="store",
+            type=float, default=40.,
+            help="inner depth of the hook")
+        self.argparser.add_argument("--strength",  action="store",
+            type=float, default=20.,
+            help="width of the hook from the side")
+        self.argparser.add_argument("--angle",  action="store",
+            type=float, default=45.,
+            help="angle of the support underneeth")
 
     def render(self):
         self.open()
 
-        self.render_back()
-        self.render_sidewall(move='right')
-        self.render_sidewall(move='right')
-        self.render_plates()
+        self.angle = min(self.angle, 80)
+        t = self.thickness
+        w = self.width - 2*t # inner width
+        d, h, s = self.depth, self.height, self.strength
+
+        self.rectangularWall(w + 4*t, self.height_back, 'Eeee', callback=self.back_callback, move='right')
+        self.sidewall(d, h, s, self.angle, move='right')
+        self.sidewall(d, h, s, self.angle, move='right')
+        self.rectangularWall(d, w, 'FFFf', move='right')
+        self.rectangularWall(h - t,  w, 'FFFf', move='right', callback=[
+            lambda: self.hole((h - t)/2, w/2, d=17)])
+        self.rectangularWall(s-t, w, 'FeFf', move='right')
 
         self.close()
 
@@ -47,103 +65,61 @@ class Hook(Boxes):  # Change class name!
         if n != 0:
             return
 
-        t = self.t
-        h = self.y_a - t
+        t = self.thickness
+        h = self.h_a + self.strength
 
-        self.fingerHolesAt(t/2, 0, h)
-        self.fingerHolesAt(self.w_back - t/2, 0, h)
-        self.fingerHolesAt(t, h + self.t/2, self.w_hook, 0)
+        self.fingerHolesAt(1.5*t, 0, h)
+        self.fingerHolesAt(self.width + .5*t, 0, h)
+        self.fingerHolesAt(2*t, h + t/2, self.width - 2*t, 0)
 
-        x_h = self.w_hook/2 + t
+        x_h = self.width/2 + t
 
-        y1 = h + self.y_o/2
-        y2 = self.y_o/2
+        y1 = h + self.height/2
+        y2 = self.strength/2
         y3 = (y1 + y2) / 2
 
         self.hole(x_h, y1, d=3)
         self.hole(x_h, y2, d=3)
         self.hole(x_h, y3, d=3)
         
-    @property
-    def t(self):
-        return self.thickness
 
     @property
-    def w_hook(self):
-        return 40
-
-    @property
-    def w_back(self):
-        return self.w_hook + 2*self.t
-
-    def render_back(self):
-        self.rectangularWall(self.w_back, self.y_ges, 'eEeE', callback=self.back_callback, move='right')
-
-    @property
-    def y_ges(self):
-        return 100
-
-    @property
-    def y_o(self):
-        return 30
-
-    @property
-    def y_a(self):
-        return self.y_ges - self.y_o
-
-    @property
-    def x_o(self):
-        return 40
+    def height_back(self):
         
+        return self.strength + self.height + self.h_a
+
     @property
-    def x_plus(self):
-        return 20
+    def h_a(self):
+        return self.depth * math.tan(math.radians(self.angle))
 
-    def render_sidewall(self, move=None):
-        
-        x_ges = self.x_o + self.x_plus + self.t
-        x_u = 10
+    def sidewall(self, depth, height, strength, angle=60., move=None):
 
-        x_a = x_ges - x_u
+        t = self.thickness
 
-        a = math.degrees(math.atan(self.y_a/x_a))
-        l_a = math.sqrt(self.y_a**2 + x_a**2)
-
-        if self.move(x_ges, self.y_ges, move, before=True):
-            return
+        h_a = depth * math.tan(math.radians(angle))
+        l_a = depth / math.cos(math.radians(angle))
 
         f_edge = self.edges['f']
-        turn = self.corner
 
-        self.moveTo(f_edge.margin())
-        self.polyline(x_u, a, l_a, 90-a, self.y_o-self.t, 90)
+        x_total = depth + strength + f_edge.margin()
+        y_total = strength + height + h_a
 
-        f_edge(self.x_plus)
-        turn(90)
-        f_edge(self.y_o - self.t)
-
-        self.polyline(self.t, -90, self.t)
-
-        f_edge(self.x_o)
-        turn(90)
-        f_edge(self.y_a - self.t)
-        turn(90)
-
-        self.move(x_ges, self.y_ges, move)
-
-
-    def bitholder_cb(self, n):
-        if n != 0:
+        if self.move(x_total, y_total, move, before=True):
             return
 
-        self.hole((self.y_o - self.t)/2, self.w_hook/2, d=17)
 
+        self.moveTo(f_edge.margin())
+        self.polyline(strength, angle, l_a, 90-angle, height+strength, 90)
 
-    def render_plates(self):
-        self.rectangularWall(self.x_o, self.w_hook, 'FFFf', move='right')
-        self.rectangularWall(self.y_o - self.t,  self.w_hook, 'FFFf', move='right', callback=self.bitholder_cb)
-        self.rectangularWall(self.x_plus, self.w_hook, 'FeFf', move='right')
+        f_edge(strength - t)
+        self.corner(90)
+        f_edge(height - t)
 
+        self.polyline(t, -90, t)
 
+        f_edge(depth)
+        self.corner(90)
+        f_edge(h_a + strength)
+        self.corner(90)
 
-
+        self.move(x_total, y_total, move)

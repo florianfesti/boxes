@@ -98,7 +98,7 @@ class BServer:
 
         self.staticdir = os.path.join(os.path.dirname(__file__), '../static/')
 
-    def arg2html(self, a, prefix):
+    def arg2html(self, a, prefix, defaults={}):
         name = a.option_strings[0].replace("-", "")
         if isinstance(a, argparse._HelpAction):
             return ""
@@ -106,24 +106,26 @@ class BServer:
         if prefix and name.startswith(prefix + '_'):
             viewname = name[len(prefix)+1:]
 
+        default = defaults.get(name, None)
+
         row = """<tr><td>%s</td><td>%%s</td><td>%s</td></tr>\n""" % \
               (viewname, a.help or "")
         if (isinstance(a, argparse._StoreAction) and
             hasattr(a.type, "html")):
-            input = a.type.html(name, a.default)
+            input = a.type.html(name, default or a.default)
         elif a.dest == "layout":
             val = a.default.split("\n")
             input = """<textarea name="%s" cols="%s" rows="%s">%s</textarea>""" % \
-                    (name, max((len(l) for l in val))+10, len(val)+1, a.default)
+                    (name, max((len(l) for l in val))+10, len(val)+1, default or a.default)
         elif a.choices:
             options = "\n".join(
                 ("""<option value="%s"%s>%s</option>""" %
-                 (e, ' selected="selected"' if e == a.default else "",
+                 (e, ' selected="selected"' if e == (default or a.default) else "",
                   e) for e in a.choices))
             input = """<select name="%s" size="1">\n%s</select>\n""" % (name, options)
         else:
             input =  """<input name="%s" type="text" value="%s">""" % \
-            (name, a.default)
+            (name, default or a.default)
 
         return row % input
 
@@ -148,7 +150,7 @@ class BServer:
     </script>
 """
 
-    def args2html(self, name, box, action=""):
+    def args2html(self, name, box, action="", defaults={}):
         result = ["""<!DOCTYPE html>
 <html>
 <head>
@@ -183,7 +185,7 @@ class BServer:
             for a in group._group_actions:
                 if a.dest in ("input", "output"):
                     continue
-                result.append(self.arg2html(a, prefix))
+                result.append(self.arg2html(a, prefix, defaults))
             result.append("</table>")
             groupid += 1
         result.append("""
@@ -349,13 +351,20 @@ Create boxes and more with a laser cutter!
             start_response(status, headers)
             return self.menu()
 
+        args = [unquote_plus(arg) for arg in
+                environ['QUERY_STRING'].split("&")]
 
-        args = ["--"+unquote_plus(arg) for arg in environ['QUERY_STRING'].split("&")]
-        if "--render=1" not in args:
+        if "render=1" not in args:
+            defaults = { }
+            for a in args:
+                kv = a.split('=')
+                if len(kv) == 2:
+                    k, v = kv
+                    defaults[k] = cgi.escape(v, True)
             start_response(status, headers)
-            return self.args2html(name, box, "./" + name)
+            return self.args2html(name, box, "./" + name, defaults=defaults)
         else:
-            args = [a for a in args if a != "--render=1"]
+            args = ["--"+ arg for arg in args if arg != "render=1"]
             try:
                 box.parseArgs(args)
             except (ArgumentParserError) as e:

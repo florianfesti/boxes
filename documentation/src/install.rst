@@ -15,6 +15,11 @@ Boxes.py is based on the cairo graphics library. It supports both the PyPi
 version *cairocffi* and python-cairo that might be shipped with your
 distribution.
 
+Markdown
+........
+Markdown (package name may be python-markdown or python3-markdown) is
+used to format the description texts.
+
 LXML
 ....
 

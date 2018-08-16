@@ -196,6 +196,8 @@ class BoolArg:
         return True
 
     def html(self, name, default):
+        if isinstance(default, (str)):
+            default = self(default)
         return """<input name="%s" type="hidden" value="0">
 <input name="%s" type="checkbox" value="1"%s>""" % \
             (name, name, ' checked="checked"' if default else "")

@@ -26,6 +26,13 @@ class Parts:
         return getattr(self.boxes, name)
 
     def disc(self, diameter, hole=0, callback=None, move=""):
+        """Simple disc
+
+        :param diameter: diameter of the disc
+        :param hole: (Default value = 0)
+        :param callback: (Default value = None) called in the center
+        :param move: (Defaultvalue = None)
+        """
         size = diameter
         r = diameter / 2.0
 
@@ -43,6 +50,15 @@ class Parts:
         self.move(size, size, move)
 
     def waivyKnob(self, diameter, n=20, angle=45, hole=0, callback=None, move=""):
+        """Disc with a waivy edge to be easier to be gripped
+
+        :param diameter: diameter of the knob
+        :param n: (Default value = 20) number of waves
+        :param angle: (Default value = 45) maximum angle of the wave
+        :param hole: (Default value = 0)
+        :param callback: (Default value = None) called in the center
+        :param move: (Defaultvalue = None)
+        """
 
         if n < 2:
             return
@@ -70,6 +86,16 @@ class Parts:
 
     def concaveKnob(self, diameter, n=3, rounded=0.2, angle=70, hole=0,
                     callback=None, move=""):
+        """Knob with dents to be easier to be gripped
+
+        :param diameter: diameter of the knob
+        :param n: (Default value = 3) number of dents
+        :param rounded: (Default value = 0.2) proportion of circumferen remaining
+        :param angle: (Default value = 70) angle the dentsmeet the circumference
+        :param hole: (Default value = 0)
+        :param callback: (Default value = None) called in the center
+        :param move: (Defaultvalue = None)
+        """
         size = diameter
 
         if n < 2:
@@ -99,6 +125,14 @@ class Parts:
         self.move(size, size, move)
 
     def ringSegment(self, r_outside, r_inside, angle, n=1, move=None):
+        """Ring Segment
+
+        :param r_outside: outer radius
+        :param r_inside: inner radius
+        :param angle: anlge the segment is spanning
+        :param n: (Default value = 1) number of segments
+        :param move: (Defaultvalue = None)
+        """
         space = 360 * r_inside / self.spacing
         n = min(n, 360 / (angle+space))
 

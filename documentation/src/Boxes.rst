@@ -36,11 +36,28 @@ A couple of commands can create whole parts like walls. Typically the
 sizes given are the inner dimmensions not including additional space
 needed for burn compensation or joints.
 
-Currently there are only three such parts:
+Currently there are the following parts:
 
 .. automethod:: boxes.Boxes.rectangularWall
+.. automethod:: boxes.Boxes.flangedWall
+.. automethod:: boxes.Boxes.rectangularTriangle
+.. automethod:: boxes.Boxes.regularPolygonWall
 .. automethod:: boxes.Boxes.roundedPlate
 .. automethod:: boxes.Boxes.surroundingWall
+
+Parts Class
+...........
+
+More parts are available in a separete class. An instance is available as
+**Boxes.parts**
+
+.. automethod:: boxes.parts.Parts.disc
+.. automethod:: boxes.parts.Parts.waivyKnob
+.. automethod:: boxes.parts.Parts.concaveKnob
+.. automethod:: boxes.parts.Parts.ringSegment
+
+
+There are a few parameter shared by many of those parts:
 
 The callback parameter
 ......................
@@ -110,14 +127,26 @@ Generators can register their own Edges by putting them into the
 
 Same applies to the parameters of ``.surroundingWall`` although they
 denominate single edge (types) only.
-  
+
+PartsMatrix
+-----------
+
+To place many of the same part partMatrix can used:
+
+.. automethod:: boxes.Boxes.partsMatrix
+
+It creates one big block of parts. The move param treat this block like on big
+part.
+
 Navigation
 ----------
 .. automethod:: boxes.Boxes.moveTo
+.. automethod:: boxes.Boxes.moveArc
 .. automethod:: boxes.Boxes.continueDirection
 
-Boxes.ctx.save()
-Boxes.ctx.restore()
+**Boxes.ctx.save()** allows to save (among other things) the current position.
+**Boxes.ctx.restore()** restores the previously saved state. Always make sure
+to have balanced calls to those two functions.
 
 Turtle Graphics commands
 ------------------------
@@ -153,8 +182,15 @@ some continuous outline of the part their on.
 
 .. automethod:: boxes.Boxes.hole
 .. automethod:: boxes.Boxes.rectangularHole
+.. automethod:: boxes.Boxes.dHole
+.. automethod:: boxes.Boxes.flatHole
 .. automethod:: boxes.Boxes.text
 .. automethod:: boxes.Boxes.NEMA
+.. automethod:: boxes.Boxes.TX
+.. automethod:: boxes.Boxes.flex2D
+.. py:class:: NutHole
+
+An instance is available as **boxes.Boxes.nutHole()**
 
 An instance of
 
@@ -175,6 +211,10 @@ methods can be used.
 
 For now this is the only supported pattern for ventilation slots. More
 may be added in the future.
+
+There is a global Boxes.hexHolesSettings object that is used if no settings are
+passed. It currently is just a tuple of (r, dist, style) defualting to
+(5, 3, 'circle') but might be replace by a Settings instance in the future.
 
 .. automethod:: boxes.Boxes.hexHolesRectangle
 .. automethod:: boxes.Boxes.hexHolesCircle

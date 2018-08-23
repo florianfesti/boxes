@@ -1156,6 +1156,13 @@ class Boxes:
     @restore
     @holeCol
     def TX(self, size, x=0, y=0, angle=0):
+        """Draw a star pattern
+
+        :param size: 1 to 100
+        :param x: (Default value = 0)
+        :param y: (Default value = 0)
+        :param angle: (Default value = 0)
+        """
         self.moveTo(x, y, angle)
 
         size = self.tx_sizes.get(size, 0)

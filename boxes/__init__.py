@@ -1336,6 +1336,13 @@ class Boxes:
                 self.hole(j * 2 * w + i * w, -i * 2 * dist, r)
 
     def flex2D(self, x, y, width=1):
+        """
+        Fill a rectangle with a pattern allowing bending in both axis
+
+        :param x: width
+        :param y: height
+        :param width: width between the lines of the pattern in multiples of thickness
+        """
         width *= self.thickness
         cx = int(x // (5 * width))
         wx = x / 5. / cx

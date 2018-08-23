@@ -1742,7 +1742,15 @@ class Boxes:
     ##################################################
 
     def partsMatrix(self, n, width, move, part, *l, **kw):
+        """place many of the same part
 
+        :param n: number of parts
+        :param width: number of parts in a row
+        :param move: (Default value = None)
+        :param part: callable that draws a part and knows move param
+        :param \*l: params for part
+        :param \*\*kw: keyword params for part
+        """
         if n <= 0:
             return
 

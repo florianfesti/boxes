@@ -733,7 +733,7 @@ class CrossingFingerHoleEdge(Edge):
         self.height = height
 
     def __call__(self, length, **kw):
-        self.fingerHoles(length / 2.0, 0, self.height)
+        self.fingerHoles(length / 2.0, self.burn, self.height)
         super(CrossingFingerHoleEdge, self).__call__(length)
 
 

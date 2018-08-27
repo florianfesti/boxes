@@ -114,7 +114,7 @@ class BServer:
             hasattr(a.type, "html")):
             input = a.type.html(name, default or a.default)
         elif a.dest == "layout":
-            val = a.default.split("\n")
+            val = (default or a.default).split("\n")
             input = """<textarea name="%s" cols="%s" rows="%s">%s</textarea>""" % \
                     (name, max((len(l) for l in val))+10, len(val)+1, default or a.default)
         elif a.choices:

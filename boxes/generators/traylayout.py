@@ -344,7 +344,7 @@ class TrayLayout2(TrayLayout):
                 continue
             if line[0] == '+':
                 w = []
-                for n, c in enumerate(line):
+                for n, c in enumerate(line[:len(x)*2 + 1]):
                     if n % 2:
                         if c == ' ':
                             w.append(False)
@@ -389,6 +389,7 @@ class TrayLayout2(TrayLayout):
         # check sizes
         lx = len(x)
         ly = len(y)
+
         if len(hwalls) != ly + 1:
             raise ValueError("Wrong number of horizontal wall lines: %i (%i expected)" % (len(hwalls), ly + 1))
         for nr, walls in enumerate(hwalls):

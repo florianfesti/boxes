@@ -674,8 +674,8 @@ class FingerHoles(FingerJointBase):
         fingers, leftover = self.calcFingers(length, bedBolts)
 
         if self.boxes.debug:
-            self.ctx.rectangle(0, -self.settings.width / 2 + b,
-                               length, self.settings.width - 2 * b)
+            self.ctx.rectangle(b, -self.settings.width / 2 + b,
+                               length - 2 * b, self.settings.width - 2 * b)
         for i in range(fingers):
             pos = leftover / 2.0 + i * (s + f)
 

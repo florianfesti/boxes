@@ -142,6 +142,7 @@ class TrayLayout2(TrayLayout):
         lx = len(self.x)
         ly = len(self.y)
         t = self.thickness
+        b = self.burn
         t2 = self.thickness / 2.0
 
         hasfloor = False
@@ -279,19 +280,19 @@ class TrayLayout2(TrayLayout):
                             self.fingerHolesAt(posx, posy + t2, self.x[x], angle=0)
                     else:
                         # Top edge
-                        self.edgeAt(e, posx + self.x[x], posy + t, self.x[x],
+                        self.edgeAt(e, posx + self.x[x], posy + t + b, self.x[x],
                                     -180)
                         if x == 0 or y == 0 or not self.floors[y - 1][x - 1]:
-                            self.edgeAt("e", posx, posy + t, t, -180)
+                            self.edgeAt("e", posx, posy + t + b, t, -180)
                         if x == lx - 1 or y == 0 or not self.floors[y - 1][x + 1]:
-                            self.edgeAt("e", posx + self.x[x] + t, posy + t, t, -180)
+                            self.edgeAt("e", posx + self.x[x] + t, posy + t + b, t, -180)
                 elif y > 0 and self.floors[y - 1][x]:
                     # Bottom Edge
-                    self.edgeAt(e, posx, posy, self.x[x])
+                    self.edgeAt(e, posx, posy - b, self.x[x])
                     if x == 0 or y == ly or not self.floors[y][x - 1]:
-                        self.edgeAt("e", posx - t, posy, t)
+                        self.edgeAt("e", posx - t, posy - b, t)
                     if x == lx - 1 or y == ly or not self.floors[y][x + 1]:
-                        self.edgeAt("e", posx + self.x[x], posy, t)
+                        self.edgeAt("e", posx + self.x[x], posy - b, t)
                 posx += self.x[x] + self.thickness
             posy += self.y[y - 1] + self.thickness
 
@@ -310,18 +311,18 @@ class TrayLayout2(TrayLayout):
                             self.fingerHolesAt(posx + t2, posy, self.y[y])
                     else:
                         # Right edge
-                        self.edgeAt(e, posx + t, posy, self.y[y], 90)
+                        self.edgeAt(e, posx + t + b, posy, self.y[y], 90)
                         if x == lx or y == 0 or not self.floors[y - 1][x]:
-                            self.edgeAt("e", posx + t, posy + self.y[y], t, 90)
+                            self.edgeAt("e", posx + t + b, posy + self.y[y], t, 90)
                         if x == lx or y == ly - 1 or not self.floors[y + 1][x]:
-                            self.edgeAt("e", posx + t, posy - t, t, 90)
+                            self.edgeAt("e", posx + t + b, posy - t, t, 90)
                 elif x < lx and self.floors[y][x]:
                     # Left edge
-                    self.edgeAt(e, posx, posy + self.y[y], self.y[y], -90)
+                    self.edgeAt(e, posx - b, posy + self.y[y], self.y[y], -90)
                     if x == 0 or y == 0 or not self.floors[y - 1][x - 1]:
-                        self.edgeAt("e", posx, posy + self.y[y] + t, t, -90)
+                        self.edgeAt("e", posx - b, posy + self.y[y] + t, t, -90)
                     if x == 0 or y == ly - 1 or not self.floors[y + 1][x - 1]:
-                        self.edgeAt("e", posx, posy, t, -90)
+                        self.edgeAt("e", posx -b, posy, t, -90)
                 posy += self.y[y] + self.thickness
             if x < lx:
                 posx += self.x[x] + self.thickness

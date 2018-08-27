@@ -1,8 +1,31 @@
 Edges
 =====
 
+Edges are what makes Boxes.py work. They draw a -- more or less -- straight
+border to the current piece. They are part of the turtle graphics part
+of Boxes.py. This means they start at the current position and current
+direction and move the current position to the end of the edge.
+
+Edge instances have a Settings object associated with them that keeps
+the details about how the edge should look like. Edges that are
+supposed to work together share the same Settings object to ensure
+they fit together - assuming they have the same length. Most edges are
+symetrical to unsure they fit together even when drawn from different
+directions. Although there are a few exception - mainly edges that
+provide special features like hinges.
+
 As edges started out as methods of the main Boxes class they still are
-callables. A set of instances are kept the ``.edges`` attribute of the
+callables. It turned out that the edges need to provide a bit more
+information to allow the surrounding code to handle them
+properly. When drawing an Edge there is a virtual straight line that
+is the border the shape of the part (e.g. an rectangle). But the
+actual Edge has often to be drawn elsewhere. Best example if probably
+the ``F`` Edge that matches the normal finger joints. It has to start
+one material thickness outside of the virual border of the part so the
+cutouts for the opposing fingers just touch the border. The Edge
+classes have a number of methods to deal with these kind of offsets.
+
+A set of instances are kept the ``.edges`` attribute of the
 ``Boxes`` class. It is a dict with strings of length one as keys:
 
 * d : DoveTailJoint
@@ -17,9 +40,6 @@ callables. A set of instances are kept the ``.edges`` attribute of the
 * IJK : HingePin (start, end, both sides)
 * s : StackableEdge
 * S : StackableEdgeTop
-
-Edges of the same type share a settings instance to make sure both
-sides match (when the same length is given).
 
 Edge base class
 ---------------

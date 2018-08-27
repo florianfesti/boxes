@@ -1028,7 +1028,7 @@ class Boxes:
         :param r:  (Default value = 0) radius of the corners
 
         """
-        self.moveTo(x + r - dx / 2.0, y - dy / 2.0, 180)
+        self.moveTo(x + r - dx / 2.0, y - dy / 2.0 + self.burn, 180)
         for d in (dy, dx, dy, dx):
             self.corner(-90, r)
             self.edge(d - 2 * r)

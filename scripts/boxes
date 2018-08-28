@@ -23,7 +23,7 @@ from pkg_resources import get_distribution
 try:
     import boxes
 except ImportError:
-    sys.path.append(os.path.dirname(os.path.realpath(__file__)) + '/..')
+    sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), '..'))
     import boxes
 
 import boxes.generators

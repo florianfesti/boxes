@@ -13,6 +13,8 @@ Contents:
 	
    README
    install
+   usermanual
+   apiintro
    Boxes
    edges
 

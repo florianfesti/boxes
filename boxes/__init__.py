@@ -281,10 +281,18 @@ class Boxes:
 
     def buildArgParser(self, *l, **kw):
         """
-        Add commonly used commandf line parameters
+        Add commonly used arguments
 
         :param \*l: parameter names
+        :param \*\*kw: parameters with new default values
 
+        Supported parameters are
+
+        * floats: x, y, h, hi
+        * argparseSections: sx, sy
+        * ArgparseEdgeType: bottom_edge, top_edge
+        * boolarg: outside
+        * str (selection): nema_mount
         """
         for arg in l:
             kw[arg] = None

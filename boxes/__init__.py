@@ -159,6 +159,8 @@ def argparseSections(s):
 
 
 class ArgparseEdgeType:
+    """argparse type to select from a set of edge types"""
+
     names = edges.getDescriptions()
     edges = []
 

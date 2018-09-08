@@ -246,7 +246,7 @@ class Boxes:
             help="print surrounding boxes for some structures")
         defaultgroup.add_argument(
             "--reference", action="store", type=float, default=100,
-            help="print reference rectangle with given length")
+            help="print reference rectangle with given length (zero to disable)")
         defaultgroup.add_argument(
             "--burn", action="store", type=float, default=0.1,
             help="burn correction in mm (bigger values for tighter fit)")

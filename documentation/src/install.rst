@@ -26,6 +26,15 @@ LXML
 lxml (package name may be python-lxml or python3-lxml) is needed for
 the Inkscape plugin.
 
+setuptools
+..........
+
+Setup.py uses the setuptools library (package name may be
+python*-setuptools). You only need it if you want to build the
+package.
+
+
+
 ps2edit
 .......
 
@@ -77,7 +86,11 @@ Boxes.py on Windows
 -------------------
 
 While there is no known reason why Boxes.py should not run on Windows
-there is no upstream experience with doing so. Getting the Inkscape
-plugins to run will likely need manual installation (see above). If
-you run into trouble or have better installation instructions please
-open a ticket on Git Hub.
+there is no upstream experience with doing so. The tricky part is
+getting the cairo library installed and to run with the Python version
+used. Python version and the architecture (32 or 64 bit) must match.
+
+Getting the Inkscape plugins to run will likely need manual
+installation (see above). Note that Inkscape may come with its own
+Python. If you run into trouble or have better installation
+instructions please open a ticket on Git Hub.

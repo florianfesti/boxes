@@ -1,8 +1,8 @@
-Contributing to Boxes&#46;py
-============================
+Contributing to Boxes.py
+========================
 
-You are thinking about contributing to Boxes&#46;py? That's great!
-Boxes&#46;py is designed to be re-used and extended.
+You are thinking about contributing to Boxes.py? That's great!
+Boxes.py is designed to be re-used and extended.
 
 This document gives you some guidelines how your contribution is most
 likely to impact the development and your changes are most likely to
@@ -12,15 +12,15 @@ Most of them should be just general best practises and not be
 surprising. Don't worry if you find them too complicated. It is OK
 leave the final touch to someone else.
 
-Writing code for Boxes&#46;py
------------------------------
+Writing code for Boxes.py
+-------------------------
 
 You will often be compelled to just do a quick thing that will solve
 your immediate needs. That's fine. But nevertheless it is often worth
 doing things the right way and be able to submit your changes
 upstream. For one to give something back to the community. But also
 for purly selfish reasons like getting the code maintained. Also
-Boxes&#46;py is designed to make doing things properly the easy way.
+Boxes.py is designed to make doing things properly the easy way.
 
 Here are some guidelines that make this easier. Depending on what you
 are up to they may apply to a varying degree. It's ok to submit
@@ -47,7 +47,7 @@ or are going to finish it on your own.
 
 If you want to discuss your idea open a ticket describing it and ask
 questions there. This is encouraged even if you think you know what
-you want to do. There are many short cuts in Boxes&#46;py and pointing you
+you want to do. There are many short cuts in Boxes.py and pointing you
 in the right direction may save you a lot of work.
 
 If you want feed back on you code feel free to open a PR. State that
@@ -58,7 +58,7 @@ Writing new Generators
 ......................
 
 Writing new generators is the most straight forward thing to do with
-Boxes&#46;py. Here are some guidelines that make it easier to get them added:
+Boxes.py. Here are some guidelines that make it easier to get them added:
 
 * Start with a copy of another generator or *boxes/generators/_template.py*
 * Commit changes to the library in separate patches
@@ -70,7 +70,7 @@ Boxes&#46;py. Here are some guidelines that make it easier to get them added:
 Improving the Documentation
 ---------------------------
 
-Boxes&#46;py comes with Sphinx based documentation that is in large parts
+Boxes.py comes with Sphinx based documentation that is in large parts
 generated from the doc strings in the code. Nevertheless documentation
 has a tendency to get outdated. If you encounter outdated pieces of
 documentation feel free to submit a pull request or open a ticket
@@ -88,7 +88,7 @@ Coming up with good names and good descriptions is hard. Often writing
 a new generator is much easier than coming up with a good name for it
 and its arguments. If you think something deserves a better name or
 description and you can come up with one please don't hesitate to open
-a ticket. It is this small things that make something like Boxes&#46;py
+a ticket. It is this small things that make something like Boxes.py
 easy or hard to use.
 
 There is also an - often empty - space for a longer text for each
@@ -100,7 +100,7 @@ perfect. We can work on it together.
 Reporting bugs
 --------------
 
-If you encounter issues with Boxes&#46;py, please open a ticket at
+If you encounter issues with Boxes.py, please open a ticket at
 GitHub. Please provide all information necessary to reproduce the
 bug. Often this can be the URL of the broken result. If the issue is
 easy to spot it may be sufficient to just give a brief

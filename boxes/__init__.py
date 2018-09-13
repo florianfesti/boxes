@@ -1627,7 +1627,7 @@ class Boxes:
             self.edgeCorner(e1, e2, 90)
 
         if holesMargin is not None:
-            self.moveTo(holesMargin + edges[-1].endwidth(),
+            self.moveTo(holesMargin,
                         holesMargin + edges[0].startwidth())
             self.hexHolesRectangle(x - 2 * holesMargin, y - 2 * holesMargin)
 

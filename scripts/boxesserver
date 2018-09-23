@@ -155,6 +155,8 @@ class BServer:
 <html>
 <head>
     <title>Boxes - """, name, """</title>
+    <link rel="icon" type="image/svg+xml" href="static/boxes-logo.svg" sizes="any">
+    <link rel="shortcut icon" type="image/x-icon" href="static/favicon.ico">
     <link rel="stylesheet" href="static/self.css" type="text/css" />
 """, self.scripts % (len(box.argparser._action_groups)-3), """
    <meta name="flattr:id" content="456799">
@@ -166,8 +168,8 @@ class BServer:
 <div style="float: left;">
 <a href="./"><h1>Boxes.py</h1></a>
 </div>
-<div style="width: 150px; float: right;">
-<img alt="self-Logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Gray_shaded_3D_cube.svg/2000px-Gray_shaded_3D_cube.svg.png" width="150" >
+<div style="width: 120px; float: right;">
+<img alt="self-Logo" src="static/boxes-logo.svg" width="120" >
 </div>
 <div>
 <div class="clear"></div>
@@ -227,6 +229,8 @@ class BServer:
 <html>
 <head>
     <title>Boxes.py</title>
+    <link rel="icon" type="image/svg+xml" href="static/boxes-logo.svg" sizes="any">
+    <link rel="shortcut icon" type="image/x-icon" href="static/favicon.ico">
     <link rel="stylesheet" href="static/self.css" type="text/css" />
     <script>
 	function change(group, img_link){
@@ -243,7 +247,7 @@ class BServer:
 </head>
 <body onload="hideargs()">
 <div class="container" style="background-color: #FFF8EA;">
-<div style="width: 70%; float: left;">
+<div style="width: 75%; float: left;">
 <h1>Boxes.py</h1>
 <p>
 Create boxes and more with a laser cutter!
@@ -255,8 +259,8 @@ Create boxes and more with a laser cutter!
 
 
 </div>
-<div style="width: 30%; float: left;">
-<img alt="self-Logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Gray_shaded_3D_cube.svg/2000px-Gray_shaded_3D_cube.svg.png" width="300" >
+<div style="width: 25%; float: left;">
+<img alt="self-Logo" src="static/boxes-logo.svg" width="250" >
 </div>
 <div>
 <div class="clear"></div>

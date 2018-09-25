@@ -1242,7 +1242,7 @@ Values:
  * bore : 3.2 : diameter of the pin hole in mm
  * eyes_per_hinge : 5 : pieces per hinge
  * hinges : 2 : number of hinges per edge
-
+ * style : inside : style of hinge used
 * relative (in multiples of thickness)
 
  * eye : 1.5 : radius of the eye (in multiples of thickness)
@@ -1253,6 +1253,7 @@ Values:
         "bore": 3.2,
         "eyes_per_hinge" : 5,
         "hinges" : 2,
+        "style" : ("inside", "outside"),
     }
 
     relative_params = {
@@ -1294,7 +1295,9 @@ class CabinetHingeEdge(BaseEdge):
         t = self.settings.thickness
         spacing = self.settings.spacing
 
-        if self.angled and not self.top:
+        if self.settings.style == "outside" and self.angled:
+            e = t
+        elif self.angled and not self.top:
             # move hinge up to leave space for lid
             e -= t
 
@@ -1332,7 +1335,9 @@ class CabinetHingeEdge(BaseEdge):
 
         poly, width = self.__poly()
 
-        if self.angled and not self.top:
+        if self.settings.style == "outside" and self.angled:
+            e = t
+        elif self.angled and not self.top:
             # move hinge up to leave space for lid
             e -= t
 
@@ -1359,10 +1364,37 @@ class CabinetHingeEdge(BaseEdge):
         n = self.settings.eyes_per_hinge * self.settings.hinges
         pairs = n // 2 + 2 * (n % 2)
 
-        th = 4*e+3*t+self.boxes.spacing
-        tw = max(e, 2*t) * pairs
+        if self.settings.style == "outside":
+            th = 2*e + 4*t
+            tw = n * (max(3*t, 2*e) + self.boxes.spacing)
+        else:
+            th = 4*e+3*t+self.boxes.spacing
+            tw = max(e, 2*t) * pairs
 
-        if self.move(th, tw, move, True):
+        if self.move(tw, th, move, True):
+            return
+
+        if self.settings.style == "outside":
+            ax = max(t/2, e-t)
+            self.moveTo(t+ax)
+            for i in range(n):
+                if self.angled:
+                    if i > n // 2:
+                        l = 4 * t + ax
+                    else:
+                        l = 5 * t + ax
+                else:
+                    l = 3 * t + e
+                self.hole(0, e, b/2.0)
+                da = math.asin((t-ax) / e)
+                dad = math.degrees(da)
+                dy = e * (1-math.cos(da))
+                self.polyline(0, (180-dad, e), 0, (-90+dad), dy+l-e, (90, t))
+                self.polyline(0, 90, t, -90, t, 90, t, 90, t, -90, t, -90, t,
+                              90, t, 90, (ax+t)-e, -90, l-3*t, (90, e))
+                self.moveTo(2*max(e, 1.5*t) + self.boxes.spacing)
+
+            self.move(tw, th, move)
             return
 
         if e <= 2*t:

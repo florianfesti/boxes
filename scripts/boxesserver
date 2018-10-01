@@ -345,7 +345,7 @@ Create boxes and more with a laser cutter!
             return self.serveStatic(environ, start_response)
 
         status = '200 OK'
-        headers = [('Content-type', 'text/html; charset=utf-8')]
+        headers = [('Content-type', 'text/html; charset=utf-8'), ('X-XSS-Protection', '1; mode=block'), ('X-Content-Type-Options', 'nosniff'), ('x-frame-options', 'SAMEORIGIN'), ('Referrer-Policy', 'no-referrer')]
 
         d = cgi.parse_qs(environ['QUERY_STRING'])
         name = environ["PATH_INFO"][1:]

@@ -9,3 +9,4 @@ install: "pip install sphinx"
 script:
   - #sphinx-build -nWT -b dummy . _build/html
   - bash boxes/documentation/src/Makefile
+  - cd boxes/documentation/src/ && ls

@@ -1,0 +1,29 @@
+language: python
+python:
+    - "2.7"
+
+# Cache PlatformIO packages using Travis CI container-based infrastructure
+sudo: false
+cache:
+  - pip
+branches:
+  only:
+    - master
+install: 
+  - pip install sphinx pycairo
+script:
+  #- python setup.py install
+  - cd ./documentation/src/ && make html #linkchecker
+  - cd ../build/ && ls && ls html/
+  - rm -rf doctrees
+  - touch .nojekyll
+
+deploy:
+  provider: pages
+  # see https://docs.travis-ci.com/user/deployment/pages/
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+  keep-history: true
+  local-dir: ./documentation/build/
+  on:
+    branch: master

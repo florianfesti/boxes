@@ -72,9 +72,6 @@ class CardBox(Boxes):
         self.argparser.add_argument(
             "--cardheight",  action="store", type=float, default=90,
             help="Height of the cards")
-        self.argparser.add_argument(
-            "--lipwidth",  action="store", type=float, default=10,
-            help="Width of the top lips")
 
     @property
     def boxwidth(self):
@@ -113,7 +110,7 @@ class CardBox(Boxes):
         self.ctx.save()
 
         # Lid
-        self.rectangularWall(x, y, "eeee", move="right")
+        self.rectangularWall(x-t*.2, y+t, "eeee", move="right")
         # Bottom
         self.rectangularWall(x, y, "ffff", callback=[self.divider_bottom],
                              move="right")
@@ -140,12 +137,12 @@ class CardBox(Boxes):
         self.rectangularWall(h, y, "fFfF", move="right")
 
         # Inner sides
-        self.rectangularWall(h, y, "eAee", move="right")
-        self.rectangularWall(h, y, "eAee", move="right")
+        self.rectangularWall(h-t, y, "eAee", move="right")
+        self.rectangularWall(h-t, y, "eAee", move="right")
 
         # Lips
-        self.rectangularWall(self.lipwidth, y, "eeef", move="right")
-        self.rectangularWall(self.lipwidth, y, "efee", move="right")
+        self.rectangularWall(t, y, "eeef", move="right")
+        self.rectangularWall(t, y, "efee", move="right")
 
         # Divider
         self.rectangularWall(h-t, y, "fAff", move="right")

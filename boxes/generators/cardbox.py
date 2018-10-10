@@ -72,22 +72,28 @@ class CardBox(Boxes):
         self.argparser.add_argument(
             "--cardheight",  action="store", type=float, default=90,
             help="Height of the cards")
+        self.argparser.add_argument(
+            "--num",  action="store", type=int, default=2,
+            help="number of compartments")
 
     @property
     def boxwidth(self):
-        return self.cardwidth*2 + self.thickness*3
+        return self.num * (self.cardwidth + self.thickness) + self.thickness
 
     def divider_bottom(self):
-        x = self.boxwidth
+        t = self.thickness
+        c = self.cardwidth
         y = self.cardheight
 
-        self.fingerHolesAt(x/2, 0, y, 90)
+        for i in range(1, self.num):
+            self.fingerHolesAt(0.5*t + (c+t)*i, 0, y, 90)
 
     def divider_back_and_front(self):
-        x = self.boxwidth
+        t = self.thickness
+        c = self.cardwidth
         y = self.h - self.thickness
-
-        self.fingerHolesAt(x/2, 0, y, 90)
+        for i in range(1, self.num):
+            self.fingerHolesAt(0.5*t + (c+t)*i, 0, y, 90)
 
     def render(self):
         self.open()
@@ -145,6 +151,7 @@ class CardBox(Boxes):
         self.rectangularWall(t, y, "efee", move="right")
 
         # Divider
-        self.rectangularWall(h-t, y, "fAff", move="right")
+        for i in range(self.num - 1):
+            self.rectangularWall(h-t, y, "fAff", move="right")
 
         self.close()

@@ -31,8 +31,12 @@ class FlexBox2(Boxes):
             "--radius", action="store", type=float, default=15,
             help="Radius of the corners in mm")
 
-    @restore
-    def flexBoxSide(self, y, h, r, callback=None):
+    def flexBoxSide(self, y, h, r, callback=None, move=None):
+        t = self.thickness
+        if self.move(y+2*t, h+t, move, True):
+            return
+
+        self.moveTo(t, t)
         self.cc(callback, 0)
         self.edges["f"](y)
         self.corner(90, 0)
@@ -48,30 +52,42 @@ class FlexBox2(Boxes):
         self.edges["f"](h - r - self.latchsize)
         self.corner(90)
 
-    def surroundingWall(self):
-        y, h, x, r = self.y, self.h, self.x, self.radius
+        self.move(y+2*t, h+t, move)
 
+    def surroundingWall(self, move=None):
+        y, h, x, r = self.y, self.h, self.x, self.radius
+        t = self.thickness
+
+        tw = y + h - 3*r + 2*self.c4 + self.latchsize + t
+        th = x + 2.5*t
+
+        if self.move(tw, th, move, True):
+            return
+
+        self.moveTo(t, .25*t)
         self.edges["F"](h - r, False)
 
-        if (y - 2 * r < self.thickness):
-            self.edges["X"](2 * self.c4 + y - 2 * r, x + 2 * self.thickness)
+        if (y - 2 * r < t):
+            self.edges["X"](2 * self.c4 + y - 2 * r, x + 2 * t)
         else:
-            self.edges["X"](self.c4, x + 2 * self.thickness)
+            self.edges["X"](self.c4, x + 2 * t)
             self.edge(y - 2 * r)
-            self.edges["X"](self.c4, x + 2 * self.thickness)
+            self.edges["X"](self.c4, x + 2 * t)
 
         self.latch(self.latchsize, False)
-        self.edge(x + 2 * self.thickness)
+        self.edge(x + 2 * t)
         self.latch(self.latchsize, False, True)
         self.edge(self.c4)
         self.edge(y - 2 * r)
         self.edge(self.c4)
         self.edges["F"](h - r)
         self.corner(90)
-        self.edge(self.thickness)
+        self.edge(t)
         self.edges["f"](x)
-        self.edge(self.thickness)
+        self.edge(t)
         self.corner(90)
+
+        self.move(tw, th, move)
 
     def render(self):
 
@@ -88,25 +104,16 @@ class FlexBox2(Boxes):
 
         self.open()
 
-        self.fingerJointSettings = (4, 4)
-
         self.moveTo(2 * self.thickness, self.thickness)
         self.ctx.save()
-        self.surroundingWall()
+        self.surroundingWall(move="right")
 
-        self.moveTo(self.y + self.h - 3 * self.radius + 2 * self.c4 + self.latchsize + 1 * self.thickness, 0)
         self.rectangularWall(self.y, self.x, edges="FFFF")
         self.ctx.restore()
+        self.surroundingWall(move="up only")
 
-        self.moveTo(0, self.x + 4 * self.thickness)
-        self.flexBoxSide(self.y, self.h, self.radius)
-
-        self.moveTo(2 * self.y + 3 * self.thickness, 0)
-        self.ctx.scale(-1, 1)
-        self.flexBoxSide(self.y, self.h, self.radius)
-        self.ctx.scale(-1, 1)
-
-        self.moveTo(2 * self.thickness, 0)
+        self.flexBoxSide(self.y, self.h, self.radius, move="right")
+        self.flexBoxSide(self.y, self.h, self.radius, move= "mirror right")
         self.rectangularWall(self.x, self.h - self.radius - self.latchsize, edges="fFeF")
         self.close()
 

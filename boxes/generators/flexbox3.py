@@ -41,17 +41,12 @@ class FlexBox3(Boxes):
             "--c", action="store", type=float, default=1.0,
             dest="d", help="clearance of the lid")
 
-    def rectangleCorner(self, edge1=None, edge2=None):
-        edge1 = self.edges.get(edge1, edge1)
-        edge2 = self.edges.get(edge2, edge2)
-        if edge2:
-            self.edge(edge2.startwidth())
-        self.corner(90)
-        if edge1:
-            self.edge(edge1.endwidth())
+    def flexBoxSide(self, x, y, r, callback=None, move=None):
+        t = self.thickness
+        if self.move(x+2*t, y+t, move, True):
+            return
 
-    @restore
-    def flexBoxSide(self, x, y, r, callback=None):
+        self.moveTo(t, t)
         self.cc(callback, 0)
         self.edges["f"](x)
         self.corner(90, 0)
@@ -65,17 +60,28 @@ class FlexBox3(Boxes):
         self.edges["f"](y)
         self.corner(90)
 
-    def surroundingWall(self):
+        self.move(x+2*t, y+t, move)
+
+    def surroundingWall(self, move=None):
         x, y, z, r, d = self.x, self.y, self.z, self.radius, self.d
+        t = self.thickness
+
+        tw = x + y - 2*r + self.c4 + 2*t + d
+        th = z + 4*t + 2*d
+
+        if self.move(tw, th, move, True):
+            return
+
+        self.moveTo(t, d + t)
 
         self.edges["F"](y - r, False)
-        self.edges["X"](self.c4, z + 2 * self.thickness)
+        self.edges["X"](self.c4, z + 2 * t)
         self.corner(-90)
         self.edge(d)
         self.corner(90)
         self.edges["f"](x - r + d)
         self.corner(90)
-        self.edges["f"](z + 2 * self.thickness + 2 * d)
+        self.edges["f"](z + 2 * t + 2 * d)
         self.corner(90)
         self.edges["f"](x - r + d)
         self.corner(90)
@@ -84,36 +90,45 @@ class FlexBox3(Boxes):
         self.edge(self.c4)
         self.edges["F"](y - r)
         self.corner(90)
-        self.edge(self.thickness)
+        self.edge(t)
         self.edges["f"](z)
-        self.edge(self.thickness)
+        self.edge(t)
         self.corner(90)
 
-    @restore
-    def lidSide(self):
+        self.move(tw, th, move)
+
+    def lidSide(self, move=None):
         x, y, z, r, d, h = self.x, self.y, self.z, self.radius, self.d, self.h
         t = self.thickness
         r2 = r + t if r + t <= h + t else h + t
-        self.moveTo(self.thickness, 0)
+
         if r < h:
             r2 = r + t
+            base_l = x + 2 * t
+            if self.move(h+t, base_l+t, move, True):
+                return
+
             self.edge(h + self.thickness - r2)
             self.corner(90, r2)
             self.edge(r - r2 + 2 * t)
-            base_l = x + 2 * t
         else:
             a = math.acos((r-h)/(r+t))
             ang = math.degrees(a)
             base_l = x + (r+t) * math.sin(a) - r
+            if self.move(h+t, base_l+t, move, True):
+                return
+
             self.corner(90-ang)
             self.corner(ang, r+t)
 
         self.edges["F"](x - r)
-        self.rectangleCorner("F", "f")
+        self.edgeCorner("F", "f")
         self.edges["g"](h)
-        self.rectangleCorner("f", "e")
+        self.edgeCorner("f", "e")
         self.edge(base_l)
         self.corner(90)
+
+        self.move(h+t, base_l+t, move)
 
     def render(self):
         if self.outside:
@@ -137,25 +152,18 @@ class FlexBox3(Boxes):
                                       space=1., surroundingspaces=1)
         s.edgeObjects(self, "gGH")
 
-        self.moveTo(2 * self.thickness, self.thickness + 2 * d)
         self.ctx.save()
-        self.surroundingWall()
-        self.moveTo(x + y - 2 * r + self.c4 + 2 * self.thickness, -2 * d - self.thickness)
+        self.surroundingWall(move="right")
         self.rectangularWall(x, z, edges="FFFF", move="right")
         self.rectangularWall(h, z + 2 * (d + self.thickness), edges="GeGF", move="right")
-        self.lidSide()
-        self.moveTo(2 * h + 5 * self.thickness, 0)
-        self.ctx.scale(-1, 1)
-        self.lidSide()
-
+        self.lidSide(move="right")
+        self.lidSide(move="mirror right")
         self.ctx.restore()
-        self.moveTo(0, z + 4 * self.thickness + 2 * d)
-        self.flexBoxSide(x, y, r)
-        self.moveTo(2 * x + 3 * self.thickness, 2 * d)
-        self.ctx.scale(-1, 1)
-        self.flexBoxSide(x, y, r)
-        self.ctx.scale(-1, 1)
-        self.moveTo(2 * self.thickness, -self.thickness)
+
+        self.surroundingWall(move="up only")
+
+        self.flexBoxSide(x, y, r, move="right")
+        self.flexBoxSide(x, y, r, move="mirror right")
         self.rectangularWall(z, y, edges="fFeF")
 
         self.close()

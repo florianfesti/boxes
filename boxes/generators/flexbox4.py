@@ -83,11 +83,11 @@ class FlexBox4(Boxes):
             self.y = self.adjustSize(self.y)
             self.h = self.adjustSize(self.h)
 
-        self.c4 = c4 = math.pi * self.radius * 0.5
         self.latchsize = 8 * self.thickness
         self.radius = self.radius or min(self.x / 2.0, self.y - self.latchsize)
         self.radius = min(self.radius, self.x / 2.0)
         self.radius = min(self.radius, max(0, self.y - self.latchsize))
+        self.c4 = c4 = math.pi * self.radius * 0.5
 
         self.open()
 

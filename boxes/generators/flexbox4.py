@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (C) 2013-2014 Florian Festi
+# Copyright (C) 2013-2018 Florian Festi
 #
 #   This program is free software: you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -32,8 +32,14 @@ class FlexBox4(Boxes):
             "--radius", action="store", type=float, default=15,
             help="Radius of the corners in mm")
 
-    @restore
-    def flexBoxSide(self, x, y, r, callback=None):
+    def flexBoxSide(self, x, y, r, callback=None, move=None):
+        t = self.thickness
+
+        if self.move(x+2*t, y+t, move, True):
+            return
+
+        self.moveTo(t, t)
+
         self.cc(callback, 0)
         self.edges["f"](x)
         self.corner(90, 0)
@@ -48,27 +54,38 @@ class FlexBox4(Boxes):
         self.cc(callback, 4)
         self.latch(self.latchsize)
         self.corner(90)
-        self.ctx.stroke()
 
-    def surroundingWall(self):
+        self.move(x+2*t, y+t, move)
+
+    def surroundingWall(self, move=None):
         x, y, h, r = self.x, self.y, self.h, self.radius
+        c4 = self.c4
+
         t = self.thickness
+
+        tw, th = 2*c4 + 2*y + x - 4*r + 2*t, h + 2.5*t
+
+        if self.move(tw, th, move, True):
+            return
+
+        self.moveTo(t, 0.25*t)
+
         self.edges["F"](y - r, False)
         if (x - 2 * r < self.thickness):
-            self.edges["X"](2 * self.c4 + x - 2 * r, h + 2 * self.thickness)
+            self.edges["X"](2 * c4 + x - 2 * r, h + 2 * self.thickness)
         else:
-            self.edges["X"](self.c4, h + 2 * self.thickness)
+            self.edges["X"](c4, h + 2 * self.thickness)
             self.edge(x - 2 * r)
-            self.edges["X"](self.c4, h + 2 * self.thickness)
+            self.edges["X"](c4, h + 2 * self.thickness)
 
         self.edge(y - r - self.latchsize)
         self.latch(self.latchsize+t, False)
         self.edge(h + 2 * self.thickness)
         self.latch(self.latchsize+t, False, True)
         self.edge(y - r - self.latchsize)
-        self.edge(self.c4)
+        self.edge(c4)
         self.edge(x - 2 * r)
-        self.edge(self.c4)
+        self.edge(c4)
         self.edges["F"](y - r)
         self.corner(90)
         self.edge(self.thickness)
@@ -76,6 +93,8 @@ class FlexBox4(Boxes):
         self.edge(self.thickness)
         self.corner(90)
         self.ctx.stroke()
+
+        self.move(tw, th, move)
 
     def render(self):
         if self.outside:
@@ -91,20 +110,11 @@ class FlexBox4(Boxes):
 
         self.open()
 
-        self.fingerJointSettings = (4, 4)
-
-        self.moveTo(2 * self.thickness, self.thickness)
-        self.ctx.save()
-        self.surroundingWall()
-        self.ctx.restore()
-        self.moveTo(0, self.h + 4 * self.thickness)
-        self.flexBoxSide(self.x, self.y, self.radius)
-        self.moveTo(2 * self.x + 3 * self.thickness, 0)
-        self.ctx.scale(-1, 1)
-        self.flexBoxSide(self.x, self.y, self.radius)
-        self.ctx.scale(-1, 1)
-        self.moveTo(2 * self.thickness, -self.thickness)
+        self.surroundingWall(move="up")
+        self.flexBoxSide(self.x, self.y, self.radius, move="right")
+        self.flexBoxSide(self.x, self.y, self.radius, move="mirror right")
         self.rectangularWall(self.x, self.h, edges="FeFF")
+
         self.close()
 
 

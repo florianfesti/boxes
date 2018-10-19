@@ -973,15 +973,17 @@ class Boxes:
         for term in terms:
             if not term in moves:
                 raise ValueError("Unknown direction: '%s'" % term)
-            x, y, movebeforeprint = moves[term]
+            mx, my, movebeforeprint = moves[term]
             if movebeforeprint and before:
-                self.moveTo(x, y)
+                self.moveTo(mx, my)
             elif (not movebeforeprint and not before) or dontdraw:
-                self.moveTo(x, y)
+                self.moveTo(mx, my)
         if not dontdraw:
             if before:
                 # save position
                 self.ctx.save()
+                if self.debug:
+                    self.ctx.rectangle(0, 0, x, y)
                 self.moveTo(self.spacing / 2.0, self.spacing / 2.0)
         return dontdraw
 

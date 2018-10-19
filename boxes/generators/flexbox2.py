@@ -30,6 +30,9 @@ class FlexBox2(Boxes):
         self.argparser.add_argument(
             "--radius", action="store", type=float, default=15,
             help="Radius of the corners in mm")
+        self.argparser.add_argument(
+            "--latchsize", action="store", type=float, default=8,
+            help="size of latch in multiples of thickness")
 
     def flexBoxSide(self, y, h, r, callback=None, move=None):
         t = self.thickness
@@ -96,7 +99,7 @@ class FlexBox2(Boxes):
             self.h = self.adjustSize(self.h)
             self.x = self.adjustSize(self.x)
 
-        self.latchsize = 8 * self.thickness
+        self.latchsize *= self.thickness
         self.radius = self.radius or min(self.y / 2.0, self.h - self.latchsize)
         self.radius = min(self.radius, self.y / 2.0)
         self.radius = min(self.radius, max(0, self.h - self.latchsize))

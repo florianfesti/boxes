@@ -182,6 +182,8 @@ class BServer:
         for group in box.argparser._action_groups[3:] + box.argparser._action_groups[:3]:
             if not group._group_actions:
                 continue
+            if len(group._group_actions) == 1 and isinstance(group._group_actions[0], argparse._HelpAction):
+                continue
             prefix = getattr(group, "prefix", None)
             result.append('''<h3 id="h-%s" class="open" onclick="showHide(%s)">%s</h3>\n<table id="%s">\n''' % (groupid, groupid, group.title, groupid))
             for a in group._group_actions:

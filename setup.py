@@ -3,6 +3,7 @@
 import glob
 import os
 import sys
+from subprocess import check_output, CalledProcessError
 from setuptools import setup, find_packages
 from setuptools.command.build_py import build_py
 
@@ -17,17 +18,21 @@ class CustomBuildExtCommand(build_py):
 
     def run(self):
         self.execute(self.buildInkscapeExt, ())
-        if os.name == "posix":
-            if sys.platform == "darwin":
-                path = "/usr/local/share/inkscape/extensions/"
-            else:
-                path = "/usr/share/inkscape/extensions/"
+        try:
+            path = check_output(["inkscape", "-x"])
+            if not os.access(path, os.W_OK): # Can we install globaly
+                # Not tested on Windows and Mac
+                path = os.path.expanduser("~/.config/inkscape/extensions")
+
             if self.distribution.data_files is None:
                 self.distribution.data_files = []
             self.distribution.data_files.append(
                 (path,
                  [i for i in glob.glob(os.path.join("inkex", "*.inx"))]))
             self.distribution.data_files.append((path, ['scripts/boxes']))
+        except CalledProcessError:
+            pass # Inkscape is not installed
+
         build_py.run(self)
 
 setup(

@@ -18,10 +18,29 @@ from boxes import Boxes
 
 
 class Silverware(Boxes):
-    """Not yet parametrized cuttlery stand with carrying grip
-using flex for rounded corners"""
+    """
+    Cuttlery stand with carrying grip
+    using flex for rounded corners
+    """
 
     ui_group = "Unstable"
+
+
+    def __init__(self):
+        Boxes.__init__(self)
+
+        self.buildArgParser(x=250, y=154, h=120)
+
+        self.argparser.add_argument(
+            "--cornerradius", action="store", type=int, default=30,
+            help="Radius of the corners")
+        self.argparser.add_argument(
+            "--handleheight", action="store", type=int, default=150,
+            help="Height of the handle")
+        self.argparser.add_argument(
+            "--handlewidth", action="store", type=int, default=120,
+            help="Width of the handle")
+
 
     ####################################################################
     ### Parts
@@ -57,8 +76,7 @@ using flex for rounded corners"""
         self.edges["f"](h - 10)
         self.corner(90)
 
-        self.handle(x, 150, 120)
-        # self.handle(x, 40, 30, r=2)
+        self.handle(x, self.handleheight, self.handlewidth)
 
         self.corner(90)
         self.edges["f"](h - 10)
@@ -72,7 +90,11 @@ using flex for rounded corners"""
     ##################################################
 
     def render(self):
-        x, y, h, r = 250, 250 / 1.618, 120, 30
+        x = self.x
+        y = self.y
+        h = self.h
+        r = self.cornerradius
+
         self.open()
         t = self.thickness
         b = self.burn
@@ -82,12 +104,10 @@ using flex for rounded corners"""
 
         l = (y - t) / 2.0
 
-        for i in range(3):
+        for _ in range(3):
             self.rectangularWall(l, h - 10, edges="ffef", move="right")
 
         self.moveTo(-3.0 * (l + 2 * t + 8 * b), h - 10 + 2 * t + 8 * b)
         self.basePlate(x, y, r)
 
         self.close()
-
-

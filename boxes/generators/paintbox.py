@@ -14,7 +14,7 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from boxes import Boxes, edges
+from boxes import Boxes, edges, boolarg
 
 class PaintStorage(Boxes):
     """Stackable paint storage"""
@@ -39,9 +39,19 @@ class PaintStorage(Boxes):
         self.argparser.add_argument(
             "--minspace", action="store", type=int, default=10,
             help="Minimum space between the paintcans")
+        self.argparser.add_argument(
+            "--hexpattern", action="store", type=boolarg, default=False,
+            help="Use hexagonal arrangement for the holes instead of orthogonal")
 
     def paintholes(self):
         "Place holes for the paintcans evenly"
+
+        if self.hexpattern:
+            self.moveTo(self.minspace/2, self.minspace/2)
+            self.hexHolesRectangle(self.y - 1*self.minspace,
+                                   self.x - 1*self.minspace,
+                (self.candiameter/2, self.minspace, 'circle'))
+            return
         n_x = int(self.x / (self.candiameter+self.minspace))
         n_y = int(self.y / (self.candiameter+self.minspace))
         spacing_x = (self.x - n_x*self.candiameter)/n_x

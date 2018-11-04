@@ -19,6 +19,12 @@ from boxes import *
 class LaserClamp(Boxes):
     """A clamp to hold down material to a knife table"""
 
+    description = """You need a tension spring of the proper length to make the clamp work.
+Increace extraheight to get more space for the spring and to make the
+sliding mechanism less likely to bind. You may need to add some wax on the
+parts sliding on each other to reduce friction.
+"""
+
     ui_group = "Misc"
 
     def __init__(self):
@@ -38,24 +44,25 @@ class LaserClamp(Boxes):
     def topPart(self, l, move=None):
         t = self. thickness
 
-        tw, th = 10*t, l+4*t
+        tw, th = 12*t, l+4*t
 
         if self.move(tw, th, move, True):
             return
 
-        self.moveTo(4*t, 0)
-        self.rectangularHole(t, 2*t+l/2, 1.1*t, l)
-        self.polyline(2*t, (90, t), l+t, -90, 2*t, 90, 0,
-                      (90, 2*t), 3*t, (90, t),
-                      0, (-90, t), 0, 90, 0, (-180, 0.5*t), 0, 90, 0,
-                      (180, t), t, (-90, t),
-                      l-2*t, (90, t))
+        self.moveTo(8*t, 0)
+        self.rectangularHole(t, 2*t+l/2, 1.05*t, l)
+        self.polyline(2*t, (90, t), l+1.5*t, (-90, 0.5*t),
+                      2*t, -90, 0, (180, 0.5*t), 0,
+                      (90, 1.5*t), 9*t,
+                      (180, 4*t), 2*t, (-90, t))
+        self.hole(-5*t, -3*t, 2.5*t)
+        self.polyline(l-5.5*t, (90, t))
         self.move(tw, th, move)
 
     def bottomPart(self, h_min, h_extra, move=None):
         t = self. thickness
 
-        tw, th = 10*t, h_min+4*t
+        tw, th = 14*t, h_min+4*t
 
         if self.move(tw, th, move, True):
             return
@@ -64,12 +71,13 @@ class LaserClamp(Boxes):
         self.moveTo(2*t, 0)
         self.fingerHolesAt(3*t, 2*t, h_min+h_extra, 90)
         if h_extra:
-            self.polyline(4*t, (90,t), h_extra-2*t, (-90, t), 0, (90, 2*t), 0, 45)
+            self.polyline(4*t, (90,t), h_extra-2*t, (-90, t))
         else:
-            self.polyline(6*t, (90, 2*t), 0, 45)
-        self.polyline(*[ls, 90, ls, -90]*3)
-        self.polyline(0, -45, h_min, (90, t), 2*t, (90, t),
-                      h_min+h_extra-1*t, (-90, t), t, (180, t),
+            self.polyline(6*t)
+        self.polyline(4*t, (90, 2*t), 3*t, 135, 2*ls, 45, 1*t, -90, 6*t, -90)
+        
+        self.polyline(h_min, (90, t), 2*t, (90, t),
+                      h_min+h_extra-0*t, (-90, t), t, (180, t),
                       0, 90, 0, (-180, 0.5*t), 0 , 90)
 
         self.move(tw, th, move)
@@ -84,6 +92,7 @@ class LaserClamp(Boxes):
         
         self.topPart(h_max+h_extra, move="right")
         self.bottomPart(h_min, h_extra, move="right")
-        self.bottomPart(h_min, h_extra, move="right")
+        self.roundedPlate(4*t, h_min+h_extra+4*t, edge="e", r=t, move="right",
+            callback=[lambda: self.fingerHolesAt(1*t, 2*t, h_min+h_extra)])
         self.rectangularWall(1.1*t, h_min+h_extra, "efef")
         self.close()

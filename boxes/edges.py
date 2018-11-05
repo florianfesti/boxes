@@ -1834,7 +1834,7 @@ class FlexEdge(BaseEdge):
         h += 2 * burn
         lines = int(x // dist)
         leftover = x - lines * dist
-        sections = int((h - connection) // width)
+        sections = max(int((h - connection) // width), 1)
         sheight = ((h - connection) / sections) - connection
 
         for i in range(1, lines):

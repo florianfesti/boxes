@@ -1443,8 +1443,6 @@ class Boxes:
                     self.edges[edge].margin())
         self.moveTo(r, 0)
 
-        self.cc(callback, 0)
-
         if wallpieces > 4:
             wallpieces = 4
 

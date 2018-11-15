@@ -67,20 +67,22 @@ class PaintStorage(Boxes):
         # adjust to the variables you want in the local scope
         x, y = self.x, self.y
         t = self.thickness
+        stack = self.edges['s'].settings
         
         # Initialize canvas
         self.open()
 
-        h = t*(self.Stackable_holedistance+2*self.Stackable_height+1)+self.canheight
+        h = self.canheight - stack.height - stack.holedistance + t
+
         # render your parts here
         self.rectangularWall(h, x, "eseS", callback=[None, lambda: self.fingerHolesAt(0, self.canheight/3, x, 0)],
                              move="right")
         self.rectangularWall(y, x, "efef",
                              move="right")
 
-        self.rectangularWall(t*(self.Stackable_holedistance+2*self.Stackable_height), x, "eeee",
+        self.rectangularWall(0.8*stack.height+stack.holedistance, x, "eeee",
                              move="up")
-        self.rectangularWall(t*(self.Stackable_holedistance+2*self.Stackable_height), x, "eeee",
+        self.rectangularWall(0.8*stack.height+stack.holedistance, x, "eeee",
                              move="")
         self.rectangularWall(y, x, "efef", callback=[self.paintholes],
                              move="left")

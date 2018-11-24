@@ -67,11 +67,11 @@ class PaintStorage(Boxes):
         # adjust to the variables you want in the local scope
         x, y = self.x, self.y
         t = self.thickness
-        stack = self.edges['s'].settings
         
         # Initialize canvas
         self.open()
 
+        stack = self.edges['s'].settings
         h = self.canheight - stack.height - stack.holedistance + t
 
         # render your parts here

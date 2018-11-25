@@ -19,7 +19,7 @@ class CustomBuildExtCommand(build_py):
     def run(self):
         self.execute(self.buildInkscapeExt, ())
         try:
-            path = check_output(["inkscape", "-x"])
+            path = check_output(["inkscape", "-x"]).strip()
             if not os.access(path, os.W_OK): # Can we install globaly
                 # Not tested on Windows and Mac
                 path = os.path.expanduser("~/.config/inkscape/extensions")

@@ -91,9 +91,14 @@ class Boxes2INX:
             if not group._group_actions:
                 continue
             prefix = getattr(group, "prefix", None)
+            title = group.title
+            if title.startswith("Settings for "):
+                title = title[len("Settings for "):]
+            if title.endswith(" Settings"):
+                title =	title[:-len(" Settings")]
             result.append("""
     <page name="%s" _gui-text="%s">
-""" % (groupid, group.title))
+""" % (groupid, title))
             for a in group._group_actions:
                 if a.dest in ("input", "output", "format"):
                     continue

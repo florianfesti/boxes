@@ -92,7 +92,9 @@ class UnevenHeightBox(Boxes):
         self.wall(y, h3, h0, [b, "f", "f"], move="right")
 
         self.ctx.save()
-        self.rectangularWall(x, y, "ffff", move="up")
+
+        if b != "e":
+            self.rectangularWall(x, y, "ffff", move="up")
 
         if self.lid:
             maxh = max(heights)

@@ -334,7 +334,7 @@ class Boxes:
                 if default is None: default = "h"
                 self.argparser.add_argument(
                     "--bottom_edge", action="store",
-                    type=ArgparseEdgeType("Fhs"), choices=list("Fhs"),
+                    type=ArgparseEdgeType("Fhse"), choices=list("Fhse"),
                     default=default,
                     help="edge type for bottom edge")
             elif arg == "top_edge":

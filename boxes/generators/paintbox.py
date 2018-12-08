@@ -75,7 +75,9 @@ class PaintStorage(Boxes):
         h = self.canheight - stack.height - stack.holedistance + t
 
         # render your parts here
-        self.rectangularWall(h, x, "eseS", callback=[None, lambda: self.fingerHolesAt(0, self.canheight/3, x, 0)],
+        self.rectangularWall(h, x, "eseS", callback=[
+            lambda: self.rectangularHole(h/3, x/2., h/4., 3./4.*x, r=2*t),
+            lambda: self.fingerHolesAt(0, self.canheight/3, x, 0)],
                              move="right")
         self.rectangularWall(y, x, "efef",
                              move="right")
@@ -86,6 +88,8 @@ class PaintStorage(Boxes):
                              move="")
         self.rectangularWall(y, x, "efef", callback=[self.paintholes],
                              move="left")
-        self.rectangularWall(h, x, "eseS", callback=[None, lambda: self.fingerHolesAt(0, self.canheight/3, x, 0)],
+        self.rectangularWall(h, x, "eseS", callback=[
+            lambda: self.rectangularHole(h/3, x/2., h/4., 3./4.*x, r=2*t),
+            lambda: self.fingerHolesAt(0, self.canheight/3, x, 0)],
                              move="left")
         self.close()

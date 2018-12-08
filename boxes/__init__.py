@@ -610,7 +610,7 @@ class Boxes:
             self.ctx.arc_negative(0, self.burn - radius, self.burn - radius,
                                   -0.5 * math.pi, -0.5 * math.pi + rad)
 
-        self.continueDirection(rad)
+        self._continueDirection(rad)
 
     def edge(self, length, tabs=0):
         """
@@ -654,7 +654,7 @@ class Boxes:
         dx = x3 - x2
         dy = y3 - y2
         rad = math.atan2(dy, dx)
-        self.continueDirection(rad)
+        self._continueDirection(rad)
 
     def polyline(self, *args):
         """
@@ -926,7 +926,7 @@ class Boxes:
             self.moveTo(r*math.sin(-rad),
                         -r*(1-math.cos(rad)), angle)
 
-    def continueDirection(self, angle=0):
+    def _continueDirection(self, angle=0):
         """
         Set coordinate system to current position (end point)
 

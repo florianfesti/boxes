@@ -116,7 +116,7 @@ class CardBox(Boxes):
         self.ctx.save()
 
         # Lid
-        self.rectangularWall(x-t*.2, y+t, "eeee", move="right")
+        self.rectangularWall(x-t*.2, y, "Feee", move="right")
         # Bottom
         self.rectangularWall(x, y, "ffff", callback=[self.divider_bottom],
                              move="right")
@@ -136,7 +136,9 @@ class CardBox(Boxes):
 
         self.ctx.restore()
         self.rectangularWall(x, h, "EEEE", move="up only")
-        self.ctx.save()
+
+        #lip of the lid
+        self.rectangularWall(x-t*.2, t, "fEeE", move="up")
 
         # Outer sides
         self.rectangularWall(h, y, "fFfF", move="right")

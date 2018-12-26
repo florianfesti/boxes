@@ -99,26 +99,48 @@ class TypeTray(Boxes):
             e1 = b + "fFf"
             e2 = b + "FFF"
 
-        self.rectangularWall(x, h, e1, callback=[self.xHoles, None, self.gripHole],  move="right")
-        self.rectangularWall(y, h, e2, callback=[self.yHoles, ], move="up")
-        self.rectangularWall(y, h, e2, callback=[self.yHoles, ])
-        self.rectangularWall(x, h, e1, callback=[self.xHoles, ], move="left up")
+        # x sides
+
+        self.ctx.save()
+
+        # outer walls
+        self.rectangularWall(x, h, e1, callback=[self.xHoles, None, self.gripHole],  move="up")
+        self.rectangularWall(x, h, e1, callback=[self.xHoles, ], move="up")
 
         # floor
         if b != "e":
             self.rectangularWall(x, y, "ffff", callback=[
-                self.xSlots, self.ySlots], move="right")
+                self.xSlots, self.ySlots], move="up")
         if self.closedtop:
             if sameh:
                 self.rectangularWall(x, y, "ffff", callback=[
-                    self.xSlots, self.ySlots], move="right")
+                    self.xSlots, self.ySlots], move="up")
             else:
-                self.rectangularWall(x, y, "ffff", move="right")
+                self.rectangularWall(x, y, "ffff", move="up")
 
         # Inner walls
 
         be = "f" if b != "e" else "e"
 
+        for i in range(len(self.sy) - 1):
+            e = [edges.SlottedEdge(self, self.sx, be), "f",
+                 edges.SlottedEdge(self, self.sx[::-1], "e", slots=0.5 * hi), "f"]
+            if self.closedtop and sameh:
+                e = [edges.SlottedEdge(self, self.sx, be), "f",
+                     edges.SlottedEdge(self, self.sx[::-1], "f", slots=0.5 * hi), "f"]
+
+            self.rectangularWall(x, hi, e, move="up")
+
+        self.ctx.restore()
+        self.rectangularWall(x, hi, "ffff", move="right only")
+
+        # y walls
+
+        # outer walls
+        self.rectangularWall(y, h, e2, callback=[self.yHoles, ], move="up")
+        self.rectangularWall(y, h, e2, callback=[self.yHoles, ], move="up")
+
+        # inner walls
         for i in range(len(self.sx) - 1):
             e = [edges.SlottedEdge(self, self.sy, be, slots=0.5 * hi),
                  "f", "e", "f"]
@@ -127,14 +149,6 @@ class TypeTray(Boxes):
                      edges.SlottedEdge(self, self.sy[::-1], "f"), "f"]
             self.rectangularWall(y, hi, e, move="up")
 
-        for i in range(len(self.sy) - 1):
-            e = [edges.SlottedEdge(self, self.sx, be), "f",
-                 edges.SlottedEdge(self, self.sx[::-1], "e", slots=0.5 * hi), "f"]
-            if self.closedtop and sameh:
-                e = [edges.SlottedEdge(self, self.sx, be), "f",
-                     edges.SlottedEdge(self, self.sx[::-1], "f", slots=0.5 * hi), "f"]
-                
-            self.rectangularWall(x, hi, e, move="up")
 
         self.close()
 

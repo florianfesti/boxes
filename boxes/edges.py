@@ -1874,6 +1874,16 @@ class FlexEdge(BaseEdge):
 
 class GearSettings(Settings):
 
+    """Settings for rack (and pinion) edge
+Values:
+* absolute_params
+
+ * dimension : 3.0 : modulus of the gear (in mm)
+ * angle : 20.0 : pressure angle
+ * profile_shift : 20.0 : Profile shift
+ * clearance : 0.0 : clearance
+"""
+
     absolute_params = {
         "dimension" : 3.0,
         "angle" : 20.0,

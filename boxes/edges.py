@@ -27,7 +27,15 @@ def getDescriptions():
     d = {edge.char: edge.description for edge in globals().values()
          if inspect.isclass(edge) and issubclass(edge, BaseEdge)
          and edge.char}
-    d['k'] = "Straight edge with hinge eye (both ends)"
+    d['j'] = d['i'] + " (other end)"
+    d['J'] = d['I'] + " (other end)"
+    d['k'] = d['i'] + " (both ends)"
+    d['K'] = d['I'] + " (both ends)"
+    d['O'] = d['o'] + ' (other end)'
+    d['P'] = d['p'] + ' (other end)'
+    d['U'] = d['u'] + ' top side'
+    d['v'] = d['u'] + ' for 90° lid'
+    d['V'] = d['u'] + ' 90° lid'
     return d
 
 
@@ -1118,7 +1126,7 @@ Values:
 
 class ChestHinge(BaseEdge):
 
-    "Edge with chest hinge"
+    description = "Edge with chest hinge"
 
     char = "o"
 
@@ -1203,7 +1211,7 @@ class ChestHingeTop(ChestHinge):
 
 class ChestHingePin(BaseEdge):
 
-    "Edge with pins for an chest hinge"
+    description = "Edge with pins for an chest hinge"
 
     char = "q"
 
@@ -1220,9 +1228,9 @@ class ChestHingePin(BaseEdge):
         return (self.settings.pin_height+self.settings.hinge_strength)
 
 
-class ChestHingeFront(BaseEdge):
+class ChestHingeFront(Edge):
 
-    "Edge opposing a chest hinge"
+    description = "Edge opposing a chest hinge"
 
     char = "Q"
 
@@ -1275,7 +1283,7 @@ Values:
 class CabinetHingeEdge(BaseEdge):
     """Edge with cabinet hinges"""
 
-    char = "v"
+    char = "u"
     description = "Edge with cabinet hinges"
 
     def __init__(self, boxes, settings=None, top=False, angled=False):
@@ -1896,6 +1904,8 @@ Values:
 class RackEdge(BaseEdge):
 
     char = "R"
+
+    description = "Rack (and pinion) Edge"
 
     def __init__(self, boxes, settings):
         super(RackEdge, self).__init__(boxes, settings)

@@ -15,20 +15,18 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
+from boxes.lids import _TopEdge
 
-
-class TypeTray(Boxes):
+class TypeTray(_TopEdge):
     """Type tray - allows only continuous walls"""
 
     ui_group = "Tray"
 
     def __init__(self):
         Boxes.__init__(self)
-        self.buildArgParser("sx", "sy", "h", "hi", "outside", "bottom_edge")
-        self.addSettingsArgs(edges.FingerJointSettings, surroundingspaces=0.5)
-        self.argparser.add_argument(
-            "--closedtop", action="store", type=boolarg, default=False,
-            help="close the box on top")
+        self.addTopEdgeSettings()
+        self.buildArgParser("sx", "sy", "h", "hi", "outside", "bottom_edge",
+                            "top_edge")
         self.argparser.add_argument(
             "--gripheight", action="store", type=float, default=30,
             dest="gh", help="height of the grip hole in mm")
@@ -93,30 +91,31 @@ class TypeTray(Boxes):
 
         # outer walls
         b = self.bottom_edge
-        e1 = b + "fef"
-        e2 = b + "FeF"
-        if self.closedtop:
-            e1 = b + "fFf"
-            e2 = b + "FFF"
+        t1, t2, t3, t4 = self.topEdges(self.top_edge)
+        self.closedtop = self.top_edge in "fF"
 
         # x sides
 
         self.ctx.save()
 
         # outer walls
-        self.rectangularWall(x, h, e1, callback=[self.xHoles, None, self.gripHole],  move="up")
-        self.rectangularWall(x, h, e1, callback=[self.xHoles, ], move="up")
+        self.rectangularWall(x, h, [b, "f", t1, "f"], callback=[self.xHoles, None, self.gripHole],  move="up")
+        self.rectangularWall(x, h, [b, "f", t3, "f"], callback=[self.xHoles, ], move="up")
 
         # floor
         if b != "e":
             self.rectangularWall(x, y, "ffff", callback=[
                 self.xSlots, self.ySlots], move="up")
         if self.closedtop:
+            if self.top_edge == "f":
+                e = "FFFF"
+            else:
+                e = "ffff"
             if sameh:
-                self.rectangularWall(x, y, "ffff", callback=[
+                self.rectangularWall(x, y, e, callback=[
                     self.xSlots, self.ySlots], move="up")
             else:
-                self.rectangularWall(x, y, "ffff", move="up")
+                self.rectangularWall(x, y, e, move="up")
 
         # Inner walls
 
@@ -137,8 +136,8 @@ class TypeTray(Boxes):
         # y walls
 
         # outer walls
-        self.rectangularWall(y, h, e2, callback=[self.yHoles, ], move="up")
-        self.rectangularWall(y, h, e2, callback=[self.yHoles, ], move="up")
+        self.rectangularWall(y, h, [b, "F", t2, "F"], callback=[self.yHoles, ], move="up")
+        self.rectangularWall(y, h, [b, "F", t4, "F"], callback=[self.yHoles, ], move="up")
 
         # inner walls
         for i in range(len(self.sx) - 1):

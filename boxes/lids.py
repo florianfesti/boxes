@@ -97,6 +97,7 @@ class _TopEdge(Boxes):
         self.addSettingsArgs(edges.CabinetHingeSettings)
         self.addSettingsArgs(edges.LidSettings)
         self.addSettingsArgs(edges.ClickSettings)
+        self.addSettingsArgs(edges.RoundedTriangleEdgeSettings)
 
     def topEdges(self, top_edge):
         t1 = t2 = t3 = t4 = self.edges.get(top_edge, self.edges["e"])
@@ -112,7 +113,8 @@ class _TopEdge(Boxes):
             t3 = "N"
         elif t1.char == "v":
             t2 = t3 = t4 = "e"
-
+        if t1.char == "t":
+            t1 = t3 = "e"
         return [t1, t2, t3, t4]
 
     def drawLid(self, x, y, top_edge, bedBolts=[None, None]):

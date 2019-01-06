@@ -341,7 +341,7 @@ class Boxes:
                 if default is None: default = "e"
                 self.argparser.add_argument(
                     "--top_edge", action="store",
-                    type=ArgparseEdgeType("efFcESikvfL"), choices=list("efFcESikvfL"),
+                    type=ArgparseEdgeType("efFcESikvfLt"), choices=list("efFcESikvfLt"),
                     default=default, help="edge type for top edge")
             elif arg == "outside":
                 if default is None: default = True

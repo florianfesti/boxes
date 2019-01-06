@@ -1906,3 +1906,59 @@ class RackEdge(BaseEdge):
 
     def margin(self):
         return self.settings.dimension * 1.1
+
+class RoundedTriangleEdgeSettings(Settings):
+
+    """Settings for RoundedTriangleEdge
+Values:
+
+* absolute_params
+
+ * height : 150. : height above the wall
+ * radius : 30. : radius of top corner
+ * r_hole : 0. : radius of hole
+"""
+
+    absolute_params = {
+        "height" : 150.,
+        "radius" : 30.,
+        "r_hole" : 2.,
+    }
+
+    relative_params = {
+        "outset" : 0.,
+    }
+
+    def edgeObjects(self, boxes, chars="t", add=True):
+        edges = [RoundedTriangleEdge(boxes, self)]
+        return self._edgeObjects(edges, boxes, chars, add)
+
+class RoundedTriangleEdge(Edge):
+    """Makes an 'edge' with a rounded triangular bumpout and
+       optional hole"""
+    description = "Triangle for handle"
+    char = "t"
+    def __call__(self, length, **kw):
+        r = self.settings.radius
+        if r >  length / 2:
+            r = length / 2
+        if length-2*r < self.settings.height: # avoid division by zero
+            angle = 90-math.degrees(math.atan(
+                (length-2*r)/(2*self.settings.height)))
+            l = self.settings.height / math.cos(math.radians(90-angle))
+        else:
+            angle = math.degrees(math.atan(
+                2*self.settings.height/(length-2*r)))
+            l = 0.5 * (length-2*r) / math.cos(math.radians(angle))
+        if self.settings.r_hole:
+            self.hole(length/2., -self.settings.height, self.settings.r_hole)
+        self.corner(-90)
+        self.corner(90-angle, r)
+        self.edge(l)
+        self.corner(2*angle, r)
+        self.edge(l)
+        self.corner(90-angle, r)
+        self.corner(-90)
+
+    def margin(self):
+        return self.settings.height + self.settings.radius

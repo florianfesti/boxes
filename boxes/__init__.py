@@ -445,6 +445,9 @@ class Boxes:
         # Sliding Lid
         edges.LidSettings(self.thickness, True,
                 **self.edgesettings.get("Lid", {})).edgeObjects(self)
+        # Rounded Triangle Edge
+        edges.RoundedTriangleEdgeSettings(self.thickness, True,
+                **self.edgesettings.get("RoundedTriangleEdge", {})).edgeObjects(self)
 
         # Nuts
         self.addPart(NutHole(self, None))

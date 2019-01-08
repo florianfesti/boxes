@@ -1917,6 +1917,11 @@ Values:
  * height : 150. : height above the wall
  * radius : 30. : radius of top corner
  * r_hole : 0. : radius of hole
+
+* relative (in multiples of thickness)
+
+ * outset : 0 : extend the triangle along the length of the edge
+
 """
 
     absolute_params = {
@@ -1939,6 +1944,7 @@ class RoundedTriangleEdge(Edge):
     description = "Triangle for handle"
     char = "t"
     def __call__(self, length, **kw):
+        length += 2 * self.settings.outset
         r = self.settings.radius
         if r >  length / 2:
             r = length / 2
@@ -1950,15 +1956,21 @@ class RoundedTriangleEdge(Edge):
             angle = math.degrees(math.atan(
                 2*self.settings.height/(length-2*r)))
             l = 0.5 * (length-2*r) / math.cos(math.radians(angle))
+        if self.settings.outset:
+            self.polyline(0, -180, self.settings.outset, 90)
+        else:
+            self.corner(-90)
         if self.settings.r_hole:
-            self.hole(length/2., -self.settings.height, self.settings.r_hole)
-        self.corner(-90)
+            self.hole(self.settings.height, length/2., self.settings.r_hole)
         self.corner(90-angle, r)
         self.edge(l)
         self.corner(2*angle, r)
         self.edge(l)
         self.corner(90-angle, r)
-        self.corner(-90)
+        if self.settings.outset:
+            self.polyline(0, 90, self.settings.outset, -180)
+        else:
+            self.corner(-90)
 
     def margin(self):
         return self.settings.height + self.settings.radius

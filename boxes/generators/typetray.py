@@ -106,16 +106,6 @@ class TypeTray(_TopEdge):
         if b != "e":
             self.rectangularWall(x, y, "ffff", callback=[
                 self.xSlots, self.ySlots], move="up")
-        if self.closedtop:
-            if self.top_edge == "f":
-                e = "FFFF"
-            else:
-                e = "ffff"
-            if sameh:
-                self.rectangularWall(x, y, e, callback=[
-                    self.xSlots, self.ySlots], move="up")
-            else:
-                self.rectangularWall(x, y, e, move="up")
 
         # Inner walls
 
@@ -129,6 +119,14 @@ class TypeTray(_TopEdge):
                      edges.SlottedEdge(self, self.sx[::-1], "f", slots=0.5 * hi), "f"]
 
             self.rectangularWall(x, hi, e, move="up")
+
+        # top / lid
+        if self.closedtop and sameh:
+            e = "FFFF" if self.top_edge == "f" else "ffff"
+            self.rectangularWall(x, y, e, callback=[
+                self.xSlots, self.ySlots], move="up")
+        else:
+            self.drawLid(x, y, self.top_edge)
 
         self.ctx.restore()
         self.rectangularWall(x, hi, "ffff", move="right only")

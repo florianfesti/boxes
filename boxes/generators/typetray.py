@@ -99,8 +99,8 @@ class TypeTray(_TopEdge):
         self.ctx.save()
 
         # outer walls
-        self.rectangularWall(x, h, [b, "f", t1, "f"], callback=[self.xHoles, None, self.gripHole],  move="up")
-        self.rectangularWall(x, h, [b, "f", t3, "f"], callback=[self.xHoles, ], move="up")
+        self.rectangularWall(x, h, [b, "F", t1, "F"], callback=[self.xHoles, None, self.gripHole],  move="up")
+        self.rectangularWall(x, h, [b, "F", t3, "F"], callback=[self.xHoles, ], move="up")
 
         # floor
         if b != "e":
@@ -134,8 +134,8 @@ class TypeTray(_TopEdge):
         # y walls
 
         # outer walls
-        self.rectangularWall(y, h, [b, "F", t2, "F"], callback=[self.yHoles, ], move="up")
-        self.rectangularWall(y, h, [b, "F", t4, "F"], callback=[self.yHoles, ], move="up")
+        self.rectangularWall(y, h, [b, "f", t2, "f"], callback=[self.yHoles, ], move="up")
+        self.rectangularWall(y, h, [b, "f", t4, "f"], callback=[self.yHoles, ], move="up")
 
         # inner walls
         for i in range(len(self.sx) - 1):

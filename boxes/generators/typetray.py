@@ -24,7 +24,8 @@ class TypeTray(_TopEdge):
 
     def __init__(self):
         Boxes.__init__(self)
-        self.addTopEdgeSettings()
+        self.addTopEdgeSettings(fingerjoint={"surroundingspaces": 0.5},
+                                roundedtriangle={"outset" : 1})
         self.buildArgParser("sx", "sy", "h", "hi", "outside", "bottom_edge",
                             "top_edge")
         self.argparser.add_argument(

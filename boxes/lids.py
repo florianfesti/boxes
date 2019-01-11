@@ -90,14 +90,16 @@ class _ChestLid(Boxes):
 
 class _TopEdge(Boxes):
 
-    def addTopEdgeSettings(self):
-        self.addSettingsArgs(edges.FingerJointSettings)
-        self.addSettingsArgs(edges.StackableSettings)
-        self.addSettingsArgs(edges.HingeSettings)
-        self.addSettingsArgs(edges.CabinetHingeSettings)
-        self.addSettingsArgs(edges.LidSettings)
-        self.addSettingsArgs(edges.ClickSettings)
-        self.addSettingsArgs(edges.RoundedTriangleEdgeSettings)
+    def addTopEdgeSettings(self, fingerjoint={}, stackable={}, hinge={},
+                           cabinethinge={}, lid={}, click={},
+                           roundedtriangle={}):
+        self.addSettingsArgs(edges.FingerJointSettings, **fingerjoint)
+        self.addSettingsArgs(edges.StackableSettings, **stackable)
+        self.addSettingsArgs(edges.HingeSettings, **hinge)
+        self.addSettingsArgs(edges.CabinetHingeSettings, **cabinethinge)
+        self.addSettingsArgs(edges.LidSettings, **lid)
+        self.addSettingsArgs(edges.ClickSettings, **click)
+        self.addSettingsArgs(edges.RoundedTriangleEdgeSettings, **roundedtriangle)
 
     def topEdges(self, top_edge):
         t1 = t2 = t3 = t4 = self.edges.get(top_edge, self.edges["e"])

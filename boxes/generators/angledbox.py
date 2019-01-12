@@ -54,16 +54,15 @@ class AngledBox(Boxes):
         self.moveTo((tx-lx)/2., 0)
 
         if hole:
-            self.ctx.save()
-            hr, hh, hside  = self.regularPolygon(2*n+2, h=y/2.0-t)
-            dx = side - hside
-            hlx = lx - dx
+            with self.saved_context():
+                hr, hh, hside  = self.regularPolygon(2*n+2, h=y/2.0-t)
+                dx = side - hside
+                hlx = lx - dx
             
-            self.moveTo(dx/2.0, t+edge.spacing())
-            for i, l in enumerate(([hlx] + ([hside] * n))* 2):
-                self.edge(l)
-                self.corner(360.0/(2*n + 2))
-            self.ctx.restore()
+                self.moveTo(dx/2.0, t+edge.spacing())
+                for i, l in enumerate(([hlx] + ([hside] * n))* 2):
+                    self.edge(l)
+                    self.corner(360.0/(2*n + 2))
 
         for i, l in enumerate(([lx] + ([side] * n))* 2):
             self.cc(callback, i, 0, edge.startwidth() + self.burn)
@@ -105,16 +104,15 @@ class AngledBox(Boxes):
         edges.FingerJointSettings(self.thickness, True, angle=360./(2 * (n+1))).edgeObjects(self, chars="gGH")
 
 
-        self.ctx.save()
-        self.floor(x, y , n, edge='F', move="right")
-        if self.top == "angled lid":
-            self.floor(x, y, n, edge='e', move="right")
-            self.floor(x, y, n, edge='E', move="right")
-        elif self.top in ("angled hole", "angled lid2"):
-            self.floor(x, y, n, edge='F', move="right", hole=True)
-            if self.top == "angled lid2":
+        with self.saved_context():
+            self.floor(x, y , n, edge='F', move="right")
+            if self.top == "angled lid":
+                self.floor(x, y, n, edge='e', move="right")
                 self.floor(x, y, n, edge='E', move="right")
-        self.ctx.restore()
+            elif self.top in ("angled hole", "angled lid2"):
+                self.floor(x, y, n, edge='F', move="right", hole=True)
+                if self.top == "angled lid2":
+                    self.floor(x, y, n, edge='E', move="right")
         self.floor(x, y , n, edge='F', move="up only")
 
         fingers = self.top in ("angled lid2", "angled hole")

@@ -59,24 +59,23 @@ class RegularBox(Boxes):
 
         r, sh, side  = self.regularPolygon(n, radius=r)
 
-        self.ctx.save()
-        self.regularPolygonWall(corners=n, r=r, edges='F', move="right")
-        if self.top == "angled lid":
-            self.regularPolygonWall(corners=n, r=r, edges='e', move="right")
-            self.regularPolygonWall(corners=n, r=r, edges='E', move="right")
-        elif self.top in ("angled hole", "angled lid2"):
-            self.regularPolygonWall(corners=n, r=r, edges='F', move="right",
-                                    callback=[lambda:self.regularPolygonAt(
-                                        0, 0, n, h=sh-t)])
-            if self.top == "angled lid2":
+        with self.saved_context():
+            self.regularPolygonWall(corners=n, r=r, edges='F', move="right")
+            if self.top == "angled lid":
+                self.regularPolygonWall(corners=n, r=r, edges='e', move="right")
                 self.regularPolygonWall(corners=n, r=r, edges='E', move="right")
-        elif self.top in ("hole", "round lid"):
-            self.regularPolygonWall(corners=n, r=r, edges='F', move="right",
-                          hole=(sh-t)*2)
-        if self.top == "round lid":
-            self.parts.disc(sh*2, move="right")
+            elif self.top in ("angled hole", "angled lid2"):
+                self.regularPolygonWall(corners=n, r=r, edges='F', move="right",
+                                        callback=[lambda:self.regularPolygonAt(
+                                            0, 0, n, h=sh-t)])
+                if self.top == "angled lid2":
+                    self.regularPolygonWall(corners=n, r=r, edges='E', move="right")
+            elif self.top in ("hole", "round lid"):
+                self.regularPolygonWall(corners=n, r=r, edges='F', move="right",
+                                        hole=(sh-t)*2)
+            if self.top == "round lid":
+                self.parts.disc(sh*2, move="right")
 
-        self.ctx.restore()
         self.regularPolygonWall(corners=n, r=r, edges='F', move="up only")
 
         side = 2 * math.sin(math.radians(180.0/n)) * r

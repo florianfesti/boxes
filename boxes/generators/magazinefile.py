@@ -71,12 +71,10 @@ class MagazinFile(Boxes):
 
         self.open()
 
-        self.ctx.save()
-        self.rectangularWall(x, h, "Ffef", move="up")
-        self.rectangularWall(x, hi, "Ffef", move="up")
-
-        self.rectangularWall(y, x, "ffff")
-        self.ctx.restore()
+        with self.saved_context():
+            self.rectangularWall(x, h, "Ffef", move="up")
+            self.rectangularWall(x, hi, "Ffef", move="up")
+            self.rectangularWall(x, y, "ffff")
 
         self.rectangularWall(x, h, "Ffef", move="right only")
         self.side(y, h, hi)

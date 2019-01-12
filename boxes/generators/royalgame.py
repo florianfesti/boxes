@@ -84,12 +84,11 @@ class RoyalGame(Boxes): # Change class name!
     @holeCol
     def rosette(self, x, y, s):
         self.moveTo(x, y, 22.5)
-        self.ctx.save()
-        self.moveTo(0.1*s, 0, -30)
-        for i in range(8):
-            self.polyline(0, (60, 0.35*s), 0, 120, 0, (60, 0.35*s), 0,
-                          -120, 0, (45, 0.1*s), 0, -120)
-        self.ctx.restore()
+        with self.saved_context():
+            self.moveTo(0.1*s, 0, -30)
+            for i in range(8):
+                self.polyline(0, (60, 0.35*s), 0, 120, 0, (60, 0.35*s), 0,
+                              -120, 0, (45, 0.1*s), 0, -120)
         self.moveTo(0, 0, -22.5)
         self.moveTo(0.175*s, 0)
         for i in range(8):
@@ -103,18 +102,17 @@ class RoyalGame(Boxes): # Change class name!
                 posy = y+dy*0.25*s
                 self.rectangularHole(posx, posy, 0.4*s, 0.5*s)
                 self.hole(posx, posy, 0.05*s)
-                self.ctx.save()
-                self.moveTo(posx, posy-0.2*s, 60)
-                self.corner(60, 0.4*s)
-                self.corner(120)
-                self.corner(60, 0.4*s)
-                self.corner(120)
-                self.moveTo(0, 0, -60)
-                self.moveTo(0, -0.05*s, 60)
-                self.corner(60, 0.5*s)
-                self.corner(120)
-                self.corner(60, 0.5*s)
-                self.ctx.restore()
+                with self.saved_context():
+                    self.moveTo(posx, posy-0.2*s, 60)
+                    self.corner(60, 0.4*s)
+                    self.corner(120)
+                    self.corner(60, 0.4*s)
+                    self.corner(120)
+                    self.moveTo(0, 0, -60)
+                    self.moveTo(0, -0.05*s, 60)
+                    self.corner(60, 0.5*s)
+                    self.corner(120)
+                    self.corner(60, 0.5*s)
 
         for i in range(4):
             self.rectangularHole(x, y + (i-1.5)*s*0.25, 0.12*s, 0.12*s)

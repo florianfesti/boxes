@@ -56,7 +56,6 @@ class Pulley(Boxes):
         if self.move(w, w, move, before=True):
             return
 
-        self.ctx.save()
         self.moveTo(w / 2, w / 2)
         self.cc(callback, None, 0.0, 0.0)
 
@@ -65,7 +64,6 @@ class Pulley(Boxes):
 
         self.moveTo(diameter / 2 + self.burn, 0, 90)
         self.corner(360, diameter / 2)
-        self.ctx.restore()
         self.move(w, w, move)
 
     def render(self):

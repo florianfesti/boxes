@@ -64,6 +64,13 @@ class Lamp(Boxes):
     def __init__(self):
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings)
+        self.buildArgParser(x=220, y=75, h=70)
+        self.argparser.add_argument(
+            "--radius", action="store", type=float, default="105",
+            help="radius of the lamp")
+        self.argparser.add_argument(
+            "--width", action="store", type=float, default="10",
+            help="width of the ring")
 
     def side(self, y, h):
         return
@@ -74,7 +81,7 @@ class Lamp(Boxes):
         self.edges["f"](h)
         self.corner(90)
 
-    def render(self, r, w, x, y, h):
+    def render(self):
         """
         r : radius of lamp
         w : width of surrounding ring
@@ -86,6 +93,9 @@ class Lamp(Boxes):
         self.open()
 
         # self.edges["f"].settings = (5, 5) # XXX
+
+        x, y, h = self.x, self.y, self.h
+        r, w = self.radius, self.width
 
         s = RoundedTriangleSettings(self.thickness, angle=72, r_hole=2)
         self.addPart(RoundedTriangle(self, s))
@@ -108,13 +118,13 @@ class Lamp(Boxes):
         self.surroundingWall(d, d, r, 120, top='h', bottom='h', callback=[
             None, hole, None, hole], move="up")
 
-        self.ctx.save()
-        self.rectangularWall(x, y, edges="fFfF", holesMargin=5, move="right")
-        self.rectangularWall(x, y, edges="fFfF", holesMargin=5, move="right")
-        # sides
-        self.rectangularWall(y, h, "fftf", move="right")
-        self.rectangularWall(y, h, "fftf")
-        self.ctx.restore()
+        with self.saved_context():
+            self.rectangularWall(x, y, edges="fFfF", holesMargin=5, move="right")
+            self.rectangularWall(x, y, edges="fFfF", holesMargin=5, move="right")
+            # sides
+            self.rectangularWall(y, h, "fftf", move="right")
+            self.rectangularWall(y, h, "fftf")
+
         self.rectangularWall(x, y, edges="fFfF", holesMargin=5,
                              move="up only")
 

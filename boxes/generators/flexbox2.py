@@ -108,11 +108,11 @@ class FlexBox2(Boxes):
         self.open()
 
         self.moveTo(2 * self.thickness, self.thickness)
-        self.ctx.save()
-        self.surroundingWall(move="right")
 
-        self.rectangularWall(self.y, self.x, edges="FFFF")
-        self.ctx.restore()
+        with self.saved_context():
+            self.surroundingWall(move="right")
+            self.rectangularWall(self.y, self.x, edges="FFFF")
+
         self.surroundingWall(move="up only")
 
         self.flexBoxSide(self.y, self.h, self.radius, move="right")

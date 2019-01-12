@@ -113,28 +113,25 @@ class CardBox(Boxes):
         p.char = "A"
         self.addPart(p)
 
-        self.ctx.save()
+        with self.saved_context():
+            # Lid
+            self.rectangularWall(x-t*.2, y, "Feee", move="right")
+            # Bottom
+            self.rectangularWall(x, y, "ffff", callback=[self.divider_bottom],
+                                 move="right")
 
-        # Lid
-        self.rectangularWall(x-t*.2, y, "Feee", move="right")
-        # Bottom
-        self.rectangularWall(x, y, "ffff", callback=[self.divider_bottom],
-                             move="right")
-
-        self.ctx.restore()
         self.rectangularWall(x, y, "EEEE", move="up only")
-        self.ctx.save()
 
-        # Back
-        self.rectangularWall(x, h, "FFEF",
-                             callback=[self.divider_back_and_front],
-                             move="right")
-        # Front
-        self.rectangularWall(x, h, "FFaF",
-                             callback=[self.divider_back_and_front],
-                             move="right")
+        with self.saved_context():
+            # Back
+            self.rectangularWall(x, h, "FFEF",
+                                 callback=[self.divider_back_and_front],
+                                 move="right")
+            # Front
+            self.rectangularWall(x, h, "FFaF",
+                                 callback=[self.divider_back_and_front],
+                                 move="right")
 
-        self.ctx.restore()
         self.rectangularWall(x, h, "EEEE", move="up only")
 
         #lip of the lid

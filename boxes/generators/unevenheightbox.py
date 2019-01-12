@@ -89,22 +89,19 @@ class UnevenHeightBox(Boxes):
         self.wall(x, h2, h3, [b, "F", "F"], move="right")
         self.wall(y, h3, h0, [b, "f", "f"], move="right")
 
-        self.ctx.save()
+        with self.saved_context():
+            if b != "e":
+                self.rectangularWall(x, y, "ffff", move="up")
 
-        if b != "e":
-            self.rectangularWall(x, y, "ffff", move="up")
+            if self.lid:
+                maxh = max(heights)
+                lidheights = [maxh-h for h in heights]
+                h0, h1, h2, h3 = lidheights
+                lidheights += lidheights
+                edges = ["E" if (lidheights[i] == 0.0 and lidheights[i+1] == 0.0) else "f" for i in range(4)]
+                self.rectangularWall(x, y, edges, move="up")
 
         if self.lid:
-            maxh = max(heights)
-            lidheights = [maxh-h for h in heights]
-            h0, h1, h2, h3 = lidheights
-            lidheights += lidheights
-
-            edges = ["E" if (lidheights[i] == 0.0 and lidheights[i+1] == 0.0) else "f" for i in range(4)]
-            self.rectangularWall(x, y, edges, move="up")
-
-            self.ctx.restore()
-
             self.moveTo(0, maxh+self.edges["F"].spacing()+self.edges[b].spacing()+3*self.spacing, 180)
             self.wall(y, h0, h3, "Fff", move="right" +
                       (" only" if h0 == h3 == 0.0 else ""))

@@ -14,7 +14,7 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from boxes import Boxes
+from boxes import Boxes, restore
 
 
 class Silverware(Boxes):
@@ -64,9 +64,8 @@ class Silverware(Boxes):
         },
                              move="up")
 
+    @restore
     def centerWall(self, x, h):
-        self.ctx.save()
-
         self.moveTo(self.edges["f"].spacing(), self.edges["f"].spacing())
         for i in range(2, 5):
             self.fingerHolesAt(i * x / 6.0, 0, h - 10)
@@ -81,9 +80,6 @@ class Silverware(Boxes):
         self.corner(90)
         self.edges["f"](h - 10)
         self.corner(90)
-        self.ctx.restore()
-
-        self.moveTo(x + 2 * self.edges["f"].spacing())
 
     ##################################################
     ### main
@@ -101,6 +97,7 @@ class Silverware(Boxes):
 
         self.wall(x, y, h, r)
         self.centerWall(x, h)
+        self.moveTo(x + 2 * self.edges["f"].spacing())
 
         l = (y - t) / 2.0
 

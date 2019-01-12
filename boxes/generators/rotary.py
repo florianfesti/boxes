@@ -211,19 +211,19 @@ class Rotary(Boxes):
                                                                                           60, t + 2)], move="up")
         self.rectangularWall(hl, hh, edges="hfef", callback=[self.holderBaseCB], move="up")
         self.rectangularWall(hl, hw, edges="ffff", callback=[lambda: self.hole(hl / 2 - 16 - 20, 25, 5)], move="up")
-        self.ctx.save()
-        self.rectangularWall(hw, hh, edges="hFeF", callback=[
-            lambda: self.hole(hw / 2, hh - 20, 4)],move="right")
-        self.rectangularWall(hw, hh, edges="hFeF", move="right")
-        # Top
-        th = self.th = 30
-        #  sides
 
-        self.rectangularWall(hw + 20, th, edges="fFeF", move="right",
-                             callback=[lambda: self.fingerHolesAt(20 - 0.5 * t, 0, th)])
-        self.rectangularWall(hw + 20, th, edges="fFeF", move="right",
-                             callback=[lambda: self.fingerHolesAt(20 - 0.5 * t, 0, th)])
-        self.ctx.restore()
+        with self.saved_context():
+            self.rectangularWall(hw, hh, edges="hFeF", callback=[
+                lambda: self.hole(hw / 2, hh - 20, 4)],move="right")
+            self.rectangularWall(hw, hh, edges="hFeF", move="right")
+            # Top
+            th = self.th = 30
+            #  sides
+
+            self.rectangularWall(hw + 20, th, edges="fFeF", move="right",
+                    callback=[lambda: self.fingerHolesAt(20 - 0.5 * t, 0, th)])
+            self.rectangularWall(hw + 20, th, edges="fFeF", move="right",
+                    callback=[lambda: self.fingerHolesAt(20 - 0.5 * t, 0, th)])
 
         self.rectangularWall(hw, hh, edges="hFeF", move="up only")
         outset = OutsetEdge(self, None)
@@ -251,32 +251,31 @@ class Rotary(Boxes):
         self.link(hl - 40, 25, a, True, move="up")
         self.link(hl - 40, 25, a, True, move="up")
 
-        self.ctx.save()
-        self.rectangularWall(hw - 2 * t - 2, 60, edges="efef", move="right")
-        self.rectangularWall(hw - 4 * t - 4, 60, edges="efef", move="right")
-        # Spindel auxiliaries 
-        self.parts.waivyKnob(50, callback=lambda: self.nutHole("M8"), move="right")
-        self.parts.waivyKnob(50, callback=lambda: self.nutHole("M8"), move="right")
-        self.ctx.restore()
+        with self.saved_context():
+            self.rectangularWall(hw - 2 * t - 2, 60, edges="efef", move="right")
+            self.rectangularWall(hw - 4 * t - 4, 60, edges="efef", move="right")
+            # Spindel auxiliaries 
+            self.parts.waivyKnob(50, callback=lambda: self.nutHole("M8"), move="right")
+            self.parts.waivyKnob(50, callback=lambda: self.nutHole("M8"), move="right")
+
         self.rectangularWall(hw - 2 * t - 4, 60, edges="efef", move="up only")
 
-        self.ctx.save()
-        slot = edges.SlottedEdge(self, [(30 - t) / 2, (30 - t) / 2], slots=15)
-        self.rectangularWall(30, 30, edges=["e", "e", slot, "e"],
-                             callback=[lambda: self.hole(7, 23, self.axle / 2)], move="right")
-        self.rectangularWall(30, 30, edges=["e", "e", slot, "e"],
-                             callback=[lambda: self.hole(7, 23, self.axle / 2)], move="right")
-        leftover = (hw - 6 * t - 6 - 20) / 2.0
-        slot = edges.SlottedEdge(self, [leftover, 20, leftover], slots=15)
-        self.rectangularWall(hw - 4 * t - 6, 30, edges=[slot, "e", "e", "e"],
+        with self.saved_context():
+            slot = edges.SlottedEdge(self, [(30 - t) / 2, (30 - t) / 2], slots=15)
+            self.rectangularWall(30, 30, edges=["e", "e", slot, "e"],
+                callback=[lambda: self.hole(7, 23, self.axle / 2)], move="right")
+            self.rectangularWall(30, 30, edges=["e", "e", slot, "e"],
+                callback=[lambda: self.hole(7, 23, self.axle / 2)], move="right")
+            leftover = (hw - 6 * t - 6 - 20) / 2.0
+            slot = edges.SlottedEdge(self, [leftover, 20, leftover], slots=15)
+            self.rectangularWall(hw - 4 * t - 6, 30, edges=[slot, "e", "e", "e"],
                              callback=[lambda: self.hole((hw - 4 * t - 6) / 2., 15, 4)], move="right")
-        for i in range(3):
-            self.rectangularWall(20, 30,
+            for i in range(3):
+                self.rectangularWall(20, 30,
                                  callback=[lambda: self.nutHole("M8", 10, 15)], move="right")
-        self.rectangularWall(20, 30,
-                             callback=[lambda: self.hole(10, 15, 4)], move="right")
+                self.rectangularWall(20, 30,
+                                     callback=[lambda: self.hole(10, 15, 4)], move="right")
 
-        self.ctx.restore()
         self.rectangularWall(30, 30, move="up only")
 
         self.h = h = bh + 2 + 1.0 * d # height of outer pieces
@@ -291,10 +290,9 @@ class Rotary(Boxes):
                                  move="up")
             self.rectangularWall(3.6 * d, ow, edges="ffff", move="up")
             self.rectangularWall(3.6 * d, ow, edges="ffff", move="up")
-            self.ctx.save()
-            self.rectangularWall(ow, h, edges="hFFH", move="right")
-            self.rectangularWall(ow, h, edges="hFFH", move="right")
-            self.ctx.restore()
+            with self.saved_context():
+                self.rectangularWall(ow, h, edges="hFFH", move="right")
+                self.rectangularWall(ow, h, edges="hFFH", move="right")
             self.rectangularWall(ow, h, edges="hFFH", move="up only")
         
         # Motor block
@@ -302,13 +300,12 @@ class Rotary(Boxes):
         self.rectangularWall(3.6 * d, h, edges=["h", "f", MotorEdge(self, None),"f"], callback=[self.mainPlate], move="up")
         self.rectangularWall(3.6 * d, h, edges=["h", "f", MotorEdge(self, None),"f"], callback=[self.frontPlate], move="up")
         self.rectangularWall(3.6 * d, mw, edges="ffff", move="up")
-        self.ctx.save()
-        self.rectangularWall(mw, h, edges="hFeH", move="right")
-        self.rectangularWall(mw, h, edges="hFeH", move="right")
+        with self.saved_context():
+            self.rectangularWall(mw, h, edges="hFeH", move="right")
+            self.rectangularWall(mw, h, edges="hFeH", move="right")
 
-        self.pulley(88, "GT2_2mm", r_axle=a / 2.0, move="right")
-        self.pulley(88, "GT2_2mm", r_axle=a / 2.0, move="right")
-        self.ctx.restore()
+            self.pulley(88, "GT2_2mm", r_axle=a / 2.0, move="right")
+            self.pulley(88, "GT2_2mm", r_axle=a / 2.0, move="right")
         self.rectangularWall(mw, h, edges="hFeH", move="up only")
         self.axle = 19
 

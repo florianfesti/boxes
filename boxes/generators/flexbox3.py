@@ -152,13 +152,12 @@ class FlexBox3(Boxes):
                                       space=1., surroundingspaces=1)
         s.edgeObjects(self, "gGH")
 
-        self.ctx.save()
-        self.surroundingWall(move="right")
-        self.rectangularWall(x, z, edges="FFFF", move="right")
-        self.rectangularWall(h, z + 2 * (d + self.thickness), edges="GeGF", move="right")
-        self.lidSide(move="right")
-        self.lidSide(move="mirror right")
-        self.ctx.restore()
+        with self.saved_context():
+            self.surroundingWall(move="right")
+            self.rectangularWall(x, z, edges="FFFF", move="right")
+            self.rectangularWall(h, z + 2 * (d + self.thickness), edges="GeGF", move="right")
+            self.lidSide(move="right")
+            self.lidSide(move="mirror right")
 
         self.surroundingWall(move="up only")
 

@@ -22,7 +22,6 @@ import cairo
 import re
 from boxes import svgutil
 
-
 class PSFile:
     def __init__(self, filename):
         self.filename = filename
@@ -43,10 +42,14 @@ class PSFile:
 
 
 class Formats:
+
     pstoedit = "/usr/bin/pstoedit"
+
+    _BASE_FORMATS = ['svg', 'svg_Ponoko', 'ps']
 
     formats = {
         "svg": None,
+        "svg_Ponoko": None,
         "ps": None,
         "dxf": "-flat 0.1 -f dxf:-mm".split(),
         "gcode": "-f gcode".split(),
@@ -57,6 +60,7 @@ class Formats:
 
     http_headers = {
         "svg": [('Content-type', 'image/svg+xml; charset=utf-8')],
+        "svg_Ponoko": [('Content-type', 'image/svg+xml; charset=utf-8')],
         "ps": [('Content-type', 'application/postscript')],
         "dxf": [('Content-type', 'image/vnd.dxf')],
         "plt": [('Content-type', ' application/vnd.hp-hpgl')],
@@ -72,13 +76,13 @@ class Formats:
         if os.path.isfile(self.pstoedit):
             return sorted(self.formats.keys())
         else:
-            return ['svg', 'ps']
+            return self._BASE_FORMATS
 
     def getSurface(self, fmt, filename):
 
         width = height = 10000  # mm
 
-        if fmt == "svg":
+        if fmt in ("svg", "svg_Ponoko"):
             surface = cairo.SVGSurface(filename, width, height)
             mm2pt = 1.0
         else:
@@ -95,7 +99,7 @@ class Formats:
 
     def convert(self, filename, fmt):
 
-        if fmt == 'svg':
+        if fmt in ['svg', 'svg_Ponoko']:
             svg = svgutil.SVGFile(filename)
             svg.getEnvelope()
             svg.rewriteViewPort()
@@ -103,7 +107,7 @@ class Formats:
             ps = PSFile(filename)
             ps.adjustDocumentMedia()
 
-        if fmt not in ("svg", "ps"):
+        if fmt not in self._BASE_FORMATS:
             fd, tmpfile = tempfile.mkstemp(dir=os.path.dirname(filename))
             cmd = [self.pstoedit] + self.formats[fmt] + [filename, tmpfile]
             err = subprocess.call(cmd)

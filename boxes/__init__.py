@@ -281,8 +281,14 @@ class Boxes:
         self.bedBoltSettings = (3, 5.5, 2, 20, 15)  # d, d_nut, h_nut, l, l1
         self.hexHolesSettings = (5, 3, 'circle')  # r, dist, style
         self.surface, self.ctx = self.formats.getSurface(self.format, self.output)
-        self.ctx.set_line_width(max(2 * self.burn, 0.05))
-        self.set_source_color(Color.BLACK)
+
+        if self.format_variant == 'svg_Ponoko':
+            self.ctx.set_line_width(0.01)
+            self.set_source_color(Color.BLUE)
+        else:
+            self.ctx.set_line_width(max(2 * self.burn, 0.05))
+            self.set_source_color(Color.BLACK)
+
         self.spacing = 2 * self.burn + 0.5 * self.thickness
         self.ctx.select_font_face("sans-serif")
         self._buildObjects()
@@ -404,8 +410,14 @@ class Boxes:
             setattr(self, key, value)
 
         # Change file ending to format if not given explicitly
+        format = getattr(self, "format", "svg")
+        if format == "svg_Ponoko":
+            setattr(self, "format_variant", format)
+            setattr(self, "format", "svg")
+            format = "svg"
+
         if getattr(self, 'output', None) == 'box.svg':
-            self.output = 'box.' + getattr(self, "format", "svg")
+            self.output = 'box.' + format
 
     def addPart(self, part, name=None):
         """

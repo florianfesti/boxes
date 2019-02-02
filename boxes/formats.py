@@ -91,8 +91,6 @@ class Formats:
         ctx.translate(0, height)
         ctx.scale(mm2pt, -mm2pt)
 
-        ctx.set_source_rgb(0.0, 0.0, 0.0)
-
         return surface, ctx
 
     def convert(self, filename, fmt):

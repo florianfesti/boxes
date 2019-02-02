@@ -36,7 +36,7 @@ from boxes import svgutil
 from boxes import gears
 from boxes import pulley
 from boxes import parts
-
+from boxes.Color  import *
 
 ### Helpers
 
@@ -48,7 +48,6 @@ def dist(dx, dy):
     :param dy: delat y
     """
     return (dx * dx + dy * dy) ** 0.5
-
 
 def restore(func):
     """
@@ -79,10 +78,10 @@ def holeCol(func):
     @wraps(func)
     def f(self, *args, **kw):
         self.ctx.stroke()
-        self.ctx.set_source_rgb(0.0, 0.0, 1.0)
-        func(self, *args, **kw)
-        self.ctx.stroke()
-        self.ctx.set_source_rgb(0.0, 0.0, 0.0)
+        with self.saved_context():
+            self.set_source_color(Color.BLUE)
+            func(self, *args, **kw)
+            self.ctx.stroke()
 
     return f
 
@@ -266,18 +265,25 @@ class Boxes:
         finally:
             cr.restore()
 
+    def set_source_color(self, color):
+        """
+        Sets the color of the pen.
+        """
+        self.ctx.set_source_rgb(*color)
+
     def open(self):
         """
         Prepare for rendering
 
         Call this function from your .render() method
         """
-        self.spacing = 2 * self.burn + 0.5 * self.thickness
 
         self.bedBoltSettings = (3, 5.5, 2, 20, 15)  # d, d_nut, h_nut, l, l1
         self.hexHolesSettings = (5, 3, 'circle')  # r, dist, style
         self.surface, self.ctx = self.formats.getSurface(self.format, self.output)
         self.ctx.set_line_width(max(2 * self.burn, 0.05))
+        self.set_source_color(Color.BLACK)
+        self.spacing = 2 * self.burn + 0.5 * self.thickness
         self.ctx.select_font_face("sans-serif")
         self._buildObjects()
         if self.reference:
@@ -1148,15 +1154,15 @@ class Boxes:
                 raise ValueError("Unknown alignment: %s" % align)
 
         self.ctx.stroke()
-        self.ctx.set_source_rgb(1.0, 1.0, 1.0)
+        self.set_source_color(Color.WHITE)
         self.ctx.rectangle(0, 0, width, height)
         self.ctx.stroke()
-        self.ctx.set_source_rgb(*color)
+        self.set_source_color(color)
         self.ctx.scale(1, -1)
         for line in reversed(text):
             self.ctx.show_text(line)
             self.moveTo(0, 1.4 * -lheight)
-        self.ctx.set_source_rgb(0.0, 0.0, 0.0)
+        self.set_source_color(Color.BLACK)
         self.ctx.set_font_size(10)
 
     tx_sizes = {

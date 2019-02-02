@@ -28,6 +28,7 @@ from argparse import ArgumentParser
 import re
 from functools import wraps
 from xml.sax.saxutils import quoteattr
+from contextlib import contextmanager
 
 from boxes import edges
 from boxes import formats
@@ -59,10 +60,9 @@ def restore(func):
 
     @wraps(func)
     def f(self, *args, **kw):
-        self.ctx.save()
-        pt = self.ctx.get_current_point()
-        func(self, *args, **kw)
-        self.ctx.restore()
+        with self.saved_context():
+            pt = self.ctx.get_current_point()
+            func(self, *args, **kw)
         self.ctx.move_to(*pt)
 
     return f
@@ -252,6 +252,19 @@ class Boxes:
         defaultgroup.add_argument(
             "--burn", action="store", type=float, default=0.1,
             help="burn correction in mm (bigger values for tighter fit)")
+
+    @contextmanager
+    def saved_context(self):
+        """
+        Generator: for saving and restoring cairo contexts.
+        :param cr: cairo context
+        """
+        cr = self.ctx
+        cr.save()
+        try:
+            yield cr
+        finally:
+            cr.restore()
 
     def open(self):
         """
@@ -515,13 +528,12 @@ class Boxes:
                 pass
 
         if callback and callable(callback):
-            self.ctx.save()
-            self.moveTo(x, y)
-            if number is None:
-                callback()
-            else:
-                callback(number)
-            self.ctx.restore()
+            with self.saved_context():
+                self.moveTo(x, y)
+                if number is None:
+                    callback()
+                else:
+                    callback(number)
             self.ctx.move_to(0, 0)
 
     def getEntry(self, param, idx):
@@ -874,20 +886,18 @@ class Boxes:
         """
         d = (x - hl - 2 * r) / 2.0
 
-        self.ctx.save()
-
         # Hole
-        self.moveTo(d + 2 * r, 0)
-        self.edge(hl - 2 * r)
-        self.corner(-90, r)
-        self.edge(h - 3 * r)
-        self.corner(-90, r)
-        self.edge(hl - 2 * r)
-        self.corner(-90, r)
-        self.edge(h - 3 * r)
-        self.corner(-90, r)
+        with self.saved_context():
+            self.moveTo(d + 2 * r, 0)
+            self.edge(hl - 2 * r)
+            self.corner(-90, r)
+            self.edge(h - 3 * r)
+            self.corner(-90, r)
+            self.edge(hl - 2 * r)
+            self.corner(-90, r)
+            self.edge(h - 3 * r)
+            self.corner(-90, r)
 
-        self.ctx.restore()
         self.moveTo(0, 0)
 
         self.curveTo(d, 0, d, 0, d, -h + r)
@@ -1376,23 +1386,19 @@ class Boxes:
         for i in range(cx):
             for j in range(cy):
                 if (i + j) % 2:
-                    self.ctx.save()
-                    self.moveTo((5 * i) * wx, (5 * j) * wy)
-                    self.polyline(*armx)
-                    self.ctx.restore()
-                    self.ctx.save()
-                    self.moveTo((5 * i + 5) * wx, (5 * j + 5) * wy, -180)
-                    self.polyline(*armx)
-                    self.ctx.restore()
+                    with self.saved_context():
+                        self.moveTo((5 * i) * wx, (5 * j) * wy)
+                        self.polyline(*armx)
+                    with self.saved_context():
+                        self.moveTo((5 * i + 5) * wx, (5 * j + 5) * wy, -180)
+                        self.polyline(*armx)
                 else:
-                    self.ctx.save()
-                    self.moveTo((5 * i + 5) * wx, (5 * j) * wy, 90)
-                    self.polyline(*army)
-                    self.ctx.restore()
-                    self.ctx.save()
-                    self.moveTo((5 * i) * wx, (5 * j + 5) * wy, -90)
-                    self.polyline(*army)
-                    self.ctx.restore()
+                    with self.saved_context():
+                        self.moveTo((5 * i + 5) * wx, (5 * j) * wy, 90)
+                        self.polyline(*army)
+                    with self.saved_context():
+                        self.moveTo((5 * i) * wx, (5 * j + 5) * wy, -90)
+                        self.polyline(*army)
         self.ctx.stroke()
 
     ##################################################
@@ -1547,21 +1553,19 @@ class Boxes:
                 bottom(l / 2.)
                 tops.append(l / 2.)
 
-                self.ctx.save()
                 # complete wall segment
-                self.edgeCorner(bottom, right, 90)
-                right(h)
-                self.edgeCorner(right, top, 90)
-                for n, d in enumerate(reversed(tops)):
-                    if n % 2: # flex
-                        self.edge(d)
-                    else:
-                        top(d)
-                self.edgeCorner(top, left, 90)
-                left(h)
-                self.edgeCorner(left, bottom, 90)
-
-                self.ctx.restore()
+                with self.saved_context():
+                    self.edgeCorner(bottom, right, 90)
+                    right(h)
+                    self.edgeCorner(right, top, 90)
+                    for n, d in enumerate(reversed(tops)):
+                        if n % 2: # flex
+                            self.edge(d)
+                        else:
+                            top(d)
+                    self.edgeCorner(top, left, 90)
+                    left(h)
+                    self.edgeCorner(left, bottom, 90)
 
                 if nr == len(sides) - 1:
                     break
@@ -1806,15 +1810,14 @@ class Boxes:
                     part(*l, **kw)
         # draw matrix
         for i in range(rows):
-            self.ctx.save()
-            for j in range(width):
-                if "only" in move:
-                    break
-                if width*i+j >= n:
-                    break
-                kw["move"] = "right"
-                part(*l, **kw)
-            self.ctx.restore()
+            with self.saved_context():
+                for j in range(width):
+                    if "only" in move:
+                        break
+                    if width*i+j >= n:
+                        break
+                    kw["move"] = "right"
+                    part(*l, **kw)
             kw["move"] = "up only"
             part(*l, **kw)
 

@@ -1,4 +1,4 @@
-include README.txt LICENSE.txt
+include README.rst LICENSE.txt
 include examples/*.svg
-include documentation/presentation.odp documentation/TODO.txt
+include documentation/presentation.odp
 include inkex/*.txt

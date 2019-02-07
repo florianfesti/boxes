@@ -163,7 +163,6 @@ class Rotary(Boxes):
         self.edge(10)
         self.edges["F"](60)
         self.polyline(x - 70, (180, y / 2.), x, (180, y / 2.))
-        self.ctx.stroke()
 
         self.move(overallwidth, overallheight, move)
 

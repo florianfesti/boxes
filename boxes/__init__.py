@@ -820,7 +820,6 @@ class Boxes:
             edges[i](side)
             self.edgeCorner(edges[i], edges[i+1], 360.0/corners)
 
-        self.ctx.stroke()
         self.move(tw, th, move)
 
     def grip(self, length, depth):
@@ -1502,7 +1501,7 @@ class Boxes:
                 r = 0
             self.hexHolesPlate(x - 2 * holesMargin, y - 2 * holesMargin, r,
                                settings=holesSettings)
-        self.ctx.stroke()
+
         self.move(overallwidth, overallheight, move)
 
     def surroundingWall(self, x, y, r, h,
@@ -1599,8 +1598,6 @@ class Boxes:
             self.edges["X"](c4, h + topwidth + bottomwidth)
             tops.append(c4)
 
-        self.ctx.stroke()
-
         self.move(overallwidth, overallheight, move)
 
     def rectangularWall(self, x, y, edges="eeee",
@@ -1659,8 +1656,6 @@ class Boxes:
             self.moveTo(holesMargin,
                         holesMargin + edges[0].startwidth())
             self.hexHolesRectangle(x - 2 * holesMargin, y - 2 * holesMargin)
-
-        self.ctx.stroke()
 
         self.move(overallwidth, overallheight, move)
 

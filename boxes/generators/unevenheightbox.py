@@ -65,8 +65,6 @@ class UnevenHeightBox(Boxes):
         edges[-1](h0)
         self.edgeCorner(edges[-1], edges[0], 90)
         
-        self.ctx.stroke()
-
         self.move(overallwidth, overallheight, move)
 
 

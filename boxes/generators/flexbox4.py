@@ -95,7 +95,6 @@ class FlexBox4(Boxes):
         self.edges["f"](h)
         self.edge(self.thickness)
         self.corner(90)
-        self.ctx.stroke()
 
         self.move(tw, th, move)
 

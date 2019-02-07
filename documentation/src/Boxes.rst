@@ -142,7 +142,6 @@ Navigation
 ----------
 .. automethod:: boxes.Boxes.moveTo
 .. automethod:: boxes.Boxes.moveArc
-.. automethod:: boxes.Boxes.continueDirection
 
 **Boxes.ctx.save()** allows to save (among other things) the current position.
 **Boxes.ctx.restore()** restores the previously saved state. Always make sure

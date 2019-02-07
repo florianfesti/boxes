@@ -750,6 +750,7 @@ class Boxes:
 
     def regularPolygon(self, corners=3, radius=None, h=None, side=None):
         """Give messures of a regular polygone
+
         :param corners: number of corners of the polygone
         :param radius: distance center to one of the corners
         :param h: distance center to one of the sides (height of sector)
@@ -781,6 +782,7 @@ class Boxes:
     def regularPolygonWall(self, corners=3, r=None, h=None, side=None,
                            edges='e', hole=None, callback=None, move=None):
         """Create regular polygone as a wall
+
         :param corners: number of corners of the polygone
         :param radius: distance center to one of the corners
         :param h: distance center to one of the sides (height of sector)
@@ -1668,6 +1670,7 @@ class Boxes:
 
         This is similar to the rectangularWall but it may extend to either side
         replacing the F edge with fingerHoles. Use with E and F for edges only.
+
         :param x: width
         :param y: height
         :param edges:  (Default value = "FFFF") bottom, right, top, left

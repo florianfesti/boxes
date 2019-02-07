@@ -114,7 +114,7 @@ Turtle graphics
 ...............
 
 To draw parts turtle graphic commands are used. The always start at
-hthe current origin following the X axis. The move the origin with
+the current origin following the X axis. The move the origin with
 them. The inside of the part is above the X axis and the outside
 below. Corners with an positive angle (going counter clockwise) close
 the part while negative angles (going clockwise) create protrusions.

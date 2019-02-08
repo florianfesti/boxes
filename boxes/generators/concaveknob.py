@@ -64,5 +64,4 @@ class ConcaveKnob(Boxes):
         self.parts.concaveKnob(self.diameter, self.serrations,
                                self.rounded, self.angle)
 
-        self.close()
 

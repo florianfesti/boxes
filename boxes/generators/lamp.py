@@ -131,6 +131,5 @@ class Lamp(Boxes):
         self.rectangularWall(x, h, edges='hFFF', holesMargin=5, move="right")
         self.rectangularWall(x, h, edges='hFFF', holesMargin=5)
 
-        self.close()
 
 

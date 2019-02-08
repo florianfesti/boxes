@@ -151,6 +151,5 @@ class OttoBody(Boxes):
         self.rectangularWall(y-5.6, 14, callback=[
             None, None, None, self.rightBottomCB], move="up")
 
-        self.close()
 
 

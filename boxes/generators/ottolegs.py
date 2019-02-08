@@ -150,5 +150,4 @@ class OttoLegs(Boxes):
         self.ankles(30, 25, callback=[None, self.ankle1], move="right")
         self.ankles(30, 25, callback=[None, self.ankle2], move="right")
         self.partsMatrix(2, 2, "right", self.servoring)
-        self.close()
 

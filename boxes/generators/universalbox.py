@@ -92,5 +92,4 @@ class UniversalBox(_TopEdge, _ChestLid):
         self.rectangularWall(y, h, [b, "f", t4, "f"],
                              bedBolts=[d3], move="up")
 
-        self.close()
 

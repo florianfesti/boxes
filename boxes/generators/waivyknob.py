@@ -58,5 +58,4 @@ class WaivyKnob(Boxes):
                              move="right")
         self.parts.waivyKnob(self.diameter, self.serrations, angle)
 
-        self.close()
 

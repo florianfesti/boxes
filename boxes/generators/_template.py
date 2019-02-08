@@ -60,4 +60,3 @@ class BOX(Boxes): # Change class name!
 
         # render your parts here
 
-        self.close()

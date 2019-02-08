@@ -128,5 +128,4 @@ class PoleHook(Boxes): # change class name here and below
         for i in range(2):
             self.parts.disc(ww, move="up")
             
-        self.close()
 

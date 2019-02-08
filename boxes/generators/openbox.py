@@ -50,5 +50,4 @@ class OpenBox(Boxes):
         self.rectangularWall(x, y, "efff", bedBolts=[d2, d3, d2, d3], move="left")
         #self.rectangularWall(x, y, "ffff", bedBolts=[d2, d3, d2, d3])
 
-        self.close()
 

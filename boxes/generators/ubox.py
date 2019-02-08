@@ -105,5 +105,4 @@ class UBox(_TopEdge, _ChestLid):
         self.drawLid(x, h, self.top_edge)
         self.drawAddOnLid(x, h, self.lid)
 
-        self.close()
 

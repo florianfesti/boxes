@@ -153,4 +153,3 @@ class CardBox(Boxes):
         for i in range(self.num - 1):
             self.rectangularWall(h-t, y, "fAff", move="right")
 
-        self.close()

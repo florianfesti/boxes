@@ -48,6 +48,5 @@ class TrayInsert(Boxes):
             e = ["e", "e", edges.SlottedEdge(self, self.sx[::-1], "e", slots=0.5 * h), "e"]
             self.rectangularWall(x, h, e, move="up")
 
-        self.close()
 
 

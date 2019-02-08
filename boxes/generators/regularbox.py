@@ -94,6 +94,5 @@ class RegularBox(Boxes):
                                      edges="fgfg" if fingers else "fgeg")
 
 
-        self.close()
 
 

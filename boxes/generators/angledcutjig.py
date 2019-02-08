@@ -65,4 +65,3 @@ class AngledCutJig(Boxes): # Change class name!
         self.rectangularTriangle(x, th, "fef", num=2, move="up")
         self.rectangularTriangle(20, th2, "fef", num=2, move="up")
         
-        self.close()

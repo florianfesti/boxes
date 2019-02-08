@@ -149,4 +149,3 @@ class OrganPipe(Boxes): # Change class name!
             lambda:self.hole(mouth_width/2, pipe_depth/2, d=air_hole_diameter)], move="right")
         self.rectangularWall(mouth_width, pipe_depth - jet_thickness, "ffef", move="right")
 
-        self.close()

@@ -81,6 +81,5 @@ class RoundedBox(Boxes):
         self.roundedPlate(x, y, r, wallpieces=self.wallpieces, move="up only")
 
         self.surroundingWall(x, y, r, h, "F", "F", pieces=self.wallpieces)
-        self.close()
 
 

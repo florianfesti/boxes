@@ -136,6 +136,5 @@ class AngledBox(Boxes):
             self.rectangularWall(lx, h, move="right",
                                  edges="fGfG" if fingers else "fGeG")
 
-        self.close()
 
 

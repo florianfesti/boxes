@@ -182,4 +182,3 @@ class RoyalGame(Boxes): # Change class name!
         self.dice(size, 4, move="up")
         self.dice(size, 4, move="up")
         
-        self.close()

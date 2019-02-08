@@ -112,6 +112,5 @@ class UnevenHeightBox(Boxes):
             self.wall(x, h1, h0, "FFF", move="right" +
                       (" only" if h1 == h0 == 0.0 else ""))
 
-        self.close()
 
 

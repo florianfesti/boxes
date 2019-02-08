@@ -83,6 +83,5 @@ class HingeBox(Boxes):
         if s:
             self.edges['u'].parts(move="up")
 
-        self.close()
 
 

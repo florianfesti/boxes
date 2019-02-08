@@ -58,5 +58,4 @@ class RobotArm(Boxes): # change class name here and below
             servoClsA = getattr(servos, servoA)
             servoClsB = getattr(servos, servoB)
             armcls(self, servoClsA(self), servoClsB(self))(length, move="up")
-        self.close()
 

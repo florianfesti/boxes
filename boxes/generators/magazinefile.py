@@ -81,6 +81,5 @@ class MagazinFile(Boxes):
         self.moveTo(y + 15, h + hi + 15, 180)
         self.side(y, h, hi)
 
-        self.close()
 
 

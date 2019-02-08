@@ -85,6 +85,5 @@ class JigsawPuzzle(Boxes):  # change class name here and below
         self.burn = 0.0
         self.moveTo(10, 10)
         self.hilbert(self.depth)
-        self.close()
 
 

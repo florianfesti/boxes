@@ -80,5 +80,4 @@ class DisplayShelf(Boxes): # change class name here and below
             for i in range(self.num):
                 self.rectangularWall(x, sl, "Efef", move="up")
 
-        self.close()
 

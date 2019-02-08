@@ -80,6 +80,5 @@ class Pulley(Boxes):
         for i in range(int(math.ceil(self.h / self.thickness))):
             self.pulley(self.teeth, self.profile, insideout=self.insideout, r_axle=self.axle / 2.0, move="right")
 
-        self.close()
 
 

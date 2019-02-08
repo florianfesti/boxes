@@ -168,5 +168,4 @@ When turned by 90°, it can be also used to create a bottle holder."""
         for i in range(n):
             self.parts.disc(h-2*t, move="right")
         
-        self.close()
 

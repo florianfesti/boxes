@@ -97,5 +97,4 @@ class Stachel(Boxes):
         self.layer(ri, ro, rp, True, move="up")
         self.layer(ri, ro, rp, move="up")
 
-        self.close()
 

@@ -40,5 +40,4 @@ class LBeam(Boxes):
         self.rectangularWall(x, h, "eFee", move="right")
         self.rectangularWall(y, h, "eeef")
 
-        self.close()
 

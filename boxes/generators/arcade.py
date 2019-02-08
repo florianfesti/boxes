@@ -97,5 +97,4 @@ class Arcade(Boxes):
         self.side(move="up")
         self.side(move="up")
 
-        self.close()
 

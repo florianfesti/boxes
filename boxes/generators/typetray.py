@@ -148,6 +148,5 @@ class TypeTray(_TopEdge):
             self.rectangularWall(y, hi, e, move="up")
 
 
-        self.close()
 
 

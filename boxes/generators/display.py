@@ -54,4 +54,3 @@ class Display(Boxes):
                       x-2*r+2*math.sin(math.radians(a))*oh,
                       (90+a, r), oh, (90-a, r))
 
-        self.close()

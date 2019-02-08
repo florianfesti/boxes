@@ -66,6 +66,5 @@ in 0.5mm steps, 3 holes each size"""
         self.rectangularWall(x, y, "ffff", callback=[self.drillholes], move="up")
         self.rectangularWall(x, y, "ffff", callback=[self.drillholes, self.descriptionText], move="up")
 
-        self.close()
 
 

@@ -43,6 +43,5 @@ class FlexTest(Boxes):
         self.edge(y)
         self.corner(90)
 
-        self.close()
 
 

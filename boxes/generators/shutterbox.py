@@ -227,4 +227,3 @@ class ShutterBox(Boxes):
         else:
             self.rectangularWall(ls, y, "fefA", move="right")
 
-        self.close()

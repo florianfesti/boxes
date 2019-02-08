@@ -63,6 +63,5 @@ class IntegratedHingeBox(Boxes):
         self.rectangularWall(y, x, "ffff", move="up")
         self.rectangularWall(y, x, "ffff")
 
-        self.close()
 
 

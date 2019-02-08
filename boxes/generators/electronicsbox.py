@@ -92,6 +92,5 @@ class ElectronicsBox(Boxes):
         self.rectangularTriangle(tr, tr, "ffe", num=4,
             callback=[None, lambda: self.hole(trh, trh, d=d1)])
 
-        self.close()
 
 

@@ -165,6 +165,5 @@ class FlexBox3(Boxes):
         self.flexBoxSide(x, y, r, move="mirror right")
         self.rectangularWall(z, y, edges="fFeF")
 
-        self.close()
 
 

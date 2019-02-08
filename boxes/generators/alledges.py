@@ -50,4 +50,3 @@ class AllEdges(Boxes):
                 self.edges[c](x, h=4*t)
             self.text("%s - %s" % (c, self.edges[c].description), y=5*t)
 
-        self.close()

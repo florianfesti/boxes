@@ -327,7 +327,6 @@ class TrayLayout2(TrayLayout):
             if x < lx:
                 posx += self.x[x] + self.thickness
 
-        self.close()
 
     def parse(self, input):
         x = []

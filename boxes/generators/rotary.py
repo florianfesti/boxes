@@ -327,6 +327,5 @@ class Rotary(Boxes):
         self.parts.disc(self.diameter - 2 * self.rubberthickness + 4,
                         hole=self.axle, move="right up")
 
-        self.close()
 
 

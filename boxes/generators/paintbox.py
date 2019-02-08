@@ -96,4 +96,3 @@ class PaintStorage(Boxes):
             lambda: self.rectangularHole(h/3, x/2., hh, hx, r=hr),
             lambda: self.fingerHolesAt(0, self.canheight/3, x, 0)],
                              move="left")
-        self.close()

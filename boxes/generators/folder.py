@@ -46,6 +46,5 @@ class Folder(Boxes):
         self.edge(y - 2 * r)
         self.corner(90, r)
 
-        self.close()
 
 

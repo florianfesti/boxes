@@ -139,6 +139,5 @@ class BinTray(Boxes):
             e = [edges.SlottedEdge(self, self.sx, "g"), "F", "e", "F"]
             self.rectangularWall(x, self.sy[i]*self.front*2**0.5, e, callback=[self.frontHoles(i)], move="up")
 
-        self.close()
 
 

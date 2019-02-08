@@ -569,7 +569,11 @@ class Boxes:
         """Finish rendering
 
         Call at the end of your .render() method"""
+        if self.ctx == None:
+            return
+
         self.ctx.stroke()
+        self.ctx = None
         self.surface.flush()
         self.surface.finish()
 

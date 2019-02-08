@@ -70,4 +70,3 @@ class OttoSoles(Boxes):
                 self.edges["D"](w2)
                 self.polyline(0, 90, c2/2., 45, (x-2*c, 3), 45)
                 self.moveTo(0, w * 2**0.5 + 2*2**0.5*self.burn)
-        self.close()

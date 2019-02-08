@@ -122,6 +122,5 @@ class FlexBox(boxes.Boxes):
         self.flexBoxSide(self.x, self.y, self.radius, move="right")
         self.flexBoxSide(self.x, self.y, self.radius, move="mirror")
 
-        self.close()
 
 

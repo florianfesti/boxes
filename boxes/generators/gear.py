@@ -93,4 +93,3 @@ Outer diameter 2: %.1fmm
 Axis distance: %.1fmm
         """ % (r1, d1, r2, d2, r1+r2), align="bottom left")
         
-        self.close()

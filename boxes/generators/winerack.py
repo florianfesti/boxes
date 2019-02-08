@@ -131,5 +131,4 @@ class WineRack(Boxes):
 
         self.partsMatrix(tc, cx, "up", self.rectangularWall, r-2*self.delta, h, "fefe")
 
-        self.close()
 

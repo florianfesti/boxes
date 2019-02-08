@@ -62,4 +62,3 @@ class TwoPiece(Boxes):
         self.rectangularWall(x, y, "hhhh", bedBolts=None, move="right")
         self.rectangularWall(x+d, y+d, "FFFF", bedBolts=None, move="right")
         
-        self.close()

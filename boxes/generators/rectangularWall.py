@@ -71,4 +71,3 @@ class RectangularWall(Boxes):
         self.moveTo(3*t, 3*t)
         self.rectangularWall(self.x, self.h, self.edgetypes, callback=self.cb)
 
-        self.close()

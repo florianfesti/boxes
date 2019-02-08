@@ -49,8 +49,6 @@ class ConcaveKnob(Boxes):
 
     def render(self):
         t = self.thickness
-        # Initialize canvas
-        self.open()
         self.parts.concaveKnob(self.diameter, self.serrations,
                                self.rounded, self.angle,
                                callback=lambda:self.dHole(0, 0,

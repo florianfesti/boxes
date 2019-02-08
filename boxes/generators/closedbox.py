@@ -28,7 +28,6 @@ class ClosedBox(Boxes):
         self.buildArgParser("x", "y", "h", "outside")
 
     def render(self):
-        self.open()
 
         x, y, h = self.x, self.y, self.h
 

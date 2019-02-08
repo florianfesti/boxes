@@ -56,7 +56,6 @@ class UniversalBox(_TopEdge, _ChestLid):
         x, y, h = self.x, self.y, self.h
         t = self.thickness
 
-        self.open()
 
         t1, t2, t3, t4 = self.topEdges(self.top_edge)
         b = self.edges.get(self.bottom_edge, self.edges["F"])

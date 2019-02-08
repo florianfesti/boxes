@@ -93,7 +93,6 @@ class UBox(_TopEdge, _ChestLid):
 
         self.radius = r = min(r, x/2.0, y)
 
-        self.open()
 
         t1, t2, t3, t4 = self.topEdges(self.top_edge)
 

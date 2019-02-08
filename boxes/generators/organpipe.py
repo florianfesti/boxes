@@ -126,8 +126,6 @@ class OrganPipe(Boxes): # Change class name!
 
         total_length = resonator_length + base_length
         
-        # Initialize canvas
-        self.open()
 
         e = ["f", "e",
              edges.CompoundEdge(self, "fef", (resonator_length - mouth_height - 10*t, mouth_height + 10*t, base_length)), "f"]

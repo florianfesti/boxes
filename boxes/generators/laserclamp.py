@@ -85,7 +85,6 @@ parts sliding on each other to reduce friction.
     def render(self):
         t = self. thickness
         h_max, h_min, h_extra = self.maxheight, self.minheight,self.extraheight
-        self.open()
 
         if h_extra and h_extra < 2*t:
             h_extra = 2*t

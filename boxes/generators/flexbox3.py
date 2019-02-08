@@ -146,7 +146,6 @@ class FlexBox3(Boxes):
         width = 2 * x + y - 2 * r + c4 + 14 * thickness + 3 * h  # lock
         height = y + z + 8 * thickness
 
-        self.open()
 
         s = edges.FingerJointSettings(self.thickness, finger=1.,
                                       space=1., surroundingspaces=1)

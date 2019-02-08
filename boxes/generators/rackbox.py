@@ -64,7 +64,6 @@ class RackBox(Boxes):
         
         
     def render(self):
-        self.open()
 
         t = self.thickness
         self.h = h = self.h + 2*t # compensate for lid

@@ -46,8 +46,6 @@ class WaivyKnob(Boxes):
 
     def render(self):
         t = self.thickness
-        # Initialize canvas
-        self.open()
         angle = self.serrationangle
         self.parts.waivyKnob(self.diameter, self.serrations, angle,
                              callback=lambda:self.dHole(0, 0, d=self.bolthole,

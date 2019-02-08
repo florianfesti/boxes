@@ -36,7 +36,6 @@ class DisplayCase(Boxes):
         )
 
     def render(self):
-        self.open()
 
         x, y, h = self.x, self.y, self.h
 

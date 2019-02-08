@@ -32,7 +32,6 @@ class FlexTest2(Boxes):
     def render(self):
         x, y = self.x, self.y
 
-        self.open()
         self.rectangularWall(x, y, callback=[lambda: self.flex2D(x, y, self.fw)])
 
 

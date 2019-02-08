@@ -69,8 +69,6 @@ class Pulley(Boxes):
     def render(self):
         # adjust to the variables you want in the local scope
         t = self.thickness
-        # Initialize canvas
-        self.open()
 
         if self.top:
             self.disk(

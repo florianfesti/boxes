@@ -36,7 +36,6 @@ class NemaMount(Boxes):
 
         x = y = h = motor + 2*t
 
-        self.open()
 
         self.rectangularWall(x, y, "ffef", callback=[
             lambda: self.NEMA(self.size, x/2, y/2)], move="right")

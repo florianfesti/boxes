@@ -56,8 +56,6 @@ class Gears(Boxes):
     def render(self):
         # adjust to the variables you want in the local scope
         t = self.thickness
-        # Initialize canvas
-        self.open()
 
         if not self.shaft2:
             self.shaft2 = self.shaft1

@@ -58,7 +58,6 @@ class RoundedBox(Boxes):
             self.corner(90, r)
 
     def render(self):
-        self.open()
 
         x, y, h, r = self.x, self.y, self.h, self.radius
 

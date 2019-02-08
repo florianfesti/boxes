@@ -44,8 +44,6 @@ class AngledCutJig(Boxes): # Change class name!
         # adjust to the variables you want in the local scope
         x, y = self.x, self.y
         t = self.thickness
-        # Initialize canvas
-        self.open()
 
         th = x * math.tan(math.radians(90-self.angle))
         l = (x**2 + th**2)**0.5

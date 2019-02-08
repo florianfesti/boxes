@@ -68,8 +68,6 @@ class PaintStorage(Boxes):
         x, y = self.x, self.y
         t = self.thickness
         
-        # Initialize canvas
-        self.open()
 
         stack = self.edges['s'].settings
         h = self.canheight - stack.height - stack.holedistance + t

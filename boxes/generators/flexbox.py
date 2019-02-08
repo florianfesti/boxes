@@ -116,7 +116,6 @@ class FlexBox(boxes.Boxes):
         r = min(r, x / 2.0)
         self.radius = r = min(r, max(0, (y - self.latchsize) / 2.0))
 
-        self.open()
 
         self.surroundingWall(move="up")
         self.flexBoxSide(self.x, self.y, self.radius, move="right")

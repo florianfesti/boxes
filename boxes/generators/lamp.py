@@ -90,7 +90,6 @@ class Lamp(Boxes):
         h : height box
         """
 
-        self.open()
 
         # self.edges["f"].settings = (5, 5) # XXX
 

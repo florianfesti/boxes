@@ -98,7 +98,6 @@ class OttoBody(Boxes):
         self.move(w+4, h+8+t, move)
 
     def render(self):
-        self.open()
 
         self.x = x = 60.
         self.y = y = 60.

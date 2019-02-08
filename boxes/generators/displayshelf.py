@@ -61,8 +61,6 @@ class DisplayShelf(Boxes): # change class name here and below
         if self.outside:
             x = self.adjustSize(x)
         
-        # Initialize canvas
-        self.open()
 
         a = math.radians(self.angle)
 

@@ -40,8 +40,6 @@ class Display(Boxes):
         x, h, r = self.x, self.h, self.radius
         a = self.angle
         t = self.thickness
-        # Initialize canvas
-        self.open()
 
         self.roundedPlate(0.7*x, x, r, "e", move="up")
 

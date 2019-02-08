@@ -96,7 +96,6 @@ class CardBox(Boxes):
             self.fingerHolesAt(0.5*t + (c+t)*i, 0, y, 90)
 
     def render(self):
-        self.open()
         h = self.h
         t = self.thickness
 

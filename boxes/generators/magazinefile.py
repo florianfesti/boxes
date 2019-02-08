@@ -69,7 +69,6 @@ class MagazinFile(Boxes):
         self.hi = hi = self.hi or (h / 2.0)
         t = self.thickness
 
-        self.open()
 
         with self.saved_context():
             self.rectangularWall(x, h, "Ffef", move="up")

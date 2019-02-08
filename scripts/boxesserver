@@ -395,6 +395,7 @@ Create boxes and more with a laser cutter!
                                box.format,
                                [('Content-type', 'application/unknown; charset=utf-8')]))
             fd, box.output = tempfile.mkstemp()
+            box.open()
             box.render()
             box.close()
             result = open(box.output).readlines()

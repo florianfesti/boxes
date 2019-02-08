@@ -33,7 +33,6 @@ class IntegratedHingeBox(Boxes):
         
 
     def render(self):
-        self.open()
 
         x, y, h, hl = self.x, self.y, self.h, self.lidheight
 

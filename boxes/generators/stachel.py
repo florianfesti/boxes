@@ -86,8 +86,6 @@ class Stachel(Boxes):
         
 
     def render(self):
-        # Initialize canvas
-        self.open()
 
         ri = self.flutediameter / 2.0
         ro = ri + self.wall

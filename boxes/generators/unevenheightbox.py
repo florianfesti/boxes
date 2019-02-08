@@ -69,7 +69,6 @@ class UnevenHeightBox(Boxes):
 
 
     def render(self):
-        self.open()
 
         x, y = self.x, self.y
         heights = [self.height0, self.height1, self.height2, self.height3]

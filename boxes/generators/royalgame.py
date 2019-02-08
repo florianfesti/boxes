@@ -163,8 +163,6 @@ class RoyalGame(Boxes): # Change class name!
         self.size = size = x / 8.0
         h = size/2 * 3**0.5
         y = 3 * size
-        # Initialize canvas
-        self.open()
 
         self.rectangularWall(x, h, "FLFF", move="right")
         self.rectangularWall(y, h, "nlmE", callback=[

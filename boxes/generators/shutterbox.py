@@ -159,8 +159,6 @@ class ShutterBox(Boxes):
         self.radius = r = min(r, h/2)
 
         t = self.thickness
-        # Initialize canvas
-        self.open()
         self.ctx.save()
         self.side(x, h, r, style, move="right")
         self.side(x, h, r, style, move="right")

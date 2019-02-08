@@ -36,8 +36,6 @@ class AllEdges(Boxes):
     def render(self):
         x = self.x
         t = self.thickness
-        # Initialize canvas
-        self.open()
 
         chars = list(self.edges.keys())
         chars.sort(key=lambda c: c.lower() + (c if c.isupper() else ''))

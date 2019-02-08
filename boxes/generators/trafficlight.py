@@ -122,8 +122,6 @@ When turned by 90°, it can be also used to create a bottle holder."""
 
         th = n * (h + t) - t
         
-        # Initialize canvas
-        self.open()
 
         self.addPart(ShadyEdge(self, None))
 

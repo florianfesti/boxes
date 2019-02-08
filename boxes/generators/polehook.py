@@ -99,8 +99,6 @@ class PoleHook(Boxes): # change class name here and below
         # adjust to the variables you want in the local scope
         d = self.diameter
         t = self.thickness
-        # Initialize canvas
-        self.open()
 
         shh = self.screwheadheight
         self.bedBoltSettings = (self.screw, self.screwhead, shh, d/4+shh, d/4)  # d, d_nut, h_nut, l, l

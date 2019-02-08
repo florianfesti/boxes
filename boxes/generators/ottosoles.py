@@ -45,8 +45,6 @@ class OttoSoles(Boxes):
         w2 = w * 2**0.5 - c2 / 2
         d = w * math.tan(math.radians(22.5))
 
-        # Initialize canvas
-        self.open()
         
         self.edges["d"].settings.setValues(w, size=0.4, depth=0.3,
                                            radius=0.05)

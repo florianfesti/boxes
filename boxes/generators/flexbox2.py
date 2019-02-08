@@ -105,7 +105,6 @@ class FlexBox2(Boxes):
         self.radius = min(self.radius, max(0, self.h - self.latchsize))
         self.c4 = c4 = math.pi * self.radius * 0.5
 
-        self.open()
 
         self.moveTo(2 * self.thickness, self.thickness)
 

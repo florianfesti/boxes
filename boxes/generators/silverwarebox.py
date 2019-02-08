@@ -91,7 +91,6 @@ class Silverware(Boxes):
         h = self.h
         r = self.cornerradius
 
-        self.open()
         t = self.thickness
         b = self.burn
 

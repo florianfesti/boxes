@@ -72,7 +72,6 @@ class AngledBox(Boxes):
         self.move(tx, ty, move)
 
     def render(self):
-        self.open()
 
         x, y, h, n = self.x, self.y, self.h, self.n
 

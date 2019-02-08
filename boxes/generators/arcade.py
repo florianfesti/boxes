@@ -76,8 +76,6 @@ class Arcade(Boxes):
         self.top = 100-t
         self.topback = 200-0.5*t
 
-        # Initialize canvas
-        self.open()
         # Floor
         self.rectangularWall(width, self.bottom, "efff", move="up")
         # Back

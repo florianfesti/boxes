@@ -35,7 +35,6 @@ class OpenBox(Boxes):
             y = self.adjustSize(y, False)
             h = self.adjustSize(h, False)
 
-        self.open()
 
         d2 = [edges.Bolts(2)]
         d3 = [edges.Bolts(3)]

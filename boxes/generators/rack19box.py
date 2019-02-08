@@ -63,7 +63,6 @@ class Rack19Box(Boxes):
         
         
     def _render(self, type):
-        self.open()
 
         t = self.thickness
         self.h = h = self.height * 44.45 - 0.787 - t

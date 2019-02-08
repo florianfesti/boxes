@@ -219,6 +219,7 @@ class Boxes:
 
     def __init__(self):
         self.formats = formats.Formats()
+        self.ctx = None
         description = self.__doc__
         if self.description:
             description += "\n\n" + self.description
@@ -277,6 +278,8 @@ class Boxes:
 
         Call this function from your .render() method
         """
+        if self.ctx is not None:
+            return
 
         self.bedBoltSettings = (3, 5.5, 2, 20, 15)  # d, d_nut, h_nut, l, l1
         self.hexHolesSettings = (5, 3, 'circle')  # r, dist, style

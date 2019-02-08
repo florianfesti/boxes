@@ -80,8 +80,6 @@ class JigsawPuzzle(Boxes):  # change class name here and below
     def render(self):
         size = self.size
         t = self.thickness
-        # Initialize canvas
-        self.open()
         self.burn = 0.0
         self.moveTo(10, 10)
         self.hilbert(self.depth)

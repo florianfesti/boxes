@@ -34,7 +34,6 @@ class HingeBox(Boxes):
             help="split the lid in y direction (mm)")
 
     def render(self):
-        self.open()
 
         x, y, h, hl = self.x, self.y, self.h, self.lidheight
         s = self.splitlid

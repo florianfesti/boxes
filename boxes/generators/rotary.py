@@ -189,8 +189,6 @@ class Rotary(Boxes):
         a = self.a = self.axle
         bw, bh = self.beamwidth, self.beamheight
 
-        # Initialize canvas
-        self.open()
         # self.spacing = 0.1 * t
 
         # Change settings of default edges if needed. E.g.:

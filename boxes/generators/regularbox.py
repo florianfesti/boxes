@@ -38,7 +38,6 @@ class RegularBox(Boxes):
             help="style of the top and lid")
 
     def render(self):
-        self.open()
 
         r, h, n = self.radius, self.h, self.n
 

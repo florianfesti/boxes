@@ -62,8 +62,6 @@ class RectangularWall(Boxes):
 
     def render(self):
         # adjust to the variables you want in the local scope
-        # Initialize canvas
-        self.open()
         t = self.thickness
 
         self.edgetypes = [self.bottom_edge, self.right_edge, self.top_edge, self.left_edge]

@@ -77,8 +77,6 @@ class Planetary2(Boxes):
 
 
     def render(self):
-        # Initialize canvas
-        self.open()
 
         ringteeth = self.sunteeth + 2 * self.planetteeth
         t = self.thickness

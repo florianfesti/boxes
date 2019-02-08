@@ -110,7 +110,6 @@ class WineRack(Boxes):
         self.cy = cy = int((y-dy-t) // (r+dy))
         self.delta = 3**0.5/6.*t
 
-        self.open()
         self.rectangularWall(x, y, callback=[self.wallCB], move="up")
         self.rectangularWall(x, y, callback=[lambda:self.wallCB(backwall=True)], move="up")
         self.rectangularWall(x, y, callback=[lambda:self.wallCB(frontwall=True)], move="up")

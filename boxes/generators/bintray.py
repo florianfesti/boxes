@@ -106,7 +106,6 @@ class BinTray(Boxes):
         hi = self.hi = h
         t = self.thickness
 
-        self.open()
 
         self.addPart(BinFrontEdge(self, self))
         self.addPart(BinFrontSideEdge(self, self))

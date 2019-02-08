@@ -56,7 +56,6 @@ class ElectronicsBox(Boxes):
         self.fingerHolesAt(self.y, self.h-1.5*t, self.triangle, 180)
         
     def render(self):
-        self.open()
 
         t = self.thickness
         self.h = h = self.h + 2*t # compensate for lid

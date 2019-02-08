@@ -54,7 +54,6 @@ in 0.5mm steps, 3 holes each size"""
         x, y, h = self.x, self.y, self.h
         t = self.thickness
 
-        self.open()
         self.edges["f"].settings.setValues(self.thickness, space=3, finger=3, surroundingspaces=1)
 
         self.rectangularWall(x, h, "FfeF", callback=[self.holesx], move="right")

@@ -44,8 +44,6 @@ class TwoPiece(Boxes):
             y -= 4*t + 2*p
             h -= 2 * t
 
-        # Initialize canvas
-        self.open()
 
         # Adjust h edge with play
         self.edges["f"].settings.setValues(t, False, edge_width=self.edges["f"].settings.edge_width + p)

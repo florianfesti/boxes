@@ -3,21 +3,22 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to boxes.py's documentation!
-====================================
+Boxes.py
+========
+
+Create boxes and more with a laser cutter!
 
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 	
    README
    install
    usermanual
    CONTRIBUTING.rst
-   apiintro
-   Boxes
-   edges
+   apidoc
+   generators
 
 Indices and tables
 ==================

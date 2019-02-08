@@ -50,7 +50,8 @@ clean:
 	rm -rf $(BUILDDIR)/*
 
 html:
-	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
+	./boxes2rst generators.inc
+	$(SPHINXBUILD) --color -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html 2>&1 | grep -v "WARNING: duplicate object description"
 	cp index.html $(BUILDDIR)/
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."

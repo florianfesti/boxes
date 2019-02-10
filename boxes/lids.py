@@ -115,7 +115,7 @@ class _TopEdge(Boxes):
             t3 = "N"
         elif t1.char == "v":
             t2 = t3 = t4 = "e"
-        if t1.char == "t":
+        elif t1.char == "t":
             t1 = t3 = "e"
         return [t1, t2, t3, t4]
 

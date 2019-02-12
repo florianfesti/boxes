@@ -86,9 +86,8 @@ format
 ......
 
 Boxes.py is able to create multiple formats. For most of them it
-requires ``ps2edit``. Unfortunately it is currently not available on
-the server running the public web instance. Without it only ``SVG``
-and ``postscript`` (ps) is supported. With ``ps2edit`` you can also
+requires ``ps2edit``. Without ``ps2edit`` only ``SVG``
+and ``postscript`` (ps) is supported. Otherwise you can also
 select
 
 * ai
@@ -97,8 +96,8 @@ select
 * pdf
 * plt
 
-Other formats supported by ``ps2edit`` can be easily added. Please
-open a ticket if you need one.
+Other formats supported by ``ps2edit`` can be added easily. Please
+open a ticket on GitHub if you need one.
 
 tabs
 ....
@@ -106,7 +105,7 @@ tabs
 Tabs are small bridges between the parts and surrounding material that
 keep the part from falling out. In theory their width should be
 affected by the burn parameter. But it is more practical to have both
-be separate so you can tune them separately. Most parts and generators
+independent so you can tune them separately. Most parts and generators
 support this features but there may be some that don't.
 
 For plywood values of 0.2 to 0.3mm still allow getting the parts out

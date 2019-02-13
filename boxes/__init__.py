@@ -276,7 +276,8 @@ class Boxes:
         """
         Prepare for rendering
 
-        Call this function from your .render() method
+        Create canvas and edge and other objects
+        Call this before .render()
         """
         if self.ctx is not None:
             return
@@ -571,7 +572,8 @@ class Boxes:
     def close(self):
         """Finish rendering
 
-        Call at the end of your .render() method"""
+        Flush canvas to disk and convert output to requested format if needed.
+        Call after .render()"""
         if self.ctx == None:
             return
 

@@ -1251,6 +1251,7 @@ Values:
  * eyes_per_hinge : 5 : pieces per hinge
  * hinges : 2 : number of hinges per edge
  * style : inside : style of hinge used
+
 * relative (in multiples of thickness)
 
  * eye : 1.5 : radius of the eye (in multiples of thickness)

@@ -762,7 +762,7 @@ class Boxes:
         :param radius: distance center to one of the corners
         :param h: distance center to one of the sides (height of sector)
         :param side: length of one side
-        :return (radius, h, side)
+        :return: (radius, h, side)
         """
         if radius:
             side = 2 * math.sin(math.radians(180.0/corners)) * radius

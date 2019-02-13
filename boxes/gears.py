@@ -1,5 +1,7 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
+""
+
 '''
 Copyright (C) 2007 Aaron Spike  (aaron @ ekips.org)
 Copyright (C) 2007 Tavmjong Bah (tavmjong @ free.fr)
@@ -67,9 +69,11 @@ def point_on_circle(radius, angle):
 
 ### Undercut support functions
 def undercut_min_teeth(pitch_angle, k=1.0):
-    """ computes the minimum tooth count for a 
-        spur gear so that no undercut with the given pitch_angle (in deg) 
-        and an addendum = k * metric_module, where 0 < k < 1
+    """
+    computes the minimum tooth count for a
+    spur gear so that no undercut with the given pitch_angle (in deg)
+    and an addendum = k * metric_module, where 0 < k < 1
+
     Note:
     The return value should be rounded upwards for perfect safety. E.g.
     min_teeth = int(math.ceil(undercut_min_teeth(20.0)))    # 18, not 17
@@ -133,7 +137,9 @@ def generate_rack_points(tooth_count, pitch, addendum, pressure_angle,
                        base_height, tab_length, clearance=0, draw_guides=False):
     """ Return path (suitable for svg) of the Rack gear.
         - rack gear uses straight sides
+
             - involute on a circle of infinite radius is a simple linear ramp
+
         - the meshing circle touches at y = 0, 
         - the highest elevation of the teeth is at y = +addendum
         - the lowest elevation of the teeth is at y = -addendum-clearance

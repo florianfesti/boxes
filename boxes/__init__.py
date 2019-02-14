@@ -120,6 +120,9 @@ class NutHole:
         self.ctx = boxes.ctx
         self.settings = settings
 
+    def __getattr__(self, name):
+        return getattr(self.boxes, name)
+
     @restore
     @holeCol
     def __call__(self, size, x=0, y=0, angle=0):

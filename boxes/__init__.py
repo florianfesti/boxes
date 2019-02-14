@@ -299,7 +299,7 @@ class Boxes:
         self.spacing = 2 * self.burn + 0.5 * self.thickness
         self.ctx.select_font_face("sans-serif")
         self._buildObjects()
-        if self.reference:
+        if self.reference and self.format != 'svg_Ponoko':
             self.move(10, 10, "up", before=True)
             self.ctx.rectangle(0, 0, self.reference, 10)
             if self.reference < 40:

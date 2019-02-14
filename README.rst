@@ -1,34 +1,22 @@
-Boxes.py
-========
+About Boxes.py
+==============
 
-Create boxes and more with a laser cutter!
+* Boxes.py is an online box generator
 
-Boxes.py is python library for generating drawings to be used with a laser
-cutter. It comes with a growing set of ready-to-use, fully parametrized
-generators:
+  * https://www.festi.info/boxes.py/index.html
 
-* Boxes in various shapes and with various lids
-* Boxes using flex cuts with rounded corners and living hinges
-* Type trays with and without outer walls and floors
-* Shelves
-* Book covers with flex spine
-* Magazine files
-* Timing belt pulleys and gears
-* and more
+* Boxes.py is an Inkscape plug-in
+* Boxes.py is library to write your own
+* Boxes.py is free software licensed under GPL v3+
+* Boxes.py is written in Python and runs with Python 2 and 3
 
-And a few one trick ponies:
-
-* A desktop arcade cabinet
-* A drill stand
-* A castle tower
-* A cutlery stand
-
-Have a look into the  examples/  directory <https://github.com/florianfesti/boxes/tree/master/examples/>or the online generator <https://www.festi.info/boxes.py/index.html> to see how the results look like.
+Boxes.py comes with a growing set of ready-to-use, fully parametrized
+generators. See https://florianfesti.github.io/boxes/html/generators.html for the full list.
 
 Features
 --------
 
-It generates SVG images that can be viewed directly in a web brower but also
+Boxes.py generates SVG images that can be viewed directly in a web brower but also
 postscript and - with pstoedit as external helper - other vector formats
 including dxf, plt (aka hpgl) and gcode.
 
@@ -51,21 +39,10 @@ Dovetail joints can be used to join pieces in the same plane.
 Flex cuts allows bending and stretching the material in one direction. This
 is used for rounded edges and living hinges.
 
-Usage
------
-
-There are multiple ways to use the available generators:
-
-* Try them out at <https://www.festi.info/boxes.py/index.html>
-* Use them as Inkscape extensions under *Extensions->Boxes.py*
-* Execute the scripts/boxes tool and pass the name of the generator together with the measurements on the command line.
-* Run *scripts/boxesserver* which provides an web interface on port 8000.
-* Add a *WSGIScriptAlias* to *scripts/boxesserver* in your httpd config.
-
-You can also create your own generators using *boxes/generators/_template.py* or any of the generators in *boxes/generators* as a starting point.
-
 Documentation
 -------------
 
-The module comes with Sphinx based documentation. The rendered version can be
-viewed at <https://florianfesti.github.io/boxes/html/index.html>.
+Boxes.py comes with Sphinx based documentation for usage, installation
+and development.
+
+The rendered version can be viewed at <https://florianfesti.github.io/boxes/html/index.html>.

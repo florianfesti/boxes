@@ -95,8 +95,8 @@ class SVGFile(object):
 
         if m:
             f.seek(m.start(1))
-            s = ('width="%imm" height="%imm" viewBox="0 %i %i %i"' %
-                 (maxx - minx, maxy - miny, miny, maxx, maxy - miny))
+            s = ('width="%imm" height="%imm" viewBox="%i %i %i %i"' %
+                 (maxx - minx, maxy - miny, minx, miny, maxx - minx, maxy - miny))
 
             if len(s) > len(m.group(1)):
                 raise ValueError("Not enough space for size")
@@ -115,11 +115,11 @@ unit2mm = {"mm" : 1.0,
 
 def getSizeInMM(tree):
     root = tree.getroot()
-    m = re.match(r"(\d+\.?\d*)(\D+)", root.get("height"))
+    m = re.match(r"(-?\d+\.?\d*)(\D+)", root.get("height"))
     height, units = m.groups()
     height = float(height) * unit2mm.get(units, 1.0)
 
-    m = re.match(r"(\d+\.?\d*)(\D+)", root.get("width"))
+    m = re.match(r"(-?\d+\.?\d*)(\D+)", root.get("width"))
     width, units = m.groups()
     width = float(width) * unit2mm.get(units, 1.0)
 
@@ -127,10 +127,10 @@ def getSizeInMM(tree):
 
 def getViewBox(tree):
     root = tree.getroot()
-    m = re.match(r"\s*(\d+\.?\d*)\s+"
-                     "(\d+\.?\d*)\s+"
-                     "(\d+\.?\d*)\s+"
-                     "(\d+\.?\d)\s*", root.get("viewBox"))
+    m = re.match(r"\s*(-?\d+\.?\d*)\s+"
+                     "(-?\d+\.?\d*)\s+"
+                     "(-?\d+\.?\d*)\s+"
+                     "(-?\d+\.?\d)\s*", root.get("viewBox"))
 
     return [float(m) for m in m.groups()]
 

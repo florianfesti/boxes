@@ -700,9 +700,10 @@ class Boxes:
         """
         Draw multiple connected lines
 
-        :param \*args: Alternating length in mm and angle. angle may be tuple
-                       (angle, radius)
+        :param \*args: Alternating length in mm and angle in degrees.
 
+        lengths may be a tuple (length, #tabs)
+        angles may be tuple (angle, radius)
         """
         for i, arg in enumerate(args):
             if i % 2:

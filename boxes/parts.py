@@ -46,7 +46,7 @@ class Parts:
 
         self.cc(callback, None, 0, 0)
         self.moveTo(r + self.burn, 0, 90)
-        self.corner(360, r)
+        self.corner(360, r, tabs=6)
         self.move(size, size, move)
 
     def waivyKnob(self, diameter, n=20, angle=45, hole=0, callback=None, move=""):
@@ -79,7 +79,7 @@ class Parts:
         a2, r2 = arcOnCircle(360. / n / 2, -angle, diameter / 2)
 
         for i in range(n):
-            self.boxes.corner(a, r)
+            self.boxes.corner(a, r, tabs=(i % max(1, (n+1) // 6) == 0))
             self.boxes.corner(a2, r2)
 
         self.move(size, size, move)
@@ -91,7 +91,7 @@ class Parts:
         :param diameter: diameter of the knob
         :param n: (Default value = 3) number of dents
         :param rounded: (Default value = 0.2) proportion of circumferen remaining
-        :param angle: (Default value = 70) angle the dentsmeet the circumference
+        :param angle: (Default value = 70) angle the dents meet the circumference
         :param hole: (Default value = 0)
         :param callback: (Default value = None) called in the center
         :param move: (Defaultvalue = None)
@@ -119,7 +119,8 @@ class Parts:
         for i in range(n):
             self.boxes.corner(a, r)
             self.corner(angle)
-            self.corner(360. / n * rounded, diameter / 2)
+            self.corner(360. / n * rounded, diameter / 2, tabs=
+                        (i % max(1, (n+1) // 6) == 0))
             self.corner(angle)
 
         self.move(size, size, move)
@@ -142,9 +143,10 @@ class Parts:
 
         self.moveTo(r_outside)
         for i in range(n):
-            self.polyline(0, (angle, r_outside), 0, 90, (r_outside-r_inside),
-                          90, (angle, r_inside), 0, 90, (r_outside-r_inside),
-                          90)
+            self.polyline(
+                0, (angle, r_outside), 0, 90, (r_outside-r_inside, 2),
+                90, (angle, r_inside), 0, 90, (r_outside-r_inside, 2),
+                90)
             x, y = vectors.circlepoint(r_outside, math.radians(angle+space))
             self.moveTo(y, r_outside-x, angle+space)
         self.move(r_outside, r_outside)

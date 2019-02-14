@@ -74,13 +74,10 @@ class UniversalBox(_TopEdge, _ChestLid):
 
             if self.bottom_edge != "e":
                 self.rectangularWall(x, y, "ffff", bedBolts=[d2, d3, d2, d3], move="up")
-            if (self.drawLid(x, y, self.top_edge, [d2, d3]) and
-                self.bottom_edge != "e"):
-                self.rectangularWall(x, y, "ffff", move="left only")
             if self.top_edge in "fF":
                 self.set_source_color(Color.RED)
                 self.rectangularWall(x+4*t, y+4*t, callback=[
-                    lambda:self.top_hole(x, y, self.top_edge)], move="right")
+                    lambda:self.top_hole(x, y, self.top_edge)], move="up")
                 self.set_source_color(Color.BLACK)
             self.drawAddOnLid(x, y, self.lid)
 

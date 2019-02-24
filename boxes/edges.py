@@ -1983,11 +1983,11 @@ class RoundedTriangleEdge(Edge):
             self.corner(-90)
         if self.settings.r_hole:
             self.hole(self.settings.height, length/2., self.settings.r_hole)
-        self.corner(90-angle, r)
-        self.edge(l)
-        self.corner(2*angle, r)
-        self.edge(l)
-        self.corner(90-angle, r)
+        self.corner(90-angle, r, tabs=1)
+        self.edge(l, tabs=1)
+        self.corner(2*angle, r, tabs=1)
+        self.edge(l, tabs=1)
+        self.corner(90-angle, r, tabs=1)
         if self.settings.outset:
             self.polyline(0, 90, self.settings.outset, -180)
         else:

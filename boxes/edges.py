@@ -674,29 +674,25 @@ class FingerHoles(FingerJointBase):
         :param bedBoltSettings:  (Default value = None)
 
         """
-        self.boxes.ctx.save()
-        self.boxes.moveTo(x, y, angle)
-        s, f = self.settings.space, self.settings.finger
-        p = self.settings.play
-        b = self.boxes.burn
-        fingers, leftover = self.calcFingers(length, bedBolts)
+        with self.boxes.saved_context():
+            self.boxes.moveTo(x, y, angle)
+            s, f = self.settings.space, self.settings.finger
+            p = self.settings.play
+            b = self.boxes.burn
+            fingers, leftover = self.calcFingers(length, bedBolts)
 
-        if self.boxes.debug:
-            self.ctx.rectangle(b, -self.settings.width / 2 + b,
-                               length - 2 * b, self.settings.width - 2 * b)
-        for i in range(fingers):
-            pos = leftover / 2.0 + i * (s + f)
+            if self.boxes.debug:
+                self.ctx.rectangle(b, -self.settings.width / 2 + b,
+                                   length - 2 * b, self.settings.width - 2 * b)
+            for i in range(fingers):
+                pos = leftover / 2.0 + i * (s + f)
 
-            if bedBolts and bedBolts.drawBolt(i):
-                d = (bedBoltSettings or self.boxes.bedBoltSettings)[0]
-                self.boxes.hole(pos - 0.5 * s, 0, d * 0.5)
+                if bedBolts and bedBolts.drawBolt(i):
+                    d = (bedBoltSettings or self.boxes.bedBoltSettings)[0]
+                    self.boxes.hole(pos - 0.5 * s, 0, d * 0.5)
 
-            self.boxes.rectangularHole(pos + 0.5 * f, 0,
-                                       f+p, self.settings.width+p)
-
-        self.ctx.restore()
-        self.ctx.move_to(0, 0)
-
+                self.boxes.rectangularHole(pos + 0.5 * f, 0,
+                                           f+p, self.settings.width+p)
 
 class FingerHoleEdge(BaseEdge):
     """Edge with holes for a parallel finger joint"""

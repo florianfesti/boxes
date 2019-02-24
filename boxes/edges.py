@@ -714,14 +714,11 @@ class FingerHoleEdge(BaseEdge):
 
     def __call__(self, length, bedBolts=None, bedBoltSettings=None, **kw):
         dist = self.fingerHoles.settings.edge_width
-        self.ctx.save()
-        self.fingerHoles(0, dist + self.settings.thickness / 2, length, 0,
-                         bedBolts=bedBolts, bedBoltSettings=bedBoltSettings)
-        self.ctx.restore()
-        # XXX continue path
-        self.ctx.move_to(0, 0)
-        self.ctx.line_to(length, 0)
-        self.ctx.translate(*self.ctx.get_current_point())
+        with self.saved_context():
+            self.fingerHoles(
+                0, dist + self.settings.thickness / 2, length, 0,
+                bedBolts=bedBolts, bedBoltSettings=bedBoltSettings)
+        self.edge(length, tabs=2)
 
     def startwidth(self):
         """ """

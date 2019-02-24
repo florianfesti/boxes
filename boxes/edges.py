@@ -1777,7 +1777,6 @@ class DoveTailJoint(BaseEdge):
                 self.edge(2 * (diffx - l1) + s.size)
 
         self.edge((s.size + leftover) / 2.0 + diffx - l1, tabs=1)
-        self.ctx.translate(*self.ctx.get_current_point())
 
     def margin(self):
         """ """

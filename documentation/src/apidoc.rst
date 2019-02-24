@@ -16,4 +16,5 @@ new one from scratch.
    api_existing_parts
    api_edges
    api_drawing
+   api_burn
    api_examples

@@ -26,6 +26,20 @@ These should probably be Edge classes. But right now they are still functions.
 .. automethod:: boxes.Boxes.latch
 .. automethod:: boxes.Boxes.handle
 
+Tab support
+...........
+
+Tabs are small interuptions in the border of a part to keep it in
+place. They are enabled with the **tabs** parameter. All
+**Edges** automatically create about two tabs. So parts like
+:py:meth:`boxes.Boxes.rectangularWall` will have 8 tabs holding them
+in place. Because of this developers often don't need to be concerned
+about tabs. But some part may be complitely drawn by low level Turtle
+Graphics commands. For those both :py:meth:`boxes.Boxes.edge` and
+:py:meth:`boxes.Boxes.corner` do support a **tabs** parameter. In
+addition the length of the line segments in :py:meth:`boxes.Boxes.poyline` can
+be given as a tuple **(length, tabs)**.
+
 Draw Commands
 -------------
 

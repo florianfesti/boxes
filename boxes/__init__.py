@@ -245,7 +245,7 @@ class Boxes:
             help="format of resulting file")
         defaultgroup.add_argument(
             "--tabs", action="store", type=float, default=0.0,
-            help="width of tabs holding th parts in place in mm (not supported everywhere)")
+            help="width of tabs holding the parts in place in mm (not supported everywhere)")
         defaultgroup.add_argument(
             "--debug", action="store", type=boolarg, default=False,
             help="print surrounding boxes for some structures")

@@ -1033,6 +1033,19 @@ class Boxes:
                 self.moveTo(self.spacing / 2.0, self.spacing / 2.0)
         return dontdraw
 
+    @contextmanager
+    def moving(self, x, y, where):
+        """Calls self.move() before and after the inner block.
+
+        :param x: width of part
+        :param y: height of part
+        :param where: which direction to move
+        """
+        if self.move(x, y, where, before=True):
+            return
+        yield
+        self.move(x, y, where, before=False)
+
     @restore
     def circle(self, x, y, r):
         """

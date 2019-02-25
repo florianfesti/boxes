@@ -46,9 +46,9 @@ for *ps2edit* is hard coded to */usr/bin/pstoedit* in the
 Python
 ......
 
-Boxes.py - while defaulting to Python3 -  can also run on Python
+Boxes.py - while defaulting to Python3 - can also run on Python
 2.7. If you encounter any compatibility issues please report them at the
-[https://github.com/florianfesti/boxes Git Hub project]
+`GitHub project <https://github.com/florianfesti/boxes>`__.
 
 Running from working dir
 ------------------------
@@ -93,4 +93,4 @@ used. Python version and the architecture (32 or 64 bit) must match.
 Getting the Inkscape plugins to run will likely need manual
 installation (see above). Note that Inkscape may come with its own
 Python. If you run into trouble or have better installation
-instructions please open a ticket on Git Hub.
+instructions please open a ticket on GitHub.

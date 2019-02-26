@@ -11,3 +11,5 @@ inkex/*.inx
 boxes.py.egg-info/
 boxes.egg-info/
 .idea
+documentation/src/generators.inc
+*.ipynb_checkpoints

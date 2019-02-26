@@ -37,7 +37,7 @@ in place. Because of this developers often don't need to be concerned
 about tabs. But some part may be complitely drawn by low level Turtle
 Graphics commands. For those both :py:meth:`boxes.Boxes.edge` and
 :py:meth:`boxes.Boxes.corner` do support a **tabs** parameter. In
-addition the length of the line segments in :py:meth:`boxes.Boxes.poyline` can
+addition the length of the line segments in :py:meth:`boxes.Boxes.polyline` can
 be given as a tuple **(length, tabs)**.
 
 Draw Commands

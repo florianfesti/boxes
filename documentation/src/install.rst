@@ -59,26 +59,42 @@ running. See below.
 Inkscape
 --------
 
+**As binary**
+
 Boxes.py can be used as a set of Inkscape plugins. The package does
 install the necessary .inx files to :code:`/usr/share/inkscape/extensions`
-on unix operating systems. The .inx files assume that the :code:`boxes`
-executable is available in the :code:`PATH` (which it is when installing the
-binary package).
+on unix operating systems. The .inx files assume that the *boxes*
+executable is available in the path (which it is when installing the
+binary package)
 
-On non-Unix operating systems or when running Boxes.py from Git
-checkout the .inx files need to be copied by hand. :code:`setup.py build`
-creates them in the :code:`inkex/` directory. They then have to be copied in
-either the global or the per user extension directory of
-Inkscape. These are :code:`/usr/share/inkscape/extensions/` and
-:code:`~/.config/inkscape/extensions/` on Unix. On other operating systems
-you can look up *Edit -> Preferences... -> System* in the Inkscape
-menu to look up *User extensions* and *Inkscape extensions*. It may be
-more convenient to generate the .inx files right in place by executing
-:code:`scripts/boxes2inkscape` with the target path as only parameter.
+**git repository easy way**
 
-After placing the .inx files you need to make the :code:`boxes` script
-available in the :code:`PATH`. One way is to create a symlink from a location
-that is in the path or installing the package on the system.
+After cloning it may be most convenient to generate the .inx files
+right in place by executing :code:`scripts/boxes2inkscape` with the taget
+path as only parameter.
+
+- global: :code:`scripts/boxes2inkscape /usr/share/inkscape/extensions/`
+- userspace: :code:`scripts/boxes2inkscape ~/.config/inkscape/extensions/`
+
+On non unix operating the target directories may differ. You can look
+up the directories *"User extensions"* and *"Inkscape extensions"* within
+the Inkscape preferences *Edit -> Preferences... -> System*.
+
+**git repository manual way**
+
+*setup.py build* creates the *.inx files in the *inkex/* directory.
+
+They then have to be copied in either the global or the per user
+extension directory of Inkscape. These are
+:code:`/usr/share/inkscape/extensions/` and
+:code:`~/.config/inkscape/extensions/` on a unix operating system.
+On non unix operating the target directories may differ. You can look
+up the directories *User extensions* and *Inkscape extensions* within
+the Inkscape preferences *Edit -> Preferences... -> System*.
+
+As an alternative you can create a symlink to the :code:`inkex/` directory
+within the desired inkscape extension directory.
+
 
 Platform specific instructions
 ------------------------------

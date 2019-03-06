@@ -48,6 +48,14 @@ Boxes.py - while defaulting to Python 3 - can also run on Python 2.7.
 If you encounter any compatibility issues please report them at the
 `GitHub project <https://github.com/florianfesti/boxes>`__.
 
+Sphinx
+......
+
+For building the documentation locally you need the *Sphinx* documentation
+generator (package name may be python-sphinx or python3-sphinx). It is
+not needed for anything else. Boxes.py can be run and changed just
+fine without.
+
 Running from working dir
 ------------------------
 

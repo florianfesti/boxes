@@ -76,9 +76,10 @@ has a tendency to get outdated. If you encounter outdated pieces of
 documentation feel free to submit a pull request or open a ticket
 pointing out what should be changed or even suggesting a better text.
 
-To get the docs updated the docs need to be build with *make html* in
+To check your changes docs need to be build with *make html* in
 *documentation/src*. This places the compliled documentation in
-*documentation/build/html*.
+*documentation/build/html*. You need to have *sphinx* installed for
+this to work.
 
 The online documentation gets build and updated automatically by the Travis CI
 as soon as the changes makes it into the GitHub master branch.

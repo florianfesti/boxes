@@ -63,7 +63,7 @@ Inkscape
 
 Boxes.py can be used as a set of Inkscape plugins. The package does
 install the necessary .inx files to :code:`/usr/share/inkscape/extensions`
-on unix operating systems. The .inx files assume that the *boxes*
+on unix operating systems. The .inx files assume that the :code:`boxes`
 executable is available in the path (which it is when installing the
 binary package)
 
@@ -82,14 +82,14 @@ the Inkscape preferences *Edit -> Preferences... -> System*.
 
 **git repository manual way**
 
-*setup.py build* creates the *.inx files in the *inkex/* directory.
+:code:`setup.py build` creates the :code:`*.inx` files in the :code:`inkex/` directory.
 
 They then have to be copied in either the global or the per user
 extension directory of Inkscape. These are
 :code:`/usr/share/inkscape/extensions/` and
 :code:`~/.config/inkscape/extensions/` on a unix operating system.
 On non unix operating the target directories may differ. You can look
-up the directories *User extensions* and *Inkscape extensions* within
+up the directories *"User extensions"* and *"Inkscape extensions"* within
 the Inkscape preferences *Edit -> Preferences... -> System*.
 
 As an alternative you can create a symlink to the :code:`inkex/` directory

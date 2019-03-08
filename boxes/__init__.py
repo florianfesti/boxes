@@ -29,6 +29,7 @@ import re
 from functools import wraps
 from xml.sax.saxutils import quoteattr
 from contextlib import contextmanager
+import copy
 
 from boxes import edges
 from boxes import formats
@@ -1804,6 +1805,158 @@ class Boxes:
 
 
         self.move(overallwidth, overallheight, move)
+
+
+    ### polygonWall and friends
+
+    def _polygonWallExtend(self, borders, edge, close=False):
+        posx, posy = 0, 0
+        ext = [ 0.0 ] * 4
+        angle = 0
+
+        def checkpoint(ext, x, y):
+            ext[0] = min(ext[0], x)
+            ext[1] = min(ext[1], y)
+            ext[2] = max(ext[2], x)
+            ext[3] = max(ext[3], y)
+
+        for i in range(len(borders)):
+            if i % 2:
+                try:
+                    a, r = borders[i]
+                except TypeError:
+                    angle = (angle + borders[i]) % 360
+                    continue
+                centerx = posx + r * math.cos(math.radians(angle+90))
+                centery = posy + r * math.sin(math.radians(angle+90))
+
+                for direction in (0, 90, 180, 270):
+                    if ((a > 0 and
+                         angle <= direction and angle + a >= direction) or
+                        (a < 0 and
+                         angle >= direction and angle + a <= direction)):
+                        checkpoint(ext, centerx + r * math.cos(math.radians(direction)), centery + r * math.sin(math.radians(direction)))
+                angle = (angle + a) % 360
+                posx = centerx + r * math.cos(math.radians(angle-90))
+                posy = centery + r * math.sin(math.radians(angle-90))
+            else:
+                posx += borders[i] * math.cos(math.radians(angle))
+                posy += borders[i] * math.sin(math.radians(angle))
+            checkpoint(ext, posx, posy)
+
+        ext[0] -= edge.margin()
+        ext[1] -= edge.margin()
+        ext[2] += edge.margin()
+        ext[3] += edge.margin()
+
+        return ext
+
+    def polygonWall(self, borders, edge="f", callback=None, move=None):
+
+        e = self.edges.get(edge, edge)
+        t = self.thickness # XXX edge.margin()
+
+        minx, miny, maxx, maxy = self._polygonWallExtend(borders, e)
+
+        tw, th = maxx - minx, maxy - miny
+        if self.move(tw, th, move, True):
+            return
+        
+        self.moveTo(-minx, -miny)
+
+        length_correction = 0.
+        for i in range(0, len(borders), 2):
+            self.cc(callback, i)
+            self.edge(length_correction)
+            l = borders[i] - length_correction
+            next_angle = borders[i+1]
+
+            if isinstance(next_angle, (int, float)) and next_angle < 0:
+                length_correction = t * math.tan(math.radians((-next_angle / 2)))
+            else:
+                length_correction = 0.0
+            l -= length_correction
+            e(l)
+            self.edge(length_correction)
+            self.corner(next_angle, tabs=1)
+
+        self.move(tw, th, move)
+
+    @restore
+    def polygonWalls(self, borders, h, bottom="F", top="F", symetrical=True):
+        bottom = self.edges.get(bottom, bottom)
+        top = self.edges.get(top, top)
+        t = self.thickness # XXX edge.margin()
+
+        leftsettings = copy.deepcopy(self.edges["f"].settings)
+        lf, lF, lh = leftsettings.edgeObjects(self, add=False)
+        rightsettings = copy.deepcopy(self.edges["f"].settings)
+        rf, rF, rh = rightsettings.edgeObjects(self, add=False)
+
+        length_correction = 0.
+        angle = borders[-1]
+        i = 0
+        part_cnt = 0
+
+        self.moveTo(0, bottom.margin())
+        while i < len(borders):
+            if symetrical:
+                if part_cnt % 2:
+                    left, right = lf, rf
+                else:
+                    left, right = lF, rF
+            else:
+                left, right = lf, rF
+
+            top_lengths = []
+            top_edges = []
+
+            self.moveTo(left.spacing() + self.spacing, 0)
+            l = borders[i] - length_correction
+            leftsettings.setValues(self.thickness, angle=angle)
+            angle = borders[i+1]
+
+            while isinstance(angle, (tuple, list)):
+                bottom(l)
+                angle, radius = angle
+                lr = math.radians(angle) * radius
+                self.edges["X"](lr, h + 2*t) # XXX
+                top_lengths.append(l)
+                top_lengths.append(lr)
+                top_edges.append(top)
+                top_edges.append("E")
+
+                i += 2
+                l = borders[i]
+                angle = borders[i+1]
+
+            rightsettings.setValues(self.thickness, angle=angle)
+            if angle < 0:
+                length_correction = t * math.tan(math.radians((-angle / 2)))
+            else:
+                length_correction = 0.0
+            l -= length_correction
+
+            bottom(l)
+
+            top_lengths.append(l)
+            top_edges.append(top)
+            with self.saved_context():
+                self.edgeCorner(bottom, right, 90)
+                right(h)
+                self.edgeCorner(right, top, 90)
+
+                top_edges.reverse()
+                top_lengths.reverse()
+                edges.CompoundEdge(self, top_edges, top_lengths)(sum(top_lengths))
+                self.edgeCorner(top, left, 90)
+                left(h)
+                self.edgeCorner(left, bottom, 90)
+
+            self.moveTo(right.spacing() + self.spacing)
+            part_cnt += 1
+            i += 2
+
 
     ##################################################
     ### Place Parts

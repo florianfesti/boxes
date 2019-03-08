@@ -584,6 +584,10 @@ class FingerJointBase:
         if angle >=90:
             return self.settings.thickness, 0
 
+        if angle < 0:
+            return math.sin(math.radians(-angle)) * self.settings.thickness, 0
+
+        # 0 to 90
         a = 90 - (180-angle) / 2.0
         fingerlength = self.settings.thickness * math.tan(math.radians(a))
         b = 90-2*a

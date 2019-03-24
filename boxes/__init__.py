@@ -608,6 +608,11 @@ class Boxes:
 
         """
 
+        try:
+            degrees, radius = degrees
+        except:
+            pass
+
         rad = degrees * math.pi / 180
 
         if tabs and self.tabs:

@@ -624,7 +624,8 @@ class Boxes:
                 tabrad = -self.tabs / r_
 
             length = abs(r_ * rad)
-            tabs = min(tabs, max(1, int(abs(length) // (tabs*3*self.tabs))))
+            tabs = min(tabs, int(length // (tabs*3*self.tabs)))
+        if tabs and self.tabs:
             l = (length - tabs * self.tabs) / tabs
             lang = math.degrees(l / r_)
             if degrees < 0:

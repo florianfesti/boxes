@@ -322,7 +322,7 @@ class Boxes:
         Supported parameters are
 
         * floats: x, y, h, hi
-        * argparseSections: sx, sy
+        * argparseSections: sx, sy, sh
         * ArgparseEdgeType: bottom_edge, top_edge
         * boolarg: outside
         * str (selection): nema_mount
@@ -345,14 +345,19 @@ class Boxes:
                 self.argparser.add_argument(
                     "--sx", action="store", type=argparseSections,
                     default=default,
-                    help="""sections left to right in mm. Possible formats: overallwidth/numberof sections e.g. "250/5"; sectionwidth*numberofsections e.g. "50*5"; section widths separated by ":" e.g. "30:25.5:70"
-""")
+                    help="""sections left to right in mm. See --sy for format""")
             elif arg == "sy":
                 if default is None: default = "50*3"
                 self.argparser.add_argument(
                     "--sy", action="store", type=argparseSections,
                     default=default,
-                    help="""sections back to front in mm. See --sx for format""")
+                    help="""sections back to front in mm. Possible formats: overallwidth/numberof sections e.g. "250/5"; sectionwidth*numberofsections e.g. "50*5"; section widths separated by ":" e.g. "30:25.5:70""")
+            elif arg == "sh":
+                if default is None: default = "50*3"
+                self.argparser.add_argument(
+                    "--sh", action="store", type=argparseSections,
+                    default=default,
+                    help="""sections bottom to top in mm. See --sy for format""")
             elif arg == "h":
                 if default is None: default = 100.0
                 self.argparser.add_argument(

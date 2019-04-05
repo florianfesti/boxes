@@ -526,7 +526,7 @@ class Boxes:
         You will typically need to call .parseArgs() before calling this one"""
         self.open()
         # Change settings and creat new Edges and part classes here
-        raise NotImplemented
+        raise NotImplementedError
         self.close()
 
     def cc(self, callback, number, x=0.0, y=None):

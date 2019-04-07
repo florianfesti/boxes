@@ -1827,18 +1827,31 @@ class Boxes:
                 except TypeError:
                     angle = (angle + borders[i]) % 360
                     continue
-                centerx = posx + r * math.cos(math.radians(angle+90))
-                centery = posy + r * math.sin(math.radians(angle+90))
+                if a > 0:
+                    centerx = posx + r * math.cos(math.radians(angle+90))
+                    centery = posy + r * math.sin(math.radians(angle+90))
+                else:
+                    centerx = posx + r * math.cos(math.radians(angle-90))
+                    centery = posy + r * math.sin(math.radians(angle-90))
 
                 for direction in (0, 90, 180, 270):
-                    if ((a > 0 and
-                         angle <= direction and angle + a >= direction) or
-                        (a < 0 and
-                         angle >= direction and angle + a <= direction)):
-                        checkpoint(ext, centerx + r * math.cos(math.radians(direction)), centery + r * math.sin(math.radians(direction)))
+                    if (a > 0 and
+                        angle <= direction and (angle + a) % 360 >= direction):
+                        direction -= 90
+                    elif (a < 0 and
+                          angle >= direction and (angle + a) % 360 <= direction):
+                        direction -= 90
+                    else:
+                        continue
+                    checkpoint(ext, centerx + r * math.cos(math.radians(direction)), centery + r * math.sin(math.radians(direction)))
+                    #print("%4s %4s %4s %f %f" % (angle, direction+90, angle+a, centerx + r * math.cos(math.radians(direction)), centery + r * math.sin(math.radians(direction))))
                 angle = (angle + a) % 360
-                posx = centerx + r * math.cos(math.radians(angle-90))
-                posy = centery + r * math.sin(math.radians(angle-90))
+                if a > 0:
+                    posx = centerx + r * math.cos(math.radians(angle-90))
+                    posy = centery + r * math.sin(math.radians(angle-90))
+                else:
+                    posx = centerx + r * math.cos(math.radians(angle+90))
+                    posy = centery + r * math.sin(math.radians(angle+90))
             else:
                 posx += borders[i] * math.cos(math.radians(angle))
                 posy += borders[i] * math.sin(math.radians(angle))

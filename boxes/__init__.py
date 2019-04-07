@@ -1864,7 +1864,8 @@ class Boxes:
 
         return ext
 
-    def polygonWall(self, borders, edge="f", callback=None, move=None):
+    def polygonWall(self, borders, edge="f", turtle=False,
+                    callback=None, move=None):
 
         e = self.edges.get(edge, edge)
         t = self.thickness # XXX edge.margin()
@@ -1872,10 +1873,12 @@ class Boxes:
         minx, miny, maxx, maxy = self._polygonWallExtend(borders, e)
 
         tw, th = maxx - minx, maxy - miny
-        if self.move(tw, th, move, True):
-            return
+
+        if not turtle:
+            if self.move(tw, th, move, True):
+                return
         
-        self.moveTo(-minx, -miny)
+            self.moveTo(-minx, -miny)
 
         length_correction = 0.
         for i in range(0, len(borders), 2):
@@ -1893,7 +1896,8 @@ class Boxes:
             self.edge(length_correction)
             self.corner(next_angle, tabs=1)
 
-        self.move(tw, th, move)
+        if not turtle:
+            self.move(tw, th, move)
 
     @restore
     def polygonWalls(self, borders, h, bottom="F", top="F", symetrical=True):

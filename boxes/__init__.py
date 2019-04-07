@@ -1936,7 +1936,7 @@ class Boxes:
             while isinstance(angle, (tuple, list)):
                 bottom(l)
                 angle, radius = angle
-                lr = math.radians(angle) * radius
+                lr = abs(math.radians(angle) * radius)
                 self.edges["X"](lr, h + 2*t) # XXX
                 top_lengths.append(l)
                 top_lengths.append(lr)

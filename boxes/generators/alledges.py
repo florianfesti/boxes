@@ -40,11 +40,19 @@ class AllEdges(Boxes):
         chars = list(self.edges.keys())
         chars.sort(key=lambda c: c.lower() + (c if c.isupper() else ''))
         chars.reverse()
+
+        self.moveTo(0, 10*t)
         
         for c in chars:
-            self.moveTo(0, 15*t)
             with self.saved_context():
-                self.moveTo(x, 0, 180)
+                self.moveTo(x, 0, 90)
+                self.edge(t+self.edges[c].startwidth())
+                self.corner(90)
                 self.edges[c](x, h=4*t)
-            self.text("%s - %s" % (c, self.edges[c].description), y=5*t)
+                self.corner(90)
+                self.edge(t+self.edges[c].endwidth())
+
+            self.moveTo(0, 3*t + self.edges[c].spacing())
+            self.text("%s - %s" % (c, self.edges[c].description))
+            self.moveTo(0, 12*t)
 

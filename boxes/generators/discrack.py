@@ -96,12 +96,21 @@ class DiscRack(Boxes):
         self.argparser.add_argument(
             "--disc_outset", action="store", type=float, default=3.0,
             help="Additional space kept between the disks and the outbox of the rack")
+
+        # These can be parameterized, but the default value of pulling them up
+        # to the box front is good enough for so many cases it'd only clutter
+        # the user interface.
+        #
+        # The parameters can be resurfaced when there is something like rare or
+        # advanced settings.
+        '''
         self.argparser.add_argument(
             "--lower_outset", action="store", type=float, default=0.0,
             help="Space in front of the disk slits (0: automatic)")
         self.argparser.add_argument(
             "--rear_outset", action="store", type=float, default=0.0,
             help="Space above the disk slits (0: automatic)")
+        '''
 
         self.argparser.add_argument(
             "--angle", action="store", type=float, default=18,
@@ -117,13 +126,13 @@ class DiscRack(Boxes):
         self.lower_halfslit = r * sqrt(1 - self.lower_factor**2)
         self.rear_halfslit = r * sqrt(1 - self.rear_factor**2)
 
-        if self.lower_outset == 0:
+        if True: # self.lower_outset == 0: # when lower_outset parameter is re-enabled
             toplim = offset_radius_in_square(self.outer, self.angle, r * self.lower_factor)
             # With typical positive angles, the lower surface of board will be limiting
             bottomlim = offset_radius_in_square(self.outer, self.angle, r * self.lower_factor + self.thickness)
             self.lower_outset = min(toplim, bottomlim) - self.lower_halfslit
 
-        if self.rear_outset == 0:
+        if True: # self.rear_outset == 0: # when rear_outset parameter is re-enabled
             # With typical positive angles, the upper surface of board will be limiting
             toplim = offset_radius_in_square(self.outer, -self.angle, r * self.rear_factor)
             bottomlim = offset_radius_in_square(self.outer, -self.angle, r * self.rear_factor + self.thickness)

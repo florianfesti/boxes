@@ -78,7 +78,7 @@ class DiscRack(Boxes):
 
     def __init__(self):
         super().__init__()
-        self.buildArgParser("sx")
+        self.buildArgParser(sx="20*10")
         self.argparser.add_argument(
             "--disc_diameter", action="store", type=float, default=150.0,
             help="Disc diameter in mm")

@@ -59,13 +59,17 @@ class DiscRack(Boxes):
 
         r = self.disc_diameter / 2
 
+        # distance between radius line and front (or rear) end of the slit
+        self.lower_halfslit = r * sqrt(1 - self.lower_factor**2)
+        self.rear_halfslit = r * sqrt(1 - self.rear_factor**2)
+
         # front outset, space to radius, space to rear part, plus nothing as fingers extend out
         self.lower_size = self.lower_outset + \
-                r * sqrt(1 - self.lower_factor**2) + \
+                self.lower_halfslit + \
                 r * self.rear_factor
 
         self.rear_size = r * self.lower_factor + \
-                r * sqrt(1 - self.rear_factor**2) + \
+                self.rear_halfslit + \
                 self.rear_outset
 
         # still to be checked:
@@ -108,17 +112,15 @@ class DiscRack(Boxes):
 
     def lower_holes(self):
         r = self.disc_diameter / 2
-        halfslit = r * sqrt(1 - self.lower_factor**2)
-        inset = self.lower_outset + halfslit
+        inset = self.lower_outset + self.lower_halfslit
 
-        self._draw_slits(inset, halfslit)
+        self._draw_slits(inset, self.lower_halfslit)
 
     def rear_holes(self):
         r = self.disc_diameter / 2
-        halfslit = r * sqrt(1 - self.rear_factor**2)
         inset = r * self.lower_factor
 
-        self._draw_slits(inset, halfslit)
+        self._draw_slits(inset, self.rear_halfslit)
 
     def render(self):
         self.calculate()

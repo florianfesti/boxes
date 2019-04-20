@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# coding: utf-8
 # Copyright (C) 2019 chrysn <chrysn@fsfe.org>
 #
 #   This program is free software: you can redistribute it and/or modify
@@ -13,6 +14,8 @@
 #
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+from __future__ import division, unicode_literals
 
 from boxes import *
 from math import sqrt, pi, sin, cos
@@ -77,7 +80,8 @@ class DiscRack(Boxes):
     ui_group = "Shelf"
 
     def __init__(self):
-        super().__init__()
+        Boxes.__init__(self)
+
         self.buildArgParser(sx="20*10")
         self.argparser.add_argument(
             "--disc_diameter", action="store", type=float, default=150.0,
@@ -118,7 +122,7 @@ class DiscRack(Boxes):
         self.addSettingsArgs(edges.FingerJointSettings)
 
     def parseArgs(self, *args, **kwargs):
-        super().parseArgs(*args, **kwargs)
+        Boxes.parseArgs(self, *args, **kwargs)
         self.lower_outset = self.rear_outset = 0
 
         self.calculate()

@@ -317,8 +317,9 @@ Create boxes and more with a laser cutter!
   <meta name="flattr:id" content="456799">
 </head>
 <body>
-<h1>An error occurred!</h1>
-<p>""", str(e).encode(), b"""</p>
+<h1>An error occurred!</h1>""",
+u"".join(u"<p>%s</p>" % cgi.escape(s) for s in type(u"")(e).split(u"\n")).encode('utf-8'),
+b"""
 </body>
 </html>
 """ ]

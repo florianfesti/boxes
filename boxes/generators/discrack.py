@@ -117,6 +117,12 @@ class DiscRack(Boxes):
             help="Backwards slant of the rack")
         self.addSettingsArgs(edges.FingerJointSettings)
 
+    def parseArgs(self, *args, **kwargs):
+        super().parseArgs(*args, **kwargs)
+        self.lower_outset = self.rear_outset = 0
+
+        self.calculate()
+
     def calculate(self):
         self.outer = self.disc_diameter + 2 * self.disc_outset
 
@@ -156,20 +162,20 @@ class DiscRack(Boxes):
 
         def word_thickness(length):
             if length > 0:
-                return "very thin (%s mm at a thickness of %s mm)" % (
+                return "very thin (%.2g mm at a thickness of %.2g mm)" % (
                         length, self.thickness)
             if length < 0:
                 return "absent"
 
         if self.rear_outset < self.thickness:
             warnings.append("Rear upper constraint is %s. Consider increasing"
-                    " the disc outset parameter, or move the angle away from 45°"
+                    " the disc outset parameter, or move the angle away from 45°."
                     % word_thickness(self.rear_outset)
                     )
 
         if self.lower_outset < self.thickness:
             warnings.append("Lower front constraint is %s. Consider increasing"
-                    " the disc outset parameter, or move the angle away from 45°"
+                    " the disc outset parameter, or move the angle away from 45°."
                     % word_thickness(self.lower_outset))
 
         # Are the discs supported where the grids meet?
@@ -187,8 +193,8 @@ class DiscRack(Boxes):
 
         max_slitlengthplush = offset_radius_in_square(
                 self.outer, self.angle, r * self.rear_factor + self.thickness)
-        slitlengthplush = self.rear_halfslit + self.thickness + \
-                self.edges['h'].settings.edge_width
+        slitlengthplush = self.rear_halfslit + self.thickness * ( 1 + \
+                self.edgesettings['FingerJoint']['edge_width'])
 
         if slitlengthplush > max_slitlengthplush:
             warnings.append("Joint would protrude from lower box edge. Consider"
@@ -207,7 +213,7 @@ class DiscRack(Boxes):
         # Act on warnings
 
         if warnings:
-            print("\n".join(warnings))
+            self.argparser.error("\n".join(warnings))
 
     def sidewall_holes(self):
         r = self.disc_diameter / 2
@@ -255,8 +261,6 @@ class DiscRack(Boxes):
         self._draw_slits(inset, self.rear_halfslit)
 
     def render(self):
-        self.calculate()
-
         o = self.outer
 
         self.rectangularWall(o, o, "eeee", move="right", callback=[self.sidewall_holes])

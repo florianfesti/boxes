@@ -80,27 +80,27 @@ class DiscRack(Boxes):
         super().__init__()
         self.buildArgParser("sx")
         self.argparser.add_argument(
-            "--disc-diameter", action="store", type=float, default=150.0,
+            "--disc_diameter", action="store", type=float, default=150.0,
             help="Disc diameter in mm")
         self.argparser.add_argument(
-            "--disc-thickness", action="store", type=float, default=5.0,
+            "--disc_thickness", action="store", type=float, default=5.0,
             help="Thickness of the discs in mm")
 
         self.argparser.add_argument(
-            "--lower-factor", action="store", type=float, default=0.75,
+            "--lower_factor", action="store", type=float, default=0.75,
             help="Position of the lower rack grids along the radius")
         self.argparser.add_argument(
-            "--rear-factor", action="store", type=float, default=0.75,
+            "--rear_factor", action="store", type=float, default=0.75,
             help="Position of the rear rack grids along the radius")
 
         self.argparser.add_argument(
-            "--disc-outset", action="store", type=float, default=3.0,
+            "--disc_outset", action="store", type=float, default=3.0,
             help="Additional space kept between the disks and the outbox of the rack")
         self.argparser.add_argument(
-            "--lower-outset", action="store", type=float, default=0.0,
+            "--lower_outset", action="store", type=float, default=0.0,
             help="Space in front of the disk slits (0: automatic)")
         self.argparser.add_argument(
-            "--rear-outset", action="store", type=float, default=0.0,
+            "--rear_outset", action="store", type=float, default=0.0,
             help="Space above the disk slits (0: automatic)")
 
         self.argparser.add_argument(

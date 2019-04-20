@@ -15,7 +15,61 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
-from math import sqrt
+from math import sqrt, pi, sin, cos
+
+def offset_radius_in_square(squareside, angle, outset):
+    """From the centre of a square, rotate by an angle relative to the
+    vertical, move away from the center (down if angle = 0), and then in a
+    right angle until the border of the square. Return the length of that last
+    segment.
+
+    Note that for consistency with other boxes.py methods, angle is given in
+    degree.
+
+    >>> # Without rotation, it's always half the square length
+    >>> offset_radius_in_square(20, 0, 0)
+    10.0
+    >>> offset_radius_in_square(20, 0, 5)
+    10.0
+    >>> # Without offset, it's half squre length divided by cos(angle) -- at
+    >>> # least before it hits the next wall
+    >>> offset_radius_in_square(20, 15, 0) # doctest:+ELLIPSIS
+    10.35276...
+    >>> offset_radius_in_square(20, 45, 0) # doctest:+ELLIPSIS
+    14.1421...
+    >>> # Positive angles make the segment initially shorter...
+    >>> offset_radius_in_square(20, 5, 10) < 10
+    True
+    >>> # ... while negative angles make it longer.
+    >>> offset_radius_in_square(20, -5, 10) > 10
+    True
+    """
+
+    if angle <= -90:
+        return offset_radius_in_square(squareside, angle + 180, outset)
+    if angle > 90:
+        return offset_radius_in_square(squareside, angle - 180, outset)
+
+    angle = angle / 180 * pi
+
+    step_right = outset * sin(angle)
+    step_down = outset * cos(angle)
+
+    try:
+        len_right = (squareside / 2 - step_right) / cos(angle)
+    except ZeroDivisionError:
+        return squareside / 2
+
+    if angle == 0:
+        return len_right
+    if angle > 0:
+        len_up = (squareside / 2 + step_down) / sin(angle)
+
+        return min(len_up, len_right)
+    else: # angle < 0
+        len_down = - (squareside / 2 - step_down) / sin(angle)
+
+        return min(len_down, len_right)
 
 class DiscRack(Boxes):
     """A rack for storing disk-shaped objects vertically next to each other"""
@@ -43,11 +97,11 @@ class DiscRack(Boxes):
             "--disc-outset", action="store", type=float, default=3.0,
             help="Additional space kept between the disks and the outbox of the rack")
         self.argparser.add_argument(
-            "--lower-outset", action="store", type=float, default=12.0,
-            help="Space in front of the disk slits")
+            "--lower-outset", action="store", type=float, default=0.0,
+            help="Space in front of the disk slits (0: automatic)")
         self.argparser.add_argument(
-            "--rear-outset", action="store", type=float, default=12.0,
-            help="Space above the disk slits")
+            "--rear-outset", action="store", type=float, default=0.0,
+            help="Space above the disk slits (0: automatic)")
 
         self.argparser.add_argument(
             "--angle", action="store", type=float, default=18,
@@ -63,6 +117,18 @@ class DiscRack(Boxes):
         self.lower_halfslit = r * sqrt(1 - self.lower_factor**2)
         self.rear_halfslit = r * sqrt(1 - self.rear_factor**2)
 
+        if self.lower_outset == 0:
+            toplim = offset_radius_in_square(self.outer, self.angle, r * self.lower_factor)
+            # With typical positive angles, the lower surface of board will be limiting
+            bottomlim = offset_radius_in_square(self.outer, self.angle, r * self.lower_factor + self.thickness)
+            self.lower_outset = min(toplim, bottomlim) - self.lower_halfslit
+
+        if self.rear_outset == 0:
+            # With typical positive angles, the upper surface of board will be limiting
+            toplim = offset_radius_in_square(self.outer, -self.angle, r * self.rear_factor)
+            bottomlim = offset_radius_in_square(self.outer, -self.angle, r * self.rear_factor + self.thickness)
+            self.rear_outset = min(toplim, bottomlim) - self.rear_halfslit
+
         # front outset, space to radius, space to rear part, plus nothing as fingers extend out
         self.lower_size = self.lower_outset + \
                 self.lower_halfslit + \
@@ -72,10 +138,67 @@ class DiscRack(Boxes):
                 self.rear_halfslit + \
                 self.rear_outset
 
-        # still to be checked:
-        # * is the inner junction outside the disks?
-        # * is the outermost junction point (including the type-h outset) still inside the walls?
-        # * does any of the outsets exceed the walls?
+        self.warn_on_demand()
+
+    def warn_on_demand(self):
+        warnings = []
+
+        # Are the discs supported on the outer ends?
+
+        def word_thickness(length):
+            if length > 0:
+                return "very thin (%s mm at a thickness of %s mm)" % (
+                        length, self.thickness)
+            if length < 0:
+                return "absent"
+
+        if self.rear_outset < self.thickness:
+            warnings.append("Rear upper constraint is %s. Consider increasing"
+                    " the disc outset parameter, or move the angle away from 45°"
+                    % word_thickness(self.rear_outset)
+                    )
+
+        if self.lower_outset < self.thickness:
+            warnings.append("Lower front constraint is %s. Consider increasing"
+                    " the disc outset parameter, or move the angle away from 45°"
+                    % word_thickness(self.lower_outset))
+
+        # Are the discs supported where the grids meet?
+
+        r = self.disc_diameter / 2
+        inner_lowerdistance = r * self.rear_factor - self.lower_halfslit
+        inner_reardistance = r * self.lower_factor - self.rear_halfslit
+
+        if inner_lowerdistance < 0 or inner_reardistance < 0:
+            warnings.append("Corner is inside the disc radios, discs would not"
+                    " be supported. Consider increasing the factor parameters.")
+
+        # Won't the type-H edge on the rear side make the whole contraption
+        # wiggle?
+
+        max_slitlengthplush = offset_radius_in_square(
+                self.outer, self.angle, r * self.rear_factor + self.thickness)
+        slitlengthplush = self.rear_halfslit + self.thickness + \
+                self.edges['h'].settings.edge_width
+
+        if slitlengthplush > max_slitlengthplush:
+            warnings.append("Joint would protrude from lower box edge. Consider"
+                    " increasing the the disc outset parameter, or move the"
+                    " angle away from 45°.")
+
+        # Can the discs be removed at all?
+        # Does not need explicit checking, for Thales' theorem tells us that at
+        # the point wher there is barely support in the corner, three contact
+        # points on the circle form just a demicircle and the discs can be
+        # inserted/removed. When we keep the other contact points and move the
+        # slits away from the corner, the disc gets smaller and thus will fit
+        # through the opening that is as wide as the diameter of the largest
+        # possible circle.
+
+        # Act on warnings
+
+        if warnings:
+            print("\n".join(warnings))
 
     def sidewall_holes(self):
         r = self.disc_diameter / 2

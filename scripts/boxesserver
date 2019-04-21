@@ -95,8 +95,8 @@ class BServer:
     lang_re = re.compile(r"([a-z]{2,3}(-[-a-zA-Z0-9]*)?)\s*(;\s*q=(\d\.?\d*))?")
 
     def __init__(self):
-        self.boxes = {b.__name__ : b() for b in boxes.generators.getAllBoxGenerators().values() if b.webinterface}
-        self.boxes['TrayLayout2'] = boxes.generators.traylayout.TrayLayout2(self, webargs=True)
+        self.boxes = {b.__name__ : b for b in boxes.generators.getAllBoxGenerators().values() if b.webinterface}
+        self.boxes['TrayLayout2'] = boxes.generators.traylayout.TrayLayout2
         self.groups = boxes.generators.ui_groups
         self.groups_by_name = boxes.generators.ui_groups_by_name
 
@@ -290,7 +290,7 @@ class BServer:
             <img style="width: 100%%;" id="sample-%s" src="static/nothing.png" alt="" />
             </div>\n<ul>\n""" % (group.name))
             for box in group.generators:
-                name = box.__class__.__name__
+                name = box.__name__
                 if name in ("TrayLayout2", ):
                     continue
                 docs = ""
@@ -391,10 +391,15 @@ b"""
 
         _ = self.getLanguage(environ.get("HTTP_ACCEPT_LANGUAGE", "")).gettext
 
-        box = self.boxes.get(name, None)
-        if not box:
+        box_cls = self.boxes.get(name, None)
+        if not box_cls:
             start_response(status, headers)
             return self.menu(_=_)
+
+        if name == "TrayLayout2":
+            box = box_cls(self, webargs=True)
+        else:
+            box = box_cls()
 
         args = [unquote_plus(arg) for arg in
                 environ['QUERY_STRING'].split("&")]
@@ -418,9 +423,10 @@ b"""
             if name == "TrayLayout":
                 start_response(status, headers)
                 box.fillDefault(box.x, box.y)
-                self.boxes["TrayLayout2"].argparser.set_defaults(layout=str(box))
+                layout2 = boxes.generators.traylayout.TrayLayout2(self, webargs=True)
+                layout2.argparser.set_defaults(layout=str(box))
                 return self.args2html(
-                    name, self.boxes["TrayLayout2"], action="TrayLayout2", _=_)
+                    name, layout2, action="TrayLayout2", _=_)
             if name == "TrayLayout2":
                 try:
                     box.parse(box.layout.split("\n"))

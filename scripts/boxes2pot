@@ -1,0 +1,133 @@
+#!/usr/bin/env python3
+# Copyright (C) 2019 Florian Festi
+#
+#   This program is free software: you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation, either version 3 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+import sys
+import os.path
+import argparse
+
+try:
+    import boxes.generators
+except ImportError:
+    sys.path.append(os.path.dirname(__file__) + "/..")
+    import boxes.generators
+from boxes import edges
+
+class DefaultParams(boxes.Boxes):
+
+    def __init__(self):
+        boxes.Boxes.__init__(self)
+        self.buildArgParser("x", "y", "h", "hi", "sx", "sy", "sh",
+                            "bottom_edge", "top_edge", "outside", "nema_mount")
+        self.addSettingsArgs(edges.FingerJointSettings, finger=1.0,space=1.0)
+        self.addSettingsArgs(edges.StackableSettings)
+        self.addSettingsArgs(edges.HingeSettings)
+        self.addSettingsArgs(edges.LidSettings)
+        self.addSettingsArgs(edges.ClickSettings)
+        self.addSettingsArgs(edges.FlexSettings)
+
+class Boxes2pot:
+    def __init__(self):
+        self.messages = []
+        self.message_set = set()
+        self.boxes = {b.__name__ : b() for b in boxes.generators.getAllBoxGenerators().values() if b.webinterface}
+        self.groups = boxes.generators.ui_groups
+        self.groups_by_name = boxes.generators.ui_groups_by_name
+
+    def add(self, msg, comment=None, reference=None):
+        if not msg or msg in self.message_set:
+            return
+        self.message_set.add(msg)
+        self.messages.append((msg, comment, reference))
+
+    def filename_from_module(self, modulename):
+        modulenames = modulename.split(".")
+        return "/".join(modulenames) + ".py"
+
+    def addBoxParams(self, name, box, location=None):
+        for group in box.argparser._action_groups:
+            if not group._group_actions:
+                continue
+            self.add(group.title)
+            for a in group._group_actions:
+                if a.dest in ("input", "output"):
+                    continue
+                if isinstance(a, argparse._HelpAction):
+                    continue
+                prefix = getattr(group, "prefix", "")
+                name = a.option_strings[0].replace("-", "")
+                if prefix and name.startswith(prefix + '_'):
+                    name = name[len(prefix)+1:]
+                    self.add(name, "parameter name for " + prefix, location)
+                else:
+                    self.add(name, "parameter name", location)
+                if a.help:
+                    self.add(a.help, "help for parameter " + name, location)
+                for c in a.choices or []:
+                    if isinstance(c, (float, int)):
+                        continue
+                    self.add(c, "possible choice for " + name, location)
+    
+    def readBoxes(self):
+        for group in self.groups:
+            location = "boxes/generators/__init__.py"
+            self.add(group.name, "name of generator group", location)
+            self.add(group.title, "title of group " + group.name, location)
+            self.add(group.description, "description of group " + group.name, location)
+        self.addBoxParams(None, DefaultParams())
+        for name, box in self.boxes.items():
+            location = self.filename_from_module(box.__module__)
+            self.add(name, "name of box generator", location)
+            if box.__doc__:
+                self.add(box.__doc__, "description of " + name, location)
+            if box.description:
+                self.add(box.description, "long description of "+ name + " in markdown", location)
+            self.addBoxParams(name, box, location)
+
+    def writePOT(self, fn):
+        with open(fn, encoding="utf-8", mode="w") as f:
+            f.write(r"""msgid ""
+msgstr ""
+"Project-Id-Version: boxes.py VERSION\n"
+"PO-Revision-Date: 2019-04-20 14:53+0200\n"
+"Last-Translator: Florian Festi <florian@festi.info>\n"
+"Language-Team: English\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+""")
+            
+            for msg, comment, reference in self.messages:
+                f.write("\n")
+                if comment:
+                    f.write("#. %s\n" % comment)
+                if reference:
+                    f.write("#: %s\n" % reference)
+                msg = msg.split("\n")
+                for i in range(len(msg)-1):
+                    msg[i] += "\\n"
+                f.write('msgid ')
+                for m in msg:
+                    f.write(' "%s"\n' % m.replace('"', '\\"'))
+                f.write('msgstr ""\n')
+
+if __name__=="__main__":
+    if len(sys.argv) != 2:
+        print("Usage: boxes2inksacpe TARGETPATH")
+    b = Boxes2pot()
+    b.readBoxes()
+    b.writePOT(sys.argv[1])

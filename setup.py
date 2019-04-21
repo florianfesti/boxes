@@ -16,7 +16,17 @@ class CustomBuildExtCommand(build_py):
                                 os.path.join("scripts", "boxes2inkscape"),
                                 "inkex"))
 
+    def updatePOT(self):
+        os.system("%s %s %s" % (
+            sys.executable,
+            os.path.join("scripts", "boxes2pot"),
+            "po/boxes.py.pot"))
+        os.system("%s %s" % (
+            "xgettext -L Python -j -o po/boxes.py.pot",
+            "boxes/*.py scripts/boxesserver scripts/boxes"))
+
     def run(self):
+        self.execute(self.updatePOT, ())
         self.execute(self.buildInkscapeExt, ())
         try:
             path = check_output(["inkscape", "-x"]).decode().strip()

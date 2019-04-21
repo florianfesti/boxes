@@ -25,6 +25,7 @@ import codecs
 import mimetypes
 import re
 import markdown
+import gettext
 
 # Python 2 vs Python 3 compat
 try:
@@ -90,6 +91,9 @@ class ThrowingArgumentParser(argparse.ArgumentParser):
 boxes.ArgumentParser = ThrowingArgumentParser # Evil hack
 
 class BServer:
+
+    lang_re = re.compile(r"([a-z]{2,3}(-[-a-zA-Z0-9]*)?)\s*(;\s*q=(\d\.?\d*))?")
+
     def __init__(self):
         self.boxes = {b.__name__ : b() for b in boxes.generators.getAllBoxGenerators().values() if b.webinterface}
         self.boxes['TrayLayout2'] = boxes.generators.traylayout.TrayLayout2(self, webargs=True)
@@ -102,7 +106,22 @@ class BServer:
 
         self.staticdir = os.path.join(os.path.dirname(__file__), '../static/')
 
-    def arg2html(self, a, prefix, defaults={}):
+    def getLanguage(self, accept_language):
+        languages = accept_language.split(",")
+        langs = []
+        for l in languages:
+            m = self.lang_re.match(l.strip())
+            if m:
+                langs.append((float(m.group(4) or 1.0), m.group(1)))
+        langs.sort(reverse=True)
+        langs = [l[1].replace("-", "_") for l in langs]
+        try:
+            return gettext.translation('boxes.py', localedir='locale',
+                                       languages=langs)
+        except OSError:
+            return gettext.translation('boxes.py', languages=langs, fallback=True)
+
+    def arg2html(self, a, prefix, defaults={}, _=lambda s:s):
         name = a.option_strings[0].replace("-", "")
         if isinstance(a, argparse._HelpAction):
             return ""
@@ -113,7 +132,7 @@ class BServer:
         default = defaults.get(name, None)
 
         row = """<tr><td>%s</td><td>%%s</td><td>%s</td></tr>\n""" % \
-              (viewname, a.help or "")
+              (_(viewname), "" if not a.help else _(a.help))
         if (isinstance(a, argparse._StoreAction) and
             hasattr(a.type, "html")):
             input = a.type.html(name, default or a.default)
@@ -125,7 +144,7 @@ class BServer:
             options = "\n".join(
                 ("""<option value="%s"%s>%s</option>""" %
                  (e, ' selected="selected"' if e == (default or a.default) else "",
-                  e) for e in a.choices))
+                  _(e)) for e in a.choices))
             input = """<select name="%s" size="1">\n%s</select>\n""" % (name, options)
         else:
             input =  """<input name="%s" type="text" value="%s">""" % \
@@ -154,11 +173,11 @@ class BServer:
     </script>
 """
 
-    def args2html(self, name, box, action="", defaults={}):
+    def args2html(self, name, box, action="", defaults={}, _=lambda s:s):
         result = ["""<!DOCTYPE html>
 <html>
 <head>
-    <title>Boxes - """, name, """</title>
+    <title>""" + _("Boxes - %s") % _(name), """</title>
     <link rel="icon" type="image/svg+xml" href="static/boxes-logo.svg" sizes="any">
     <link rel="shortcut icon" type="image/x-icon" href="static/favicon.ico">
     <link rel="stylesheet" href="static/self.css" type="text/css" />
@@ -179,7 +198,7 @@ class BServer:
 <div class="clear"></div>
 <hr />
 <h2 style="margin: 0px 0px 0px 20px;" >""", name, """</h2>
-        <p>""", box.__doc__ or "", """</p>
+        <p>""", _(box.__doc__) if box.__doc__ else "", """</p>
 <form action="%s" method="GET" target="_blank">
         """ % (action)]
         groupid = 0
@@ -193,11 +212,11 @@ class BServer:
             for a in group._group_actions:
                 if a.dest in ("input", "output"):
                     continue
-                result.append(self.arg2html(a, prefix, defaults))
+                result.append(self.arg2html(a, prefix, defaults, _))
             result.append("</table>")
             groupid += 1
         result.append("""
-<p><button name="render" value="1">Generate</button></p>
+<p><button name="render" value="1">""" + _("Generate") + """</button></p>
 </form>
 
 </div>
@@ -212,29 +231,20 @@ class BServer:
 <hr />
 """)
         if box.description:
-            result.append(markdown.markdown(box.description))
+            result.append(markdown.markdown(_(box.description)))
         result.append("""
 </div>
-
-<div class="footer container">
-<ul>
- <li><a href="https://github.com/florianfesti/boxes">Get Source at GitHub</a></li>
- <li><a href="https://florianfesti.github.io/boxes/html/index.html">Documentation and API Description</a></li>
- <li><a href="https://hackaday.io/project/10649-boxespy">Hackaday.io Project Page</a></li>
-</ul>
-</div>
-
-</body>
+""" + self.footer(_) + """</body>
 </html>
         """ )
         return (s.encode("utf-8") for s in result)
 
-    def menu(self):
+    def menu(self, _):
 
         result = ["""<!DOCTYPE html>
 <html>
 <head>
-    <title>Boxes.py</title>
+    <title>""" + _("Boxes.py") + """</title>
     <link rel="icon" type="image/svg+xml" href="static/boxes-logo.svg" sizes="any">
     <link rel="shortcut icon" type="image/x-icon" href="static/favicon.ico">
     <link rel="stylesheet" href="static/self.css" type="text/css" />
@@ -254,13 +264,13 @@ class BServer:
 <body onload="hideargs()">
 <div class="container" style="background-color: #FFF8EA;">
 <div style="width: 75%; float: left;">
-<h1>Boxes.py</h1>
+<h1>""" + _("Boxes.py") + """</h1>
 <p>
-Create boxes and more with a laser cutter!
+""" + _("Create boxes and more with a laser cutter!") + """
 </p>
 <p>
-
-        <a href="https://hackaday.io/project/10649-boxespy">Boxes.py</a> is an <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">Open Source</a> box generator written in <a href="https://www.python.org/">Python</a>. It features both finished parametrized generators as well as a Python API for writing your own. It features finger and (flat) dovetail joints, flex cuts, holes and slots for screws, hinges, gears, pulleys and much more.
+""" + _("""
+        <a href="https://hackaday.io/project/10649-boxespy">Boxes.py</a> is an <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">Open Source</a> box generator written in <a href="https://www.python.org/">Python</a>. It features both finished parametrized generators as well as a Python API for writing your own. It features finger and (flat) dovetail joints, flex cuts, holes and slots for screws, hinges, gears, pulleys and much more.""") + """
 </p>
 
 
@@ -274,7 +284,7 @@ Create boxes and more with a laser cutter!
 <div style="width: 100%">
 """ ]
         for nr, group in enumerate(self.groups):
-            result.append('''<h3 id="h-%s" class="open" onclick="showHide('%s')">%s</h3>\n<div id="%s">\n''' % (nr, nr, group.title, nr))
+            result.append('''<h3 id="h-%s" class="open" onclick="showHide('%s')">%s</h3>\n<div id="%s">\n''' % (nr, nr, _(group.title), nr))
             result.append("""
             <div style="width: 20%%; float: right;">
             <img style="width: 100%%;" id="sample-%s" src="static/nothing.png" alt="" />
@@ -285,9 +295,9 @@ Create boxes and more with a laser cutter!
                     continue
                 docs = ""
                 if box.__doc__:
-                    docs = " - " + box.__doc__
+                    docs = " - " + _(box.__doc__)
                 result.append("""  <li onmouseenter="change('%s', 'static/samples/%s.jpg')" onmouseleave="changeback('%s')"><a href="%s">%s</a>%s</li>\n""" % (
-                    group.name, name, group.name, name, name, docs))
+                    group.name, name, group.name, name, _(name), docs))
             result.append("</ul>\n</div>\n")
         result.append("""
 </div>
@@ -296,32 +306,34 @@ Create boxes and more with a laser cutter!
 <div class="clear"></div>
 <hr />
 </div>
-</div>
-
-<div class="footer container">
-<ul>
- <li><a href="https://github.com/florianfesti/boxes">Get Source at GitHub</a></li>
- <li><a href="https://florianfesti.github.io/boxes/html/index.html">Documentation and API Description</a></li>
- <li><a href="https://hackaday.io/project/10649-boxespy">Hackaday.io Project Page</a></li>
-</ul>
-</div>
-
+</div>""" + self.footer(_) + """
 </body>
 </html>
 """)
         return (s.encode("utf-8") for s in result)
 
 
-    def errorMessage(self, name, e):
+    def footer(self, _):
+        return """
+<div class="footer container">
+<ul>
+  <li><a href="https://github.com/florianfesti/boxes">""" + _("Get Source at GitHub") + """</a></li>
+  <li><a href="https://florianfesti.github.io/boxes/html/index.html">""" + _("Documentation and API Description") + """</a></li>
+  <li><a href="https://hackaday.io/project/10649-boxespy">""" + _("Hackaday.io Project Page") + """</a></li>
+</ul>
+</div>
+"""
+
+    def errorMessage(self, name, e, _):
         return [
             b"""<html>
 <head>
-  <title>Error generating""", name.encode(),
+  <title>""", _("Error generating %s") % _(name).encode(),
             b"""</title>
   <meta name="flattr:id" content="456799">
 </head>
 <body>
-<h1>An error occurred!</h1>""",
+<h1>""" + _("An error occurred!") + "</h1>",
 u"".join(u"<p>%s</p>" % cgi.escape(s) for s in type(u"")(e).split(u"\n")).encode('utf-8'),
 b"""
 </body>
@@ -377,10 +389,12 @@ b"""
         d = parse_qs(environ['QUERY_STRING'])
         name = environ["PATH_INFO"][1:]
 
+        _ = self.getLanguage(environ.get("HTTP_ACCEPT_LANGUAGE", "")).gettext
+
         box = self.boxes.get(name, None)
         if not box:
             start_response(status, headers)
-            return self.menu()
+            return self.menu(_=_)
 
         args = [unquote_plus(arg) for arg in
                 environ['QUERY_STRING'].split("&")]
@@ -393,20 +407,20 @@ b"""
                     k, v = kv
                     defaults[k] = cgi.escape(v, True)
             start_response(status, headers)
-            return self.args2html(name, box, "./" + name, defaults=defaults)
+            return self.args2html(name, box, "./" + name, defaults=defaults, _=_)
         else:
             args = ["--"+ arg for arg in args if arg != "render=1"]
             try:
                 box.parseArgs(args)
             except (ArgumentParserError) as e:
                 start_response(status, headers)
-                return self.errorMessage(name, e)
+                return self.errorMessage(name, e, _)
             if name == "TrayLayout":
                 start_response(status, headers)
                 box.fillDefault(box.x, box.y)
                 self.boxes["TrayLayout2"].argparser.set_defaults(layout=str(box))
                 return self.args2html(
-                    name, self.boxes["TrayLayout2"], action="TrayLayout2")
+                    name, self.boxes["TrayLayout2"], action="TrayLayout2", _=_)
             if name == "TrayLayout2":
                 try:
                     box.parse(box.layout.split("\n"))

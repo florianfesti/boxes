@@ -1,0 +1,2871 @@
+# CNDK <z2889188672@gmail.com>, 2019. #zanata
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-04-21 17:03+0200\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2019-08-02 06:32+0000\n"
+"Last-Translator: CNDK <z2889188672@gmail.com>\n"
+"Language-Team: Chinese (China)\n"
+"Language: zh_CN\n"
+"X-Generator: Zanata 4.6.2\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+
+#. name of box generator
+msgid "AllEdges"
+msgstr "所有边缘"
+
+#. description of AllEdges
+msgid "Showing all edge types"
+msgstr "显示所有边缘类型"
+
+msgid "AllEdges Settings"
+msgstr "所有边缘设置"
+
+#. argument name
+msgid "x"
+msgstr "x"
+
+#. help for argument x
+msgid "inner width in mm (unless outside selected)"
+msgstr "内宽(mm)(除非外部选择)"
+
+msgid "Default Settings"
+msgstr "默认设置"
+
+#. argument name
+msgid "thickness"
+msgstr "厚度"
+
+#. help for argument thickness
+msgid "thickness of the material"
+msgstr "材料的厚度"
+
+#. argument name
+msgid "tabs"
+msgstr "标签"
+
+#. help for argument tabs
+msgid ""
+"width of tabs holding the parts in place in mm (not supported everywhere)"
+msgstr "用mm固定零件的标签宽度(不支持任何地方)"
+
+#. argument name
+msgid "debug"
+msgstr "调试"
+
+#. help for argument debug
+msgid "print surrounding boxes for some structures"
+msgstr "打印某些结构的周围框"
+
+#. argument name
+msgid "reference"
+msgstr "引用"
+
+#. help for argument reference
+msgid "print reference rectangle with given length (zero to disable)"
+msgstr "具有给定长度的打印参考矩形(零以禁用)"
+
+#. argument name
+msgid "burn"
+msgstr "烧伤"
+
+#. help for argument burn
+msgid "burn correction in mm (bigger values for tighter fit)"
+msgstr "烧伤校正，单位为mm（较大的值，适合更紧密）"
+
+msgid "Settings for Finger Joints"
+msgstr "手指关节的设置"
+
+#. argument name
+msgid "FingerJoint_angle"
+msgstr "手指关节角度"
+
+#. argument name
+msgid "FingerJoint_surroundingspaces"
+msgstr "手指关节周围空间"
+
+#. help for argument FingerJoint_surroundingspaces
+msgid "maximum space at the start and end in multiple of normal spaces"
+msgstr "在正常空间的多个起点和终点处的最大空间"
+
+#. argument name
+msgid "FingerJoint_edge_width"
+msgstr "卡榫边缘宽度"
+
+#. help for argument FingerJoint_edge_width
+msgid "space below holes of FingerHoleEdge"
+msgstr "凹槽孔边缘孔下方的空间"
+
+#. argument name
+msgid "FingerJoint_finger"
+msgstr "卡榫"
+
+#. help for argument FingerJoint_finger
+msgid "width of the fingers"
+msgstr "凹槽的宽度"
+
+#. argument name
+msgid "FingerJoint_play"
+msgstr "手指关节游戏"
+
+#. help for argument FingerJoint_play
+msgid "extra space to allow movement"
+msgstr "允许移动的额外空间"
+
+#. argument name
+msgid "FingerJoint_space"
+msgstr "手指关节空间"
+
+#. help for argument FingerJoint_space
+msgid "space between fingers"
+msgstr "手指之间的空间"
+
+#. argument name
+msgid "FingerJoint_width"
+msgstr "手指关节宽度"
+
+#. help for argument FingerJoint_width
+msgid "width of finger holes"
+msgstr "指孔宽度"
+
+msgid "Settings for Stackable Edges"
+msgstr "可堆叠边缘的设置"
+
+#. argument name
+msgid "Stackable_angle"
+msgstr "可堆叠的角度"
+
+#. help for argument Stackable_angle
+msgid "inside angle of the feet"
+msgstr "内侧角度"
+
+#. argument name
+msgid "Stackable_height"
+msgstr "可堆叠的高度"
+
+#. help for argument Stackable_height
+msgid "height of the feet"
+msgstr "底部的高度"
+
+#. argument name
+msgid "Stackable_holedistance"
+msgstr "可堆叠的孔距"
+
+#. help for argument Stackable_holedistance
+msgid "distance from finger holes to bottom edge"
+msgstr "从指孔到底边的距离"
+
+#. argument name
+msgid "Stackable_width"
+msgstr "可堆叠宽度"
+
+#. help for argument Stackable_width
+msgid "width of the feet"
+msgstr "底部宽度"
+
+msgid "Settings for Hinges and HingePins"
+msgstr "铰链和铰链销的设置"
+
+#. argument name
+msgid "Hinge_grip_percentage"
+msgstr "铰链握把百分比"
+
+#. argument name
+msgid "Hinge_outset"
+msgstr "铰链插座"
+
+#. help for argument Hinge_outset
+msgid "have lid overlap at the sides (similar to OutSetEdge)"
+msgstr "两侧有盖子重叠（类似于OutSet Edge）"
+
+#. argument name
+msgid "Hinge_pinwidth"
+msgstr "铰链销宽度"
+
+#. help for argument Hinge_pinwidth
+msgid "set to lower value to get disks surrounding the pins"
+msgstr "设置为较低的值以获取引脚周围的磁盘"
+
+#. argument name
+msgid "Hinge_style"
+msgstr "铰链式"
+
+#. help for argument Hinge_style
+msgid "\"outset\" or \"flush\""
+msgstr "“开始”或“冲洗”"
+
+#. possible choice for Hinge_style
+msgid "outset"
+msgstr "开始"
+
+#. possible choice for Hinge_style
+msgid "flush"
+msgstr "冲洗"
+
+#. argument name
+msgid "Hinge_axle"
+msgstr "铰链轴"
+
+#. help for argument Hinge_axle
+msgid "diameter of the pin hole"
+msgstr "针孔直径"
+
+#. argument name
+msgid "Hinge_grip_length"
+msgstr "铰链夹持长度"
+
+#. help for argument Hinge_grip_length
+msgid "fixed length of the grips on he lids"
+msgstr "他盖上固定长度的把手"
+
+#. argument name
+msgid "Hinge_hingestrength"
+msgstr "铰链铰链强度"
+
+#. help for argument Hinge_hingestrength
+msgid "thickness of the arc holding the pin in place"
+msgstr "将销钉保持在适当位置的弧度"
+
+msgid "Settings for Slide-on Lids"
+msgstr "滑盖的设置"
+
+#. argument name
+msgid "Lid_angle"
+msgstr "盖角"
+
+#. argument name
+msgid "Lid_second_pin"
+msgstr "盖住第二针"
+
+#. argument name
+msgid "Lid_spring"
+msgstr "轴箱盖弹簧"
+
+#. possible choice for Lid_spring
+msgid "both"
+msgstr "同时显示"
+
+#. possible choice for Lid_spring
+msgid "none"
+msgstr "无"
+
+#. possible choice for Lid_spring
+msgid "left"
+msgstr "左侧"
+
+#. possible choice for Lid_spring
+msgid "right"
+msgstr "右侧"
+
+#. argument name
+msgid "Lid_surroundingspaces"
+msgstr "盖子周围的空间"
+
+#. argument name
+msgid "Lid_edge_width"
+msgstr "盖边宽度"
+
+#. argument name
+msgid "Lid_finger"
+msgstr ""
+
+#. argument name
+msgid "Lid_play"
+msgstr ""
+
+#. argument name
+msgid "Lid_space"
+msgstr "盖子空间"
+
+#. argument name
+msgid "Lid_width"
+msgstr "盖子宽度"
+
+msgid "Settings for Click-on Lids"
+msgstr "点击盖子的设置"
+
+#. argument name
+msgid "Click_angle"
+msgstr "点击角度"
+
+#. argument name
+msgid "Click_bottom_radius"
+msgstr "点击“底部半径”"
+
+#. argument name
+msgid "Click_depth"
+msgstr "点击深度"
+
+msgid "Settings for Flex"
+msgstr "弹性设置"
+
+#. argument name
+msgid "Flex_stretch"
+msgstr "弹性拉伸"
+
+#. help for argument Flex_stretch
+msgid "Hint of how much the flex part should be shortend"
+msgstr "提示应缩短柔性部件的数量"
+
+#. argument name
+msgid "Flex_connection"
+msgstr "弹性连接器"
+
+#. help for argument Flex_connection
+msgid "width of the gaps in the cuts"
+msgstr "切口中的间隙宽度"
+
+#. argument name
+msgid "Flex_distance"
+msgstr "弹性距离"
+
+#. help for argument Flex_distance
+msgid "width of the pattern perpendicular to the cuts"
+msgstr "垂直于切口的图案宽度"
+
+#. argument name
+msgid "Flex_width"
+msgstr "弹性宽度"
+
+#. name of box generator
+msgid "AngledBox"
+msgstr "斜角盒子"
+
+#. description of AngledBox
+msgid "Box with both ends cornered"
+msgstr "两端转弯的盒子"
+
+msgid "AngledBox Settings"
+msgstr "斜角盒子设置"
+
+#. argument name
+msgid "y"
+msgstr "y"
+
+#. help for argument y
+msgid "inner depth in mm (unless outside selected)"
+msgstr "内部深度（mm）（除非选择外部）"
+
+#. argument name
+msgid "h"
+msgstr "h"
+
+#. help for argument h
+msgid "inner height in mm (unless outside selected)"
+msgstr "内部高度单位mm（除非选择外部）"
+
+#. argument name
+msgid "outside"
+msgstr "外部"
+
+#. help for argument outside
+msgid "treat sizes as outside measurements that include the walls"
+msgstr "将尺寸视为包括墙壁的外部测量"
+
+#. argument name
+msgid "n"
+msgstr "n"
+
+#. help for argument n
+msgid "number of walls at one side (1+)"
+msgstr "一侧墙壁数量（1+）"
+
+#. argument name
+msgid "top"
+msgstr "顶部"
+
+#. help for argument top
+msgid "style of the top and lid"
+msgstr "顶部和盖子的风格"
+
+#. possible choice for top
+msgid "angled hole"
+msgstr "角孔"
+
+#. possible choice for top
+msgid "angled lid"
+msgstr "有角度的盖子"
+
+#. possible choice for top
+msgid "angled lid2"
+msgstr "有角度的盖子2"
+
+#. name of box generator
+msgid "AngledCutJig"
+msgstr "角度切割夹具"
+
+#. description of AngledCutJig
+msgid "Jig for making angled cuts in a laser cutter"
+msgstr "用于在激光切割机中进行倾斜切割的夹具"
+
+msgid "AngledCutJig Settings"
+msgstr "角度切割夹具设置"
+
+#. argument name
+msgid "angle"
+msgstr "角度"
+
+#. help for argument angle
+msgid "Angle of the cut"
+msgstr "切割角度"
+
+#. name of box generator
+msgid "Arcade"
+msgstr "拱廊"
+
+#. description of Arcade
+msgid "Desktop Arcade Maschine"
+msgstr ""
+
+msgid "Arcade Settings"
+msgstr "拱廊设置"
+
+#. argument name
+msgid "width"
+msgstr "宽度"
+
+#. help for argument width
+msgid "inner width of the console"
+msgstr "控制台的内部宽度"
+
+#. name of box generator
+msgid "BinTray"
+msgstr "BinTray"
+
+#. description of BinTray
+msgid "A Type tray variant to be used up right with sloped walls in front"
+msgstr "一种类型托盘变体，可用于正面，前面有倾斜的墙壁"
+
+msgid "BinTray Settings"
+msgstr "BinTray设置"
+
+#. argument name
+msgid "sx"
+msgstr "sx"
+
+#. help for argument sx
+msgid ""
+"sections left to right in mm. Possible formats: overallwidth/numberof "
+"sections e.g. \"250/5\"; sectionwidth*numberofsections e.g. \"50*5\"; "
+"section widths separated by \":\" e.g. \"30:25.5:70\""
+msgstr ""
+"从mm到左右的部分。 可能的格式：整体宽度/部分数量，例如\"250/5\" 截面宽度*截面数量，例如“50*5”; 以“：”分隔的部分宽度，例如“30:"
+"25.5:70”"
+
+#. argument name
+msgid "sy"
+msgstr "sy"
+
+#. help for argument sy
+msgid "sections back to front in mm. See --sx for format"
+msgstr "以毫米为单位回到前面。 有关格式，请参阅--sx"
+
+#. argument name
+msgid "front"
+msgstr "前端"
+
+#. help for argument front
+msgid "fraction of bin height covert with slope"
+msgstr "箱高度的分数与坡度相关"
+
+#. name of box generator
+msgid "CardBox"
+msgstr "卡片盒"
+
+#. description of CardBox
+msgid "Box for storage of playingcards"
+msgstr "用于存放扑克牌的盒子"
+
+msgid "CardBox Settings"
+msgstr "卡片盒设置"
+
+#. argument name
+msgid "cardwidth"
+msgstr "卡片宽度"
+
+#. help for argument cardwidth
+msgid "Width of the cards"
+msgstr "卡片的宽度"
+
+#. argument name
+msgid "cardheight"
+msgstr "卡片高度"
+
+#. help for argument cardheight
+msgid "Height of the cards"
+msgstr "卡片的高度"
+
+#. argument name
+msgid "num"
+msgstr "数量"
+
+#. help for argument num
+msgid "number of compartments"
+msgstr "隔间数量"
+
+#. name of box generator
+msgid "Castle"
+msgstr "城堡"
+
+#. description of Castle
+msgid "Castle tower with two walls"
+msgstr "双壁城堡塔"
+
+msgid "Castle Settings"
+msgstr "城堡设置"
+
+#. name of box generator
+msgid "ClosedBox"
+msgstr "封闭的盒子"
+
+#. description of ClosedBox
+msgid "Fully closed box"
+msgstr "全封闭的盒子"
+
+msgid "ClosedBox Settings"
+msgstr "封闭的盒子设置"
+
+#. name of box generator
+msgid "ConcaveKnob"
+msgstr "凹面旋钮"
+
+#. description of ConcaveKnob
+msgid "Round knob serrated outside for better gripping"
+msgstr "圆形旋钮外侧锯齿，以便更好地抓握"
+
+msgid "ConcaveKnob Settings"
+msgstr "凹面旋钮设置"
+
+#. argument name
+msgid "diameter"
+msgstr "直径"
+
+#. help for argument diameter
+msgid "Diameter of the knob (mm)"
+msgstr "旋钮直径（mm）"
+
+#. argument name
+msgid "serrations"
+msgstr "锯齿"
+
+#. help for argument serrations
+msgid "Number of serrations"
+msgstr "锯齿数量"
+
+#. argument name
+msgid "rounded"
+msgstr "圆"
+
+#. help for argument rounded
+msgid "Amount of circumference used for non convex parts"
+msgstr "用于非凸起部分的周长量"
+
+#. help for argument angle
+msgid "Angle between convex and concave parts"
+msgstr "凸凹部分之间的角度"
+
+#. argument name
+msgid "bolthole"
+msgstr "螺栓孔"
+
+#. help for argument bolthole
+msgid "Diameter of the bolt hole (mm)"
+msgstr "螺栓孔直径（mm）"
+
+#. argument name
+msgid "dhole"
+msgstr "d孔"
+
+#. help for argument dhole
+msgid "D-Flat in fraction of the diameter"
+msgstr "直径分数为d的平面"
+
+#. argument name
+msgid "hexhead"
+msgstr "六角头"
+
+#. help for argument hexhead
+msgid "Width of the hex bolt head (mm)"
+msgstr "六角螺栓头宽度（mm）"
+
+#. name of box generator
+msgid "Display"
+msgstr "显示"
+
+#. description of Display
+msgid "Diplay for flyers or leaflets"
+msgstr "展示传单或传单"
+
+msgid "Display Settings"
+msgstr "显示设置"
+
+#. argument name
+msgid "radius"
+msgstr "半径"
+
+#. help for argument radius
+msgid "radius of the corners in mm"
+msgstr "角的半径，以mm为单位"
+
+#. help for argument angle
+msgid "greater zero for top wider as bottom"
+msgstr "顶部较宽的底部为零"
+
+#. name of box generator
+msgid "DisplayCase"
+msgstr "陈列柜"
+
+#. description of DisplayCase
+msgid ""
+"Fully closed box intended to be cut from transparent acrylics and to serve "
+"as a display case."
+msgstr "全封闭的盒子，用于从透明的丙烯酸树脂切割而成，用作展示柜。"
+
+msgid "DisplayCase Settings"
+msgstr "显示案例设置"
+
+#. argument name
+msgid "overhang"
+msgstr "悬垂"
+
+#. help for argument overhang
+msgid "overhang for joints in mm"
+msgstr "以mm为单位的解封悬垂"
+
+#. name of box generator
+msgid "DisplayShelf"
+msgstr "展示架"
+
+#. description of DisplayShelf
+msgid "Shelf with forward slanted floors"
+msgstr "带前斜地板的架子"
+
+msgid "DisplayShelf Settings"
+msgstr "显示货架设置"
+
+#. help for argument num
+msgid "number of shelves"
+msgstr "货架数量"
+
+#. help for argument front
+msgid "height of front walls"
+msgstr "前壁高度"
+
+#. help for argument angle
+msgid "angle of floors"
+msgstr "地板角度"
+
+#. name of box generator
+msgid "DrillBox"
+msgstr "钻箱"
+
+#. description of DrillBox
+msgid ""
+"Not yet parametrized box for drills from 1 to 12.5mm\n"
+"in 0.5mm steps, 3 holes each size"
+msgstr "尚未参数化的盒子，适用于1至12.5毫米的钻头\n"
+"以0.5毫米的步长，每个尺寸3个孔"
+
+msgid "DrillBox Settings"
+msgstr "钻箱设置"
+
+#. name of box generator
+msgid "ElectronicsBox"
+msgstr "电子盒"
+
+#. description of ElectronicsBox
+msgid "Closed box with screw on top and mounting holes"
+msgstr "封闭的盒子顶部有螺钉和安装孔"
+
+msgid "ElectronicsBox Settings"
+msgstr "电子盒设置"
+
+#. argument name
+msgid "triangle"
+msgstr "三角形"
+
+#. help for argument triangle
+msgid "Sides of the triangles holding the lid in mm"
+msgstr "固定盖子的三角形的边（单位mm）"
+
+#. argument name
+msgid "d1"
+msgstr "d1"
+
+#. help for argument d1
+msgid "Diameter of the inner lid screw holes in mm"
+msgstr "内盖螺丝孔的直径，单位mm"
+
+#. argument name
+msgid "d2"
+msgstr "d2"
+
+#. help for argument d2
+msgid "Diameter of the lid screw holes in mm"
+msgstr "盖子螺钉孔的直径，单位mm"
+
+#. argument name
+msgid "d3"
+msgstr "d3"
+
+#. help for argument d3
+msgid "Diameter of the mounting screw holes in mm"
+msgstr "Diameter of the mounting screw holes in mm"
+
+#. argument name
+msgid "outsidemounts"
+msgstr "外部支架"
+
+#. help for argument outsidemounts
+msgid "Add external mounting points"
+msgstr "添加外部安装点"
+
+#. argument name
+msgid "holedist"
+msgstr "洞口"
+
+#. help for argument holedist
+msgid "Distance of the screw holes from the wall in mm"
+msgstr "螺孔与墙壁的距离，单位为mm"
+
+#. name of box generator
+msgid "Fence"
+msgstr "围栏"
+
+msgid "Fence Settings"
+msgstr "围栏设置"
+
+#. name of box generator
+msgid "FlexBox"
+msgstr "柔性盒子"
+
+#. description of FlexBox
+msgid "Box with living hinge and round corners"
+msgstr "带活动铰链和圆角的盒子"
+
+msgid "FlexBox Settings"
+msgstr "柔性盒子设置"
+
+#. help for argument radius
+msgid "Radius of the latch in mm"
+msgstr "闩锁的半径，单位mm"
+
+#. argument name
+msgid "latchsize"
+msgstr "闩锁尺寸"
+
+#. help for argument latchsize
+msgid "size of latch in multiples of thickness"
+msgstr "闩锁的尺寸（以厚度的倍数表示）"
+
+#. name of box generator
+msgid "FlexBox2"
+msgstr "柔性盒子2"
+
+#. description of FlexBox2
+msgid "Box with living hinge and top corners rounded"
+msgstr "带活动铰链和顶角圆形的盒子"
+
+msgid "FlexBox2 Settings"
+msgstr "柔性盒子2设置"
+
+#. help for argument radius
+msgid "Radius of the corners in mm"
+msgstr "角的半径以mm为单位"
+
+#. name of box generator
+msgid "FlexBox3"
+msgstr "柔性盒子3"
+
+#. description of FlexBox3
+msgid "Box with living hinge"
+msgstr "带活动铰链的盒子"
+
+msgid "FlexBox3 Settings"
+msgstr "柔性盒子3设置"
+
+#. argument name
+msgid "z"
+msgstr "z"
+
+#. help for argument z
+msgid "height of the box"
+msgstr "盒子的高度"
+
+#. help for argument h
+msgid "height of the lid"
+msgstr "盖子的高度"
+
+#. help for argument radius
+msgid "radius of the lids living hinge"
+msgstr "盖子活动铰链的半径"
+
+#. argument name
+msgid "c"
+msgstr "c"
+
+#. help for argument c
+msgid "clearance of the lid"
+msgstr "盖的间隙"
+
+#. name of box generator
+msgid "FlexBox4"
+msgstr "柔性盒子4"
+
+#. description of FlexBox4
+msgid "Box with living hinge and left corners rounded"
+msgstr "带活动铰链和圆角的盒子"
+
+msgid "FlexBox4 Settings"
+msgstr "柔性盒子4设置"
+
+#. name of box generator
+msgid "FlexTest"
+msgstr "柔性测试"
+
+#. description of FlexTest
+msgid "Piece for testing different flex settings"
+msgstr "用于测试不同柔性设置的工件"
+
+msgid "FlexTest Settings"
+msgstr "柔性测试设置"
+
+#. name of box generator
+msgid "FlexTest2"
+msgstr "柔性测试2"
+
+#. description of FlexTest2
+msgid "Piece for testing 2D flex settings"
+msgstr "用于测试二维柔性设置"
+
+msgid "FlexTest2 Settings"
+msgstr "柔性测试2设置"
+
+#. argument name
+msgid "fw"
+msgstr "fw"
+
+#. help for argument fw
+msgid "distance of flex cuts in multiples of thickness"
+msgstr "以厚度倍数表示的弯曲切口距离"
+
+#. name of box generator
+msgid "Folder"
+msgstr "文件夹"
+
+#. description of Folder
+msgid "Book cover with flex for the spine"
+msgstr "书脊有弹性的书皮"
+
+msgid "Folder Settings"
+msgstr "文件夹设置"
+
+#. argument name
+msgid "r"
+msgstr "r"
+
+#. help for argument r
+msgid "radius of the corners"
+msgstr "拐角半径"
+
+#. name of box generator
+msgid "Gears"
+msgstr "齿轮"
+
+msgid "Gears Settings"
+msgstr "齿轮设置"
+
+#. argument name
+msgid "teeth1"
+msgstr "轮齿1"
+
+#. help for argument teeth1
+msgid "number of teeth"
+msgstr "轮齿数量"
+
+#. argument name
+msgid "shaft1"
+msgstr "轴1"
+
+#. help for argument shaft1
+msgid "diameter of the shaft 1"
+msgstr "轴1的直径"
+
+#. argument name
+msgid "dpercentage1"
+msgstr "轴1的D部分的百分比"
+
+#. help for argument dpercentage1
+msgid "percent of the D section of shaft 1 (100 for round shaft)"
+msgstr "轴1的D部分的百分比（圆轴为100）"
+
+#. argument name
+msgid "teeth2"
+msgstr "轮齿2"
+
+#. help for argument teeth2
+msgid "number of teeth in the other size of gears"
+msgstr "其他尺寸齿轮的齿数"
+
+#. argument name
+msgid "shaft2"
+msgstr "轴2"
+
+#. help for argument shaft2
+msgid "diameter of the shaft2 (zero for same as shaft 1)"
+msgstr "轴2的直径（与轴1相同，为零）"
+
+#. argument name
+msgid "dpercentage2"
+msgstr "轴2的D部分的百分比"
+
+#. help for argument dpercentage2
+msgid "percent of the D section of shaft 1 (0 for same as shaft 1)"
+msgstr "轴2的D部分的百分比（0表示与轴1相同）"
+
+#. argument name
+msgid "modulus"
+msgstr "模数"
+
+#. help for argument modulus
+msgid "width of teeth in mm"
+msgstr "轮齿宽度以mm为单位"
+
+#. argument name
+msgid "pressure_angle"
+msgstr "压力角"
+
+#. help for argument pressure_angle
+msgid "angle of the teeth touching (in degrees)"
+msgstr "轮齿接触的角度（以度为单位）"
+
+#. argument name
+msgid "profile_shift"
+msgstr "轮廓调整"
+
+#. help for argument profile_shift
+msgid "in precent of the modulus"
+msgstr "以模量的百分比表示"
+
+#. name of box generator
+msgid "GearBox"
+msgstr "变速箱"
+
+#. description of GearBox
+msgid "Gearbox with multiple identical stages"
+msgstr "具有多个相同阶段的变速箱"
+
+msgid "GearBox Settings"
+msgstr "变速箱设置"
+
+#. help for argument teeth1
+msgid "number of teeth on ingoing shaft"
+msgstr "进轴齿数"
+
+#. help for argument teeth2
+msgid "number of teeth on outgoing shaft"
+msgstr "输出轴齿数"
+
+#. help for argument modulus
+msgid "modulus of the theeth in mm"
+msgstr "齿的模数，单位mm"
+
+#. argument name
+msgid "shaft"
+msgstr "轴"
+
+#. help for argument shaft
+msgid "diameter of the shaft"
+msgstr "轴的直径"
+
+#. argument name
+msgid "stages"
+msgstr "阶段"
+
+#. help for argument stages
+msgid "number of stages in the gear reduction"
+msgstr "齿轮减速的阶段数"
+
+#. name of box generator
+msgid "GearBox2"
+msgstr "变速箱2"
+
+msgid "GearBox2 Settings"
+msgstr "变速箱2设置"
+
+#. argument name
+msgid "outputshaft"
+msgstr "输出轴"
+
+#. help for argument outputshaft
+msgid "diameter of the output shaft"
+msgstr "输出轴的直径"
+
+#. argument name
+msgid "bearingdiameter"
+msgstr "轴承直径"
+
+#. help for argument bearingdiameter
+msgid "diameter of the output bearings"
+msgstr "输出轴承的直径"
+
+#. name of box generator
+msgid "HeartBox"
+msgstr "心形盒"
+
+#. description of HeartBox
+msgid "Box in the form of an heart"
+msgstr "心形盒"
+
+msgid "HeartBox Settings"
+msgstr "心形设置"
+
+#. possible choice for top
+msgid "closed"
+msgstr "关闭"
+
+#. possible choice for top
+msgid "hole"
+msgstr "洞"
+
+#. possible choice for top
+msgid "lid"
+msgstr "盖子"
+
+#. name of box generator
+msgid "HingeBox"
+msgstr "铰链盒"
+
+#. description of HingeBox
+msgid "Box with lid attached by cabinet hinges"
+msgstr "箱盖由柜体铰链连接"
+
+msgid "HingeBox Settings"
+msgstr "铰链盒设置"
+
+#. argument name
+msgid "lidheight"
+msgstr "盖子高度"
+
+#. help for argument lidheight
+msgid "height of lid in mm"
+msgstr "盖子高度以mm为单位"
+
+#. argument name
+msgid "splitlid"
+msgstr "开口盖"
+
+#. help for argument splitlid
+msgid "split the lid in y direction (mm)"
+msgstr "沿Y方向拆下盖（mm）"
+
+msgid "Settings for Cabinet Hinges"
+msgstr "柜铰链设置"
+
+#. argument name
+msgid "CabinetHinge_bore"
+msgstr "柜体铰链孔"
+
+#. help for argument CabinetHinge_bore
+msgid "diameter of the pin hole in mm"
+msgstr "销孔直径（mm）"
+
+#. argument name
+msgid "CabinetHinge_eyes_per_hinge"
+msgstr "每个铰链的柜铰链孔"
+
+#. help for argument CabinetHinge_eyes_per_hinge
+msgid "pieces per hinge"
+msgstr "每个铰链件"
+
+#. argument name
+msgid "CabinetHinge_hinges"
+msgstr "柜体铰链"
+
+#. help for argument CabinetHinge_hinges
+msgid "number of hinges per edge"
+msgstr "每个边缘的铰链数量"
+
+#. argument name
+msgid "CabinetHinge_style"
+msgstr "柜体铰链式"
+
+#. help for argument CabinetHinge_style
+msgid "style of hinge used"
+msgstr "使用的铰链样式"
+
+#. possible choice for CabinetHinge_style
+msgid "inside"
+msgstr "里面"
+
+#. argument name
+msgid "CabinetHinge_eye"
+msgstr "柜铰链孔"
+
+#. help for argument CabinetHinge_eye
+msgid "radius of the eye (in multiples of thickness)"
+msgstr "孔半径（以厚度的倍数表示）"
+
+#. argument name
+msgid "CabinetHinge_play"
+msgstr "柜体铰链间隙"
+
+#. help for argument CabinetHinge_play
+msgid "space between eyes (in multiples of thickness)"
+msgstr "孔之间的空间（厚度的倍数）"
+
+#. argument name
+msgid "CabinetHinge_spacing"
+msgstr "柜铰链间距"
+
+#. help for argument CabinetHinge_spacing
+msgid "minimum space around the hinge"
+msgstr "铰链周围的最小空间"
+
+#. name of box generator
+msgid "Hook"
+msgstr "钩子"
+
+#. description of Hook
+msgid "A hook wit a rectangular mouth to mount at the wall"
+msgstr "带有矩形口的挂钩，可安装在墙上"
+
+msgid "Hook Settings"
+msgstr "钩子设置"
+
+#. help for argument width
+msgid "width of the hook (back plate is a bit wider)"
+msgstr "钩子宽度（背板稍宽）"
+
+#. argument name
+msgid "height"
+msgstr "高度"
+
+#. help for argument height
+msgid "inner height of the hook"
+msgstr "钩子的内部高度"
+
+#. argument name
+msgid "depth"
+msgstr "深度"
+
+#. help for argument depth
+msgid "inner depth of the hook"
+msgstr "钩子的内部深度"
+
+#. argument name
+msgid "strength"
+msgstr "强度"
+
+#. help for argument strength
+msgid "width of the hook from the side"
+msgstr "从侧面看钩子的宽度"
+
+#. help for argument angle
+msgid "angle of the support underneeth"
+msgstr "下方支撑的角度"
+
+#. name of box generator
+msgid "IntegratedHingeBox"
+msgstr "综合铰链盒"
+
+#. description of IntegratedHingeBox
+msgid "Box with lid and integraded hinge"
+msgstr "带盖和集成铰链的盒子"
+
+msgid "IntegratedHingeBox Settings"
+msgstr "综合铰链盒设置"
+
+msgid "Settings for Chest Hinges"
+msgstr "箱子铰链设置"
+
+#. argument name
+msgid "ChestHinge_hinge_strength"
+msgstr "箱子铰链强度"
+
+#. argument name
+msgid "ChestHinge_pin_height"
+msgstr "箱子铰链销高度"
+
+#. help for argument ChestHinge_pin_height
+msgid "radius of the disc rotating in the hinge"
+msgstr "在铰链中旋转的圆盘半径"
+
+#. argument name
+msgid "ChestHinge_play"
+msgstr "箱子铰链间隙"
+
+#. name of box generator
+msgid "LaserClamp"
+msgstr "激光灯"
+
+#. description of LaserClamp
+msgid "A clamp to hold down material to a knife table"
+msgstr "把材料夹在刀台上的夹子"
+
+#. long description of LaserClamp in markdown
+msgid ""
+"You need a tension spring of the proper length to make the clamp work.\n"
+"Increace extraheight to get more space for the spring and to make the\n"
+"sliding mechanism less likely to bind. You may need to add some wax on the\n"
+"parts sliding on each other to reduce friction.\n"
+msgstr ""
+"您需要一个适当长度的拉伸弹簧来使夹钳工作。\n"
+"增加额外的高度，以获得更多的弹簧空间，并使滑动机构不太可能绑定。\n"
+"可能需要在相互滑动的零件上添加一些蜡，以减少摩擦。"
+
+msgid "LaserClamp Settings"
+msgstr "激光灯设置"
+
+#. argument name
+msgid "minheight"
+msgstr "最小高度"
+
+#. help for argument minheight
+msgid "minimal clamping height in mm"
+msgstr "最小夹紧高度（mm）"
+
+#. argument name
+msgid "maxheight"
+msgstr "最大高度"
+
+#. help for argument maxheight
+msgid "maximal clamping height in mm"
+msgstr "最大夹紧高度（mm）"
+
+#. argument name
+msgid "extraheight"
+msgstr "额外高度"
+
+#. help for argument extraheight
+msgid "extra height to make operation smoother in mm"
+msgstr "额外的高度使操作更平滑（mm）"
+
+#. name of box generator
+msgid "LBeam"
+msgstr "L型梁"
+
+#. description of LBeam
+msgid "Simple L-Beam: two pieces joined with a right angle"
+msgstr "简易L型梁：两块直角连接"
+
+msgid "LBeam Settings"
+msgstr "L型梁设置"
+
+#. name of box generator
+msgid "MagazinFile"
+msgstr "杂志文件"
+
+#. description of MagazinFile
+msgid "Open magazine file"
+msgstr "打开杂志文件"
+
+msgid "MagazinFile Settings"
+msgstr "杂志文件设置"
+
+#. argument name
+msgid "hi"
+msgstr "嗨"
+
+#. help for argument hi
+msgid ""
+"inner height of inner walls in mm (unless outside selected)(leave to zero "
+"for same as outer walls)"
+msgstr "内墙的内部高度，单位为mm（除非选择外部）（与外部墙相同，保留为零）"
+
+#. name of box generator
+msgid "NemaMount"
+msgstr "Nema安装"
+
+#. description of NemaMount
+msgid "Mounting braket for a Nema motor"
+msgstr "Nema电机的安装支架"
+
+msgid "NemaMount Settings"
+msgstr "Nema安装设置"
+
+#. argument name
+msgid "size"
+msgstr "大小"
+
+#. help for argument size
+msgid "Nema size of the motor"
+msgstr "Nema电机大小"
+
+#. name of box generator
+msgid "NotesHolder"
+msgstr "票据夹"
+
+#. description of NotesHolder
+msgid "Box for holding a stack of paper, coasters etc"
+msgstr "用来装一堆纸、杯垫等的盒子"
+
+msgid "NotesHolder Settings"
+msgstr "票据夹设置"
+
+#. argument name
+msgid "bottom_edge"
+msgstr "底边"
+
+#. help for argument bottom_edge
+msgid "edge type for bottom edge"
+msgstr "底边的边缘类型"
+
+#. possible choice for bottom_edge
+msgid "F"
+msgstr "F"
+
+#. possible choice for bottom_edge
+msgid "s"
+msgstr "s"
+
+#. possible choice for bottom_edge
+msgid "e"
+msgstr "e"
+
+#. argument name
+msgid "slots"
+msgstr "插槽"
+
+#. help for argument slots
+msgid "slots for grabbing the notes"
+msgstr "用于抓取笔记的插槽"
+
+#. possible choice for slots
+msgid "one"
+msgstr "一"
+
+#. possible choice for slots
+msgid "two"
+msgstr "二"
+
+#. possible choice for slots
+msgid "four"
+msgstr "四"
+
+#. name of box generator
+msgid "OpenBox"
+msgstr "开放的盒子"
+
+#. description of OpenBox
+msgid "Box with top and front open"
+msgstr "顶部和前部打开的盒子"
+
+msgid "OpenBox Settings"
+msgstr "开放的盒子设置"
+
+#. name of box generator
+msgid "OrganPipe"
+msgstr "有机玻璃管"
+
+#. description of OrganPipe
+msgid "Rectangular organ pipe based on pipecalc"
+msgstr "基于管道计算的矩形器官管"
+
+msgid "OrganPipe Settings"
+msgstr "器官管设置"
+
+#. argument name
+msgid "pitch"
+msgstr "pitch"
+
+#. possible choice for pitch
+msgid "c#"
+msgstr "c#"
+
+#. possible choice for pitch
+msgid "d"
+msgstr "d"
+
+#. possible choice for pitch
+msgid "d#"
+msgstr "d#"
+
+#. possible choice for pitch
+msgid "f"
+msgstr "f"
+
+#. possible choice for pitch
+msgid "f#"
+msgstr "f#"
+
+#. possible choice for pitch
+msgid "g"
+msgstr "g"
+
+#. possible choice for pitch
+msgid "g#"
+msgstr "g#"
+
+#. possible choice for pitch
+msgid "a"
+msgstr "a"
+
+#. possible choice for pitch
+msgid "a#"
+msgstr "a#"
+
+#. possible choice for pitch
+msgid "b"
+msgstr "b"
+
+#. argument name
+msgid "octave"
+msgstr "八度"
+
+#. help for argument octave
+msgid "Octave in International Pitch Notation (2 == C)"
+msgstr "国际音高符号中的八度（2==c）"
+
+#. argument name
+msgid "intonation"
+msgstr "发音调"
+
+#. help for argument intonation
+msgid "Intonation Number. 2 for max. efficiency, 3 max."
+msgstr "音调数。最大效率为2，最大效率为3。"
+
+#. argument name
+msgid "mouthratio"
+msgstr "口型比"
+
+#. help for argument mouthratio
+msgid ""
+"mouth to circumference ratio (0.1 to 0.45). Determines the width to depth "
+"ratio"
+msgstr "口与周长比（0.1至0.45）。 确定宽深比"
+
+#. argument name
+msgid "cutup"
+msgstr "切割"
+
+#. help for argument cutup
+msgid "Cutup to mouth ratio"
+msgstr "切口比"
+
+#. argument name
+msgid "mensur"
+msgstr ""
+
+#. help for argument mensur
+msgid "Distance in halftones in the Normalmensur by Töpfer"
+msgstr ""
+
+#. argument name
+msgid "windpressure"
+msgstr "风压"
+
+#. help for argument windpressure
+msgid "uses unit selected below"
+msgstr "使用下面选择的单位"
+
+#. argument name
+msgid "windpressure_units"
+msgstr "风压单位"
+
+#. help for argument windpressure_units
+msgid "in Pa"
+msgstr "in Pa"
+
+#. possible choice for windpressure_units
+msgid "Pa"
+msgstr "Pa"
+
+#. possible choice for windpressure_units
+msgid "mBar"
+msgstr "mBar"
+
+#. possible choice for windpressure_units
+msgid "mmHg"
+msgstr "mmHg"
+
+#. possible choice for windpressure_units
+msgid "mmH2O"
+msgstr "mmH2O"
+
+#. argument name
+msgid "stopped"
+msgstr "停止"
+
+#. help for argument stopped
+msgid "pipe is closed at the top"
+msgstr "顶部管道关闭"
+
+#. name of box generator
+msgid "Otto"
+msgstr "Otto"
+
+#. description of Otto
+msgid "DESCRIPTION"
+msgstr "说明"
+
+msgid "Otto Settings"
+msgstr "Otto设置"
+
+#. name of box generator
+msgid "OttoBody"
+msgstr "Otto本体"
+
+#. description of OttoBody
+msgid "Otto LC - a laser cut chassis for Otto DIY - body"
+msgstr "Otto LC  - 用于Otto DIY的激光切割底盘 - 本体"
+
+msgid "OttoBody Settings"
+msgstr "Otto本体设置"
+
+#. name of box generator
+msgid "OttoLegs"
+msgstr "Otto的腿"
+
+#. description of OttoLegs
+msgid "Otto LC - a laser cut chassis for Otto DIY - legs"
+msgstr "Otto LC  - 用于Otto DIY的激光切割底盘 - 腿"
+
+msgid "OttoLegs Settings"
+msgstr "Otto腿设置"
+
+#. argument name
+msgid "anklebolt1"
+msgstr "anklebolt1"
+
+#. help for argument anklebolt1
+msgid "diameter for hole for ankle bolts - foot side"
+msgstr "踝关节螺栓孔直径 - 脚侧"
+
+#. argument name
+msgid "anklebolt2"
+msgstr "anklebolt2"
+
+#. help for argument anklebolt2
+msgid "diameter for hole for ankle bolts - leg side"
+msgstr "踝关节螺栓孔直径 - 腿侧"
+
+#. argument name
+msgid "length"
+msgstr "长度"
+
+#. help for argument length
+msgid "length of legs (34mm min)"
+msgstr "腿长（最小34mm）"
+
+#. name of box generator
+msgid "OttoSoles"
+msgstr "Otto鞋底"
+
+#. description of OttoSoles
+msgid "Foam soles for the OttO bot"
+msgstr "用于OttO机器人的泡沫鞋底"
+
+msgid "OttoSoles Settings"
+msgstr "Otto鞋底设置"
+
+#. help for argument width
+msgid "width of sole stripe"
+msgstr "鞋底条纹宽度"
+
+#. argument name
+msgid "chamfer"
+msgstr "倒角"
+
+#. help for argument chamfer
+msgid "chamfer at the corners"
+msgstr "拐角处的斜面"
+
+#. help for argument num
+msgid "number of soles"
+msgstr "鞋底数量"
+
+#. name of box generator
+msgid "PaintStorage"
+msgstr "油漆存放处"
+
+#. description of PaintStorage
+msgid "Stackable paint storage"
+msgstr "可堆叠的油漆存放处"
+
+msgid "PaintStorage Settings"
+msgstr "油漆存放处设置"
+
+#. argument name
+msgid "canheight"
+msgstr "凸轮高度"
+
+#. help for argument canheight
+msgid "Height of the paintcans"
+msgstr "油漆罐高度"
+
+#. argument name
+msgid "candiameter"
+msgstr "盖直径"
+
+#. help for argument candiameter
+msgid "Diameter of the paintcans"
+msgstr "油漆罐直径"
+
+#. argument name
+msgid "minspace"
+msgstr "最小空间"
+
+#. help for argument minspace
+msgid "Minimum space between the paintcans"
+msgstr "油漆罐之间的最小空间"
+
+#. argument name
+msgid "hexpattern"
+msgstr "六角形图案"
+
+#. help for argument hexpattern
+msgid "Use hexagonal arrangement for the holes instead of orthogonal"
+msgstr "孔采用六角形排列，而不是正交排列。"
+
+#. name of box generator
+msgid "Planetary"
+msgstr "行星"
+
+#. description of Planetary
+msgid "Planetary Gear with possibly multiple identical stages"
+msgstr "可能具有多个相同阶段的行星齿轮"
+
+msgid "Planetary Settings"
+msgstr "行星设置"
+
+#. argument name
+msgid "sunteeth"
+msgstr "太阳齿轮"
+
+#. help for argument sunteeth
+msgid "number of teeth on sun gear"
+msgstr "太阳齿轮上的齿数"
+
+#. argument name
+msgid "planetteeth"
+msgstr "行星齿"
+
+#. help for argument planetteeth
+msgid "number of teeth on planets"
+msgstr "行星上的齿数"
+
+#. argument name
+msgid "maxplanets"
+msgstr "最大行星数"
+
+#. help for argument maxplanets
+msgid "limit the number of planets (0 for as much as fit)"
+msgstr "限制行星的数量（0表示适合的数量）"
+
+#. argument name
+msgid "deltateeth"
+msgstr "三角齿"
+
+#. help for argument deltateeth
+msgid "enable secondary ring with given delta to the ring gear"
+msgstr "使副环具有给定增量到环形齿轮"
+
+#. name of box generator
+msgid "Planetary2"
+msgstr "行星2"
+
+#. description of Planetary2
+msgid "Balanced force Difference Planetary Gear"
+msgstr "平衡力差行星齿轮"
+
+msgid "Planetary2 Settings"
+msgstr "行星2设置"
+
+#. argument name
+msgid "nema_mount"
+msgstr "NEMA安装"
+
+#. help for argument nema_mount
+msgid "NEMA size of motor"
+msgstr "NEMA尺寸的电机"
+
+#. argument name
+msgid "profile"
+msgstr "轮廓"
+
+#. help for argument profile
+msgid "profile of the teeth/belt"
+msgstr "齿带的轮廓"
+
+#. possible choice for profile
+msgid "40DP"
+msgstr "40DP"
+
+#. possible choice for profile
+msgid "AT5"
+msgstr "AT5"
+
+#. possible choice for profile
+msgid "GT2_2mm"
+msgstr "GT2_2mm"
+
+#. possible choice for profile
+msgid "GT2_3mm"
+msgstr "GT2_3mm"
+
+#. possible choice for profile
+msgid "GT2_5mm"
+msgstr "GT2_5mm"
+
+#. possible choice for profile
+msgid "H"
+msgstr "H"
+
+#. possible choice for profile
+msgid "HTD_3mm"
+msgstr "HTD_3mm"
+
+#. possible choice for profile
+msgid "HTD_5mm"
+msgstr "HTD_5mm"
+
+#. possible choice for profile
+msgid "HTD_8mm"
+msgstr "HTD_8mm"
+
+#. possible choice for profile
+msgid "MXL"
+msgstr "MXL"
+
+#. possible choice for profile
+msgid "T10"
+msgstr "T10"
+
+#. possible choice for profile
+msgid "T2_5"
+msgstr "T2_5"
+
+#. possible choice for profile
+msgid "T5"
+msgstr "T5"
+
+#. possible choice for profile
+msgid "XL"
+msgstr "XL"
+
+#. argument name
+msgid "screw1"
+msgstr "螺丝1"
+
+#. help for argument screw1
+msgid "diameter of lower part of the screw hole"
+msgstr "螺孔下部直径"
+
+#. argument name
+msgid "screw2"
+msgstr "螺丝2"
+
+#. help for argument screw2
+msgid "diameter of upper part of the screw hole"
+msgstr "螺孔上部直径"
+
+#. argument name
+msgid "pinsize"
+msgstr "销的尺寸"
+
+#. help for argument pinsize
+msgid "diameter of alignment pins"
+msgstr "定位销的直径"
+
+#. name of box generator
+msgid "PoleHook"
+msgstr "杆钩"
+
+#. description of PoleHook
+msgid "Hook for pole like things to be clamped to another pole"
+msgstr "用钩子钩住杆子，就像把东西夹在另一根杆子上一样。"
+
+msgid "PoleHook Settings"
+msgstr "杆构设置"
+
+#. help for argument diameter
+msgid "diameter of the thing to hook"
+msgstr "钩住物的直径"
+
+#. argument name
+msgid "screw"
+msgstr "螺丝钉"
+
+#. help for argument screw
+msgid "diameter of the screw in mm"
+msgstr "螺丝直径，mm"
+
+#. argument name
+msgid "screwhead"
+msgstr "螺丝头"
+
+#. help for argument screwhead
+msgid "with of the screw head in mm"
+msgstr "螺丝头（mm）"
+
+#. argument name
+msgid "screwheadheight"
+msgstr "螺丝头高度"
+
+#. help for argument screwheadheight
+msgid "height of the screw head in mm"
+msgstr "螺丝头高度（mm）"
+
+#. argument name
+msgid "pin"
+msgstr "销"
+
+#. help for argument pin
+msgid "diameter of the pin in mm"
+msgstr "销的直径（mm）"
+
+#. name of box generator
+msgid "Pulley"
+msgstr "滑轮"
+
+#. description of Pulley
+msgid "Timing belt pulleys for different profiles"
+msgstr "不同外形的滑轮"
+
+msgid "Pulley Settings"
+msgstr "滑轮设置"
+
+#. argument name
+msgid "teeth"
+msgstr "轮齿"
+
+#. argument name
+msgid "axle"
+msgstr "轴"
+
+#. help for argument axle
+msgid "diameter of the axle"
+msgstr "轴直径"
+
+#. argument name
+msgid "insideout"
+msgstr "从内向外"
+
+#. help for argument insideout
+msgid "create a ring gear with the belt being pushed against from within"
+msgstr "创建一个环形齿轮，将传送带从内部推压。"
+
+#. help for argument top
+msgid "overlap of top rim (zero for none)"
+msgstr "顶部边缘重叠（零表示无）"
+
+#. name of box generator
+msgid "Rack19Box"
+msgstr "机架 19盒"
+
+#. description of Rack19Box
+msgid "Closed box with screw on top for mounting in a 19\" rack."
+msgstr "顶部带有螺丝的封闭盒，用于安装在19“机架中。"
+
+msgid "Rack19Box Settings"
+msgstr "机架19盒设置"
+
+#. help for argument depth
+msgid "inner depth in mm"
+msgstr "内部深度（mm）"
+
+#. help for argument height
+msgid "height in rack units"
+msgstr "机架单位高度"
+
+#. name of box generator
+msgid "Rack10Box"
+msgstr "机架10盒"
+
+#. description of Rack10Box
+msgid "Closed box with screw on top for mounting in a 10\" rack."
+msgstr "带顶部螺钉的封闭盒，用于安装在10“机架中。"
+
+msgid "Rack10Box Settings"
+msgstr "机架10盒设置"
+
+#. name of box generator
+msgid "RackBox"
+msgstr "机架盒"
+
+msgid "RackBox Settings"
+msgstr "机架盒设置"
+
+#. name of box generator
+msgid "RectangularWall"
+msgstr "矩形墙"
+
+#. description of RectangularWall
+msgid "Simple wall"
+msgstr "简单的墙"
+
+msgid "RectangularWall Settings"
+msgstr "矩形墙设置"
+
+#. possible choice for bottom_edge
+msgid "C"
+msgstr ""
+
+#. possible choice for bottom_edge
+msgid "D"
+msgstr ""
+
+#. possible choice for bottom_edge
+msgid "E"
+msgstr ""
+
+#. possible choice for bottom_edge
+msgid "i"
+msgstr ""
+
+#. possible choice for bottom_edge
+msgid "I"
+msgstr ""
+
+#. possible choice for bottom_edge
+msgid "j"
+msgstr ""
+
+#. possible choice for bottom_edge
+msgid "J"
+msgstr ""
+
+#. possible choice for bottom_edge
+msgid "k"
+msgstr ""
+
+#. possible choice for bottom_edge
+msgid "K"
+msgstr ""
+
+#. possible choice for bottom_edge
+msgid "l"
+msgstr ""
+
+#. possible choice for bottom_edge
+msgid "L"
+msgstr ""
+
+#. possible choice for bottom_edge
+msgid "m"
+msgstr ""
+
+#. possible choice for bottom_edge
+msgid "M"
+msgstr ""
+
+#. possible choice for bottom_edge
+msgid "o"
+msgstr ""
+
+#. possible choice for bottom_edge
+msgid "O"
+msgstr ""
+
+#. possible choice for bottom_edge
+msgid "p"
+msgstr ""
+
+#. possible choice for bottom_edge
+msgid "P"
+msgstr ""
+
+#. possible choice for bottom_edge
+msgid "q"
+msgstr ""
+
+#. possible choice for bottom_edge
+msgid "Q"
+msgstr ""
+
+#. possible choice for bottom_edge
+msgid "R"
+msgstr ""
+
+#. possible choice for bottom_edge
+msgid "S"
+msgstr ""
+
+#. possible choice for bottom_edge
+msgid "u"
+msgstr ""
+
+#. possible choice for bottom_edge
+msgid "U"
+msgstr ""
+
+#. possible choice for bottom_edge
+msgid "v"
+msgstr ""
+
+#. possible choice for bottom_edge
+msgid "V"
+msgstr ""
+
+#. argument name
+msgid "right_edge"
+msgstr "右边缘"
+
+#. help for argument right_edge
+msgid "edge type for right edge"
+msgstr "右边缘的边缘类型"
+
+#. argument name
+msgid "top_edge"
+msgstr "顶边"
+
+#. help for argument top_edge
+msgid "edge type for top edge"
+msgstr "顶边的边缘类型"
+
+#. argument name
+msgid "left_edge"
+msgstr "左边缘"
+
+#. help for argument left_edge
+msgid "edge type for left edge"
+msgstr "左边缘的边缘类型"
+
+msgid "Settings for Dove Tail Joints"
+msgstr "燕尾榫接头的设置"
+
+#. argument name
+msgid "DoveTail_angle"
+msgstr "燕尾角"
+
+#. help for argument DoveTail_angle
+msgid "how much should fingers widen (-80 to 80)"
+msgstr "凹槽应该加宽多少（-80到80）"
+
+#. argument name
+msgid "DoveTail_depth"
+msgstr "燕尾槽深度"
+
+#. help for argument DoveTail_depth
+msgid "how far the dove tails stick out of/into the edge"
+msgstr "燕尾巴伸出/伸入边缘的距离"
+
+#. argument name
+msgid "DoveTail_radius"
+msgstr "燕尾槽半径"
+
+#. help for argument DoveTail_radius
+msgid "radius used on all four corners"
+msgstr "所有四个角都使用半径"
+
+#. argument name
+msgid "DoveTail_size"
+msgstr "燕尾槽尺寸"
+
+#. help for argument DoveTail_size
+msgid "from one middle of a dove tail to another"
+msgstr "从燕尾的一个中间到另一个"
+
+msgid "Settings for rack (and pinion) edge"
+msgstr "机架（和小齿轮）边缘的设置"
+
+#. argument name
+msgid "Gear_angle"
+msgstr "齿轮角度"
+
+#. help for argument Gear_angle
+msgid "pressure angle"
+msgstr "压力角"
+
+#. argument name
+msgid "Gear_clearance"
+msgstr "齿轮间隙"
+
+#. help for argument Gear_clearance
+msgid "clearance"
+msgstr "间隙"
+
+#. argument name
+msgid "Gear_dimension"
+msgstr "齿轮尺寸"
+
+#. help for argument Gear_dimension
+msgid "modulus of the gear (in mm)"
+msgstr "齿轮模数（mm）"
+
+#. argument name
+msgid "Gear_profile_shift"
+msgstr "齿轮轮廓移位"
+
+#. help for argument Gear_profile_shift
+msgid "Profile shift"
+msgstr "剖面偏移"
+
+msgid "Settings for GrippingEdge"
+msgstr "抓取边缘的设置"
+
+#. argument name
+msgid "Grip_outset"
+msgstr "握把起点"
+
+#. help for argument Grip_outset
+msgid "extend outward the straight edge"
+msgstr "向外延伸直边"
+
+#. argument name
+msgid "Grip_style"
+msgstr "握把样式"
+
+#. help for argument Grip_style
+msgid "\"wave\" or \"bumps\""
+msgstr "“波浪”或“颠簸”"
+
+#. possible choice for Grip_style
+msgid "wave"
+msgstr "波浪"
+
+#. possible choice for Grip_style
+msgid "bumps"
+msgstr "颠簸"
+
+#. argument name
+msgid "Grip_depth"
+msgstr "握把深度"
+
+#. help for argument Grip_depth
+msgid "depth of the grooves"
+msgstr "凹槽的深度"
+
+#. name of box generator
+msgid "RegularBox"
+msgstr "常规盒子"
+
+#. description of RegularBox
+msgid "Box with regular polygon as base"
+msgstr "以正多边形为基础的框"
+
+msgid "RegularBox Settings"
+msgstr "常规盒子设置"
+
+#. help for argument radius
+msgid "inner radius if the box (at the corners)"
+msgstr "盒子的内半径（拐角处）"
+
+#. help for argument n
+msgid "number of sides"
+msgstr "边数"
+
+#. possible choice for top
+msgid "round lid"
+msgstr "圆盖"
+
+#. name of box generator
+msgid "Box4"
+msgstr "盒子4"
+
+msgid "Box4 Settings"
+msgstr "盒子4设置"
+
+#. name of box generator
+msgid "RobotArm"
+msgstr "机械臂"
+
+#. description of RobotArm
+msgid "Segments of servo powered robot arm"
+msgstr "伺服驱动机械臂的分段"
+
+msgid "RobotArm Settings"
+msgstr "机械臂设置"
+
+#. argument name
+msgid "type1"
+msgstr "型号1"
+
+#. help for argument type1
+msgid "type of arm segment"
+msgstr "臂段类型"
+
+#. possible choice for type1
+msgid "RobotArmMM"
+msgstr "机械臂MM"
+
+#. possible choice for type1
+msgid "RobotArmMm"
+msgstr "机械臂Mm"
+
+#. possible choice for type1
+msgid "RobotArmUU"
+msgstr "机械臂UU"
+
+#. possible choice for type1
+msgid "RobotArmUu"
+msgstr "机械臂Uu"
+
+#. possible choice for type1
+msgid "RobotArmMu"
+msgstr "机械臂Mu"
+
+#. argument name
+msgid "servo1a"
+msgstr "伺服1a"
+
+#. help for argument servo1a
+msgid "type of servo to use"
+msgstr "要使用的伺服类型"
+
+#. possible choice for servo1a
+msgid "Servo9g"
+msgstr "伺服9g"
+
+#. argument name
+msgid "servo1b"
+msgstr "伺服1b"
+
+#. help for argument servo1b
+msgid "type of servo to use on second side (if different is supported)"
+msgstr "在第二面使用的伺服类型（如果支持不同）"
+
+#. argument name
+msgid "length1"
+msgstr "长度1"
+
+#. help for argument length1
+msgid "length of segment axle to axle"
+msgstr "分段轴到轴的长度"
+
+#. argument name
+msgid "type2"
+msgstr "型号2"
+
+#. argument name
+msgid "servo2a"
+msgstr "伺服2a"
+
+#. argument name
+msgid "servo2b"
+msgstr "伺服2b"
+
+#. argument name
+msgid "length2"
+msgstr "长度2"
+
+#. argument name
+msgid "type3"
+msgstr "型号3"
+
+#. argument name
+msgid "servo3a"
+msgstr "伺服3a"
+
+#. argument name
+msgid "servo3b"
+msgstr "伺服3b"
+
+#. argument name
+msgid "length3"
+msgstr "长度3"
+
+#. argument name
+msgid "type4"
+msgstr "型号4"
+
+#. argument name
+msgid "servo4a"
+msgstr "伺服4a"
+
+#. argument name
+msgid "servo4b"
+msgstr "伺服4b"
+
+#. argument name
+msgid "length4"
+msgstr "长度4"
+
+#. argument name
+msgid "type5"
+msgstr "型号5"
+
+#. argument name
+msgid "servo5a"
+msgstr "伺服5a"
+
+#. argument name
+msgid "servo5b"
+msgstr "伺服5b"
+
+#. argument name
+msgid "length5"
+msgstr "长度5"
+
+#. name of box generator
+msgid "Rotary"
+msgstr "旋转式"
+
+#. description of Rotary
+msgid "Rotary Attachment for engraving cylindrical objects in a laser cutter"
+msgstr "激光切割机上雕刻圆柱形物体的旋转附件"
+
+msgid "Rotary Settings"
+msgstr "旋转设置"
+
+#. help for argument diameter
+msgid "outer diameter of the wheels (including O rings)"
+msgstr "车轮外径（包括O型圈）"
+
+#. argument name
+msgid "rubberthickness"
+msgstr "橡胶厚度"
+
+#. help for argument rubberthickness
+msgid "diameter of the strings of the O rings"
+msgstr "O形圈的直径"
+
+#. help for argument axle
+msgid "diameter of the axles"
+msgstr "车轴直径"
+
+#. argument name
+msgid "knifethickness"
+msgstr "刀片厚度"
+
+#. help for argument knifethickness
+msgid "thickness of the knifes in mm. Use 0 for use with honey comb table."
+msgstr "刀的厚度（mm）。使用0与蜂窝表一起使用"
+
+#. argument name
+msgid "beamwidth"
+msgstr "波束宽度"
+
+#. help for argument beamwidth
+msgid "width of the (aluminium) profile connecting the parts"
+msgstr "连接零件的（铝）型材的宽度"
+
+#. argument name
+msgid "beamheight"
+msgstr "梁高"
+
+#. help for argument beamheight
+msgid "height of the (aluminium) profile connecting the parts"
+msgstr "连接零件的（铝）型材的高度"
+
+#. name of box generator
+msgid "RoundedBox"
+msgstr "圆形框"
+
+#. description of RoundedBox
+msgid "Box with vertical edges rounded"
+msgstr "垂直边缘圆形的盒子"
+
+msgid "RoundedBox Settings"
+msgstr "圆形框设置"
+
+#. argument name
+msgid "wallpieces"
+msgstr "墙板"
+
+#. help for argument wallpieces
+msgid "# pieces of outer wall"
+msgstr "＃外墙片"
+
+#. name of box generator
+msgid "RoyalGame"
+msgstr "皇家游戏"
+
+#. description of RoyalGame
+msgid "The Royal Game of Ur"
+msgstr "你的皇家游戏"
+
+#. long description of RoyalGame in markdown
+msgid ""
+"Most of the blue lines need to be engraved by cutting with high speed and "
+"low power. But there are three blue holes that actually need to be cut: The "
+"grip hole in the lid and two tiny rectangles on the top and bottom for the "
+"lid to grip into.\n"
+msgstr "大多数蓝线需要通过高速和低功率切割进行雕刻。 但实际上需要切割三个蓝洞：盖子上的抓握孔和顶部和底部的两个小矩形，以便盖住盖子。"
+
+msgid "RoyalGame Settings"
+msgstr "皇家游戏设置"
+
+#. name of box generator
+msgid "ShutterBox"
+msgstr "百叶箱"
+
+#. description of ShutterBox
+msgid "Box with a rolling shutter made of flex"
+msgstr "带柔性卷帘的盒子"
+
+#. long description of ShutterBox in markdown
+msgid "Beware of the rolling shutter effect! Use wax on sliding surfaces."
+msgstr "小心滚动快门效果！ 在滑动表面上使用蜡。"
+
+msgid "ShutterBox Settings"
+msgstr "快门框设置"
+
+#. argument name
+msgid "style"
+msgstr "样式"
+
+#. help for argument style
+msgid "Number of rounded top corners"
+msgstr "圆角顶角数量"
+
+#. possible choice for style
+msgid "single"
+msgstr "单一的"
+
+#. possible choice for style
+msgid "double"
+msgstr "双重的"
+
+#. name of box generator
+msgid "Silverware"
+msgstr "银器"
+
+#. description of Silverware
+msgid ""
+"\n"
+"    Cuttlery stand with carrying grip\n"
+"    using flex for rounded corners\n"
+"    "
+msgstr "\n"
+"带握把的刀架\n"
+"对圆角使用flex"
+
+msgid "Silverware Settings"
+msgstr "银器设置"
+
+#. argument name
+msgid "cornerradius"
+msgstr "转角半径"
+
+#. help for argument cornerradius
+msgid "Radius of the corners"
+msgstr "拐角半径"
+
+#. argument name
+msgid "handleheight"
+msgstr "手柄高度"
+
+#. help for argument handleheight
+msgid "Height of the handle"
+msgstr "手柄高度"
+
+#. argument name
+msgid "handlewidth"
+msgstr "手柄宽度"
+
+#. help for argument handlewidth
+msgid "Width of the handle"
+msgstr "手柄宽度"
+
+#. name of box generator
+msgid "Snowflake2"
+msgstr "雪花2"
+
+msgid "Snowflake2 Settings"
+msgstr "雪花2设置"
+
+#. name of box generator
+msgid "Stachel"
+msgstr "Stachel"
+
+#. description of Stachel
+msgid "Bass Recorder Endpin"
+msgstr "低音录音机Endpin"
+
+msgid "Stachel Settings"
+msgstr "Stachel设置"
+
+#. argument name
+msgid "flutediameter"
+msgstr "凹槽直径"
+
+#. help for argument flutediameter
+msgid "diameter of the flutes bottom in mm"
+msgstr "凹槽底部直径（mm）"
+
+#. argument name
+msgid "polediameter"
+msgstr "杆直径"
+
+#. help for argument polediameter
+msgid "diameter if the pin in mm"
+msgstr "销的直径（mm）"
+
+#. argument name
+msgid "wall"
+msgstr "墙"
+
+#. help for argument wall
+msgid "width of the surrounding wall in mm"
+msgstr "周围壁的宽度（mm）"
+
+#. name of box generator
+msgid "TestBox"
+msgstr "测试盒子"
+
+msgid "TestBox Settings"
+msgstr "测试盒子设置"
+
+#. name of box generator
+msgid "Tetris"
+msgstr "俄罗斯方块"
+
+#. description of Tetris
+msgid "3D Tetris shapes"
+msgstr "3D俄罗斯方块形状"
+
+msgid "Tetris Settings"
+msgstr "俄罗斯方块设置"
+
+#. argument name
+msgid "blocksize"
+msgstr "块大小"
+
+#. help for argument blocksize
+msgid "size of a square"
+msgstr "一个正方形的大小"
+
+#. argument name
+msgid "shape"
+msgstr "形状"
+
+#. help for argument shape
+msgid "shape of the piece"
+msgstr "作品的形状"
+
+#. possible choice for shape
+msgid "T"
+msgstr "T"
+
+#. possible choice for shape
+msgid "Z"
+msgstr "Z"
+
+#. name of box generator
+msgid "TrafficLight"
+msgstr "红绿灯"
+
+#. description of TrafficLight
+msgid "Traffic light"
+msgstr "红绿灯"
+
+#. long description of TrafficLight in markdown
+msgid ""
+"The traffic light was created to visualize the status of a Icinga monitored "
+"system.\n"
+"\n"
+"When turned by 90°, it can be also used to create a bottle holder."
+msgstr "创建红绿灯是为了可视化ICINGA监控系统的状态。\n"
+"当旋转90°时，也可用于制作瓶托。"
+
+msgid "TrafficLight Settings"
+msgstr "红绿灯设置"
+
+#. help for argument depth
+msgid "inner depth not including the shades"
+msgstr "内部深度不包括阴影"
+
+#. argument name
+msgid "shades"
+msgstr "色调"
+
+#. help for argument shades
+msgid "depth of the shaders"
+msgstr "明暗器的深度"
+
+#. help for argument n
+msgid "number of lights"
+msgstr "灯的数量"
+
+#. argument name
+msgid "upright"
+msgstr "直立的"
+
+#. help for argument upright
+msgid "stack lights upright (or side by side)"
+msgstr "堆叠灯直立（或并排）"
+
+#. name of box generator
+msgid "TrayInsert"
+msgstr "托盘插入件"
+
+#. description of TrayInsert
+msgid ""
+"Tray insert without floor and outer walls - allows only continuous walls"
+msgstr "不带地板和外墙的托盘插入件-仅允许连续墙"
+
+msgid "TrayInsert Settings"
+msgstr "托盘插入件设置"
+
+#. name of box generator
+msgid "TrayLayout"
+msgstr "变压器布局"
+
+#. description of TrayLayout
+msgid "Generate a typetray from a layout file"
+msgstr "从布局文件生成类型托盘"
+
+msgid "optional arguments"
+msgstr "可选参数"
+
+#. help for argument x
+msgid "number of compartments side by side"
+msgstr "并排的隔间数量"
+
+#. help for argument y
+msgid "number of compartments back to front"
+msgstr "前后隔室数量"
+
+#. name of box generator
+msgid "TrayLayout2"
+msgstr "托盘布局2"
+
+msgid "TrayLayout2 Settings"
+msgstr "托盘布局2设置"
+
+#. name of box generator
+msgid "TwoPiece"
+msgstr "两件式"
+
+#. description of TwoPiece
+msgid ""
+"A two piece box where top slips over the bottom half to form \n"
+"       the enclosure.\n"
+"    "
+msgstr "一个两件套的盒子，上面从下半部分滑落形成外壳。"
+
+msgid "TwoPiece Settings"
+msgstr "两件式设置"
+
+#. argument name
+msgid "play"
+msgstr "间隙"
+
+#. help for argument play
+msgid "play between the two parts as multipleof the wall thickness"
+msgstr "两部分之间的间隙是壁厚的倍数"
+
+#. name of box generator
+msgid "TypeTray"
+msgstr "类型托盘"
+
+#. description of TypeTray
+msgid "Type tray - allows only continuous walls"
+msgstr "类型托盘 - 仅允许连续墙壁"
+
+msgid "TypeTray Settings"
+msgstr "类型托盘设置"
+
+#. possible choice for top_edge
+msgid "t"
+msgstr "t"
+
+#. argument name
+msgid "gripheight"
+msgstr "握把高度"
+
+#. help for argument gripheight
+msgid "height of the grip hole in mm"
+msgstr "握把孔的高度（mm）"
+
+#. argument name
+msgid "gripwidth"
+msgstr "握把宽度"
+
+#. help for argument gripwidth
+msgid "width of th grip hole in mm (zero for no hole)"
+msgstr "握把孔的宽度（mm)(无孔为零）"
+
+msgid "Settings for RoundedTriangleEdge"
+msgstr "圆角三角形边缘的设置"
+
+#. argument name
+msgid "RoundedTriangleEdge_height"
+msgstr "圆角三角形边缘高度"
+
+#. help for argument RoundedTriangleEdge_height
+msgid "height above the wall"
+msgstr "高于墙壁的高度"
+
+#. argument name
+msgid "RoundedTriangleEdge_r_hole"
+msgstr "圆角三角形边孔"
+
+#. help for argument RoundedTriangleEdge_r_hole
+msgid "radius of hole"
+msgstr "孔半径"
+
+#. argument name
+msgid "RoundedTriangleEdge_radius"
+msgstr "圆角三角形边缘半径"
+
+#. help for argument RoundedTriangleEdge_radius
+msgid "radius of top corner"
+msgstr "顶角半径"
+
+#. argument name
+msgid "RoundedTriangleEdge_outset"
+msgstr "圆角三角形边缘起点"
+
+#. help for argument RoundedTriangleEdge_outset
+msgid "extend the triangle along the length of the edge"
+msgstr "沿着边缘的长度延伸三角形"
+
+#. name of box generator
+msgid "UBox"
+msgstr "U型盒"
+
+#. description of UBox
+msgid "Box various options for different stypes and lids"
+msgstr "为不同的类型和盖子提供各种选项"
+
+msgid "UBox Settings"
+msgstr "U型盒设置"
+
+#. help for argument radius
+msgid "radius of bottom corners"
+msgstr "底角半径"
+
+#. help for argument lid
+msgid "additional lid"
+msgstr "额外的盖子"
+
+#. possible choice for lid
+msgid "default (none)"
+msgstr "默认（无）"
+
+#. possible choice for lid
+msgid "chest"
+msgstr "chest"
+
+#. possible choice for lid
+msgid "flat"
+msgstr "平面"
+
+#. name of box generator
+msgid "UnevenHeightBox"
+msgstr "不均匀高度框"
+
+#. description of UnevenHeightBox
+msgid "Box with different height in each corner"
+msgstr "在每个角落的不同高度的盒子"
+
+msgid "UnevenHeightBox Settings"
+msgstr "不均匀高度框设置"
+
+#. argument name
+msgid "height0"
+msgstr "高度0"
+
+#. help for argument height0
+msgid "height of the front left corner in mm"
+msgstr "左前角的高度（mm）"
+
+#. argument name
+msgid "height1"
+msgstr "高度1"
+
+#. help for argument height1
+msgid "height of the front right corner in mm"
+msgstr "右前角的高度（mm）"
+
+#. argument name
+msgid "height2"
+msgstr "高度2"
+
+#. help for argument height2
+msgid "height of the right back corner in mm"
+msgstr "右后角的高度（mm）"
+
+#. argument name
+msgid "height3"
+msgstr "高度3"
+
+#. help for argument height3
+msgid "height of the left back corner in mm"
+msgstr "左后角高度（mm）"
+
+#. help for argument lid
+msgid "add a lid (works best with high corners opposing each other)"
+msgstr "添加盖子（最好与高角相对）"
+
+#. name of box generator
+msgid "UniversalBox"
+msgstr "通用盒子"
+
+#. description of UniversalBox
+msgid "Box with various options for different styles and lids"
+msgstr "可选择不同款式和盖子的盒子"
+
+msgid "UniversalBox Settings"
+msgstr "通用盒子设置"
+
+#. help for argument lid
+msgid "additional lid (for straight top_edge only)"
+msgstr "附加盖（仅用于直顶边）"
+
+#. name of box generator
+msgid "WaivyKnob"
+msgstr "波浪形旋钮"
+
+#. description of WaivyKnob
+msgid "Round knob serraded outside for better gripping"
+msgstr "圆形把手外有丝状突起，便于抓握"
+
+msgid "WaivyKnob Settings"
+msgstr "波浪形旋钮设置"
+
+#. argument name
+msgid "serrationangle"
+msgstr "锯齿角"
+
+#. help for argument serrationangle
+msgid "higher values for deeper serrations (degrees)"
+msgstr "较深锯齿的较高值（度）"
+
+#. name of box generator
+msgid "WineRack"
+msgstr "酒架"
+
+#. description of WineRack
+msgid "Honey Comb Style Wine Rack"
+msgstr "蜂窝式酒架"
+
+msgid "WineRack Settings"
+msgstr "酒架设置"
+
+#. help for argument radius
+msgid "Radius of comb"
+msgstr "梳齿半径"
+
+#. argument name
+msgid "walls"
+msgstr "墙"
+
+#. help for argument walls
+msgid "which of the honey comb walls to add"
+msgstr "要添加哪个蜂巢墙"
+
+#. possible choice for walls
+msgid "minimal"
+msgstr "最小"
+
+#. possible choice for walls
+msgid "no_verticals"
+msgstr "没有垂直"
+
+#. possible choice for walls
+msgid "all"
+msgstr "全部"
+
+#: scripts/boxesserver:213
+msgid "Generate"
+msgstr "生成"
+
+#: scripts/boxesserver:314
+msgid "Get Source at GitHub"
+msgstr "在GitHub获取源代码"
+
+#: scripts/boxesserver:315
+msgid "Documentation and API Description"
+msgstr "文档和API说明"
+
+#: scripts/boxesserver:316
+msgid "Hackaday.io Project Page"
+msgstr "Hackaday.io项目页面"

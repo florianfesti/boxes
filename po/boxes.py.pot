@@ -1,0 +1,3830 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-08-22 12:15+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. name of generator group
+#: boxes/generators/__init__.py
+msgid "Box"
+msgstr ""
+
+#. title of group Box
+#: boxes/generators/__init__.py
+msgid "Boxes"
+msgstr ""
+
+#. name of generator group
+#: boxes/generators/__init__.py
+msgid "FlexBox"
+msgstr ""
+
+#. title of group FlexBox
+#: boxes/generators/__init__.py
+msgid "Boxes with flex"
+msgstr ""
+
+#. name of generator group
+#: boxes/generators/__init__.py
+msgid "Tray"
+msgstr ""
+
+#. title of group Tray
+#: boxes/generators/__init__.py
+msgid "Trays and Drawer Inserts"
+msgstr ""
+
+#. name of generator group
+#: boxes/generators/__init__.py
+msgid "Shelf"
+msgstr ""
+
+#. title of group Shelf
+#: boxes/generators/__init__.py
+msgid "Shelves"
+msgstr ""
+
+#. name of generator group
+#: boxes/generators/__init__.py
+msgid "SlatWall"
+msgstr ""
+
+#. name of generator group
+#: boxes/generators/__init__.py
+msgid "Part"
+msgstr ""
+
+#. title of group Part
+#: boxes/generators/__init__.py
+msgid "Parts and Samples"
+msgstr ""
+
+#. name of generator group
+#: boxes/generators/__init__.py
+msgid "Misc"
+msgstr ""
+
+#. name of generator group
+#: boxes/generators/__init__.py
+msgid "Unstable"
+msgstr ""
+
+#. description of group Unstable
+#: boxes/generators/__init__.py
+msgid "Generators are still untested or need manual adjustment to be useful."
+msgstr ""
+
+msgid "DefaultParams Settings"
+msgstr ""
+
+#. parameter name
+msgid "x"
+msgstr ""
+
+#. help for parameter x
+msgid "inner width in mm (unless outside selected)"
+msgstr ""
+
+#. parameter name
+msgid "y"
+msgstr ""
+
+#. help for parameter y
+msgid "inner depth in mm (unless outside selected)"
+msgstr ""
+
+#. parameter name
+msgid "h"
+msgstr ""
+
+#. help for parameter h
+msgid "inner height in mm (unless outside selected)"
+msgstr ""
+
+#. parameter name
+msgid "hi"
+msgstr ""
+
+#. help for parameter hi
+msgid ""
+"inner height of inner walls in mm (unless outside selected)(leave to zero "
+"for same as outer walls)"
+msgstr ""
+
+#. parameter name
+msgid "sx"
+msgstr ""
+
+#. help for parameter sx
+msgid "sections left to right in mm. See --sy for format"
+msgstr ""
+
+#. parameter name
+msgid "sy"
+msgstr ""
+
+#. help for parameter sy
+msgid ""
+"sections back to front in mm. Possible formats: overallwidth/numberof "
+"sections e.g. \"250/5\"; sectionwidth*numberofsections e.g. \"50*5\"; "
+"section widths separated by \":\" e.g. \"30:25.5:70"
+msgstr ""
+
+#. parameter name
+msgid "sh"
+msgstr ""
+
+#. help for parameter sh
+msgid "sections bottom to top in mm. See --sy for format"
+msgstr ""
+
+#. parameter name
+msgid "bottom_edge"
+msgstr ""
+
+#. help for parameter bottom_edge
+msgid "edge type for bottom edge"
+msgstr ""
+
+#. possible choice for bottom_edge
+msgid "F"
+msgstr ""
+
+#. possible choice for bottom_edge
+msgid "s"
+msgstr ""
+
+#. possible choice for bottom_edge
+msgid "e"
+msgstr ""
+
+#. parameter name
+msgid "top_edge"
+msgstr ""
+
+#. help for parameter top_edge
+msgid "edge type for top edge"
+msgstr ""
+
+#. possible choice for top_edge
+msgid "f"
+msgstr ""
+
+#. possible choice for top_edge
+msgid "c"
+msgstr ""
+
+#. possible choice for top_edge
+msgid "E"
+msgstr ""
+
+#. possible choice for top_edge
+msgid "S"
+msgstr ""
+
+#. possible choice for top_edge
+msgid "i"
+msgstr ""
+
+#. possible choice for top_edge
+msgid "k"
+msgstr ""
+
+#. possible choice for top_edge
+msgid "v"
+msgstr ""
+
+#. possible choice for top_edge
+msgid "L"
+msgstr ""
+
+#. possible choice for top_edge
+msgid "t"
+msgstr ""
+
+#. parameter name
+msgid "outside"
+msgstr ""
+
+#. help for parameter outside
+msgid "treat sizes as outside measurements that include the walls"
+msgstr ""
+
+#. parameter name
+msgid "nema_mount"
+msgstr ""
+
+#. help for parameter nema_mount
+msgid "NEMA size of motor"
+msgstr ""
+
+msgid "Default Settings"
+msgstr ""
+
+#. parameter name
+msgid "thickness"
+msgstr ""
+
+#. help for parameter thickness
+msgid "thickness of the material"
+msgstr ""
+
+#. parameter name
+msgid "format"
+msgstr ""
+
+#. help for parameter format
+msgid "format of resulting file"
+msgstr ""
+
+#. possible choice for format
+msgid "ai"
+msgstr ""
+
+#. possible choice for format
+msgid "dxf"
+msgstr ""
+
+#. possible choice for format
+msgid "gcode"
+msgstr ""
+
+#. possible choice for format
+msgid "pdf"
+msgstr ""
+
+#. possible choice for format
+msgid "plt"
+msgstr ""
+
+#. possible choice for format
+msgid "ps"
+msgstr ""
+
+#. possible choice for format
+msgid "svg"
+msgstr ""
+
+#. possible choice for format
+msgid "svg_Ponoko"
+msgstr ""
+
+#. parameter name
+msgid "tabs"
+msgstr ""
+
+#. help for parameter tabs
+msgid ""
+"width of tabs holding the parts in place in mm (not supported everywhere)"
+msgstr ""
+
+#. parameter name
+msgid "debug"
+msgstr ""
+
+#. help for parameter debug
+msgid "print surrounding boxes for some structures"
+msgstr ""
+
+#. parameter name
+msgid "reference"
+msgstr ""
+
+#. help for parameter reference
+msgid "print reference rectangle with given length (zero to disable)"
+msgstr ""
+
+#. parameter name
+msgid "burn"
+msgstr ""
+
+#. help for parameter burn
+msgid "burn correction in mm (bigger values for tighter fit)"
+msgstr ""
+
+msgid "Settings for Finger Joints"
+msgstr ""
+
+#. parameter name for FingerJoint
+msgid "angle"
+msgstr ""
+
+#. parameter name for FingerJoint
+msgid "surroundingspaces"
+msgstr ""
+
+#. help for parameter surroundingspaces
+msgid "maximum space at the start and end in multiple of normal spaces"
+msgstr ""
+
+#. parameter name for FingerJoint
+msgid "edge_width"
+msgstr ""
+
+#. help for parameter edge_width
+msgid "space below holes of FingerHoleEdge"
+msgstr ""
+
+#. parameter name for FingerJoint
+msgid "finger"
+msgstr ""
+
+#. help for parameter finger
+msgid "width of the fingers"
+msgstr ""
+
+#. parameter name for FingerJoint
+msgid "play"
+msgstr ""
+
+#. help for parameter play
+msgid "extra space to allow movement"
+msgstr ""
+
+#. parameter name for FingerJoint
+msgid "space"
+msgstr ""
+
+#. help for parameter space
+msgid "space between fingers"
+msgstr ""
+
+#. parameter name for FingerJoint
+msgid "width"
+msgstr ""
+
+#. help for parameter width
+msgid "width of finger holes"
+msgstr ""
+
+msgid "Settings for Stackable Edges"
+msgstr ""
+
+#. help for parameter angle
+msgid "inside angle of the feet"
+msgstr ""
+
+#. parameter name for Stackable
+msgid "height"
+msgstr ""
+
+#. help for parameter height
+msgid "height of the feet"
+msgstr ""
+
+#. parameter name for Stackable
+msgid "holedistance"
+msgstr ""
+
+#. help for parameter holedistance
+msgid "distance from finger holes to bottom edge"
+msgstr ""
+
+#. help for parameter width
+msgid "width of the feet"
+msgstr ""
+
+msgid "Settings for Hinges and HingePins"
+msgstr ""
+
+#. parameter name for Hinge
+msgid "grip_percentage"
+msgstr ""
+
+#. parameter name for Hinge
+msgid "outset"
+msgstr ""
+
+#. help for parameter outset
+msgid "have lid overlap at the sides (similar to OutSetEdge)"
+msgstr ""
+
+#. parameter name for Hinge
+msgid "pinwidth"
+msgstr ""
+
+#. help for parameter pinwidth
+msgid "set to lower value to get disks surrounding the pins"
+msgstr ""
+
+#. parameter name for Hinge
+msgid "style"
+msgstr ""
+
+#. help for parameter style
+msgid "\"outset\" or \"flush\""
+msgstr ""
+
+#. possible choice for style
+msgid "flush"
+msgstr ""
+
+#. parameter name for Hinge
+msgid "axle"
+msgstr ""
+
+#. help for parameter axle
+msgid "diameter of the pin hole"
+msgstr ""
+
+#. parameter name for Hinge
+msgid "grip_length"
+msgstr ""
+
+#. help for parameter grip_length
+msgid "fixed length of the grips on he lids"
+msgstr ""
+
+#. parameter name for Hinge
+msgid "hingestrength"
+msgstr ""
+
+#. help for parameter hingestrength
+msgid "thickness of the arc holding the pin in place"
+msgstr ""
+
+msgid "Settings for Slide-on Lids"
+msgstr ""
+
+#. parameter name for Lid
+msgid "second_pin"
+msgstr ""
+
+#. parameter name for Lid
+msgid "spring"
+msgstr ""
+
+#. possible choice for spring
+msgid "both"
+msgstr ""
+
+#. possible choice for spring
+msgid "none"
+msgstr ""
+
+#. possible choice for spring
+msgid "left"
+msgstr ""
+
+#. possible choice for spring
+msgid "right"
+msgstr ""
+
+msgid "Settings for Click-on Lids"
+msgstr ""
+
+#. parameter name for Click
+msgid "bottom_radius"
+msgstr ""
+
+#. parameter name for Click
+msgid "depth"
+msgstr ""
+
+msgid "Settings for Flex"
+msgstr ""
+
+#. parameter name for Flex
+msgid "stretch"
+msgstr ""
+
+#. help for parameter stretch
+msgid "Hint of how much the flex part should be shortend"
+msgstr ""
+
+#. parameter name for Flex
+msgid "connection"
+msgstr ""
+
+#. help for parameter connection
+msgid "width of the gaps in the cuts"
+msgstr ""
+
+#. parameter name for Flex
+msgid "distance"
+msgstr ""
+
+#. help for parameter distance
+msgid "width of the pattern perpendicular to the cuts"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/alledges.py
+msgid "AllEdges"
+msgstr ""
+
+#. description of AllEdges
+#: boxes/generators/alledges.py
+msgid "Showing all edge types"
+msgstr ""
+
+msgid "AllEdges Settings"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/angledbox.py
+msgid "AngledBox"
+msgstr ""
+
+#. description of AngledBox
+#: boxes/generators/angledbox.py
+msgid "Box with both ends cornered"
+msgstr ""
+
+msgid "AngledBox Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/angledbox.py
+msgid "n"
+msgstr ""
+
+#. help for parameter n
+#: boxes/generators/angledbox.py
+msgid "number of walls at one side (1+)"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/angledbox.py
+msgid "top"
+msgstr ""
+
+#. help for parameter top
+#: boxes/generators/angledbox.py
+msgid "style of the top and lid"
+msgstr ""
+
+#. possible choice for top
+#: boxes/generators/angledbox.py
+msgid "angled hole"
+msgstr ""
+
+#. possible choice for top
+#: boxes/generators/angledbox.py
+msgid "angled lid"
+msgstr ""
+
+#. possible choice for top
+#: boxes/generators/angledbox.py
+msgid "angled lid2"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/angledcutjig.py
+msgid "AngledCutJig"
+msgstr ""
+
+#. description of AngledCutJig
+#: boxes/generators/angledcutjig.py
+msgid "Jig for making angled cuts in a laser cutter"
+msgstr ""
+
+msgid "AngledCutJig Settings"
+msgstr ""
+
+#. help for parameter angle
+#: boxes/generators/angledcutjig.py
+msgid "Angle of the cut"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/arcade.py
+msgid "Arcade"
+msgstr ""
+
+#. description of Arcade
+#: boxes/generators/arcade.py
+msgid "Desktop Arcade Maschine"
+msgstr ""
+
+msgid "Arcade Settings"
+msgstr ""
+
+#. help for parameter width
+#: boxes/generators/arcade.py
+msgid "inner width of the console"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/bintray.py
+msgid "BinTray"
+msgstr ""
+
+#. description of BinTray
+#: boxes/generators/bintray.py
+msgid "A Type tray variant to be used up right with sloped walls in front"
+msgstr ""
+
+msgid "BinTray Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/bintray.py
+msgid "front"
+msgstr ""
+
+#. help for parameter front
+#: boxes/generators/bintray.py
+msgid "fraction of bin height covert with slope"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/cardbox.py
+msgid "CardBox"
+msgstr ""
+
+#. description of CardBox
+#: boxes/generators/cardbox.py
+msgid "Box for storage of playingcards"
+msgstr ""
+
+msgid "CardBox Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/cardbox.py
+msgid "cardwidth"
+msgstr ""
+
+#. help for parameter cardwidth
+#: boxes/generators/cardbox.py
+msgid "Width of the cards"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/cardbox.py
+msgid "cardheight"
+msgstr ""
+
+#. help for parameter cardheight
+#: boxes/generators/cardbox.py
+msgid "Height of the cards"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/cardbox.py
+msgid "num"
+msgstr ""
+
+#. help for parameter num
+#: boxes/generators/cardbox.py
+msgid "number of compartments"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/castle.py
+msgid "Castle"
+msgstr ""
+
+#. description of Castle
+#: boxes/generators/castle.py
+msgid "Castle tower with two walls"
+msgstr ""
+
+msgid "Castle Settings"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/closedbox.py
+msgid "ClosedBox"
+msgstr ""
+
+#. description of ClosedBox
+#: boxes/generators/closedbox.py
+msgid "Fully closed box"
+msgstr ""
+
+msgid "ClosedBox Settings"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/concaveknob.py
+msgid "ConcaveKnob"
+msgstr ""
+
+#. description of ConcaveKnob
+#: boxes/generators/concaveknob.py
+msgid "Round knob serrated outside for better gripping"
+msgstr ""
+
+msgid "ConcaveKnob Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/concaveknob.py
+msgid "diameter"
+msgstr ""
+
+#. help for parameter diameter
+#: boxes/generators/concaveknob.py
+msgid "Diameter of the knob (mm)"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/concaveknob.py
+msgid "serrations"
+msgstr ""
+
+#. help for parameter serrations
+#: boxes/generators/concaveknob.py
+msgid "Number of serrations"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/concaveknob.py
+msgid "rounded"
+msgstr ""
+
+#. help for parameter rounded
+#: boxes/generators/concaveknob.py
+msgid "Amount of circumference used for non convex parts"
+msgstr ""
+
+#. help for parameter angle
+#: boxes/generators/concaveknob.py
+msgid "Angle between convex and concave parts"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/concaveknob.py
+msgid "bolthole"
+msgstr ""
+
+#. help for parameter bolthole
+#: boxes/generators/concaveknob.py
+msgid "Diameter of the bolt hole (mm)"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/concaveknob.py
+msgid "dhole"
+msgstr ""
+
+#. help for parameter dhole
+#: boxes/generators/concaveknob.py
+msgid "D-Flat in fraction of the diameter"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/concaveknob.py
+msgid "hexhead"
+msgstr ""
+
+#. help for parameter hexhead
+#: boxes/generators/concaveknob.py
+msgid "Width of the hex bolt head (mm)"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/discrack.py
+msgid "DiscRack"
+msgstr ""
+
+#. description of DiscRack
+#: boxes/generators/discrack.py
+msgid "A rack for storing disk-shaped objects vertically next to each other"
+msgstr ""
+
+msgid "DiscRack Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/discrack.py
+msgid "disc_diameter"
+msgstr ""
+
+#. help for parameter disc_diameter
+#: boxes/generators/discrack.py
+msgid "Disc diameter in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/discrack.py
+msgid "disc_thickness"
+msgstr ""
+
+#. help for parameter disc_thickness
+#: boxes/generators/discrack.py
+msgid "Thickness of the discs in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/discrack.py
+msgid "lower_factor"
+msgstr ""
+
+#. help for parameter lower_factor
+#: boxes/generators/discrack.py
+msgid "Position of the lower rack grids along the radius"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/discrack.py
+msgid "rear_factor"
+msgstr ""
+
+#. help for parameter rear_factor
+#: boxes/generators/discrack.py
+msgid "Position of the rear rack grids along the radius"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/discrack.py
+msgid "disc_outset"
+msgstr ""
+
+#. help for parameter disc_outset
+#: boxes/generators/discrack.py
+msgid "Additional space kept between the disks and the outbox of the rack"
+msgstr ""
+
+#. help for parameter angle
+#: boxes/generators/discrack.py
+msgid "Backwards slant of the rack"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/display.py
+msgid "Display"
+msgstr ""
+
+#. description of Display
+#: boxes/generators/display.py
+msgid "Diplay for flyers or leaflets"
+msgstr ""
+
+msgid "Display Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/display.py
+msgid "radius"
+msgstr ""
+
+#. help for parameter radius
+#: boxes/generators/display.py
+msgid "radius of the corners in mm"
+msgstr ""
+
+#. help for parameter angle
+#: boxes/generators/display.py
+msgid "greater zero for top wider as bottom"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/displaycase.py
+msgid "DisplayCase"
+msgstr ""
+
+#. description of DisplayCase
+#: boxes/generators/displaycase.py
+msgid ""
+"Fully closed box intended to be cut from transparent acrylics and to serve "
+"as a display case."
+msgstr ""
+
+msgid "DisplayCase Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/displaycase.py
+msgid "overhang"
+msgstr ""
+
+#. help for parameter overhang
+#: boxes/generators/displaycase.py
+msgid "overhang for joints in mm"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/displayshelf.py
+msgid "DisplayShelf"
+msgstr ""
+
+#. description of DisplayShelf
+#: boxes/generators/displayshelf.py
+msgid "Shelf with forward slanted floors"
+msgstr ""
+
+msgid "DisplayShelf Settings"
+msgstr ""
+
+#. help for parameter num
+#: boxes/generators/displayshelf.py
+msgid "number of shelves"
+msgstr ""
+
+#. help for parameter front
+#: boxes/generators/displayshelf.py
+msgid "height of front walls"
+msgstr ""
+
+#. help for parameter angle
+#: boxes/generators/displayshelf.py
+msgid "angle of floors"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/drillbox.py
+msgid "DrillBox"
+msgstr ""
+
+#. description of DrillBox
+#: boxes/generators/drillbox.py
+msgid ""
+"Not yet parametrized box for drills from 1 to 12.5mm\n"
+"in 0.5mm steps, 3 holes each size"
+msgstr ""
+
+msgid "DrillBox Settings"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/electronicsbox.py
+msgid "ElectronicsBox"
+msgstr ""
+
+#. description of ElectronicsBox
+#: boxes/generators/electronicsbox.py
+msgid "Closed box with screw on top and mounting holes"
+msgstr ""
+
+msgid "ElectronicsBox Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/electronicsbox.py
+msgid "triangle"
+msgstr ""
+
+#. help for parameter triangle
+#: boxes/generators/electronicsbox.py
+msgid "Sides of the triangles holding the lid in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/electronicsbox.py
+msgid "d1"
+msgstr ""
+
+#. help for parameter d1
+#: boxes/generators/electronicsbox.py
+msgid "Diameter of the inner lid screw holes in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/electronicsbox.py
+msgid "d2"
+msgstr ""
+
+#. help for parameter d2
+#: boxes/generators/electronicsbox.py
+msgid "Diameter of the lid screw holes in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/electronicsbox.py
+msgid "d3"
+msgstr ""
+
+#. help for parameter d3
+#: boxes/generators/electronicsbox.py
+msgid "Diameter of the mounting screw holes in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/electronicsbox.py
+msgid "outsidemounts"
+msgstr ""
+
+#. help for parameter outsidemounts
+#: boxes/generators/electronicsbox.py
+msgid "Add external mounting points"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/electronicsbox.py
+msgid "holedist"
+msgstr ""
+
+#. help for parameter holedist
+#: boxes/generators/electronicsbox.py
+msgid "Distance of the screw holes from the wall in mm"
+msgstr ""
+
+#. description of FlexBox
+#: boxes/generators/flexbox.py
+msgid "Box with living hinge and round corners"
+msgstr ""
+
+msgid "FlexBox Settings"
+msgstr ""
+
+#. help for parameter radius
+#: boxes/generators/flexbox.py
+msgid "Radius of the latch in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/flexbox.py
+msgid "latchsize"
+msgstr ""
+
+#. help for parameter latchsize
+#: boxes/generators/flexbox.py
+msgid "size of latch in multiples of thickness"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/flexbox2.py
+msgid "FlexBox2"
+msgstr ""
+
+#. description of FlexBox2
+#: boxes/generators/flexbox2.py
+msgid "Box with living hinge and top corners rounded"
+msgstr ""
+
+msgid "FlexBox2 Settings"
+msgstr ""
+
+#. help for parameter radius
+#: boxes/generators/flexbox2.py
+msgid "Radius of the corners in mm"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/flexbox3.py
+msgid "FlexBox3"
+msgstr ""
+
+#. description of FlexBox3
+#: boxes/generators/flexbox3.py
+msgid "Box with living hinge"
+msgstr ""
+
+msgid "FlexBox3 Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/flexbox3.py
+msgid "z"
+msgstr ""
+
+#. help for parameter z
+#: boxes/generators/flexbox3.py
+msgid "height of the box"
+msgstr ""
+
+#. help for parameter h
+#: boxes/generators/flexbox3.py
+msgid "height of the lid"
+msgstr ""
+
+#. help for parameter radius
+#: boxes/generators/flexbox3.py
+msgid "radius of the lids living hinge"
+msgstr ""
+
+#. help for parameter c
+#: boxes/generators/flexbox3.py
+msgid "clearance of the lid"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/flexbox4.py
+msgid "FlexBox4"
+msgstr ""
+
+#. description of FlexBox4
+#: boxes/generators/flexbox4.py
+msgid "Box with living hinge and left corners rounded"
+msgstr ""
+
+msgid "FlexBox4 Settings"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/flexbox5.py
+msgid "FlexBox5"
+msgstr ""
+
+msgid "FlexBox5 Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/flexbox5.py
+msgid "top_diameter"
+msgstr ""
+
+#. help for parameter top_diameter
+#: boxes/generators/flexbox5.py
+msgid "diameter at the top"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/flexbox5.py
+msgid "bottom_diameter"
+msgstr ""
+
+#. help for parameter bottom_diameter
+#: boxes/generators/flexbox5.py
+msgid "diameter at the bottom"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/flextest.py
+msgid "FlexTest"
+msgstr ""
+
+#. description of FlexTest
+#: boxes/generators/flextest.py
+msgid "Piece for testing different flex settings"
+msgstr ""
+
+msgid "FlexTest Settings"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/flextest2.py
+msgid "FlexTest2"
+msgstr ""
+
+#. description of FlexTest2
+#: boxes/generators/flextest2.py
+msgid "Piece for testing 2D flex settings"
+msgstr ""
+
+msgid "FlexTest2 Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/flextest2.py
+msgid "fw"
+msgstr ""
+
+#. help for parameter fw
+#: boxes/generators/flextest2.py
+msgid "distance of flex cuts in multiples of thickness"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/folder.py
+msgid "Folder"
+msgstr ""
+
+#. description of Folder
+#: boxes/generators/folder.py
+msgid "Book cover with flex for the spine"
+msgstr ""
+
+msgid "Folder Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/folder.py
+msgid "r"
+msgstr ""
+
+#. help for parameter r
+#: boxes/generators/folder.py
+msgid "radius of the corners"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/gear.py
+msgid "Gears"
+msgstr ""
+
+msgid "Gears Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/gear.py
+msgid "teeth1"
+msgstr ""
+
+#. help for parameter teeth1
+#: boxes/generators/gear.py
+msgid "number of teeth"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/gear.py
+msgid "shaft1"
+msgstr ""
+
+#. help for parameter shaft1
+#: boxes/generators/gear.py
+msgid "diameter of the shaft 1"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/gear.py
+msgid "dpercentage1"
+msgstr ""
+
+#. help for parameter dpercentage1
+#: boxes/generators/gear.py
+msgid "percent of the D section of shaft 1 (100 for round shaft)"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/gear.py
+msgid "teeth2"
+msgstr ""
+
+#. help for parameter teeth2
+#: boxes/generators/gear.py
+msgid "number of teeth in the other size of gears"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/gear.py
+msgid "shaft2"
+msgstr ""
+
+#. help for parameter shaft2
+#: boxes/generators/gear.py
+msgid "diameter of the shaft2 (zero for same as shaft 1)"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/gear.py
+msgid "dpercentage2"
+msgstr ""
+
+#. help for parameter dpercentage2
+#: boxes/generators/gear.py
+msgid "percent of the D section of shaft 1 (0 for same as shaft 1)"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/gear.py
+msgid "modulus"
+msgstr ""
+
+#. help for parameter modulus
+#: boxes/generators/gear.py
+msgid "width of teeth in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/gear.py
+msgid "pressure_angle"
+msgstr ""
+
+#. help for parameter pressure_angle
+#: boxes/generators/gear.py
+msgid "angle of the teeth touching (in degrees)"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/gear.py
+msgid "profile_shift"
+msgstr ""
+
+#. help for parameter profile_shift
+#: boxes/generators/gear.py
+msgid "in precent of the modulus"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/gearbox.py
+msgid "GearBox"
+msgstr ""
+
+#. description of GearBox
+#: boxes/generators/gearbox.py
+msgid "Gearbox with multiple identical stages"
+msgstr ""
+
+msgid "GearBox Settings"
+msgstr ""
+
+#. help for parameter teeth1
+#: boxes/generators/gearbox.py
+msgid "number of teeth on ingoing shaft"
+msgstr ""
+
+#. help for parameter teeth2
+#: boxes/generators/gearbox.py
+msgid "number of teeth on outgoing shaft"
+msgstr ""
+
+#. help for parameter modulus
+#: boxes/generators/gearbox.py
+msgid "modulus of the theeth in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/gearbox.py
+msgid "shaft"
+msgstr ""
+
+#. help for parameter shaft
+#: boxes/generators/gearbox.py
+msgid "diameter of the shaft"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/gearbox.py
+msgid "stages"
+msgstr ""
+
+#. help for parameter stages
+#: boxes/generators/gearbox.py
+msgid "number of stages in the gear reduction"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/heart.py
+msgid "HeartBox"
+msgstr ""
+
+#. description of HeartBox
+#: boxes/generators/heart.py
+msgid "Box in the form of an heart"
+msgstr ""
+
+msgid "HeartBox Settings"
+msgstr ""
+
+#. possible choice for top
+#: boxes/generators/heart.py
+msgid "closed"
+msgstr ""
+
+#. possible choice for top
+#: boxes/generators/heart.py
+msgid "hole"
+msgstr ""
+
+#. possible choice for top
+#: boxes/generators/heart.py
+msgid "lid"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/hingebox.py
+msgid "HingeBox"
+msgstr ""
+
+#. description of HingeBox
+#: boxes/generators/hingebox.py
+msgid "Box with lid attached by cabinet hinges"
+msgstr ""
+
+msgid "HingeBox Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/hingebox.py
+msgid "lidheight"
+msgstr ""
+
+#. help for parameter lidheight
+#: boxes/generators/hingebox.py
+msgid "height of lid in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/hingebox.py
+msgid "splitlid"
+msgstr ""
+
+#. help for parameter splitlid
+#: boxes/generators/hingebox.py
+msgid "split the lid in y direction (mm)"
+msgstr ""
+
+msgid "Settings for Cabinet Hinges"
+msgstr ""
+
+#. parameter name for CabinetHinge
+#: boxes/generators/hingebox.py
+msgid "bore"
+msgstr ""
+
+#. help for parameter bore
+#: boxes/generators/hingebox.py
+msgid "diameter of the pin hole in mm"
+msgstr ""
+
+#. parameter name for CabinetHinge
+#: boxes/generators/hingebox.py
+msgid "eyes_per_hinge"
+msgstr ""
+
+#. help for parameter eyes_per_hinge
+#: boxes/generators/hingebox.py
+msgid "pieces per hinge"
+msgstr ""
+
+#. parameter name for CabinetHinge
+#: boxes/generators/hingebox.py
+msgid "hinges"
+msgstr ""
+
+#. help for parameter hinges
+#: boxes/generators/hingebox.py
+msgid "number of hinges per edge"
+msgstr ""
+
+#. help for parameter style
+#: boxes/generators/hingebox.py
+msgid "style of hinge used"
+msgstr ""
+
+#. possible choice for style
+#: boxes/generators/hingebox.py
+msgid "inside"
+msgstr ""
+
+#. parameter name for CabinetHinge
+#: boxes/generators/hingebox.py
+msgid "eye"
+msgstr ""
+
+#. help for parameter eye
+#: boxes/generators/hingebox.py
+msgid "radius of the eye (in multiples of thickness)"
+msgstr ""
+
+#. help for parameter play
+#: boxes/generators/hingebox.py
+msgid "space between eyes (in multiples of thickness)"
+msgstr ""
+
+#. parameter name for CabinetHinge
+#: boxes/generators/hingebox.py
+msgid "spacing"
+msgstr ""
+
+#. help for parameter spacing
+#: boxes/generators/hingebox.py
+msgid "minimum space around the hinge"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/hooks.py
+msgid "Hook"
+msgstr ""
+
+#. description of Hook
+#: boxes/generators/hooks.py
+msgid "A hook wit a rectangular mouth to mount at the wall"
+msgstr ""
+
+msgid "Hook Settings"
+msgstr ""
+
+#. help for parameter width
+#: boxes/generators/hooks.py
+msgid "width of the hook (back plate is a bit wider)"
+msgstr ""
+
+#. help for parameter height
+#: boxes/generators/hooks.py
+msgid "inner height of the hook"
+msgstr ""
+
+#. help for parameter depth
+#: boxes/generators/hooks.py
+msgid "inner depth of the hook"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/hooks.py
+msgid "strength"
+msgstr ""
+
+#. help for parameter strength
+#: boxes/generators/hooks.py
+msgid "width of the hook from the side"
+msgstr ""
+
+#. help for parameter angle
+#: boxes/generators/hooks.py
+msgid "angle of the support underneeth"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/integratedhingebox.py
+msgid "IntegratedHingeBox"
+msgstr ""
+
+#. description of IntegratedHingeBox
+#: boxes/generators/integratedhingebox.py
+msgid "Box with lid and integraded hinge"
+msgstr ""
+
+msgid "IntegratedHingeBox Settings"
+msgstr ""
+
+msgid "Settings for Chest Hinges"
+msgstr ""
+
+#. parameter name for ChestHinge
+#: boxes/generators/integratedhingebox.py
+msgid "hinge_strength"
+msgstr ""
+
+#. parameter name for ChestHinge
+#: boxes/generators/integratedhingebox.py
+msgid "pin_height"
+msgstr ""
+
+#. help for parameter pin_height
+#: boxes/generators/integratedhingebox.py
+msgid "radius of the disc rotating in the hinge"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/laserclamp.py
+msgid "LaserClamp"
+msgstr ""
+
+#. description of LaserClamp
+#: boxes/generators/laserclamp.py
+msgid "A clamp to hold down material to a knife table"
+msgstr ""
+
+#. long description of LaserClamp in markdown
+#: boxes/generators/laserclamp.py
+msgid ""
+"You need a tension spring of the proper length to make the clamp work.\n"
+"Increace extraheight to get more space for the spring and to make the\n"
+"sliding mechanism less likely to bind. You may need to add some wax on the\n"
+"parts sliding on each other to reduce friction.\n"
+msgstr ""
+
+msgid "LaserClamp Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/laserclamp.py
+msgid "minheight"
+msgstr ""
+
+#. help for parameter minheight
+#: boxes/generators/laserclamp.py
+msgid "minimal clamping height in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/laserclamp.py
+msgid "maxheight"
+msgstr ""
+
+#. help for parameter maxheight
+#: boxes/generators/laserclamp.py
+msgid "maximal clamping height in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/laserclamp.py
+msgid "extraheight"
+msgstr ""
+
+#. help for parameter extraheight
+#: boxes/generators/laserclamp.py
+msgid "extra height to make operation smoother in mm"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/lbeam.py
+msgid "LBeam"
+msgstr ""
+
+#. description of LBeam
+#: boxes/generators/lbeam.py
+msgid "Simple L-Beam: two pieces joined with a right angle"
+msgstr ""
+
+msgid "LBeam Settings"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/magazinefile.py
+msgid "MagazinFile"
+msgstr ""
+
+#. description of MagazinFile
+#: boxes/generators/magazinefile.py
+msgid "Open magazine file"
+msgstr ""
+
+msgid "MagazinFile Settings"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/makitapowersupply.py
+msgid "MakitaPowerSupply"
+msgstr ""
+
+#. description of MakitaPowerSupply
+#: boxes/generators/makitapowersupply.py
+msgid ""
+"Bench power supply powered with Maktia 18V battery or laptop power supply"
+msgstr ""
+
+#. long description of MakitaPowerSupply in markdown
+#: boxes/generators/makitapowersupply.py
+msgid ""
+"\n"
+"Vitamins: DSP5005 (or similar) power supply, two banana sockets, two 4.8mm "
+"flat terminals with flat soldering tag\n"
+"\n"
+"To allow powering by laptop power supply: flip switch, Lenovo round socket "
+"(or adjust right  hole for different socket)\n"
+msgstr ""
+
+msgid "MakitaPowerSupply Settings"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/nemamount.py
+msgid "NemaMount"
+msgstr ""
+
+#. description of NemaMount
+#: boxes/generators/nemamount.py
+msgid "Mounting braket for a Nema motor"
+msgstr ""
+
+msgid "NemaMount Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/nemamount.py
+msgid "size"
+msgstr ""
+
+#. help for parameter size
+#: boxes/generators/nemamount.py
+msgid "Nema size of the motor"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/notesholder.py
+msgid "NotesHolder"
+msgstr ""
+
+#. description of NotesHolder
+#: boxes/generators/notesholder.py
+msgid "Box for holding a stack of paper, coasters etc"
+msgstr ""
+
+msgid "NotesHolder Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/notesholder.py
+msgid "slots"
+msgstr ""
+
+#. help for parameter slots
+#: boxes/generators/notesholder.py
+msgid "slots for grabbing the notes"
+msgstr ""
+
+#. possible choice for slots
+#: boxes/generators/notesholder.py
+msgid "one"
+msgstr ""
+
+#. possible choice for slots
+#: boxes/generators/notesholder.py
+msgid "two"
+msgstr ""
+
+#. possible choice for slots
+#: boxes/generators/notesholder.py
+msgid "four"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/openbox.py
+msgid "OpenBox"
+msgstr ""
+
+#. description of OpenBox
+#: boxes/generators/openbox.py
+msgid "Box with top and front open"
+msgstr ""
+
+msgid "OpenBox Settings"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/organpipe.py
+msgid "OrganPipe"
+msgstr ""
+
+#. description of OrganPipe
+#: boxes/generators/organpipe.py
+msgid "Rectangular organ pipe based on pipecalc"
+msgstr ""
+
+msgid "OrganPipe Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/organpipe.py
+msgid "pitch"
+msgstr ""
+
+#. possible choice for pitch
+#: boxes/generators/organpipe.py
+msgid "c#"
+msgstr ""
+
+#. possible choice for pitch
+#: boxes/generators/organpipe.py
+msgid "d"
+msgstr ""
+
+#. possible choice for pitch
+#: boxes/generators/organpipe.py
+msgid "d#"
+msgstr ""
+
+#. possible choice for pitch
+#: boxes/generators/organpipe.py
+msgid "f#"
+msgstr ""
+
+#. possible choice for pitch
+#: boxes/generators/organpipe.py
+msgid "g"
+msgstr ""
+
+#. possible choice for pitch
+#: boxes/generators/organpipe.py
+msgid "g#"
+msgstr ""
+
+#. possible choice for pitch
+#: boxes/generators/organpipe.py
+msgid "a"
+msgstr ""
+
+#. possible choice for pitch
+#: boxes/generators/organpipe.py
+msgid "a#"
+msgstr ""
+
+#. possible choice for pitch
+#: boxes/generators/organpipe.py
+msgid "b"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/organpipe.py
+msgid "octave"
+msgstr ""
+
+#. help for parameter octave
+#: boxes/generators/organpipe.py
+msgid "Octave in International Pitch Notation (2 == C)"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/organpipe.py
+msgid "intonation"
+msgstr ""
+
+#. help for parameter intonation
+#: boxes/generators/organpipe.py
+msgid "Intonation Number. 2 for max. efficiency, 3 max."
+msgstr ""
+
+#. parameter name
+#: boxes/generators/organpipe.py
+msgid "mouthratio"
+msgstr ""
+
+#. help for parameter mouthratio
+#: boxes/generators/organpipe.py
+msgid ""
+"mouth to circumference ratio (0.1 to 0.45). Determines the width to depth "
+"ratio"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/organpipe.py
+msgid "cutup"
+msgstr ""
+
+#. help for parameter cutup
+#: boxes/generators/organpipe.py
+msgid "Cutup to mouth ratio"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/organpipe.py
+msgid "mensur"
+msgstr ""
+
+#. help for parameter mensur
+#: boxes/generators/organpipe.py
+msgid "Distance in halftones in the Normalmensur by Töpfer"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/organpipe.py
+msgid "windpressure"
+msgstr ""
+
+#. help for parameter windpressure
+#: boxes/generators/organpipe.py
+msgid "uses unit selected below"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/organpipe.py
+msgid "windpressure_units"
+msgstr ""
+
+#. help for parameter windpressure_units
+#: boxes/generators/organpipe.py
+msgid "in Pa"
+msgstr ""
+
+#. possible choice for windpressure_units
+#: boxes/generators/organpipe.py
+msgid "Pa"
+msgstr ""
+
+#. possible choice for windpressure_units
+#: boxes/generators/organpipe.py
+msgid "mBar"
+msgstr ""
+
+#. possible choice for windpressure_units
+#: boxes/generators/organpipe.py
+msgid "mmHg"
+msgstr ""
+
+#. possible choice for windpressure_units
+#: boxes/generators/organpipe.py
+msgid "mmH2O"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/organpipe.py
+msgid "stopped"
+msgstr ""
+
+#. help for parameter stopped
+#: boxes/generators/organpipe.py
+msgid "pipe is closed at the top"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/ottobody.py
+msgid "OttoBody"
+msgstr ""
+
+#. description of OttoBody
+#: boxes/generators/ottobody.py
+msgid "Otto LC - a laser cut chassis for Otto DIY - body"
+msgstr ""
+
+msgid "OttoBody Settings"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/ottolegs.py
+msgid "OttoLegs"
+msgstr ""
+
+#. description of OttoLegs
+#: boxes/generators/ottolegs.py
+msgid "Otto LC - a laser cut chassis for Otto DIY - legs"
+msgstr ""
+
+msgid "OttoLegs Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/ottolegs.py
+msgid "anklebolt1"
+msgstr ""
+
+#. help for parameter anklebolt1
+#: boxes/generators/ottolegs.py
+msgid "diameter for hole for ankle bolts - foot side"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/ottolegs.py
+msgid "anklebolt2"
+msgstr ""
+
+#. help for parameter anklebolt2
+#: boxes/generators/ottolegs.py
+msgid "diameter for hole for ankle bolts - leg side"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/ottolegs.py
+msgid "length"
+msgstr ""
+
+#. help for parameter length
+#: boxes/generators/ottolegs.py
+msgid "length of legs (34mm min)"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/ottosoles.py
+msgid "OttoSoles"
+msgstr ""
+
+#. description of OttoSoles
+#: boxes/generators/ottosoles.py
+msgid "Foam soles for the OttO bot"
+msgstr ""
+
+msgid "OttoSoles Settings"
+msgstr ""
+
+#. help for parameter width
+#: boxes/generators/ottosoles.py
+msgid "width of sole stripe"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/ottosoles.py
+msgid "chamfer"
+msgstr ""
+
+#. help for parameter chamfer
+#: boxes/generators/ottosoles.py
+msgid "chamfer at the corners"
+msgstr ""
+
+#. help for parameter num
+#: boxes/generators/ottosoles.py
+msgid "number of soles"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/paintbox.py
+msgid "PaintStorage"
+msgstr ""
+
+#. description of PaintStorage
+#: boxes/generators/paintbox.py
+msgid "Stackable paint storage"
+msgstr ""
+
+msgid "PaintStorage Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/paintbox.py
+msgid "canheight"
+msgstr ""
+
+#. help for parameter canheight
+#: boxes/generators/paintbox.py
+msgid "Height of the paintcans"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/paintbox.py
+msgid "candiameter"
+msgstr ""
+
+#. help for parameter candiameter
+#: boxes/generators/paintbox.py
+msgid "Diameter of the paintcans"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/paintbox.py
+msgid "minspace"
+msgstr ""
+
+#. help for parameter minspace
+#: boxes/generators/paintbox.py
+msgid "Minimum space between the paintcans"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/paintbox.py
+msgid "hexpattern"
+msgstr ""
+
+#. help for parameter hexpattern
+#: boxes/generators/paintbox.py
+msgid "Use hexagonal arrangement for the holes instead of orthogonal"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/planetary.py
+msgid "Planetary"
+msgstr ""
+
+#. description of Planetary
+#: boxes/generators/planetary.py
+msgid "Planetary Gear with possibly multiple identical stages"
+msgstr ""
+
+msgid "Planetary Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/planetary.py
+msgid "sunteeth"
+msgstr ""
+
+#. help for parameter sunteeth
+#: boxes/generators/planetary.py
+msgid "number of teeth on sun gear"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/planetary.py
+msgid "planetteeth"
+msgstr ""
+
+#. help for parameter planetteeth
+#: boxes/generators/planetary.py
+msgid "number of teeth on planets"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/planetary.py
+msgid "maxplanets"
+msgstr ""
+
+#. help for parameter maxplanets
+#: boxes/generators/planetary.py
+msgid "limit the number of planets (0 for as much as fit)"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/planetary.py
+msgid "deltateeth"
+msgstr ""
+
+#. help for parameter deltateeth
+#: boxes/generators/planetary.py
+msgid "enable secondary ring with given delta to the ring gear"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/planetary2.py
+msgid "Planetary2"
+msgstr ""
+
+#. description of Planetary2
+#: boxes/generators/planetary2.py
+msgid "Balanced force Difference Planetary Gear"
+msgstr ""
+
+msgid "Planetary2 Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/planetary2.py
+msgid "profile"
+msgstr ""
+
+#. help for parameter profile
+#: boxes/generators/planetary2.py
+msgid "profile of the teeth/belt"
+msgstr ""
+
+#. possible choice for profile
+#: boxes/generators/planetary2.py
+msgid "40DP"
+msgstr ""
+
+#. possible choice for profile
+#: boxes/generators/planetary2.py
+msgid "AT5"
+msgstr ""
+
+#. possible choice for profile
+#: boxes/generators/planetary2.py
+msgid "GT2_2mm"
+msgstr ""
+
+#. possible choice for profile
+#: boxes/generators/planetary2.py
+msgid "GT2_3mm"
+msgstr ""
+
+#. possible choice for profile
+#: boxes/generators/planetary2.py
+msgid "GT2_5mm"
+msgstr ""
+
+#. possible choice for profile
+#: boxes/generators/planetary2.py
+msgid "H"
+msgstr ""
+
+#. possible choice for profile
+#: boxes/generators/planetary2.py
+msgid "HTD_3mm"
+msgstr ""
+
+#. possible choice for profile
+#: boxes/generators/planetary2.py
+msgid "HTD_5mm"
+msgstr ""
+
+#. possible choice for profile
+#: boxes/generators/planetary2.py
+msgid "HTD_8mm"
+msgstr ""
+
+#. possible choice for profile
+#: boxes/generators/planetary2.py
+msgid "MXL"
+msgstr ""
+
+#. possible choice for profile
+#: boxes/generators/planetary2.py
+msgid "T10"
+msgstr ""
+
+#. possible choice for profile
+#: boxes/generators/planetary2.py
+msgid "T2_5"
+msgstr ""
+
+#. possible choice for profile
+#: boxes/generators/planetary2.py
+msgid "T5"
+msgstr ""
+
+#. possible choice for profile
+#: boxes/generators/planetary2.py
+msgid "XL"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/planetary2.py
+msgid "screw1"
+msgstr ""
+
+#. help for parameter screw1
+#: boxes/generators/planetary2.py
+msgid "diameter of lower part of the screw hole"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/planetary2.py
+msgid "screw2"
+msgstr ""
+
+#. help for parameter screw2
+#: boxes/generators/planetary2.py
+msgid "diameter of upper part of the screw hole"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/planetary2.py
+msgid "pinsize"
+msgstr ""
+
+#. help for parameter pinsize
+#: boxes/generators/planetary2.py
+msgid "diameter of alignment pins"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/polehook.py
+msgid "PoleHook"
+msgstr ""
+
+#. description of PoleHook
+#: boxes/generators/polehook.py
+msgid "Hook for pole like things to be clamped to another pole"
+msgstr ""
+
+msgid "PoleHook Settings"
+msgstr ""
+
+#. help for parameter diameter
+#: boxes/generators/polehook.py
+msgid "diameter of the thing to hook"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/polehook.py
+msgid "screw"
+msgstr ""
+
+#. help for parameter screw
+#: boxes/generators/polehook.py
+msgid "diameter of the screw in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/polehook.py
+msgid "screwhead"
+msgstr ""
+
+#. help for parameter screwhead
+#: boxes/generators/polehook.py
+msgid "with of the screw head in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/polehook.py
+msgid "screwheadheight"
+msgstr ""
+
+#. help for parameter screwheadheight
+#: boxes/generators/polehook.py
+msgid "height of the screw head in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/polehook.py
+msgid "pin"
+msgstr ""
+
+#. help for parameter pin
+#: boxes/generators/polehook.py
+msgid "diameter of the pin in mm"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/pulley.py
+msgid "Pulley"
+msgstr ""
+
+#. description of Pulley
+#: boxes/generators/pulley.py
+msgid "Timing belt pulleys for different profiles"
+msgstr ""
+
+msgid "Pulley Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/pulley.py
+msgid "teeth"
+msgstr ""
+
+#. help for parameter axle
+#: boxes/generators/pulley.py
+msgid "diameter of the axle"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/pulley.py
+msgid "insideout"
+msgstr ""
+
+#. help for parameter insideout
+#: boxes/generators/pulley.py
+msgid "create a ring gear with the belt being pushed against from within"
+msgstr ""
+
+#. help for parameter top
+#: boxes/generators/pulley.py
+msgid "overlap of top rim (zero for none)"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/rack19box.py
+msgid "Rack19Box"
+msgstr ""
+
+#. description of Rack19Box
+#: boxes/generators/rack19box.py
+msgid "Closed box with screw on top for mounting in a 19\" rack."
+msgstr ""
+
+msgid "Rack19Box Settings"
+msgstr ""
+
+#. help for parameter depth
+#: boxes/generators/rack19box.py
+msgid "inner depth in mm"
+msgstr ""
+
+#. help for parameter height
+#: boxes/generators/rack19box.py
+msgid "height in rack units"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/rack10box.py
+msgid "Rack10Box"
+msgstr ""
+
+#. description of Rack10Box
+#: boxes/generators/rack10box.py
+msgid "Closed box with screw on top for mounting in a 10\" rack."
+msgstr ""
+
+msgid "Rack10Box Settings"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/rackbox.py
+msgid "RackBox"
+msgstr ""
+
+msgid "RackBox Settings"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/rectangularWall.py
+msgid "RectangularWall"
+msgstr ""
+
+#. description of RectangularWall
+#: boxes/generators/rectangularWall.py
+msgid "Simple wall"
+msgstr ""
+
+msgid "RectangularWall Settings"
+msgstr ""
+
+#. possible choice for bottom_edge
+#: boxes/generators/rectangularWall.py
+msgid "C"
+msgstr ""
+
+#. possible choice for bottom_edge
+#: boxes/generators/rectangularWall.py
+msgid "D"
+msgstr ""
+
+#. possible choice for bottom_edge
+#: boxes/generators/rectangularWall.py
+msgid "I"
+msgstr ""
+
+#. possible choice for bottom_edge
+#: boxes/generators/rectangularWall.py
+msgid "j"
+msgstr ""
+
+#. possible choice for bottom_edge
+#: boxes/generators/rectangularWall.py
+msgid "J"
+msgstr ""
+
+#. possible choice for bottom_edge
+#: boxes/generators/rectangularWall.py
+msgid "K"
+msgstr ""
+
+#. possible choice for bottom_edge
+#: boxes/generators/rectangularWall.py
+msgid "l"
+msgstr ""
+
+#. possible choice for bottom_edge
+#: boxes/generators/rectangularWall.py
+msgid "m"
+msgstr ""
+
+#. possible choice for bottom_edge
+#: boxes/generators/rectangularWall.py
+msgid "M"
+msgstr ""
+
+#. possible choice for bottom_edge
+#: boxes/generators/rectangularWall.py
+msgid "o"
+msgstr ""
+
+#. possible choice for bottom_edge
+#: boxes/generators/rectangularWall.py
+msgid "O"
+msgstr ""
+
+#. possible choice for bottom_edge
+#: boxes/generators/rectangularWall.py
+msgid "p"
+msgstr ""
+
+#. possible choice for bottom_edge
+#: boxes/generators/rectangularWall.py
+msgid "P"
+msgstr ""
+
+#. possible choice for bottom_edge
+#: boxes/generators/rectangularWall.py
+msgid "q"
+msgstr ""
+
+#. possible choice for bottom_edge
+#: boxes/generators/rectangularWall.py
+msgid "Q"
+msgstr ""
+
+#. possible choice for bottom_edge
+#: boxes/generators/rectangularWall.py
+msgid "R"
+msgstr ""
+
+#. possible choice for bottom_edge
+#: boxes/generators/rectangularWall.py
+msgid "u"
+msgstr ""
+
+#. possible choice for bottom_edge
+#: boxes/generators/rectangularWall.py
+msgid "U"
+msgstr ""
+
+#. possible choice for bottom_edge
+#: boxes/generators/rectangularWall.py
+msgid "V"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/rectangularWall.py
+msgid "right_edge"
+msgstr ""
+
+#. help for parameter right_edge
+#: boxes/generators/rectangularWall.py
+msgid "edge type for right edge"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/rectangularWall.py
+msgid "left_edge"
+msgstr ""
+
+#. help for parameter left_edge
+#: boxes/generators/rectangularWall.py
+msgid "edge type for left edge"
+msgstr ""
+
+msgid "Settings for Dove Tail Joints"
+msgstr ""
+
+#. help for parameter angle
+#: boxes/generators/rectangularWall.py
+msgid "how much should fingers widen (-80 to 80)"
+msgstr ""
+
+#. help for parameter depth
+#: boxes/generators/rectangularWall.py
+msgid "how far the dove tails stick out of/into the edge"
+msgstr ""
+
+#. help for parameter radius
+#: boxes/generators/rectangularWall.py
+msgid "radius used on all four corners"
+msgstr ""
+
+#. help for parameter size
+#: boxes/generators/rectangularWall.py
+msgid "from one middle of a dove tail to another"
+msgstr ""
+
+msgid "Settings for rack (and pinion) edge"
+msgstr ""
+
+#. help for parameter angle
+#: boxes/generators/rectangularWall.py
+msgid "pressure angle"
+msgstr ""
+
+#. parameter name for Gear
+#: boxes/generators/rectangularWall.py
+msgid "clearance"
+msgstr ""
+
+#. parameter name for Gear
+#: boxes/generators/rectangularWall.py
+msgid "dimension"
+msgstr ""
+
+#. help for parameter dimension
+#: boxes/generators/rectangularWall.py
+msgid "modulus of the gear (in mm)"
+msgstr ""
+
+#. help for parameter profile_shift
+#: boxes/generators/rectangularWall.py
+msgid "Profile shift"
+msgstr ""
+
+msgid "Settings for GrippingEdge"
+msgstr ""
+
+#. help for parameter outset
+#: boxes/generators/rectangularWall.py
+msgid "extend outward the straight edge"
+msgstr ""
+
+#. help for parameter style
+#: boxes/generators/rectangularWall.py
+msgid "\"wave\" or \"bumps\""
+msgstr ""
+
+#. possible choice for style
+#: boxes/generators/rectangularWall.py
+msgid "wave"
+msgstr ""
+
+#. possible choice for style
+#: boxes/generators/rectangularWall.py
+msgid "bumps"
+msgstr ""
+
+#. help for parameter depth
+#: boxes/generators/rectangularWall.py
+msgid "depth of the grooves"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/regularbox.py
+msgid "RegularBox"
+msgstr ""
+
+#. description of RegularBox
+#: boxes/generators/regularbox.py
+msgid "Box with regular polygon as base"
+msgstr ""
+
+msgid "RegularBox Settings"
+msgstr ""
+
+#. help for parameter radius
+#: boxes/generators/regularbox.py
+msgid "inner radius if the box (at the corners)"
+msgstr ""
+
+#. help for parameter n
+#: boxes/generators/regularbox.py
+msgid "number of sides"
+msgstr ""
+
+#. possible choice for top
+#: boxes/generators/regularbox.py
+msgid "round lid"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/robotarm.py
+msgid "RobotArm"
+msgstr ""
+
+#. description of RobotArm
+#: boxes/generators/robotarm.py
+msgid "Segments of servo powered robot arm"
+msgstr ""
+
+msgid "RobotArm Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/robotarm.py
+msgid "type1"
+msgstr ""
+
+#. help for parameter type1
+#: boxes/generators/robotarm.py
+msgid "type of arm segment"
+msgstr ""
+
+#. possible choice for type1
+#: boxes/generators/robotarm.py
+msgid "RobotArmMM"
+msgstr ""
+
+#. possible choice for type1
+#: boxes/generators/robotarm.py
+msgid "RobotArmMm"
+msgstr ""
+
+#. possible choice for type1
+#: boxes/generators/robotarm.py
+msgid "RobotArmUU"
+msgstr ""
+
+#. possible choice for type1
+#: boxes/generators/robotarm.py
+msgid "RobotArmUu"
+msgstr ""
+
+#. possible choice for type1
+#: boxes/generators/robotarm.py
+msgid "RobotArmMu"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/robotarm.py
+msgid "servo1a"
+msgstr ""
+
+#. help for parameter servo1a
+#: boxes/generators/robotarm.py
+msgid "type of servo to use"
+msgstr ""
+
+#. possible choice for servo1a
+#: boxes/generators/robotarm.py
+msgid "Servo9g"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/robotarm.py
+msgid "servo1b"
+msgstr ""
+
+#. help for parameter servo1b
+#: boxes/generators/robotarm.py
+msgid "type of servo to use on second side (if different is supported)"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/robotarm.py
+msgid "length1"
+msgstr ""
+
+#. help for parameter length1
+#: boxes/generators/robotarm.py
+msgid "length of segment axle to axle"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/robotarm.py
+msgid "type2"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/robotarm.py
+msgid "servo2a"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/robotarm.py
+msgid "servo2b"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/robotarm.py
+msgid "length2"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/robotarm.py
+msgid "type3"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/robotarm.py
+msgid "servo3a"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/robotarm.py
+msgid "servo3b"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/robotarm.py
+msgid "length3"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/robotarm.py
+msgid "type4"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/robotarm.py
+msgid "servo4a"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/robotarm.py
+msgid "servo4b"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/robotarm.py
+msgid "length4"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/robotarm.py
+msgid "type5"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/robotarm.py
+msgid "servo5a"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/robotarm.py
+msgid "servo5b"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/robotarm.py
+msgid "length5"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/rotary.py
+msgid "Rotary"
+msgstr ""
+
+#. description of Rotary
+#: boxes/generators/rotary.py
+msgid "Rotary Attachment for engraving cylindrical objects in a laser cutter"
+msgstr ""
+
+msgid "Rotary Settings"
+msgstr ""
+
+#. help for parameter diameter
+#: boxes/generators/rotary.py
+msgid "outer diameter of the wheels (including O rings)"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/rotary.py
+msgid "rubberthickness"
+msgstr ""
+
+#. help for parameter rubberthickness
+#: boxes/generators/rotary.py
+msgid "diameter of the strings of the O rings"
+msgstr ""
+
+#. help for parameter axle
+#: boxes/generators/rotary.py
+msgid "diameter of the axles"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/rotary.py
+msgid "knifethickness"
+msgstr ""
+
+#. help for parameter knifethickness
+#: boxes/generators/rotary.py
+msgid "thickness of the knifes in mm. Use 0 for use with honey comb table."
+msgstr ""
+
+#. parameter name
+#: boxes/generators/rotary.py
+msgid "beamwidth"
+msgstr ""
+
+#. help for parameter beamwidth
+#: boxes/generators/rotary.py
+msgid "width of the (aluminium) profile connecting the parts"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/rotary.py
+msgid "beamheight"
+msgstr ""
+
+#. help for parameter beamheight
+#: boxes/generators/rotary.py
+msgid "height of the (aluminium) profile connecting the parts"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/roundedbox.py
+msgid "RoundedBox"
+msgstr ""
+
+#. description of RoundedBox
+#: boxes/generators/roundedbox.py
+msgid "Box with vertical edges rounded"
+msgstr ""
+
+msgid "RoundedBox Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/roundedbox.py
+msgid "wallpieces"
+msgstr ""
+
+#. help for parameter wallpieces
+#: boxes/generators/roundedbox.py
+msgid "# pieces of outer wall"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/royalgame.py
+msgid "RoyalGame"
+msgstr ""
+
+#. description of RoyalGame
+#: boxes/generators/royalgame.py
+msgid "The Royal Game of Ur"
+msgstr ""
+
+#. long description of RoyalGame in markdown
+#: boxes/generators/royalgame.py
+msgid ""
+"Most of the blue lines need to be engraved by cutting with high speed and "
+"low power. But there are three blue holes that actually need to be cut: The "
+"grip hole in the lid and two tiny rectangles on the top and bottom for the "
+"lid to grip into.\n"
+msgstr ""
+
+msgid "RoyalGame Settings"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/shutterbox.py
+msgid "ShutterBox"
+msgstr ""
+
+#. description of ShutterBox
+#: boxes/generators/shutterbox.py
+msgid "Box with a rolling shutter made of flex"
+msgstr ""
+
+#. long description of ShutterBox in markdown
+#: boxes/generators/shutterbox.py
+msgid "Beware of the rolling shutter effect! Use wax on sliding surfaces."
+msgstr ""
+
+msgid "ShutterBox Settings"
+msgstr ""
+
+#. help for parameter style
+#: boxes/generators/shutterbox.py
+msgid "Number of rounded top corners"
+msgstr ""
+
+#. possible choice for style
+#: boxes/generators/shutterbox.py
+msgid "single"
+msgstr ""
+
+#. possible choice for style
+#: boxes/generators/shutterbox.py
+msgid "double"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/silverwarebox.py
+msgid "Silverware"
+msgstr ""
+
+#. description of Silverware
+#: boxes/generators/silverwarebox.py
+msgid ""
+"\n"
+"    Cuttlery stand with carrying grip\n"
+"    using flex for rounded corners\n"
+"    "
+msgstr ""
+
+msgid "Silverware Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/silverwarebox.py
+msgid "cornerradius"
+msgstr ""
+
+#. help for parameter cornerradius
+#: boxes/generators/silverwarebox.py
+msgid "Radius of the corners"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/silverwarebox.py
+msgid "handleheight"
+msgstr ""
+
+#. help for parameter handleheight
+#: boxes/generators/silverwarebox.py
+msgid "Height of the handle"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/silverwarebox.py
+msgid "handlewidth"
+msgstr ""
+
+#. help for parameter handlewidth
+#: boxes/generators/silverwarebox.py
+msgid "Width of the handle"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/slatwall.py
+msgid "SlatwallEdges"
+msgstr ""
+
+#. description of SlatwallEdges
+#: boxes/generators/slatwall.py
+msgid "Shows the different edge types for slat walls"
+msgstr ""
+
+msgid "SlatwallEdges Settings"
+msgstr ""
+
+msgid "Settings for SlatWallEdges"
+msgstr ""
+
+#. parameter name for SlatWall
+#: boxes/generators/slatwall.py
+msgid "bottom_hook"
+msgstr ""
+
+#. help for parameter bottom_hook
+#: boxes/generators/slatwall.py
+msgid "\"spring\", \"stud\" or \"none\""
+msgstr ""
+
+#. possible choice for bottom_hook
+#: boxes/generators/slatwall.py
+msgid "hook"
+msgstr ""
+
+#. possible choice for bottom_hook
+#: boxes/generators/slatwall.py
+msgid "stud"
+msgstr ""
+
+#. parameter name for SlatWall
+#: boxes/generators/slatwall.py
+msgid "hook_extra_height"
+msgstr ""
+
+#. help for parameter hook_extra_height
+#: boxes/generators/slatwall.py
+msgid "space surrounding connectors (in multiples of thickness)"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/slatwallcaliperholder.py
+msgid "SlatwallCaliper"
+msgstr ""
+
+#. description of SlatwallCaliper
+#: boxes/generators/slatwallcaliperholder.py
+msgid "Holds a single caliper to a slat wall"
+msgstr ""
+
+msgid "SlatwallCaliper Settings"
+msgstr ""
+
+#. help for parameter width
+#: boxes/generators/slatwallcaliperholder.py
+msgid "width of the long end"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/slatwallcaliperholder.py
+msgid "heigth"
+msgstr ""
+
+#. help for parameter heigth
+#: boxes/generators/slatwallcaliperholder.py
+msgid "heigth of the body"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/slatwallconsole.py
+msgid "SlatwallConsole"
+msgstr ""
+
+#. description of SlatwallConsole
+#: boxes/generators/slatwallconsole.py
+msgid "Outset and angled plate to mount stuff to"
+msgstr ""
+
+msgid "SlatwallConsole Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/slatwallconsole.py
+msgid "top_depth"
+msgstr ""
+
+#. help for parameter top_depth
+#: boxes/generators/slatwallconsole.py
+msgid "depth at the top"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/slatwallconsole.py
+msgid "bottom_depth"
+msgstr ""
+
+#. help for parameter bottom_depth
+#: boxes/generators/slatwallconsole.py
+msgid "depth at the bottom"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/slatwalldrillbox.py
+msgid "SlatwallDrillBox"
+msgstr ""
+
+#. description of SlatwallDrillBox
+#: boxes/generators/slatwalldrillbox.py
+msgid "Box for drills with each compartment with a different height"
+msgstr ""
+
+msgid "SlatwallDrillBox Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/slatwalldrillbox.py
+msgid "extra_height"
+msgstr ""
+
+#. help for parameter extra_height
+#: boxes/generators/slatwalldrillbox.py
+msgid "height difference left to right"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/slatwallplaneholder.py
+msgid "SlatwallPlaneHolder"
+msgstr ""
+
+#. description of SlatwallPlaneHolder
+#: boxes/generators/slatwallplaneholder.py
+msgid "Hold a plane to a slatwall"
+msgstr ""
+
+msgid "SlatwallPlaneHolder Settings"
+msgstr ""
+
+#. help for parameter width
+#: boxes/generators/slatwallplaneholder.py
+msgid "width of the plane"
+msgstr ""
+
+#. help for parameter length
+#: boxes/generators/slatwallplaneholder.py
+msgid "legth of the plane"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/slatwallplaneholder.py
+msgid "hold_length"
+msgstr ""
+
+#. help for parameter hold_length
+#: boxes/generators/slatwallplaneholder.py
+msgid "legth of the part hiolding the plane over the front"
+msgstr ""
+
+#. help for parameter height
+#: boxes/generators/slatwallplaneholder.py
+msgid "height of the front of plane"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/slatwallpliersholder.py
+msgid "SlatwallPliersHolder"
+msgstr ""
+
+#. description of SlatwallPliersHolder
+#: boxes/generators/slatwallpliersholder.py
+msgid "Bar to hang pliers on"
+msgstr ""
+
+msgid "SlatwallPliersHolder Settings"
+msgstr ""
+
+#. help for parameter angle
+#: boxes/generators/slatwallpliersholder.py
+msgid "bracing angle - less for more bracing"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/slatwallslottedholder.py
+msgid "SlatwallSlottedHolder"
+msgstr ""
+
+#. description of SlatwallSlottedHolder
+#: boxes/generators/slatwallslottedholder.py
+msgid "Slat wall tool holder with slots"
+msgstr ""
+
+msgid "SlatwallSlottedHolder Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/slatwallslottedholder.py
+msgid "slot_depth"
+msgstr ""
+
+#. help for parameter slot_depth
+#: boxes/generators/slatwallslottedholder.py
+msgid "depth of slots from the front"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/slatwallslottedholder.py
+msgid "additional_depth"
+msgstr ""
+
+#. help for parameter additional_depth
+#: boxes/generators/slatwallslottedholder.py
+msgid "depth behind the lots"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/slatwallslottedholder.py
+msgid "slot_width"
+msgstr ""
+
+#. help for parameter slot_width
+#: boxes/generators/slatwallslottedholder.py
+msgid "width of slots"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/slatwallslottedholder.py
+msgid "tool_width"
+msgstr ""
+
+#. help for parameter tool_width
+#: boxes/generators/slatwallslottedholder.py
+msgid "overall width for the tools"
+msgstr ""
+
+#. help for parameter radius
+#: boxes/generators/slatwallslottedholder.py
+msgid "radius of the slots at the front"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/slatwallslottedholder.py
+msgid "number"
+msgstr ""
+
+#. help for parameter number
+#: boxes/generators/slatwallslottedholder.py
+msgid "number of tools/slots"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/slatwallslottedholder.py
+msgid "hooks"
+msgstr ""
+
+#. help for parameter hooks
+#: boxes/generators/slatwallslottedholder.py
+msgid "amount of hooks / braces"
+msgstr ""
+
+#. possible choice for hooks
+#: boxes/generators/slatwallslottedholder.py
+msgid "all"
+msgstr ""
+
+#. possible choice for hooks
+#: boxes/generators/slatwallslottedholder.py
+msgid "odds"
+msgstr ""
+
+#. possible choice for hooks
+#: boxes/generators/slatwallslottedholder.py
+msgid "everythird"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/slatwalltypetray.py
+msgid "SlatwallTypeTray"
+msgstr ""
+
+#. description of SlatwallTypeTray
+#: boxes/generators/slatwalltypetray.py
+msgid "Type tray - allows only continuous walls"
+msgstr ""
+
+msgid "SlatwallTypeTray Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/slatwalltypetray.py
+msgid "back_height"
+msgstr ""
+
+#. help for parameter back_height
+#: boxes/generators/slatwalltypetray.py
+msgid "additional height of the back wall"
+msgstr ""
+
+#. help for parameter radius
+#: boxes/generators/slatwalltypetray.py
+msgid "radius for strengthening walls with the hooks"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/slatwallwrenchholder.py
+msgid "SlatwallWrenchHolder"
+msgstr ""
+
+#. description of SlatwallWrenchHolder
+#: boxes/generators/slatwallwrenchholder.py
+msgid "Hold a set of wrenches at a slat wall"
+msgstr ""
+
+msgid "SlatwallWrenchHolder Settings"
+msgstr ""
+
+#. help for parameter depth
+#: boxes/generators/slatwallwrenchholder.py
+msgid "depth of the sides"
+msgstr ""
+
+#. help for parameter number
+#: boxes/generators/slatwallwrenchholder.py
+msgid "number of wrenches"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/slatwallwrenchholder.py
+msgid "min_width"
+msgstr ""
+
+#. help for parameter min_width
+#: boxes/generators/slatwallwrenchholder.py
+msgid "width of smallest wrench"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/slatwallwrenchholder.py
+msgid "max_width"
+msgstr ""
+
+#. help for parameter max_width
+#: boxes/generators/slatwallwrenchholder.py
+msgid "width of largest wrench"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/slatwallwrenchholder.py
+msgid "min_strength"
+msgstr ""
+
+#. help for parameter min_strength
+#: boxes/generators/slatwallwrenchholder.py
+msgid "strength of smallest wrench"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/slatwallwrenchholder.py
+msgid "max_strength"
+msgstr ""
+
+#. help for parameter max_strength
+#: boxes/generators/slatwallwrenchholder.py
+msgid "strength of largest wrench"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/slotwallchiselholder.py
+msgid "SlatwallChiselHolder"
+msgstr ""
+
+#. description of SlatwallChiselHolder
+#: boxes/generators/slotwallchiselholder.py
+msgid "Slat wall tool holder for chisels, files and similar tools"
+msgstr ""
+
+msgid "SlatwallChiselHolder Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/slotwallchiselholder.py
+msgid "tooldiameter"
+msgstr ""
+
+#. help for parameter tooldiameter
+#: boxes/generators/slotwallchiselholder.py
+msgid "diameter of the tool including space to grab"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/slotwallchiselholder.py
+msgid "holediameter"
+msgstr ""
+
+#. help for parameter holediameter
+#: boxes/generators/slotwallchiselholder.py
+msgid "diameter of the hole for the tool (handle should not fit through)"
+msgstr ""
+
+#. help for parameter radius
+#: boxes/generators/slotwallchiselholder.py
+msgid "radius at the slots"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/stachel.py
+msgid "Stachel"
+msgstr ""
+
+#. description of Stachel
+#: boxes/generators/stachel.py
+msgid "Bass Recorder Endpin"
+msgstr ""
+
+msgid "Stachel Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/stachel.py
+msgid "flutediameter"
+msgstr ""
+
+#. help for parameter flutediameter
+#: boxes/generators/stachel.py
+msgid "diameter of the flutes bottom in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/stachel.py
+msgid "polediameter"
+msgstr ""
+
+#. help for parameter polediameter
+#: boxes/generators/stachel.py
+msgid "diameter if the pin in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/stachel.py
+msgid "wall"
+msgstr ""
+
+#. help for parameter wall
+#: boxes/generators/stachel.py
+msgid "width of the surrounding wall in mm"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/storagerack.py
+msgid "StorageRack"
+msgstr ""
+
+#. description of StorageRack
+#: boxes/generators/storagerack.py
+msgid "StorageRack to store boxes and trays which have their own floor"
+msgstr ""
+
+msgid "StorageRack Settings"
+msgstr ""
+
+#. help for parameter depth
+#: boxes/generators/storagerack.py
+msgid "depth of the rack"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/storagerack.py
+msgid "rail"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/storageshelf.py
+msgid "StorageShelf"
+msgstr ""
+
+#. description of StorageShelf
+#: boxes/generators/storageshelf.py
+msgid "StorageShelf can be used to store Typetray"
+msgstr ""
+
+#. long description of StorageShelf in markdown
+#: boxes/generators/storageshelf.py
+msgid "This is a simple shelf box."
+msgstr ""
+
+msgid "StorageShelf Settings"
+msgstr ""
+
+msgid "Settings for RoundedTriangleEdge"
+msgstr ""
+
+#. help for parameter height
+#: boxes/generators/storageshelf.py
+msgid "height above the wall"
+msgstr ""
+
+#. parameter name for RoundedTriangleEdge
+#: boxes/generators/storageshelf.py
+msgid "r_hole"
+msgstr ""
+
+#. help for parameter r_hole
+#: boxes/generators/storageshelf.py
+msgid "radius of hole"
+msgstr ""
+
+#. help for parameter radius
+#: boxes/generators/storageshelf.py
+msgid "radius of top corner"
+msgstr ""
+
+#. help for parameter outset
+#: boxes/generators/storageshelf.py
+msgid "extend the triangle along the length of the edge"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/trafficlight.py
+msgid "TrafficLight"
+msgstr ""
+
+#. description of TrafficLight
+#: boxes/generators/trafficlight.py
+msgid "Traffic light"
+msgstr ""
+
+#. long description of TrafficLight in markdown
+#: boxes/generators/trafficlight.py
+msgid ""
+"The traffic light was created to visualize the status of a Icinga monitored "
+"system.\n"
+"\n"
+"When turned by 90°, it can be also used to create a bottle holder."
+msgstr ""
+
+msgid "TrafficLight Settings"
+msgstr ""
+
+#. help for parameter depth
+#: boxes/generators/trafficlight.py
+msgid "inner depth not including the shades"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/trafficlight.py
+msgid "shades"
+msgstr ""
+
+#. help for parameter shades
+#: boxes/generators/trafficlight.py
+msgid "depth of the shaders"
+msgstr ""
+
+#. help for parameter n
+#: boxes/generators/trafficlight.py
+msgid "number of lights"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/trafficlight.py
+msgid "upright"
+msgstr ""
+
+#. help for parameter upright
+#: boxes/generators/trafficlight.py
+msgid "stack lights upright (or side by side)"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/trayinsert.py
+msgid "TrayInsert"
+msgstr ""
+
+#. description of TrayInsert
+#: boxes/generators/trayinsert.py
+msgid ""
+"Tray insert without floor and outer walls - allows only continuous walls"
+msgstr ""
+
+msgid "TrayInsert Settings"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/traylayout.py
+msgid "TrayLayout"
+msgstr ""
+
+#. description of TrayLayout
+#: boxes/generators/traylayout.py
+msgid "Generate a typetray from a layout file"
+msgstr ""
+
+msgid "optional arguments"
+msgstr ""
+
+#. help for parameter x
+#: boxes/generators/traylayout.py
+msgid "number of compartments side by side"
+msgstr ""
+
+#. help for parameter y
+#: boxes/generators/traylayout.py
+msgid "number of compartments back to front"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/traylayout.py
+msgid "TrayLayout2"
+msgstr ""
+
+msgid "TrayLayout2 Settings"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/two_piece.py
+msgid "TwoPiece"
+msgstr ""
+
+#. description of TwoPiece
+#: boxes/generators/two_piece.py
+msgid ""
+"A two piece box where top slips over the bottom half to form \n"
+"       the enclosure.\n"
+"    "
+msgstr ""
+
+msgid "TwoPiece Settings"
+msgstr ""
+
+#. help for parameter play
+#: boxes/generators/two_piece.py
+msgid "play between the two parts as multipleof the wall thickness"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/typetray.py
+msgid "TypeTray"
+msgstr ""
+
+msgid "TypeTray Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/typetray.py
+msgid "gripheight"
+msgstr ""
+
+#. help for parameter gripheight
+#: boxes/generators/typetray.py
+msgid "height of the grip hole in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/typetray.py
+msgid "gripwidth"
+msgstr ""
+
+#. help for parameter gripwidth
+#: boxes/generators/typetray.py
+msgid "width of th grip hole in mm (zero for no hole)"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/ubox.py
+msgid "UBox"
+msgstr ""
+
+#. description of UBox
+#: boxes/generators/ubox.py
+msgid "Box various options for different stypes and lids"
+msgstr ""
+
+msgid "UBox Settings"
+msgstr ""
+
+#. help for parameter radius
+#: boxes/generators/ubox.py
+msgid "radius of bottom corners"
+msgstr ""
+
+#. help for parameter lid
+#: boxes/generators/ubox.py
+msgid "additional lid"
+msgstr ""
+
+#. possible choice for lid
+#: boxes/generators/ubox.py
+msgid "default (none)"
+msgstr ""
+
+#. possible choice for lid
+#: boxes/generators/ubox.py
+msgid "chest"
+msgstr ""
+
+#. possible choice for lid
+#: boxes/generators/ubox.py
+msgid "flat"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/unevenheightbox.py
+msgid "UnevenHeightBox"
+msgstr ""
+
+#. description of UnevenHeightBox
+#: boxes/generators/unevenheightbox.py
+msgid "Box with different height in each corner"
+msgstr ""
+
+msgid "UnevenHeightBox Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/unevenheightbox.py
+msgid "height0"
+msgstr ""
+
+#. help for parameter height0
+#: boxes/generators/unevenheightbox.py
+msgid "height of the front left corner in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/unevenheightbox.py
+msgid "height1"
+msgstr ""
+
+#. help for parameter height1
+#: boxes/generators/unevenheightbox.py
+msgid "height of the front right corner in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/unevenheightbox.py
+msgid "height2"
+msgstr ""
+
+#. help for parameter height2
+#: boxes/generators/unevenheightbox.py
+msgid "height of the right back corner in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/unevenheightbox.py
+msgid "height3"
+msgstr ""
+
+#. help for parameter height3
+#: boxes/generators/unevenheightbox.py
+msgid "height of the left back corner in mm"
+msgstr ""
+
+#. help for parameter lid
+#: boxes/generators/unevenheightbox.py
+msgid "add a lid (works best with high corners opposing each other)"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/universalbox.py
+msgid "UniversalBox"
+msgstr ""
+
+#. description of UniversalBox
+#: boxes/generators/universalbox.py
+msgid "Box with various options for different styles and lids"
+msgstr ""
+
+msgid "UniversalBox Settings"
+msgstr ""
+
+#. help for parameter lid
+#: boxes/generators/universalbox.py
+msgid "additional lid (for straight top_edge only)"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/waivyknob.py
+msgid "WaivyKnob"
+msgstr ""
+
+#. description of WaivyKnob
+#: boxes/generators/waivyknob.py
+msgid "Round knob serraded outside for better gripping"
+msgstr ""
+
+msgid "WaivyKnob Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/waivyknob.py
+msgid "serrationangle"
+msgstr ""
+
+#. help for parameter serrationangle
+#: boxes/generators/waivyknob.py
+msgid "higher values for deeper serrations (degrees)"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/winerack.py
+msgid "WineRack"
+msgstr ""
+
+#. description of WineRack
+#: boxes/generators/winerack.py
+msgid "Honey Comb Style Wine Rack"
+msgstr ""
+
+msgid "WineRack Settings"
+msgstr ""
+
+#. help for parameter radius
+#: boxes/generators/winerack.py
+msgid "Radius of comb"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/winerack.py
+msgid "walls"
+msgstr ""
+
+#. help for parameter walls
+#: boxes/generators/winerack.py
+msgid "which of the honey comb walls to add"
+msgstr ""
+
+#. possible choice for walls
+#: boxes/generators/winerack.py
+msgid "minimal"
+msgstr ""
+
+#. possible choice for walls
+#: boxes/generators/winerack.py
+msgid "no_verticals"
+msgstr ""
+
+#: scripts/boxesserver:180
+#, python-format
+msgid "Boxes - %s"
+msgstr ""
+
+#: scripts/boxesserver:219
+msgid "Generate"
+msgstr ""
+
+#: scripts/boxesserver:247 scripts/boxesserver:267
+msgid "Boxes.py"
+msgstr ""
+
+#: scripts/boxesserver:269
+msgid "Create boxes and more with a laser cutter!"
+msgstr ""
+
+#: scripts/boxesserver:272
+msgid ""
+"\n"
+"        <a href=\"https://hackaday.io/project/10649-boxespy\">Boxes.py</a> "
+"is an <a href=\"https://www.gnu.org/licenses/gpl-3.0.en.html\">Open Source</"
+"a> box generator written in <a href=\"https://www.python.org/\">Python</a>. "
+"It features both finished parametrized generators as well as a Python API "
+"for writing your own. It features finger and (flat) dovetail joints, flex "
+"cuts, holes and slots for screws, hinges, gears, pulleys and much more."
+msgstr ""
+
+#: scripts/boxesserver:320
+msgid "Get Source at GitHub"
+msgstr ""
+
+#: scripts/boxesserver:321
+msgid "Documentation and API Description"
+msgstr ""
+
+#: scripts/boxesserver:322
+msgid "Hackaday.io Project Page"
+msgstr ""
+
+#: scripts/boxesserver:331
+#, python-format
+msgid "Error generating %s"
+msgstr ""
+
+#: scripts/boxesserver:336
+msgid "An error occurred!"
+msgstr ""

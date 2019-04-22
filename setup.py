@@ -25,17 +25,31 @@ class CustomBuildExtCommand(build_py):
             "xgettext -L Python -j -o po/boxes.py.pot",
             "boxes/*.py scripts/boxesserver scripts/boxes"))
 
+    def generate_mo_files(self):
+        pos = glob.glob("po/*.po")
+
+        for po in pos:
+            lang = po.split(os.sep)[1][:-3].replace("-", "_")
+            try:
+                os.makedirs(os.path.join("locale", lang, "LC_MESSAGES"))
+            except FileExistsError:
+                pass
+            os.system("msgfmt %s -o locale/%s/LC_MESSAGES/boxes.py.mo" % (po, lang))
+            self.distribution.data_files.append(
+                (os.path.join("share", "locales", lang, "LC_MESSAGES"),
+                 [os.path.join("locales", lang, "LC_MESSAGES", "boxes.py.mo")]))
+
     def run(self):
+        if self.distribution.data_files is None:
+            self.distribution.data_files = []
         self.execute(self.updatePOT, ())
+        self.execute(self.generate_mo_files, ())
         self.execute(self.buildInkscapeExt, ())
         try:
             path = check_output(["inkscape", "-x"]).decode().strip()
             if not os.access(path, os.W_OK): # Can we install globaly
                 # Not tested on Windows and Mac
                 path = os.path.expanduser("~/.config/inkscape/extensions")
-
-            if self.distribution.data_files is None:
-                self.distribution.data_files = []
             self.distribution.data_files.append(
                 (path,
                  [i for i in glob.glob(os.path.join("inkex", "*.inx"))]))

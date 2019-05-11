@@ -2032,3 +2032,29 @@ class Boxes:
             kw["move"] = "right only"
             for i in range(width):
                 part(*l, **kw)
+
+    def mirrorX(self, f, offset=0.0):
+        """Wrap a function to draw mirrored at the y axis
+
+        :param f: function to wrap
+        :param offset: (default value = 0.0) axis to mirror at
+        """
+        def r():
+            self.moveTo(offset, 0)
+            with self.saved_context():
+                self.ctx.scale(-1, 1)
+                f()
+        return r
+
+    def mirrorY(self, f, offset=0.0):
+        """Wrap a function to draw mirrored at the x axis
+
+        :param f: function to wrap
+        :param offset: (default value = 0.0) axis to mirror at
+        """
+        def r():
+            self.moveTo(0, offset)
+            with self.saved_context():
+                self.ctx.scale(1, -1)
+                f()
+        return r

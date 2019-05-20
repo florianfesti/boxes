@@ -17,11 +17,11 @@
 from boxes import *
 from boxes.lids import _TopEdge
 
-class StorageTray(_TopEdge):
-    """Storage tray (box for storing TypeTray box) - allows only continuous walls"""
+class StorageShelf(_TopEdge):
+    """StorageShelf can be used to store Typetray"""
 
-    ui_group = "Tray"
-    description = "This is a box for storing TypeTray box. It works the same way as TypeTray but verticaly."
+    ui_group = "Shelf"
+    description = "This is a simple shelf box."
 
     def __init__(self):
         Boxes.__init__(self)

@@ -71,13 +71,12 @@ class SVGFile(object):
         p.ParseFile(open(self.filename, "rb"))
 
     def rewriteViewPort(self):
-        f = open(self.filename, "r+")
-        s = f.read(1024)
-
-        m = re.search(r"""<svg[^>]*(width="(\d+pt)" height="(\d+pt)" viewBox="0 (0 (\d+) (\d+))") version="1.1">""", s)
-
-        # minx = 10*int(self.minx//10)-10
-        # as we don't rewrite the left border keep it as 0
+        """
+        Modify SVG file to have the correct width, height and viewPort attributes.
+        """
+        from xml.dom.minidom import parse, parseString
+        # parse the XML file
+        svg_dom = parse(self.filename)
 
         self.minx = self.minx or 0
         self.miny = self.miny or 0
@@ -93,17 +92,12 @@ class SVGFile(object):
         miny = 10 * int(self.miny // 10) - 10
         maxy = 10 * int(self.maxy // 10) + 10
 
-        if m:
-            f.seek(m.start(1))
-            s = ('width="%imm" height="%imm" viewBox="%i %i %i %i"' %
-                 (maxx - minx, maxy - miny, minx, miny, maxx - minx, maxy - miny))
+        svg_dom.documentElement.attributes['width'].nodeValue = "%imm" % (maxx-minx)
+        svg_dom.documentElement.attributes['height'].nodeValue = "%imm" % (maxy-miny)
+        svg_dom.documentElement.attributes['viewBox'].nodeValue = "%i %i %i %i" % (minx, miny, maxx - minx, maxy - miny)
 
-            if len(s) > len(m.group(1)):
-                raise ValueError("Not enough space for size")
-
-            f.write(s + " " * (len(m.group(1)) - len(s)))
-        else:
-            raise ValueError("Could not understand SVG file")
+        f = open(self.filename, "w")
+        svg_dom.writexml(f)
 
 unit2mm = {"mm" : 1.0,
            "cm" : 10.0,

@@ -1991,3 +1991,193 @@ class RoundedTriangleEdge(Edge):
 
     def margin(self):
         return self.settings.height + self.settings.radius
+
+#############################################################################
+####     Slat wall
+#############################################################################
+
+class SlatWallSettings(Settings):
+
+    """Settings for SlatWallEdges
+Values:
+
+* absolute_params
+
+
+* relative (in multiples of thickness)
+
+ * hook_extra_height : 2.0 : space surrounding connectors (in multiples of thickness)
+
+"""
+
+    absolute_params = {
+    }
+
+    relative_params = {
+        "hook_extra_height" : 2.0,
+    }
+
+    def edgeObjects(self, boxes, chars="aAbBcC", add=True):
+        edges = [SlatWallEdge(boxes, self),
+                 SlatWallEdgeReversed(boxes, self),
+                 SlatWallJoinedEdge(boxes, self),
+                 SlatWallJoinedEdgeReversed(boxes, self),
+                 SlatWallBackEdge(boxes, self),
+                 SlatWallBackEdgeReversed(boxes, self),
+        ]
+        return self._edgeObjects(edges, boxes, chars, add)
+
+
+class SlatWallEdge(BaseEdge):
+
+    char = "a"
+    reversed_ = False
+
+    def _top_hook(self, reversed_=False):
+        w = 6
+        ro = 6
+        ri = 2
+        rt = min(1, w/2)
+        poly = [0, -90, 5.5-ri, (-90, ri), 12-ri-w-rt, (90, rt),
+                w-2*rt, (90, rt), 12-ro-rt, (90, ro), 5.5+w-ro, -90,
+                self.settings.hook_extra_height]
+        if reversed_:
+            poly = reversed(poly)
+        self.polyline(*poly)
+
+    def _top_hook_len(self):
+        w = 6 + 1
+        return (w, self.settings.hook_extra_height - 1)
+
+    def _bottom_hook(self, reversed_=False):
+        slot = 8
+        r_plug = slot*.4
+        slotslot = slot - r_plug * 2**0.5
+        poly = [self.settings.hook_extra_height, -90,
+                5.0, -45, 0, (135, r_plug),
+                0, 90, 10, -90, slotslot, -90, 10, 90, 0,
+                (135, r_plug), 0, -45, 5, -90, self.settings.hook_extra_height]
+        if reversed_:
+            poly = reversed(poly)
+        self.polyline(*poly)
+
+    def _bottom_hook_len(self):
+        slot = 8
+        return (slot + self.settings.hook_extra_height,
+                self.settings.hook_extra_height)
+
+    def _joint(self, length, reversed_=False):
+        self.polyline(length)
+
+    def __call__(self, length, **kw):
+        step = 100
+        tht, thb = self._top_hook_len()
+        bht, bhb = self._bottom_hook_len()
+
+        if length >= step + tht + bhb:
+            top_len = ((length-tht-1) // step) * step - thb - bht
+            bottom_len = (length-tht) % step - bhb
+        else:
+            top_len = length-tht-thb
+            bottom_len = None
+
+        if self.reversed_:
+            if bottom_len is not None:
+                self._joint(bottom_len, True)
+                self._bottom_hook(True)
+            self._joint(top_len, True)
+            self._top_hook(True)
+        else:
+            self._top_hook()
+            self._joint(top_len, True)
+            if bottom_len is not None:
+                self._bottom_hook(True)
+                self._joint(bottom_len, True)
+
+    def margin(self):
+        return 6+5.5
+
+class SlatWallEdgeReversed(SlatWallEdge):
+    char = "A"
+    reversed_ = True
+
+class SlatWallJoinedEdge(SlatWallEdge):
+    char = "b"
+
+    def _joint(self, length, reversed_=False):
+        t = self.settings.thickness
+        self.polyline(0, 90, t, -90)
+        self.edges["f"](length)
+        self.polyline(0, -90, t, 90)
+
+    def start_width(self):
+        return self.settings.thickness
+
+class SlatWallJoinedEdgeReversed(SlatWallJoinedEdge):
+    char = "B"
+    reversed_ = True
+
+class SlatWallBackEdge(SlatWallEdge):
+
+    char = "c"
+
+    def _top_hook(self, reversed_=False):
+        self.polyline(sum(self._top_hook_len()))
+
+    def _bottom_hook(self, reversed_=False):
+        self.polyline(sum(self._bottom_hook_len()))
+
+    def _joint(self, length, reversed_=False):
+        t = self.settings.thickness
+        self.polyline(0, -90, t, 90)
+        self.edges["F"](length)
+        self.polyline(0, 90, t, -90)
+
+    def margin(self):
+        return self.settings.thickness
+
+class SlatWallBackEdgeReversed(SlatWallBackEdge):
+    char = "C"
+    reversed_ = True
+
+class SlatWallHoles(SlatWallEdge):
+
+    reversed_ = True
+
+    def _top_hook(self, reversed_=False):
+        h = sum(self._top_hook_len())
+        self.rectangularHole(h/2, 0, h, self.settings.thickness)
+        self.moveTo(h, 0)
+
+    def _bottom_hook(self, reversed_=False):
+        h = sum(self._bottom_hook_len())
+        self.rectangularHole(h/2, 0, h, self.settings.thickness)
+        self.moveTo(h, 0)
+
+    def _joint(self, length, reversed_=False):
+        self.fingerHolesAt(0, 0, length, 0)
+        self.moveTo(length, 0)
+
+    def __call__(self, x, y, length, angle, **kw):
+        """
+        Draw holes for a matching SlatWallJoinedEdge
+
+        :param x: position
+        :param y: position
+        :param length: length of matching edge
+        :param angle:  (Default value = 90)
+        :param bedBolts:  (Default value = None)
+        :param bedBoltSettings:  (Default value = None)
+
+        """
+        with self.boxes.saved_context():
+            self.boxes.moveTo(x, y, angle)
+            b = self.boxes.burn
+            t = self.settings.thickness
+
+            if self.boxes.debug: # XXX
+                width = self.settings.thickness
+                self.ctx.rectangle(b, -width / 2 + b,
+                                   length - 2 * b, width - 2 * b)
+
+            SlatWallEdge.__call__(self, length)

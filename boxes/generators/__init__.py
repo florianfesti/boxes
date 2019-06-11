@@ -24,6 +24,7 @@ ui_groups = [
     UIGroup("FlexBox", "Boxes with flex"),
     UIGroup("Tray", "Trays and Drawer Inserts"),
     UIGroup("Shelf", "Shelves"),
+    UIGroup("SlatWall"),
     UIGroup("Part", "Parts and Samples"),
     UIGroup("Misc"),
     UIGroup("Unstable", description="Generators are still untested or need manual adjustment to be useful."),

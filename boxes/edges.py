@@ -2003,6 +2003,7 @@ Values:
 
 * absolute_params
 
+ * bottom_hook : "hook" : "spring", "stud" or "none"
 
 * relative (in multiples of thickness)
 
@@ -2012,6 +2013,7 @@ Values:
 """
 
     absolute_params = {
+        "bottom_hook" : ("hook", "spring", "stud", "none"),
     }
 
     relative_params = {
@@ -2055,12 +2057,27 @@ class SlatWallEdge(BaseEdge):
 
     def _bottom_hook(self, reversed_=False):
         slot = 8
-        r_plug = slot*.4
-        slotslot = slot - r_plug * 2**0.5
-        poly = [self.settings.hook_extra_height, -90,
-                5.0, -45, 0, (135, r_plug),
-                0, 90, 10, -90, slotslot, -90, 10, 90, 0,
-                (135, r_plug), 0, -45, 5, -90, self.settings.hook_extra_height]
+
+        if self.settings.bottom_hook == "spring":
+            r_plug = slot*.4
+            slotslot = slot - r_plug * 2**0.5
+            poly = [self.settings.hook_extra_height, -90,
+                    5.0, -45, 0, (135, r_plug),
+                    0, 90, 10, -90, slotslot, -90, 10, 90, 0,
+                    (135, r_plug), 0, -45, 5, -90,
+                    self.settings.hook_extra_height]
+        elif self.settings.bottom_hook == "hook":
+            d = 2
+            poly = [self.settings.hook_extra_height + d - 1, -90,
+                    5.5+5, (90,1), slot-2, (90, 1), 5, 90, d,
+                    -90, 5.5, -90, self.settings.hook_extra_height + 1]
+        elif self.settings.bottom_hook == "stud":
+            poly = [self.settings.hook_extra_height, -90,
+                    6, (90, 1) , slot-2, (90, 1), 6, -90,
+                    self.settings.hook_extra_height]
+        else:
+            poly = [2*self.settings.hook_extra_height + slot]
+
         if reversed_:
             poly = reversed(poly)
         self.polyline(*poly)
@@ -2074,11 +2091,11 @@ class SlatWallEdge(BaseEdge):
         self.polyline(length)
 
     def __call__(self, length, **kw):
-        step = 100
+        step = 101.6 # 4"
         tht, thb = self._top_hook_len()
         bht, bhb = self._bottom_hook_len()
 
-        if length >= step + tht + bhb:
+        if length >= step + tht + bhb and self.settings.bottom_hook != "none":
             top_len = ((length-tht-1) // step) * step - thb - bht
             bottom_len = (length-tht) % step - bhb
         else:
@@ -2093,10 +2110,10 @@ class SlatWallEdge(BaseEdge):
             self._top_hook(True)
         else:
             self._top_hook()
-            self._joint(top_len, True)
+            self._joint(top_len)
             if bottom_len is not None:
-                self._bottom_hook(True)
-                self._joint(bottom_len, True)
+                self._bottom_hook()
+                self._joint(bottom_len)
 
     def margin(self):
         return 6+5.5
@@ -2114,7 +2131,7 @@ class SlatWallJoinedEdge(SlatWallEdge):
         self.edges["f"](length)
         self.polyline(0, -90, t, 90)
 
-    def start_width(self):
+    def startwidth(self):
         return self.settings.thickness
 
 class SlatWallJoinedEdgeReversed(SlatWallJoinedEdge):

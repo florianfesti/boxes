@@ -147,19 +147,28 @@ def argparseSections(s):
     :param s: string to parse
 
     """
-    m = re.match(r"(\d+(\.\d+)?)/(\d+)", s)
-    if m:
-        n = int(m.group(3))
-        return [float(m.group(1)) / n] * n
-    m = re.match(r"(\d+(\.\d+)?)\*(\d+)", s)
-    if m:
-        n = int(m.group(3))
-        return [float(m.group(1))] * n
+
+    result = []
+
+    s = re.split(r"\s|:", s)
+
     try:
-        return [float(part) for part in s.split(":")]
+        for part in s:
+            m = re.match(r"^(\d+(\.\d+)?)/(\d+)$", part)
+            if m:
+                n = int(m.group(3))
+                result.extend([float(m.group(1)) / n] * n)
+                continue
+            m = re.match(r"^(\d+(\.\d+)?)\*(\d+)$", part)
+            if m:
+                n = int(m.group(3))
+                result.extend([float(m.group(1))] * n)
+                continue
+            result.append(float(part))
     except ValueError:
         raise argparse.ArgumentTypeError("Don't understand sections string")
 
+    return result
 
 class ArgparseEdgeType:
     """argparse type to select from a set of edge types"""

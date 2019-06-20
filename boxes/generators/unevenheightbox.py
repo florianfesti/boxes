@@ -42,32 +42,6 @@ class UnevenHeightBox(Boxes):
             "--lid", action="store", type=boolarg, default=False,
             help="add a lid (works best with high corners opposing each other)")
 
-    def wall(self, w, h0, h1, edges="eee", move=None):
-
-        edges = [self.edges.get(e, e) for e in edges]
-        
-        overallwidth = w + edges[-1].spacing() + edges[1].spacing()
-        overallheight = max(h0, h1) + edges[0].spacing()
-
-        if self.move(overallwidth, overallheight, move, before=True):
-            return
-
-        a = math.degrees(math.atan((h1-h0)/w))
-        l = ((h0-h1)**2+w**2)**0.5
-
-        self.moveTo(edges[-1].spacing(), edges[0].margin())
-        edges[0](w)
-        self.edgeCorner(edges[0], edges[1], 90)
-        edges[1](h1)
-        self.edgeCorner(edges[1], self.edges["e"], 90)
-        self.polyline(0, a, l, -a)
-        self.edgeCorner(self.edges["e"], edges[-1], 90)
-        edges[-1](h0)
-        self.edgeCorner(edges[-1], edges[0], 90)
-        
-        self.move(overallwidth, overallheight, move)
-
-
     def render(self):
 
         x, y = self.x, self.y
@@ -83,10 +57,10 @@ class UnevenHeightBox(Boxes):
         h0, h1, h2, h3 = heights
         b = self.bottom_edge
 
-        self.wall(x, h0, h1, [b, "F", "F"], move="right")
-        self.wall(y, h1, h2, [b, "f", "f"], move="right")
-        self.wall(x, h2, h3, [b, "F", "F"], move="right")
-        self.wall(y, h3, h0, [b, "f", "f"], move="right")
+        self.trapezoidWall(x, h0, h1, [b, "F", "e", "F"], move="right")
+        self.trapezoidWall(y, h1, h2, [b, "f", "e", "f"], move="right")
+        self.trapezoidWall(x, h2, h3, [b, "F", "e", "F"], move="right")
+        self.trapezoidWall(y, h3, h0, [b, "f", "e", "f"], move="right")
 
         with self.saved_context():
             if b != "e":
@@ -102,13 +76,13 @@ class UnevenHeightBox(Boxes):
 
         if self.lid:
             self.moveTo(0, maxh+self.edges["F"].spacing()+self.edges[b].spacing()+3*self.spacing, 180)
-            self.wall(y, h0, h3, "Fff", move="right" +
+            self.trapezoidWall(y, h0, h3, "Ffef", move="right" +
                       (" only" if h0 == h3 == 0.0 else ""))
-            self.wall(x, h3, h2, "FFF", move="right" +
+            self.trapezoidWall(x, h3, h2, "FFeF", move="right" +
                       (" only" if h3 == h2 == 0.0 else ""))
-            self.wall(y, h2, h1, "Fff", move="right" +
+            self.trapezoidWall(y, h2, h1, "Ffef", move="right" +
                       (" only" if h2 == h1 == 0.0 else ""))
-            self.wall(x, h1, h0, "FFF", move="right" +
+            self.trapezoidWall(x, h1, h0, "FFeF", move="right" +
                       (" only" if h1 == h0 == 0.0 else ""))
 
 

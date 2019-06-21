@@ -2007,6 +2007,7 @@ Values:
 * relative (in multiples of thickness)
 
  * hook_extra_height : 2.0 : space surrounding connectors (in multiples of thickness)
+ * edge_width : 1.0 : space below holes of FingerHoleEdge
 
 """
 
@@ -2015,15 +2016,18 @@ Values:
 
     relative_params = {
         "hook_extra_height" : 2.0,
+        "edge_width": 1.0,
     }
 
-    def edgeObjects(self, boxes, chars="aAbBcC", add=True):
+    def edgeObjects(self, boxes, chars="aAbBcCdD", add=True):
         edges = [SlatWallEdge(boxes, self),
                  SlatWallEdgeReversed(boxes, self),
                  SlatWallJoinedEdge(boxes, self),
                  SlatWallJoinedEdgeReversed(boxes, self),
                  SlatWallBackEdge(boxes, self),
                  SlatWallBackEdgeReversed(boxes, self),
+                 SlatWallHoleEdge(boxes, self),
+                 SlatWallHoleEdgeReversed(boxes, self),
         ]
         return self._edgeObjects(edges, boxes, chars, add)
 
@@ -2181,3 +2185,35 @@ class SlatWallHoles(SlatWallEdge):
                                    length - 2 * b, width - 2 * b)
 
             SlatWallEdge.__call__(self, length)
+
+class SlatWallHoleEdge(BaseEdge):
+    """Edge with holes for a parallel finger joint"""
+    char = 'd'
+    description = "Edge (parallel slot wall Holes)"
+    reversed_ = False
+
+    def __init__(self, boxes, slatWallHoles=None, **kw):
+        settings = None
+        if isinstance(slatWallHoles, Settings):
+            settings = slatWallHoles
+            slatWallHoles = SlatWallHoles(boxes, settings)
+        super(SlatWallHoleEdge, self).__init__(boxes, settings, **kw)
+
+        self.slatWallHoles = slatWallHoles or boxes.slatWallHolesAt
+
+    def __call__(self, length, bedBolts=None, bedBoltSettings=None, **kw):
+        dist = self.slatWallHoles.settings.edge_width
+        with self.saved_context():
+            px, angle = (0, 0) if self.reversed_ else (length, 180)
+            self.slatWallHoles(
+                px, dist + self.settings.thickness / 2, length, angle)
+        self.edge(length, tabs=2)
+
+    def startwidth(self):
+        """ """
+        return self.slatWallHoles.settings.edge_width + self.settings.thickness
+
+class SlatWallHoleEdgeReversed(SlatWallHoleEdge):
+
+    char = "D"
+    reversed_ = True

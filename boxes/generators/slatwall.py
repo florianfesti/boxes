@@ -37,7 +37,7 @@ class SlatwallEdges(Boxes):
 
         h = self.h
 
-        for i, c in enumerate("aAbBcC"):
+        for i, c in enumerate("aAbBcCdD"):
             self.text(c, x=i*30+15, y=5)
         self.text("slatWallHolesAt", 115, 15)
         self.moveTo(0, 25)
@@ -45,3 +45,5 @@ class SlatwallEdges(Boxes):
         self.rectangularWall(40, h, "eBeb", move="right")
         self.rectangularWall(40, h, "eCec", callback=[
             lambda: self.slatWallHolesAt(20, 0, h, 90)], move="right")
+        self.moveTo(10)
+        self.rectangularWall(40, h, "eDed", move="right")

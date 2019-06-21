@@ -1820,7 +1820,7 @@ class Boxes:
 
         self.move(overallwidth, overallheight, move)
 
-    def trapezoidWall(self, w, h0, h1, edges="eee",
+    def trapezoidWall(self, w, h0, h1, edges="eeee",
                            callback=None, move=None):
         """
         Rectangular trapezoidal wall
@@ -1857,6 +1857,62 @@ class Boxes:
         edges[2](l)
         self.corner(-a)
         self.edgeCorner(self.edges["e"], edges[-1], 90)
+        self.cc(callback, 3, y=edges[-1].startwidth())
+        edges[3](h0)
+        self.edgeCorner(edges[-1], edges[0], 90)
+
+        self.move(overallwidth, overallheight, move)
+
+    def trapezoidSideWall(self, w, h0, h1, edges="eeee",
+                          radius=0.0, callback=None, move=None):
+        """
+        Rectangular trapezoidal wall
+
+        :param w: width
+        :param h0: left height
+        :param h1: right height
+        :param edges:  (Default value = "eeee") bottom, right, left
+        :param radius: (Default vaule = 0.0) radius of upper corners
+        :param callback:  (Default value = None)
+        :param move:  (Default value = None)
+
+        """
+
+        edges = [self.edges.get(e, e) for e in edges]
+
+        overallwidth = w + edges[-1].spacing() + edges[1].spacing()
+        overallheight = max(h0, h1) + edges[0].spacing()
+
+        if self.move(overallwidth, overallheight, move, before=True):
+            return
+
+        r = min(radius, abs(h0-h1))
+        ws = w-r
+        if h0 > h1:
+            ws += edges[1].endwidth()
+        else:
+            ws += edges[3].startwidth()
+        hs = abs(h1-h0) - r
+        a = math.degrees(math.atan(hs/ws))
+        l = (ws**2+hs**2)**0.5
+
+        self.moveTo(edges[-1].spacing(), edges[0].margin())
+        self.cc(callback, 0, y=edges[0].startwidth())
+        edges[0](w)
+        self.edgeCorner(edges[0], edges[1], 90)
+        self.cc(callback, 1, y=edges[1].startwidth())
+        edges[1](h1)
+
+        if h0 > h1:
+            self.polyline(0, (90-a, r))
+            self.cc(callback, 2)
+            edges[2](l)
+            self.polyline(0, (a, r), edges[3].startwidth(), 90)
+        else:
+            self.polyline(0, 90, edges[1].endwidth(), (a, r))
+            self.cc(callback, 2)
+            edges[2](l)
+            self.polyline(0, (90-a, r))
         self.cc(callback, 3, y=edges[-1].startwidth())
         edges[3](h0)
         self.edgeCorner(edges[-1], edges[0], 90)

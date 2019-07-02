@@ -134,12 +134,11 @@ def ticksPerMM(tree):
     return x2/width, y2/height
 
 def svgMerge(box, inkscape, output):
-    from lxml import etree as et
 
-    parser = et.XMLParser(remove_blank_text=True)
+    parser = ElementTree.XMLParser(remove_blank_text=True)
 
-    src_tree = et.parse(box, parser)
-    dest_tree = et.parse(inkscape, parser)
+    src_tree = ElementTree.parse(box, parser)
+    dest_tree = ElementTree.parse(inkscape, parser)
     dest_root = dest_tree.getroot()
 
     src_width, src_height = getSizeInMM(src_tree)
@@ -164,7 +163,7 @@ def svgMerge(box, inkscape, output):
                 scale_x, scale_y, off_x, off_y))
 
     # write the xml file
-    et.ElementTree(dest_root).write(output, pretty_print=True, encoding='utf-8', xml_declaration=True)
+    ElementTree.ElementTree(dest_root).write(output, pretty_print=True, encoding='utf-8', xml_declaration=True)
 
 if __name__ == "__main__":
     svg = SVGFile("examples/box.svg")

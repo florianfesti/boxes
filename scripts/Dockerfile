@@ -17,7 +17,7 @@ FROM fedora:latest
 RUN dnf install -y python3-cairocffi python3-xcffib git-core python3-markdown python3-lxml python3-setuptools pstoedit
 
 # Get Boxes.py sources to /boxes
-RUN git clone https://github.com/florianfesti/boxes.git
+RUN git clone --depth 1 -b master https://github.com/florianfesti/boxes.git
 
 # Internal port used
 EXPOSE 8000

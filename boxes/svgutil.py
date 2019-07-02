@@ -14,10 +14,41 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import xml.parsers.expat
 import re
 
 from xml.etree import cElementTree as ElementTree
+
+class Extend:
+
+    def __init__(self):
+        self.minx = None
+        self.maxx = None
+        self.miny = None
+        self.maxy = None
+
+    def __add__(self, v):
+        x, y = v
+        res = Extend()
+        res.minx = self.minx + x
+        res.maxx = self.maxx + x
+        res.miny = self.miny + y
+        res.maxy = self.maxy + y
+        return res
+
+    def addPoint(self, x, y):
+        if self.minx is None or self.minx > x:
+            self.minx = x
+        if self.maxx is None or self.maxx < x:
+            self.maxx = x
+        if self.miny is None or self.miny > y:
+            self.miny = y
+        if self.maxy is None or self.maxy < y:
+            self.maxy = y
+
+    def addExtend(self, extend, x, y):
+        extend = extend + (x, y)
+        self.addPoint(extend.minx, extend.miny)
+        self.addPoint(extend.maxx, extend.maxy)
 
 class SVGFile(object):
     pathre = re.compile(r"[MCL]? *((-?\d+(\.\d+)?) (-?\d+(\.\d+)?) *)+")
@@ -27,12 +58,12 @@ class SVGFile(object):
         self.filename = filename
         self.minx = self.maxx = self.miny = self.maxy = None
         self.tree = ElementTree.parse(filename)
+        self.symbol_extends = {}
 
-    def handleStartElement(self, name, attrs):
-        self.tags.append(name)
-        if name == "path" and "symbol" not in self.tags:
+    def getExtend(self, element, extend):
+        if element.tag.endswith("}path"):
             minx = maxx = miny = maxy = None
-            m = self.transformre.match(attrs.get("transform", ""))
+            m = self.transformre.match(element.attrib.get("transform", ""))
 
             if m:
                 matrix = [float(m.group(i)) for i in range(1, 12, 2)]
@@ -41,55 +72,50 @@ class SVGFile(object):
                           0, 1,
                           0, 0]
 
-            for m in self.pathre.findall(attrs.get("d", "")):
+            for m in self.pathre.findall(element.attrib.get("d", "")):
                 x = float(m[1])
                 y = float(m[3])
                 tx = matrix[0] * x + matrix[2] * y + matrix[4]
                 ty = matrix[1] * x + matrix[3] * y + matrix[5]
 
-                if self.minx is None or self.minx > tx:
-                    self.minx = tx
+                extend.addPoint(tx, ty)
+        elif element.tag.endswith("}use"):
+            x, y = float(element.attrib["x"]), float(element.attrib["y"])
+            print(element.attrib)
+            s = self.symbol_extends[element.attrib["{http://www.w3.org/1999/xlink}href"][1:]]
+            extend.addExtend(s, x, y)
 
-                if self.maxx is None or self.maxx < tx:
-                    self.maxx = tx
-
-                if self.miny is None or self.miny > ty:
-                    self.miny = ty
-
-                if self.maxy is None or self.maxy < ty:
-                    self.maxy = ty
-
-    def handleEndElement(self, name):
-        last = self.tags.pop()
-
-        if last != name:
-            raise ValueError("Got </%s> expected </%s>" % (name, last))
+        for e in element:
+            if e.tag.endswith("}symbol"):
+                print(e.attrib)
+                self.symbol_extends[e.attrib["id"]] = self.getExtend(e, Extend())
+            else:
+                self.getExtend(e, extend)
+        return extend
 
     def getEnvelope(self):
         self.tags = []
-        p = xml.parsers.expat.ParserCreate()
-        p.StartElementHandler = self.handleStartElement
-        p.EndElementHandler = self.handleEndElement
-        p.ParseFile(open(self.filename, "rb"))
+        root = self.tree.getroot()
+        self.extend = self.getExtend(root, Extend())
 
     def rewriteViewPort(self):
         """
         Modify SVG file to have the correct width, height and viewPort attributes.
         """
 
-        self.minx = self.minx or 0
-        self.miny = self.miny or 0
-        self.maxx = self.maxx or (self.minx + 10)
-        self.maxy = self.maxy or (self.miny + 10)
+        self.extend.minx = self.extend.minx or 0
+        self.extend.miny = self.extend.miny or 0
+        self.extend.maxx = self.extend.maxx or (self.extend.minx + 10)
+        self.extend.maxy = self.extend.maxy or (self.extend.miny + 10)
 
-        if 0 <= self.minx <= 50:
+        if 0 <= self.extend.minx <= 50:
             minx = 0
         else:
-            minx = 10 * int(self.minx // 10) - 10
+            minx = 10 * int(self.extend.minx // 10) - 10
 
-        maxx = 10 * int(self.maxx // 10) + 10
-        miny = 10 * int(self.miny // 10) - 10
-        maxy = 10 * int(self.maxy // 10) + 10
+        maxx = 10 * int(self.extend.maxx // 10) + 10
+        miny = 10 * int(self.extend.miny // 10) - 10
+        maxy = 10 * int(self.extend.maxy // 10) + 10
 
         root = self.tree.getroot()
         root.set('width', "%imm" % (maxx-minx))

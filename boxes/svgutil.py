@@ -17,6 +17,7 @@
 import xml.parsers.expat
 import re
 
+from xml.etree import cElementTree as ElementTree
 
 class SVGFile(object):
     pathre = re.compile(r"[MCL]? *((-?\d+(\.\d+)?) (-?\d+(\.\d+)?) *)+")
@@ -25,6 +26,7 @@ class SVGFile(object):
     def __init__(self, filename):
         self.filename = filename
         self.minx = self.maxx = self.miny = self.maxy = None
+        self.tree = ElementTree.parse(filename)
 
     def handleStartElement(self, name, attrs):
         self.tags.append(name)
@@ -74,9 +76,6 @@ class SVGFile(object):
         """
         Modify SVG file to have the correct width, height and viewPort attributes.
         """
-        from xml.dom.minidom import parse, parseString
-        # parse the XML file
-        svg_dom = parse(self.filename)
 
         self.minx = self.minx or 0
         self.miny = self.miny or 0
@@ -87,17 +86,17 @@ class SVGFile(object):
             minx = 0
         else:
             minx = 10 * int(self.minx // 10) - 10
-            # raise ValueError("Left end of drawing at wrong place: %imm (0-50mm expected)" % self.minx)
+
         maxx = 10 * int(self.maxx // 10) + 10
         miny = 10 * int(self.miny // 10) - 10
         maxy = 10 * int(self.maxy // 10) + 10
 
-        svg_dom.documentElement.attributes['width'].nodeValue = "%imm" % (maxx-minx)
-        svg_dom.documentElement.attributes['height'].nodeValue = "%imm" % (maxy-miny)
-        svg_dom.documentElement.attributes['viewBox'].nodeValue = "%i %i %i %i" % (minx, miny, maxx - minx, maxy - miny)
+        root = self.tree.getroot()
+        root.set('width', "%imm" % (maxx-minx))
+        root.set('height', "%imm" % (maxy-miny))
+        root.set('viewBox', "%i %i %i %i" % (minx, miny, maxx - minx, maxy - miny))
 
-        f = open(self.filename, "w")
-        svg_dom.writexml(f)
+        self.tree.write(self.filename)
 
 unit2mm = {"mm" : 1.0,
            "cm" : 10.0,

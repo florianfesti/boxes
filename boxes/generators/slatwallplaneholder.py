@@ -47,7 +47,7 @@ class SlatwallPlaneHolder(Boxes):
         self.fingerHolesAt(1.5*t, 2*t, 0.25*l, 90)
         self.fingerHolesAt(1.5*t, 2*t+0.75*l, 0.25*l, 90)
         self.fingerHolesAt(2.5*t+h, 2*t+l-hl, hl, 90)
-        self.fingerHolesAt(2*t, 1.5*t, h, 0)
+        self.fingerHolesAt(2*t, 1.5*t, h+2*t, 0)
 
     def render(self):
         # Add slat wall edges
@@ -62,7 +62,7 @@ class SlatwallPlaneHolder(Boxes):
                              move="right")
         self.rectangularWall(h+4*t, l+2*t, "eeea", callback=[self.side],
                              move="right")
-        self.rectangularWall(w, h, "efFf", move="up")
+        self.rectangularWall(w, h+2*t, "efFf", move="up")
         self.rectangularWall(w, 0.25*l, "ffef", move="up")
         self.rectangularWall(w, 0.25*l, "efef", move="up")
         self.rectangularWall(w, self.hold_length, "efef", move="up")

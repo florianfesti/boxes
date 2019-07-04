@@ -101,8 +101,7 @@ class Formats:
 
         if fmt in ['svg', 'svg_Ponoko']:
             svg = svgutil.SVGFile(filename)
-            svg.getEnvelope()
-            svg.rewriteViewPort()
+            svg.fix()
         else:
             ps = PSFile(filename)
             ps.adjustDocumentMedia()

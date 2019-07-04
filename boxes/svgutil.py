@@ -60,6 +60,11 @@ class SVGFile(object):
         self.tree = ElementTree.parse(filename)
         self.symbol_extends = {}
 
+    def fix(self):
+        self.getEnvelope()
+        self.moveOrigin()
+        self.rewriteViewPort()
+
     def getExtend(self, element, extend):
         if element.tag.endswith("}path"):
             minx = maxx = miny = maxy = None
@@ -97,6 +102,37 @@ class SVGFile(object):
         self.tags = []
         root = self.tree.getroot()
         self.extend = self.getExtend(root, Extend())
+
+
+    def _moveElement(self, e, dx, dy):
+        if e.tag.endswith("}symbol"):
+            return
+        if e.tag.endswith("}path"):
+            minx = maxx = miny = maxy = None
+            m = self.transformre.match(e.attrib.get("transform", ""))
+
+            if m:
+                matrix = [float(m.group(i)) for i in range(1, 12, 2)]
+            else:
+                matrix = [1, 0,
+                          0, 1,
+                          0, 0]
+            matrix[4] += dx
+            matrix[5] += dy
+            e.attrib["transform"] = "matrix(%s)" % (",".join(("%.4f" % m for m in matrix)))
+        if e.tag.endswith("}use"):
+            e.attrib["x"] = "%.4f" % (float(e.attrib["x"])+dx)
+            e.attrib["y"] = "%.4f" % (float(e.attrib["y"])+dy)
+
+        for child in e:
+            self._moveElement(child, dx, dy)
+
+    def moveOrigin(self):
+        self._moveElement(self.tree.getroot(),
+                          -self.extend.minx+10, -self.extend.miny+10)
+        self.extend.maxx -= self.extend.minx-20
+        self.extend.maxy -= self.extend.miny-20
+        self.extend.minx = self.extend.miny = 0.0
 
     def rewriteViewPort(self):
         """

@@ -17,7 +17,7 @@
 from boxes import *
 from boxes.lids import _TopEdge
 
-class SwTypeTray(_TopEdge):
+class SlatwallTypeTray(_TopEdge):
     """Type tray - allows only continuous walls"""
 
     ui_group = "SlatWall"

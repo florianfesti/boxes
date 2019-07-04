@@ -16,7 +16,7 @@
 
 from boxes import *
 
-class SwPliersHolder(Boxes):
+class SlatwallPliersHolder(Boxes):
     """Bar to hang pliers on"""
 
     ui_group = "SlatWall"

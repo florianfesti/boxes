@@ -200,20 +200,78 @@ class SVGFile(object):
             number += self.optimize(e)
         return number
 
+    def _addTag(self, parent, tag, text, first=False):
+        if first:
+            t = ElementTree.Element(tag)
+        else:
+            t = ElementTree.SubElement(parent, tag)
+        t.text = text
+        t.tail = '\n'
+        if first:
+            parent.insert(0, t)
+        return t
+
+
     def addMetadata(self, md):
+        root = self.tree.getroot()
+
+        # Add Inkscape style rdf meta data
+        root.set("xmlns:dc", "http://purl.org/dc/elements/1.1/")
+        root.set("xmlns:cc", "http://creativecommons.org/ns#")
+        root.set("xmlns:rdf","http://www.w3.org/1999/02/22-rdf-syntax-ns#")
+
+        title = "{group} - {name}".format(**md)
+        date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        m = self._addTag(root, "metadata", '\n', True)
+        r = ElementTree.SubElement(m, 'rdf:RDF')
+        w = ElementTree.SubElement(r, 'cc:Work')
+        w.text = '\n'
+
+        self._addTag(w, 'dc:title', title)
+        self._addTag(w, 'dc:date', date)
+
+        if "url" in md and md["url"]:
+            self._addTag(w, 'dc:source', md["url"])
+        else:
+            self._addTag(w, 'dc:source', md["cli"])
+
+        desc = md["short_description"]
+        if "description" in md and md["description"]:
+            desc += "\n\n" + md["description"]
+        desc += "\n\nCreated with Boxes.py (https://festi.info/boxes.py)\n"
+        desc += "Command line: %s\n" % md["cli"]
+        if md["url"]:
+            desc += "Url: %s\n" % md["url"]
+            desc += "SettingsUrl: %s\n" % re.sub(r"&render=[01]", "", md["url"])
+        self._addTag(w, 'dc:description', desc)
+
+        # title
+        self._addTag(root, "title", md["name"], True)
+
+        # Add XML comment
         txt = """
-{name} - {description}
+{name} - {short_description}
+""".format(**md)
+        if md["description"]:
+            txt += """
+
+{description}
+
+""".format(**md)
+        txt += """
 Created with Boxes.py (https://festi.info/boxes.py)
 Creation date: {date}
-""".format(date=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") , **md)
+""".format(date=date, **md)
 
         txt += "Command line (remove spaces beteen dashes): %s\n" % md["cli"].replace("--", "- -")
 
         if md["url"]:
-            txt+= "Url: %s\n" % md["url"]
-            txt+= "SettingsUrl: %s\n" % re.sub(r"&render=[01]", "", md["url"])
+            txt += "Url: %s\n" % md["url"]
+            txt += "SettingsUrl: %s\n" % re.sub(r"&render=[01]", "", md["url"])
         m = ElementTree.Comment(txt)
-        self.tree.getroot().insert(0, m)
+        m.tail = '\n'
+        root.insert(0, m)
 
 unit2mm = {"mm" : 1.0,
            "cm" : 10.0,

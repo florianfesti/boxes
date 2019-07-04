@@ -246,6 +246,7 @@ class Boxes:
 
         self.metadata = {
             "name" : self.__class__.__name__,
+            "short_description" : self.__doc__,
             "description" : self.description,
             "group" : self.ui_group,
             "url" : "",

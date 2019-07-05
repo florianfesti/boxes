@@ -1552,11 +1552,11 @@ class LidSideRight(BaseEdge):
                       pinl, 90, edge_width, 90, pinl+t-s]
 
         holex = 0.6 * t
-        holey = -0.5*t
+        holey = -0.5*t + self.burn
         if self.rightside:
             p = list(reversed(p))
             holex = length - holex
-            holey = edge_width + 0.5*t
+            holey = edge_width + 0.5*t + self.burn
 
         if spring:
             self.rectangularHole(holex, holey, 0.4*t, t+2*s)

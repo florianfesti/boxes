@@ -1542,17 +1542,17 @@ class LidSideRight(BaseEdge):
             spring = self.settings.spring in ("left", "both")
 
         if spring:
-            p = [s, -90, t+s, -90, t+s, 90, edge_width-s, 90, length+t]
+            p = [s, -90, t+s, -90, t+s, 90, edge_width-s/2, 90, length+t]
         else:
-            p = [t+s, -90, t+s, -90, 2*t+s, 90, edge_width-s, 90, length+t]
+            p = [t+s, -90, t+s, -90, 2*t+s, 90, edge_width-s/2, 90, length+t]
 
         if pin:
             pinl = 2*t
-            p[-1:] = [p[-1]-t-2*pinl, 90, edge_width+t+s, -90, 2*pinl+s, -90, t+s, -90,
-                      pinl, 90, edge_width, 90, pinl+t-s]
+            p[-1:] = [p[-1]-t-2*pinl, 90, edge_width+t+s/2, -90, 2*pinl+s, -90, t+s, -90,
+                      pinl, 90, edge_width-s/2, 90, pinl+t-s]
 
         holex = 0.6 * t
-        holey = -0.5*t + self.burn
+        holey = -0.5*t + self.burn - s / 2
         if self.rightside:
             p = list(reversed(p))
             holex = length - holex
@@ -1563,13 +1563,13 @@ class LidSideRight(BaseEdge):
         self.polyline(*p)
 
     def startwidth(self):
-        return self.boxes.thickness + self.settings.edge_width if self.rightside else 0.0
+        return self.boxes.thickness + self.settings.edge_width if self.rightside else -self.settings.play / 2
 
     def endwidth(self):
-        return self.boxes.thickness + self.settings.edge_width if not self.rightside else 0.0
+        return self.boxes.thickness + self.settings.edge_width if not self.rightside else -self.settings.play / 2
 
     def margin(self):
-        return self.boxes.thickness + self.settings.edge_width if not self.rightside else 0.0
+        return self.boxes.thickness + self.settings.edge_width + self.settings.play / 2 if not self.rightside else 0.0
 
 class LidSideLeft(LidSideRight):
     char = "M"

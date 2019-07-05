@@ -1430,6 +1430,8 @@ class LidSettings(FingerJointSettings):
 
     """Settings for Slide-on Lids
 
+Note that edge_width below also determines how much the sides extend above the lid.
+
 Inherited:
 
     """
@@ -1532,6 +1534,7 @@ class LidSideRight(BaseEdge):
         t = self.boxes.thickness
         s = self.settings.play
         pin = self.settings.second_pin
+        edge_width = self.settings.edge_width
 
         if self.rightside:
             spring = self.settings.spring in ("right", "both")
@@ -1539,34 +1542,34 @@ class LidSideRight(BaseEdge):
             spring = self.settings.spring in ("left", "both")
 
         if spring:
-            p = [s, -90, t+s, -90, t+s, 90, t-s, 90, length+t]
+            p = [s, -90, t+s, -90, t+s, 90, edge_width-s, 90, length+t]
         else:
-            p = [t+s, -90, t+s, -90, 2*t+s, 90, t-s, 90, length+t]
+            p = [t+s, -90, t+s, -90, 2*t+s, 90, edge_width-s, 90, length+t]
 
         if pin:
             pinl = 2*t
-            p[-1:] = [p[-1]-t-2*pinl, 90, 2*t+s, -90, 2*pinl+s, -90, t+s, -90,
-                      pinl, 90, t, 90, pinl+t-s]
+            p[-1:] = [p[-1]-t-2*pinl, 90, edge_width+t+s, -90, 2*pinl+s, -90, t+s, -90,
+                      pinl, 90, edge_width, 90, pinl+t-s]
 
         holex = 0.6 * t
         holey = -0.5*t
         if self.rightside:
             p = list(reversed(p))
             holex = length - holex
-            holey = 1.5*t
+            holey = edge_width + 0.5*t
 
         if spring:
             self.rectangularHole(holex, holey, 0.4*t, t+2*s)
         self.polyline(*p)
 
     def startwidth(self):
-        return 2*self.boxes.thickness if self.rightside else 0.0
+        return self.boxes.thickness + self.settings.edge_width if self.rightside else 0.0
 
     def endwidth(self):
-        return 2*self.boxes.thickness if not self.rightside else 0.0
+        return self.boxes.thickness + self.settings.edge_width if not self.rightside else 0.0
 
     def margin(self):
-        return 2*self.boxes.thickness if not self.rightside else 0.0
+        return self.boxes.thickness + self.settings.edge_width if not self.rightside else 0.0
 
 class LidSideLeft(LidSideRight):
     char = "M"

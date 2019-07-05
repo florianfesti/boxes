@@ -716,7 +716,7 @@ class FingerHoleEdge(BaseEdge):
         dist = self.fingerHoles.settings.edge_width
         with self.saved_context():
             self.fingerHoles(
-                0, dist + self.settings.thickness / 2, length, 0,
+                0, self.burn + dist + self.settings.thickness / 2, length, 0,
                 bedBolts=bedBolts, bedBoltSettings=bedBoltSettings)
         self.edge(length, tabs=2)
 

@@ -1461,11 +1461,11 @@ Inherited:
 
 class LidEdge(FingerJointEdge):
     char = "l"
-    description = "Edge for slide on lid"
+    description = "Edge for slide on lid (back)"
 
 class LidHoleEdge(FingerHoleEdge):
     char = "L"
-    description = "Edge for slide on lid"
+    description = "Edge for slide on lid (box back)"
 
 class LidRight(BaseEdge):
     char = "n"

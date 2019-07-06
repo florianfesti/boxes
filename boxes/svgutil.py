@@ -14,7 +14,7 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import re
+import re, datetime
 
 from xml.etree import cElementTree as ElementTree
 
@@ -60,9 +60,10 @@ class SVGFile(object):
         self.tree = ElementTree.parse(filename)
         self.symbol_extends = {}
 
-    def fix(self):
+    def fix(self, metadata=None):
         self.getEnvelope()
         self.moveOrigin()
+        self.addMetadata(metadata)
         self.rewriteViewPort()
 
     def getExtend(self, element, extend):
@@ -86,13 +87,11 @@ class SVGFile(object):
                 extend.addPoint(tx, ty)
         elif element.tag.endswith("}use"):
             x, y = float(element.attrib["x"]), float(element.attrib["y"])
-            print(element.attrib)
             s = self.symbol_extends[element.attrib["{http://www.w3.org/1999/xlink}href"][1:]]
             extend.addExtend(s, x, y)
 
         for e in element:
             if e.tag.endswith("}symbol"):
-                print(e.attrib)
                 self.symbol_extends[e.attrib["id"]] = self.getExtend(e, Extend())
             else:
                 self.getExtend(e, extend)
@@ -159,6 +158,21 @@ class SVGFile(object):
         root.set('viewBox', "%i %i %i %i" % (minx, miny, maxx - minx, maxy - miny))
 
         self.tree.write(self.filename)
+
+    def addMetadata(self, md):
+        txt = """
+{name} - {description}
+Created with Boxes.py (http://festi.info/boxes.py)
+Creation date: {date}
+""".format(date=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") , **md)
+
+        txt += "Command line (remove spaces beteen dashes): %s\n" % md["cli"].replace("--", "- -")
+
+        if md["url"]:
+            txt+= "Url: %s\n" % md["url"]
+            txt+= "SettingsUrl: %s\n" % re.sub(r"&render=[01]", "", md["url"])
+        m = ElementTree.Comment(txt)
+        self.tree.getroot().insert(0, m)
 
 unit2mm = {"mm" : 1.0,
            "cm" : 10.0,

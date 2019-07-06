@@ -28,9 +28,9 @@ import markdown
 
 # Python 2 vs Python 3 compat
 try:
-    from urllib.parse import unquote_plus
+    from urllib.parse import unquote_plus, quote
 except ImportError:
-    from urllib import unquote_plus
+    from urllib import unquote_plus, quote
 
 
 from wsgiref.util import setup_testing_defaults
@@ -342,8 +342,28 @@ b"""
         f = open(path, 'rb')
         return environ['wsgi.file_wrapper'](f, 512*1024)
 
-    def serve(self, environ, start_response):
+    def getURL(self, environ):
+        url = environ['wsgi.url_scheme']+'://'
 
+        if environ.get('HTTP_HOST'):
+            url += environ['HTTP_HOST']
+        else:
+            url += environ['SERVER_NAME']
+
+            if environ['wsgi.url_scheme'] == 'https':
+                if environ['SERVER_PORT'] != '443':
+                    url += ':' + environ['SERVER_PORT']
+                else:
+                    if environ['SERVER_PORT'] != '80':
+                        url += ':' + environ['SERVER_PORT']
+        url += quote(environ.get('SCRIPT_NAME', ''))
+        url += quote(environ.get('PATH_INFO', ''))
+        if environ.get('QUERY_STRING'):
+            url += '?' + environ['QUERY_STRING']
+
+        return url
+
+    def serve(self, environ, start_response):
         if environ["PATH_INFO"].startswith("/static/"):
             return self.serveStatic(environ, start_response)
 
@@ -396,6 +416,7 @@ b"""
                                box.format,
                                [('Content-type', 'application/unknown; charset=utf-8')]))
             fd, box.output = tempfile.mkstemp()
+            box.metadata["url"] = self.getURL(environ)
             box.open()
             box.render()
             box.close()

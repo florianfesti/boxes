@@ -97,11 +97,11 @@ class Formats:
 
         return surface, ctx
 
-    def convert(self, filename, fmt):
+    def convert(self, filename, fmt, metadata=None):
 
         if fmt in ['svg', 'svg_Ponoko']:
             svg = svgutil.SVGFile(filename)
-            svg.fix()
+            svg.fix(metadata)
         else:
             ps = PSFile(filename)
             ps.adjustDocumentMedia()

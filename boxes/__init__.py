@@ -31,6 +31,11 @@ from xml.sax.saxutils import quoteattr
 from contextlib import contextmanager
 import copy
 
+try:  # py3
+    from shlex import quote
+except ImportError:  # py2
+    from pipes import quote
+
 from boxes import edges
 from boxes import formats
 from boxes import svgutil
@@ -239,8 +244,16 @@ class Boxes:
         self.argparser = ArgumentParser(description=description)
         self.edgesettings = {}
         self.inkscapefile = None
-        self.argparser._action_groups[1].title = self.__class__.__name__ + " Settings"
 
+        self.metadata = {
+            "name" : self.__class__.__name__,
+            "description" : self.description,
+            "group" : self.ui_group,
+            "url" : "",
+            "command_line" : ""
+        }
+
+        self.argparser._action_groups[1].title = self.__class__.__name__ + " Settings"
         defaultgroup = self.argparser.add_argument_group(
                         "Default Settings")
         defaultgroup.add_argument(
@@ -423,6 +436,7 @@ class Boxes:
             self.inkscapefile = args[-1]
             del args[-1]
         args = [a for a in args if not a.startswith('--tab=')]
+        self.metadata["cli"] = "boxes " + self.__class__.__name__ + " " + " ".join((quote(arg) for arg in args))
         for key, value in vars(self.argparser.parse_args(args=args)).items():
             # treat edge settings separately 
             for setting in self.edgesettings:
@@ -600,7 +614,7 @@ class Boxes:
         self.surface.flush()
         self.surface.finish()
 
-        self.formats.convert(self.output, self.format)
+        self.formats.convert(self.output, self.format, self.metadata)
         if self.inkscapefile:
             try:
                 out = sys.stdout.buffer

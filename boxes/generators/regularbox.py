@@ -33,27 +33,35 @@ The lids needs to be glued. For the bayonet lid all outside rings attach to the 
         self.addSettingsArgs(edges.FingerJointSettings, surroundingspaces=1)
         self.buildArgParser("h", "outside")
         self.argparser.add_argument(
-            "--radius",  action="store", type=float, default=50.0,
-            help="inner radius if the box (at the corners)")
+            "--radius_bottom",  action="store", type=float, default=50.0,
+            help="inner radius of the box bottom (at the corners)")
+        self.argparser.add_argument(
+            "--radius_top",  action="store", type=float, default=50.0,
+            help="inner radius of the box top (at the corners)")
         self.argparser.add_argument(
             "--n",  action="store", type=int, default=5,
             help="number of sides")
         self.argparser.add_argument(
             "--top",  action="store", type=str, default="none",
-            choices=["none", "hole", "angled hole", "angled lid", "angled lid2", "round lid", "bayonet mount"],
+            choices=["none", "hole", "angled hole", "angled lid", "angled lid2", "round lid", "bayonet mount", "closed"],
             help="style of the top and lid")
         self.argparser.add_argument(
             "--alignment_pins",  action="store", type=float, default=1.0,
             help="diameter of the alignment pins for bayonet lid")
+        self.argparser.add_argument(
+            "--bottom",  action="store", type=str, default="closed",
+            choices=["none", "closed", "hole", "angled hole", "angled lid", "angled lid2", "round lid"],
+            help="style of the bottom and bottom lid")
 
         self.lugs=6
 
     def render(self):
 
-        r, h, n = self.radius, self.h, self.n
+        r0, r1, h, n = self.radius_bottom, self.radius_top, self.h, self.n
 
         if self.outside:
-            r = r = r - self.thickness / math.cos(math.radians(360/(2*n)))
+            r0 = r0 - self.thickness / math.cos(math.radians(360/(2*n)))
+            r1 = r1 - self.thickness / math.cos(math.radians(360/(2*n)))
             if self.top == "none":
                 h = self.adjustSize(h, False)
             elif "lid" in self.top and self.top != "angled lid":
@@ -63,27 +71,52 @@ The lids needs to be glued. For the bayonet lid all outside rings attach to the 
 
         t = self.thickness
 
+
+        r0, sh0, side0  = self.regularPolygon(n, radius=r0)
+        r1, sh1, side1  = self.regularPolygon(n, radius=r1)
+
+        # length of side edges
+        #l = (((side0-side1)/2)**2 + (sh0-sh1)**2 + h**2)**0.5
+        l = ((r0-r1)**2 + h**2)**.5
+        # angles of sides -90° aka half of top angle of the full pyramide sides
+        a = math.degrees(math.asin((side1-side0)/2/l))
+        # angle between sides (in boxes style change of travel)
+        phi = 180 - 2 * math.degrees(
+            math.asin(math.cos(math.pi/n) / math.cos(math.radians(a))))
+
         fingerJointSettings = copy.deepcopy(self.edges["f"].settings)
-        fingerJointSettings.setValues(self.thickness, angle=360./n)
+        fingerJointSettings.setValues(self.thickness, angle=phi)
         fingerJointSettings.edgeObjects(self, chars="gGH")
 
-        r, sh, side  = self.regularPolygon(n, radius=r)
+        beta = math.degrees(math.atan((sh1-sh0)/h))
+        angle_bottom = 90 + beta
+        angle_top = 90 - beta
 
-        with self.saved_context():
-            self.regularPolygonWall(corners=n, r=r, edges='F', move="right")
-            if self.top == "angled lid":
+        fingerJointSettings = copy.deepcopy(self.edges["f"].settings)
+        fingerJointSettings.setValues(self.thickness, angle=angle_bottom)
+        fingerJointSettings.edgeObjects(self, chars="yYH")
+
+        fingerJointSettings = copy.deepcopy(self.edges["f"].settings)
+        fingerJointSettings.setValues(self.thickness, angle=angle_top)
+        fingerJointSettings.edgeObjects(self, chars="zZH")
+
+
+        def drawTop(r, sh, top_type, joint_type):
+            if top_type == "closed":
+                self.regularPolygonWall(corners=n, r=r, edges=joint_type[1], move="right")
+            elif top_type == "angled lid":
                 self.regularPolygonWall(corners=n, r=r, edges='e', move="right")
                 self.regularPolygonWall(corners=n, r=r, edges='E', move="right")
-            elif self.top in ("angled hole", "angled lid2"):
-                self.regularPolygonWall(corners=n, r=r, edges='F', move="right",
+            elif top_type in ("angled hole", "angled lid2"):
+                self.regularPolygonWall(corners=n, r=r, edges=joint_type[1], move="right",
                                         callback=[lambda:self.regularPolygonAt(
                                             0, 0, n, h=sh-t)])
-                if self.top == "angled lid2":
+                if top_type == "angled lid2":
                     self.regularPolygonWall(corners=n, r=r, edges='E', move="right")
-            elif self.top in ("hole", "round lid"):
-                self.regularPolygonWall(corners=n, r=r, edges='F', move="right",
+            elif top_type in ("hole", "round lid"):
+                self.regularPolygonWall(corners=n, r=r, edges=joint_type[1], move="right",
                                         hole=(sh-t)*2)
-            if self.top == "round lid":
+            if top_type == "round lid":
                 self.parts.disc(sh*2, move="right")
             if self.top == "bayonet mount":
                 self.diameter = 2*sh
@@ -93,23 +126,43 @@ The lids needs to be glued. For the bayonet lid all outside rings attach to the 
                                         callback=[self.upperCB], move="right")
                 self.parts.disc(sh*2, move="right")
 
-        self.regularPolygonWall(corners=n, r=r, edges='F', move="up only")
 
-        side = 2 * math.sin(math.radians(180.0/n)) * r
-        fingers = self.top in ("hole", "angled hole", "round lid",
-                               "angled lid2", "bayonet mount")
-        
+        with self.saved_context():
+            drawTop(r0, sh0, self.bottom, "yY")
+            drawTop(r1, sh1, self.top, "zZ")
+
+        self.regularPolygonWall(corners=n, r=max(r0, r1), edges='F', move="up only")
+
+        fingers_top = self.top in ("closed", "hole", "angled hole",
+                                   "round lid", "angled lid2", "bayonet mount")
+        fingers_bottom = self.bottom in ("closed", "hole", "angled hole",
+                                         "round lid", "angled lid2")
+
+        t_ = self.edges["G"].startwidth()
+        bottom_edge = ('y' if fingers_bottom else 'e')
+        top_edge = ('z' if fingers_top else 'e')
+        d_top = max(0, -t_ * math.sin(math.radians(a)))
+        d_bottom = max(0.0, t_ * math.sin(math.radians(a)))
+        l -= (d_top + d_bottom)
+
         if n % 2:
+            e = bottom_edge + 'ege' + top_edge + 'eeGee'
+            borders = [side0, 90-a, d_bottom, 0, l, 0, d_top, 90+a, side1,
+                       90+a, d_top, -90, t_, 90, l, 90, t_, -90, d_bottom, 90-a]
             for i in range(n):
-                self.rectangularWall(side, h, move="right",
-                                     edges="fgfG" if fingers else "fgeG")
+                self.polygonWall(borders, edge=e, correct_corners=False,
+                                 move="right")
         else:
+            borders0 = [side0, 90-a,
+                        d_bottom, -90, t_, 90, l, 90, t_, -90, d_top,
+                        90+a, side1, 90+a,
+                        d_top, -90, t_, 90, l, 90, t_, -90, d_bottom, 90-a]
+            e0 = bottom_edge + 'eeGee' + top_edge + 'eeGee'
+            borders1 = [side0, 90-a, d_bottom, 0, l, 0, d_top, 90+a, side1,
+                        90+a, d_top, 0, l, 0, d_bottom, 90-a]
+            e1 = bottom_edge + 'ege' + top_edge + 'ege'
             for i in range(n//2):
-                self.rectangularWall(side, h, move="right",
-                                     edges="fGfG" if fingers else "fGeG")
-                self.rectangularWall(side, h, move="right",
-                                     edges="fgfg" if fingers else "fgeg")
-
-
-
-
+                self.polygonWall(borders0, edge=e0, correct_corners=False,
+                                 move="right")
+                self.polygonWall(borders1, edge=e1, correct_corners=False,
+                                 move="right")

@@ -36,6 +36,8 @@ def getAllBoxGenerators():
             path=__path__,
             prefix=__name__+'.'):
         module = importlib.import_module(modname)
+        if module.__name__.split('.')[-1].startswith("_"):
+            continue
         for k, v in module.__dict__.items():
             if v is boxes.Boxes:
                 continue

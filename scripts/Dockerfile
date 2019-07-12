@@ -14,7 +14,7 @@
 FROM fedora:latest
 
 # Install requirements
-RUN dnf install -y python3-cairocffi python3-xcffib git-core python3-markdown python3-setuptools pstoedit
+RUN dnf install -y python3-cairocffi python3-xcffib git-core python3-markdown python3-setuptools pstoedit && dnf clean all
 
 # Get Boxes.py sources to /boxes
 RUN git clone --depth 1 -b master https://github.com/florianfesti/boxes.git

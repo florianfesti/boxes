@@ -61,6 +61,8 @@ class SVGFile(object):
         self.symbol_extends = {}
 
     def fix(self, metadata=None):
+        #print("Optimizations:",
+        self.optimize(self.tree.getroot())
         self.getEnvelope()
         self.moveOrigin()
         self.addMetadata(metadata)
@@ -158,6 +160,35 @@ class SVGFile(object):
         root.set('viewBox', "%i %i %i %i" % (minx, miny, maxx - minx, maxy - miny))
 
         self.tree.write(self.filename)
+
+    def optimize(self, element):
+        number = 0
+        if element.tag.endswith("}path"):
+            path = element.attrib.get("d", "")
+            d = r"(\-?\d+(\.\d+)?)"
+            while True:
+                old_number = number
+                for pattern, replacement in (
+                    (" " + d + " " + d + r" (M|L) \1 \3 ",
+                     r" \1 \3 "), # remove useless moves
+                    # compress L parts of paths into V and H
+                    (" " + d + " " + d + r" L " + d + r" \3 ",
+                     r" \1 \3 H \5 "),
+                    (" " + d + " " + d + r" L \1 " + d + " ",
+                     r" \1 \3 V \5 "),
+                    (r"H " + d + r" L \1 " + d +  " ",
+                     r"H \1 V \3 "),
+                    (r"V " + d + " L " + d + " \1 ",
+                     r"V \1 H \3 "),
+                ):
+                    path, n = re.subn(pattern, replacement, path, 2)
+                    number += n
+                if number == old_number:
+                    break
+            element.attrib["d"] = path
+        for e in element:
+            number += self.optimize(e)
+        return number
 
     def addMetadata(self, md):
         txt = """

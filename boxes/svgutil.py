@@ -193,7 +193,7 @@ class SVGFile(object):
     def addMetadata(self, md):
         txt = """
 {name} - {description}
-Created with Boxes.py (http://festi.info/boxes.py)
+Created with Boxes.py (https://festi.info/boxes.py)
 Creation date: {date}
 """.format(date=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") , **md)
 

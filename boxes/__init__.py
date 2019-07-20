@@ -1703,7 +1703,7 @@ class Boxes:
         if holesMargin is not None:
             self.moveTo(holesMargin,
                         holesMargin + edges[0].startwidth())
-            self.hexHolesRectangle(x - 2 * holesMargin, y - 2 * holesMargin)
+            self.hexHolesRectangle(x - 2 * holesMargin, y - 2 * holesMargin, settings=holesSettings)
 
         self.move(overallwidth, overallheight, move)
 

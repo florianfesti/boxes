@@ -101,7 +101,7 @@ class SlatwallTypeTray(_TopEdge):
         self.ctx.save()
 
         # outer walls
-        self.rectangularWall(x, h, [b, "F", t1, "F"], callback=[self.xHoles],  move="up")
+        self.rectangularWall(x, h, [b, "f", t1, "f"], callback=[self.xHoles],  move="up")
         self.rectangularWall(x, h+bh, [b, "C", t3, "c"], callback=[self.mirrorX(self.xHoles, x), ], move="up")
 
         # floor

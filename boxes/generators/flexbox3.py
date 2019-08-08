@@ -66,7 +66,7 @@ class FlexBox3(Boxes):
         x, y, z, r, d = self.x, self.y, self.z, self.radius, self.d
         t = self.thickness
 
-        tw = x + y - 2*r + self.c4 + 2*t + d
+        tw = x + y - 2*r + self.c4 + 2*t + t
         th = z + 4*t + 2*d
 
         if self.move(tw, th, move, True):
@@ -79,11 +79,11 @@ class FlexBox3(Boxes):
         self.corner(-90)
         self.edge(d)
         self.corner(90)
-        self.edges["f"](x - r + d)
+        self.edges["f"](x - r + t)
         self.corner(90)
         self.edges["f"](z + 2 * t + 2 * d)
         self.corner(90)
-        self.edges["f"](x - r + d)
+        self.edges["f"](x - r + t)
         self.corner(90)
         self.edge(d)
         self.corner(-90)
@@ -110,18 +110,18 @@ class FlexBox3(Boxes):
 
             self.edge(h + self.thickness - r2)
             self.corner(90, r2)
-            self.edge(r - r2 + 2 * t)
+            self.edge(r - r2 + 1 * t)
         else:
             a = math.acos((r-h)/(r+t))
             ang = math.degrees(a)
-            base_l = x + (r+t) * math.sin(a) - r
+            base_l = x + (r+t) * math.sin(a) - r + t
             if self.move(h+t, base_l+t, move, True):
                 return
 
             self.corner(90-ang)
             self.corner(ang, r+t)
 
-        self.edges["F"](x - r)
+        self.edges["F"](x - r + t)
         self.edgeCorner("F", "f")
         self.edges["g"](h)
         self.edgeCorner("f", "e")

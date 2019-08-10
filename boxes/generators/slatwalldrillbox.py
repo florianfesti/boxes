@@ -35,7 +35,7 @@ class SlatwallDrillBox(Boxes):
     def yWall(self, nr, move=None):
         t = self.thickness
         x, sx, y, sy, sh = self.x, self.sx, self.y, self.sy, self.sh        
-        eh = self.extra_height * (sum(sx[:nr])+ nr*t)/x
+        eh = self.extra_height * (sum(sx[:nr])+ nr*t - t)/x
 
         tw, th = sum(sy) + t * len(sy) + t, max(sh) + eh
 
@@ -74,15 +74,11 @@ class SlatwallDrillBox(Boxes):
         for i in range(len(sy)-1, 0, -1):
             self.edge(sy[i])
             if sh[i] > sh[i-1]:
-                self.corner(90)
-                self.edges["f"](sh[i] - sh[i-1])
-                self.polyline(0, -90, t)
-                self.fingerHolesAt(-0.5*t, self.burn, sh[i-1]+eh)
+                self.fingerHolesAt(0.5*t, self.burn, sh[i]+eh, 90)
+                self.polyline(t, 90, sh[i] - sh[i-1], -90)
             else:
-                continue
-                self.fingerHolesAt(+0.5*t, self.burn, sh[i]+eh)
-                self.polyline(t, -90)
-                self.edges["f"](sh[i-1] - sh[i])
+                self.polyline(0, -90, sh[i-1] - sh[i], 90, t)
+                self.fingerHolesAt(-0.5*t, self.burn, sh[i-1]+eh)
         self.polyline(sy[0], 90)
         self.edges["f"](sh[0]+eh)
         self.corner(90)
@@ -108,8 +104,8 @@ class SlatwallDrillBox(Boxes):
         for i in range(len(sx)-1):
             self.edges["f"](fa*sx[i])
             h = min(sh[nr - 1], sh[nr])
-            s1 = h - 4*t + self.extra_height * (sum(sx[:i]) + i*t - t)/x
-            s2 = h - 4*t + self.extra_height * (sum(sx[:i]) + i*t)/x
+            s1 = h - 3.95*t + self.extra_height * (sum(sx[:i+1]) + i*t)/x
+            s2 = h - 3.95*t + self.extra_height * (sum(sx[:i+1]) + i*t + t)/x
 
             self.polyline(0, 90+a, s1, -90, t, -90, s2, 90-a)
         self.edges["f"](fa*sx[-1])
@@ -128,7 +124,8 @@ class SlatwallDrillBox(Boxes):
         edges = [self.edges.get(e, e) for e in edges]
         eh = self.extra_height
 
-        tw, th = x + 2*t, h + eh + t
+        tw = x + edges[1].spacing() + edges[3].spacing()
+        th = h + eh + edges[0].spacing() + edges[2].spacing()
 
         a = math.degrees(math.atan(eh / x))
         fa = 1 / math.cos(math.radians(a))
@@ -137,7 +134,7 @@ class SlatwallDrillBox(Boxes):
             return
 
         
-        self.moveTo(t, eh+t, -a)
+        self.moveTo(edges[3].spacing(), eh+edges[0].margin(), -a)
 
         edges[0](x*fa)
         self.corner(a)
@@ -149,10 +146,10 @@ class SlatwallDrillBox(Boxes):
         edges[3](h)
         self.edgeCorner(edges[3], edges[0], 90)
 
-        self.moveTo(0, self.burn, 0)
+        self.moveTo(0, self.burn+edges[0].startwidth(), 0)
         
         for i in range(1, len(sx)):
-            posx = sum(sx[:i]) + i*t + 0.5 * t
+            posx = sum(sx[:i]) + i*t - 0.5 * t
             length = h + self.extra_height * (sum(sx[:i]) + i*t - t)/x
             self.fingerHolesAt(posx, h, length, -90)
 
@@ -186,7 +183,7 @@ class SlatwallDrillBox(Boxes):
         self.x = x = sum(sx) + len(sx)*t - t
         self.y = y = sum(sy) + len(sy)*t - t
 
-        self.xOutsideWall(sh[0], move="up")
+        self.xOutsideWall(sh[0], "fFeF", move="up")
         for i in range(1, len(sy)):
             self.xWall(i, move="up")
         self.xOutsideWall(sh[-1], "fCec", move="up")
@@ -194,7 +191,7 @@ class SlatwallDrillBox(Boxes):
         self.rectangularWall((x**2+self.extra_height**2)**0.5, y, "FeFe", callback=[self.bottomCB], move="up")
         
         self.sideWall(move="right")
-        for i in range(len(sx)-1):
+        for i in range(1, len(sx)):
             self.yWall(i, move="right")
         self.sideWall(self.extra_height, move="right")
             

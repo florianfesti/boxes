@@ -7,6 +7,7 @@
 *.ud
 build/
 dist/
+env/
 inkex/*.inx
 boxes.py.egg-info/
 boxes.egg-info/

@@ -31,10 +31,14 @@ class Extend:
     def __add__(self, v):
         x, y = v
         res = Extend()
-        res.minx = self.minx + x
-        res.maxx = self.maxx + x
-        res.miny = self.miny + y
-        res.maxy = self.maxy + y
+        if self.minx is not None:
+            res.minx = self.minx + x
+        if self.maxx is not None:
+            res.maxx = self.maxx + x
+        if self.miny is not None:
+            res.miny = self.miny + y
+        if self.maxy is not None:
+            res.maxy = self.maxy + y
         return res
 
     def addPoint(self, x, y):

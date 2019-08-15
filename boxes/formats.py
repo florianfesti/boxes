@@ -113,6 +113,10 @@ class Formats:
 
             if err:
                 # XXX show stderr output
+                try:
+                    os.unlink(tmpfile)
+                except:
+                    pass
                 raise ValueError("Conversion failed. pstoedit returned %i" % err)
 
             os.rename(tmpfile, filename)

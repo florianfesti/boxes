@@ -411,15 +411,21 @@ b"""
                     start_response(status, headers)
                     return self.errorMessage(name, e)
 
-            start_response(status,
-                           box.formats.http_headers.get(
-                               box.format,
-                               [('Content-type', 'application/unknown; charset=utf-8')]))
             fd, box.output = tempfile.mkstemp()
             box.metadata["url"] = self.getURL(environ)
             box.open()
             box.render()
-            box.close()
+            try:
+                box.close()
+            except ValueError as e:
+                start_response("500 Internal Server Error",
+                               [('Content-type', 'text/plain; charset=utf-8')])
+                return([b"Server Error\n\n", str(e).encode("utf-8")])
+
+            start_response(status,
+                           box.formats.http_headers.get(
+                               box.format,
+                               [('Content-type', 'application/unknown; charset=utf-8')]))
             result = open(box.output).readlines()
             os.close(fd)
             os.remove(box.output)

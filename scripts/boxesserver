@@ -32,6 +32,10 @@ try:
 except ImportError:
     from urllib import unquote_plus, quote
 
+try:
+    from urllib.parse import parse_qs
+except ImportError:
+    from cgi import parse_qs
 
 from wsgiref.util import setup_testing_defaults
 from wsgiref.simple_server import make_server
@@ -370,7 +374,7 @@ b"""
         status = '200 OK'
         headers = [('Content-type', 'text/html; charset=utf-8'), ('X-XSS-Protection', '1; mode=block'), ('X-Content-Type-Options', 'nosniff'), ('x-frame-options', 'SAMEORIGIN'), ('Referrer-Policy', 'no-referrer')]
 
-        d = cgi.parse_qs(environ['QUERY_STRING'])
+        d = parse_qs(environ['QUERY_STRING'])
         name = environ["PATH_INFO"][1:]
 
         box = self.boxes.get(name, None)

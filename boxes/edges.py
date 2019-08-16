@@ -1535,6 +1535,7 @@ class LidSideRight(BaseEdge):
         s = self.settings.play
         pin = self.settings.second_pin
         edge_width = self.settings.edge_width
+        r = edge_width/3
 
         if self.rightside:
             spring = self.settings.spring in ("right", "both")
@@ -1548,8 +1549,8 @@ class LidSideRight(BaseEdge):
 
         if pin:
             pinl = 2*t
-            p[-1:] = [p[-1]-t-2*pinl, 90, edge_width+t+s/2, -90, 2*pinl+s, -90, t+s, -90,
-                      pinl, 90, edge_width-s/2, 90, pinl+t-s]
+            p[-1:] = [p[-1]-1.5*t-2*pinl-r, (90, r), edge_width+t+s/2-r, -90, 2*pinl+s+0.5*t, -90, t+s, -90,
+                      pinl-r, (90, r), edge_width-s/2-2*r, (90, r), pinl+t-s-r]
 
         holex = 0.6 * t
         holey = -0.5*t + self.burn - s / 2

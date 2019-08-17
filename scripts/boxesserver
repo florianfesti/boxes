@@ -426,10 +426,16 @@ b"""
                                [('Content-type', 'text/plain; charset=utf-8')])
                 return([b"Server Error\n\n", str(e).encode("utf-8")])
 
-            start_response(status,
-                           box.formats.http_headers.get(
-                               box.format,
-                               [('Content-type', 'application/unknown; charset=utf-8')]))
+            http_headers = box.formats.http_headers.get(
+                box.format,
+                [('Content-type', 'application/unknown; charset=utf-8')])
+
+            if box.format != "svg":
+                extension = box.format
+                if extension == "svg_Ponoko":
+                    extension = "svg"
+                http_headers.append(('Content-Disposition', 'attachment; filename="%s.%s"' % (box.__class__.__name__, extension)))
+            start_response(status, http_headers)
             result = open(box.output).readlines()
             os.close(fd)
             os.remove(box.output)

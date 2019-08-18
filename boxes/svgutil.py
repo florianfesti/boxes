@@ -42,14 +42,16 @@ class Extend:
         return res
 
     def addPoint(self, x, y):
-        if self.minx is None or self.minx > x:
-            self.minx = x
-        if self.maxx is None or self.maxx < x:
-            self.maxx = x
-        if self.miny is None or self.miny > y:
-            self.miny = y
-        if self.maxy is None or self.maxy < y:
-            self.maxy = y
+        if x is not None:
+            if self.minx is None or self.minx > x:
+                self.minx = x
+            if self.maxx is None or self.maxx < x:
+                self.maxx = x
+        if y is not None:
+            if self.miny is None or self.miny > y:
+                self.miny = y
+            if self.maxy is None or self.maxy < y:
+                self.maxy = y
 
     def addExtend(self, extend, x, y):
         extend = extend + (x, y)

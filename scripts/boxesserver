@@ -428,7 +428,7 @@ b"""
 
             http_headers = box.formats.http_headers.get(
                 box.format,
-                [('Content-type', 'application/unknown; charset=utf-8')])
+                [('Content-type', 'application/unknown; charset=utf-8')])[:]
 
             if box.format != "svg":
                 extension = box.format

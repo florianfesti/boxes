@@ -169,27 +169,29 @@ class SVGFile(object):
 
         self.tree.write(self.filename)
 
+    d = r"(\-?\d+(\.\d+)?)"
+    optimize_patterns = [
+        (re.compile(" " + d + " " + d + r" (M|L) \1 \3 "),
+         r" \1 \3 "), # remove useless moves
+        # compress L parts of paths into V and H
+        (re.compile(" " + d + " " + d + r" L " + d + r" \3 "),
+         r" \1 \3 H \5 "),
+        (re.compile(" " + d + " " + d + r" L \1 " + d + " "),
+         r" \1 \3 V \5 "),
+        (re.compile(r"H " + d + r" L \1 " + d +  " "),
+         r"H \1 V \3 "),
+        (re.compile(r"V " + d + " L " + d + " \1 "),
+         r"V \1 H \3 "),
+     ]
+
     def optimize(self, element):
         number = 0
         if element.tag.endswith("}path"):
             path = element.attrib.get("d", "")
-            d = r"(\-?\d+(\.\d+)?)"
             while True:
                 old_number = number
-                for pattern, replacement in (
-                    (" " + d + " " + d + r" (M|L) \1 \3 ",
-                     r" \1 \3 "), # remove useless moves
-                    # compress L parts of paths into V and H
-                    (" " + d + " " + d + r" L " + d + r" \3 ",
-                     r" \1 \3 H \5 "),
-                    (" " + d + " " + d + r" L \1 " + d + " ",
-                     r" \1 \3 V \5 "),
-                    (r"H " + d + r" L \1 " + d +  " ",
-                     r"H \1 V \3 "),
-                    (r"V " + d + " L " + d + " \1 ",
-                     r"V \1 H \3 "),
-                ):
-                    path, n = re.subn(pattern, replacement, path, 2)
+                for pattern, replacement in self.optimize_patterns:
+                    path, n = pattern.subn(replacement, path)
                     number += n
                 if number == old_number:
                     break

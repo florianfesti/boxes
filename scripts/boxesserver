@@ -239,7 +239,7 @@ class BServer:
 <div>
 <div class="clear"></div>
 <hr />
-<h2 style="margin: 0px 0px 0px 20px;" >""", name, """</h2>
+<h2 style="margin: 0px 0px 0px 20px;" >""", _(name), """</h2>
         <p>""", _(box.__doc__) if box.__doc__ else "", """</p>
 <form action="%s" method="GET" target="_blank">
         """ % (action)]
@@ -250,7 +250,7 @@ class BServer:
             if len(group._group_actions) == 1 and isinstance(group._group_actions[0], argparse._HelpAction):
                 continue
             prefix = getattr(group, "prefix", None)
-            result.append('''<h3 id="h-%s" class="open" onclick="showHide(%s)">%s</h3>\n<table id="%s">\n''' % (groupid, groupid, group.title, groupid))
+            result.append('''<h3 id="h-%s" class="open" onclick="showHide(%s)">%s</h3>\n<table id="%s">\n''' % (groupid, groupid, _(group.title), groupid))
             for a in group._group_actions:
                 if a.dest in ("input", "output"):
                     continue

@@ -70,11 +70,11 @@ class Boxes2INX:
             elif a.type is boxes.argparseSections:
                 t = "string"
             else:
-                t = { int : "int",
-                      float : "float",
-                      str : "string",
-                      }.get(a.type, "string")
-            return '''      <param name="%s" type="%s" max="9999" _gui-text="%s" gui-description=%s>%s</param>\n''' % (name, t, viewname, quoteattr(a.help or ""), a.default)
+                t = { int : '"int"',
+                      float : '"float" precision="2"',
+                      str : '"string"',
+                      }.get(a.type, '"string"')
+            return '''      <param name="%s" type=%s max="9999" _gui-text="%s" gui-description=%s>%s</param>\n''' % (name, t, viewname, quoteattr(a.help or ""), a.default)
 
     def generator2inx(self, name, box):
         result = [ """<?xml version="1.0" encoding="UTF-8"?>

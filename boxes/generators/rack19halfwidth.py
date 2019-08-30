@@ -3,32 +3,25 @@
 from boxes import Boxes
 from boxes.edges import Edge
 
-class H19Rack(Boxes):
-    """Half 19inch rack unit for musical equipment."""
-    ru_count = 1
-    holes = "xxmpwx"
-    z = 20
-    deepz = 124
-    earside = 'r'
+class Rack19HalfWidth(Boxes):
+    """Half width 19inch rack unit for musical equipment."""
 
-    # provided by default via boxes
-    x, y, = 0, 0
-    thickness = 3
+    ui_group = "Box"
 
     def __init__(self):
         super().__init__()
         self.argparser.add_argument(
-            '--ru_count', action='store', type=float, default=self.ru_count,
+            '--ru_count', action='store', type=float, default=1,
             help='number of rack units')
         self.argparser.add_argument(
-            '--holes', action='store', type=str, default=self.holes,
-            help='holes, x=xlr, m=midi, p=9v-power, w=6.5mm-wire')
+            '--holes', action='store', type=str, default="xxmpwx",
+            help='mounting patterns: x=xlr, m=midi, p=9v-power, w=6.5mm-wire, space=next row')
         self.argparser.add_argument(
-            '--z', action='store', type=float, default=self.z,
+            '--z', action='store', type=float, default=20,
             help='depth of the shorter (rackear) side')
         self.argparser.add_argument(
-            '--deepz', action="store", type=float, default=self.deepz,
-            help='depath of the longer (screwed to another half sized thing) side')
+            '--deepz', action="store", type=float, default=124,
+            help='depth of the longer (screwed to another half sized thing) side')
 
     def render(self):
         """Render box."""
@@ -59,9 +52,12 @@ class H19Rack(Boxes):
 
     def util_holes(self):
         """Add holes."""
-        self.moveTo(10, self.y / 2 + self.thickness)
-        for hole in self.holes:
-            self.hole_map.get(hole, lambda _: None)(self)
+        self.moveTo(10, (44.45 - 4.45)/2)
+        for line in self.holes.split():
+            with self.saved_context():
+                for hole in line:
+                    self.hole_map.get(hole, lambda _: None)(self)
+            self.moveTo(0, 44.45)
 
     def hole_xlr(self):
         """Hole for a xlr port."""

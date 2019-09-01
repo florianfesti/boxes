@@ -59,7 +59,7 @@ class StorageRack(Boxes):
     def render(self):
         if self.outside:
             self.depth = self.adjustSize(self.depth, e2=False)
-            self.sh = self.adjustSize(self.sh)
+            self.sh = self.adjustSize(self.sh, self.top_edge, self.bottom_edge)
             self.x = self.adjustSize(self.x)
 
         h = sum(self.sh) + self.thickness * (len(self.sh) - 1)

@@ -51,7 +51,8 @@ class UnevenHeightBox(Boxes):
             x = self.adjustSize(x)
             y = self.adjustSize(y)
             for i in range(4):
-                heights[i] = self.adjustSize(heights[i], None)
+                heights[i] = self.adjustSize(heights[i], self.bottom_edge,
+                                             self.lid)
 
         t = self.thickness
         h0, h1, h2, h3 = heights

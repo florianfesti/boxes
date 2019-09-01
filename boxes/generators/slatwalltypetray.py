@@ -74,13 +74,14 @@ class SlatwallTypeTray(_TopEdge):
         s.edgeObjects(self)
         self.slatWallHolesAt = edges.SlatWallHoles(self, s)
 
+        b = self.bottom_edge
         
         if self.outside:
             self.sx = self.adjustSize(self.sx)
             self.sy = self.adjustSize(self.sy)
-            self.h = self.adjustSize(self.h, e2=False)
+            self.h = self.adjustSize(self.h, b, e2=False)
             if self.hi:
-                self.hi = self.adjustSize(self.hi, e2=False)
+                self.hi = self.adjustSize(self.hi, b, e2=False)
 
         x = sum(self.sx) + self.thickness * (len(self.sx) - 1)
         y = sum(self.sy) + self.thickness * (len(self.sy) - 1)
@@ -92,7 +93,6 @@ class SlatwallTypeTray(_TopEdge):
 
 
         # outer walls
-        b = self.bottom_edge
         t1, t2, t3, t4 = "eeee" #self.topEdges(self.top_edge)
         self.closedtop = False # self.top_edge in "fF"
 

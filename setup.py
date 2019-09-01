@@ -36,8 +36,8 @@ class CustomBuildExtCommand(build_py):
                 pass
             os.system("msgfmt %s -o locale/%s/LC_MESSAGES/boxes.py.mo" % (po, lang))
             self.distribution.data_files.append(
-                (os.path.join("share", "locales", lang, "LC_MESSAGES"),
-                 [os.path.join("locales", lang, "LC_MESSAGES", "boxes.py.mo")]))
+                (os.path.join("share", "locale", lang, "LC_MESSAGES"),
+                 [os.path.join("locale", lang, "LC_MESSAGES", "boxes.py.mo")]))
 
     def run(self):
         if self.distribution.data_files is None:

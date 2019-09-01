@@ -64,7 +64,7 @@ class StorageShelf(_TopEdge):
     def render(self):
         if self.outside:
             self.sy = self.adjustSize(self.sy)
-            self.sh = self.adjustSize(self.sh)
+            self.sh = self.adjustSize(self.sh, self.top_edge, self.bottom_edge)
             self.x = self.adjustSize(self.x, e2=False)
 
         y = sum(self.sy) + self.thickness * (len(self.sy) - 1)

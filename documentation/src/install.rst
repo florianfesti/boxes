@@ -44,9 +44,8 @@ in the :code:`boxes.formats.Formats` class.
 Python
 ......
 
-Boxes.py - while defaulting to Python 3 - can also run on Python 2.7.
-If you encounter any compatibility issues please report them at the
-`GitHub project <https://github.com/florianfesti/boxes>`__.
+Boxes.py is implemented in Python 3. It used to work on Python 2.7,
+too. But with the Python 2 approaching end of life support has been dropped.
 
 Sphinx
 ......

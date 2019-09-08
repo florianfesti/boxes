@@ -66,9 +66,9 @@ class Boxes2INX:
                  e) for e in a.choices) + '      </param>\n')
         else:
             if isinstance(a.type, boxes.BoolArg):
-                t = "boolean"
+                t = '"boolean"'
             elif a.type is boxes.argparseSections:
-                t = "string"
+                t = '"string"'
             else:
                 t = { int : '"int"',
                       float : '"float" precision="2"',

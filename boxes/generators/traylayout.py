@@ -40,6 +40,12 @@ class TrayLayout(Boxes):
             "--output", action="store", type=str, default="traylayout.txt",
             help="name of the layout text file")
 
+    def open(self):
+        pass
+
+    def close(self):
+        pass
+
     def fillDefault(self, x, y):
         self.x = [0.0] * x
         self.y = [0.0] * y
@@ -85,6 +91,9 @@ class TrayLayout2(TrayLayout):
         else:
             self.argparser.add_argument(
                 "--layout", action="store", type=str)
+
+    open = Boxes.open
+    close = Boxes.close
 
     def vWalls(self, x, y):
         "Number of vertical walls at a crossing"

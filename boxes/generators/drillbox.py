@@ -42,13 +42,12 @@ in 0.5mm steps, 3 holes each size"""
                     self.hole(i * 20 + 10, j * 60 + k * 20 + 10, r + 0.05)
 
     def descriptionText(self):
-        self.ctx.set_font_size(6)
         for i in range(4):
             for j in range(6):
                 self.rectangularHole(i * 60 + 30, 20 * j + 10, 58, 14 + 1 * j)
                 d = 2.5 - 0.5 * i + 2 * j
                 self.text("%.1f" % d, i * 60 + 20, 19 * j + 6,
-                          align="center")
+                          align="center", fontsize=6)
 
     def render(self):
         x, y, h = self.x, self.y, self.h

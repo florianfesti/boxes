@@ -538,7 +538,7 @@ Values:
   * finger : 2.0 : width of the fingers
   * width : 1.0 : width of finger holes
   * edge_width : 1.0 : space below holes of FingerHoleEdge
-  * play : 0.0 : extra space to allow movement
+  * play : 0.0 : extra space to allow finger move in and out
 
 """
 

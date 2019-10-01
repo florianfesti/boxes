@@ -8,7 +8,7 @@ About Boxes.py
 * Boxes.py is an Inkscape plug-in
 * Boxes.py is library to write your own
 * Boxes.py is free software licensed under GPL v3+
-* Boxes.py is written in Python and runs with Python 2 and 3
+* Boxes.py is written in Python and runs with Python 3
 
 Boxes.py comes with a growing set of ready-to-use, fully parametrized
 generators. See https://florianfesti.github.io/boxes/html/generators.html for the full list.

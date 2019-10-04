@@ -95,21 +95,6 @@ class SBCMicroRack(Boxes):
             help="ensure that the x width is at least this much and as well, draw a snug holder for a fan someplace"
         )
 
-        self.argparser.add_argument(
-            "--canheight", action="store", type=int, default=50,
-            help="Height of the paintcans")
-        self.argparser.add_argument(
-            "--candiameter", action="store", type=int, default=30,
-            help="Diameter of the paintcans")
-        self.argparser.add_argument(
-            "--minspace", action="store", type=int, default=10,
-            help="Minimum space between the paintcans")
-        self.argparser.add_argument(
-            "--hexpattern", action="store", type=boolarg, default=False,
-            help="Use hexagonal arrangement for the holes instead of orthogonal")
-
-    def paint_levels_on_walls(self):
-        pass
 
     def paint_mounting_holes(self):
         cy = self.clearance_y
@@ -170,13 +155,6 @@ class SBCMicroRack(Boxes):
         # adjust to the variables you want in the local scope
         x, y = self.x, self.y
         t = self.thickness
-
-        stack = self.edges['s'].settings
-        h = self.canheight - stack.height - stack.holedistance + t
-
-        hx = 1 / 2. * x
-        hh = h / 4.
-        hr = min(hx, hh) / 2
 
         height_per = self.clearance_z + t
         height_total = self.sbcs * height_per

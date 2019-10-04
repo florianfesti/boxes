@@ -48,7 +48,7 @@ class SBCMicroRack(Boxes):
             help="clearance for the board in the box (y) in mm"
         )
         self.argparser.add_argument(
-            "--clearance-z", action="store", type=int, default=25,
+            "--clearance-z", action="store", type=int, default=28,
             help="SBC Clearance in mm",
         )
 
@@ -72,7 +72,7 @@ class SBCMicroRack(Boxes):
 
         # i/o holes
         self.argparser.add_argument(
-            "--netusb-z", action="store", type=int, default=16,
+            "--netusb-z", action="store", type=int, default=18,
             help="height of the net/usb hole mm"
         )
         self.argparser.add_argument(
@@ -154,11 +154,11 @@ class SBCMicroRack(Boxes):
         t = self.thickness
         x = self.x
         w = x + self.hole_dist_edge * 2
-        height_per = self.clearance_z + t
+        height_per = self.clearance_z + t 
         usb_height = self.netusb_z
         usb_width = self.netusb_x
         for i in range(self.sbcs):
-            self.rectangularHole(w/2, (height_per)*i+10 , usb_width, usb_height, r=1)
+            self.rectangularHole(w/2, (height_per)*i+15 , usb_width, usb_height, r=1)
 
     def paint_finger_holes(self):
         t = self.thickness

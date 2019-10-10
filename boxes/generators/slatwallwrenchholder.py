@@ -36,8 +36,8 @@ class SlottedEdge(edges.Edge):
                 l += s *2 * 2**0.5
             else:
                 self.polyline(w-s/2+2*s, (-180, s/2), w - 0.5*s,
-                              (180, s/2))
-                l += s *2 * 2**0.5
+                              (135, s/2), self.extra_distance, (45, s/2))
+                l += s *2 * 2**0.5 + self.extra_distance
         self.polyline(0, -45)
         self.edge(length-l)
 
@@ -57,22 +57,26 @@ class SlatwallWrenchHolder(Boxes):
         # Add non default cli params if needed (see argparse std lib)
         self.argparser.add_argument(
             "--depth",  action="store", type=float, default=30.0,
-            help="depth of the sides")
+            help="depth of the sides (in mm)")
         self.argparser.add_argument(
             "--number",  action="store", type=int, default=11,
-            help="number of wrenches")
+            help="number of wrenches (in mm)")
         self.argparser.add_argument(
             "--min_width",  action="store", type=float, default=8.0,
-            help="width of smallest wrench")
+            help="width of smallest wrench (in mm)")
         self.argparser.add_argument(
             "--max_width",  action="store", type=float, default=25.0,
-            help="width of largest wrench")
+            help="width of largest wrench (in mm)")
         self.argparser.add_argument(
             "--min_strength",  action="store", type=float, default=3.0,
-            help="strength of smallest wrench")
+            help="strength of smallest wrench (in mm)")
         self.argparser.add_argument(
             "--max_strength",  action="store", type=float, default=5.0,
-            help="strength of largest wrench")
+            help="strength of largest wrench (in mm)")
+        self.argparser.add_argument(
+            "--extra_distance",  action="store", type=float, default=0.0,
+            help="additional distance between wrenches (in mm)")
+
 
     def render(self):
         # Add slat wall edges
@@ -81,8 +85,9 @@ class SlatwallWrenchHolder(Boxes):
         s.edgeObjects(self)
         self.slatWallHolesAt = edges.SlatWallHoles(self, s)
 
-        h = (self.number * (self.min_strength + self.max_strength) * 2**0.5 +
-             self.max_width)
+        h = ((self.min_strength + self.max_strength) * self.number * 2**0.5
+             +  self.extra_distance * (self.number - 1)
+             + self.max_width)
         t = self.thickness
         x = self.x-2*t
         

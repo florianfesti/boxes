@@ -528,7 +528,7 @@ class FingerJointSettings(Settings):
 Values:
 
 * absolute
-
+  * style : "rectangular" : style of the fingers
   * surroundingspaces : 2 : maximum space at the start and end in multiple of normal spaces
   * angle: 90 : Angle of the walls meeting
 
@@ -543,6 +543,7 @@ Values:
 """
 
     absolute_params = {
+        "style" : ("rectangular", "springs"),
         "surroundingspaces": 2.0,
         "angle" : 90.0,
     }
@@ -634,7 +635,15 @@ class FingerJointEdge(BaseEdge, FingerJointBase):
                 else:
                     self.edge(s)
 
-            self.polyline(0, -90 * p, h, 90 * p, f, 90 * p, h, -90 * p)
+            if positive and self.settings.style == "springs":
+                self.polyline(
+                    0, -90 * p, 0.8*h, (90 * p, 0.2*h),
+                    0.1 * h, 90, 0.9*h, -180, 0.9*h, 90,
+                    f - 0.6*h,
+                    90, 0.9*h, -180, 0.9*h, 90, 0.1*h,
+                (90 * p, 0.2 *h), 0.8*h, -90 * p)
+            else:
+                self.polyline(0, -90 * p, h, 90 * p, f, 90 * p, h, -90 * p)
 
         self.edge(leftover / 2.0, tabs=1)
 

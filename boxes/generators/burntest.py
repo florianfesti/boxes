@@ -44,9 +44,10 @@ correction."""
         x, s = self.x, self.step
         t = self.thickness
 
+        self.moveTo(t, t)
+
         for cnt in range(self.pairs):
             
-            self.moveTo(t, t)
             for i in range(4):
                 self.text("%.3fmm" % self.burn, x/2, 2*t, align="center")
                 self.edges["f"](x)

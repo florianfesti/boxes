@@ -22,6 +22,8 @@ import argparse
 
 class TrayLayout(Boxes):
     """Generate a typetray from a layout file"""
+    # This class generates the skeleton text file that can then be edited
+    # to describe the actual box
 
     webinterface = True
 
@@ -39,6 +41,9 @@ class TrayLayout(Boxes):
         self.argparser.add_argument(
             "--output", action="store", type=str, default="traylayout.txt",
             help="name of the layout text file")
+
+    # Use empty open and close methods to avoid initializing the whole
+    # drawing infrastructure
 
     def open(self):
         pass
@@ -76,6 +81,9 @@ class TrayLayout(Boxes):
 class TrayLayout2(TrayLayout):
     """Generate a typetray from a layout file"""
 
+    # This class reads in the layout either from a file (with --input) or
+    # as string (with --layout) and turns it into a drawing for a box.
+
     webinterface = True
 
     def __init__(self, input=None, webargs=False):
@@ -92,6 +100,7 @@ class TrayLayout2(TrayLayout):
             self.argparser.add_argument(
                 "--layout", action="store", type=str)
 
+    # Use normal open and close
     open = Boxes.open
     close = Boxes.close
 

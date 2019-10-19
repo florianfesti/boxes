@@ -277,7 +277,7 @@ class Boxes:
             help="print reference rectangle with given length (zero to disable)")
         defaultgroup.add_argument(
             "--burn", action="store", type=float, default=0.1,
-            help="burn correction in mm (bigger values for tighter fit)")
+            help='burn correction in mm (bigger values for tighter fit). Use BurnTest in "Parts and Samples" to find the right value.')
 
     @contextmanager
     def saved_context(self):

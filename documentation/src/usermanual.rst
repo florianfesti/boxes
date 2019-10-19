@@ -70,10 +70,10 @@ basically the radius of the laser - or half the width of the laser cut.
 The value of the burn parameter depends on your laser cutter, the
 material cut and the thickness of the material. In addition it depends
 on whether you want the parts to be over or under sized. Materials
-that are spongy like wood can be cut oversized (larger burn value) to
+that are spongy like wood can be cut oversized (larger burn value) so
 they can be press fitted with some force and may be assembled without
 glue. Brittle materials (like Acrylic) need to be cut undersized to
-leave a gap for glue.
+leave a gap for the glue.
 
 **Note:** The way the burn param works is a bit counter intuitive. Bigger
 burn values make a tighter fit. Smaller values make a looser fit.
@@ -81,6 +81,11 @@ burn values make a tighter fit. Smaller values make a looser fit.
 Small changes in the burn param can make a notable difference. Typical
 steps for adjustment are 0.01 or even 0.005mm to choose between
 different amounts of force needed to press plywood together.
+
+To find the right burn value cut out a rectangle and then meassure how
+much smaller it is than its nominal size. The burn value should be
+around half of the difference. To test the fit for several values at
+once you can use the **BurnTest** generator in the "Parts and Samples" section.
 
 format
 ......

@@ -22,10 +22,32 @@ class USlotEdge(Edge):
     def __call__(self, length, bedBolts=None, bedBoltSettings=None, **kw):
         l = length
         d = self.settings
-        r = min(d/2., l/12.)
-        poly = [l*4/12.-r, (90, r), d-2*r, (-90, r), l/6.-r]
-        poly = poly + [0] + list(reversed(poly))
-        self.polyline(*poly)
+        r = min(3*self.thickness, (l-2*d)/2)
+        self.edges["f"](d)
+        self.polyline(0, 90, 0, (-90, r), l-2*d-2*r, (-90, r), 0, 90)
+        self.edges["f"](d)
+
+class HalfStackableEdge(edges.StackableEdge):
+
+    char = 'H'
+
+    def __call__(self, length, **kw):
+        s = self.settings
+        r = s.height / 2.0 / (1 - math.cos(math.radians(s.angle)))
+        l = r * math.sin(math.radians(s.angle))
+        p = 1 if self.bottom else -1
+
+        if self.bottom:
+            self.boxes.fingerHolesAt(0, s.height + self.settings.holedistance + 0.5 * self.boxes.thickness,
+                                     length, 0)
+
+        self.boxes.edge(s.width, tabs=1)
+        self.boxes.corner(p * s.angle, r)
+        self.boxes.corner(-p * s.angle, r)
+        self.boxes.edge(length - 1 * s.width - 2 * l)
+
+    def endwidth(self):
+        return self.settings.holedistance + self.settings.thickness
 
 class NotesHolder(Boxes):
     """Box for holding a stack of paper, coasters etc"""
@@ -34,36 +56,40 @@ class NotesHolder(Boxes):
 
     def __init__(self):
         Boxes.__init__(self)
-        self.addSettingsArgs(edges.FingerJointSettings)
+        self.addSettingsArgs(edges.FingerJointSettings, surroundingspaces=1)
         self.addSettingsArgs(edges.StackableSettings)
-        self.buildArgParser("x", "y", "h", "bottom_edge")
+        self.buildArgParser(x=78, y=78, h=35, bottom_edge="s")
         self.argparser.add_argument(
-            "--slots",  action="store", type=str, default="one",
-            choices=("one", "two", "four"),
-            help="slots for grabbing the notes")
+            "--opening",  action="store", type=float, default=40,
+            help="percent of front that's open")
 
     def render(self):
         x, y, h = self.x, self.y, self.h
         t = self.thickness
 
-        t1 = USlotEdge(self, h)
-        t2 = t3 = t4 = "e"
-        if self.slots != "one":
-            t3 = t1
-        if self.slots == "four":
-            t2 = t4 = t1
+        o = max(0, min(self.opening, 100))
+        sides = x * (1-o/100) / 2
 
         b = self.edges.get(self.bottom_edge, self.edges["F"])
+        if self.bottom_edge == "s":
+            b2 = HalfStackableEdge(self, self.edges["s"].settings,
+                                   self.edges["f"].settings)
+        else:
+            b2 = b
 
         with self.saved_context():
-            self.rectangularWall(x, h, [b, "F", t1, "F"], move="up")
-            self.rectangularWall(x, h, [b, "F", t3, "F"], move="up")
+            self.rectangularWall(y, h, [b, "F", "e", "F"], move="right")
+            if self.opening == 0.0:
+                self.rectangularWall(x, h, [b, "e", "e", "f"], move="right")
+            else:
+                self.rectangularWall(sides, h, [b2, "e", "e", "f"], move="right")
+                self.rectangularWall(sides, h, [b2, "e", "e", "f"], move="right mirror")
 
-            if self.bottom_edge != "e":
-                self.rectangularWall(x, y, "ffff", move="up")
+        self.rectangularWall(x, h, [b, "F", "e", "F"], move="up only")
 
-        self.rectangularWall(x, h, [b, "F", t3, "F"], move="right only")
-        self.rectangularWall(y, h, [b, "f", t2, "f"], move="up")
-        self.rectangularWall(y, h, [b, "f", t4, "f"], move="up")
+        self.rectangularWall(y, h, [b, "F", "e", "F"], move="right")
+        self.rectangularWall(x, h, [b, "f", "e", "f"], move="right")
 
+        if self.bottom_edge != "e":
+            self.rectangularWall(x, y, [USlotEdge(self, sides), "f", "f", "f"], move="up")
 

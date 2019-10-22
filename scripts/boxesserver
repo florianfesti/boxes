@@ -382,19 +382,19 @@ class BServer:
 
     def errorMessage(self, name, e, _):
         return [
-            b"""<html>
+            ("""<html>
 <head>
-  <title>""", _("Error generating %s") % _(name).encode(),
-            b"""</title>
+  <title>""" +  _("Error generating %s") % _(name) +
+            """</title>
   <meta name="flattr:id" content="456799">
 </head>
 <body>
-<h1>""" + _("An error occurred!") + "</h1>",
-u"".join(u"<p>%s</p>" % cgi.escape(s) for s in type(u"")(e).split(u"\n")).encode('utf-8'),
-b"""
+<h1>""" + _("An error occurred!") + "</h1>" +
+"".join(u"<p>%s</p>" % cgi.escape(s) for s in type(u"")(e).split(u"\n")) +
+"""
 </body>
 </html>
-""" ]
+""").encode("utf-8") ]
 
     def serveStatic(self, environ, start_response):
         filename = environ["PATH_INFO"][len("/static/"):]

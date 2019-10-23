@@ -335,7 +335,7 @@ class BServer:
             result.append('''<h3 id="h-%s" class="open" onclick="showHide('%s')">%s</h3>\n<div id="%s">\n''' % (nr, nr, _(group.title), nr))
             result.append("""
             <div style="width: 20%%; float: right;">
-            <img style="width: 100%%;" id="sample-%s" src="static/nothing.png" alt="" />
+            <img style="width: 200px;" id="sample-%s" src="static/nothing.png" alt="" />
             </div>\n<ul>\n""" % (group.name))
             for box in group.generators:
                 name = box.__name__
@@ -344,7 +344,7 @@ class BServer:
                 docs = ""
                 if box.__doc__:
                     docs = " - " + _(box.__doc__)
-                result.append("""  <li onmouseenter="change('%s', 'static/samples/%s.jpg')" onmouseleave="changeback('%s')"><a href="%s%s">%s</a>%s</li>\n""" % (
+                result.append("""  <li onmouseenter="change('%s', 'static/samples/%s-thumb.jpg')" onmouseleave="changeback('%s')"><a href="%s%s">%s</a>%s</li>\n""" % (
                     group.name, name, group.name, name, langparam,  _(name), docs))
             result.append("</ul>\n</div>\n")
         result.append("""

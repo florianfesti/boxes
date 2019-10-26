@@ -138,6 +138,12 @@ video {
 	margin-right: 10px;
 }
 
+img[id|=sample] {
+	position: fixed;
+	bottom: 100px;
+	right: calc(50% - 498px);
+}
+
 ul {
 	padding-left: 5px;
 	}

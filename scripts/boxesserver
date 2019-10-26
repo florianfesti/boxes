@@ -334,9 +334,8 @@ class BServer:
         for nr, group in enumerate(self.groups):
             result.append('''<h3 id="h-%s" class="open" onclick="showHide('%s')">%s</h3>\n<div id="%s">\n''' % (nr, nr, _(group.title), nr))
             result.append("""
-            <div style="width: 20%%; float: right;">
             <img style="width: 200px;" id="sample-%s" src="static/nothing.png" alt="" />
-            </div>\n<ul>\n""" % (group.name))
+            <ul>\n""" % (group.name))
             for box in group.generators:
                 name = box.__name__
                 if name in ("TrayLayout2", ):

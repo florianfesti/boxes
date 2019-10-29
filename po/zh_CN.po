@@ -7,7 +7,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2019-08-25 10:02+0800\n"
+"PO-Revision-Date: 2019-10-04 16:09+0800\n"
 "Last-Translator: CNDK <z2889188672@gmail.com>\n"
 "Language-Team: Chinese (China)\n"
 "Language: zh_CN\n"
@@ -102,9 +102,7 @@ msgid "hi"
 msgstr "嗨"
 
 #. help for parameter hi
-msgid ""
-"inner height of inner walls in mm (unless outside selected)(leave to zero "
-"for same as outer walls)"
+msgid "inner height of inner walls in mm (unless outside selected)(leave to zero for same as outer walls)"
 msgstr "内墙的内部高度，单位为mm（除非选择外部）（与外部墙相同，保留为零）"
 
 #. parameter name
@@ -120,10 +118,7 @@ msgid "sy"
 msgstr "sy"
 
 #. help for parameter sy
-msgid ""
-"sections back to front in mm. Possible formats: overallwidth/numberof "
-"sections e.g. \"250/5\"; sectionwidth*numberofsections e.g. \"50*5\"; "
-"section widths separated by \":\" e.g. \"30:25.5:70"
+msgid "sections back to front in mm. Possible formats: overallwidth/numberof sections e.g. \"250/5\"; sectionwidth*numberofsections e.g. \"50*5\"; section widths separated by \":\" e.g. \"30:25.5:70"
 msgstr ""
 
 #. parameter name
@@ -200,7 +195,7 @@ msgstr "t"
 
 #. parameter name
 msgid "outside"
-msgstr "外部"
+msgstr "外部尺寸"
 
 #. help for parameter outside
 msgid "treat sizes as outside measurements that include the walls"
@@ -208,7 +203,7 @@ msgstr "将尺寸视为包括墙壁的外部测量"
 
 #. parameter name
 msgid "nema_mount"
-msgstr "NEMA安装"
+msgstr "nema安装"
 
 #. help for parameter nema_mount
 msgid "NEMA size of motor"
@@ -267,28 +262,27 @@ msgstr ""
 
 #. parameter name
 msgid "tabs"
-msgstr "标签"
+msgstr "切割缝隙"
 
 #. help for parameter tabs
-msgid ""
-"width of tabs holding the parts in place in mm (not supported everywhere)"
-msgstr "用mm固定零件的标签宽度(不支持任何地方)"
+msgid "width of tabs holding the parts in place in mm (not supported everywhere)"
+msgstr "用mm固定零件的切割缝隙宽度(不支持所有地方)"
 
 #. parameter name
 msgid "debug"
-msgstr "调试"
+msgstr "边框"
 
 #. help for parameter debug
 msgid "print surrounding boxes for some structures"
-msgstr "打印某些结构的周围框"
+msgstr "勾选后，生成的每个零件外围都会出现一个矩形框"
 
 #. parameter name
 msgid "reference"
-msgstr "引用"
+msgstr "定位框"
 
 #. help for parameter reference
 msgid "print reference rectangle with given length (zero to disable)"
-msgstr "具有给定长度的打印参考矩形(零以禁用)"
+msgstr "默认会在图纸底部生成一个长度100mm的矩形框，方便确定图纸尺寸，输入0则不生成"
 
 #. parameter name
 msgid "burn"
@@ -586,15 +580,21 @@ msgstr "切割角度"
 #. name of box generator
 #: boxes/generators/arcade.py
 msgid "Arcade"
-msgstr "拱廊"
+msgstr "街机游戏机"
 
 #. description of Arcade
 #: boxes/generators/arcade.py
 msgid "Desktop Arcade Maschine"
-msgstr ""
+msgstr "街机游戏机桌面"
 
 msgid "Arcade Settings"
-msgstr "拱廊设置"
+msgstr "街机游戏机设置"
+
+msgid "monitor_height"
+msgstr "显示器高度"
+
+msgid "keyboard_depth"
+msgstr "键盘深度"
 
 #. help for parameter width
 #: boxes/generators/arcade.py
@@ -874,9 +874,7 @@ msgstr "陈列柜"
 
 #. description of DisplayCase
 #: boxes/generators/displaycase.py
-msgid ""
-"Fully closed box intended to be cut from transparent acrylics and to serve "
-"as a display case."
+msgid "Fully closed box intended to be cut from transparent acrylics and to serve as a display case."
 msgstr "全封闭的盒子，用于从透明的丙烯酸树脂切割而成，用作展示柜。"
 
 msgid "DisplayCase Settings"
@@ -1626,23 +1624,19 @@ msgstr "Makita电源"
 
 #. description of MakitaPowerSupply
 #: boxes/generators/makitapowersupply.py
-msgid ""
-"Bench power supply powered with Maktia 18V battery or laptop power supply"
+msgid "Bench power supply powered with Maktia 18V battery or laptop power supply"
 msgstr "台式电源采用Makita 18V电池或笔记本电源供电"
 
 #. long description of MakitaPowerSupply in markdown
 #: boxes/generators/makitapowersupply.py
 msgid ""
 "\n"
-"Vitamins: DSP5005 (or similar) power supply, two banana sockets, two 4.8mm "
-"flat terminals with flat soldering tag\n"
+"Vitamins: DSP5005 (or similar) power supply, two banana sockets, two 4.8mm flat terminals with flat soldering tag\n"
 "\n"
-"To allow powering by laptop power supply: flip switch, Lenovo round socket "
-"(or adjust right  hole for different socket)\n"
+"To allow powering by laptop power supply: flip switch, Lenovo round socket (or adjust right  hole for different socket)\n"
 msgstr ""
 "\n"
-"维生素：DSP5005（或类似）电源，两个香蕉插座，两个4.8毫米带扁平焊接标签的扁平"
-"端子\n"
+"维生素：DSP5005（或类似）电源，两个香蕉插座，两个4.8毫米带扁平焊接标签的扁平端子\n"
 "\n"
 "允许通过笔记本电脑供电：翻转开关，联想圆形插座（或调整右侧孔用于不同插座）\n"
 
@@ -1813,9 +1807,7 @@ msgstr "口型比"
 
 #. help for parameter mouthratio
 #: boxes/generators/organpipe.py
-msgid ""
-"mouth to circumference ratio (0.1 to 0.45). Determines the width to depth "
-"ratio"
+msgid "mouth to circumference ratio (0.1 to 0.45). Determines the width to depth ratio"
 msgstr "口与周长比（0.1至0.45）。 确定宽深比"
 
 #. parameter name
@@ -1856,7 +1848,7 @@ msgstr "风压单位"
 #. help for parameter windpressure_units
 #: boxes/generators/organpipe.py
 msgid "in Pa"
-msgstr " "
+msgstr ""
 
 #. possible choice for windpressure_units
 #: boxes/generators/organpipe.py
@@ -2770,7 +2762,7 @@ msgstr "橡胶厚度"
 #. help for parameter rubberthickness
 #: boxes/generators/rotary.py
 msgid "diameter of the strings of the O rings"
-msgstr "O形圈的直径"
+msgstr "o形圈的直径"
 
 #. help for parameter axle
 #: boxes/generators/rotary.py
@@ -2842,14 +2834,8 @@ msgstr "你的皇家游戏"
 
 #. long description of RoyalGame in markdown
 #: boxes/generators/royalgame.py
-msgid ""
-"Most of the blue lines need to be engraved by cutting with high speed and "
-"low power. But there are three blue holes that actually need to be cut: The "
-"grip hole in the lid and two tiny rectangles on the top and bottom for the "
-"lid to grip into.\n"
-msgstr ""
-"大多数蓝线需要通过高速和低功率切割进行雕刻。 但实际上需要切割三个蓝洞：盖子"
-"上的抓握孔和顶部和底部的两个小矩形，以便盖住盖子。‪‪‪\n"
+msgid "Most of the blue lines need to be engraved by cutting with high speed and low power. But there are three blue holes that actually need to be cut: The grip hole in the lid and two tiny rectangles on the top and bottom for the lid to grip into.\n"
+msgstr "大多数蓝线需要通过高速和低功率切割进行雕刻。 但实际上需要切割三个蓝洞：盖子上的抓握孔和顶部和底部的两个小矩形，以便盖住盖子。‪‪‪\n"
 
 msgid "RoyalGame Settings"
 msgstr "皇家游戏设置"
@@ -3471,8 +3457,7 @@ msgstr "红绿灯"
 #. long description of TrafficLight in markdown
 #: boxes/generators/trafficlight.py
 msgid ""
-"The traffic light was created to visualize the status of a Icinga monitored "
-"system.\n"
+"The traffic light was created to visualize the status of a Icinga monitored system.\n"
 "\n"
 "When turned by 90°, it can be also used to create a bottle holder."
 msgstr ""
@@ -3519,8 +3504,7 @@ msgstr "托盘插入件"
 
 #. description of TrayInsert
 #: boxes/generators/trayinsert.py
-msgid ""
-"Tray insert without floor and outer walls - allows only continuous walls"
+msgid "Tray insert without floor and outer walls - allows only continuous walls"
 msgstr "不带地板和外墙的托盘插入件-仅允许连续墙"
 
 msgid "TrayInsert Settings"
@@ -3568,7 +3552,7 @@ msgid ""
 "A two piece box where top slips over the bottom half to form \n"
 "       the enclosure.\n"
 "    "
-msgstr "一个两件套的盒子，上面从下半部分滑落形成外壳。"
+msgstr "一个两件套的盒子，上面从下半部分滑落形成外壳 "
 
 msgid "TwoPiece Settings"
 msgstr "两件式设置"
@@ -3801,19 +3785,10 @@ msgstr "用激光切割机制作盒子等等！"
 #: scripts/boxesserver:272
 msgid ""
 "\n"
-"        <a href=\"https://hackaday.io/project/10649-boxespy\">Boxes.py</a> "
-"is an <a href=\"https://www.gnu.org/licenses/gpl-3.0.en.html\">Open Source</"
-"a> box generator written in <a href=\"https://www.python.org/\">Python</a>. "
-"It features both finished parametrized generators as well as a Python API "
-"for writing your own. It features finger and (flat) dovetail joints, flex "
-"cuts, holes and slots for screws, hinges, gears, pulleys and much more."
+"        <a href=\"https://hackaday.io/project/10649-boxespy\">Boxes.py</a> is an <a href=\"https://www.gnu.org/licenses/gpl-3.0.en.html\">Open Source</a> box generator written in <a href=\"https://www.python.org/\">Python</a>. It features both finished parametrized generators as well as a Python API for writing your own. It features finger and (flat) dovetail joints, flex cuts, holes and slots for screws, hinges, gears, pulleys and much more."
 msgstr ""
 "\n"
-"        <a href=\"https://hackaday.io/project/10649-boxespy\">Boxes.py</a>是"
-"一个用<a href=\"https://www.python.org/\">Python</a>编写的<a href=\"https://"
-"www.gnu.org/licenses/gpl-3.0.en.html\">开源</a>盒子生成器。 它具有完成的参数"
-"化生成器以及用于编写自己的Python API。 它具有手指和（扁平）燕尾榫接头，柔性"
-"切口，螺钉，铰链，齿轮，滑轮等孔和槽。"
+"        <a href=\"https://hackaday.io/project/10649-boxespy\">Boxes.py</a>是一个用<a href=\"https://www.python.org/\">Python</a>编写的<a href=\"https://www.gnu.org/licenses/gpl-3.0.en.html\">开源</a>盒子生成器。 它具有完成的参数化生成器以及用于编写自己的Python API。 它具有手指和（扁平）燕尾榫接头，柔性切口，螺钉，铰链，齿轮，滑轮等孔和槽。"
 
 #: scripts/boxesserver:320
 msgid "Get Source at GitHub"
@@ -3835,3 +3810,79 @@ msgstr ""
 #: scripts/boxesserver:336
 msgid "An error occurred!"
 msgstr "发生错误！"
+
+#: scripts/boxesserver
+msgid "BayonetBox"
+msgstr "卡口盒"
+
+#: scripts/boxesserver
+msgid "BayonetBox Settings"
+msgstr "卡口盒设置"
+
+#: scripts/boxesserver
+msgid "Diameter of the box in mm"
+msgstr "包装盒直径（毫米）"
+
+#: scripts/boxesserver
+msgid "lugs"
+msgstr "锁止片"
+
+#: scripts/boxesserver
+msgid "Glue together. All outside rings to the bottom, all inside rings to the top."
+msgstr "粘在一起。所有外环到底部，所有内环到顶部。"
+
+#: scripts/boxesserver
+msgid "number of locking lugs"
+msgstr "锁止片数量"
+
+#: scripts/boxesserver
+msgid "Round box made from layers with twist on top"
+msgstr "圆形盒由多层制成，顶部有扭曲"
+
+#: scripts/boxesserver
+msgid "Rack19HalfWidth"
+msgstr "机架19半宽"
+
+#: scripts/boxesserver
+msgid "Half width 19inch rack unit for musical equipment."
+msgstr "用于音乐设备的半宽19英寸机架单元。"
+
+#: scripts/boxesserver
+msgid "Rack19HalfWidth Settings"
+msgstr "机架19半宽设置"
+
+#: scripts/boxesserver
+msgid "ru_count"
+msgstr "机架数"
+
+#: scripts/boxesserver
+msgid "number of rack units"
+msgstr "机架数量"
+
+#: scripts/boxesserver
+msgid "holes"
+msgstr "孔"
+
+#: scripts/boxesserver
+msgid "mounting patterns: x=xlr, m=midi, p=9v-power, w=6.5mm-wire, space=next row"
+msgstr "安装方式：X=XLR，M=MIDI，P=9V电源，W=6.5m m-线，间距=下一排"
+
+#: scripts/boxesserver
+msgid "depth of the shorter (rackear) side"
+msgstr "较短（机架）侧的深度"
+
+#: scripts/boxesserver
+msgid "depth of the longer (screwed to another half sized thing) side"
+msgstr "较长的深度（拧入另一半尺寸的物体）"
+
+#: scripts/boxesserver
+msgid "DividerTray"
+msgstr "分隔托盘"
+
+#: scripts/boxesserver
+msgid "Divider tray - rows and dividers"
+msgstr "分隔托盘-行和分隔器"
+
+#: scripts/boxesserver
+msgid "DividerTray Settings"
+msgstr "分隔托盘设置"

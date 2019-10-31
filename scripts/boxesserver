@@ -517,11 +517,15 @@ class BServer:
             return (l.encode("utf-8") for l in result)
 
 if __name__=="__main__":
+    if len(sys.argv) > 1:
+        port = int(sys.argv[1])
+    else:
+        port = 8000
     fc = FileChecker()
     fc.start()
     boxserver = BServer()
-    httpd = make_server('', 8000, boxserver.serve)
-    print("Serving on port 8000...")
+    httpd = make_server('', port, boxserver.serve)
+    print("BoxesServer serving on port %s..." %port)
     httpd.serve_forever()
 else:
     application = BServer().serve

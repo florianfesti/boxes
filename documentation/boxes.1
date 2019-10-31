@@ -1,0 +1,63 @@
+'\" t
+.\"     Title: Boxes
+.\"    Author: Georges Khaznadar <georgesk@debian.org>
+.\" Generator: DocBook XSL Stylesheets v1.79.1 <http://docbook.sf.net/>
+.\"      Date: 10/26/2019
+.\"    Manual: boxes User Manual
+.\"    Source: boxes
+.\"  Language: English
+.\"
+.TH "BOXES" "1" "10/26/2019" "boxes" "boxes User Manual"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+boxes \- program design boxes
+.SH "DESCRIPTION"
+.PP
+\fBboxes\fR
+is a program that generates SVG images that can be viewed directly in a web brower but also postscript and \- with pstoedit as external helper \- other vector formats including dxf, plt (aka hpgl) and gcode\&.
+.PP
+Of course the library and the generators allow selecting the "thickness" of the material used and automatically adjusts lengths and width of joining fingers and other elements\&.
+.PP
+The "burn" parameter compensates for the material removed by the laser\&. This allows fine tuning the gaps between joins up to the point where plywood can be press fitted even without any glue\&.
+.PP
+inger Joints are the work horse of the library\&. They allow 90\(de edges and T connections\&. Their size is scaled up with the material "thickness" to maintain the same appearance\&. The library also allows putting holes and slots for screws (bed bolts) into finger joints, although this is currently not supported for the included generators\&.
+.PP
+Dovetail joints can be used to join pieces in the same plane\&.
+.PP
+Flex cuts allows bending and stretching the material in one direction\&. This is used for rounded edges and living hinges\&.
+.SH "AUTHOR"
+.PP
+\fBGeorges Khaznadar\fR <\&georgesk@debian\&.org\&>
+.RS 4
+Wrote this manpage for the Debian system\&.
+.RE
+.SH "COPYRIGHT"
+.br
+Copyright \(co 2019 Georges Khaznadar
+.br
+.PP
+This manual page was written for the Debian system (and may be used by others)\&.
+.PP
+Permission is granted to copy, distribute and/or modify this document under the terms of the GNU General Public License, Version 2 or (at your option) any later version published by the Free Software Foundation\&.
+.PP
+On Debian systems, the complete text of the GNU General Public License can be found in
+/usr/share/common\-licenses/GPL\&.
+.sp

@@ -45,17 +45,30 @@ class CustomBuildExtCommand(build_py):
         self.execute(self.updatePOT, ())
         self.execute(self.generate_mo_files, ())
         self.execute(self.buildInkscapeExt, ())
-        try:
-            path = check_output(["inkscape", "-x"]).decode().strip()
-            if not os.access(path, os.W_OK): # Can we install globaly
-                # Not tested on Windows and Mac
-                path = os.path.expanduser("~/.config/inkscape/extensions")
+
+        if 'FAKEROOTKEY' in os.environ:
+            # we are probably running under fakeroot
+            # so we are probably building a Debian package
+            # let us define a simple path!
+            path="/usr/share/inkscape/extensions"
             self.distribution.data_files.append(
                 (path,
                  [i for i in glob.glob(os.path.join("inkex", "*.inx"))]))
             self.distribution.data_files.append((path, ['scripts/boxes']))
-        except CalledProcessError:
-            pass # Inkscape is not installed
+        else:
+            # we are surely not building a Debian package
+            # then here is the default behavior:
+            try:
+                path = check_output(["inkscape", "-x"]).decode().strip()
+                if not os.access(path, os.W_OK): # Can we install globaly
+                    # Not tested on Windows and Mac
+                    path = os.path.expanduser("~/.config/inkscape/extensions")
+                self.distribution.data_files.append(
+                    (path,
+                     [i for i in glob.glob(os.path.join("inkex", "*.inx"))]))
+                self.distribution.data_files.append((path, ['scripts/boxes']))
+            except CalledProcessError:
+                pass # Inkscape is not installed
 
         build_py.run(self)
 

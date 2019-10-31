@@ -1,0 +1,64 @@
+'\" t
+.\"     Title: BoxesServer
+.\"    Author: Georges Khaznadar <georgesk@debian.org>
+.\" Generator: DocBook XSL Stylesheets v1.79.1 <http://docbook.sf.net/>
+.\"      Date: 10/31/2019
+.\"    Manual: boxesserver User Manual
+.\"    Source: boxesserver
+.\"  Language: English
+.\"
+.TH "BOXESSERVER" "1" "10/31/2019" "boxesserver" "boxesserver User Manual"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+boxesserver \- a web server to make boxes\&.
+.SH "SYNOPSIS"
+.HP \w'\fBboxesserver\fR\ 'u
+\fBboxesserver\fR [\fB\fIport_number\fR\fR]
+.SH "DESCRIPTION"
+.PP
+\fBboxesserver\fR
+is a web server which allows one to compute sketches to cut materials with a laser and make various types of boxes\&.
+.SH "OPTIONS"
+.PP
+\fB\fIport_number\fR\fR
+.RS 4
+If this optional parameter is set, the web service will be done using this port number\&. By default, the port number is 8000\&.
+.sp
+Please notice that port numbers lesser than 1024 are privileged, and can be used only by root\&.
+.RE
+.SH "AUTHOR"
+.PP
+\fBGeorges Khaznadar\fR <\&georgesk@debian\&.org\&>
+.RS 4
+Wrote this manpage for the Debian system\&.
+.RE
+.SH "COPYRIGHT"
+.br
+Copyright \(co 2019 Georges Khaznadar
+.br
+.PP
+This manual page was written for the Debian system (and may be used by others)\&.
+.PP
+Permission is granted to copy, distribute and/or modify this document under the terms of the GNU General Public License, Version 2 or (at your option) any later version published by the Free Software Foundation\&.
+.PP
+On Debian systems, the complete text of the GNU General Public License can be found in
+/usr/share/common\-licenses/GPL\&.
+.sp

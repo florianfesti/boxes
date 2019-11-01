@@ -46,9 +46,8 @@ class CustomBuildExtCommand(build_py):
         self.execute(self.generate_mo_files, ())
         self.execute(self.buildInkscapeExt, ())
 
-        if 'FAKEROOTKEY' in os.environ:
-            # we are probably running under fakeroot
-            # so we are probably building a Debian package
+        if 'CURRENTLY_PACKAGING' in os.environ:
+            # we are most probably building a Debian package
             # let us define a simple path!
             path="/usr/share/inkscape/extensions"
             self.distribution.data_files.append(

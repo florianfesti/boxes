@@ -27,6 +27,9 @@ class USlotEdge(Edge):
         self.polyline(0, 90, 0, (-90, r), l-2*d-2*r, (-90, r), 0, 90)
         self.edges["f"](d)
 
+    def margin(self):
+        return self.edges["f"].margin()
+
 class HalfStackableEdge(edges.StackableEdge):
 
     char = 'H'
@@ -80,16 +83,21 @@ class NotesHolder(Boxes):
         with self.saved_context():
             self.rectangularWall(y, h, [b, "F", "e", "F"], move="right")
             if self.opening == 0.0:
-                self.rectangularWall(x, h, [b, "e", "e", "f"], move="right")
+                self.rectangularWall(x, h, [b, "f", "e", "f"], move="right")
             else:
                 self.rectangularWall(sides, h, [b2, "e", "e", "f"], move="right")
                 self.rectangularWall(sides, h, [b2, "e", "e", "f"], move="right mirror")
 
         self.rectangularWall(x, h, [b, "F", "e", "F"], move="up only")
 
-        self.rectangularWall(y, h, [b, "F", "e", "F"], move="right")
-        self.rectangularWall(x, h, [b, "f", "e", "f"], move="right")
+        with self.saved_context():
+            self.rectangularWall(y, h, [b, "F", "e", "F"], move="right")
+            self.rectangularWall(x, h, [b, "f", "e", "f"], move="right")
+        self.rectangularWall(y, h, [b, "F", "e", "F"], move="up only")
 
         if self.bottom_edge != "e":
-            self.rectangularWall(x, y, [USlotEdge(self, sides), "f", "f", "f"], move="up")
+            if self.opening == 0.0:
+                self.rectangularWall(x, y, ["f", "f", "f", "f"], move="up")
+            else:
+                self.rectangularWall(x, y, [USlotEdge(self, sides), "f", "f", "f"], move="up")
 

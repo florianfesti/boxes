@@ -826,7 +826,7 @@ class StackableEdge(BaseEdge):
         return self._height() if self.bottom else 0
 
     def margin(self):
-        return 0 if self.bottom else self._height()
+        return 0 if self.bottom else self.settings.height
 
 
 class StackableEdgeTop(StackableEdge):

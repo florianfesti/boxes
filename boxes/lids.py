@@ -140,6 +140,12 @@ class _TopEdge(Boxes):
             self.rectangularWall(lx, y, "IeJe", move="up")
             self.rectangularWall(lx, y, "IeJe", move="left only")
             self.edges["k"].settings.setValues(self.thickness, outset=outset)
+        elif top_edge == "S":
+            self.rectangularWall(x, y, "ffff", move="up")
+            self.rectangularWall(x, 0, "sFeF", move="up")
+            self.rectangularWall(x, 0, "sFeF", move="up")
+            self.rectangularWall(y, 0, "sfef", move="up")
+            self.rectangularWall(y, 0, "sfef", move="up")
         elif top_edge == "v":
             self.rectangularWall(x, y, "VEEE", move="up")
             self.edges["v"].parts(move="up")

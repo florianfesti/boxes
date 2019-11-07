@@ -161,24 +161,42 @@ class SBCMicroRack(Boxes):
 
         # render your parts here
 
-        self.rectangularWall(height_total + height_per/2, x + self.hole_dist_edge * 2, "eseS", callback=[
-            self.paint_finger_holes,
-            self.paint_netusb_holes,
-        ],
-                             move="right")
-        self.rectangularWall(y + self.hole_dist_edge * 2, x + self.hole_dist_edge * 2, "efef",
-                             move="right")
+        with self.saved_context():
+            self.rectangularWall(height_total + height_per/2,
+                                 x + self.hole_dist_edge * 2,
+                                 "eseS",
+                                 callback=[self.paint_finger_holes,
+                                           self.paint_netusb_holes],
+                                 move="up")
+
+            self.rectangularWall(height_total + height_per/2,
+                                 x + self.hole_dist_edge * 2,
+                                 "eseS",
+                                 callback=[self.paint_finger_holes,
+                                           self.paint_stable_features],
+                                 move="up")
+
+            if self.switch:
+                self.rectangularWall(height_total + height_per / 2,
+                                     x + self.hole_dist_edge * 2,
+                                     "eseS",
+                                     callback=[self.paint_stable_features],
+                                     move="up")
+
+        self.rectangularWall(height_total + height_per/2,
+                             x + self.hole_dist_edge * 2,
+                             "eseS",
+                             move="right only")
+
+        self.rectangularWall(y + self.hole_dist_edge * 2,
+                             x + self.hole_dist_edge * 2,
+                             "efef",
+                             move="up")
 
         for i in range(self.sbcs):
-            self.rectangularWall(y + self.hole_dist_edge * 2, x + self.hole_dist_edge * 2, "efef", callback=[
-                self.paint_mounting_holes
-            ],  move="up")
+            self.rectangularWall(y + self.hole_dist_edge * 2,
+                                 x + self.hole_dist_edge * 2,
+                                 "efef",
+                                 callback=[self.paint_mounting_holes],
+                                 move="up")
 
-        self.rectangularWall(height_total + height_per/2, x + self.hole_dist_edge * 2, "eseS", callback=[
-            self.paint_finger_holes,
-            self.paint_stable_features
-        ],
-                             move="left")
-
-        if self.switch:
-            self.rectangularWall(height_total + height_per / 2, x + self.hole_dist_edge * 2, "eseS", callback=[self.paint_stable_features], move="down")

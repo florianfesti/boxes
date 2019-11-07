@@ -148,7 +148,7 @@ class SBCMicroRack(Boxes):
     def paint_finger_holes(self):
         t = self.thickness
         height_per = self.clearance_z + t
-        for i in range(self.sbcs + 1):
+        for i in range(self.sbcs):
             self.fingerHolesAt((height_per) * i + +height_per/2 + 1.5, self.hole_dist_edge, self.x, 90)
 
     def render(self):

@@ -132,7 +132,7 @@ class SBCMicroRack(Boxes):
     def paint_stable_features(self):
         if self.stable:
             self.hole(
-                10,10,6.5
+                10, 10, d=6.5
             )
 
     def paint_netusb_holes(self):

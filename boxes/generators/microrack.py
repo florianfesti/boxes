@@ -90,10 +90,10 @@ class SBCMicroRack(Boxes):
             help="adds an additional vertical segment to hold the switch in place, works best w/ --stable"
         )
         # TODO flesh this idea out better
-        self.argparser.add_argument(
-            "--fan", action='store', type=int, default=0, required=False,
-            help="ensure that the x width is at least this much and as well, draw a snug holder for a fan someplace"
-        )
+        #self.argparser.add_argument(
+        #    "--fan", action='store', type=int, default=0, required=False,
+        #    help="ensure that the x width is at least this much and as well, draw a snug holder for a fan someplace"
+        # )
 
 
     def paint_mounting_holes(self):

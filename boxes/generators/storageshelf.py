@@ -37,12 +37,10 @@ class StorageShelf(_TopEdge):
 
     def ySlots(self):
         posy = -0.5 * self.thickness
+        h = sum(self.sh) + self.thickness * (len(self.sh) - 1)
         for y in self.sy[:-1]:
             posy += y + self.thickness
-            posh = 0
-            for h in self.sh:
-                self.fingerHolesAt(posy, posh, h)
-                posh += h + self.thickness
+            self.fingerHolesAt(posy, 0, h, 90)
 
     def hSlots(self):
         posh = -0.5 * self.thickness

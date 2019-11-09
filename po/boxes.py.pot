@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-02 17:01+0100\n"
+"POT-Creation-Date: 2019-11-08 00:04+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -705,39 +705,6 @@ msgid "fraction of bin height covert with slope"
 msgstr ""
 
 #. name of box generator
-#: boxes/generators/bottlestack.py
-msgid "BottleStack"
-msgstr ""
-
-#. description of BottleStack
-#: boxes/generators/bottlestack.py
-msgid "Stack bottles in a fridge"
-msgstr ""
-
-msgid "BottleStack Settings"
-msgstr ""
-
-#. help for parameter diameter
-#: boxes/generators/bottlestack.py
-msgid "diameter of the bottles"
-msgstr ""
-
-#. parameter name
-#: boxes/generators/bottlestack.py
-msgid "number"
-msgstr ""
-
-#. help for parameter number
-#: boxes/generators/bottlestack.py
-msgid "number of bottles to hold"
-msgstr ""
-
-#. help for parameter depth
-#: boxes/generators/bottlestack.py
-msgid "depth of the "
-msgstr ""
-
-#. name of box generator
 #: boxes/generators/burntest.py
 msgid "BurnTest"
 msgstr ""
@@ -1275,14 +1242,6 @@ msgstr ""
 msgid "Distance of the screw holes from the wall in mm"
 msgstr ""
 
-#. name of box generator
-#: boxes/generators/fence.py
-msgid "Fence"
-msgstr ""
-
-msgid "Fence Settings"
-msgstr ""
-
 #. description of FlexBox
 #: boxes/generators/flexbox.py
 msgid "Box with living hinge and round corners"
@@ -1606,34 +1565,6 @@ msgstr ""
 #. help for parameter stages
 #: boxes/generators/gearbox.py
 msgid "number of stages in the gear reduction"
-msgstr ""
-
-#. name of box generator
-#: boxes/generators/gearbox2.py
-msgid "GearBox2"
-msgstr ""
-
-msgid "GearBox2 Settings"
-msgstr ""
-
-#. parameter name
-#: boxes/generators/gearbox2.py
-msgid "outputshaft"
-msgstr ""
-
-#. help for parameter outputshaft
-#: boxes/generators/gearbox2.py
-msgid "diameter of the output shaft"
-msgstr ""
-
-#. parameter name
-#: boxes/generators/gearbox2.py
-msgid "bearingdiameter"
-msgstr ""
-
-#. help for parameter bearingdiameter
-#: boxes/generators/gearbox2.py
-msgid "diameter of the output bearings"
 msgstr ""
 
 #. name of box generator
@@ -1976,21 +1907,138 @@ msgid "MakitaPowerSupply Settings"
 msgstr ""
 
 #. name of box generator
-#: boxes/generators/marblerun.py
-msgid "MarbleRun"
+#: boxes/generators/microrack.py
+msgid "SBCMicroRack"
 msgstr ""
 
-#. description of MarbleRun
-#: boxes/generators/marblerun.py
-msgid "DESCRIPTION"
+#. description of SBCMicroRack
+#: boxes/generators/microrack.py
+msgid "Stackable rackable racks for SBC Pi-Style Computers"
 msgstr ""
 
-msgid "MarbleRun Settings"
+msgid "SBCMicroRack Settings"
 msgstr ""
 
 #. parameter name
-#: boxes/generators/marblerun.py
-msgid "XX"
+#: boxes/generators/microrack.py
+msgid "sbcs"
+msgstr ""
+
+#. help for parameter sbcs
+#: boxes/generators/microrack.py
+msgid "how many slots for sbcs"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/microrack.py
+msgid "clearance_x"
+msgstr ""
+
+#. help for parameter clearance_x
+#: boxes/generators/microrack.py
+msgid "clearance for the board in the box (x) in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/microrack.py
+msgid "clearance_y"
+msgstr ""
+
+#. help for parameter clearance_y
+#: boxes/generators/microrack.py
+msgid "clearance for the board in the box (y) in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/microrack.py
+msgid "clearance_z"
+msgstr ""
+
+#. help for parameter clearance_z
+#: boxes/generators/microrack.py
+msgid "SBC Clearance in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/microrack.py
+msgid "hole_dist_edge"
+msgstr ""
+
+#. help for parameter hole_dist_edge
+#: boxes/generators/microrack.py
+msgid "hole distance from edge in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/microrack.py
+msgid "hole_grid_dimension_x"
+msgstr ""
+
+#. help for parameter hole_grid_dimension_x
+#: boxes/generators/microrack.py
+msgid "width of x hole area"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/microrack.py
+msgid "hole_grid_dimension_y"
+msgstr ""
+
+#. help for parameter hole_grid_dimension_y
+#: boxes/generators/microrack.py
+msgid "width of y hole area"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/microrack.py
+msgid "hole_diameter"
+msgstr ""
+
+#. help for parameter hole_diameter
+#: boxes/generators/microrack.py
+msgid "hole diameters"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/microrack.py
+msgid "netusb_z"
+msgstr ""
+
+#. help for parameter netusb_z
+#: boxes/generators/microrack.py
+msgid "height of the net/usb hole mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/microrack.py
+msgid "netusb_x"
+msgstr ""
+
+#. help for parameter netusb_x
+#: boxes/generators/microrack.py
+msgid "width of the net/usb hole in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/microrack.py
+msgid "stable"
+msgstr ""
+
+#. help for parameter stable
+#: boxes/generators/microrack.py
+msgid "draw some holes to put a 1/4\" dowel through at the base and top"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/microrack.py
+msgid "switch"
+msgstr ""
+
+#. help for parameter switch
+#: boxes/generators/microrack.py
+msgid ""
+"adds an additional vertical segment to hold the switch in place, works best "
+"w/ --stable"
 msgstr ""
 
 #. name of box generator
@@ -2215,14 +2263,6 @@ msgstr ""
 #. help for parameter stopped
 #: boxes/generators/organpipe.py
 msgid "pipe is closed at the top"
-msgstr ""
-
-#. name of box generator
-#: boxes/generators/otto.py
-msgid "Otto"
-msgstr ""
-
-msgid "Otto Settings"
 msgstr ""
 
 #. name of box generator
@@ -2968,14 +3008,6 @@ msgid "round lid"
 msgstr ""
 
 #. name of box generator
-#: boxes/generators/regularbox2.py
-msgid "Box4"
-msgstr ""
-
-msgid "Box4 Settings"
-msgstr ""
-
-#. name of box generator
 #: boxes/generators/robotarm.py
 msgid "RobotArm"
 msgstr ""
@@ -3513,19 +3545,6 @@ msgid "bracing angle - less for more bracing"
 msgstr ""
 
 #. name of box generator
-#: boxes/generators/slatwallrollholder.py
-msgid "SlatwallRollHolder"
-msgstr ""
-
-#. description of SlatwallRollHolder
-#: boxes/generators/slatwallrollholder.py
-msgid "Hold a roll of paper towels to a slat wall"
-msgstr ""
-
-msgid "SlatwallRollHolder Settings"
-msgstr ""
-
-#. name of box generator
 #: boxes/generators/slatwallslottedholder.py
 msgid "SlatwallSlottedHolder"
 msgstr ""
@@ -3576,6 +3595,11 @@ msgstr ""
 #. help for parameter radius
 #: boxes/generators/slatwallslottedholder.py
 msgid "radius of the slots at the front"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/slatwallslottedholder.py
+msgid "number"
 msgstr ""
 
 #. help for parameter number
@@ -3748,14 +3772,6 @@ msgid "radius at the slots"
 msgstr ""
 
 #. name of box generator
-#: boxes/generators/snowflake2.py
-msgid "Snowflake2"
-msgstr ""
-
-msgid "Snowflake2 Settings"
-msgstr ""
-
-#. name of box generator
 #: boxes/generators/stachel.py
 msgid "Stachel"
 msgstr ""
@@ -3865,57 +3881,6 @@ msgstr ""
 #. help for parameter outset
 #: boxes/generators/storageshelf.py
 msgid "extend the triangle along the length of the edge"
-msgstr ""
-
-#. name of box generator
-#: boxes/generators/testbox.py
-msgid "TestBox"
-msgstr ""
-
-msgid "TestBox Settings"
-msgstr ""
-
-#. name of box generator
-#: boxes/generators/tetris.py
-msgid "Tetris"
-msgstr ""
-
-#. description of Tetris
-#: boxes/generators/tetris.py
-msgid "3D Tetris shapes"
-msgstr ""
-
-msgid "Tetris Settings"
-msgstr ""
-
-#. parameter name
-#: boxes/generators/tetris.py
-msgid "blocksize"
-msgstr ""
-
-#. help for parameter blocksize
-#: boxes/generators/tetris.py
-msgid "size of a square"
-msgstr ""
-
-#. parameter name
-#: boxes/generators/tetris.py
-msgid "shape"
-msgstr ""
-
-#. help for parameter shape
-#: boxes/generators/tetris.py
-msgid "shape of the piece"
-msgstr ""
-
-#. possible choice for shape
-#: boxes/generators/tetris.py
-msgid "T"
-msgstr ""
-
-#. possible choice for shape
-#: boxes/generators/tetris.py
-msgid "Z"
 msgstr ""
 
 #. name of box generator

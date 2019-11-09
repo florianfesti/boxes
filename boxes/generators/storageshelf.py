@@ -86,24 +86,24 @@ class StorageShelf(_TopEdge):
         self.ctx.save()
 
         # outer walls
-        self.rectangularWall(x, h, [b, "F", t1, "E"], callback=[None, self.hHoles, ], move="up")
-        self.rectangularWall(x, h, [b, "E", t3, "F"], callback=[None, self.hHoles, ], move="up")
+        self.rectangularWall(x, h, [b, "F", t1, "e"], callback=[None, self.hHoles, ], move="up")
+        self.rectangularWall(x, h, [b, "e", t3, "F"], callback=[None, self.hHoles, ], move="up")
 
         # floor
         if b != "e":
-            self.rectangularWall(x, y, "fffE", callback=[None, self.yHoles], move="up")
+            self.rectangularWall(x, y, "fffe", callback=[None, self.yHoles], move="up")
 
         # inner walls
 
         be = "f" if b != "e" else "e"
 
         for i in range(len(self.sh) - 1):
-            e = ["f", edges.SlottedEdge(self, self.sy[::-1], "f", slots=0.5 * x), "f", "E"]
+            e = ["f", edges.SlottedEdge(self, self.sy[::-1], "f", slots=0.5 * x), "f", "e"]
             self.rectangularWall(x, y, e, move="up")
 
         # top / lid
         if self.closedtop:
-            e = "FFFE" if self.top_edge == "f" else "fffE"
+            e = "FFFe" if self.top_edge == "f" else "fffe"
             self.rectangularWall(x, y, e, callback=[None, self.yHoles, ], move="up")
         else:
             self.drawLid(x, y, self.top_edge)
@@ -118,10 +118,10 @@ class StorageShelf(_TopEdge):
 
         # inner walls
         for i in range(len(self.sy) - 1):
-            e = [be, edges.SlottedEdge(self, self.sh, "E", slots=0.5 * x),
+            e = [be, edges.SlottedEdge(self, self.sh, "e", slots=0.5 * x),
                  "e", "f"]
             if self.closedtop:
-                e = [be, edges.SlottedEdge(self, self.sh, "E", slots=0.5 * x),"f", "f"]
+                e = [be, edges.SlottedEdge(self, self.sh, "e", slots=0.5 * x),"f", "f"]
             self.rectangularWall(x, h, e, move="up")
 
 

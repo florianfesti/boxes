@@ -29,6 +29,10 @@ class StorageShelf(_TopEdge):
                                 roundedtriangle={"outset" : 1})
         self.buildArgParser("x", "sy", "sh", "outside", "bottom_edge",
                             "top_edge")
+        self.argparser.add_argument(
+            "--retainer",  action="store", type=float, default=0.0,
+            help="height of wall atthe front edges")
+        
         
 
     def ySlots(self):
@@ -86,12 +90,16 @@ class StorageShelf(_TopEdge):
         self.ctx.save()
 
         # outer walls
+        # XXX retainer
         self.rectangularWall(x, h, [b, "F", t1, "e"], callback=[None, self.hHoles, ], move="up")
         self.rectangularWall(x, h, [b, "e", t3, "F"], callback=[None, self.hHoles, ], move="up")
 
         # floor
         if b != "e":
-            self.rectangularWall(x, y, "fffe", callback=[None, self.yHoles], move="up")
+            e = "fffe"
+            if self.retainer:
+                e = "ffff"
+            self.rectangularWall(x, y, e, callback=[None, self.yHoles], move="up")
 
         # inner walls
 
@@ -99,6 +107,9 @@ class StorageShelf(_TopEdge):
 
         for i in range(len(self.sh) - 1):
             e = ["f", edges.SlottedEdge(self, self.sy[::-1], "f", slots=0.5 * x), "f", "e"]
+            if self.retainer:
+                e[3] = "f"
+
             self.rectangularWall(x, y, e, move="up")
 
         # top / lid
@@ -118,6 +129,7 @@ class StorageShelf(_TopEdge):
 
         # inner walls
         for i in range(len(self.sy) - 1):
+            # XXX retainer
             e = [be, edges.SlottedEdge(self, self.sh, "e", slots=0.5 * x),
                  "e", "f"]
             if self.closedtop:
@@ -125,5 +137,7 @@ class StorageShelf(_TopEdge):
             self.rectangularWall(x, h, e, move="up")
 
 
-
-
+        if self.retainer:
+            for i in range(len(self.sh)):
+                # XXX finger holes, F edges, left and right
+                self.rectangularWall(y, self.retainer, "FEeE", move="up")

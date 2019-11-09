@@ -32,6 +32,9 @@ class StorageShelf(_TopEdge):
         self.argparser.add_argument(
             "--retainer",  action="store", type=float, default=0.0,
             help="height of wall atthe front edges")
+        self.argparser.add_argument(
+            "--retainer_hole_edge",  action="store", type=boolarg, default=False,
+            help="use finger hole edge for retainer walls")
         
         
 
@@ -138,4 +141,7 @@ class StorageShelf(_TopEdge):
         if self.retainer:
             for i in range(len(self.sh)):
                 # XXX finger holes, F edges, left and right
-                self.rectangularWall(y, self.retainer, "FEeE", move="up")
+                e = "FEeE"
+                if self.retainer_hole_edge or (i == 0 and b == "h"):
+                    e = "hEeE"
+                self.rectangularWall(y, self.retainer, e, move="up")

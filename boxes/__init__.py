@@ -30,6 +30,7 @@ from functools import wraps
 from xml.sax.saxutils import quoteattr
 from contextlib import contextmanager
 import copy
+import os
 
 try:  # py3
     from shlex import quote
@@ -449,6 +450,13 @@ class Boxes:
         format = getattr(self, "format", "svg")
         if getattr(self, 'output', None) == 'box.svg':
             self.output = 'box.' + format.split("_")[0]
+        try:
+            ofile = open(self.output, "w")
+            ofile.write("test")
+            ofile.close()
+        except PermissionError:
+            self.output = homepath = os.path.expanduser(os.getenv('USERPROFILE')) + '\\' + self.output
+            print ("Permission denied for output file, switching to home folder")
 
     def addPart(self, part, name=None):
         """

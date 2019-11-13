@@ -32,9 +32,12 @@ ui_groups = [
 
 def getAllBoxGenerators():
     generators = {}
-    for importer, modname, ispkg in pkgutil.walk_packages(
-            path=__path__,
-            prefix=__name__+'.'):
+    packages = list(pkgutil.walk_packages(path=__path__, prefix=__name__+'.'))
+    if (len(packages) == 0):
+        import generatorList
+        packages = generatorList.list
+        print("IMPORTED FROM LIST")		
+    for importer, modname, ispkg in packages:
         module = importlib.import_module(modname)
         if module.__name__.split('.')[-1].startswith("_"):
             continue

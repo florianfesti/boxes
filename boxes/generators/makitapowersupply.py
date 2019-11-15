@@ -71,8 +71,6 @@ To allow powering by laptop power supply: flip switch, Lenovo round socket (or a
         self.fingerHolesAt(m-30.5-0.5*t, 0, self.l)
         self.fingerHolesAt(m+30.5+0.5*t, 0, self.l)
 
-        #self.rectangularHole(m-19, 23, 0.8, 6.25)
-        #self.rectangularHole(m+19, 23, 0.8, 6.25)
         self.rectangularHole(m-19, 34, 0.8, 6.25)
         self.rectangularHole(m+19, 34, 0.8, 6.25)
 
@@ -104,7 +102,6 @@ To allow powering by laptop power supply: flip switch, Lenovo round socket (or a
 
         l = self.l = 64
         hm = 15.5
-        #w = self.w = 72
 
         self.x, self.y, self.h = x, y, h = 85, 75, 35
 
@@ -118,13 +115,7 @@ To allow powering by laptop power supply: flip switch, Lenovo round socket (or a
             lambda: self.rectangularHole(x/2, y-20-5, 76, 40)], move="")
         self.rectangularWall(x, y, "ffff", move="left up only")
 
-        #self.rectangularWall(72, l, callback=[self.bottom], move="right")
         self.side(l, hm, move="right")
         self.side(l, hm, move="right mirror")
         self.side2(l, hm, move="right")
         self.side2(l, hm, move="right mirror")
-
-        #self.rectangularWall(42, l+12-t, "efff", callback=[self.regulatorCB], move="right")
-        #self.rectangularWall(16, l+12-t, "eFFe", move="right")
-        #self.rectangularWall(16, l+12-t, "eFFe", move="right")
-        #self.rectangularWall(16, 42, "fFfe", move="right")

@@ -31,7 +31,7 @@ To allow powering by laptop power supply: flip switch, Lenovo round socket (or a
         Boxes.__init__(self)
 
         self.addSettingsArgs(edges.FingerJointSettings)
-        
+
 
     def side(self, l, h=14, move=None):
         t = self.thickness
@@ -43,7 +43,7 @@ To allow powering by laptop power supply: flip switch, Lenovo round socket (or a
         self.moveTo(t, 0)
         self.polyline(h, 90, l-h/3**0.5, 60, h*2/3**0.5, 120)
         self.edges["f"](l)
-        
+
         self.move(tw, th, move)
 
     def side2(self, l, h=14, move=None):
@@ -59,7 +59,7 @@ To allow powering by laptop power supply: flip switch, Lenovo round socket (or a
             self.polyline(h, 90, l-50, 90, h-6, -90)
         self.polyline(11, 90, 1, -90, 27, (90, 1),
                       3, (90, 1), l-12, 90)
-        
+
         self.move(tw, th, move)
 
 
@@ -97,7 +97,7 @@ To allow powering by laptop power supply: flip switch, Lenovo round socket (or a
         for x in [3.5, 38.5]:
             for y in [3.5, 65]:
                 self.hole(x, y, 1.0)
-        
+
     def render(self):
         # adjust to the variables you want in the local scope
         t = self.thickness

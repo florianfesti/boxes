@@ -32,6 +32,14 @@ To allow powering by laptop power supply: flip switch, Lenovo round socket (or a
 
         self.addSettingsArgs(edges.FingerJointSettings)
 
+        self.argparser.add_argument("--banana-socket-diameter", action="store",
+            type=float, default=8.0,
+            help="diameter of the banana socket mounting holes")
+
+        self.argparser.add_argument("--flipswitch-diameter", action="store",
+            type=float, default=6.3,
+            help="diameter of the flipswitch mounting hole")
+
 
     def side(self, l, h=14, move=None):
         t = self.thickness
@@ -77,9 +85,12 @@ To allow powering by laptop power supply: flip switch, Lenovo round socket (or a
         self.rectangularHole(m, -2.5, 35, 5)
 
     def front(self):
-        self.hole(10, self.h/2, r=2.0)
-        self.hole(30, self.h/2, r=2.0)
-        self.hole(50, self.h/2, d=5.9)
+        d_b = self.banana_socket_diameter
+        d_f = self.flipswitch_diameter
+
+        self.hole(10, self.h/2, d=d_b)
+        self.hole(30, self.h/2, d=d_b)
+        self.hole(50, self.h/2, d=d_f)
 
         self.rectangularHole(76, 6.4, 12.4, 12.4)
 

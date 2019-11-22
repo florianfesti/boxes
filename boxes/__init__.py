@@ -173,6 +173,9 @@ def argparseSections(s):
     except ValueError:
         raise argparse.ArgumentTypeError("Don't understand sections string")
 
+    if not result:
+        result.append(0.0)
+
     return result
 
 class ArgparseEdgeType:

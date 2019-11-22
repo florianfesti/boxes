@@ -487,7 +487,6 @@ class BServer:
                 try:
                     box.parse(box.layout.split("\n"))
                 except Exception as e:
-                    raise
                     start_response(status, headers)
                     return self.errorMessage(name, e)
 

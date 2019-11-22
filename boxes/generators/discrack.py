@@ -267,6 +267,9 @@ class DiscRack(Boxes):
     def render(self):
         o = self.outer
 
+        self.lower_factor = min(self.lower_factor, 0.99)
+        self.rear_factor = min(self.rear_factor, 0.99)
+
         self.rectangularWall(o, o, "eeee", move="right", callback=[self.sidewall_holes])
         self.rectangularWall(o, o, "eeee", move="right mirror", callback=[self.sidewall_holes])
 

@@ -881,7 +881,7 @@ class Boxes:
         :param depth: depth of the grooves
 
         """
-        grooves = int(length // (depth * 2.0)) + 1
+        grooves = max(int(length // (depth * 2.0)) + 1, 1)
         depth = length / grooves / 4.0
         for groove in range(grooves):
             self.corner(90, depth)

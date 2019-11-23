@@ -27,6 +27,7 @@ import re
 import markdown
 import gettext
 import glob
+import traceback
 
 # Python 2 vs Python 3 compat
 try:
@@ -490,13 +491,14 @@ class BServer:
                     start_response(status, headers)
                     return self.errorMessage(name, e)
 
-            fd, box.output = tempfile.mkstemp()
-            box.metadata["url"] = self.getURL(environ)
-            box.open()
-            box.render()
             try:
+                fd, box.output = tempfile.mkstemp()
+                box.metadata["url"] = self.getURL(environ)
+                box.open()
+                box.render()
                 box.close()
-            except ValueError as e:
+            except Exception as e:
+                traceback.print_exc()
                 start_response("500 Internal Server Error",
                                [('Content-type', 'text/plain; charset=utf-8')])
                 return([b"Server Error\n\n", str(e).encode("utf-8")])

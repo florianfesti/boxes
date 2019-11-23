@@ -14,13 +14,6 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-try:
-    import cairocffi
-
-    cairocffi.install_as_pycairo()
-except ImportError:
-    pass
-import cairo
 import math
 import sys
 import argparse
@@ -614,7 +607,9 @@ class Boxes:
             return
 
         self.ctx.stroke()
+
         self.ctx = None
+
         self.surface.flush()
         self.surface.finish()
 
@@ -1093,6 +1088,9 @@ class Boxes:
                     self.moveTo(x, 0)
                     self.ctx.scale(-1, 1)
                 self.moveTo(self.spacing / 2.0, self.spacing / 2.0)
+
+        self.ctx.new_part()
+
         return dontdraw
 
     @restore

@@ -18,15 +18,14 @@
 import subprocess
 import tempfile
 import os
-import cairo
-import re
-from boxes import svgutil
+from boxes.drawing import SVGSurface, PSSurface, Context
 
 class PSFile:
     def __init__(self, filename):
         self.filename = filename
 
     def adjustDocumentMedia(self):
+        return
         with open(self.filename, "r+") as f:
             s = f.read(1024)
             m = re.search(r"%%BoundingBox: (\d+) (\d+) (\d+) (\d+)", s)
@@ -80,20 +79,23 @@ class Formats:
 
     def getSurface(self, fmt, filename):
 
-        width = height = 10000  # mm
+        width = height = 10000  # mm 
 
         if fmt in ("svg", "svg_Ponoko"):
-            surface = cairo.SVGSurface(filename, width, height)
+            surface = SVGSurface(filename, width, height)
             mm2pt = 1.0
         else:
             mm2pt = 72 / 25.4
             width *= mm2pt
             height *= mm2pt  # 3.543307
-            surface = cairo.PSSurface(filename, width, height)
+            surface = PSSurface(filename, width, height)
 
-        ctx = cairo.Context(surface)
-        ctx.translate(0, height)
-        ctx.scale(mm2pt, -mm2pt)
+        ctx = Context(surface)
+        if fmt in ("svg", "svg_Ponoko"):
+            ctx.translate(0, height)
+            ctx.scale(mm2pt, -mm2pt)
+        else:
+            ctx.scale(mm2pt, mm2pt)
 
         return surface, ctx
 

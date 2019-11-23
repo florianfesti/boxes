@@ -69,6 +69,7 @@ class SVGFile(object):
         self.symbol_extends = {}
 
     def fix(self, metadata=None):
+        return
         #print("Optimizations:",
         self.optimize(self.tree.getroot())
         self.getEnvelope()

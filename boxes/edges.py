@@ -246,6 +246,13 @@ class Settings(object):
             else:
                 raise ValueError("Unknown parameter for %s: %s" % (
                     self.__class__.__name__, name))
+        self.checkValues()
+
+    def checkValues(self):
+        """
+        Check if all values are in the right range. Raise ValueError if needed
+        """
+        return
 
     def __getattr__(self, name):
         if "values" in self.__dict__ and name in self.values:
@@ -555,6 +562,10 @@ Values:
         "edge_width": 1.0,
         "play" : 0.0,
     }
+
+    def checkValues(self):
+        if abs(self.space + self.finger) < 0.1:
+            raise ValueError("FingerJointSettings: space + finger must not be close to zero")
 
     def edgeObjects(self, boxes, chars="fFh", add=True):
         edges = [FingerJointEdge(boxes, self),

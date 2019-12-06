@@ -16,6 +16,7 @@
 
 from boxes import *
 import math
+import copy
 
 class AngledBox(Boxes):
     """Box with both ends cornered"""
@@ -100,8 +101,9 @@ class AngledBox(Boxes):
         else:
             lx = x - 2 * r + side
         
-        edges.FingerJointSettings(self.thickness, True, angle=360./(2 * (n+1))).edgeObjects(self, chars="gGH")
-
+        fingerJointSettings = copy.deepcopy(self.edges["f"].settings)
+        fingerJointSettings.setValues(self.thickness, angle=360./(2 * (n+1)))
+        fingerJointSettings.edgeObjects(self, chars="gGH")
 
         with self.saved_context():
             self.floor(x, y , n, edge='F', move="right")

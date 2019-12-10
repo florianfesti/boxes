@@ -2116,7 +2116,7 @@ class Boxes:
         """place many of the same part
 
         :param n: number of parts
-        :param width: number of parts in a row
+        :param width: number of parts in a row (0 for same as n)
         :param move: (Default value = None)
         :param part: callable that draws a part and knows move param
         :param \*l: params for part
@@ -2124,6 +2124,9 @@ class Boxes:
         """
         if n <= 0:
             return
+
+        if not width:
+            width = n
 
         rows = n//width + (1 if n % width else 0)
 

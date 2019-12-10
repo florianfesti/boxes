@@ -1149,8 +1149,9 @@ class Boxes:
 
         """
         r = min(r, dx/2., dy/2.)
-        self.moveTo(x + r - dx / 2.0, y - dy / 2.0 + self.burn, 180)
-        for d in (dy, dx, dy, dx):
+        self.moveTo(x, y - dy / 2.0 + self.burn, 180)
+        self.edge(dx / 2.0 - r) # start with an edge to allow easier change of inner corners
+        for d in (dy, dx, dy, dx / 2.0 + r):
             self.corner(-90, r)
             self.edge(d - 2 * r)
 

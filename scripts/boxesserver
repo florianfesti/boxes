@@ -488,7 +488,7 @@ class BServer:
                     box.parse(box.layout.split("\n"))
                 except Exception as e:
                     start_response(status, headers)
-                    return self.errorMessage(name, e)
+                    return self.errorMessage(name, e, _)
 
             try:
                 fd, box.output = tempfile.mkstemp()

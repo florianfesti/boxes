@@ -1848,6 +1848,11 @@ Values:
         "stretch": 1.05,
     }
 
+    def checkValues(self):
+        if self.distance < 0.01:
+            raise ValueError("Flex Settings: distance parameter must be > 0.01mm")
+        if self.width < 0.1:
+            raise ValueError("Flex Settings: width parameter must be > 0.1mm")
 
 class FlexEdge(BaseEdge):
     """Edge with flex cuts - use straight edge for the opposing side"""

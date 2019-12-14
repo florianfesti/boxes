@@ -68,8 +68,10 @@ class UniversalBox(_TopEdge, _ChestLid):
 
         with self.saved_context():
             self.rectangularWall(x, h, [b, "F", t1, "F"],
+                                 ignore_widths=[1, 6],
                                  bedBolts=[d2], move="up")
             self.rectangularWall(x, h, [b, "F", t3, "F"],
+                                 ignore_widths=[1, 6],
                                  bedBolts=[d2], move="up")
 
             if self.bottom_edge != "e":
@@ -83,10 +85,13 @@ class UniversalBox(_TopEdge, _ChestLid):
             self.drawAddOnLid(x, y, self.lid)
 
         self.rectangularWall(x, h, [b, "F", t3, "F"],
+                             ignore_widths=[1, 6],
                              bedBolts=[d2], move="right only")
         self.rectangularWall(y, h, [b, "f", t2, "f"],
+                             ignore_widths=[1, 6],
                              bedBolts=[d3], move="up")
         self.rectangularWall(y, h, [b, "f", t4, "f"],
+                             ignore_widths=[1, 6],
                              bedBolts=[d3], move="up")
 
 

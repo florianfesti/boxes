@@ -81,18 +81,23 @@ class NotesHolder(Boxes):
             b2 = b
 
         with self.saved_context():
-            self.rectangularWall(y, h, [b, "F", "e", "F"], move="right")
+            self.rectangularWall(y, h, [b, "F", "e", "F"],
+                                 ignore_widths=[1, 6], move="right")
             if self.opening == 0.0:
-                self.rectangularWall(x, h, [b, "f", "e", "f"], move="right")
+                self.rectangularWall(x, h, [b, "f", "e", "f"],
+                                     ignore_widths=[1, 6], move="right")
             else:
-                self.rectangularWall(sides, h, [b2, "e", "e", "f"], move="right")
-                self.rectangularWall(sides, h, [b2, "e", "e", "f"], move="right mirror")
+                self.rectangularWall(sides, h, [b2, "e", "e", "f"],
+                                     ignore_widths=[1, 6], move="right")
+                self.rectangularWall(sides, h, [b2, "e", "e", "f"],
+                                     ignore_widths=[1, 6], move="right mirror")
 
-        self.rectangularWall(x, h, [b, "F", "e", "F"], move="up only")
+        self.rectangularWall(x, h, [b, "F", "e", "F"],
+                             ignore_widths=[1, 6], move="up only")
 
         with self.saved_context():
-            self.rectangularWall(y, h, [b, "F", "e", "F"], move="right")
-            self.rectangularWall(x, h, [b, "f", "e", "f"], move="right")
+            self.rectangularWall(y, h, [b, "F", "e", "F"], ignore_widths=[1, 6], move="right")
+            self.rectangularWall(x, h, [b, "f", "e", "f"], ignore_widths=[1, 6], move="right")
         self.rectangularWall(y, h, [b, "F", "e", "F"], move="up only")
 
         if self.bottom_edge != "e":

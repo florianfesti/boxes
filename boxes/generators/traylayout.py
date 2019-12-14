@@ -98,7 +98,7 @@ class TrayLayout2(TrayLayout):
             self.layout = None
         else:
             self.argparser.add_argument(
-                "--layout", action="store", type=str)
+                "--layout", action="store", type=str, default="")
 
     # Use normal open and close
     open = Boxes.open

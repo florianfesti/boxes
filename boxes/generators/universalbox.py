@@ -27,7 +27,8 @@ class UniversalBox(_TopEdge, _ChestLid):
         Boxes.__init__(self)
         self.addTopEdgeSettings(roundedtriangle={"outset" : 1})
         self.addSettingsArgs(edges.FlexSettings)
-        self.buildArgParser("top_edge", "bottom_edge", "x", "y", "h")
+        self.buildArgParser("top_edge", "bottom_edge",
+                            "x", "y", "h", "outside")
         self.argparser.add_argument(
             "--lid",  action="store", type=str, default="default (none)",
             choices=("default (none)", "chest", "flat"),
@@ -56,7 +57,6 @@ class UniversalBox(_TopEdge, _ChestLid):
         x, y, h = self.x, self.y, self.h
         t = self.thickness
 
-
         t1, t2, t3, t4 = self.topEdges(self.top_edge)
         b = self.edges.get(self.bottom_edge, self.edges["F"])
 
@@ -65,6 +65,10 @@ class UniversalBox(_TopEdge, _ChestLid):
 
         d2 = d3 = None
 
+        if self.outside:
+            self.x = x = self.adjustSize(x)
+            self.y = y = self.adjustSize(y)
+            self.h = h = self.adjustSize(h, b, self.top_edge)
 
         with self.saved_context():
             self.rectangularWall(x, h, [b, "F", t1, "F"],

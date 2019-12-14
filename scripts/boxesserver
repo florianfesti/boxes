@@ -442,10 +442,10 @@ class BServer:
         status = '200 OK'
         headers = [('Content-type', 'text/html; charset=utf-8'), ('X-XSS-Protection', '1; mode=block'), ('X-Content-Type-Options', 'nosniff'), ('x-frame-options', 'SAMEORIGIN'), ('Referrer-Policy', 'no-referrer')]
 
-        d = parse_qs(environ['QUERY_STRING'])
+        d = parse_qs(environ.get('QUERY_STRING', ''))
         name = environ["PATH_INFO"][1:]
         args = [unquote_plus(arg) for arg in
-                environ['QUERY_STRING'].split("&")]
+                environ.get('QUERY_STRING', '').split("&")]
 
         lang = self.getLanguage(args, environ.get("HTTP_ACCEPT_LANGUAGE", ""))
         _ = lang.gettext

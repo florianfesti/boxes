@@ -497,10 +497,11 @@ class BServer:
                 box.render()
                 box.close()
             except Exception as e:
-                traceback.print_exc()
+                if not isinstance(e, ValueError):
+                    traceback.print_exc()
                 start_response("500 Internal Server Error",
-                               [('Content-type', 'text/plain; charset=utf-8')])
-                return([b"Server Error\n\n", str(e).encode("utf-8")])
+                               headers)
+                return self.errorMessage(name, e, _)
 
             http_headers = box.formats.http_headers.get(
                 box.format,

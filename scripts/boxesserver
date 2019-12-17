@@ -498,6 +498,7 @@ class BServer:
                 box.close()
             except Exception as e:
                 if not isinstance(e, ValueError):
+                    print("Exception during rendering:")
                     traceback.print_exc()
                 start_response("500 Internal Server Error",
                                headers)

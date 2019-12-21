@@ -30,11 +30,7 @@ from functools import wraps
 from xml.sax.saxutils import quoteattr
 from contextlib import contextmanager
 import copy
-
-try:  # py3
-    from shlex import quote
-except ImportError:  # py2
-    from pipes import quote
+from shlex import quote
 
 from boxes import edges
 from boxes import formats

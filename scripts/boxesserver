@@ -16,7 +16,7 @@
 
 import sys
 import argparse
-import cgi
+import html
 import tempfile
 import os.path
 import threading
@@ -390,7 +390,7 @@ class BServer:
 </head>
 <body>
 <h1>""" + _("An error occurred!") + "</h1>" +
-"".join(u"<p>%s</p>" % cgi.escape(s) for s in type(u"")(e).split(u"\n")) +
+"".join(u"<p>%s</p>" % html.escape(s) for s in type(u"")(e).split(u"\n")) +
 """
 </body>
 </html>
@@ -466,7 +466,7 @@ class BServer:
                 kv = a.split('=')
                 if len(kv) == 2:
                     k, v = kv
-                    defaults[k] = cgi.escape(v, True)
+                    defaults[k] = html.escape(v, True)
             start_response(status, headers)
             return self.args2html(name, box, lang, "./" + name, defaults=defaults)
         else:

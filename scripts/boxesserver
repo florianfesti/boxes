@@ -28,18 +28,8 @@ import markdown
 import gettext
 import glob
 import traceback
-
-# Python 2 vs Python 3 compat
-try:
-    from urllib.parse import unquote_plus, quote
-except ImportError:
-    from urllib import unquote_plus, quote
-
-try:
-    from urllib.parse import parse_qs
-except ImportError:
-    from cgi import parse_qs
-
+from urllib.parse import unquote_plus, quote
+from urllib.parse import parse_qs
 from wsgiref.util import setup_testing_defaults
 from wsgiref.simple_server import make_server
 import wsgiref.util

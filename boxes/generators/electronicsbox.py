@@ -84,7 +84,7 @@ class ElectronicsBox(Boxes):
             self.flangedWall(x, y, edges="FFFF",
                              flanges=[0.0, 2*hd, 0., 2*hd], r=hd,
                              callback=[
-                    lambda:self.hole(hd, hd, d=d2)] * 4, move='up')
+                    lambda:self.hole(hd, hd, d=d3)] * 4, move='up')
         self.rectangularWall(x, y, callback=[
             lambda:self.hole(trh, trh, d=d2)] * 4, move='up')
 

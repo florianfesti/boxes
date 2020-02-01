@@ -406,6 +406,10 @@ class TrayLayout2(TrayLayout):
         lx = len(x)
         ly = len(y)
 
+        if lx == 0:
+            raise ValueError("Need more than one wall in x direction")
+        if ly == 0:
+            raise ValueError("Need more than one wall in y direction")
         if len(hwalls) != ly + 1:
             raise ValueError("Wrong number of horizontal wall lines: %i (%i expected)" % (len(hwalls), ly + 1))
         for nr, walls in enumerate(hwalls):

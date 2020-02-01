@@ -1442,8 +1442,12 @@ class Boxes:
         """
         width *= self.thickness
         cx = int(x // (5 * width))
-        wx = x / 5. / cx
         cy = int(y // (5 * width))
+
+        if cx == 0  or cy == 0:
+            return
+
+        wx = x / 5. / cx
         wy = y / 5. / cy
 
         armx = (4 * wx, 90, 4 * wy, 90, 2 * wx, 90, 2 * wy)

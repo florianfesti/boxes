@@ -57,6 +57,9 @@ class Gears(Boxes):
         # adjust to the variables you want in the local scope
         t = self.thickness
 
+        self.teeth1 = max(2, self.teeth1)
+        self.teeth2 = max(2, self.teeth2)
+
         if not self.shaft2:
             self.shaft2 = self.shaft1
         if not self.dpercentage2:

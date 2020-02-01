@@ -54,6 +54,10 @@ class PaintStorage(Boxes):
             return
         n_x = int(self.x / (self.candiameter+self.minspace))
         n_y = int(self.y / (self.candiameter+self.minspace))
+
+        if n_x <= 0 or n_y <= 0:
+            return
+
         spacing_x = (self.x - n_x*self.candiameter)/n_x
         spacing_y = (self.y - n_y*self.candiameter)/n_y
         for i in range(n_y):

@@ -793,6 +793,12 @@ Values:
         "holedistance": 1.0,
     }
 
+    def checkValues(self):
+        if self.angle < 20:
+            raise ValueError("StackableSettings: 'angle' is too small. Use value >= 20")
+        if self.angle > 260:
+            raise ValueError("StackableSettings: 'angle' is too big. Use value < 260")
+
     def edgeObjects(self, boxes, chars="sS", add=True, fingersettings=None):
         fingersettings = fingersettings or boxes.edges["f"].settings
         edges = [StackableEdge(boxes, self, fingersettings),

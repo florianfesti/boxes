@@ -1138,7 +1138,7 @@ class Boxes:
         if w is None:
             w = 2.0 * r * rel_w
         w -= r
-        if r < 0.0:
+        if r <= 0.0:
             return
         if abs(w) > r:
             return self.hole(x, y, r)

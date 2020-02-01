@@ -1133,6 +1133,10 @@ Values:
         "play" : 0.1,
         }
 
+    def checkValues(self):
+        if self.pin_height / self.thickness < 1.2:
+            raise ValueError("ChestHingeSettings: 'pin_height' must be >= 1.2")
+
     def pinheight(self):
         return ((0.9*self.pin_height)**2-self.thickness**2)**0.5
 

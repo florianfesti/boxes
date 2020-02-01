@@ -1798,7 +1798,7 @@ class Boxes:
         overallwidth = width * (num // 2 + num % 2)
         overallheight = height
 
-        alpha = math.degrees(math.atan((y-r)/float(x-r)))
+        alpha = math.degrees(math.atan2(y-r, float(x-r)))
 
         if self.move(overallwidth, overallheight, move, before=True):
             return

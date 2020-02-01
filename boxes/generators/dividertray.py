@@ -88,9 +88,8 @@ class DividerTray(Boxes):
     def render(self):
 
         side_walls_number = len(self.sx) - 1 + sum([self.left_wall, self.right_wall])
-        assert (
-            side_walls_number > 0
-        ), "You need at least one side wall to generate this tray"
+        if side_walls_number == 0:
+            raise ValueError("You need at least one side wall to generate this tray")
 
         slot_descriptions = self.generate_slot_descriptions(self.sy)
 

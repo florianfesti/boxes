@@ -650,10 +650,10 @@ class Boxes:
         if tabs and self.tabs:
             if degrees > 0:
                 r_ = radius + self.burn
-                tabrad = self.tabs / r_
+                tabrad = self.tabs / max(r_, 0.01)
             else:
                 r_ = radius - self.burn
-                tabrad = -self.tabs / r_
+                tabrad = -self.tabs / max(r_, 0.01)
 
             length = abs(r_ * rad)
             tabs = min(tabs, int(length // (tabs*3*self.tabs)))

@@ -78,14 +78,14 @@ def undercut_min_teeth(pitch_angle, k=1.0):
     The return value should be rounded upwards for perfect safety. E.g.
     min_teeth = int(math.ceil(undercut_min_teeth(20.0)))    # 18, not 17
     """
-    x = sin(radians(pitch_angle))
+    x = max(sin(radians(pitch_angle)), 0.01)
     return 2*k /(x*x)
 
 def undercut_max_k(teeth, pitch_angle=20.0):
     """ computes the maximum k value for a given teeth count and pitch_angle
         so that no undercut occurs.
     """
-    x = sin(radians(pitch_angle))
+    x = max(sin(radians(pitch_angle)), 0.01)
     return 0.5 * teeth * x * x
 
 def undercut_min_angle(teeth, k=1.0):

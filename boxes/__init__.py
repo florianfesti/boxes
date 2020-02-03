@@ -1547,13 +1547,13 @@ class Boxes:
         for nr, l in enumerate((lx, ly, lx, ly)):
             if self._splitWall(wallpieces, nr):
                 for i in range(2):
-                    self.cc(callback, wallcount)
+                    self.cc(callback, wallcount, y=edge.startwidth()+self.burn)
                     edge(l / 2.0 ,
                          bedBolts=self.getEntry(bedBolts, wallcount),
                          bedBoltSettings=self.getEntry(bedBoltSettings, wallcount))
                     wallcount += 1
             else:
-                self.cc(callback, wallcount)
+                self.cc(callback, wallcount, y=edge.startwidth()+self.burn)
                 edge(l,
                      bedBolts=self.getEntry(bedBolts, wallcount),
                      bedBoltSettings=self.getEntry(bedBoltSettings, wallcount))

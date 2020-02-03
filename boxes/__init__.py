@@ -1504,6 +1504,7 @@ class Boxes:
                      holesMargin=None, holesSettings=None,
                      bedBolts=None, bedBoltSettings=None,
                      wallpieces=1,
+                     extend_corners=True,
                      move=None):
         """Plate with rounded corner fitting to .surroundingWall()
 
@@ -1518,10 +1519,13 @@ class Boxes:
         :param bedBolts:  (Default value = None)
         :param bedBoltSettings:  (Default value = None)
         :param wallpieces: (Default value = 1) # of separate surrounding walls
+        :param extend_corners: (Default value = True) have corners outset with teh edges
         :param move:  (Default value = None)
 
         """
+        corner_holes = True
 
+        t = self.thickness
         edge = self.edges.get(edge, edge)
         overallwidth = x + 2 * edge.spacing()
         overallheight = y + 2 * edge.spacing()
@@ -1531,7 +1535,6 @@ class Boxes:
 
         lx = x - 2*r
         ly = y - 2*r
-        r += edge.startwidth()
 
         self.moveTo(edge.margin(),
                     edge.margin())
@@ -1555,7 +1558,18 @@ class Boxes:
                      bedBolts=self.getEntry(bedBolts, wallcount),
                      bedBoltSettings=self.getEntry(bedBoltSettings, wallcount))
                 wallcount += 1
-            self.corner(90, r)
+            if extend_corners:
+                if corner_holes:
+                    with self.saved_context():
+                        self.moveTo(0, edge.startwidth())
+                        self.polyline(0, (90, r), 0, -90, t, -90, 0,
+                                      (-90, r+t), 0, -90, t, -90, 0,)
+                        self.ctx.stroke()
+                self.corner(90, r + edge.startwidth())
+            else:
+                self.step(-edge.endwidth())
+                self.corner(90, r)
+                self.step(edge.startwidth())
 
         self.ctx.restore()
         self.ctx.save()
@@ -1578,6 +1592,7 @@ class Boxes:
                         bottom='e', top='e',
                         left="D", right="d",
                         pieces=1,
+                        extend_corners=True,
                         callback=None,
                         move=None):
         """
@@ -1598,6 +1613,7 @@ class Boxes:
         :param move:  (Default value = None)
 
         """
+        t = self.thickness
         c4 = (r + self.burn) * math.pi * 0.5  # circumference of quarter circle
         c4 = c4 / self.edges["X"].settings.stretch
 
@@ -1607,8 +1623,12 @@ class Boxes:
         right = self.edges.get(right, right)
 
         # XXX assumes startwidth == endwidth
-        topwidth = top.startwidth()
-        bottomwidth = bottom.startwidth()
+        if extend_corners:
+            topwidth = t
+            bottomwidth = t
+        else:
+            topwidth = top.startwidth()
+            bottomwidth = bottom.startwidth()
 
         overallwidth = 2*x + 2*y - 8*r + 4*c4 + (self.edges["d"].spacing() + self.edges["D"].spacing() + self.spacing) * pieces
         overallheight = h + top.spacing() + bottom.spacing()
@@ -1644,7 +1664,9 @@ class Boxes:
                     self.edgeCorner(right, top, 90)
                     for n, d in enumerate(reversed(tops)):
                         if n % 2: # flex
+                            self.step(topwidth-top.endwidth())
                             self.edge(d)
+                            self.step(top.startwidth()-topwidth)
                         else:
                             top(d)
                     self.edgeCorner(top, left, 90)
@@ -1665,7 +1687,9 @@ class Boxes:
                 wallcount += 1
                 bottom(l)
                 tops.append(l)
+            self.step(bottomwidth-bottom.endwidth())
             self.edges["X"](c4, h + topwidth + bottomwidth)
+            self.step(bottom.startwidth()-bottomwidth)
             tops.append(c4)
 
         self.move(overallwidth, overallheight, move)

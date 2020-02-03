@@ -717,6 +717,20 @@ class Boxes:
             self.ctx.line_to(length, 0)
         self.ctx.translate(*self.ctx.get_current_point())
 
+    def step(self, out):
+        """
+        Create a parallel step prependicular to the current direction
+        Positive values move to the outside of the part
+        """
+        if out > 1E-5:
+            self.corner(-90)
+            self.edge(out)
+            self.corner(90)
+        elif out < -1E-5:
+            self.corner(90)
+            self.edge(-out)
+            self.corner(-90)
+
     def curveTo(self, x1, y1, x2, y2, x3, y3):
         """control point 1, control point 2, end point
 

@@ -450,17 +450,7 @@ class CompoundEdge(BaseEdge):
         lastwidth = self.types[0].startwidth()
 
         for e, l in zip(self.types, self.lengths):
-            diff = e.startwidth() - lastwidth
-
-            if diff > 1E-5:
-                self.boxes.corner(-90)
-                self.boxes.edge(diff)
-                self.boxes.corner(90)
-            elif diff < -1E-5:
-                self.boxes.corner(90)
-                self.boxes.edge(-diff)
-                self.boxes.corner(-90)
-
+            self.step(e.startwidth() - lastwidth)
             e(l)
             lastwidth = e.endwidth()
 

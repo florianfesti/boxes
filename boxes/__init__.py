@@ -1522,18 +1522,19 @@ class Boxes:
 
         """
 
-        overallwidth = x + 2 * self.edges[edge].spacing()
-        overallheight = y + 2 * self.edges[edge].spacing()
+        edge = self.edges.get(edge, edge)
+        overallwidth = x + 2 * edge.spacing()
+        overallheight = y + 2 * edge.spacing()
 
         if self.move(overallwidth, overallheight, move, before=True):
             return
 
         lx = x - 2*r
         ly = y - 2*r
-        r += self.edges[edge].startwidth()
+        r += edge.startwidth()
 
-        self.moveTo(self.edges[edge].margin(),
-                    self.edges[edge].margin())
+        self.moveTo(edge.margin(),
+                    edge.margin())
         self.moveTo(r, 0)
 
         if wallpieces > 4:
@@ -1544,23 +1545,23 @@ class Boxes:
             if self._splitWall(wallpieces, nr):
                 for i in range(2):
                     self.cc(callback, wallcount)
-                    self.edges[edge](l / 2.0 ,
-                        bedBolts=self.getEntry(bedBolts, wallcount),
-                        bedBoltSettings=self.getEntry(bedBoltSettings, wallcount))
+                    edge(l / 2.0 ,
+                         bedBolts=self.getEntry(bedBolts, wallcount),
+                         bedBoltSettings=self.getEntry(bedBoltSettings, wallcount))
                     wallcount += 1
             else:
                 self.cc(callback, wallcount)
-                self.edges[edge](l,
-                    bedBolts=self.getEntry(bedBolts, wallcount),
-                    bedBoltSettings=self.getEntry(bedBoltSettings, wallcount))
+                edge(l,
+                     bedBolts=self.getEntry(bedBolts, wallcount),
+                     bedBoltSettings=self.getEntry(bedBoltSettings, wallcount))
                 wallcount += 1
             self.corner(90, r)
 
         self.ctx.restore()
         self.ctx.save()
 
-        self.moveTo(self.edges[edge].margin(),
-                    self.edges[edge].margin())
+        self.moveTo(edge.margin(),
+                    edge.margin())
 
         if holesMargin is not None:
             self.moveTo(holesMargin, holesMargin)

@@ -17,7 +17,7 @@
 
 from boxes import Boxes, edges, boolarg
 import math
-
+from functools import partial
 
 class DividerTray(Boxes):
     """Divider tray - rows and dividers"""
@@ -84,6 +84,12 @@ class DividerTray(Boxes):
             default=True,
             help="generate wall on the right side",
         )
+        self.argparser.add_argument(
+            "--bottom",
+            type=boolarg,
+            default=False,
+            help="generate wall on the bottom",
+        )
 
     def render(self):
 
@@ -107,12 +113,13 @@ class DividerTray(Boxes):
         # Facing walls (outer) with finger holes to support side walls
         facing_wall_length = sum(self.sx) + self.thickness * (len(self.sx) - 1)
         side_edge = lambda with_wall: "F" if with_wall else "e"
+        bottom_edge = lambda with_wall: "F" if with_wall else "e"
         for _ in range(2):
             self.rectangularWall(
                 facing_wall_length,
                 self.h,
-                ["e", side_edge(self.right_wall), "e", side_edge(self.left_wall)],
-                callback=[self.generate_finger_holes],
+                [bottom_edge(self.bottom), side_edge(self.right_wall), "e", side_edge(self.left_wall)],
+                callback=[partial(self.generate_finger_holes, self.h)],
                 move="up",
             )
 
@@ -121,7 +128,7 @@ class DividerTray(Boxes):
         for _ in range(side_walls_number):
             se = DividerSlotsEdge(self, slot_descriptions.descriptions)
             self.rectangularWall(
-                side_wall_length, self.h, ["e", "f", se, "f"], move="up"
+                side_wall_length, self.h, [bottom_edge(self.bottom), "f", se, "f"], move="up"
             )
 
         # Switch to right side of the file
@@ -129,6 +136,11 @@ class DividerTray(Boxes):
         self.rectangularWall(
             max(facing_wall_length, side_wall_length), self.h, "ffff", move="right only"
         )
+
+        # Bottom piece.
+        if self.bottom:
+            self.rectangularWall(facing_wall_length, side_wall_length, "ffff",
+                    callback=[partial(self.generate_finger_holes, side_wall_length)], move="up")
 
         # Dividers
         divider_height = (
@@ -242,11 +254,11 @@ class DividerTray(Boxes):
 
         return descriptions
 
-    def generate_finger_holes(self):
+    def generate_finger_holes(self, length):
         posx = -0.5 * self.thickness
         for x in self.sx[:-1]:
             posx += x + self.thickness
-            self.fingerHolesAt(posx, 0, self.h)
+            self.fingerHolesAt(posx, 0, length)
 
     def generate_divider(self, width, height, move, only_one_wall=False):
         second_tab_width = 0 if only_one_wall else self.thickness

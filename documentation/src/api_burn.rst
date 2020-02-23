@@ -8,7 +8,7 @@ catch the places the do need to care.
 
 Burn correction is done by increasing the radius of all outer
 corners. This moves all the straight lines outward by the same
-amount. This has he addeed benefit of not needing to change the length
+amount. This has the added benefit of not needing to change the length
 of the straight lines -- making them independent of the adjacent
 angles. An issue arises when it comes to inner corners. If they do
 have a radius reducing it by the burn value does the right thing. But
@@ -41,9 +41,9 @@ In case developers move to a feature inside of a part or executing
 callbacks while implementing a part they need to be aware of the burn
 correction. :py:meth:`boxes.Boxes.cc` does correct for the out-set if
 called without an **y** parameter. But if a value is given one has to
-add **self.burn** to compansate. Note that the **x** value typically
+add **self.burn** to compensate. Note that the **x** value typically
 does not have to be corrected as the callbacks are executed from right
-underneeth the part.
+underneath the part.
 
 A similar approach is necessary when moving to a feature drawn inside
 the part without the use of callbacks. Here you typically have to

@@ -16,7 +16,7 @@ generators. See https://florianfesti.github.io/boxes/html/generators.html for th
 Features
 --------
 
-Boxes.py generates SVG images that can be viewed directly in a web brower but also
+Boxes.py generates SVG images that can be viewed directly in a web browser but also
 postscript and - with pstoedit as external helper - other vector formats
 including dxf, plt (aka hpgl) and gcode.
 

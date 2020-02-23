@@ -2,7 +2,7 @@ Existing Parts
 --------------
 
 A couple of commands can create whole parts like walls. Typically the
-sizes given are the inner dimmensions not including additional space
+sizes given are the inner dimension not including additional space
 needed for burn compensation or joints.
 
 Currently there are the following parts:

@@ -21,7 +21,7 @@ the x axis. You do not have to restore the coordinate settings in the
 callback.
 
 Instead of functions it can be handy to use a lambda expression
-calling the one building block funtion you need (e.g. fingerHolesAt).
+calling the one building block function you need (e.g. fingerHolesAt).
 
 For your own parts you can use this helper function:
 
@@ -52,7 +52,7 @@ implement a ``move`` parameter:
 .. automethod:: boxes.Boxes.move
 
 It needs to be called before and after drawing the actual part with
-the proper ``before`` paramter set.
+the proper ``before`` parameter set.
 
 The edges parameter
 ...................

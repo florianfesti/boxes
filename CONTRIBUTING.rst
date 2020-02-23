@@ -19,7 +19,7 @@ You will often be compelled to just do a quick thing that will solve
 your immediate needs. That's fine. But nevertheless it is often worth
 doing things the right way and be able to submit your changes
 upstream. For one to give something back to the community. But also
-for purly selfish reasons like getting the code maintained. Also
+for purely selfish reasons like getting the code maintained. Also
 Boxes.py is designed to make doing things properly the easy way.
 
 Here are some guidelines that make this easier. Depending on what you
@@ -34,12 +34,12 @@ or are going to finish it on your own.
   * You can merge them into your master branch to have them all in one place
   * Please continue your work in the branches and repeatedly merge them to master
 
-* Before submitting a pull request intened to go upstream have clean patches that are self contained and error free
+* Before submitting a pull request intended to go upstream have clean patches that are self contained and error free
 
   * Re-order and squash patches with *git rebase -i*
-  * The patches should contaning meaningful changes and not (nessesarily) reflect how the code was created 
+  * The patches should containing meaningful changes and not (necessarily) reflect how the code was created
   * Rebase your branch to the current master branch
-  * Be prepared that you code may get reworked before being merged upstream
+  * Be prepared that your code may get reworked before being merged upstream
 
 * Submit a pull request in GitHub based on your feature branch
 
@@ -62,7 +62,7 @@ Boxes.py. Here are some guidelines that make it easier to get them added:
 
 * Start with a copy of another generator or *boxes/generators/_template.py*
 * Commit changes to the library in separate patches
-* Use parameters with sane defaults instead of hard coding dimmensions
+* Use parameters with sane defaults instead of hard coding dimensions
 * Simple generators can end up as one single commit
 * For more complicated generators there can be multiple patches -
   each adding another feature
@@ -77,7 +77,7 @@ documentation feel free to submit a pull request or open a ticket
 pointing out what should be changed or even suggesting a better text.
 
 To check your changes docs need to be build with *make html* in
-*documentation/src*. This places the compliled documentation in
+*documentation/src*. This places the compiled documentation in
 *documentation/build/html*. You need to have *sphinx* installed for
 this to work.
 

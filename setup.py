@@ -59,7 +59,7 @@ class CustomBuildExtCommand(build_py):
             # then here is the default behavior:
             try:
                 path = check_output(["inkscape", "-x"]).decode().strip()
-                if not os.access(path, os.W_OK): # Can we install globaly
+                if not os.access(path, os.W_OK): # Can we install globally
                     # Not tested on Windows and Mac
                     path = os.path.expanduser("~/.config/inkscape/extensions")
                 self.distribution.data_files.append(

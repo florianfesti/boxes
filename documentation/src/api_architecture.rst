@@ -64,7 +64,7 @@ Edges
 Edges are turtle graphic commands. But they have been elevated to
 proper Classes to handle outsets. They can be passed as parameters to parts.
 There is a set of standard edges found in ``.edges``. They are
-acciociated with a single char which can be used instead of the
+associated with a single char which can be used instead of the
 Edge object itself at most places. This allows passing the edge
 description of a part as a string.
 

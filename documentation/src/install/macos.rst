@@ -66,7 +66,7 @@ are required:
 
       ./setup.py install
 
-3. Now :code:`boxes` and :code:`boxesserver` can be runned like other commands
+3. Now :code:`boxes` and :code:`boxesserver` can be executed like other commands
    and the Inkscape extension should be available.
 
 
@@ -111,7 +111,7 @@ which needs to be changed to
    #export PYTHONPATH="$TOP/lib/python$PYTHON_VERS/site-packages/"
 
 This forces Inkscape to use the Python version installed by Homebrew which
-has all the necessary dependecies installed.
+has all the necessary dependencies installed.
 
 Note: This might break other extensions. In this case simply change the line
 back and restart Inkscape.

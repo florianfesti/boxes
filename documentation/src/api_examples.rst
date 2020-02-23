@@ -66,7 +66,7 @@ special purpose one that does add the triangles:
 .. autoclass:: boxes.generators.bintray.BinFrontEdge
 
 The ``hi`` (height of inner walls) argument was removed although the
-variable is still used internally - out of lazyness.
+variable is still used internally - out of laziness.
 
 To complete the bin the front walls are added. Follow up patches then
 switched the slots between the vertical and horizontal walls to have

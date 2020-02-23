@@ -55,8 +55,8 @@ very important to get the value right - especially if there are
 fingers that need to fit into some holes. Be aware that many materials
 may differ from their nominal value. You should **always measure the
 thickness** for every sheet unless you have a very reliable supply
-that is known to stick very closly to specifications. For (ply) wood
-even a 100th of a milimeter makes a notable difference in how stiff
+that is known to stick very closely to specifications. For (ply) wood
+even a 100th of a millimeter makes a notable difference in how stiff
 the fit is. Harder more brittle materials may be even more picky.
 
 burn
@@ -133,7 +133,7 @@ reference
 
 Converting vector graphics is error prone. Many formats have very
 weird ideas how their internal units translates to real world
-dimmensions. If reference is set to non zero Boxes.py renders a rectangle of
+dimensions. If reference is set to non zero Boxes.py renders a rectangle of
 the given length. It can be used to check if the drawing is still at
 the right scale or may give clues on how to scale it back to the right
 proportions.

@@ -20,19 +20,25 @@ General
       brew install pstoedit
 
 
-2. Install required Python modules:
+2. Install cairio:
+
+  .. code::
+      brew install cairo pkg-config
+
+
+3. Install required Python modules:
 
    .. code::
 
       pip3 install pycairo cairocffi Markdown lxml
 
-3. Download Boxes.py via Git:
+4. Download Boxes.py via Git:
 
    .. code::
 
       git clone https://github.com/florianfesti/boxes.git
 
-4. Run Boxes.py:
+5. Run Boxes.py:
 
    Local web server on port 8000:
 

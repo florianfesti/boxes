@@ -1038,9 +1038,13 @@ Values:
 
     relative_params = {
         "hingestrength": 1,  # 1.5-0.5*2**0.5,
-        "axle": 2,
+        "axle": 2.0,
         "grip_length": 0,
     }
+
+    def checkValues(self):
+        if self.axle / self.thickness < 0.1:
+            raise ValueError("HingeSettings: 'axle' need to be at least 0.1 strong")
 
     def edgeObjects(self, boxes, chars="iIjJkK", add=True):
         edges = [

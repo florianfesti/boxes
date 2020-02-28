@@ -33,6 +33,11 @@ class RoundedBox(Boxes):
             "--wallpieces", action="store", type=int, default=1,
             choices=[1, 2, 3, 4], help="# pieces of outer wall")
         self.argparser.add_argument(
+            "--edge_style", action="store",
+            type=ArgparseEdgeType("fFh"), choices=list("fFh"),
+            default="f",
+            help="edge type for top and bottom edges")
+        self.argparser.add_argument(
             "--top",  action="store", type=str, default="none",
             choices=["closed", "hole", "lid",],
             help="style of the top and lid")
@@ -41,18 +46,22 @@ class RoundedBox(Boxes):
         t = self.thickness
         x, y, r = self.x, self.y, self.radius
 
-        if r > 2*t:
-            r -= 2*t
+        dr = 2*t
+        if self.edge_style == "h":
+            dr = t
+
+        if r > dr:
+            r -= dr
         else:
-            x += 2*t - 2*r
-            y += 2*t - 2*r
-            self.moveTo(2*t-r, 0)
+            x += dr - 2*r
+            y += dr - 2*r
+            self.moveTo(dr-r, 0)
             r = 0
 
-        lx = x - 2*r - 4*t
-        ly = y - 2*r - 4*t
+        lx = x - 2*r - 2*dr
+        ly = y - 2*r - 2*dr
 
-        self.moveTo(0, 2*t)
+        self.moveTo(0, dr)
         for l in (lx, ly, lx, ly):
             self.edge(l);
             self.corner(90, r)
@@ -70,15 +79,36 @@ class RoundedBox(Boxes):
 
         t = self.thickness
 
+        es = self.edge_style
+
+        corner_holes = True
+        if self.edge_style == "f":
+            pe = "F"
+            ec = False
+        elif self.edge_style == "F":
+            pe = "f"
+            ec = False
+        else: # "h"
+            pe = "f"
+            corner_holes = True
+            ec = True
+
         with self.saved_context():
-            self.roundedPlate(x, y, r, wallpieces=self.wallpieces, move="right")
-            self.roundedPlate(x, y, r, wallpieces=self.wallpieces, move="right",
+            self.roundedPlate(x, y, r, es, wallpieces=self.wallpieces,
+                              extend_corners=ec, move="right")
+            self.roundedPlate(x, y, r, es, wallpieces=self.wallpieces,
+                              extend_corners=ec, move="right",
                               callback=[self.hole] if self.top != "closed" else None)
             if self.top == "lid":
-                self.roundedPlate(x, y, r, "E", wallpieces=self.wallpieces, move="right")
+                r_extra = self.edges[self.edge_style].spacing()
+                self.roundedPlate(x+2*r_extra,
+                                  y+2*r_extra,
+                                  r+r_extra,
+                                  "e", wallpieces=self.wallpieces,
+                                  extend_corners=False, move="right")
 
-        self.roundedPlate(x, y, r, wallpieces=self.wallpieces, move="up only")
+        self.roundedPlate(x, y, r, es, wallpieces=self.wallpieces, move="up only")
 
-        self.surroundingWall(x, y, r, h, "F", "F", pieces=self.wallpieces)
+        self.surroundingWall(x, y, r, h, pe, pe, pieces=self.wallpieces)
 
 

@@ -1536,7 +1536,7 @@ class Boxes:
         lx = x - 2*r
         ly = y - 2*r
 
-        self.moveTo(edge.margin(),
+        self.moveTo(edge.spacing(),
                     edge.margin())
         self.moveTo(r, 0)
 

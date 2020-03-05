@@ -39,8 +39,8 @@ class EuroRackSkiff(Boxes):
         self.fingerHolesAt(6, self.h-1.5*t, y, 0)
 
     def railHoles(self):
-        for i in range(1, self.hp):
-            self.hole(i*5.08, 3, d=3.0)
+        for i in range(0, self.hp):
+            self.hole(i*5.08 + 2.54, 3, d=3.0)
         
     def render(self):
 

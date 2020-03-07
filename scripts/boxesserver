@@ -389,11 +389,14 @@ class BServer:
     def serveStatic(self, environ, start_response):
         filename = environ["PATH_INFO"][len("/static/"):]
         path = os.path.join(self.staticdir, filename)
-        print(filename, path)
         if (not re.match(r"[a-zA-Z0-9_/-]+\.[a-zA-Z0-9]+", filename) or
             not os.path.exists(path)):
-            start_response("404 Not Found", [('Content-type', 'text/plain')])
-            return [b"Not found"]
+            if re.match(r"samples/.*-thumb.jpg", filename):
+                path = os.path.join(self.staticdir, "nothing.png")
+            else:
+                start_response("404 Not Found",
+                               [('Content-type', 'text/plain')])
+                return [b"Not found"]
 
         type_, encoding = mimetypes.guess_type(filename)
         if encoding is None:

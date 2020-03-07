@@ -3,7 +3,6 @@
 BOXES=../scripts/boxes
 
 set -x
-$BOXES box --x=50 --y=50 --h=70 --output=box.svg
 $BOXES closedbox --x=50 --y=50 --h=70 --output=closedbox.svg
 $BOXES hingebox --x=50 --y=50 --h=70 --output=hingebox.svg
 $BOXES castle --output=castle.svg

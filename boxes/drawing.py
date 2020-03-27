@@ -1,4 +1,5 @@
 import math
+import datetime
 from affine import Affine
 from boxes.extents import Extents
 
@@ -28,6 +29,9 @@ class Surface:
         self._fname = fname
         self.parts = []
         self._p = self.new_part("default")
+
+    def set_metadata(self, metadata):
+        self.metadata = metadata
 
     def flush(self):
         pass
@@ -332,8 +336,80 @@ class Context:
 
 
 class SVGSurface(Surface):
-    def finish(self):
 
+    def _addTag(self, parent, tag, text, first=False):
+        if first:
+            t = ET.Element(tag)
+        else:
+            t = ET.SubElement(parent, tag)
+        t.text = text
+        t.tail = '\n'
+        if first:
+            parent.insert(0, t)
+        return t
+
+    def _add_metadata(self, root):
+        md = self.metadata
+
+        # Add Inkscape style rdf meta data
+        root.set("xmlns:dc", "http://purl.org/dc/elements/1.1/")
+        root.set("xmlns:cc", "http://creativecommons.org/ns#")
+        root.set("xmlns:rdf","http://www.w3.org/1999/02/22-rdf-syntax-ns#")
+
+        title = "{group} - {name}".format(**md)
+        date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        m = self._addTag(root, "metadata", '\n', True)
+        r = ET.SubElement(m, 'rdf:RDF')
+        w = ET.SubElement(r, 'cc:Work')
+        w.text = '\n'
+
+        self._addTag(w, 'dc:title', title)
+        self._addTag(w, 'dc:date', date)
+
+        if "url" in md and md["url"]:
+            self._addTag(w, 'dc:source', md["url"])
+        else:
+            self._addTag(w, 'dc:source', md["cli"])
+
+        desc = md["short_description"] or ""
+        if "description" in md and md["description"]:
+            desc += "\n\n" + md["description"]
+        desc += "\n\nCreated with Boxes.py (https://festi.info/boxes.py)\n"
+        desc += "Command line: %s\n" % md["cli"]
+        if md["url"]:
+            desc += "Url: %s\n" % md["url"]
+            desc += "SettingsUrl: %s\n" % md["url"].replace("&render=1", "")
+        self._addTag(w, 'dc:description', desc)
+
+        # title
+        self._addTag(root, "title", md["name"], True)
+
+        # Add XML comment
+        txt = """
+{name} - {short_description}
+""".format(**md)
+        if md["description"]:
+            txt += """
+
+{description}
+
+""".format(**md)
+        txt += """
+Created with Boxes.py (https://festi.info/boxes.py)
+Creation date: {date}
+""".format(date=date, **md)
+
+        txt += "Command line (remove spaces between dashes): %s\n" % md["cli"].replace("--", "- -")
+
+        if md["url"]:
+            txt += "Url: %s\n" % md["url"]
+            txt += "SettingsUrl: %s\n" % md["url"].replace("&render=1", "")
+        m = ET.Comment(txt)
+        m.tail = '\n'
+        root.insert(0, m)
+
+    def finish(self):
         extents = self.extents()
 
         self.move_offset(-extents.xmin + PADDING,
@@ -359,6 +435,8 @@ class SVGSurface(Surface):
             svg.set(f"xmlns:{name}", value)
         svg.text = "\n"
         tree = ET.ElementTree(svg)
+
+        self._add_metadata(svg)
         
         for i, part in enumerate(self.parts):
             if not part.pathes:

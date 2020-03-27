@@ -607,8 +607,9 @@ class Boxes:
             return
 
         self.ctx.stroke()
-
         self.ctx = None
+
+        self.surface.set_metadata(self.metadata)
 
         self.surface.flush()
         self.surface.finish()

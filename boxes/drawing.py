@@ -2,6 +2,11 @@ import math
 from affine import Affine
 from boxes.extents import Extents
 
+try:
+    from xml.etree import cElementTree as ET
+except ImportError:
+    from xml.etree import ElementTree as ET
+
 EPS = 1e-4
 PADDING = 10
 
@@ -328,7 +333,6 @@ class Context:
 
 class SVGSurface(Surface):
     def finish(self):
-        import svgwrite
 
         extents = self.extents()
 
@@ -337,22 +341,32 @@ class SVGSurface(Surface):
         w = extents.width + 2 * PADDING
         h = extents.height + 2 * PADDING
 
-        dwg = svgwrite.Drawing(filename=self._fname, debug=False)
-        # dwg.debug = False
 
-        dwg["width"] = f"{w:.2f}mm"
-        dwg["height"] = f"{h:.2f}mm"
-        dwg["viewBox"] = f"0.0 0.0 {w:.2f} {h:.2f}"
-
+        nsmap = {
+                "dc": "http://purl.org/dc/elements/1.1/",
+                "cc": "http://creativecommons.org/ns#",
+                "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+                "svg": "http://www.w3.org/2000/svg",
+                "xlink": "http://www.w3.org/1999/xlink",
+                "inkscape": "http://www.inkscape.org/namespaces/inkscape",
+            }
+        ET.register_namespace("", "http://www.w3.org/2000/svg")
+        ET.register_namespace("xlink", "http://www.w3.org/1999/xlink")
+        svg = ET.Element('svg', width=f"{w:.2f}mm", height=f"{h:.2f}mm",
+                         viewBox=f"0.0 0.0 {w:.2f} {h:.2f}",
+                         xmlns="http://www.w3.org/2000/svg")
+        for name, value in nsmap.items():
+            svg.set(f"xmlns:{name}", value)
+        svg.text = "\n"
+        tree = ET.ElementTree(svg)
+        
         for i, part in enumerate(self.parts):
             if not part.pathes:
                 continue
-            g = dwg.add(
-                dwg.g(
-                    id=f"p-{i}",
-                    style="fill:none;stroke-linecap:round;stroke-linejoin:round;",
-                )
-            )
+            g = ET.SubElement(svg, "g", id=f"p-{i}",
+                              style="fill:none;stroke-linecap:round;stroke-linejoin:round;")
+            g.text = "\n  "
+            g.tail = "\n"
             for j, path in enumerate(part.pathes):
                 p = []
                 x, y = 0, 0
@@ -372,15 +386,11 @@ class SVGSurface(Surface):
                     elif C == "T":
                         text, params = c[3:]
                         style = f"font: {params['ff']}  ; fill: {rgb_to_svg_color(*params['rgb'])}"
-                        g.add(
-                            dwg.text(
-                                text,
-                                x=[x],
-                                y=[y],
-                                font_size=f"{params['fs']}px",
-                                style=style,
-                            )
-                        )
+                        t = ET.SubElement(g, "text",
+                                          x=f"{x:.3f}", y=f"{y:.3f}",
+                                          style=style)
+                        t.text = text
+                        t.set("font-size", f"{params['fs']}px")
                     else:
                         print("Unknown", c)
                 color = (
@@ -388,14 +398,12 @@ class SVGSurface(Surface):
                     if RANDOMIZE_COLORS
                     else rgb_to_svg_color(*path.params["rgb"])
                 )
-                if p:  # todo: might be empty since text is not implemented yet
-                    g.add(
-                        dwg.path(
-                            d=" ".join(p), stroke=color, stroke_width=path.params["lw"]
-                        )
-                    )
-        dwg.save(pretty=True)
-
+                if p:  # might be empty if only contains text
+                    t = ET.SubElement(g, "path", d=" ".join(p), stroke=color)
+                    t.set("stroke-width", f'{path.params["lw"]:.2f}')
+                    t.tail = "\n  "
+            t.tail = "\n"
+        tree.write(open(self._fname, "wb"), xml_declaration=True, method="xml")
 
 class PSSurface(Surface):
 

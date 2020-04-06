@@ -455,7 +455,12 @@ Creation date: {date}
                     if C == "M":
                         p.append(f"M {x:.3f} {y:.3f}")
                     elif C == "L":
-                        p.append(f"L {x:.3f} {y:.3f}")
+                        if abs(x - x0) < EPS:
+                            p.append(f"V {y:.3f}")
+                        elif abs(y - y0) < EPS:
+                            p.append(f"H {x:.3f}")
+                        else:
+                            p.append(f"L {x:.3f} {y:.3f}")
                     elif C == "C":
                         x1, y1, x2, y2 = c[3:]
                         p.append(

@@ -20,11 +20,11 @@ class Keypad(Boxes):
         )
         self.argparser.add_argument(
             '--btn_x', action='store', type=int, default=3,
-            help='number of buttons in x-row'
+            help='number of buttons per row'
         )
         self.argparser.add_argument(
             '--btn_y', action='store', type=int, default=4,
-            help='number of buttons in x-row'
+            help='number of buttons per column'
         )
         self.argparser.add_argument(
             '--top_thickness', action='store', type=float, default=1.5,

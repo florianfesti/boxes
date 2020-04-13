@@ -2,7 +2,7 @@
 
 from copy import deepcopy
 
-from boxes import Boxes
+from boxes import Boxes, boolarg
 from boxes.edges import FingerJointSettings
 
 
@@ -27,8 +27,19 @@ class Keypad(Boxes):
             help='number of buttons per column'
         )
         self.argparser.add_argument(
-            '--top_thickness', action='store', type=float, default=1.5,
-            help='thickness of the top layer, cherry needs 1.5mm or smaller'
+            '--top1_thickness', action='store', type=float, default=1.5,
+            help=('thickness of the button hold layer, cherry like switches '
+                  'need 1.5mm or smaller to snap in')
+        )
+        self.argparser.add_argument(
+            '--top2_enable', action='store', type=boolarg, default=False,
+            help=('enables another top layer that can hold CPG151101S11 '
+                  'sockets')
+        )
+        self.argparser.add_argument(
+            '--top2_thickness', action='store', type=float, default=1.5,
+            help=('thickness of the hotplug layer, CPG151101S11 sockets '
+                  'need 1.2mm to 1.5mm')
         )
         self.addSettingsArgs(FingerJointSettings, surroundingspaces=1)
 
@@ -42,7 +53,9 @@ class Keypad(Boxes):
         """Renders the keypad."""
         # deeper edge for top to add multiple layers
         deep_edge = deepcopy(self.edges['f'].settings)
-        deep_edge.thickness = self.thickness + self.top_thickness
+        deep_edge.thickness = self.thickness + self.top1_thickness
+        if self.top2_enable:
+            deep_edge.thickness += self.top2_thickness
         deep_edge.edgeObjects(self, 'gGH', True)
 
         d1, d2 = 2., 3.
@@ -55,12 +68,11 @@ class Keypad(Boxes):
         self.rectangularWall(y, h, "GfEf", callback=[self.wally_cb])
         self.rectangularWall(x, h, "GFEF", callback=[self.wallx_cb], move="left up")
 
-        # electronics box lid
-        self.rectangularWall(x, y, "FFFF", move="right")
-
         # keypad lids
-        self.rectangularWall(x, y, "ffff", callback=[self.support_hole], move="up")
-        self.rectangularWall(x, y, "ffff", callback=[self.key_hole])
+        self.rectangularWall(x, y, "ffff", callback=[self.support_hole], move="right")
+        self.rectangularWall(x, y, "ffff", callback=[self.key_hole], move="up")
+        if self.top2_enable:
+            self.rectangularWall(x, y, "ffff", callback=[self.hotplug])
 
         # screwable
         tr = self.triangle
@@ -75,6 +87,31 @@ class Keypad(Boxes):
             callback=[None, lambda: self.hole(trh, trh, d=d1)]
         )
 
+
+    def hotplug(self):
+        """Callback for the key stabelizers."""
+        # draw clock wise to work with burn correction
+        btn = [11.6, (-90, 2)] * 4
+        s = self.btn_size
+        self.moveTo(10, 10)
+        for _ in range(self.btn_y):
+            for _ in range(self.btn_x):
+                self.moveTo(7.8 , 7.8)
+
+                self.hole(0, 0, d=4)
+                self.hole(1.27 * -3, 1.27 * 2, d=2.9)
+                self.hole(1.27 * 2, 1.27 * 4, d=2.9)
+
+                # pcb mounts
+                self.hole(1.27 * -4, 0, d=1.7)
+                self.hole(1.27 * 4, 0, d=1.7)
+
+                self.moveTo(-7.8, -7.8)
+                self.moveTo(s + 4)
+
+                #self.moveTo(1.27 * -2, 1.17 * 3)
+                #self.moveTo(1.27 * 2, 1.17 * -3)
+            self.moveTo(self.btn_x * (s + 4) * -1, s + 4)
 
     def support_hole(self):
         """Callback for the key stabelizers."""

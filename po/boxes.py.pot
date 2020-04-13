@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-08 00:04+0100\n"
+"POT-Creation-Date: 2020-04-13 18:29+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,386 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#. e edge description
+#: boxes/edges.py
+msgid "Straight Edge"
+msgstr ""
+
+#. e edge description
+#: boxes/edges.py
+msgid "e Straight Edge"
+msgstr ""
+
+#. E edge description
+#: boxes/edges.py
+msgid "Straight Edge (outset by thickness)"
+msgstr ""
+
+#. E edge description
+#: boxes/edges.py
+msgid "E Straight Edge (outset by thickness)"
+msgstr ""
+
+#. g edge description
+#: boxes/edges.py
+msgid "Corrugated edge useful as an gipping area"
+msgstr ""
+
+#. g edge description
+#: boxes/edges.py
+msgid "g Corrugated edge useful as an gipping area"
+msgstr ""
+
+#. f edge description
+#: boxes/edges.py
+msgid "Finger Joint"
+msgstr ""
+
+#. f edge description
+#: boxes/edges.py
+msgid "f Finger Joint"
+msgstr ""
+
+#. F edge description
+#: boxes/edges.py
+msgid "Finger Joint (opposing side)"
+msgstr ""
+
+#. F edge description
+#: boxes/edges.py
+msgid "F Finger Joint (opposing side)"
+msgstr ""
+
+#. h edge description
+#: boxes/edges.py
+msgid "Edge (parallel Finger Joint Holes)"
+msgstr ""
+
+#. h edge description
+#: boxes/edges.py
+msgid "h Edge (parallel Finger Joint Holes)"
+msgstr ""
+
+#. | edge description
+#: boxes/edges.py
+msgid "Edge (orthogonal Finger Joint Holes)"
+msgstr ""
+
+#. | edge description
+#: boxes/edges.py
+msgid "| Edge (orthogonal Finger Joint Holes)"
+msgstr ""
+
+#. s edge description
+#: boxes/edges.py
+msgid "Stackable (bottom, finger joint holes)"
+msgstr ""
+
+#. s edge description
+#: boxes/edges.py
+msgid "s Stackable (bottom, finger joint holes)"
+msgstr ""
+
+#. S edge description
+#: boxes/edges.py
+msgid "Stackable (top)"
+msgstr ""
+
+#. S edge description
+#: boxes/edges.py
+msgid "S Stackable (top)"
+msgstr ""
+
+#. i edge description
+#: boxes/edges.py
+msgid "Straight edge with hinge eye"
+msgstr ""
+
+#. i edge description
+#: boxes/edges.py
+msgid "i Straight edge with hinge eye"
+msgstr ""
+
+#. I edge description
+#: boxes/edges.py
+msgid "Edge with hinge pin"
+msgstr ""
+
+#. I edge description
+#: boxes/edges.py
+msgid "I Edge with hinge pin"
+msgstr ""
+
+#. o edge description
+#: boxes/edges.py
+msgid "Edge with chest hinge"
+msgstr ""
+
+#. o edge description
+#: boxes/edges.py
+msgid "o Edge with chest hinge"
+msgstr ""
+
+#. p edge description
+#: boxes/edges.py
+msgid "p Edge with chest hinge"
+msgstr ""
+
+#. q edge description
+#: boxes/edges.py
+msgid "Edge with pins for an chest hinge"
+msgstr ""
+
+#. q edge description
+#: boxes/edges.py
+msgid "q Edge with pins for an chest hinge"
+msgstr ""
+
+#. Q edge description
+#: boxes/edges.py
+msgid "Edge opposing a chest hinge"
+msgstr ""
+
+#. Q edge description
+#: boxes/edges.py
+msgid "Q Edge opposing a chest hinge"
+msgstr ""
+
+#. u edge description
+#: boxes/edges.py
+msgid "Edge with cabinet hinges"
+msgstr ""
+
+#. u edge description
+#: boxes/edges.py
+msgid "u Edge with cabinet hinges"
+msgstr ""
+
+#. l edge description
+#: boxes/edges.py
+msgid "Edge for slide on lid (back)"
+msgstr ""
+
+#. l edge description
+#: boxes/edges.py
+msgid "l Edge for slide on lid (back)"
+msgstr ""
+
+#. L edge description
+#: boxes/edges.py
+msgid "Edge for slide on lid (box back)"
+msgstr ""
+
+#. L edge description
+#: boxes/edges.py
+msgid "L Edge for slide on lid (box back)"
+msgstr ""
+
+#. n edge description
+#: boxes/edges.py
+msgid "Edge for slide on lid (right)"
+msgstr ""
+
+#. n edge description
+#: boxes/edges.py
+msgid "n Edge for slide on lid (right)"
+msgstr ""
+
+#. m edge description
+#: boxes/edges.py
+msgid "Edge for slide on lid (left)"
+msgstr ""
+
+#. m edge description
+#: boxes/edges.py
+msgid "m Edge for slide on lid (left)"
+msgstr ""
+
+#. N edge description
+#: boxes/edges.py
+msgid "Edge for slide on lid (box right)"
+msgstr ""
+
+#. N edge description
+#: boxes/edges.py
+msgid "N Edge for slide on lid (box right)"
+msgstr ""
+
+#. M edge description
+#: boxes/edges.py
+msgid "Edge for slide on lid (box left)"
+msgstr ""
+
+#. M edge description
+#: boxes/edges.py
+msgid "M Edge for slide on lid (box left)"
+msgstr ""
+
+#. c edge description
+#: boxes/edges.py
+msgid "Abstract Edge Class"
+msgstr ""
+
+#. c edge description
+#: boxes/edges.py
+msgid "c Abstract Edge Class"
+msgstr ""
+
+#. C edge description
+#: boxes/edges.py
+msgid "C Abstract Edge Class"
+msgstr ""
+
+#. d edge description
+#: boxes/edges.py
+msgid "Edge (parallel slot wall Holes)"
+msgstr ""
+
+#. d edge description
+#: boxes/edges.py
+msgid "d Edge (parallel slot wall Holes)"
+msgstr ""
+
+#. D edge description
+#: boxes/edges.py
+msgid "D Edge (parallel slot wall Holes)"
+msgstr ""
+
+#. X edge description
+#: boxes/edges.py
+msgid "Flex cut"
+msgstr ""
+
+#. X edge description
+#: boxes/edges.py
+msgid "X Flex cut"
+msgstr ""
+
+#. R edge description
+#: boxes/edges.py
+msgid "Rack (and pinion) Edge"
+msgstr ""
+
+#. R edge description
+#: boxes/edges.py
+msgid "R Rack (and pinion) Edge"
+msgstr ""
+
+#. t edge description
+#: boxes/edges.py
+msgid "Triangle for handle"
+msgstr ""
+
+#. t edge description
+#: boxes/edges.py
+msgid "t Triangle for handle"
+msgstr ""
+
+#. a edge description
+#: boxes/edges.py
+msgid "a Abstract Edge Class"
+msgstr ""
+
+#. A edge description
+#: boxes/edges.py
+msgid "A Abstract Edge Class"
+msgstr ""
+
+#. b edge description
+#: boxes/edges.py
+msgid "b Abstract Edge Class"
+msgstr ""
+
+#. B edge description
+#: boxes/edges.py
+msgid "B Abstract Edge Class"
+msgstr ""
+
+#. j edge description
+#: boxes/edges.py
+msgid "Straight edge with hinge eye (other end)"
+msgstr ""
+
+#. j edge description
+#: boxes/edges.py
+msgid "j Straight edge with hinge eye (other end)"
+msgstr ""
+
+#. J edge description
+#: boxes/edges.py
+msgid "Edge with hinge pin (other end)"
+msgstr ""
+
+#. J edge description
+#: boxes/edges.py
+msgid "J Edge with hinge pin (other end)"
+msgstr ""
+
+#. k edge description
+#: boxes/edges.py
+msgid "Straight edge with hinge eye (both ends)"
+msgstr ""
+
+#. k edge description
+#: boxes/edges.py
+msgid "k Straight edge with hinge eye (both ends)"
+msgstr ""
+
+#. K edge description
+#: boxes/edges.py
+msgid "Edge with hinge pin (both ends)"
+msgstr ""
+
+#. K edge description
+#: boxes/edges.py
+msgid "K Edge with hinge pin (both ends)"
+msgstr ""
+
+#. O edge description
+#: boxes/edges.py
+msgid "Edge with chest hinge (other end)"
+msgstr ""
+
+#. O edge description
+#: boxes/edges.py
+msgid "O Edge with chest hinge (other end)"
+msgstr ""
+
+#. P edge description
+#: boxes/edges.py
+msgid "P Edge with chest hinge (other end)"
+msgstr ""
+
+#. U edge description
+#: boxes/edges.py
+msgid "Edge with cabinet hinges top side"
+msgstr ""
+
+#. U edge description
+#: boxes/edges.py
+msgid "U Edge with cabinet hinges top side"
+msgstr ""
+
+#. v edge description
+#: boxes/edges.py
+msgid "Edge with cabinet hinges for 90° lid"
+msgstr ""
+
+#. v edge description
+#: boxes/edges.py
+msgid "v Edge with cabinet hinges for 90° lid"
+msgstr ""
+
+#. V edge description
+#: boxes/edges.py
+msgid "Edge with cabinet hinges 90° lid"
+msgstr ""
+
+#. V edge description
+#: boxes/edges.py
+msgid "V Edge with cabinet hinges 90° lid"
+msgstr ""
 
 #. name of generator group
 #: boxes/generators/__init__.py
@@ -705,6 +1085,58 @@ msgid "fraction of bin height covert with slope"
 msgstr ""
 
 #. name of box generator
+#: boxes/generators/bottlestack.py
+msgid "BottleStack"
+msgstr ""
+
+#. description of BottleStack
+#: boxes/generators/bottlestack.py
+msgid "Stack bottles in a fridge"
+msgstr ""
+
+#. long description of BottleStack in markdown
+#: boxes/generators/bottlestack.py
+msgid ""
+"When rendered with the \"double\" option the parts with the double slots get "
+"connected the shorter beams in the asymetrical slots.\n"
+"\n"
+"Without the \"double\" option the stand is a bit more narrow.\n"
+msgstr ""
+
+msgid "BottleStack Settings"
+msgstr ""
+
+#. help for parameter diameter
+#: boxes/generators/bottlestack.py
+msgid "diameter of the bottles in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/bottlestack.py
+msgid "number"
+msgstr ""
+
+#. help for parameter number
+#: boxes/generators/bottlestack.py
+msgid "number of bottles to hold in the bottom row"
+msgstr ""
+
+#. help for parameter depth
+#: boxes/generators/bottlestack.py
+msgid "depth of the stand along the base of the bottles"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/bottlestack.py
+msgid "double"
+msgstr ""
+
+#. help for parameter double
+#: boxes/generators/bottlestack.py
+msgid "two pieces that can be combined to up to double the width"
+msgstr ""
+
+#. name of box generator
 #: boxes/generators/burntest.py
 msgid "BurnTest"
 msgstr ""
@@ -1154,6 +1586,16 @@ msgstr ""
 msgid "generate wall on the right side"
 msgstr ""
 
+#. parameter name
+#: boxes/generators/dividertray.py
+msgid "bottom"
+msgstr ""
+
+#. help for parameter bottom
+#: boxes/generators/dividertray.py
+msgid "generate wall on the bottom"
+msgstr ""
+
 #. name of box generator
 #: boxes/generators/drillbox.py
 msgid "DrillBox"
@@ -1240,6 +1682,29 @@ msgstr ""
 #. help for parameter holedist
 #: boxes/generators/electronicsbox.py
 msgid "Distance of the screw holes from the wall in mm"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/eurorackskiff.py
+msgid "EuroRackSkiff"
+msgstr ""
+
+#. description of EuroRackSkiff
+#: boxes/generators/eurorackskiff.py
+msgid "3U Height case with adjustable width and height and included rails"
+msgstr ""
+
+msgid "EuroRackSkiff Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/eurorackskiff.py
+msgid "hp"
+msgstr ""
+
+#. help for parameter hp
+#: boxes/generators/eurorackskiff.py
+msgid "Width of the case in HP"
 msgstr ""
 
 #. description of FlexBox
@@ -1771,6 +2236,49 @@ msgid "radius of the disc rotating in the hinge"
 msgstr ""
 
 #. name of box generator
+#: boxes/generators/keypad.py
+msgid "Keypad"
+msgstr ""
+
+#. description of Keypad
+#: boxes/generators/keypad.py
+msgid "Generator for keypads with mechanical switches."
+msgstr ""
+
+msgid "Keypad Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/keypad.py
+msgid "btn_x"
+msgstr ""
+
+#. help for parameter btn_x
+#: boxes/generators/keypad.py
+msgid "number of buttons per row"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/keypad.py
+msgid "btn_y"
+msgstr ""
+
+#. help for parameter btn_y
+#: boxes/generators/keypad.py
+msgid "number of buttons per column"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/keypad.py
+msgid "top_thickness"
+msgstr ""
+
+#. help for parameter top_thickness
+#: boxes/generators/keypad.py
+msgid "thickness of the top layer, cherry needs 1.5mm or smaller"
+msgstr ""
+
+#. name of box generator
 #: boxes/generators/laserclamp.py
 msgid "LaserClamp"
 msgstr ""
@@ -1904,6 +2412,26 @@ msgid ""
 msgstr ""
 
 msgid "MakitaPowerSupply Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/makitapowersupply.py
+msgid "bananasocketdiameter"
+msgstr ""
+
+#. help for parameter bananasocketdiameter
+#: boxes/generators/makitapowersupply.py
+msgid "diameter of the banana socket mounting holes"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/makitapowersupply.py
+msgid "flipswitchdiameter"
+msgstr ""
+
+#. help for parameter flipswitchdiameter
+#: boxes/generators/makitapowersupply.py
+msgid "diameter of the flipswitch mounting hole"
 msgstr ""
 
 #. name of box generator
@@ -3256,6 +3784,16 @@ msgstr ""
 msgid "# pieces of outer wall"
 msgstr ""
 
+#. parameter name
+#: boxes/generators/roundedbox.py
+msgid "edge_style"
+msgstr ""
+
+#. help for parameter edge_style
+#: boxes/generators/roundedbox.py
+msgid "edge type for top and bottom edges"
+msgstr ""
+
 #. name of box generator
 #: boxes/generators/royalgame.py
 msgid "RoyalGame"
@@ -3304,11 +3842,6 @@ msgstr ""
 #. possible choice for style
 #: boxes/generators/shutterbox.py
 msgid "single"
-msgstr ""
-
-#. possible choice for style
-#: boxes/generators/shutterbox.py
-msgid "double"
 msgstr ""
 
 #. name of box generator
@@ -3597,11 +4130,6 @@ msgstr ""
 msgid "radius of the slots at the front"
 msgstr ""
 
-#. parameter name
-#: boxes/generators/slatwallslottedholder.py
-msgid "number"
-msgstr ""
-
 #. help for parameter number
 #: boxes/generators/slatwallslottedholder.py
 msgid "number of tools/slots"
@@ -3772,6 +4300,74 @@ msgid "radius at the slots"
 msgstr ""
 
 #. name of box generator
+#: boxes/generators/spicesrack.py
+msgid "SpicesRack"
+msgstr ""
+
+#. description of SpicesRack
+#: boxes/generators/spicesrack.py
+msgid "Rack for cans of spices"
+msgstr ""
+
+msgid "SpicesRack Settings"
+msgstr ""
+
+#. help for parameter diameter
+#: boxes/generators/spicesrack.py
+msgid "diameter of spice cans"
+msgstr ""
+
+#. help for parameter height
+#: boxes/generators/spicesrack.py
+msgid "height of the cans that needs to be supported"
+msgstr ""
+
+#. help for parameter space
+#: boxes/generators/spicesrack.py
+msgid "space between cans"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/spicesrack.py
+msgid "numx"
+msgstr ""
+
+#. help for parameter numx
+#: boxes/generators/spicesrack.py
+msgid "number of cans in a row"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/spicesrack.py
+msgid "numy"
+msgstr ""
+
+#. help for parameter numy
+#: boxes/generators/spicesrack.py
+msgid "number of cans in a column"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/spicesrack.py
+msgid "in_place_supports"
+msgstr ""
+
+#. help for parameter in_place_supports
+#: boxes/generators/spicesrack.py
+msgid "place supports pieces in holes (check for fit yourself)"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/spicesrack.py
+msgid "feet"
+msgstr ""
+
+#. help for parameter feet
+#: boxes/generators/spicesrack.py
+msgid "add feet so the rack can stand on the ground"
+msgstr ""
+
+#. name of box generator
 #: boxes/generators/stachel.py
 msgid "Stachel"
 msgstr ""
@@ -3853,6 +4449,26 @@ msgid "This is a simple shelf box."
 msgstr ""
 
 msgid "StorageShelf Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/storageshelf.py
+msgid "retainer"
+msgstr ""
+
+#. help for parameter retainer
+#: boxes/generators/storageshelf.py
+msgid "height of wall atthe front edges"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/storageshelf.py
+msgid "retainer_hole_edge"
+msgstr ""
+
+#. help for parameter retainer_hole_edge
+#: boxes/generators/storageshelf.py
+msgid "use finger hole edge for retainer walls"
 msgstr ""
 
 msgid "Settings for RoundedTriangleEdge"
@@ -3978,6 +4594,59 @@ msgid "TrayLayout2"
 msgstr ""
 
 msgid "TrayLayout2 Settings"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/trianglelamp.py
+msgid "TriangleLamp"
+msgstr ""
+
+#. description of TriangleLamp
+#: boxes/generators/trianglelamp.py
+msgid "Triangle LED Lamp"
+msgstr ""
+
+msgid "TriangleLamp Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/trianglelamp.py
+msgid "cornersize"
+msgstr ""
+
+#. help for parameter cornersize
+#: boxes/generators/trianglelamp.py
+msgid "short side of the corner triangles"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/trianglelamp.py
+msgid "screenholesize"
+msgstr ""
+
+#. help for parameter screenholesize
+#: boxes/generators/trianglelamp.py
+msgid "diameter of the holes in the screen"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/trianglelamp.py
+msgid "screwholesize"
+msgstr ""
+
+#. help for parameter screwholesize
+#: boxes/generators/trianglelamp.py
+msgid "diameter of the holes in the wood"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/trianglelamp.py
+msgid "sharpcorners"
+msgstr ""
+
+#. help for parameter sharpcorners
+#: boxes/generators/trianglelamp.py
+msgid "extend walls for 45° corners. Requires grinding a 22.5° bevel."
 msgstr ""
 
 #. name of box generator
@@ -4204,24 +4873,24 @@ msgstr ""
 msgid "no_verticals"
 msgstr ""
 
-#: scripts/boxesserver:222
+#: scripts/boxesserver:213
 #, python-format
 msgid "Boxes - %s"
 msgstr ""
 
-#: scripts/boxesserver:234 scripts/boxesserver:295 scripts/boxesserver:315
+#: scripts/boxesserver:225 scripts/boxesserver:288 scripts/boxesserver:308
 msgid "Boxes.py"
 msgstr ""
 
-#: scripts/boxesserver:261
+#: scripts/boxesserver:252
 msgid "Generate"
 msgstr ""
 
-#: scripts/boxesserver:317
+#: scripts/boxesserver:310
 msgid "Create boxes and more with a laser cutter!"
 msgstr ""
 
-#: scripts/boxesserver:320
+#: scripts/boxesserver:313
 msgid ""
 "\n"
 "        <a href=\"https://hackaday.io/project/10649-boxespy\">Boxes.py</a> "
@@ -4232,23 +4901,23 @@ msgid ""
 "cuts, holes and slots for screws, hinges, gears, pulleys and much more."
 msgstr ""
 
-#: scripts/boxesserver:375
+#: scripts/boxesserver:368
 msgid "Get Source at GitHub"
 msgstr ""
 
-#: scripts/boxesserver:376
+#: scripts/boxesserver:369
 msgid "Documentation and API Description"
 msgstr ""
 
-#: scripts/boxesserver:377
+#: scripts/boxesserver:370
 msgid "Hackaday.io Project Page"
 msgstr ""
 
-#: scripts/boxesserver:386
+#: scripts/boxesserver:379
 #, python-format
 msgid "Error generating %s"
 msgstr ""
 
-#: scripts/boxesserver:391
+#: scripts/boxesserver:384
 msgid "An error occurred!"
 msgstr ""

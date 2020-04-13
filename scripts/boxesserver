@@ -161,7 +161,7 @@ class BServer:
               (_(viewname), "" if not a.help else _(a.help))
         if (isinstance(a, argparse._StoreAction) and
             hasattr(a.type, "html")):
-            input = a.type.html(name, default or a.default)
+            input = a.type.html(name, default or a.default, _)
         elif a.dest == "layout":
             val = (default or a.default).split("\n")
             input = """<textarea name="%s" cols="%s" rows="%s">%s</textarea>""" % \

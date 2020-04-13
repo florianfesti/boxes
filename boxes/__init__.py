@@ -192,11 +192,11 @@ class ArgparseEdgeType:
                              ", ".join(edges))
         return pattern
 
-    def html(self, name, default):
+    def html(self, name, default, translate):
         options = "\n".join(
-            ("""<option value="%s"%s>%s %s</option>""" %
+            ("""<option value="%s"%s>%s</option>""" %
              (e, ' selected="selected"' if e == default else "",
-              e, self.names.get(e, "")) for e in self.edges))
+              translate("%s %s" % (e, self.names.get(e, "")))) for e in self.edges))
         return """<select name="%s" size="1">\n%s</select>\n""" % (name, options)
 
     def inx(self, name, viewname, arg):
@@ -213,7 +213,7 @@ class BoolArg:
             return False
         return True
 
-    def html(self, name, default):
+    def html(self, name, default, _):
         if isinstance(default, (str)):
             default = self(default)
         return """<input name="%s" type="hidden" value="0">

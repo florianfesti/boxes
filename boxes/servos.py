@@ -58,7 +58,7 @@ class ServoArg:
     def choices(self):
         return [name for name in self.servos]
 
-    def html(self, name, default):
+    def html(self, name, default, translate):
         options = "\n".join(
             ("""<option value="%s"%s>%s</option>""" %
              (name, ' selected="selected"' if name == default else "",

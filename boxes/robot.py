@@ -24,7 +24,7 @@ class RobotArg:
     def choices(self):
         return [name for name, descr in self.robotarms]
 
-    def html(self, name, default):
+    def html(self, name, default, translate):
         options = "\n".join(
             ("""<option value="%s"%s>%s %s</option>""" %
              (name, ' selected="selected"' if name == default else "",

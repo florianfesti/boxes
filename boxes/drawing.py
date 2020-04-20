@@ -25,7 +25,11 @@ def pdiff(p1, p2):
 
 
 class Surface:
-    def __init__(self, fname, width, height):
+
+    scale = 1.0
+    invert_y = False
+
+    def __init__(self, fname):
         self._fname = fname
         self.parts = []
         self._p = self.new_part("default")
@@ -39,15 +43,33 @@ class Surface:
     def finish(self):
         pass
 
+    def _adjust_coordinates(self):
+        extents = self.extents()
+        extents.xmin -= PADDING
+        extents.ymin -= PADDING
+        extents.xmax += PADDING
+        extents.ymax += PADDING
+
+        m = Affine.translation(-extents.xmin, -extents.ymin)
+        if self.invert_y:
+            m = Affine.scale(self.scale, -self.scale) * m
+            m = Affine.translation(0, self.scale*extents.ymax) * m
+        else:
+            m = Affine.scale(self.scale, self.scale) * m
+
+        self.transform(m, self.invert_y)
+
+        return Extents(0, 0, extents.width * self.scale, extents.height * self.scale)
+
     def render(self, renderer):
         renderer.init(**self.args)
         for p in self.parts:
             p.render(renderer)
         renderer.finish()
 
-    def move_offset(self, dx, dy):
+    def transform(self, m, invert_y=False):
         for p in self.parts:
-            p.move_offset(dx, dy)
+            p.transform(m, invert_y)
 
     def new_part(self, name="part"):
         if self.parts and len(self.parts[-1].pathes) == 0:
@@ -82,10 +104,10 @@ class Part:
             return Extents()
         return sum([p.extents() for p in self.pathes])
 
-    def move_offset(self, dx, dy):
+    def transform(self, m, invert_y=False):
         assert(not self.path)
         for p in self.pathes:
-            p.move_offset(dx, dy)
+            p.transform(m, invert_y)
 
     def append(self, *path):
         self.path.append(list(path))
@@ -139,16 +161,17 @@ class Path:
             e.add(*p[1:3])
         return e
 
-    def move_offset(self, dx, dy):
+    def transform(self, m, invert_y=False):
         for c in self.path:
             C = c[0]
-            c[1] += dx
-            c[2] += dy
+            c[1], c[2] = m * (c[1], c[2])
             if C == 'C':
-                c[3] += dx
-                c[4] += dy
-                c[5] += dx
-                c[6] += dy
+                c[3], c[4] = m * (c[3], c[4])
+                c[5], c[6] = m * (c[5], c[6])
+            if C == "T":
+                c[3] = m * c[3]
+                if invert_y:
+                    c[3] *= Affine.scale(1, -1)
 
     def faster_edges(self):
         for (i, p) in enumerate(self.path):
@@ -181,6 +204,7 @@ class Context:
         self._lw = 0
         self._rgb = (0, 0, 0)
         self._ff = "sans-serif"
+        self._fs = 10
         self._last_path = None
 
     def _update_bounds_(self, mx, my):
@@ -293,8 +317,10 @@ class Context:
         self._xy = (0, 0)
         raise NotImplementedError()
 
-    def select_font_face(self, ff):
-        self._ff = ff
+    def set_font(self, style, bold=False, italic=False):
+        if style not in ("serif", "sans-serif", "monospaced"):
+            raise ValueError("Unknown font style")
+        self._ff = (style, bold, italic)
 
     def set_font_size(self, fs):
         self._fs = fs
@@ -303,7 +329,8 @@ class Context:
         params = {"ff": self._ff, "fs": self._fs, "lw": self._lw, "rgb": self._rgb}
         params.update(args)
         mx0, my0 = self._m * self._xy
-        self._dwg.append("T", mx0, my0, text, params)
+        m = self._m
+        self._dwg.append("T", mx0, my0, m, text, params)
 
     def text_extents(self, text):
         fs = self._fs
@@ -336,6 +363,14 @@ class Context:
 
 
 class SVGSurface(Surface):
+
+    invert_y = True
+
+    fonts = {
+        'serif' : 'TimesNewRoman, "Times New Roman", Times, Baskerville, Georgia, serif',
+        'sans-serif' : '"Helvetica Neue", Helvetica, Arial, sans-serif',
+        'monospaced' : '"Courier New", Courier, "Lucida Sans Typewriter"'
+    }
 
     def _addTag(self, parent, tag, text, first=False):
         if first:
@@ -410,12 +445,9 @@ Creation date: {date}
         root.insert(0, m)
 
     def finish(self):
-        extents = self.extents()
-
-        self.move_offset(-extents.xmin + PADDING,
-                         -extents.ymin + PADDING)
-        w = extents.width + 2 * PADDING
-        h = extents.height + 2 * PADDING
+        extents = self._adjust_coordinates()
+        w = extents.width * self.scale
+        h = extents.height * self.scale
 
 
         nsmap = {
@@ -467,13 +499,22 @@ Creation date: {date}
                             f"C {x1:.3f} {y1:.3f} {x2:.3f} {y2:.3f} {x:.3f} {y:.3f}"
                         )
                     elif C == "T":
-                        text, params = c[3:]
-                        style = f"font: {params['ff']}  ; fill: {rgb_to_svg_color(*params['rgb'])}"
+                        m, text, params = c[3:]
+                        m = m * Affine.translation(0, -params['fs'])
+                        tm = " ".join((f"{m[i]:.3f}" for i in (0, 3, 1, 4, 2, 5)))
+                        font, bold, italic = params['ff']
+                        fontweight = ("normal", "bold")[bool(bold)]
+                        fontstyle = ("normal", "italic")[bool(italic)]
+
+                        style = f"font-family: {font} ; font-weight: {fontweight}; font-style: {fontstyle}; fill: {rgb_to_svg_color(*params['rgb'])}"
                         t = ET.SubElement(g, "text",
-                                          x=f"{x:.3f}", y=f"{y:.3f}",
+                                          #x=f"{x:.3f}", y=f"{y:.3f}",
+                                          transform=f"matrix( {tm} )",
                                           style=style)
                         t.text = text
                         t.set("font-size", f"{params['fs']}px")
+                        t.set("text-anchor", params.get('align', 'left'))
+                        t.set("alignment-baseline", 'hanging')
                     else:
                         print("Unknown", c)
                 color = (
@@ -490,22 +531,55 @@ Creation date: {date}
 
 class PSSurface(Surface):
 
+    scale = 72 / 25.4 # 72 dpi
+
+    fonts = {
+        ('serif', False, False) : 'Times-Roman',
+        ('serif', False, True) : 'Times-Italic',
+        ('serif', True, False) : 'Times-Bold',
+        ('serif', True, True) : 'Times-BoldItalic',
+        ('sans-serif', False, False) : 'Helvetica',
+        ('sans-serif', False, True) : 'Helvetica-Oblique',
+        ('sans-serif', True, False) : 'Helvetica-Bold',
+        ('sans-serif', True, True) : 'Helvetica-BoldOblique',
+        ('monospaced', False, False) : 'Courier',
+        ('monospaced', False, True) : 'Courier-Oblique',
+        ('monospaced', True, False) : 'Courier-Bold',
+        ('monospaced', True, True) : 'Courier-BoldOblique',
+        }
+
     def finish(self):
 
-        extents = self.extents()
+        extents = self._adjust_coordinates()
+        w = extents.width
+        h = extents.height
 
-        self.move_offset(-extents.xmin + PADDING,
-                         -extents.ymin + PADDING)
-
-        w = extents.width + 2 * PADDING
-        h = extents.height + 2 * PADDING
-
-        f = open(self._fname, "w")
+        f = open(self._fname, "w", encoding="latin1", errors="replace")
 
         f.write("%!PS-Adobe-2.0\n")
         f.write(
-            f"%%BoundingBox: 0 0 {w:.0f} {h:.0f}\n\n"
-        )
+            f"""%%BoundingBox: 0 0 {w:.0f} {h:.0f}
+
+1 setlinecap
+1 setlinejoin
+0.0 0.0 0.0 setrgbcolor
+""")
+        f.write("""
+/ReEncode { % inFont outFont encoding | -
+   /MyEncoding exch def
+   exch findfont
+   dup length dict
+   begin
+      {def} forall
+      /Encoding MyEncoding def
+      currentdict
+   end
+   definefont
+} def
+
+""")
+        for font in self.fonts.values():
+            f.write(f"/{font} /{font}-Latin1 ISOLatin1Encoding ReEncode\n")
         # f.write(f"%%DocumentMedia: \d+x\d+mm ((\d+) (\d+)) 0 \("
         # dwg['width']=f'{w:.2f}mm'
         # dwg['height']=f'{h:.2f}mm'
@@ -513,7 +587,6 @@ class PSSurface(Surface):
         for i, part in enumerate(self.parts):
             if not part.pathes:
                 continue
-            # g = dwg.add( dwg.g(id=f'p-{i}',style='fill:none;stroke-linecap:round;stroke-linejoin:round;') )
             for j, path in enumerate(part.pathes):
                 p = []
                 x, y = 0, 0
@@ -532,16 +605,33 @@ class PSSurface(Surface):
                             f"{x1:.3f} {y1:.3f} {x2:.3f} {y2:.3f} {x:.3f} {y:.3f} curveto"
                         )
                     elif C == "T":
-                        text, params = c[3:]
+                        m, text, params = c[3:]
+                        tm = " ".join((f"{m[i]:.3f}" for i in (0, 3, 1, 4, 2, 5)))
                         text = text.replace("(", "r\(").replace(")", r"\)")
                         color = " ".join((f"{c:.2f}"
                                           for c in params["rgb"]))
-                        f.write(f"/{params['ff']} findfont\n")
-                        f.write(f"{params['fs']*72 / 25.4} scalefont\n")
+                        align = params.get('align', 'left')
+                        f.write(f"/{self.fonts[params['ff']]}-Latin1 findfont\n")
+                        f.write(f"{params['fs']} scalefont\n")
                         f.write("setfont\n")
+                        #f.write(f"currentfont /Encoding  ISOLatin1Encoding put\n")
                         f.write(f"{color} setrgbcolor\n")
-                        f.write(f"{x:.3f} {y:.3f} moveto\n")
-                        f.write(f"({text}) show\n\n")
+                        f.write("matrix currentmatrix") # save current matrix
+                        f.write(f"[ {tm} ] concat\n")
+                        if align == "left":
+                            f.write(f"0.0\n")
+                        else:
+                            f.write(f"({text}) stringwidth pop ")
+                            if align == "middle":
+                                f.write(f"-0.5 mul\n")
+                            else: # end
+                                f.write(f"neg\n")
+                        # offset y by descender
+                        f.write("currentfont dup /FontBBox get 1 get \n")
+                        f.write("exch /FontMatrix get 3 get mul neg moveto \n")
+
+                        f.write(f"({text}) show\n") # text created by dup above
+                        f.write("setmatrix\n\n") # restore matrix
                     else:
                         print("Unknown", c)
                 color = (

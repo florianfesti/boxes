@@ -58,25 +58,12 @@ class Formats:
             return self._BASE_FORMATS
 
     def getSurface(self, fmt, filename):
-
-        width = height = 10000  # mm 
-
         if fmt in ("svg", "svg_Ponoko"):
-            surface = SVGSurface(filename, width, height)
-            mm2pt = 1.0
+            surface = SVGSurface(filename)
         else:
-            mm2pt = 72 / 25.4
-            width *= mm2pt
-            height *= mm2pt  # 3.543307
-            surface = PSSurface(filename, width, height)
+            surface = PSSurface(filename)
 
         ctx = Context(surface)
-        if fmt in ("svg", "svg_Ponoko"):
-            ctx.translate(0, height)
-            ctx.scale(mm2pt, -mm2pt)
-        else:
-            ctx.scale(mm2pt, mm2pt)
-
         return surface, ctx
 
     def convert(self, filename, fmt, metadata=None):

@@ -291,6 +291,15 @@ class Boxes:
         """
         self.ctx.set_source_rgb(*color)
 
+    def set_font(self, style, bold=False, italic=False):
+        """
+        Set font style used
+        :param style: "serif", "sans-serif" or "monospaced"
+        :param bold: Use bold font
+        :param italic: Use italic font
+        """
+        self.ctx.set_font(style, bold, italic)
+
     def open(self):
         """
         Prepare for rendering
@@ -313,7 +322,7 @@ class Boxes:
             self.set_source_color(Color.BLACK)
 
         self.spacing = 2 * self.burn + 0.5 * self.thickness
-        self.ctx.select_font_face("sans-serif")
+        self.set_font("sans-serif")
         self._buildObjects()
         if self.reference and self.format != 'svg_Ponoko':
             self.move(10, 10, "up", before=True)
@@ -1210,43 +1219,33 @@ class Boxes:
         :param align:  (Default value = "") string with combinations of (top|middle|bottom) and (left|center|right) separated by a space
 
         """
-        self.ctx.set_font_size(fontsize)
         self.moveTo(x, y, angle)
         text = text.split("\n")
-        width = lheight = 0.0
-        for line in text:
-            (tx, ty, w, h, dx, dy) = self.ctx.text_extents(line)
-            lheight = max(lheight, h)
-            width = max(width, w)
 
         lines = len(text)
-        height = lines * lheight + (lines - 1) * 0.4 * lheight
+        height = lines * fontsize + (lines - 1) * 0.4 * fontsize
         align = align.split()
+        halign = "left"
         moves = {
-            "top": (0, -height),
-            "middle": (0, -0.5 * height),
-            "bottom": (0, 0),
-            "left": (0, 0),
-            "center": (-0.5 * width, 0),
-            "right": (-width, 0),
+            "top": -height,
+            "middle": -0.5 * height,
+            "bottom": 0,
+            "left": "start",
+            "center": "middle",
+            "right": "end",
         }
         for a in align:
             if a in moves:
-                self.moveTo(*moves[a])
+                if isinstance(moves[a], str):
+                    halign = moves[a]
+                else:
+                    self.moveTo(0, moves[a])
             else:
                 raise ValueError("Unknown alignment: %s" % align)
 
-        self.ctx.stroke()
-        self.set_source_color(Color.WHITE)
-        self.ctx.rectangle(0, 0, width, height)
-        self.ctx.stroke()
-        self.set_source_color(color)
-        self.ctx.scale(1, -1)
         for line in reversed(text):
-            self.ctx.show_text(line)
-            self.moveTo(0, 1.4 * -lheight)
-        self.set_source_color(Color.BLACK)
-        self.ctx.set_font_size(10)
+            self.ctx.show_text(line, fs=fontsize, align=halign, rgb=color)
+            self.moveTo(0, 1.4 * fontsize)
 
     tx_sizes = {
         1 : 0.61,

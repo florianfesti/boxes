@@ -53,7 +53,7 @@ class Surface:
         m = Affine.translation(-extents.xmin, -extents.ymin)
         if self.invert_y:
             m = Affine.scale(self.scale, -self.scale) * m
-            m = Affine.translation(0, self.scale*extents.ymax) * m
+            m = Affine.translation(0, self.scale*extents.ymax+PADDING) * m
         else:
             m = Affine.scale(self.scale, self.scale) * m
 

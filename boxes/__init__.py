@@ -678,7 +678,8 @@ class Boxes:
             self.corner(lang/2., radius)
             return
 
-        if radius > 0.5* self.thickness and abs(degrees) > 36:
+        if ((radius > 0.5* self.burn and abs(degrees) > 36) or
+            (abs(degrees) > 100)):
             steps = int(abs(degrees)/ 36.) + 1
             for i in range(steps):
                 self.corner(float(degrees)/steps, radius)

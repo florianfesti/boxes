@@ -53,7 +53,7 @@ class Surface:
         m = Affine.translation(-extents.xmin, -extents.ymin)
         if self.invert_y:
             m = Affine.scale(self.scale, -self.scale) * m
-            m = Affine.translation(0, self.scale*extents.ymax+PADDING) * m
+            m = Affine.translation(0, self.scale*extents.height) * m
         else:
             m = Affine.scale(self.scale, self.scale) * m
 
@@ -146,7 +146,6 @@ class Path:
     def __init__(self, path, params):
         self.path = path
         self.params = params
-        # self._extents = None
 
     def __repr__(self):
         l = len(self.path)
@@ -155,10 +154,23 @@ class Path:
         return f"Path[{l}] to ({x2:.2f},{y2:.2f})"
 
     def extents(self):
-        # if self._extents is not None: return self._extents
         e = Extents()
         for p in self.path:
             e.add(*p[1:3])
+            if p[0] == 'T':
+                m, text, params = p[3:]
+                h = params['fs']
+                l = len(text) * h * 0.7
+                align = params.get('align', 'left')
+                start, end = {
+                    'left' : (0, 1),
+                    'middle' : (-0.5, 0.5),
+                    'end' : (-1, 0),
+                    }[align]
+                for x in (start*l, end*l):
+                    for y in (0, h):
+                        x_, y_ = m * (x, y)
+                        e.add(x_, y_)
         return e
 
     def transform(self, m, invert_y=False):

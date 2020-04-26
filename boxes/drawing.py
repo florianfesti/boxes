@@ -265,6 +265,8 @@ class Context:
         self._line_to(x, y)
 
     def _arc(self, xc, yc, radius, angle1, angle2, direction):
+        if abs(angle1 - angle2) < EPS or radius < EPS:
+            return
         x1, y1 = radius * math.cos(angle1) + xc, radius * math.sin(angle1) + yc
         x4, y4 = radius * math.cos(angle2) + xc, radius * math.sin(angle2) + yc
 

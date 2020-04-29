@@ -42,11 +42,11 @@ class Console(Boxes):
         h = hi + panel * math.sin(math.radians(self.angle))
 
         if top>0.1*t:
-            borders = [x, 90, hi, 90-self.angle, panel, self.angle, top,
+            borders = [y, 90, hi, 90-self.angle, panel, self.angle, top,
                        90, h, 90]
         else:
-            borders = [x, 90, hi, 90-self.angle, panel, self.angle+90, h, 90]
+            borders = [y, 90, hi, 90-self.angle, panel, self.angle+90, h, 90]
 
         self.polygonWall(borders, move="right")
         self.polygonWall(borders, move="right")
-        self.polygonWalls(borders, y)
+        self.polygonWalls(borders, x)

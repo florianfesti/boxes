@@ -2103,7 +2103,11 @@ class Boxes:
                 if part_cnt % 2:
                     left, right = lf, rf
                 else:
-                    left, right = lF, rF
+                    # last part of an uneven lot
+                    if (part_cnt == (len(borders)//2)-1):
+                        left, right = lF, rf
+                    else:
+                        left, right = lF, rF
             else:
                 left, right = lf, rF
 

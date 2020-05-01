@@ -183,7 +183,7 @@ class Console2(Boxes):
 
         self.rectangularWall(borders[0], x, "ffff", move="right") # floor
         self.rectangularWall( #front
-            borders[2]-d1, x, "FeFs", ignore_widths=[7, 4],
+            borders[2]-d1, x, ("F", "e", "F", bottom), ignore_widths=[7, 4],
             callback=[None, lambda: self.rectangularHole(.5*t, 2.5*t, t, 1.5*t),
                       lambda: self.rectangularHole(2.5*t, .5*t, 1.5*t, t)],
             move="right")
@@ -201,7 +201,7 @@ class Console2(Boxes):
             move="right")
         self.rectangularWall(2*t, borders[-2]-8.05*t, "Eeef", move="right")
         self.rectangularWall(2*t, borders[-2]-8.05*t, "Eeef", move="right")
-        self.rectangularWall(t, x, "FsFe", # backwall bottom
+        self.rectangularWall(t, x, ("F", bottom, "F", "e"), # backwall bottom
                              ignore_widths=[0, 3], move="right")
 
         self.panel_cross_beam(x-2.05*t, "rotated right")

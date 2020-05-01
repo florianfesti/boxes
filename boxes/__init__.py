@@ -1032,9 +1032,10 @@ class Boxes:
     def move(self, x, y, where, before=False):
         """Intended to be used by parts
         where can be combinations of "up" or "down", "left" or "right", "only",
-        "mirror"
+        "mirror" and "rotated"
         when "only" is included the move is only done when before is True
         "mirror" will flip the part along the y axis
+        "rotated" draws the parts rotated 90 counter clockwise
         The function returns whether actual drawing of the part
         should be omited.
 
@@ -1052,6 +1053,10 @@ class Boxes:
 
         x += self.spacing
         y += self.spacing
+
+        if "rotated" in terms:
+            x, y = y, x
+
         moves = {
             "up": (0, y, False),
             "down": (0, -y, True),
@@ -1059,6 +1064,7 @@ class Boxes:
             "right": (x, 0, False),
             "only": (0, 0, None),
             "mirror": (0, 0, None),
+            "rotated": (0, 0, None),
         }
 
         if not before:
@@ -1080,6 +1086,9 @@ class Boxes:
                 self.ctx.save()
                 if self.debug:
                     self.ctx.rectangle(0, 0, x, y)
+                if "rotated" in terms:
+                    self.moveTo(x, 0, 90)
+                    x, y = y, x # change back for "mirror"
                 if "mirror" in terms:
                     self.moveTo(x, 0)
                     self.ctx.scale(-1, 1)

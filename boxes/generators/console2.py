@@ -57,8 +57,11 @@ class Console2(Boxes):
         if self.move(tw, th, move, True):
             return
         
-        self.moveTo(0, t)
-        self.polyline(3*t, -90, t, 90, t, 90, t, -90, 3*t, 90, t, -90, t, 90, t-s, 90, 2*t, 90, 0.5*t, -90, 5*t, -90, 0.5*t, 90, t, 90, 2*t-s, 90)
+        self.moveTo(0, 1.2*t)
+        self.polyline(t, -90, .2*t, 90, 2*t, -90, t, 90, t, 90, t, -90, 3*t,
+                      90, t, -90, t, 90, t, 90, 2*t, 90, 0.5*t,
+                      -94, 4.9*t, 94, .5*t, 86, 4.9*t, -176, 5*t,
+                      -90, 1.0*t, 90, t, 90, 1.8*t, 90)
 
         self.move(tw, th, move)
 
@@ -72,7 +75,7 @@ class Console2(Boxes):
             return
 
         self.moveTo(0.5*t)
-        self.polyline(t-0.5*s, 90, 2.5*t, -90, t+s, -90, 2.5*t, 90, t-0.5*s, 90,
+        self.polyline(t-0.5*s, 90, 2.5*t+.5*s, -90, t+s, -90, 2.5*t+.5*s, 90, t-0.5*s, 90,
                       t, -90, 0.5*t, 90, 2*t, 45, 2**.5*t, 45, 2*t, 45, 2**.5*t, 45, 2*t, 90, 0.5*t, -90, t, 90)
 
         self.move(tw, th, move)
@@ -94,34 +97,34 @@ class Console2(Boxes):
     def panel_side(self, l, move=None):
         t = self.thickness
         s = 0.1 * t
-        a = self.angle
 
-        tw, th = l+2*t, 4*t
+        tw, th = l, 3*t
 
         if self.move(tw, th, move, True):
             return
 
-        d1 = 3*t - 2.5*t * math.sin(math.radians(a))
-        d2 = 2.5*t * math.cos(math.radians(a))
-        self.rectangularHole(4*t, 1.5*t, 2.2*t, 1.05*t)
-        self.rectangularHole(l-4.5*t, 1.5*t, 2*t, t)
-        self.polyline(l-2*t, 90, t, -90, t, -90, t, 90, t+d2, 90, d1, -a, .5*t, (180, .5*t), .5*t, -90, 1.5*t, a, l, 90, t, 90, t, -90, t, -90, t, 90, t, 90)
+        self.rectangularHole(3*t, 1.5*t, 3*t, 1.05*t)
+        self.rectangularHole(l-3*t, 1.5*t, 3*t, 1.05*t)
+        self.rectangularHole(l/2, 1.5*t, 2*t, t)
+        self.polyline(*([l, 90, t, 90, t, -90, t, -90, t, 90, t, 90]*2))
     
         self.move(tw, th, move)
 
     def panel_lock(self, l, move=None):
         t = self.thickness
 
+        l -= 4*t
         tw, th = l, 2.5*t
 
         if self.move(tw, th, move, True):
             return
 
-        self.moveTo(0, t)
-        self.polyline(2*t, 90, t, -90, l-4*t, -90,
-                      1.5*t, (90, .5*t), t, (90, .5*t),
-                      t, 90, .5*t, -90, 0.5*t, -90, 0, (90, .5*t), 0, 90,
-                      l-t, (90, t), .5*t, 90)
+        end = [l/2-3*t, -90, 1.5*t, (90, .5*t), t, (90, .5*t),
+               t, 90, .5*t, -90, 0.5*t, -90, 0, (90, .5*t), 0, 90,]
+
+        self.moveTo(l/2-t, 2*t, -90)
+        self.polyline(*([t, 90, 2*t, 90, t, -90] + end + [l] +
+                        list(reversed(end))))
         self.move(tw, th, move)
 
     def panel_cross_beam(self, l, move=None):
@@ -156,14 +159,15 @@ class Console2(Boxes):
         self.edges["f"](borders[2]+bottom.endwidth()-d1)
         self.edge(d1)
         self.corner(borders[3])
+        self.rectangularHole(3*t, 1.5*t, 2.5*t, 1.05*t)
         self.edge(borders[4])
-        self.rectangularHole(-4.5*t, 1.5*t, 2.2*t, 1.05*t)
+        self.rectangularHole(-3*t, 1.5*t, 2.5*t, 1.05*t)
         if len(borders) == 10:
             self.corner(borders[5])
             self.edge(d2)
             self.edges["f"](borders[6]-d2)
         self.corner(borders[-3])
-        self.rectangularHole(4*t, 1.5*t, 1.1*t, 1.1*t)
+        self.rectangularHole(4*t, 1.55*t, 1.1*t, 1.1*t)
         self.edge(borders[-2]-t)
         self.edges["f"](t+bottom.startwidth())
         self.corner(borders[-1])
@@ -184,8 +188,6 @@ class Console2(Boxes):
         self.rectangularWall(borders[0], x, "ffff", move="right") # floor
         self.rectangularWall( #front
             borders[2]-d1, x, ("F", "e", "F", bottom), ignore_widths=[7, 4],
-            callback=[None, lambda: self.rectangularHole(.5*t, 2.5*t, t, 1.5*t),
-                      lambda: self.rectangularHole(2.5*t, .5*t, 1.5*t, t)],
             move="right")
 
         self.rectangularWall(borders[4], x, "EEEE", move="right") # panel
@@ -213,7 +215,7 @@ class Console2(Boxes):
         self.partsMatrix(4, 2, "up", self.latch_clamp)
 
         # hardware for panel
-        self.panel_lock(borders[4]-6*t, "up")
-        self.panel_lock(borders[4]-6*t, "up")
+        self.panel_lock(borders[4], "up")
+        self.panel_lock(borders[4], "up")
         self.panel_side(borders[4], "up")
         self.panel_side(borders[4], "up")

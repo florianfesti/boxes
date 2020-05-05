@@ -57,7 +57,10 @@ To remove the panel you have to press in the four tabs at the side. It is easies
         self.addSettingsArgs(edges.FingerJointSettings, surroundingspaces=.5)
         self.addSettingsArgs(edges.StackableSettings)
 
-        self.buildArgParser(x=100, y=100, h=100, hi=30, bottom_edge="s")
+        self.buildArgParser(x=100, y=100, h=100, bottom_edge="s")
+        self.argparser.add_argument(
+            "--front_height",  action="store", type=float, default=30,
+            help="height of the front below the panel (in mm)")
         self.argparser.add_argument(
             "--angle",  action="store", type=float, default=50,
             help="angle of the front panel (90°=upright)")
@@ -72,19 +75,19 @@ To remove the panel you have to press in the four tabs at the side. It is easies
             help="the panel is glued and not held by finger joints")
 
     def borders(self):
-        x, y, h, hi = self.x, self.y, self.h, self.hi
+        x, y, h, fh = self.x, self.y, self.h, self.front_height
         t = self.thickness
 
-        panel = min((h-hi)/math.cos(math.radians(90-self.angle)),
+        panel = min((h-fh)/math.cos(math.radians(90-self.angle)),
                     y/math.cos(math.radians(self.angle)))
         top = y - panel * math.cos(math.radians(self.angle))
-        h = hi + panel * math.sin(math.radians(self.angle))
+        h = fh + panel * math.sin(math.radians(self.angle))
 
         if top>0.1*t:
-            borders = [y, 90, hi, 90-self.angle, panel, self.angle, top,
+            borders = [y, 90, fh, 90-self.angle, panel, self.angle, top,
                        90, h, 90]
         else:
-            borders = [y, 90, hi, 90-self.angle, panel, self.angle+90, h, 90]
+            borders = [y, 90, fh, 90-self.angle, panel, self.angle+90, h, 90]
         return borders
 
     def latch(self, move=None):
@@ -229,7 +232,7 @@ To remove the panel you have to press in the four tabs at the side. It is easies
         self.move(tw, th, move)
         
     def render(self):
-        x, y, h, hi = self.x, self.y, self.h, self.hi
+        x = self.x
         t = self.thickness
         bottom = self.edges.get(self.bottom_edge)
         d1 = t * math.cos(math.radians(self.angle))

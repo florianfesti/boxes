@@ -219,7 +219,7 @@ To remove the panel you have to press in the four tabs at the side. It is easies
             self.edges["f"](borders[6]-d2)
         self.corner(borders[-3])
         if self.removable_backwall:
-            self.rectangularHole(4*t, 1.55*t, 1.1*t, 1.1*t)
+            self.rectangularHole(self.latchpos, 1.55*t, 1.1*t, 1.1*t)
             self.edge(borders[-2]-t)
             self.edges["f"](t+bottom.startwidth())
         else:
@@ -234,6 +234,8 @@ To remove the panel you have to press in the four tabs at the side. It is easies
         bottom = self.edges.get(self.bottom_edge)
         d1 = t * math.cos(math.radians(self.angle))
         d2 = t * math.sin(math.radians(self.angle))
+
+        self.latchpos = latchpos = 6*t
 
         borders = self.borders()
         self.side(borders, bottom, move="right")
@@ -259,13 +261,13 @@ To remove the panel you have to press in the four tabs at the side. It is easies
             self.rectangularWall( # back wall
                 borders[-2]-1.05*t, x, "EeEe",
                 callback=[
-                    lambda:self.latch_hole(4*t),
-                    lambda: self.fingerHolesAt(.5*t, 0, borders[-2]-8.05*t),
-                    lambda:self.latch_hole(borders[-2]-1.2*t-4*t),
-                    lambda: self.fingerHolesAt(.5*t, 7.05*t, borders[-2]-8.05*t)],
+                    lambda:self.latch_hole(latchpos),
+                    lambda: self.fingerHolesAt(.5*t, 0, borders[-2]-4.05*t-latchpos),
+                    lambda:self.latch_hole(borders[-2]-1.2*t-latchpos),
+                    lambda: self.fingerHolesAt(.5*t, 3.05*t+latchpos, borders[-2]-4.05*t-latchpos)],
                 move="right")
-            self.rectangularWall(2*t, borders[-2]-8.05*t, "EeEf", move="right")
-            self.rectangularWall(2*t, borders[-2]-8.05*t, "EeEf", move="right")
+            self.rectangularWall(2*t, borders[-2]-4.05*t-latchpos, "EeEf", move="right")
+            self.rectangularWall(2*t, borders[-2]-4.05*t-latchpos, "EeEf", move="right")
             # backwall bottom
             self.rectangularWall(t, x, ("F", bottom, "F", "e"),
                                  ignore_widths=[0, 3], move="right")

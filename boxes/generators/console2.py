@@ -17,9 +17,39 @@
 from boxes import *
 
 class Console2(Boxes):
-    """Console with slanted panel"""
+    """Console with slanted panel and service hatches"""
 
     ui_group = "Unstable" #"Box"
+
+    description = """
+This box is designed as a housing for electronic projects. It has hatches that can be re-opened with simple tools. It intentionally cannot be opened with bare hands - if build with thin enough material.
+
+#### Caution
+There is a chance that the latches of the back wall or the back wall itself interfere with the front panel or it's mounting frame/lips. The generator does not check for this. So depending on the variant choosen you might need to make the box deeper (increase y parameter) or the panel angle steeper (increase angle parameter) until there is enough room.
+
+It's also possible that the frame of the panel interferes with the floor if the hi parameter is too small.
+
+#### Assembly instructions
+The main body is easy to assemble by starting with the floor and then adding the four walls and (if present) the top piece.
+
+If the back wall is removable you need to add the lips and latches. The U-shaped clamps holding the latches in place need to be clued in place without also gluing the latches themselves. Make sure the springs on the latches point inwards and the angled ends point to the side walls as shown here:
+
+![Back wall details](static/samples/Console2-backwall-detail.jpg)
+
+If the panel is removable you need to add the springs with the tabs to the side lips. This photo shows the variant which has the panel glued to the frame:
+
+![Back wall details](static/samples/Console2-panel-detail.jpg)
+
+If space is tight you may consider not glueing the cross pieces in place and remove them after the glue-up. This may prevent the latches of the back wall and the panel from interfereing with each other.
+
+The variant using finger joints only has the two side lips without the cross bars.
+
+#### Re-Opening
+
+The latches at the back wall lock in place when closed. To open them they need to be pressed in and can then be moved aside.
+
+To remove the panel you have to press in the four tabs at the side. It is easiest to push them in and then pull the panel up a little bit so the tabs stay in.
+"""
 
     def __init__(self):
         Boxes.__init__(self)
@@ -31,6 +61,15 @@ class Console2(Boxes):
         self.argparser.add_argument(
             "--angle",  action="store", type=float, default=50,
             help="angle of the front panel (90°=upright)")
+        self.argparser.add_argument(
+            "--removable_backwall",  action="store", type=boolarg, default=True,
+            help="have latches at the backwall")
+        self.argparser.add_argument(
+            "--removable_panel",  action="store", type=boolarg, default=True,
+            help="The panel is held by tabs and can be removed")
+        self.argparser.add_argument(
+            "--glued_panel",  action="store", type=boolarg, default=True,
+            help="the panel is glued and not held by finger joints")
 
     def borders(self):
         x, y, h, hi = self.x, self.y, self.h, self.hi
@@ -100,14 +139,21 @@ class Console2(Boxes):
 
         tw, th = l, 3*t
 
+        if not self.glued_panel:
+            th += t
+
         if self.move(tw, th, move, True):
             return
 
         self.rectangularHole(3*t, 1.5*t, 3*t, 1.05*t)
         self.rectangularHole(l-3*t, 1.5*t, 3*t, 1.05*t)
         self.rectangularHole(l/2, 1.5*t, 2*t, t)
-        self.polyline(*([l, 90, t, 90, t, -90, t, -90, t, 90, t, 90]*2))
-    
+        if self.glued_panel:
+            self.polyline(*([l, 90, t, 90, t, -90, t, -90, t, 90, t, 90]*2))
+        else:
+            self.polyline(l, 90, 3*t, 90)
+            self.edges["f"](l)
+            self.polyline(0, 90, 3*t, 90)
         self.move(tw, th, move)
 
     def panel_lock(self, l, move=None):
@@ -159,17 +205,25 @@ class Console2(Boxes):
         self.edges["f"](borders[2]+bottom.endwidth()-d1)
         self.edge(d1)
         self.corner(borders[3])
-        self.rectangularHole(3*t, 1.5*t, 2.5*t, 1.05*t)
-        self.edge(borders[4])
-        self.rectangularHole(-3*t, 1.5*t, 2.5*t, 1.05*t)
+        if self.removable_panel:
+            self.rectangularHole(3*t, 1.5*t, 2.5*t, 1.05*t)
+        if not self.removable_panel and not self.glued_panel:
+            self.edges["f"](borders[4])
+        else:
+            self.edge(borders[4])
+        if self.removable_panel:
+            self.rectangularHole(-3*t, 1.5*t, 2.5*t, 1.05*t)
         if len(borders) == 10:
             self.corner(borders[5])
             self.edge(d2)
             self.edges["f"](borders[6]-d2)
         self.corner(borders[-3])
-        self.rectangularHole(4*t, 1.55*t, 1.1*t, 1.1*t)
-        self.edge(borders[-2]-t)
-        self.edges["f"](t+bottom.startwidth())
+        if self.removable_backwall:
+            self.rectangularHole(4*t, 1.55*t, 1.1*t, 1.1*t)
+            self.edge(borders[-2]-t)
+            self.edges["f"](t+bottom.startwidth())
+        else:
+            self.edges["f"](borders[-2]+bottom.startwidth())
         self.corner(borders[-1])
         
         self.move(tw, th, move)
@@ -190,32 +244,48 @@ class Console2(Boxes):
             borders[2]-d1, x, ("F", "e", "F", bottom), ignore_widths=[7, 4],
             move="right")
 
-        self.rectangularWall(borders[4], x, "EEEE", move="right") # panel
+        # panel
+        if self.glued_panel:
+            self.rectangularWall(borders[4], x, "EEEE", move="right")
+        elif self.removable_panel:
+            self.rectangularWall(borders[4], x-2*t, "hEhE", move="right")
+        else:
+            self.rectangularWall(borders[4], x, "FEFE", move="right")
+
         if len(borders) == 10: # top
             self.rectangularWall(borders[6]-d2, x, "FEFe", move="right")
 
-        self.rectangularWall( # back wall
-            borders[-2]-1.05*t, x, "EeEe",
-            callback=[lambda:self.latch_hole(4*t),
-                      lambda: self.fingerHolesAt(.5*t, 0, borders[-2]-8.05*t),
-                      lambda:self.latch_hole(borders[-2]-1.2*t-4*t),
-                      lambda: self.fingerHolesAt(.5*t, 7.05*t, borders[-2]-8.05*t)],
-            move="right")
-        self.rectangularWall(2*t, borders[-2]-8.05*t, "Eeef", move="right")
-        self.rectangularWall(2*t, borders[-2]-8.05*t, "Eeef", move="right")
-        self.rectangularWall(t, x, ("F", bottom, "F", "e"), # backwall bottom
-                             ignore_widths=[0, 3], move="right")
-
-        self.panel_cross_beam(x-2.05*t, "rotated right")
-        self.panel_cross_beam(x-2.05*t, "rotated right")
-
-        # hardware for back wall
-        self.latch(move="up")
-        self.latch(move="up")
-        self.partsMatrix(4, 2, "up", self.latch_clamp)
+        if self.removable_backwall:
+            self.rectangularWall( # back wall
+                borders[-2]-1.05*t, x, "EeEe",
+                callback=[
+                    lambda:self.latch_hole(4*t),
+                    lambda: self.fingerHolesAt(.5*t, 0, borders[-2]-8.05*t),
+                    lambda:self.latch_hole(borders[-2]-1.2*t-4*t),
+                    lambda: self.fingerHolesAt(.5*t, 7.05*t, borders[-2]-8.05*t)],
+                move="right")
+            self.rectangularWall(2*t, borders[-2]-8.05*t, "EeEf", move="right")
+            self.rectangularWall(2*t, borders[-2]-8.05*t, "EeEf", move="right")
+            # backwall bottom
+            self.rectangularWall(t, x, ("F", bottom, "F", "e"),
+                                 ignore_widths=[0, 3], move="right")
+        else:
+            self.rectangularWall(borders[-2], x, ("F", bottom, "F", "e"),
+                                 ignore_widths=[0, 3], move="right")
 
         # hardware for panel
-        self.panel_lock(borders[4], "up")
-        self.panel_lock(borders[4], "up")
-        self.panel_side(borders[4], "up")
-        self.panel_side(borders[4], "up")
+        if self.removable_panel:
+            if self.glued_panel:
+                self.panel_cross_beam(x-2.05*t, "rotated right")
+                self.panel_cross_beam(x-2.05*t, "rotated right")
+
+            self.panel_lock(borders[4], "up")
+            self.panel_lock(borders[4], "up")
+            self.panel_side(borders[4], "up")
+            self.panel_side(borders[4], "up")
+
+        # hardware for back wall
+        if self.removable_backwall:
+            self.latch(move="up")
+            self.latch(move="up")
+            self.partsMatrix(4, 2, "up", self.latch_clamp)

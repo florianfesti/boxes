@@ -1496,6 +1496,16 @@ class Boxes:
 
     @restore
     def fingerHoleRectangle(self, dx, dy, x=0., y=0., angle=0., outside=False):
+        """
+        Place finger holes for four walls - attaching a box on this plane
+
+        :param dx: size in x direction
+        :param dy: size in y direction
+        :param x: x position of the center
+        :param y: y position of the center
+        :param angle: angle in which the rectangle is placed
+        :param outside: meassure size from the outside of the walls - not the inside
+        """
         self.moveTo(x, y, angle)
         d = 0.5*self.thickness
         if outside:

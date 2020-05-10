@@ -1494,6 +1494,18 @@ class Boxes:
                         self.polyline(*army)
         self.ctx.stroke()
 
+    @restore
+    def fingerHoleRectangle(self, dx, dy, x=0., y=0., angle=0., outside=False):
+        self.moveTo(x, y, angle)
+        d = 0.5*self.thickness
+        if outside:
+            d = -d
+
+        self.fingerHolesAt(dx/2+d, -dy/2, dy, 90)
+        self.fingerHolesAt(-dx/2-d, -dy/2, dy, 90)
+        self.fingerHolesAt(-dx/2, -dy/2-d, dx, 0)
+        self.fingerHolesAt(-dx/2, dy/2+d, dx, 0)
+
     ##################################################
     ### parts
     ##################################################

@@ -275,8 +275,7 @@ class Boxes:
     @contextmanager
     def saved_context(self):
         """
-        Generator: for saving and restoring cairo contexts.
-        :param cr: cairo context
+        Generator: for saving and restoring contexts.
         """
         cr = self.ctx
         cr.save()

@@ -87,9 +87,10 @@ These also are simple drawing commands. Some of them get ``x``, ``y`` and
 at the current coordinate origin. Often these commands create holes or
 hole patterns.
 
-Cairo
-.....
+Back end
+........
 
-Boxes.py uses cairo as graphics library. It is not fully encapsulated
+Boxes.py used to use cairo as graphics library. It now uses its own -
+pure Python - back end. It is not fully encapsulated
 within the drawing methods of the Boxes class. Although this is the
-long term goal. Boxes.ctx is the cairo context all drawing is made on.
+long term goal. Boxes.ctx is the context all drawing is made on.

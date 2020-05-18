@@ -1,7 +1,7 @@
 Navigation
 ----------
 
-The cairo library can both move the origin and the current point from
+The back end can both move the origin and the current point from
 which the next line is going to start. Boxes.py hides this by using
 Turtle Graphics commands that also move the origin to the end of the
 last line. Other drawing commands restore the current position after
@@ -35,7 +35,7 @@ It can be used with the following code pattern:
 
    # continue above the row
 
-Parts of the code still directly use the cairo primitives **Boxes.ctx.save()**
+Parts of the code still directly use the back end primitives **Boxes.ctx.save()**
 and **Boxes.ctx.restore()**. But this has several disadvantages and is
 discouraged. For one it requires matchiung calls. It also does not
 reset the starting point of the next line. This is "healed" by a

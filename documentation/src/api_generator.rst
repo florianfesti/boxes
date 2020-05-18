@@ -9,7 +9,7 @@ Generators are sub classes of
 Most code is directly in this class. Sub class are supposed to over
 write the ``.__init__()`` and ``.render()`` method.
 
-The Boxes class keeps a cairo canvas object (self.ctx) that all
+The Boxes class keeps a canvas object (self.ctx) that all
 drawing is made on. In addition it keeps a couple of global settings
 used for various drawing operations. See the ``.__init__()`` method
 for the details. 

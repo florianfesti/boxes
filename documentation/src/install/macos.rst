@@ -23,14 +23,15 @@ General
 2. Install cairio:
 
   .. code::
-      brew install cairo pkg-config
+
+      brew install pkg-config
 
 
 3. Install required Python modules:
 
    .. code::
 
-      pip3 install pycairo cairocffi Markdown lxml
+      pip3 install Markdown lxml affine
 
 4. Download Boxes.py via Git:
 

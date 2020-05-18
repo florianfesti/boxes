@@ -9,11 +9,10 @@ installing or building binary formats.
 Requirements
 ------------
 
-Cairo
-.....
-Boxes.py is based on the cairo graphics library. It supports both the PyPi
-version :code:`cairocffi` and :code:`python-cairo` that might be shipped with
-your distribution.
+Affine
+........
+:code:`Affine` (package name may be :code:`python-affine` or
+:code:`python3-affine`) is used for vector calculation.
 
 Markdown
 ........

@@ -14,7 +14,7 @@
 FROM fedora:latest
 
 # Install requirements
-RUN dnf install -y python3-cairocffi python3-xcffib git-core python3-markdown python3-setuptools pstoedit && dnf clean all
+RUN dnf install -y git-core python3-markdown python3-setuptools python3-affine pstoedit && dnf clean all
 
 # Get Boxes.py sources to /boxes
 RUN git clone --depth 1 -b master https://github.com/florianfesti/boxes.git
@@ -23,4 +23,4 @@ RUN git clone --depth 1 -b master https://github.com/florianfesti/boxes.git
 EXPOSE 8000
 
 # Start the boxes web server on container start up
-CMD ["boxes/scripts/boxesserver"]
+CMD ["/boxes/scripts/boxesserver"]

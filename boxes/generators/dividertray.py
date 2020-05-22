@@ -126,9 +126,13 @@ class DividerTray(Boxes):
         # Side walls (outer & inner) with slots to support dividers
         side_wall_length = slot_descriptions.total_length()
         for _ in range(side_walls_number):
+            if _ < side_walls_number - (len(self.sx) - 1):
+                be = "F" if self.bottom else "e"
+            else:
+                be = "f" if self.bottom else "e"
             se = DividerSlotsEdge(self, slot_descriptions.descriptions)
             self.rectangularWall(
-                side_wall_length, self.h, [bottom_edge(self.bottom), "f", se, "f"], move="up"
+                side_wall_length, self.h, [be, "f", se, "f"], move="up"
             )
 
         # Switch to right side of the file

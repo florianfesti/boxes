@@ -536,7 +536,14 @@ Creation date: {date}
                     if RANDOMIZE_COLORS
                     else rgb_to_svg_color(*path.params["rgb"])
                 )
+                if p and p[-1][0] == "M":
+                    p.pop()
                 if p:  # might be empty if only contains text
+                    if points_equal(path.path[0][1],
+                                    path.path[0][2],
+                                    path.path[-1][1],
+                                    path.path[-1][2]):
+                        p.append("Z")
                     t = ET.SubElement(g, "path", d=" ".join(p), stroke=color)
                     t.set("stroke-width", f'{path.params["lw"]:.2f}')
                     t.tail = "\n  "

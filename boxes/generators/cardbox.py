@@ -65,7 +65,7 @@ class CardBox(Boxes):
     description = """
 #### Building instructions
 
-Place inner walls on floor first (if any). Then add the outer walls. Glue the two walls without finger joins to the inside of the side walls. Make sure there is no squeeze out on top, as this is goind to form the rail for the lid.
+Place inner walls on floor first (if any). Then add the outer walls. Glue the two walls without finger joins to the inside of the side walls. Make sure there is no squeeze out on top, as this is going to form the rail for the lid.
 
 Add the top of the rails to the sides and the grip rail to the lid (still missing in the picture above):
 

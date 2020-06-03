@@ -26,7 +26,7 @@ class AngledBox(Boxes):
     def __init__(self):
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings)
-        self.buildArgParser("x", "y", "h", "outside")
+        self.buildArgParser("x", "y", "h", "outside", "bottom_edge")
         self.argparser.add_argument(
             "--n",  action="store", type=int, default=5,
             help="number of walls at one side (1+)")
@@ -52,7 +52,7 @@ class AngledBox(Boxes):
         if self.move(tx, ty, move, before=True):
             return
 
-        self.moveTo((tx-lx)/2., 0)
+        self.moveTo((tx-lx)/2., edge.margin())
 
         if hole:
             with self.saved_context():
@@ -75,6 +75,7 @@ class AngledBox(Boxes):
     def render(self):
 
         x, y, h, n = self.x, self.y, self.h, self.n
+        b = self.bottom_edge
 
         if n < 1:
             n = self.n = 1
@@ -106,7 +107,8 @@ class AngledBox(Boxes):
         fingerJointSettings.edgeObjects(self, chars="gGH")
 
         with self.saved_context():
-            self.floor(x, y , n, edge='F', move="right")
+            if b != "e":
+                self.floor(x, y , n, edge='f', move="right")
             if self.top == "angled lid":
                 self.floor(x, y, n, edge='e', move="right")
                 self.floor(x, y, n, edge='E', move="right")
@@ -119,23 +121,23 @@ class AngledBox(Boxes):
         fingers = self.top in ("angled lid2", "angled hole")
 
         self.rectangularWall(lx, h, move="right",
-                             edges="fGfG" if fingers else "fGeG")
+                             edges=b+"GfG" if fingers else b+"GeG")
 
         for i in range(2):
             for i in range(n):
                 if i % 2:
                     self.rectangularWall(side, h, move="right",
-                                         edges="fGfG" if fingers else "fGeG")
+                                         edges=b+"GfG" if fingers else b+"GeG")
                 else:
                     self.rectangularWall(side, h, move="right",
-                                         edges="fgfg" if fingers else "fgeg")
+                                         edges=b+"gfg" if fingers else b+"geg")
 
         if i % 2:
             self.rectangularWall(lx, h, move="right",
-                                 edges="fgfg" if fingers else "fGeG")
+                                 edges=b+"gfg" if fingers else b+"geg")
         else:
             self.rectangularWall(lx, h, move="right",
-                                 edges="fGfG" if fingers else "fGeG")
+                                 edges=b+"GfG" if fingers else b+"GeG")
 
 
 

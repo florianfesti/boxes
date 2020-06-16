@@ -81,8 +81,8 @@ class TriangleLamp(Boxes):
 
         self.rectangularTriangle(x, x, num=2, move="up", callback=[
             lambda: self.hole(2/3.*c, 1/4.*c, r2),
-            lambda: self.hole(1/3.*c, 1/3.*c, r2),
-            lambda: self.hole(2/3.*c, 1/4.*c, r2),            
+            lambda: (self.hole(1/3.*c, 1/3.*c, r2),
+                     self.hole(x-2/3.*c, 1/4.*c, r2)),
         ])
         self.rectangularTriangle(x, x, "fff", num=2, move="up")
 

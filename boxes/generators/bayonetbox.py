@@ -33,6 +33,29 @@ class BayonetBox(Boxes):
             help="number of locking lugs")
         self.buildArgParser("outside")
 
+    def lowerLayer(self, asPart=False, move=None):
+        d = self.diameter
+        r = d / 2
+        t = self.thickness
+        p = 0.05*t
+        l = self.lugs
+
+        a = 180 / l
+
+        if asPart:
+            if self.move(d, d, move, True):
+                return
+            self.moveTo(d/2, d/2)
+        
+        self.hole(0, 0, r=d/2 - 2.5*t)
+        self.moveTo(d/2 - 1.5*t, 0, -90)
+
+        for i in range(l):
+            self.polyline(0, (-4/3*a, r-1.5*t), 0, 90, 0.5*t, -90, 0, (-2/3*a, r-t), 0, -90, 0.5*t, 90)
+
+        if asPart:
+            self.move(d, d, move)
+
     def lowerCB(self):
         d = self.diameter
         r = d / 2
@@ -41,18 +64,14 @@ class BayonetBox(Boxes):
         l = self.lugs
 
         a = 180 / l
-        
-        self.hole(0, 0, r=d/2 - 2.5*t)
-        self.moveTo(d/2 - 1.5*t, 0, -90)
 
-        for i in range(l):
-            self.polyline(0, (-4/3*a, r-1.5*t), 0, 90, 0.5*t, -90, 0, (-2/3*a, r-t), 0, -90, 0.5*t, 90)
+        with self.saved_context():
+            self.lowerLayer()
 
-        self.moveTo(0, p)
-            
+        self.moveTo(d/2 - 1.5*t+p, 0, -90)
         for i in range(l):
             self.polyline(0, (-2/3*a, r-1.5*t+p), 0, 90, 0.5*t, -90, 0, (-4/3*a, r-t+p), 0, -90, 0.5*t, 90)
-        
+
 
     def upperCB(self):
         d = self.diameter

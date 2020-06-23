@@ -15,9 +15,10 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
+from boxes.generators.bayonetbox import BayonetBox
 import copy
 
-class RegularBox(Boxes):
+class RegularBox(BayonetBox):
     """Box with regular polygon as base"""
 
     ui_group = "Box"
@@ -34,8 +35,10 @@ class RegularBox(Boxes):
             help="number of sides")
         self.argparser.add_argument(
             "--top",  action="store", type=str, default="none",
-            choices=["none", "hole", "angled hole", "angled lid", "angled lid2", "round lid"],
+            choices=["none", "hole", "angled hole", "angled lid", "angled lid2", "round lid", "bayonet mount"],
             help="style of the top and lid")
+
+        self.lugs=6
 
     def render(self):
 
@@ -74,12 +77,18 @@ class RegularBox(Boxes):
                                         hole=(sh-t)*2)
             if self.top == "round lid":
                 self.parts.disc(sh*2, move="right")
+            if self.top == "bayonet mount":
+                self.diameter = 2*sh
+                self.lowerLayer(asPart=True, move="right")
+                self.regularPolygonWall(corners=n, r=r, edges='F',
+                                        callback=[self.upperCB], move="right")
+                self.parts.disc(sh*2, move="right")
 
         self.regularPolygonWall(corners=n, r=r, edges='F', move="up only")
 
         side = 2 * math.sin(math.radians(180.0/n)) * r
         fingers = self.top in ("hole", "angled hole", "round lid",
-                               "angled lid2")
+                               "angled lid2", "bayonet mount")
         
         if n % 2:
             for i in range(n):

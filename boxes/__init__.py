@@ -1230,7 +1230,7 @@ class Boxes:
             "top": -height,
             "middle": -0.5 * height,
             "bottom": 0,
-            "left": "start",
+            "left": "left",
             "center": "middle",
             "right": "end",
         }

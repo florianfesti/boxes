@@ -26,6 +26,7 @@ class DividerTray(Boxes):
 
     def __init__(self):
         Boxes.__init__(self)
+        self.addSettingsArgs(edges.FingerJointSettings)
         self.buildArgParser("sx", "sy", "h", "outside")
         self.argparser.add_argument(
             "--slot_depth", type=float, default=20, help="depth of the slot in mm"

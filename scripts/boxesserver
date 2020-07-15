@@ -179,7 +179,7 @@ class BServer:
         return row % input
 
     scripts = """
-    <script type="text/javascript">
+    <script>
     function showHide(id) {
        var e = document.getElementById(id);
        var h = document.getElementById("h-" + id);

@@ -57,7 +57,8 @@ To remove the panel you have to press in the four tabs at the side. It is easies
         self.addSettingsArgs(edges.FingerJointSettings, surroundingspaces=.5)
         self.addSettingsArgs(edges.StackableSettings)
 
-        self.buildArgParser(x=100, y=100, h=100, bottom_edge="s")
+        self.buildArgParser(x=100, y=100, h=100, bottom_edge="s",
+                            outside=False)
         self.argparser.add_argument(
             "--front_height",  action="store", type=float, default=30,
             help="height of the front below the panel (in mm)")
@@ -232,9 +233,15 @@ To remove the panel you have to press in the four tabs at the side. It is easies
         self.move(tw, th, move)
         
     def render(self):
-        x = self.x
+        x, y, h = self.x, self.y, self.h
         t = self.thickness
         bottom = self.edges.get(self.bottom_edge)
+
+        if self.outside:
+            self.x = x = self.adjustSize(x)
+            self.y = y = self.adjustSize(y)
+            self.h = h = self.adjustSize(h, bottom)
+
         d1 = t * math.cos(math.radians(self.angle))
         d2 = t * math.sin(math.radians(self.angle))
 

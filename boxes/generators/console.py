@@ -55,6 +55,9 @@ class Console(Boxes):
         else:
             borders = [y, 90, hf, 90-self.angle, panel, self.angle+90, h, 90]
 
+        if hf < 0.01*t:
+            borders[1:4] = [180-self.angle]
+
         self.polygonWall(borders, move="right")
         self.polygonWall(borders, move="right")
         self.polygonWalls(borders, x)

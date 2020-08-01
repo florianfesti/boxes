@@ -215,6 +215,28 @@ class BoolArg:
 
 boolarg = BoolArg()
 
+
+class HexHolesSettings(edges.Settings):
+    """Settings for hexagonal hole patterns
+
+Values:
+
+* absolute
+  * diameter : 5.0 : diameter of the holes
+  * distance : 3.0 : distance between the holes
+  * style : "circles" : currently only supported style
+
+"""
+
+    absolute_params = {
+        'diameter' : 10.0,
+        'distance' : 3.0,
+        'style' : ('circle', ),
+    }
+
+    relative_params = {}
+
+
 ##############################################################################
 ### Main class
 ##############################################################################
@@ -310,7 +332,6 @@ class Boxes:
             return
 
         self.bedBoltSettings = (3, 5.5, 2, 20, 15)  # d, d_nut, h_nut, l, l1
-        self.hexHolesSettings = (5, 3, 'circle')  # r, dist, style
         self.surface, self.ctx = self.formats.getSurface(self.format, self.output)
 
         if self.format == 'svg_Ponoko':
@@ -511,6 +532,10 @@ class Boxes:
         # Rounded Triangle Edge
         edges.RoundedTriangleEdgeSettings(self.thickness, True,
                 **self.edgesettings.get("RoundedTriangleEdge", {})).edgeObjects(self)
+
+        # HexHoles
+        self.hexHolesSettings = HexHolesSettings(self.thickness, True,
+                **self.edgesettings.get("HexHoles", {}))
 
         # Nuts
         self.addPart(NutHole(self, None))
@@ -1349,7 +1374,7 @@ class Boxes:
         """
         if settings is None:
             settings = self.hexHolesSettings
-        r, b, style = settings
+        r, b, style = settings.diameter/2, settings.distance, settings.style
 
         w = r + b / 2.0
         dist = w * math.cos(math.pi / 6.0)
@@ -1432,7 +1457,7 @@ class Boxes:
         """
         if settings is None:
             settings = self.hexHolesSettings
-        r, b, style = settings
+        r, b, style = settings.diameter/2, settings.distance, settings.style
 
         self.ctx.rectangle(0, 0, h, h)
         w = r + b / 2.0

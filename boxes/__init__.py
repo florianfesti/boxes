@@ -376,14 +376,20 @@ class Boxes:
         for arg, default in kw.items():
             if arg == "x":
                 if default is None: default = 100.0
+                help = "inner width in mm"
+                if "outside" in kw:
+                    help += " (unless outside selected)"
                 self.argparser.add_argument(
                     "--x", action="store", type=float, default=default,
-                    help="inner width in mm (unless outside selected)")
+                    help=help)
             elif arg == "y":
                 if default is None: default = 100.0
+                help = "inner depth in mm"
+                if "outside" in kw:
+                    help += " (unless outside selected)"
                 self.argparser.add_argument(
                     "--y", action="store", type=float, default=default,
-                    help="inner depth in mm (unless outside selected)")
+                    help=help)
             elif arg == "sx":
                 if default is None: default = "50*3"
                 self.argparser.add_argument(
@@ -404,9 +410,12 @@ class Boxes:
                     help="""sections bottom to top in mm. See --sy for format""")
             elif arg == "h":
                 if default is None: default = 100.0
+                help = "inner height in mm"
+                if "outside" in kw:
+                    help += " (unless outside selected)"
                 self.argparser.add_argument(
                     "--h", action="store", type=float, default=default,
-                    help="inner height in mm (unless outside selected)")
+                    help=help)
             elif arg == "hi":
                 if default is None: default = 0.0
                 self.argparser.add_argument(

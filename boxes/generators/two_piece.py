@@ -26,7 +26,7 @@ class TwoPiece(Boxes):
 
     def __init__(self):
         Boxes.__init__(self)
-        self.buildArgParser("x", "y", "h", "outside")
+        self.buildArgParser("x", "y", "h", "hi", "outside")
         self.addSettingsArgs(edges.FingerJointSettings, finger=2.0, space=2.0)
 
         self.argparser.add_argument(
@@ -36,6 +36,7 @@ class TwoPiece(Boxes):
     def render(self):
         # adjust to the variables you want in the local scope
         x, y, h = self.x, self.y, self.h
+        hi = self.hi or self.h
         t = self.thickness
         p = self.play * t
 
@@ -43,19 +44,20 @@ class TwoPiece(Boxes):
             x -= 4*t + 2*p
             y -= 4*t + 2*p
             h -= 2 * t
-
+            hi -= 2 * t
 
         # Adjust h edge with play
         self.edges["f"].settings.setValues(t, False, edge_width=self.edges["f"].settings.edge_width + p)
 
         for i in range(2):
             d = i * 2 * (t+p)
+            height = [hi, h][i]
             with self.saved_context():
-                self.rectangularWall(x+d, h, "fFeF", bedBolts=None, move="right")
-                self.rectangularWall(y+d, h, "ffef", bedBolts=None, move="right")
-                self.rectangularWall(x+d, h, "fFeF", bedBolts=None, move="right")
-                self.rectangularWall(y+d, h, "ffef", bedBolts=None, move="right")
-            self.rectangularWall(y, h, "ffef", bedBolts=None, move="up only")
+                self.rectangularWall(x+d, height, "fFeF", move="right")
+                self.rectangularWall(y+d, height, "ffef", move="right")
+                self.rectangularWall(x+d, height, "fFeF", move="right")
+                self.rectangularWall(y+d, height, "ffef", move="right")
+            self.rectangularWall(y, height, "ffef", move="up only")
 
         self.rectangularWall(x, y, "hhhh", bedBolts=None, move="right")
         self.rectangularWall(x+d, y+d, "FFFF", bedBolts=None, move="right")

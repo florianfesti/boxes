@@ -31,10 +31,14 @@ class UniversalBox(_TopEdge, _ChestLid):
         self.buildArgParser("top_edge", "bottom_edge",
                             "x", "y", "h", "outside")
         self.argparser.add_argument(
+            "--vertical_edges",  action="store", type=str,
+            default="finger joints",
+            choices=("finger joints", "finger holes"),
+            help="connections used for the vertical edges")
+        self.argparser.add_argument(
             "--lid",  action="store", type=str, default="default (none)",
             choices=("default (none)", "chest", "flat"),
             help="additional lid (for straight top_edge only)")
-        self.angle = 0
 
     def top_hole(self, x, y, top_edge):
         t = self.thickness
@@ -66,16 +70,18 @@ class UniversalBox(_TopEdge, _ChestLid):
 
         d2 = d3 = None
 
+        sideedge = "F" if self.vertical_edges == "finger joints" else "h"
+
         if self.outside:
-            self.x = x = self.adjustSize(x)
+            self.x = x = self.adjustSize(x, sideedge, sideedge)
             self.y = y = self.adjustSize(y)
             self.h = h = self.adjustSize(h, b, self.top_edge)
 
         with self.saved_context():
-            self.rectangularWall(x, h, [b, "F", t1, "F"],
+            self.rectangularWall(x, h, [b, sideedge, t1, sideedge],
                                  ignore_widths=[1, 6],
                                  bedBolts=[d2], move="up")
-            self.rectangularWall(x, h, [b, "F", t3, "F"],
+            self.rectangularWall(x, h, [b, sideedge, t3, sideedge],
                                  ignore_widths=[1, 6],
                                  bedBolts=[d2], move="up")
 
@@ -89,7 +95,7 @@ class UniversalBox(_TopEdge, _ChestLid):
             self.drawLid(x, y, self.top_edge, [d2, d3])
             self.drawAddOnLid(x, y, self.lid)
 
-        self.rectangularWall(x, h, [b, "F", t3, "F"],
+        self.rectangularWall(x, h, [b, sideedge, t3, sideedge],
                              ignore_widths=[1, 6],
                              bedBolts=[d2], move="right only")
         self.rectangularWall(y, h, [b, "f", t2, "f"],

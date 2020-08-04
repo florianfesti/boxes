@@ -1343,7 +1343,7 @@ class Boxes:
     }
 
     @restore
-    def NEMA(self, size, x=0, y=0, angle=0):
+    def NEMA(self, size, x=0, y=0, angle=0, screwholes=None):
         """Draw holes for mounting a NEMA stepper motor
 
         :param size: Nominal size in tenths of inches
@@ -1353,6 +1353,8 @@ class Boxes:
 
         """
         width, flange, holedistance, diameter = self.nema_sizes[size]
+        if screwholes:
+            diameter = screwholes
         self.moveTo(x, y, angle)
         if self.debug:
             self.rectangularHole(0, 0, width, width)

@@ -1603,11 +1603,20 @@ class LidSideLeft(LidSideRight):
 
 class ClickSettings(Settings):
     """Settings for Click-on Lids
+Values:
 
-    """
+* absolute_params
+
+  * angle : 5.0 : angle of the hooks bending outward
+
+* relative (in multiples of thickness)
+
+  * depth : 3.0 : length of the hooks
+  * bottom_radius : 0.1 : radius at the bottom
+"""
 
     absolute_params = {
-        "angle": 5,
+        "angle": 5.0,
     }
 
     relative_params = {

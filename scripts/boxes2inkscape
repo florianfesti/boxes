@@ -60,13 +60,15 @@ class Boxes2INX:
                     (name, max((len(l) for l in val))+10, len(val)+1, a.default)
         elif a.choices:
             return ('''      <param name="%s" type="enum" _gui-text="%s" gui-description=%s>\n'''
-                      % (name, viewname, quoteattr(a.help or "")) +
+                      % (name, viewname, quoteattr(a.help or viewname)) +
         "".join('        <item value="%s"%s>%s</item>\n' %
                 (e, ' selected="selected"' if e == a.default else "",
                  e) for e in a.choices) + '      </param>\n')
         else:
+            default = a.default
             if isinstance(a.type, boxes.BoolArg):
                 t = '"boolean"'
+                default = str(a.default).lower()
             elif a.type is boxes.argparseSections:
                 t = '"string"'
             else:
@@ -74,7 +76,7 @@ class Boxes2INX:
                       float : '"float" precision="2"',
                       str : '"string"',
                       }.get(a.type, '"string"')
-            return '''      <param name="%s" type=%s max="9999" _gui-text="%s" gui-description=%s>%s</param>\n''' % (name, t, viewname, quoteattr(a.help or ""), a.default)
+            return '''      <param name="%s" type=%s max="9999" _gui-text="%s" gui-description=%s>%s</param>\n''' % (name, t, viewname, quoteattr(a.help or viewname), default)
 
     def generator2inx(self, name, box):
         result = [ """<?xml version="1.0" encoding="UTF-8"?>

@@ -2581,7 +2581,7 @@ msgstr "Boîte Régulière"
 #. description of RegularBox
 #: boxes/generators/regularbox.py
 msgid "Box with regular polygon as base"
-msgstr "Bîte basée sur un polygone régulier"
+msgstr "Boîte basée sur un polygone régulier"
 
 msgid "RegularBox Settings"
 msgstr "Réglages de la Boîte Régulière"

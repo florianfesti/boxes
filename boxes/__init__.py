@@ -1181,10 +1181,10 @@ class Boxes:
     @holeCol
     def rectangularHole(self, x, y, dx, dy, r=0):
         """
-        Draw an rectangulat hole
+        Draw an rectangular hole
 
-        :param x: position
-        :param y: position
+        :param x: position of the center
+        :param y: position of the center
         :param dx: width
         :param dy: height
         :param r:  (Default value = 0) radius of the corners

@@ -1407,7 +1407,7 @@ class Boxes:
                     px += w
                 if skip and skip(x, y, r, b, px, py):
                     continue
-                self.hole(px, py, r)
+                self.hole(px, py, r=r)
 
     def __skipcircle(self, x, y, r, b, posx, posy):
         cx, cy = x / 2.0, y / 2.0

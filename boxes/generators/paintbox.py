@@ -49,9 +49,9 @@ class PaintStorage(Boxes):
         if self.hexpattern:
             self.moveTo(self.minspace/2, self.minspace/2)
             settings = self.hexHolesSettings
-            settings.setValues('diameter', self.candiameter)
-            settings.setValues('distance', self.minspace)
-            settings.setValues('style', 'cricle')
+            settings.diameter = self.candiameter
+            settings.distance = self.minspace
+            settings.style = 'circle'
             self.hexHolesRectangle(self.y - 1*self.minspace,
                                    self.x - 1*self.minspace,
                                    settings)

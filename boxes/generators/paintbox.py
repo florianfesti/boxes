@@ -48,9 +48,13 @@ class PaintStorage(Boxes):
 
         if self.hexpattern:
             self.moveTo(self.minspace/2, self.minspace/2)
+            settings = self.hexHolesSettings
+            settings.setValues('diameter', self.candiameter)
+            settings.setValues('distance', self.minspace)
+            settings.setValues('style', 'cricle')
             self.hexHolesRectangle(self.y - 1*self.minspace,
                                    self.x - 1*self.minspace,
-                (self.candiameter/2, self.minspace, 'circle'))
+                                   settings)
             return
         n_x = int(self.x / (self.candiameter+self.minspace))
         n_y = int(self.y / (self.candiameter+self.minspace))
@@ -71,7 +75,7 @@ class PaintStorage(Boxes):
         # adjust to the variables you want in the local scope
         x, y = self.x, self.y
         t = self.thickness
-        
+
 
         stack = self.edges['s'].settings
         h = self.canheight - stack.height - stack.holedistance + t

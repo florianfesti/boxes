@@ -452,7 +452,7 @@ class Boxes:
         prefix = prefix or settings.__name__[:-len("Settings")]
         settings.parserArguments(self.argparser, prefix, **defaults)
         self.edgesettings[prefix] =  {}
-        
+
 
     def parseArgs(self, args=None):
         """
@@ -469,7 +469,7 @@ class Boxes:
         args = [a for a in args if not a.startswith('--tab=')]
         self.metadata["cli"] = "boxes " + self.__class__.__name__ + " " + " ".join((quote(arg) for arg in args))
         for key, value in vars(self.argparser.parse_args(args=args)).items():
-            # treat edge settings separately 
+            # treat edge settings separately
             for setting in self.edgesettings:
                 if key.startswith(setting + '_'):
                     self.edgesettings[setting][key[len(setting)+1:]] = value
@@ -774,12 +774,12 @@ class Boxes:
     def curveTo(self, x1, y1, x2, y2, x3, y3):
         """control point 1, control point 2, end point
 
-        :param x1: 
-        :param y1: 
-        :param x2: 
-        :param y2: 
-        :param x3: 
-        :param y3: 
+        :param x1:
+        :param y1:
+        :param x2:
+        :param y2:
+        :param x3:
+        :param y3:
 
         """
         self.ctx.curve_to(x1, y1, x2, y2, x3, y3)
@@ -1383,6 +1383,7 @@ class Boxes:
 
 
         """
+
         if settings is None:
             settings = self.hexHolesSettings
         r, b, style = settings.diameter/2, settings.distance, settings.style
@@ -1437,12 +1438,12 @@ class Boxes:
         def skip(x, y, r, b, posx, posy):
             """
 
-            :param x: 
-            :param y: 
-            :param r: 
-            :param b: 
-            :param posx: 
-            :param posy: 
+            :param x:
+            :param y:
+            :param r:
+            :param b:
+            :param posx:
+            :param posy:
 
             """
             posx = abs(posx - (x / 2.0))
@@ -1670,7 +1671,7 @@ class Boxes:
         :param x: width of matching roundedPlate
         :param y: height of matching roundedPlate
         :param r: corner radius of matching roundedPlate
-        :param h: inner height of the wall (without edges) 
+        :param h: inner height of the wall (without edges)
         :param bottom:  (Default value = 'e') Edge type
         :param top:  (Default value = 'e') Edge type
         :param left: (Default value = 'D') left edge(s)
@@ -2116,7 +2117,7 @@ class Boxes:
         if not turtle:
             if self.move(tw, th, move, True):
                 return
-        
+
             self.moveTo(-minx, -miny)
 
         length_correction = 0.

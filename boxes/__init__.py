@@ -901,21 +901,31 @@ class Boxes:
 
         t = self.thickness
 
-        if corners % 2:
-            th = r + h + 2*t
-        else:
-            th = 2*h + 2*t
-        tw = 2*r + 3*t
-
-        if self.move(tw, th, move, before=True):
-            return
-
-        self.moveTo(r-0.5*side, 0)
-
         if not hasattr(edges, "__getitem__") or len(edges) == 1:
             edges = [edges] * corners
         edges = [self.edges.get(e, e) for e in edges]
         edges += edges # append for wrapping around
+
+        if corners % 2:
+            th = r + h + edges[0].spacing() + (
+                max(edges[corners//2].spacing(),
+                    edges[corners//2+1].spacing()) /
+                math.sin(math.radians(90-180/corners)))
+        else:
+            th = 2*h + edges[0].spacing() + edges[corners//2].spacing()
+
+        tw = 0
+        for i in range(corners):
+            ang = (180+360*i)/corners
+            tw = max(tw, 2*abs(math.sin(math.radians(ang))*
+                    (r + max(edges[i].spacing(), edges[i+1].spacing())/
+                     math.sin(math.radians(90-180/corners)))))
+
+        if self.move(tw, th, move, before=True):
+            return
+
+        self.moveTo(0.5*tw-0.5*side, edges[0].margin())
+
 
         if hole:
             self.hole(side/2., h+edges[0].startwidth() + self.burn, hole/2.)

@@ -232,7 +232,7 @@ class BServer:
 <hr />
 <h2 style="margin: 0px 0px 0px 20px;" >""", _(name), """</h2>
         <p>""", _(box.__doc__) if box.__doc__ else "", """</p>
-<form action="%s" method="GET" target="_blank">
+<form action="%s" method="GET">
         """ % (action)]
         groupid = 0
         for group in box.argparser._action_groups[3:] + box.argparser._action_groups[:3]:
@@ -249,7 +249,10 @@ class BServer:
             result.append("</table>")
             groupid += 1
         result.append("""
-<p><button name="render" value="1">""" + _("Generate") + """</button></p>
+<p>
+  <button name="render" value="1" formtarget="_blank">""" + _("Generate") + """</button>
+  <button name="render" value="0" formtarget="_self">""" + _("Save to URL") + """</button>
+</p>
 </form>
 
 </div>

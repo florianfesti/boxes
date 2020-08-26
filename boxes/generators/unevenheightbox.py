@@ -41,6 +41,9 @@ class UnevenHeightBox(Boxes):
         self.argparser.add_argument(
             "--lid", action="store", type=boolarg, default=False,
             help="add a lid (works best with high corners opposing each other)")
+        self.argparser.add_argument(
+            "--lid_height", action="store", type=float, default=0,
+            help="additional height of the lid")
 
     def render(self):
 
@@ -69,14 +72,14 @@ class UnevenHeightBox(Boxes):
 
             if self.lid:
                 maxh = max(heights)
-                lidheights = [maxh-h for h in heights]
+                lidheights = [maxh-h+self.lid_height for h in heights]
                 h0, h1, h2, h3 = lidheights
                 lidheights += lidheights
                 edges = ["E" if (lidheights[i] == 0.0 and lidheights[i+1] == 0.0) else "f" for i in range(4)]
                 self.rectangularWall(x, y, edges, move="up")
 
         if self.lid:
-            self.moveTo(0, maxh+self.edges["F"].spacing()+self.edges[b].spacing()+3*self.spacing, 180)
+            self.moveTo(0, maxh+self.lid_height+self.edges["F"].spacing()+self.edges[b].spacing()+3*self.spacing, 180)
             self.trapezoidWall(y, h0, h3, "Ffef", move="right" +
                       (" only" if h0 == h3 == 0.0 else ""))
             self.trapezoidWall(x, h3, h2, "FFeF", move="right" +

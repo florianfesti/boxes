@@ -343,6 +343,132 @@ class OutSetEdge(Edge):
 
 
 #############################################################################
+####     GroovedEdge
+#############################################################################
+
+class GroovedSettings(Settings):
+    """Settings for Grooved Edge
+Values:
+
+* absolute_params
+
+ * style : "flat" : the style of grooves
+ * tri_angle : 30 : the angle of triangular cuts
+ * arc_angle : 120 : the angle of arc cuts
+ * width : 0.1 : the groove width (fraction of the edge length)
+ * gap : 0.3 : gap between grooves (fraction of the edge length)
+ * margin : 0.0 : minimum margin around grooves (fraction of the edge length)
+ * inverse : False : invert the groove directions
+ * interleave : False : interleave groove directions
+
+* relative (in multiples of thickness)
+
+ * depth : 0.3 : depth of the grooves
+"""
+
+    PARAM_ARC = "arc"
+    PARAM_FLAT = "flat"
+    PARAM_TRIANGLE = "triangle"
+
+    absolute_params = {
+        "style": (PARAM_FLAT, PARAM_ARC, PARAM_TRIANGLE),
+        "tri_angle": 30,
+        "arc_angle": 120,
+        "width": 0.1,
+        "gap": 0.1,
+        "margin": 0.0,
+        "inverse": False,
+        "interleave": False,
+    }
+
+    relative_params = {
+        "depth": 0.3,
+    }
+
+    def edgeObjects(self, boxes, chars="zZ", add=True):
+        edges = [GroovedEdge(boxes, self),
+                 GroovedEdgeCounterPart(boxes, self)]
+        return self._edgeObjects(edges, boxes, chars, add)
+
+
+class GroovedEdgeBase(BaseEdge):
+    def is_inverse(self):
+        return self.settings.inverse != self.inverse
+
+    def __call__(self, length, **kw):
+        if length == 0.0:
+            return
+
+        style = self.settings.style
+        width = self.settings.width
+        margin = self.settings.margin
+        gap = self.settings.gap
+        interleave = self.settings.interleave
+
+        inv = 1 if self.is_inverse() else -1
+
+        count = int((1 - 2 * margin + gap) / (width + gap))
+
+        inside_width = count * (width + gap) - gap
+        margin = (1 - inside_width) / 2
+
+        margin = length * margin
+        gap = length * gap
+        width = length * width
+
+        # Fix for interleave and inverse
+        if interleave and self.inverse and count % 2 == 0:
+            inv = -inv
+
+        # The edge until the first groove
+        self.edge(margin)
+
+        # Grooves
+        for i in range(count):
+            if i > 0:
+                self.edge(gap)
+                if interleave:
+                    inv = -inv
+            if style == GroovedSettings.PARAM_FLAT:
+                self.edge(width)
+            elif style == GroovedSettings.PARAM_ARC:
+                angle = self.settings.arc_angle / 2
+                self.corner(inv * -angle)
+                side_length = width / math.sin(math.radians(angle)) / 2
+                self.corner(inv * angle, side_length)
+                self.corner(inv * angle, side_length)
+                self.corner(inv * -angle)
+            elif style == GroovedSettings.PARAM_TRIANGLE:
+                angle = self.settings.tri_angle
+                side_length = width / math.cos(math.radians(angle)) / 2
+                if True:
+                    self.corner(inv * -angle)
+                    self.edge(side_length)
+                    self.corner(inv * 2 * angle)
+                    self.edge(side_length)
+                    self.corner(inv * -angle)
+                else:
+                    self.edge(width)
+            else:
+                raise ValueError("Unknown GroovedEdge style: %s)" % style)
+
+        # The final edge
+        self.edge(margin)
+
+
+class GroovedEdge(GroovedEdgeBase):
+    description = """Edge with grooves"""
+    char = 'z'
+    inverse = False
+
+
+class GroovedEdgeCounterPart(GroovedEdgeBase):
+    description = """Edge with grooves (opposing side)"""
+    char = 'Z'
+    inverse = True
+
+
+#############################################################################
 ####     Gripping Edge
 #############################################################################
 

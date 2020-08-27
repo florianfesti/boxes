@@ -25,6 +25,7 @@ class UnevenHeightBox(Boxes):
     def __init__(self):
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings)
+        self.addSettingsArgs(edges.GroovedSettings)
         self.buildArgParser("x", "y", "outside", bottom_edge="F")
         self.argparser.add_argument(
             "--height0", action="store", type=float, default=50,
@@ -44,11 +45,16 @@ class UnevenHeightBox(Boxes):
         self.argparser.add_argument(
             "--lid_height", action="store", type=float, default=0,
             help="additional height of the lid")
-
+            "--edge_types", action="store", type=str, default="eeee",
+            help="which edges are flat (e) or grooved (z,Z), counter-clockwise from the front")
     def render(self):
 
         x, y = self.x, self.y
         heights = [self.height0, self.height1, self.height2, self.height3]
+
+        edge_types = self.edge_types
+        if len(edge_types) != 4 or any(et not in "ezZ" for et in edge_types):
+            raise ValueError("Wrong edge_types style: %s)" % edge_types)
 
         if self.outside:
             x = self.adjustSize(x)
@@ -61,10 +67,10 @@ class UnevenHeightBox(Boxes):
         h0, h1, h2, h3 = heights
         b = self.bottom_edge
 
-        self.trapezoidWall(x, h0, h1, [b, "F", "e", "F"], move="right")
-        self.trapezoidWall(y, h1, h2, [b, "f", "e", "f"], move="right")
-        self.trapezoidWall(x, h2, h3, [b, "F", "e", "F"], move="right")
-        self.trapezoidWall(y, h3, h0, [b, "f", "e", "f"], move="right")
+        self.trapezoidWall(x, h0, h1, [b, "F", edge_types[0], "F"], move="right")
+        self.trapezoidWall(y, h1, h2, [b, "f", edge_types[1], "f"], move="right")
+        self.trapezoidWall(x, h2, h3, [b, "F", edge_types[2], "F"], move="right")
+        self.trapezoidWall(y, h3, h0, [b, "f", edge_types[3], "f"], move="right")
 
         with self.saved_context():
             if b != "e":
@@ -80,13 +86,16 @@ class UnevenHeightBox(Boxes):
 
         if self.lid:
             self.moveTo(0, maxh+self.lid_height+self.edges["F"].spacing()+self.edges[b].spacing()+3*self.spacing, 180)
-            self.trapezoidWall(y, h0, h3, "Ffef", move="right" +
+            edge_inverse = {"e": "e", "z": "Z", "Z": "z"}
+            edge_types = [edge_inverse[et] for et in edge_types]
+            self.moveTo(0, maxh+self.edges["F"].spacing()+self.edges[b].spacing()+3*self.spacing, 180)
+            self.trapezoidWall(y, h0, h3, "Ff" + edge_types[3] + "f", move="right" +
                       (" only" if h0 == h3 == 0.0 else ""))
-            self.trapezoidWall(x, h3, h2, "FFeF", move="right" +
+            self.trapezoidWall(x, h3, h2, "FF" + edge_types[2] + "F", move="right" +
                       (" only" if h3 == h2 == 0.0 else ""))
-            self.trapezoidWall(y, h2, h1, "Ffef", move="right" +
+            self.trapezoidWall(y, h2, h1, "Ff" + edge_types[1] + "f", move="right" +
                       (" only" if h2 == h1 == 0.0 else ""))
-            self.trapezoidWall(x, h1, h0, "FFeF", move="right" +
+            self.trapezoidWall(x, h1, h0, "FF" + edge_types[0] + "F", move="right" +
                       (" only" if h1 == h0 == 0.0 else ""))
 
 

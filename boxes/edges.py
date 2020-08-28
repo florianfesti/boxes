@@ -360,10 +360,6 @@ Values:
  * margin : 0.3 : minimum margin around grooves (fraction of the edge length)
  * inverse : False : invert the groove directions
  * interleave : False : interleave groove directions
-
-* relative (in multiples of thickness)
-
- * depth : 0.3 : depth of the grooves
 """
 
     PARAM_ARC = "arc"
@@ -379,10 +375,6 @@ Values:
         "margin": 0.3,
         "inverse": False,
         "interleave": False,
-    }
-
-    relative_params = {
-        "depth": 0.3,
     }
 
     def edgeObjects(self, boxes, chars="zZ", add=True):

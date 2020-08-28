@@ -352,12 +352,12 @@ Values:
 
 * absolute_params
 
- * style : "flat" : the style of grooves
+ * style : "arc" : the style of grooves
  * tri_angle : 30 : the angle of triangular cuts
  * arc_angle : 120 : the angle of arc cuts
- * width : 0.1 : the groove width (fraction of the edge length)
- * gap : 0.3 : gap between grooves (fraction of the edge length)
- * margin : 0.0 : minimum margin around grooves (fraction of the edge length)
+ * width : 0.2 : the groove width (fraction of the edge length)
+ * gap : 0.1 : gap between grooves (fraction of the edge length)
+ * margin : 0.3 : minimum margin around grooves (fraction of the edge length)
  * inverse : False : invert the groove directions
  * interleave : False : interleave groove directions
 
@@ -371,12 +371,12 @@ Values:
     PARAM_TRIANGLE = "triangle"
 
     absolute_params = {
-        "style": (PARAM_FLAT, PARAM_ARC, PARAM_TRIANGLE),
+        "style": (PARAM_ARC, PARAM_FLAT, PARAM_TRIANGLE),
         "tri_angle": 30,
         "arc_angle": 120,
-        "width": 0.1,
+        "width": 0.2,
         "gap": 0.1,
-        "margin": 0.0,
+        "margin": 0.3,
         "inverse": False,
         "interleave": False,
     }

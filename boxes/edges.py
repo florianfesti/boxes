@@ -441,14 +441,11 @@ class GroovedEdgeBase(BaseEdge):
             elif style == GroovedSettings.PARAM_TRIANGLE:
                 angle = self.settings.tri_angle
                 side_length = width / math.cos(math.radians(angle)) / 2
-                if True:
-                    self.corner(inv * -angle)
-                    self.edge(side_length)
-                    self.corner(inv * 2 * angle)
-                    self.edge(side_length)
-                    self.corner(inv * -angle)
-                else:
-                    self.edge(width)
+                self.corner(inv * -angle)
+                self.edge(side_length)
+                self.corner(inv * 2 * angle)
+                self.edge(side_length)
+                self.corner(inv * -angle)
             else:
                 raise ValueError("Unknown GroovedEdge style: %s)" % style)
 

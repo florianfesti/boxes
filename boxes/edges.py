@@ -364,10 +364,11 @@ Values:
 
     PARAM_ARC = "arc"
     PARAM_FLAT = "flat"
+    PARAM_SOFTARC = "softarc"
     PARAM_TRIANGLE = "triangle"
 
     absolute_params = {
-        "style": (PARAM_ARC, PARAM_FLAT, PARAM_TRIANGLE),
+        "style": (PARAM_ARC, PARAM_FLAT, PARAM_TRIANGLE, PARAM_SOFTARC),
         "tri_angle": 30,
         "arc_angle": 120,
         "width": 0.2,
@@ -425,11 +426,18 @@ class GroovedEdgeBase(BaseEdge):
                 self.edge(width)
             elif style == GroovedSettings.PARAM_ARC:
                 angle = self.settings.arc_angle / 2
-                self.corner(inv * -angle)
                 side_length = width / math.sin(math.radians(angle)) / 2
+                self.corner(inv * -angle)
                 self.corner(inv * angle, side_length)
                 self.corner(inv * angle, side_length)
                 self.corner(inv * -angle)
+            elif style == GroovedSettings.PARAM_SOFTARC:
+                angle = self.settings.arc_angle / 2
+                side_length = width / math.sin(math.radians(angle)) / 4
+                self.corner(inv * -angle, side_length)
+                self.corner(inv * angle, side_length)
+                self.corner(inv * angle, side_length)
+                self.corner(inv * -angle, side_length)
             elif style == GroovedSettings.PARAM_TRIANGLE:
                 angle = self.settings.tri_angle
                 side_length = width / math.cos(math.radians(angle)) / 2

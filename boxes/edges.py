@@ -398,18 +398,18 @@ class GroovedEdgeBase(BaseEdge):
         gap = self.settings.gap
         interleave = self.settings.interleave
 
-        inv = 1 if self.is_inverse() else -1
-
+        # Check how many grooves fit
         count = int((1 - 2 * margin + gap) / (width + gap))
-
         inside_width = count * (width + gap) - gap
         margin = (1 - inside_width) / 2
 
+        # Convert to actual length
         margin = length * margin
         gap = length * gap
         width = length * width
 
-        # Fix for interleave and inverse
+        # Determine the initial inversion
+        inv = 1 if self.is_inverse() else -1
         if interleave and self.inverse and count % 2 == 0:
             inv = -inv
 

@@ -392,15 +392,23 @@ class GroovedEdgeBase(BaseEdge):
         if length == 0.0:
             return
 
+        def check_bounds(val, mn, mx, name):
+            if not mn <= val <= mx:
+                raise ValueError(f"{name} needs to be in [{mn}, {mx}] but is {val}")
+
         style = self.settings.style
         width = self.settings.width
         margin = self.settings.margin
         gap = self.settings.gap
         interleave = self.settings.interleave
 
+        check_bounds(width, 0, 1, "width")
+        check_bounds(margin, 0, 0.5, "margin")
+        check_bounds(gap, 0, 1, "gap")
+
         # Check how many grooves fit
-        count = int((1 - 2 * margin + gap) / (width + gap))
-        inside_width = count * (width + gap) - gap
+        count = max(0, int((1 - 2 * margin + gap) / (width + gap)))
+        inside_width = max(0, count * (width + gap) - gap)
         margin = (1 - inside_width) / 2
 
         # Convert to actual length
@@ -414,7 +422,7 @@ class GroovedEdgeBase(BaseEdge):
             inv = -inv
 
         # The edge until the first groove
-        self.edge(margin)
+        self.edge(margin, tabs=1)
 
         # Grooves
         for i in range(count):
@@ -450,7 +458,7 @@ class GroovedEdgeBase(BaseEdge):
                 raise ValueError("Unknown GroovedEdge style: %s)" % style)
 
         # The final edge
-        self.edge(margin)
+        self.edge(margin, tabs=1)
 
 
 class GroovedEdge(GroovedEdgeBase):

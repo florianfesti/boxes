@@ -1880,6 +1880,7 @@ class FlexEdge(BaseEdge):
         sections = max(int((h - connection) // width), 1)
         sheight = ((h - connection) / sections) - connection
 
+        self.ctx.stroke()
         for i in range(1, lines):
             pos = i * dist + leftover / 2
 
@@ -1911,6 +1912,7 @@ class FlexEdge(BaseEdge):
                                          h - connection - 2 * j * (sheight + connection))
                         self.ctx.line_to(pos, h - 2 * (j + 1) * (sheight + connection))
 
+        self.ctx.stroke()
         self.ctx.move_to(0, 0)
         self.ctx.line_to(x, 0)
         self.ctx.translate(*self.ctx.get_current_point())

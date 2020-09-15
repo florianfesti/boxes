@@ -494,11 +494,17 @@ Creation date: {date}
             for j, path in enumerate(part.pathes):
                 p = []
                 x, y = 0, 0
+                start = None
+                last = None
                 path.faster_edges()
                 for c in path.path:
                     x0, y0 = x, y
                     C, x, y = c[0:3]
                     if C == "M":
+                        if start and points_equal(start[1], start[2],
+                                                  last[1], last[2]):
+                            p.append("Z")
+                        start = c
                         p.append(f"M {x:.3f} {y:.3f}")
                     elif C == "L":
                         if abs(x - x0) < EPS:
@@ -531,6 +537,12 @@ Creation date: {date}
                         t.set("alignment-baseline", 'hanging')
                     else:
                         print("Unknown", c)
+
+                    last = c
+
+                if start and start is not last and \
+                   points_equal(start[1], start[2], last[1], last[2]):
+                    p.append("Z")
                 color = (
                     random_svg_color()
                     if RANDOMIZE_COLORS
@@ -539,11 +551,6 @@ Creation date: {date}
                 if p and p[-1][0] == "M":
                     p.pop()
                 if p:  # might be empty if only contains text
-                    if points_equal(path.path[0][1],
-                                    path.path[0][2],
-                                    path.path[-1][1],
-                                    path.path[-1][2]):
-                        p.append("Z")
                     t = ET.SubElement(g, "path", d=" ".join(p), stroke=color)
                     t.set("stroke-width", f'{path.params["lw"]:.2f}')
                     t.tail = "\n  "

@@ -92,7 +92,7 @@ class TypeTray(_TopEdge):
         # outer walls
         b = self.bottom_edge
         t1, t2, t3, t4 = self.topEdges(self.top_edge)
-        self.closedtop = self.top_edge in "fF"
+        self.closedtop = self.top_edge in "fFh"
 
         # x sides
 

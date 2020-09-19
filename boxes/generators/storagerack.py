@@ -71,7 +71,7 @@ class StorageRack(Boxes):
         # outer walls
         b = self.bottom_edge
         t = self.top_edge
-        self.closedtop = self.top_edge in "fF"
+        self.closedtop = self.top_edge in "fFh"
 
         # sides
 

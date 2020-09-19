@@ -15,9 +15,10 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from functools import partial
 from boxes import Boxes, edges, boolarg
 import math
-from functools import partial
+
 
 class DividerTray(Boxes):
     """Divider tray - rows and dividers"""
@@ -86,10 +87,7 @@ class DividerTray(Boxes):
             help="generate wall on the right side",
         )
         self.argparser.add_argument(
-            "--bottom",
-            type=boolarg,
-            default=False,
-            help="generate wall on the bottom",
+            "--bottom", type=boolarg, default=False, help="generate wall on the bottom",
         )
 
     def render(self):
@@ -98,7 +96,15 @@ class DividerTray(Boxes):
         if side_walls_number == 0:
             raise ValueError("You need at least one side wall to generate this tray")
 
-        slot_descriptions = self.generate_slot_descriptions(self.sy)
+        slot_descriptions = SlotDescriptionsGenerator().generate_all_same_angles(
+            self.sy,
+            self.thickness,
+            self.slot_extra_slack,
+            self.slot_depth,
+            self.h,
+            self.slot_angle,
+            self.slot_radius,
+        )
 
         if self.outside:
             self.sx = self.adjustSize(self.sx, self.left_wall, self.right_wall)
@@ -119,7 +125,12 @@ class DividerTray(Boxes):
             self.rectangularWall(
                 facing_wall_length,
                 self.h,
-                [bottom_edge(self.bottom), side_edge(self.right_wall), "e", side_edge(self.left_wall)],
+                [
+                    bottom_edge(self.bottom),
+                    side_edge(self.right_wall),
+                    "e",
+                    side_edge(self.left_wall),
+                ],
                 callback=[partial(self.generate_finger_holes, self.h)],
                 move="up",
             )
@@ -144,12 +155,18 @@ class DividerTray(Boxes):
 
         # Bottom piece.
         if self.bottom:
-            self.rectangularWall(facing_wall_length, side_wall_length,
-                                 ["f",
-                                  "f" if self.right_wall else "e",
-                                  "f",
-                                  "f" if self.left_wall else "e"],
-                    callback=[partial(self.generate_finger_holes, side_wall_length)], move="up")
+            self.rectangularWall(
+                facing_wall_length,
+                side_wall_length,
+                [
+                    "f",
+                    "f" if self.right_wall else "e",
+                    "f",
+                    "f" if self.left_wall else "e",
+                ],
+                callback=[partial(self.generate_finger_holes, side_wall_length)],
+                move="up",
+            )
 
         # Dividers
         divider_height = (
@@ -208,61 +225,6 @@ class DividerTray(Boxes):
             )
             self.text(str.join("\n", debug_info), x=5, y=5, align="bottom left")
 
-    def generate_slot_descriptions(self, sections):
-        slot_width = self.thickness + self.slot_extra_slack
-
-        descriptions = SlottedEdgeDescriptions()
-
-        # Special case: if first slot start at 0, then radius is 0
-        first_correction = 0
-        current_section = 0
-        if sections[0] == 0:
-            slot = SlotDescription(
-                slot_width,
-                depth=self.slot_depth,
-                angle=self.slot_angle,
-                start_radius=0,
-                end_radius=self.slot_radius,
-            )
-            descriptions.add(slot)
-            first_correction = slot.round_edge_end_correction()
-            current_section += 1
-
-        first_length = sections[current_section]
-        current_section += 1
-        descriptions.add(
-            StraightEdgeDescription(
-                first_length, round_edge_compensation=first_correction
-            )
-        )
-
-        for l in sections[current_section:]:
-            slot = SlotDescription(
-                slot_width,
-                depth=self.slot_depth,
-                angle=self.slot_angle,
-                radius=self.slot_radius,
-            )
-
-            # Fix previous edge length
-            previous_edge = descriptions.get_last_edge()
-            previous_edge.round_edge_compensation += slot.round_edge_start_correction()
-
-            # Add this slot
-            descriptions.add(slot)
-
-            # Add the straigth edge after this slot
-            descriptions.add(
-                StraightEdgeDescription(l, slot.round_edge_end_correction())
-            )
-
-        # We need to add extra space for the divider (or the actual content)
-        # to slide all the way down to the bottom of the tray in spite of walls
-        end_length = self.h * math.tan(math.radians(self.slot_angle))
-        descriptions.get_last_edge().angle_compensation += end_length
-
-        return descriptions
-
     def generate_finger_holes(self, length):
         posx = -0.5 * self.thickness
         for x in self.sx[:-1]:
@@ -287,41 +249,42 @@ class DividerTray(Boxes):
 
         # Upper: divider width (with notch if possible)
         if upper_third > 0:
-            self.edge(upper_third)
-            self.corner(90, upper_radius)
-            self.edge(self.divider_notch_depth - upper_radius - lower_radius)
-            self.corner(-90, lower_radius)
-            self.edge(upper_third)
-            self.corner(-90, lower_radius)
-            self.edge(self.divider_notch_depth - upper_radius - lower_radius)
-            self.corner(90, upper_radius)
-            self.edge(upper_third)
+            self.polyline(
+                upper_third,
+                (90, upper_radius),
+                self.divider_notch_depth - upper_radius - lower_radius,
+                (-90, lower_radius),
+                upper_third,
+                (-90, lower_radius),
+                self.divider_notch_depth - upper_radius - lower_radius,
+                (90, upper_radius),
+                upper_third,
+            )
         else:
             # if there isn't enough room for the radius, we don't use it
             self.edge(width)
 
-        # Upper: second tab width if needed
-        self.edge(second_tab_width)
-
-        # First side, with tab depth only if there is 2 walls
-        self.corner(90)
-        self.edge(self.slot_depth)
-        self.corner(90)
-        self.edge(second_tab_width)
-        self.corner(-90)
-        self.edge(height - self.slot_depth)
-
-        # Lower edge
-        self.corner(90)
-        self.edge(width)
-
-        # Second side, always a tab
-        self.corner(90)
-        self.edge(height - self.slot_depth)
-        self.corner(-90)
-        self.edge(self.thickness)
-        self.corner(90)
-        self.edge(self.slot_depth)
+        self.polyline(
+            # Upper: second tab width if needed
+            second_tab_width,
+            # First side, with tab depth only if there is 2 walls
+            90,
+            self.slot_depth,
+            90,
+            second_tab_width,
+            -90,
+            height - self.slot_depth,
+            # Lower edge
+            90,
+            width,
+            # Second side, always a tab
+            90,
+            height - self.slot_depth,
+            -90,
+            self.thickness,
+            90,
+            self.slot_depth,
+        )
 
         # Move for next piece
         self.move(total_width, height, move)
@@ -481,6 +444,56 @@ class SlotDescription:
         )
 
 
+class SlotDescriptionsGenerator:
+    def generate_all_same_angles(
+        self, sections, thickness, extra_slack, depth, height, angle, radius=2,
+    ):
+        width = thickness + extra_slack
+
+        descriptions = SlottedEdgeDescriptions()
+
+        # Special case: if first slot start at 0, then radius is 0
+        first_correction = 0
+        current_section = 0
+        if sections[0] == 0:
+            slot = SlotDescription(
+                width, depth=depth, angle=angle, start_radius=0, end_radius=radius,
+            )
+            descriptions.add(slot)
+            first_correction = slot.round_edge_end_correction()
+            current_section += 1
+
+        first_length = sections[current_section]
+        current_section += 1
+        descriptions.add(
+            StraightEdgeDescription(
+                first_length, round_edge_compensation=first_correction
+            )
+        )
+
+        for l in sections[current_section:]:
+            slot = SlotDescription(width, depth=depth, angle=angle, radius=radius,)
+
+            # Fix previous edge length
+            previous_edge = descriptions.get_last_edge()
+            previous_edge.round_edge_compensation += slot.round_edge_start_correction()
+
+            # Add this slot
+            descriptions.add(slot)
+
+            # Add the straigth edge after this slot
+            descriptions.add(
+                StraightEdgeDescription(l, slot.round_edge_end_correction())
+            )
+
+        # We need to add extra space for the divider (or the actual content)
+        # to slide all the way down to the bottom of the tray in spite of walls
+        end_length = height * math.tan(math.radians(angle))
+        descriptions.get_last_edge().angle_compensation += end_length
+
+        return descriptions
+
+
 class DividerSlotsEdge(edges.BaseEdge):
     """Edge with multiple angled rounded slots for dividers"""
 
@@ -513,13 +526,16 @@ class DividerSlotsEdge(edges.BaseEdge):
     def do_slot(self, slot):
         self.ctx.save()
 
-        self.corner(90 - slot.angle, slot.start_radius)
-        self.edge(slot.corrected_start_depth())
-        self.corner(-90)
-        self.edge(slot.width)
-        self.corner(-90)
-        self.edge(slot.corrected_end_depth())
-        self.corner(90 + slot.angle, slot.end_radius)
+        self.polyline(
+            0,
+            (90 - slot.angle, slot.start_radius),
+            slot.corrected_start_depth(),
+            -90,
+            slot.width,
+            -90,
+            slot.corrected_end_depth(),
+            (90 + slot.angle, slot.end_radius),
+        )
 
         # rounding errors might accumulates :
         # restore context and redo the move straight

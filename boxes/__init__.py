@@ -1189,19 +1189,23 @@ class Boxes:
 
     @restore
     @holeCol
-    def rectangularHole(self, x, y, dx, dy, r=0):
+    def rectangularHole(self, x, y, dx, dy, r=0, center_x=True, center_y=True):
         """
-        Draw an rectangular hole
+        Draw a rectangular hole
 
-        :param x: position of the center
-        :param y: position of the center
+        :param x: position
+        :param y: position
         :param dx: width
         :param dy: height
         :param r:  (Default value = 0) radius of the corners
+        :param center_x:  (Default value = True) if True, x position is the center, else the start
+        :param center_y:  (Default value = True) if True, y position is the center, else the start
 
         """
         r = min(r, dx/2., dy/2.)
-        self.moveTo(x, y - dy / 2.0 + self.burn, 180)
+        x_start = x if center_x else x + dx / 2.0
+        y_start = y - dy / 2.0 if center_y else y
+        self.moveTo(x_start, y_start + self.burn, 180)
         self.edge(dx / 2.0 - r) # start with an edge to allow easier change of inner corners
         for d in (dy, dx, dy, dx / 2.0 + r):
             self.corner(-90, r)

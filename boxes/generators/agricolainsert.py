@@ -540,10 +540,22 @@ protruding underneath.
         bed_inner_height = player_box_height - self.thickness
         bed_inner_length = 66.75
         bed_inner_width = 50.5
-        bed_foot_height = 6.5
+        cardboard_bed_foot_height = 6.5
+        cardboard_bed_hole_margin = 5
+        cardboard_bed_hole_length = 12
+        bed_head_length = 20
+        bed_foot_height = 18
+        support_length = 38
 
-        bed_edge = Bed2SidesEdge(self, bed_inner_length)
+        bed_edge = Bed2SidesEdge(
+            self, bed_inner_length, bed_head_length, bed_foot_height
+        )
         noop_edge = NoopEdge(self)
+        self.ctx.save()
+        optim_180_x = (
+            bed_inner_length + self.thickness + bed_head_length + 2 * self.spacing
+        )
+        optim_180_y = 2 * bed_foot_height - player_box_height + 2 * self.spacing
         for _ in range(2):
             self.rectangularWall(
                 bed_inner_length,
@@ -551,10 +563,10 @@ protruding underneath.
                 ["F", bed_edge, noop_edge, "F"],
                 move="up",
             )
+            self.moveTo(optim_180_x, optim_180_y, -180)
+        self.ctx.restore()
+        self.moveTo(0, bed_inner_height + self.thickness + self.spacing + optim_180_y)
 
-        bed_hole_margin = 5
-        bed_hole_length = 12
-        support_length = 38
         self.rectangularWall(
             bed_inner_length,
             bed_inner_width,
@@ -564,8 +576,8 @@ protruding underneath.
                 partial(
                     self.generate_bed_holes,
                     bed_inner_width,
-                    bed_hole_margin,
-                    bed_hole_length,
+                    cardboard_bed_hole_margin,
+                    cardboard_bed_hole_length,
                     support_length,
                 )
             ],
@@ -580,7 +592,7 @@ protruding underneath.
         )
         for _ in range(2):
             self.rectangularWall(
-                bed_foot_height - self.thickness,
+                cardboard_bed_foot_height - self.thickness,
                 support_length,
                 "efee",
                 move="right",
@@ -595,9 +607,7 @@ protruding underneath.
 
         self.ctx.restore()
         self.rectangularWall(
-            bed_inner_width
-            + 2 * bed_foot_height
-            + 2 * self.spacing,
+            bed_inner_length + bed_head_length + self.spacing - self.thickness,
             0,
             "FFFF",
             move="right only",
@@ -874,16 +884,18 @@ class Bed2SidesEdge(edges.BaseEdge):
     The next edge should be a NoopEdge
     """
 
-    def __init__(self, boxes, bed_length):
+    def __init__(self, boxes, bed_length, full_head_length, full_foot_height):
         super(Bed2SidesEdge, self).__init__(boxes, None)
         self.bed_length = bed_length
+        self.full_head_length = full_head_length
+        self.full_foot_height = full_foot_height
 
     def __call__(self, bed_height, **kw):
         foot_corner = 6
-        foot_height = 18 - self.thickness - foot_corner
         middle_corner = 3
         head_corner = 10
-        head_length = 10 - self.thickness
+        foot_height = self.full_foot_height - self.thickness - foot_corner
+        head_length = self.full_head_length - head_corner - self.thickness
         corners = foot_corner + middle_corner + head_corner
         head_height = bed_height - foot_height - corners
         middle_length = self.bed_length - head_length - corners

@@ -19,7 +19,7 @@ a {
     color: #5F584A;
 }
 
-li {
+.menu li {
 	color: #666;
 	list-style-type: none;
 	}
@@ -145,26 +145,26 @@ img[id|=sample] {
 	right: calc(50% - 498px);
 }
 
-ul {
+.menu ul {
 	padding-left: 5px;
 	}
 
-ul li {
+.menu ul li {
 	padding: 5px 5px 5px 10px;
 	}
 
-ul li:hover {
+.menu ul li:hover {
 	background-color: #333;
 	color: #eee;
 	-webkit-border-radius: 10px;
 	border-radius: 10px;
 	}
 
-ul li:hover a {
+.menu ul li:hover a {
 	color: #bbb;
 	}
 
-ul li span {
+.menu ul li span {
 	display: none;
 	font-size: 1.8em;
 	font-weight: bold;
@@ -172,7 +172,7 @@ ul li span {
 	margin-left: 10px;
 }
 
-ul li:hover span {
+.menu ul li:hover span {
 	display: inline-block;
 
 }

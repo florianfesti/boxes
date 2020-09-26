@@ -330,7 +330,7 @@ class BServer:
 <div>
 <div class="clear"></div>
 <hr />
-<div style="width: 100%">
+<div class="menu" style="width: 100%">
 """ ]
         for nr, group in enumerate(self.groups):
             result.append('''<h3 id="h-%s" class="open" onclick="showHide('%s')">%s</h3>\n<div id="%s">\n''' % (nr, nr, _(group.title), nr))

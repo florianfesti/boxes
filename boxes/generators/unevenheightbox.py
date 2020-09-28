@@ -45,8 +45,10 @@ class UnevenHeightBox(Boxes):
         self.argparser.add_argument(
             "--lid_height", action="store", type=float, default=0,
             help="additional height of the lid")
+        self.argparser.add_argument(
             "--edge_types", action="store", type=str, default="eeee",
             help="which edges are flat (e) or grooved (z,Z), counter-clockwise from the front")
+
     def render(self):
 
         x, y = self.x, self.y

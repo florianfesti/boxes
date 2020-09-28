@@ -343,6 +343,137 @@ class OutSetEdge(Edge):
 
 
 #############################################################################
+####     GroovedEdge
+#############################################################################
+
+class GroovedSettings(Settings):
+    """Settings for Grooved Edge
+Values:
+
+* absolute_params
+
+ * style : "arc" : the style of grooves
+ * tri_angle : 30 : the angle of triangular cuts
+ * arc_angle : 120 : the angle of arc cuts
+ * width : 0.2 : the width of each groove (fraction of the edge length)
+ * gap : 0.1 : the gap between grooves (fraction of the edge length)
+ * margin : 0.3 : minimum space left and right without grooves (fraction of the edge length)
+ * inverse : False : invert the groove directions
+ * interleave : False : alternate the direction of grooves
+"""
+
+    PARAM_ARC = "arc"
+    PARAM_FLAT = "flat"
+    PARAM_SOFTARC = "softarc"
+    PARAM_TRIANGLE = "triangle"
+
+    absolute_params = {
+        "style": (PARAM_ARC, PARAM_FLAT, PARAM_TRIANGLE, PARAM_SOFTARC),
+        "tri_angle": 30,
+        "arc_angle": 120,
+        "width": 0.2,
+        "gap": 0.1,
+        "margin": 0.3,
+        "inverse": False,
+        "interleave": False,
+    }
+
+    def edgeObjects(self, boxes, chars="zZ", add=True):
+        edges = [GroovedEdge(boxes, self),
+                 GroovedEdgeCounterPart(boxes, self)]
+        return self._edgeObjects(edges, boxes, chars, add)
+
+
+class GroovedEdgeBase(BaseEdge):
+    def is_inverse(self):
+        return self.settings.inverse != self.inverse
+
+    def __call__(self, length, **kw):
+        if length == 0.0:
+            return
+
+        def check_bounds(val, mn, mx, name):
+            if not mn <= val <= mx:
+                raise ValueError(f"{name} needs to be in [{mn}, {mx}] but is {val}")
+
+        style = self.settings.style
+        width = self.settings.width
+        margin = self.settings.margin
+        gap = self.settings.gap
+        interleave = self.settings.interleave
+
+        check_bounds(width, 0, 1, "width")
+        check_bounds(margin, 0, 0.5, "margin")
+        check_bounds(gap, 0, 1, "gap")
+
+        # Check how many grooves fit
+        count = max(0, int((1 - 2 * margin + gap) / (width + gap)))
+        inside_width = max(0, count * (width + gap) - gap)
+        margin = (1 - inside_width) / 2
+
+        # Convert to actual length
+        margin = length * margin
+        gap = length * gap
+        width = length * width
+
+        # Determine the initial inversion
+        inv = 1 if self.is_inverse() else -1
+        if interleave and self.inverse and count % 2 == 0:
+            inv = -inv
+
+        # The edge until the first groove
+        self.edge(margin, tabs=1)
+
+        # Grooves
+        for i in range(count):
+            if i > 0:
+                self.edge(gap)
+                if interleave:
+                    inv = -inv
+            if style == GroovedSettings.PARAM_FLAT:
+                self.edge(width)
+            elif style == GroovedSettings.PARAM_ARC:
+                angle = self.settings.arc_angle / 2
+                side_length = width / math.sin(math.radians(angle)) / 2
+                self.corner(inv * -angle)
+                self.corner(inv * angle, side_length)
+                self.corner(inv * angle, side_length)
+                self.corner(inv * -angle)
+            elif style == GroovedSettings.PARAM_SOFTARC:
+                angle = self.settings.arc_angle / 2
+                side_length = width / math.sin(math.radians(angle)) / 4
+                self.corner(inv * -angle, side_length)
+                self.corner(inv * angle, side_length)
+                self.corner(inv * angle, side_length)
+                self.corner(inv * -angle, side_length)
+            elif style == GroovedSettings.PARAM_TRIANGLE:
+                angle = self.settings.tri_angle
+                side_length = width / math.cos(math.radians(angle)) / 2
+                self.corner(inv * -angle)
+                self.edge(side_length)
+                self.corner(inv * 2 * angle)
+                self.edge(side_length)
+                self.corner(inv * -angle)
+            else:
+                raise ValueError("Unknown GroovedEdge style: %s)" % style)
+
+        # The final edge
+        self.edge(margin, tabs=1)
+
+
+class GroovedEdge(GroovedEdgeBase):
+    description = """Edge with grooves"""
+    char = 'z'
+    inverse = False
+
+
+class GroovedEdgeCounterPart(GroovedEdgeBase):
+    description = """Edge with grooves (opposing side)"""
+    char = 'Z'
+    inverse = True
+
+
+#############################################################################
 ####     Gripping Edge
 #############################################################################
 

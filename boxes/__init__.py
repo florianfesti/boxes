@@ -541,6 +541,9 @@ class Boxes:
         # Rounded Triangle Edge
         edges.RoundedTriangleEdgeSettings(self.thickness, True,
                 **self.edgesettings.get("RoundedTriangleEdge", {})).edgeObjects(self)
+        # Grooved Edge
+        edges.GroovedSettings(self.thickness, True,
+                              **self.edgesettings.get("Grooved", {})).edgeObjects(self)
 
         # HexHoles
         self.hexHolesSettings = HexHolesSettings(self.thickness, True,

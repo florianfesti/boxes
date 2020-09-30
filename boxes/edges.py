@@ -388,6 +388,32 @@ class GroovedEdgeBase(BaseEdge):
     def is_inverse(self):
         return self.settings.inverse != self.inverse
 
+
+    def groove_arc(self, width, angle=90, inv=-1.0):
+        side_length = width / math.sin(math.radians(angle)) / 2
+        self.corner(inv * -angle)
+        self.corner(inv * angle, side_length)
+        self.corner(inv * angle, side_length)
+        self.corner(inv * -angle)
+
+
+    def groove_soft_arc(self, width, angle=60, inv=-1.0):
+        side_length = width / math.sin(math.radians(angle)) / 4
+        self.corner(inv * -angle, side_length)
+        self.corner(inv * angle, side_length)
+        self.corner(inv * angle, side_length)
+        self.corner(inv * -angle, side_length)
+
+
+    def groove_triangle(self, width, angle=45, inv=-1.0):
+        side_length = width / math.cos(math.radians(angle)) / 2
+        self.corner(inv * -angle)
+        self.edge(side_length)
+        self.corner(inv * 2 * angle)
+        self.edge(side_length)
+        self.corner(inv * -angle)
+
+
     def __call__(self, length, **kw):
         if length == 0.0:
             return
@@ -434,26 +460,13 @@ class GroovedEdgeBase(BaseEdge):
                 self.edge(width)
             elif style == GroovedSettings.PARAM_ARC:
                 angle = self.settings.arc_angle / 2
-                side_length = width / math.sin(math.radians(angle)) / 2
-                self.corner(inv * -angle)
-                self.corner(inv * angle, side_length)
-                self.corner(inv * angle, side_length)
-                self.corner(inv * -angle)
+                self.groove_arc(width, angle, inv)
             elif style == GroovedSettings.PARAM_SOFTARC:
                 angle = self.settings.arc_angle / 2
-                side_length = width / math.sin(math.radians(angle)) / 4
-                self.corner(inv * -angle, side_length)
-                self.corner(inv * angle, side_length)
-                self.corner(inv * angle, side_length)
-                self.corner(inv * -angle, side_length)
+                self.groove_soft_arc(width, angle, inv)
             elif style == GroovedSettings.PARAM_TRIANGLE:
                 angle = self.settings.tri_angle
-                side_length = width / math.cos(math.radians(angle)) / 2
-                self.corner(inv * -angle)
-                self.edge(side_length)
-                self.corner(inv * 2 * angle)
-                self.edge(side_length)
-                self.corner(inv * -angle)
+                self.groove_triangle(width, angle, inv)
             else:
                 raise ValueError("Unknown GroovedEdge style: %s)" % style)
 
@@ -1600,7 +1613,14 @@ class LidSettings(FingerJointSettings):
 
 Note that edge_width below also determines how much the sides extend above the lid.
 
-Inherited:
+Values:
+
+* absolute_params
+
+ * second_pin : True : additional pin for better positioning
+ * spring : "both" : position(s) of the extra locking springs in the lid
+ * hole_width : 0 : width of the "finger hole" in mm
+
 
     """
     __doc__ += FingerJointSettings.__doc__
@@ -1617,6 +1637,7 @@ Inherited:
     absolute_params.update( {
         "second_pin": True,
         "spring": ("both", "none", "left", "right"),
+        "hole_width": 0
         } )
 
     def edgeObjects(self, boxes, chars=None, add=True):
@@ -1633,9 +1654,27 @@ class LidEdge(FingerJointEdge):
     char = "l"
     description = "Edge for slide on lid (back)"
 
+    def __call__(self, length, bedBolts=None, bedBoltSettings=None, **kw):
+        hole_width = self.settings.hole_width;
+        if hole_width > 0:
+            super().__call__((length - hole_width) / 2)
+            GroovedEdgeBase.groove_arc(self, hole_width)
+            super().__call__((length - hole_width) / 2)
+        else:
+            super().__call__(length)
+
 class LidHoleEdge(FingerHoleEdge):
     char = "L"
     description = "Edge for slide on lid (box back)"
+
+    def __call__(self, length, bedBolts=None, bedBoltSettings=None, **kw):
+        hole_width = self.settings.hole_width;
+        if hole_width > 0:
+            super().__call__((length - hole_width) / 2)
+            self.edge(hole_width)
+            super().__call__((length - hole_width) / 2)
+        else:
+            super().__call__(length)
 
 class LidRight(BaseEdge):
     char = "n"

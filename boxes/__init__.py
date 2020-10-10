@@ -224,7 +224,7 @@ Values:
 * absolute
   * diameter : 5.0 : diameter of the holes
   * distance : 3.0 : distance between the holes
-  * style : "circles" : currently only supported style
+  * style : "circle" : currently only supported style
 
 """
 

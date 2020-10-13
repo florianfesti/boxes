@@ -81,6 +81,19 @@ class SpicesRack(Boxes):
 
         self.move(tw, th, move)
 
+    def foot(self, width, height, move=None):
+        t = self.thickness
+        tw, th = height, width + t
+
+        if self.move(tw, th, move, True):
+            return
+
+        self.moveTo(0, t)
+        self.edges["f"](height)
+        self.polyline(0, 90, width, 90, 0, (90, height), width-height, 90)
+
+        self.move(tw, th, move)
+
     def holes(self):
         w = 2* self.base_r
         r = self.diameter / 2
@@ -158,5 +171,5 @@ class SpicesRack(Boxes):
                              self.support, inner_width, (self.h-t)/2)
         if self.feet:
             self.partsMatrix(self.numx-1, self.numx-1, "up",
-                             self.rectangularTriangle, (self.h-t)/2, width, "fee", r=(self.h-t)/4)
+                             self.foot, width, (self.h-t)/2)
             

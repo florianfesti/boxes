@@ -41,7 +41,7 @@ class Display(Boxes):
         a = self.angle
         t = self.thickness
 
-        self.roundedPlate(0.7*x, x, r, "e", move="up")
+        self.roundedPlate(0.7*x, x, r, "e", extend_corners=False, move="up")
 
         oh = 1.2*h-2*r
         if a > 0:

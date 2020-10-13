@@ -91,6 +91,7 @@ parts sliding on each other to reduce friction.
         
         self.topPart(h_max+h_extra, move="right")
         self.bottomPart(h_min, h_extra, move="right")
-        self.roundedPlate(4*t, h_min+h_extra+4*t, edge="e", r=t, move="right",
+        self.roundedPlate(4*t, h_min+h_extra+4*t, edge="e", r=t,
+                          extend_corners=False, move="right",
             callback=[lambda: self.fingerHolesAt(1*t, 2*t, h_min+h_extra)])
         self.rectangularWall(1.1*t, h_min+h_extra, "efef")

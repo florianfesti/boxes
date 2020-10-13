@@ -31,7 +31,26 @@ class BayonetBox(Boxes):
         self.argparser.add_argument(
             "--lugs",  action="store", type=int, default=10,
             help="number of locking lugs")
+        self.argparser.add_argument(
+            "--alignment_pins",  action="store", type=float, default=1.0,
+            help="diameter of the alignment pins")
         self.buildArgParser("outside")
+
+    def alignmentHoles(self, inner=False, outer=False):
+        d = self.diameter
+        r = d / 2
+        t = self.thickness
+        p = 0.05*t
+        l = self.lugs
+
+        a = 180 / l
+        with self.saved_context():
+            for i in range(3):
+                if outer:
+                    self.hole(r-t/2, 0, d=self.alignment_pins)
+                if inner:
+                    self.hole(r-2*t-p, 0, d=self.alignment_pins)
+                self.moveTo(0, 0, 360/3)
 
     def lowerLayer(self, asPart=False, move=None):
         d = self.diameter
@@ -47,6 +66,7 @@ class BayonetBox(Boxes):
                 return
             self.moveTo(d/2, d/2)
         
+        self.alignmentHoles(inner=True)
         self.hole(0, 0, r=d/2 - 2.5*t)
         self.moveTo(d/2 - 1.5*t, 0, -90)
 
@@ -65,6 +85,7 @@ class BayonetBox(Boxes):
 
         a = 180 / l
 
+        self.alignmentHoles(outer=True)
         with self.saved_context():
             self.lowerLayer()
 
@@ -84,6 +105,7 @@ class BayonetBox(Boxes):
         
         self.hole(0, 0, r=d/2 - 2.5*t)
         self.hole(0, 0, r=d/2 - 1.5*t)
+        self.alignmentHoles(inner=True, outer=True)
         self.moveTo(d/2 - 1.5*t, 0, -90)
 
         for i in range(l):
@@ -99,8 +121,8 @@ class BayonetBox(Boxes):
             self.diameter = d = d - 3*t
         
         
-        self.parts.disc(d, move="right")
-        self.parts.disc(d, callback=lambda: self.hole(0, 0, d/2-1.5*t), move="right")
+        self.parts.disc(d, callback=lambda: self.alignmentHoles(outer=True), move="right")
+        self.parts.disc(d, callback=lambda: (self.alignmentHoles(outer=True), self.hole(0, 0, d/2-1.5*t)), move="right")
         self.parts.disc(d, callback=self.lowerCB, move="right")
         self.parts.disc(d, callback=self.upperCB, move="right")
-        self.parts.disc(d, move="right")
+        self.parts.disc(d, callback=lambda : self.alignmentHoles(inner=True),move="right")

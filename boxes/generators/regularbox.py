@@ -37,6 +37,9 @@ class RegularBox(BayonetBox):
             "--top",  action="store", type=str, default="none",
             choices=["none", "hole", "angled hole", "angled lid", "angled lid2", "round lid", "bayonet mount"],
             help="style of the top and lid")
+        self.argparser.add_argument(
+            "--alignment_pins",  action="store", type=float, default=1.0,
+            help="diameter of the alignment pins for bayonet lid")
 
         self.lugs=6
 
@@ -79,7 +82,8 @@ class RegularBox(BayonetBox):
                 self.parts.disc(sh*2, move="right")
             if self.top == "bayonet mount":
                 self.diameter = 2*sh
-                self.lowerLayer(asPart=True, move="right")
+                self.parts.disc(sh*2-0.1*t, callback=self.lowerCB,
+                                move="right")
                 self.regularPolygonWall(corners=n, r=r, edges='F',
                                         callback=[self.upperCB], move="right")
                 self.parts.disc(sh*2, move="right")

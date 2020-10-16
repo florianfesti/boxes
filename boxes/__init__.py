@@ -2230,6 +2230,7 @@ class Boxes:
                 self.edgeCorner(top, left, 90)
                 left(h)
                 self.edgeCorner(left, bottom, 90)
+                self.ctx.stroke()
 
             self.moveTo(right.spacing() + self.spacing)
             part_cnt += 1

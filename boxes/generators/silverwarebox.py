@@ -80,6 +80,7 @@ class Silverware(Boxes):
         self.corner(90)
         self.edges["f"](h - 10)
         self.corner(90)
+        self.ctx.stroke()
 
     ##################################################
     ### main

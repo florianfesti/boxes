@@ -321,6 +321,7 @@ class Context:
         self._add_move()
         self._dwg.append("C", mx3, my3, mx1, my1, mx2, my2)  # destination first!
         self._xy = (x3, y3)
+        self._mxy = (mx3, my3)
 
     def stroke(self):
         # print('stroke stack-level=',len(self._stack),'lastpath=',self._last_path,)

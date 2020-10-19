@@ -42,7 +42,8 @@ class OttoBody(Boxes):
         self.rectangularHole(self.x-7, self.y-2.8, 7, 4)
 
         self.moveTo(0, self.y-12)
-        self.hexHolesCircle(12, (1, 2, 'circle'))
+        self.hexHolesCircle(12, HexHolesSettings(
+            self, diameter=2, distance=2, style='circle'))
 
     def leftBottomCB(self):
         self.hole(7, self.y-7, 6)

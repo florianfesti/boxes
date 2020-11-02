@@ -19,24 +19,7 @@ from boxes.edges import FingerJointBase, FingerJointEdge
 
 from math import sin, pi
 
-class UnevenJointBase(FingerJointBase):
-    def calcFingers(self, length, bedBolts):
-        space, finger = self.settings.space, self.settings.finger
-        fingers = int((length - (self.settings.surroundingspaces - 1) * space) //
-                      (space + finger))
-        if not finger:
-            fingers = 0
-        if bedBolts:
-            fingers = bedBolts.numFingers(fingers)
-        leftover = length - fingers * (space + finger)  # we don't another space
-
-        if fingers <= 0:
-            fingers = 0
-            leftover = length
-
-        return fingers, leftover
-
-class UnevenFingerJointEdge(FingerJointEdge, UnevenJointBase):
+class UnevenFingerJointEdge(FingerJointEdge):
     """Uneven finger joint edge """
     char = 'u'
     description = "Uneven Finger Joint"
@@ -59,7 +42,8 @@ class UnevenFingerJointEdge(FingerJointEdge, UnevenJointBase):
             s -= play
             leftover -= play
 
-        self.edge(leftover, tabs=1)  # Whole point of this class
+        shift = (f + s) / 2 # we shift all fingers to make them un even
+        self.edge((leftover + shift)/2, tabs=1)  # Whole point of this class
 
         l1,l2 = self.fingerLength(self.settings.angle)
         h = l1-l2
@@ -87,9 +71,10 @@ class UnevenFingerJointEdge(FingerJointEdge, UnevenJointBase):
             else:
                 self.polyline(0, -90 * p, h, 90 * p, f, 90 * p, h, -90 * p)
 
-        self.edge(0, tabs=0)  # Whole point of this class
+        self.edge((leftover - shift)/2, tabs=1)  # Whole point of this class
 
-class UnevenFingerJointEdgeCounterPart(UnevenFingerJointEdge):
+# Unstable
+class UnevenFingerJointEdgeCounterPart(UnevenFingerJointEdge): 
     """Uneven finger joint edge - other side"""
     char = 'U'
     description = "Uneven Finger Joint (opposing side)"
@@ -101,31 +86,23 @@ class Platonic(Boxes):
     ui_group = "Unstable" # see ./__init__.py for names
 
     SOLIDS = {
-        "Tetrahedron": (4, 3),
-        "Cube": (6, 4),
-        "Octahedron": (8, 3),
-        "Dodecahedron": (12, 5),
-        "Icosahedro": (20, 3),
+        "tetrahedron": (4, 3),
+        "cube": (6, 4),
+        "octahedron": (8, 3),
+        "dodecahedron": (12, 5),
+        "icosahedro": (20, 3),
     }
 
     def __init__(self):
         Boxes.__init__(self)
 
-        # Uncomment the settings for the edge types you use
-        # use keyword args to set default values
         self.addSettingsArgs(edges.FingerJointSettings)
-        # self.addSettingsArgs(edges.StackableSettings)
-        # self.addSettingsArgs(edges.HingeSettings)
-        # self.addSettingsArgs(edges.LidSettings)
-        # self.addSettingsArgs(edges.ClickSettings)
-        # self.addSettingsArgs(edges.FlexSettings)
 
-        # remove cli params you do not need
-        self.buildArgParser(x=90, sx="3*50", y=100, sy="3*50", h=100, hi=0)
-        # Add non default cli params if needed (see argparse std lib)
+        self.buildArgParser(x=90, outside=True)  # x should be treated as edge length, TODO: change that
         self.argparser.add_argument(
-            "--XX",  action="store", type=float, default=0.5,
-            help="DESCRIPTION")
+            "--type",  action="store", type=str, default=list(self.SOLIDS)[0],
+            choices=list(self.SOLIDS),
+            help="type of platonic solid")
 
 
     def regularTrianagleWall(self, a, edges="uuuu", move=None):
@@ -135,40 +112,21 @@ class Platonic(Boxes):
 
     def render(self):
         # adjust to the variables you want in the local scope
-        x, y, h = self.x, self.y, self.h
-        a = x  # side length
+        e = self.x
         t = self.thickness
-
-        solid = "Octahedron"
-        faces, corners = self.SOLIDS[solid]
+        faces, corners = self.SOLIDS[self.type]
 
 
         s = edges.FingerJointSettings(self.thickness, relative=True,
                                       width=self.thickness)
-        
-        #adjust surrounding spaces, to account for finger width at edge (?)
-        # fix_r, fix_h, _ = self.regularPolygon(corners, side=1)
-        cutin_fix = s.width/sin(2*pi/corners)/s.space
-        print(cutin_fix)
-        s.surroundingspaces=0+cutin_fix
 
         u = UnevenFingerJointEdge(self, s)
-        u.char = "u"
         self.addPart(u)
 
         uc = UnevenFingerJointEdgeCounterPart(self, s)
-        uc.char = "U"
         self.addPart(uc)
 
-
-
-        d2 = edges.Bolts(2)
-        d3 = edges.Bolts(3)
-
-        d2 = d3 = None
-
-        
         for _ in range(faces):
-            self.regularPolygonWall(corners, side=a, edges="u", move="right")
+            self.regularPolygonWall(corners, side=e, edges="u", move="right")
 
 

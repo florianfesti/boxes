@@ -43,6 +43,9 @@ class UnevenFingerJointEdge(FingerJointEdge):
             leftover -= play
 
         shift = (f + s) / 2 # we shift all fingers to make them un even
+        if (leftover < shift): 
+            leftover = shift
+
         self.edge((leftover + shift)/2, tabs=1)  # Whole point of this class
 
         l1,l2 = self.fingerLength(self.settings.angle)
@@ -98,7 +101,7 @@ class Platonic(Boxes):
 
         self.addSettingsArgs(edges.FingerJointSettings)
 
-        self.buildArgParser(x=90, outside=True)  # x should be treated as edge length, TODO: change that
+        self.buildArgParser(x=60, outside=True)  # x should be treated as edge length, TODO: change that
         self.argparser.add_argument(
             "--type",  action="store", type=str, default=list(self.SOLIDS)[0],
             choices=list(self.SOLIDS),
@@ -116,14 +119,10 @@ class Platonic(Boxes):
         t = self.thickness
         faces, corners = self.SOLIDS[self.type]
 
-
-        s = edges.FingerJointSettings(self.thickness, relative=True,
-                                      width=self.thickness)
-
-        u = UnevenFingerJointEdge(self, s)
+        u = UnevenFingerJointEdge(self, self.edges["f"].settings)
         self.addPart(u)
 
-        uc = UnevenFingerJointEdgeCounterPart(self, s)
+        uc = UnevenFingerJointEdgeCounterPart(self, self.edges["f"].settings)
         self.addPart(uc)
 
         for _ in range(faces):

@@ -99,7 +99,7 @@ class Platonic(Boxes):
     def __init__(self):
         Boxes.__init__(self)
 
-        self.addSettingsArgs(edges.FingerJointSettings)
+        self.addSettingsArgs(edges.FingerJointSettings, surroundingspaces=0)
 
         self.buildArgParser(x=60, outside=True)  # x should be treated as edge length, TODO: change that
         self.argparser.add_argument(

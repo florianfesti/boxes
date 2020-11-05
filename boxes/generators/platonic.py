@@ -108,11 +108,6 @@ class Platonic(Boxes):
             help="type of platonic solid")
 
 
-    def regularTrianagleWall(self, a, edges="uuuu", move=None):
-        self.regularPolygonWall(3, side=a, edges=edges, move=move)
-
-
-
     def render(self):
         # adjust to the variables you want in the local scope
         e = self.x

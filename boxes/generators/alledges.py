@@ -45,12 +45,14 @@ class AllEdges(Boxes):
         
         for c in chars:
             with self.saved_context():
+                self.move(0, 0, "", True)
                 self.moveTo(x, 0, 90)
                 self.edge(t+self.edges[c].startwidth())
                 self.corner(90)
                 self.edges[c](x, h=4*t)
                 self.corner(90)
                 self.edge(t+self.edges[c].endwidth())
+                self.move(0, 0, "")
 
             self.moveTo(0, 3*t + self.edges[c].spacing())
             self.text("%s - %s" % (c, self.edges[c].description))

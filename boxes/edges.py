@@ -2123,7 +2123,8 @@ Values:
     }
 
     def edgeObjects(self, boxes, chars="t", add=True):
-        edges = [RoundedTriangleEdge(boxes, self)]
+        edges = [RoundedTriangleEdge(boxes, self),
+                 RoundedTriangleFingerHolesEdge(boxes, self)]
         return self._edgeObjects(edges, boxes, chars, add)
 
 class RoundedTriangleEdge(Edge):
@@ -2162,6 +2163,17 @@ class RoundedTriangleEdge(Edge):
 
     def margin(self):
         return self.settings.height + self.settings.radius
+
+class RoundedTriangleFingerHolesEdge(RoundedTriangleEdge):
+
+    char = "T"
+
+    def start_width(self):
+        return self.settings.thickness
+
+    def __call__(self,  length, **kw):
+        self.fingerHolesAt(0, 0.5*self.settings.thickness, length, 0)
+        super().__call__(length, **kw)
 
 #############################################################################
 ####     Slat wall

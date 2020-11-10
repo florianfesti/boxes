@@ -94,8 +94,10 @@ To allow powering by laptop power supply: flip switch, Lenovo round socket (or a
         self.rectangularHole(76, 6.4, 12.4, 12.4)
 
     def back(self):
-        for i in range(3):
-            self.rectangularHole(self.x/2, i*8+5, self.x-20, 5, r=2.5)
+        n = int((self.h-2*self.thickness) // 8)
+        offs = (self.h - n*8.0) / 2 + 4
+        for i in range(n):
+            self.rectangularHole(self.x/2, i*8+offs, self.x-20, 5, r=2.5)
 
     def regulatorCB(self):
         self.rectangularHole(21, 9.5, 35, 5)

@@ -2168,7 +2168,7 @@ class RoundedTriangleFingerHolesEdge(RoundedTriangleEdge):
 
     char = "T"
 
-    def start_width(self):
+    def startwidth(self):
         return self.settings.thickness
 
     def __call__(self,  length, **kw):

@@ -32,6 +32,9 @@ class AgricolaInsert(Boxes):
     ui_group = "Misc"
 
     description = """
+This insert was designed with 3 mm plywood in mind, and should work fine with
+materials around this thickness.
+
 This is an insert for the [Agricola Revised Edition](https://boardgamegeek.com/boardgame/200680/agricola-revised-edition)
 board game. It is specifically designed around the [Farmers Of The Moor expansion](https://boardgamegeek.com/boardgameexpansion/257344/agricola-farmers-moor),
 and should also store the [5-6 players expansion](https://boardgamegeek.com/boardgameexpansion/210625/agricola-expansion-5-and-6-players)
@@ -130,22 +133,43 @@ protruding underneath.
 
     def render(self):
         player_box_height = 34.5
+        player_box_inner_width = 50.5
         bigger_box_inner_height = 36.7
         row_width = 37.2
         tray_inner_height = 17
         box_width = 218
-        self.render_card_divider_tray(
-            bigger_box_inner_height, tray_inner_height, box_width
+        card_tray_height = (
+            self.thickness * 2 + tray_inner_height + bigger_box_inner_height
         )
+        card_tray_width = (
+            305.35 - player_box_inner_width * 2 - row_width * 2 - 9 * self.thickness
+        )
+
+        self.render_card_divider_tray(card_tray_height, box_width, card_tray_width)
         self.render_upper_token_trays(tray_inner_height, box_width)
-        self.render_horse_box(player_box_height, row_width)
-        self.render_room_boxes(bigger_box_inner_height, row_width)
-        self.render_moor_box(bigger_box_inner_height, player_box_height, row_width)
+        wood_room_box_width = 39.8
+        self.render_room_box(wood_room_box_width, bigger_box_inner_height, row_width)
+        stone_room_box_width = 26.7
+        self.render_room_box(stone_room_box_width, bigger_box_inner_height, row_width)
+        moor_box_length = 84.6
+        self.render_moor_box(
+            bigger_box_inner_height, player_box_height, row_width, moor_box_length
+        )
+        horse_box_margin = 0.5
+        horse_box_length = (
+            box_width
+            - wood_room_box_width
+            - stone_room_box_width
+            - moor_box_length
+            - 6 * self.thickness
+            - horse_box_margin
+        )
+        self.render_horse_box(player_box_height, row_width, horse_box_length)
         for _ in range(6):
-            self.render_player_box(player_box_height)
+            self.render_player_box(player_box_height, player_box_inner_width)
 
     def render_card_divider_tray(
-        self, bigger_box_inner_height, tray_inner_height, tray_length
+        self, card_tray_height, card_tray_length, card_tray_width
     ):
         """
         The whole tray which contains the cards, including its dividers.
@@ -153,11 +177,7 @@ protruding underneath.
         """
         self.ctx.save()
 
-        tray_inner_length = tray_length - self.thickness
-        card_tray_height = (
-            self.thickness * 2 + tray_inner_height + bigger_box_inner_height
-        )
-        card_tray_width = 110 - 2 * self.thickness
+        tray_inner_length = card_tray_length - self.thickness
         margin_for_score_sheet = 0  # 3 if you want more space for score sheet
         sleeved_cards_width = 62 + margin_for_score_sheet
 
@@ -207,7 +227,7 @@ protruding underneath.
 
         # generate spacer
         spacer_height = card_tray_height / 2
-        spacer_spacing = 4.5
+        spacer_spacing = card_tray_width-99.8
         spacer_upper_width = sloped_wall_posx_at_y0 + spacer_height * tan
         self.trapezoidWall(
             spacer_height,
@@ -248,7 +268,7 @@ protruding underneath.
         )
 
         self.ctx.restore()
-        self.rectangularWall(tray_length, 0, "FFFF", move="right only")
+        self.rectangularWall(card_tray_length, 0, "FFFF", move="right only")
         self.ctx.save()
 
         divider_height = sleeved_cards_width - self.thickness * tan
@@ -405,16 +425,16 @@ protruding underneath.
         # Move for next piece
         self.move(total_width, height, move)
 
-    def render_horse_box(self, player_box_height, row_width):
+    def render_horse_box(self, player_box_height, row_width, width):
         """
         Box for the horses on lower level. Same height as player boxes.
         """
         length = 2 * row_width + 3 * self.thickness
-        # Could be more finely computed based on tile boxes dynamic sizes
-        width = 49
         self.render_simple_tray(width, length, player_box_height)
 
-    def render_moor_box(self, bigger_box_inner_height, player_box_height, row_width):
+    def render_moor_box(
+        self, bigger_box_inner_height, player_box_height, row_width, length
+    ):
         """
         Box for the moor/forest tiles, and the cardboard tokens with multiple
         units of resources.
@@ -425,7 +445,6 @@ protruding underneath.
         height = bigger_box_inner_height
         lowered_height = player_box_height - self.thickness
         lowered_corner_height = height - lowered_height
-        length = 84.6
         corner_length = 53.5
 
         self.rectangularWall(
@@ -480,15 +499,6 @@ protruding underneath.
     def generate_side_finger_holes(self, row_width, height):
         self.fingerHolesAt(row_width + 0.5 * self.thickness, 0, height)
 
-    def render_room_boxes(self, height, row_width):
-        """
-        The two boxes for field/wood room tiles and clay/stone room tiles.
-        """
-        wood_room_box_width = 39.8
-        self.render_room_box(wood_room_box_width, height, row_width)
-        stone_room_box_width = 26.7
-        self.render_room_box(stone_room_box_width, height, row_width)
-
     def render_room_box(self, width, height, row_width):
         """
         A box in which storing room/field tiles.
@@ -531,7 +541,7 @@ protruding underneath.
 
         self.rectangularWall(room_box_length, 0, "FFFF", move="right only")
 
-    def render_player_box(self, player_box_height):
+    def render_player_box(self, player_box_height, player_box_inner_width):
         """
         A box in which storing all the bits of a single player,
         including (and designed for) the cardboard bed from Farmers Of The Moor.
@@ -539,7 +549,7 @@ protruding underneath.
         self.ctx.save()
         bed_inner_height = player_box_height - self.thickness
         bed_inner_length = 66.75
-        bed_inner_width = 50.5
+        bed_inner_width = player_box_inner_width
         cardboard_bed_foot_height = 6.5
         cardboard_bed_hole_margin = 5
         cardboard_bed_hole_length = 12

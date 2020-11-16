@@ -1,4 +1,4 @@
-# English translations for PACKAGE package.
+# French translations for PACKAGE package.
 # Copyright (C) 2019 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Florian Festi <florian@festi.info>, 2019.
@@ -96,7 +96,7 @@ msgstr "x"
 
 #. help for parameter x
 msgid "inner width in mm (unless outside selected)"
-msgstr "largeur en mm (intérieures si on ne choisit pas « extérieur »)"
+msgstr "largeur interieure en mm (si on ne choisit pas « extérieur »)"
 
 #. parameter name
 msgid "y"
@@ -104,7 +104,7 @@ msgstr "y"
 
 #. help for parameter y
 msgid "inner depth in mm (unless outside selected)"
-msgstr "profondeur en mm (intérieures si on ne choisit pas « extérieur »)"
+msgstr "profondeur interieure en mm (si on ne choisit pas « extérieur »)"
 
 #. parameter name
 msgid "h"
@@ -112,7 +112,7 @@ msgstr "h"
 
 #. help for parameter h
 msgid "inner height in mm (unless outside selected)"
-msgstr "hauteur en mm (intérieures si on ne choisit pas « extérieur »)"
+msgstr "hauteur interieure en mm (si on ne choisit pas « extérieur »)"
 
 #. parameter name
 msgid "hi"
@@ -122,7 +122,7 @@ msgstr "hi"
 msgid ""
 "inner height of inner walls in mm (unless outside selected)(leave to zero "
 "for same as outer walls)"
-msgstr "hauteur des cloisons internes en mm (intérieures si on ne choisit pas « extérieur ») (laisser à zéro pour des cloisons aussi hautes que les bords)"
+msgstr "hauteur des cloisons internes interieure en mm (si on ne choisit pas « extérieur ») (laisser à zéro pour des cloisons aussi hautes que les bords)"
 
 #. parameter name
 msgid "sx"
@@ -130,7 +130,7 @@ msgstr "sx"
 
 #. help for parameter sx
 msgid "sections left to right in mm. See --sy for format"
-msgstr "sections laissées à droite en mm. Voir --sy pour le format"
+msgstr "largeur des sections de gauche à droite en mm. Voir --sy pour le format"
 
 #. parameter name
 msgid "sy"
@@ -141,7 +141,7 @@ msgid ""
 "sections back to front in mm. Possible formats: overallwidth/numberof "
 "sections e.g. \"250/5\"; sectionwidth*numberofsections e.g. \"50*5\"; "
 "section widths separated by \":\" e.g. \"30:25.5:70"
-msgstr "sections derrière le devant en mm. Formats possibles : largeur totale/nombre de sections p.ex. \"250/5\" ; largeur_de_section*nombre_de_section p.ex. \"50*5\"; largeurs de sections séparées par \":\" p.ex. \"30:25.5:70"
+msgstr "largeur des sections du devant vers derrière en mm. Formats possibles : largeur totale/nombre de sections p.ex. \"250/5\" ; largeur_de_section*nombre_de_section p.ex. \"50*5\"; largeurs de sections séparées par \":\" p.ex. \"30:25.5:70"
 
 #. parameter name
 msgid "sh"
@@ -149,7 +149,7 @@ msgstr "sh"
 
 #. help for parameter sh
 msgid "sections bottom to top in mm. See --sy for format"
-msgstr "distance du bas des sections au haut en mm. Voir --sy pour le format"
+msgstr "largeur des sections de bas en haut en mm. Voir --sy pour le format"
 
 #. parameter name
 msgid "bottom_edge"
@@ -284,12 +284,12 @@ msgstr "svg_Ponoko"
 
 #. parameter name
 msgid "tabs"
-msgstr "tabs"
+msgstr "brides"
 
 #. help for parameter tabs
 msgid ""
 "width of tabs holding the parts in place in mm (not supported everywhere)"
-msgstr "largeur des tabulations qui tiennent les composants en place, en mm (non supporté partout)"
+msgstr "largeur des brides qui tiennent les composants en place, en mm (non supporté partout)"
 
 #. parameter name
 msgid "debug"
@@ -313,7 +313,7 @@ msgstr "brûlage"
 
 #. help for parameter burn
 msgid "burn correction in mm (bigger values for tighter fit)"
-msgstr "Correction de brûlage en mm (augmenter la valeur pour un emboîtement plus ajusté)"
+msgstr "Correction du brûlage en mm (augmenter la valeur pour un emboîtement plus ajusté)"
 
 msgid "Settings for Finger Joints"
 msgstr "Réglages pour les entures crénelées"
@@ -391,7 +391,7 @@ msgstr "distance des trous"
 
 #. help for parameter holedistance
 msgid "distance from finger holes to bottom edge"
-msgstr "distance depuis les trous des créneaux au bord du bas"
+msgstr "distance des trous des créneaux au bord du bas"
 
 #. help for parameter width
 msgid "width of the feet"
@@ -434,11 +434,11 @@ msgstr "flush"
 
 #. parameter name for Hinge
 msgid "axle"
-msgstr "axle"
+msgstr "axe"
 
 #. help for parameter axle
 msgid "diameter of the pin hole"
-msgstr "diamètre du trou pour l'axes"
+msgstr "diamètre du trou pour l'axe"
 
 #. parameter name for Hinge
 msgid "grip_length"
@@ -469,19 +469,19 @@ msgstr "spring"
 
 #. possible choice for spring
 msgid "both"
-msgstr "both"
+msgstr "les deux"
 
 #. possible choice for spring
 msgid "none"
-msgstr "none"
+msgstr "aucun"
 
 #. possible choice for spring
 msgid "left"
-msgstr "left"
+msgstr "gauche"
 
 #. possible choice for spring
 msgid "right"
-msgstr "right"
+msgstr "droite"
 
 msgid "Settings for Click-on Lids"
 msgstr "Réglages pour les couvercles encliquables"
@@ -492,7 +492,7 @@ msgstr "bottom_radius"
 
 #. parameter name for Click
 msgid "depth"
-msgstr "depth"
+msgstr "profondeur"
 
 msgid "Settings for Flex"
 msgstr "Réglages pour le Flex"
@@ -503,7 +503,7 @@ msgstr "stretch"
 
 #. help for parameter stretch
 msgid "Hint of how much the flex part should be shortend"
-msgstr "Indicationde combien il faudrait raccourcir la partie flexible"
+msgstr "Indication de combien il faudrait raccourcir la partie flexible"
 
 #. parameter name for Flex
 msgid "connection"
@@ -511,7 +511,7 @@ msgstr "connection"
 
 #. help for parameter connection
 msgid "width of the gaps in the cuts"
-msgstr "largeur des espaces dans les décopes"
+msgstr "largeur des espaces dans les découpes"
 
 #. parameter name for Flex
 msgid "distance"
@@ -3371,7 +3371,7 @@ msgstr "Stachel"
 #. description of Stachel
 #: boxes/generators/stachel.py
 msgid "Bass Recorder Endpin"
-msgstr "Acessoire pour flute basse"
+msgstr "Accessoire pour flute basse"
 
 msgid "Stachel Settings"
 msgstr "Réglages de Stachel"
@@ -3827,7 +3827,7 @@ msgid ""
 "It features both finished parametrized generators as well as a Python API "
 "for writing your own. It features finger and (flat) dovetail joints, flex "
 "cuts, holes and slots for screws, hinges, gears, pulleys and much more."
-msgstr "\n        <a href=\"https://hackaday.io/project/10649-boxespy\">Boxes.py</a> est un générateur de boîtes <a href=\"https://www.gnu.org/licenses/gpl-3.0.en.html\">Open Source</a> écrit en <a href=\"https://www.python.org/\">Python</a>. Il propose des générateurs paramétrables de produits finis et aussi une API en Python pour créer les vôtres. Il propose des assemblages à enture dentelée et des queues d'aronde (droites), des découpes de zones flexibles, des trous et des encoches pour vis, des charnières, des pouiles et bien plus."
+msgstr "\n        <a href=\"https://hackaday.io/project/10649-boxespy\">Boxes.py</a> est un générateur de boîtes <a href=\"https://www.gnu.org/licenses/gpl-3.0.en.html\">Open Source</a> écrit en <a href=\"https://www.python.org/\">Python</a>. Il propose des générateurs paramétrables de produits finis et aussi une API en Python pour créer les vôtres. Il propose des assemblages à enture dentelée et des queues d'aronde (droites), des découpes de zones flexibles, des trous et des encoches pour vis, des charnières, des poulies et bien plus."
 
 #: scripts/boxesserver:366
 msgid "Get Source at GitHub"

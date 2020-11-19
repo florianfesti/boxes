@@ -553,7 +553,7 @@ Creation date: {date}
                     p.pop()
                 if p:  # might be empty if only contains text
                     t = ET.SubElement(g, "path", d=" ".join(p), stroke=color)
-                    t.set("stroke-width", f'{path.params["lw"]:.2f}')
+                    t.set("stroke-width", f'{path.params["lw"]*self.scale:.2f}')
                     t.tail = "\n  "
             t.tail = "\n"
         tree.write(open(self._fname, "wb"), xml_declaration=True, method="xml")
@@ -674,7 +674,7 @@ class PSSurface(Surface):
                     f.write("newpath\n")
                     f.write("\n".join(p))
                     f.write("\n")
-                    f.write(f"{path.params['lw']} setlinewidth\n")
+                    f.write(f"{path.params['lw']*self.scale} setlinewidth\n")
                     f.write(f"{color} setrgbcolor\n")
                     f.write("stroke\n\n")
         f.write(

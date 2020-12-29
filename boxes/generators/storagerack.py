@@ -21,6 +21,15 @@ class StorageRack(Boxes):
 
     ui_group = "Shelf"
 
+    description = """
+
+Drawers are not included:
+
+![Inside](static/samples/StorageRack-2.jpg)
+![Back wall details](static/samples/StorageRack-3.jpg)
+
+"""
+
     def __init__(self):
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings)

@@ -14,17 +14,18 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from boxes import *
+import boxes
 
 
-class RoundedBox(Boxes):
+class RoundedBox(boxes.Boxes):
     """Box with vertical edges rounded"""
 
     ui_group = "FlexBox"
 
     def __init__(self):
-        Boxes.__init__(self)
-        self.addSettingsArgs(edges.FingerJointSettings)
+        boxes.Boxes.__init__(self)
+        self.addSettingsArgs(boxes.edges.FingerJointSettings)
+        self.addSettingsArgs(boxes.edges.FlexSettings)            
         self.buildArgParser("x", "y", "h", "outside")
         self.argparser.add_argument(
             "--radius", action="store", type=float, default=15,
@@ -34,7 +35,7 @@ class RoundedBox(Boxes):
             choices=[1, 2, 3, 4], help="# pieces of outer wall")
         self.argparser.add_argument(
             "--edge_style", action="store",
-            type=ArgparseEdgeType("fFh"), choices=list("fFh"),
+            type=boxes.ArgparseEdgeType("fFh"), choices=list("fFh"),
             default="f",
             help="edge type for top and bottom edges")
         self.argparser.add_argument(

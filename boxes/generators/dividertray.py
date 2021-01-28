@@ -96,6 +96,12 @@ class DividerTray(Boxes):
         if side_walls_number == 0:
             raise ValueError("You need at least one side wall to generate this tray")
 
+        # If measures are inside, we need to adjust height before slot generation
+        if not self.outside:
+            # If the parameter 'h' is the inner height of the content itself,
+            # then the actual tray height needs to be adjusted with the angle
+            self.h = self.h * math.cos(math.radians(self.slot_angle))
+
         slot_descriptions = SlotDescriptionsGenerator().generate_all_same_angles(
             self.sy,
             self.thickness,
@@ -106,14 +112,11 @@ class DividerTray(Boxes):
             self.slot_radius,
         )
 
+        # If measures are outside, we need to readjust slots afterwards
         if self.outside:
             self.sx = self.adjustSize(self.sx, self.left_wall, self.right_wall)
             side_wall_target_length = sum(self.sy) - 2 * self.thickness
             slot_descriptions.adjust_to_target_length(side_wall_target_length)
-        else:
-            # If the parameter 'h' is the inner height of the content itself,
-            # then the actual tray height needs to be adjusted with the angle
-            self.h = self.h * math.cos(math.radians(self.slot_angle))
 
         self.ctx.save()
 

@@ -73,11 +73,11 @@ class Keyboard:
         # draw clock wise to work with burn correction
         straight_edge = Keyboard.SWITCH_CASE_SIZE - 2 * radius
         polyline = [straight_edge, (-90, radius)] * 4
-        self.moveTo(0, radius, 90)
+        self.moveTo(self.burn, radius, 90)
         self.polyline(*polyline)
         self.moveTo(0, 0, 270)
         self.moveTo(0, -radius)
-        self.moveTo(0)
+        self.moveTo(-self.burn)
 
         if centered:
             self.moveTo(half_size, half_size)
@@ -96,10 +96,10 @@ class Keyboard:
         btn_full_side = [*btn_half_side, 0, *btn_half_side[::-1]]
         btn = [*btn_full_side, -90] * 4
 
-        self.moveTo(0.81, 0.81, 90)
+        self.moveTo(self.burn+0.81, 0.81, 90)
         self.polyline(*btn)
         self.moveTo(0, 0, 270)
-        self.moveTo(-0.81, -0.81)
+        self.moveTo(-self.burn-0.81, -0.81)
 
         if centered:
             self.moveTo(half_size, half_size)

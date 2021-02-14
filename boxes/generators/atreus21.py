@@ -71,20 +71,21 @@ class Atreus21(Boxes, Keyboard):
             x, y
         )
 
+    @restore
     def rim(self):
         x, y = self._case_x_y()
         self.moveTo(x * .5, y * .5)
         self.rectangularHole(0, 0, x, y, 5)
-        self.moveTo(x * -.5, y * -.5)
 
+    @restore
     def outer(self):
         x, y = self._case_x_y()
         b = self.border
         self.moveTo(0, -b)
         corner = [90, b]
         self.polyline(*([x, corner, y, corner] * 2))
-        self.moveTo(0, b)
 
+    @restore
     def half(self, hole_cb=None, reverse=False):
         if hole_cb == None:
             hole_cb = self.key
@@ -92,10 +93,8 @@ class Atreus21(Boxes, Keyboard):
         self.apply_callback_on_columns(
             hole_cb,
             self.columns_definition,
-            self.STANDARD_KEY_SPACING,
-            reverse,
+            reverse=reverse,
         )
-        self.moveTo(-self.half_btn, -self.half_btn)
 
     def support(self):
         self.configured_plate_cutout(support=True)

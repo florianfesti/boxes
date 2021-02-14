@@ -22,14 +22,6 @@ class Keypad(Boxes, Keyboard):
             help='height of the box'
         )
         self.argparser.add_argument(
-            '--btn_x', action='store', type=int, default=3,
-            help='number of buttons per row'
-        )
-        self.argparser.add_argument(
-            '--btn_y', action='store', type=int, default=4,
-            help='number of buttons per column'
-        )
-        self.argparser.add_argument(
             '--top1_thickness', action='store', type=float, default=1.5,
             help=('thickness of the button hold layer, cherry like switches '
                   'need 1.5mm or smaller to snap in')
@@ -37,19 +29,31 @@ class Keypad(Boxes, Keyboard):
         self.argparser.add_argument(
             '--top2_enable', action='store', type=boolarg, default=False,
             help=('enables another top layer that can hold CPG151101S11 '
-                  'sockets')
+                  'hotswap sockets')
         )
         self.argparser.add_argument(
             '--top2_thickness', action='store', type=float, default=1.5,
-            help=('thickness of the hotplug layer, CPG151101S11 sockets '
-                  'need 1.2mm to 1.5mm')
+            help=('thickness of the hotplug layer, CPG151101S11 hotswap '
+                  'sockets need 1.2mm to 1.5mm')
         )
+
+        # Add parameter common with other keyboard projects
+        self.add_common_keyboard_parameters(
+            # Hotswap already depends on top2_enable setting, a second parameter
+            # for it would be useless
+            add_hotswap_parameter=False,
+            # By default, 3 columns of 4 rows
+            default_columns_definition="4x3"
+        )
+
         self.addSettingsArgs(FingerJointSettings, surroundingspaces=1)
 
     def _get_x_y(self):
         """Gets the keypad's size based on the number of buttons."""
-        x = self.btn_x * (self.btn_size) + (self.btn_x - 1) * self.space_between_btn + 2*self.box_padding
-        y = self.btn_y * (self.btn_size) + (self.btn_y - 1) * self.space_between_btn + 2*self.box_padding
+        spacing = self.btn_size + self.space_between_btn
+        border = 2*self.box_padding - self.space_between_btn
+        x = len(self.columns_definition) * spacing + border
+        y = max(offset + keys * spacing for (offset, keys) in self.columns_definition) + border
         return x, y
 
     def render(self):
@@ -91,26 +95,29 @@ class Keypad(Boxes, Keyboard):
         )
 
     def to_grid_callback(self, inner_callback):
-        scheme = [(0, self.btn_y)]*self.btn_x
         def callback():
             # move to first key center
             key_margin = self.box_padding + self.btn_size / 2
             self.moveTo(key_margin, key_margin)
             self.apply_callback_on_columns(
-                inner_callback, scheme, self.btn_size + self.space_between_btn
+                inner_callback, self.columns_definition, self.btn_size + self.space_between_btn
             )
 
         return [callback]
 
     def hotplug(self):
         """Callback for the key stabelizers."""
-        self.pcb_holes()
+        self.pcb_holes(
+            with_pcb_mount=self.pcb_mount_enable,
+            with_diode=self.diode_enable,
+            with_led=self.led_enable,
+        )
 
     def support_hole(self):
-        self.outer_hole()
+        self.configured_plate_cutout(support=True)
 
     def key_hole(self):
-        self.castle_shaped_plate_cutout()
+        self.configured_plate_cutout()
 
     # stolen form electronics-box
     def wallx_cb(self):

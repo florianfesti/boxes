@@ -14,11 +14,12 @@ class Atreus21(Boxes, Keyboard):
     half_btn = btn_size / 2
     border = 6
 
-    row_offsets=[3, 6, 11, 5, 0, btn_size * .5]
-    row_keys=[4, 4, 4, 4, 4, 1]
-
     def __init__(self):
         super().__init__()
+        self.add_common_keyboard_parameters(
+            # By default, columns from Atreus 21
+            default_columns_definition='4@3/4@6/4@11/4@5/4@0/1@{}'.format(self.btn_size * 0.5)
+        )
 
     def render(self):
         """Renders the keyboard."""
@@ -85,36 +86,35 @@ class Atreus21(Boxes, Keyboard):
         self.moveTo(0, b)
 
     def half(self, hole_cb=None, reverse=False):
-        row_offsets=self.row_offsets
-        row_keys=self.row_keys
-        scheme = list(zip(row_offsets, row_keys))
         if hole_cb == None:
             hole_cb = self.key
         self.moveTo(self.half_btn, self.half_btn)
         self.apply_callback_on_columns(
             hole_cb,
-            scheme,
+            self.columns_definition,
             self.STANDARD_KEY_SPACING,
             reverse,
         )
         self.moveTo(-self.half_btn, -self.half_btn)
 
     def support(self):
-        self.outer_hole()
+        self.configured_plate_cutout(support=True)
 
     def hotplug(self):
-        self.pcb_holes()
+        self.pcb_holes(
+            with_hotswap=self.hotswap_enable,
+            with_pcb_mount=self.pcb_mount_enable,
+            with_diode=self.diode_enable,
+            with_led=self.led_enable,
+        )
 
     def key(self):
-        self.castle_shaped_plate_cutout()
+        self.configured_plate_cutout()
 
     # get case sizes
     def _case_x_y(self):
-        margin = self.STANDARD_KEY_SPACING - self.btn_size
-        x = len(self.row_offsets) * self.STANDARD_KEY_SPACING - margin
-        y = sum([
-            max(self.row_keys) * self.STANDARD_KEY_SPACING,  # total button sizes
-            max(self.row_offsets),  # offset of highest row
-            -margin,
-        ])
+        spacing = Keyboard.STANDARD_KEY_SPACING
+        margin = spacing - self.btn_size
+        x = len(self.columns_definition) * spacing - margin
+        y = max(offset + keys * spacing for (offset, keys) in self.columns_definition) - margin
         return x, y

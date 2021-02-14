@@ -18,69 +18,45 @@ class Atreus21(Boxes):
 
     def __init__(self):
         super().__init__()
-        self.argparser.add_argument(
-            '--top1_thickness', action='store', type=float, default=1.5,
-            help=('thickness of the button hold layer, cherry like switches '
-                  'need 1.5mm or smaller to snap in')
-        )
-        self.argparser.add_argument(
-            '--top2_enable', action='store', type=boolarg, default=False,
-            help=('enables another top layer that can hold CPG151101S11 '
-                  'sockets')
-        )
-        self.argparser.add_argument(
-            '--top2_thickness', action='store', type=float, default=1.5,
-            help=('thickness of the hotplug layer, CPG151101S11 sockets '
-                  'need 1.2mm to 1.5mm')
-        )
-        self.addSettingsArgs(FingerJointSettings, surroundingspaces=1)
 
     def render(self):
-        """Renders the keypad."""
-        # deeper edge for top to add multiple layers
-        deep_edge = deepcopy(self.edges['f'].settings)
-        deep_edge.thickness = self.thickness + self.top1_thickness
-        if self.top2_enable:
-            deep_edge.thickness += self.top2_thickness
-        deep_edge.edgeObjects(self, 'gGH', True)
+        """Renders the keyboard."""
 
         self.moveTo(10, 30)
         case_x, case_y = self._case_x_y()
 
-        self.hole(0, 0, d=0.7)
+        margin = 2 * self.border + 1
 
         for reverse in [False, True]:
             # keyholder
             self.outer()
             self.half(reverse=reverse)
             self.holes()
-            self.moveTo(case_x + 13)
+            self.moveTo(case_x + margin)
 
             # support
             self.outer()
             self.half(self.support, reverse=reverse)
             self.holes()
-            self.moveTo(-case_x - 13, case_y + 13)
+            self.moveTo(-case_x - margin, case_y + margin)
 
             # hotplug
             self.outer()
             self.half(self.hotplug, reverse=reverse)
             self.holes()
-            self.moveTo(case_x + 13)
+            self.moveTo(case_x + margin)
 
             # border
             self.outer()
             self.rim()
             self.holes()
-            self.moveTo(-case_x - 13, case_y + 13)
+            self.moveTo(-case_x - margin, case_y + margin)
 
-
-    def holes(self):
+    def holes(self, diameter=3, margin=1.5):
         case_x, case_y = self._case_x_y()
-        self.hole(-1.5, -1.5, d=3)
-        self.hole(case_x + 1.5, -1.5, d=3)
-        self.hole(-1.5, case_y + 1.5, d=3)
-        self.hole(case_x + 1.5, case_y + 1.5, d=3)
+        for x in [-margin, case_x + margin]:
+            for y in [-margin, case_y + margin]:
+                self.hole(x, y, d=diameter)
 
     def micro(self):
         x = 17.9
@@ -94,7 +70,6 @@ class Atreus21(Boxes):
         )
 
     def rim(self):
-        s = 5
         x, y = self._case_x_y()
         self.moveTo(x * .5, y * .5)
         self.rectangularHole(0, 0, x, y, 5)
@@ -168,22 +143,6 @@ class Atreus21(Boxes):
         self.moveTo(0, self.btn_outer)
 
         self.set_source_color(Color.BLACK)
-
-    # stolen form electronics-box
-    def wallx_cb(self):
-        """Callback for triangle holes on x-side."""
-        x, _ = self._get_x_y()
-        t = self.thickness
-        self.fingerHolesAt(0, self.h - 1.5 * t, self.triangle, 0)
-        self.fingerHolesAt(x, self.h - 1.5 * t, self.triangle, 180)
-
-    # stolen form electronics-box
-    def wally_cb(self):
-        """Callback for triangle holes on y-side."""
-        _, y = self._get_x_y()
-        t = self.thickness
-        self.fingerHolesAt(0, self.h - 1.5 * t, self.triangle, 0)
-        self.fingerHolesAt(y, self.h - 1.5 * t, self.triangle, 180)
 
     # get case sizes
     def _case_x_y(self):

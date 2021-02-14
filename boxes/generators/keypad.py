@@ -4,13 +4,16 @@ from copy import deepcopy
 
 from boxes import Boxes, boolarg
 from boxes.edges import FingerJointSettings
+from .keyboard import Keyboard
 
 
-class Keypad(Boxes):
+class Keypad(Boxes, Keyboard):
     """Generator for keypads with mechanical switches."""
     ui_group = 'Box'
     btn_size = 15.6
-    triangle = 25.
+    space_between_btn = 4
+    box_padding = 10
+    triangle = 25.0
 
     def __init__(self):
         super().__init__()
@@ -45,8 +48,8 @@ class Keypad(Boxes):
 
     def _get_x_y(self):
         """Gets the keypad's size based on the number of buttons."""
-        x = self.btn_x * (self.btn_size) + (self.btn_x - 1) * 4 + 20
-        y = self.btn_y * (self.btn_size) + (self.btn_y - 1) * 4 + 20
+        x = self.btn_x * (self.btn_size) + (self.btn_x - 1) * self.space_between_btn + 2*self.box_padding
+        y = self.btn_y * (self.btn_size) + (self.btn_y - 1) * self.space_between_btn + 2*self.box_padding
         return x, y
 
     def render(self):
@@ -69,10 +72,10 @@ class Keypad(Boxes):
         self.rectangularWall(x, h, "GFEF", callback=[self.wallx_cb], move="left up")
 
         # keypad lids
-        self.rectangularWall(x, y, "ffff", callback=[self.support_hole], move="right")
-        self.rectangularWall(x, y, "ffff", callback=[self.key_hole], move="up")
+        self.rectangularWall(x, y, "ffff", callback=self.to_grid_callback(self.support_hole), move="right")
+        self.rectangularWall(x, y, "ffff", callback=self.to_grid_callback(self.key_hole), move="up")
         if self.top2_enable:
-            self.rectangularWall(x, y, "ffff", callback=[self.hotplug])
+            self.rectangularWall(x, y, "ffff", callback=self.to_grid_callback(self.hotplug))
 
         # screwable
         tr = self.triangle
@@ -87,64 +90,27 @@ class Keypad(Boxes):
             callback=[None, lambda: self.hole(trh, trh, d=d1)]
         )
 
+    def to_grid_callback(self, inner_callback):
+        scheme = [(0, self.btn_y)]*self.btn_x
+        def callback():
+            # move to first key center
+            key_margin = self.box_padding + self.btn_size / 2
+            self.moveTo(key_margin, key_margin)
+            self.apply_callback_on_columns(
+                inner_callback, scheme, self.btn_size + self.space_between_btn
+            )
+
+        return [callback]
 
     def hotplug(self):
         """Callback for the key stabelizers."""
-        # draw clock wise to work with burn correction
-        btn = [11.6, (-90, 2)] * 4
-        s = self.btn_size
-        self.moveTo(10, 10)
-        for _ in range(self.btn_y):
-            for _ in range(self.btn_x):
-                self.moveTo(7.8 , 7.8)
-
-                self.hole(0, 0, d=4)
-                self.hole(1.27 * -3, 1.27 * 2, d=2.9)
-                self.hole(1.27 * 2, 1.27 * 4, d=2.9)
-
-                # pcb mounts
-                self.hole(1.27 * -4, 0, d=1.7)
-                self.hole(1.27 * 4, 0, d=1.7)
-
-                self.moveTo(-7.8, -7.8)
-                self.moveTo(s + 4)
-
-                #self.moveTo(1.27 * -2, 1.17 * 3)
-                #self.moveTo(1.27 * 2, 1.17 * -3)
-            self.moveTo(self.btn_x * (s + 4) * -1, s + 4)
+        self.pcb_holes()
 
     def support_hole(self):
-        """Callback for the key stabelizers."""
-        # draw clock wise to work with burn correction
-        btn = [11.6, (-90, 2)] * 4
-
-        s = self.btn_size
-        self.moveTo(10, 10)
-        for _ in range(self.btn_y):
-            for _ in range(self.btn_x):
-                self.moveTo(0, 2, 90)
-                self.polyline(*btn)
-                self.moveTo(0, 0, 270)
-                self.moveTo(s + 4, -2)
-            self.moveTo(self.btn_x * (s + 4) * -1, s + 4)
+        self.outer_hole()
 
     def key_hole(self):
-        """Callback for the key holes."""
-        # draw clock wise to work with burn correction
-        btn_half_side = [0.98, 90, 0.81, -90, 3.5, -90, 0.81, 90, 2.505]
-        btn_full_side = [*btn_half_side, 0, *btn_half_side[::-1]]
-        btn = [*btn_full_side, -90] * 4
-
-        s = self.btn_size
-        self.moveTo(10, 10)
-        for _ in range(self.btn_y):
-            for _ in range(self.btn_x):
-                self.moveTo(0.81, 0.81, 90)
-                self.polyline(*btn)
-                self.moveTo(0, 0, 270)
-                self.moveTo(-0.81, -0.81)
-                self.moveTo(s + 4)
-            self.moveTo(self.btn_x * (s + 4) * -1, s + 4)
+        self.castle_shaped_plate_cutout()
 
     # stolen form electronics-box
     def wallx_cb(self):

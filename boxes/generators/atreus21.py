@@ -4,13 +4,14 @@ from copy import deepcopy
 
 from boxes import Boxes, Color, holeCol, restore, boolarg
 from boxes.edges import FingerJointSettings
+from .keyboard import Keyboard
 
 
-class Atreus21(Boxes):
+class Atreus21(Boxes, Keyboard):
     """Generator for a split atreus keyboard."""
     ui_group = 'Misc'
     btn_size = 15.6
-    btn_outer = btn_size + 3.4
+    half_btn = btn_size / 2
     border = 6
 
     row_offsets=[3, 6, 11, 5, 0, btn_size * .5]
@@ -82,73 +83,36 @@ class Atreus21(Boxes):
         corner = [90, b]
         self.polyline(*([x, corner, y, corner] * 2))
         self.moveTo(0, b)
-    
-    def half(self, cb=None, reverse=False):
+
+    def half(self, hole_cb=None, reverse=False):
         row_offsets=self.row_offsets
         row_keys=self.row_keys
         scheme = list(zip(row_offsets, row_keys))
-        if reverse:
-            scheme.reverse()
-        for offset, keys in scheme:
-            self.moveTo(0, offset)
-            self.key_row(keys, cb)
-            self.moveTo(self.btn_outer)
-            self.moveTo(0, -offset)
-
-        total_moved_rows = len(row_offsets) * (self.btn_outer)
-        self.moveTo(total_moved_rows * -1, 0)
-
-    def key_row(self, n, hole_cb=None):
-        """Callback for the key holes."""
         if hole_cb == None:
             hole_cb = self.key
-        for _ in range(n):
-            hole_cb()
-        self.moveTo(0, -n * (self.btn_outer))
+        self.moveTo(self.half_btn, self.half_btn)
+        self.apply_callback_on_columns(
+            hole_cb,
+            scheme,
+            self.STANDARD_KEY_SPACING,
+            reverse,
+        )
+        self.moveTo(-self.half_btn, -self.half_btn)
 
     def support(self):
-        btn = [11.6, (-90, 2)] * 4
-        self.set_source_color(Color.BLUE)
-        self.moveTo(0, 2, 90)
-        self.polyline(*btn)
-        self.moveTo(-2, 0, 270)
-        self.moveTo(0, self.btn_outer)
-        self.set_source_color(Color.BLACK)
+        self.outer_hole()
 
     def hotplug(self):
-        self.moveTo(7.8 , 7.8)
-        self.hole(0, 0, d=4)
-        self.hole(1.27 * -3, 1.27 * 2, d=2.9)
-        self.hole(1.27 * 2, 1.27 * 4, d=2.9)
-
-        # pcb mounts
-        self.hole(1.27 * -4, 0, d=1.7)
-        self.hole(1.27 * 4, 0, d=1.7)
-
-        self.moveTo(-7.8, -7.8)
-        self.moveTo(0, self.btn_outer)
+        self.pcb_holes()
 
     def key(self):
-        self.set_source_color(Color.BLUE)
-
-        # draw clock wise to work with burn correction
-        btn_half_side = [0.98, 90, 0.81, -90, 3.5, -90, 0.81, 90, 2.505]
-        btn_full_side = [*btn_half_side, 0, *btn_half_side[::-1]]
-        btn = [*btn_full_side, -90] * 4
-
-        self.moveTo(0.81, 0.81, 90)
-        self.polyline(*btn)
-        self.moveTo(0, 0, 270)
-        self.moveTo(-0.81, -0.81)
-        self.moveTo(0, self.btn_outer)
-
-        self.set_source_color(Color.BLACK)
+        self.castle_shaped_plate_cutout()
 
     # get case sizes
     def _case_x_y(self):
-        x = len(self.row_offsets) * self.btn_outer - 4
+        x = len(self.row_offsets) * self.STANDARD_KEY_SPACING - 4
         y = sum([
-            max(self.row_keys) * self.btn_outer,  # total button sizes
+            max(self.row_keys) * self.STANDARD_KEY_SPACING,  # total button sizes
             max(self.row_offsets),  # offset of highest row
             -4,
         ])

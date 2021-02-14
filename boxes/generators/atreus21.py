@@ -110,10 +110,11 @@ class Atreus21(Boxes, Keyboard):
 
     # get case sizes
     def _case_x_y(self):
-        x = len(self.row_offsets) * self.STANDARD_KEY_SPACING - 4
+        margin = self.STANDARD_KEY_SPACING - self.btn_size
+        x = len(self.row_offsets) * self.STANDARD_KEY_SPACING - margin
         y = sum([
             max(self.row_keys) * self.STANDARD_KEY_SPACING,  # total button sizes
             max(self.row_offsets),  # offset of highest row
-            -4,
+            -margin,
         ])
         return x, y

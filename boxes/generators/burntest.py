@@ -21,7 +21,7 @@ class BurnTest(Boxes):
     description = """Set burn in the Default Settings to the lowest value
 to be tested. To get an idea cut a rectangle with known nominal size and
 measure the shrinkage due to the width of the laser cut. The burn value is
-half the difference of the overall size as shrinkage is occuring on both
+half the difference of the overall size as shrinkage is occurring on both
 sides. You can use the reference rectangle as it is rendered without burn
 correction."""
 

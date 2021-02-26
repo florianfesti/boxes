@@ -1342,7 +1342,7 @@ msgstr "激光补偿"
 msgid "burn correction in mm (bigger values for tighter fit). Use BurnTest in \"Parts and Samples\" to find the right value."
 msgstr "激光补偿校正，单位为mm（较大的值，适合更紧密），使用“零件和样品”中的激光补偿测试来找到正确的值。"
 
-msgid "Set burn in the Default Settings to the lowest value to be tested. To get an idea cut a rectangle with known nominal size and measure the shrinkage due to the width of the laser cut. The burn value is half the difference of the overall size as shrinkage is occurring on both sides. You can use the reference rectangle as it is rendered without burn correction."
+msgid "Set burn in the Default Settings to the lowest value to be tested. To get an idea cut a rectangle with known nominal size and measure the shrinkage due to the width of the laser cut. Now you can measure the burn value that you should use in other generators. It is half the difference of the overall size as shrinkage is occurring on both sides. You can use the reference rectangle as it is rendered without burn correction."
 msgstr "将默认设置中的激光补偿设置为要测试的最低值。为了得到一个想法，切割一个已知标称尺寸的矩形，并测量激光切割宽度引起的收缩。激光补偿是总尺寸的一半，因为两边都在收缩。可以使用引用矩形，因为它是在不进行激光补偿更正的情况下渲染的。"
 
 msgid "c"

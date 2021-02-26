@@ -52,7 +52,7 @@ in the right direction may save you a lot of work.
 
 If you want feed back on you code feel free to open a PR. State that
 this is work in progress in the PR message. It's OK if it does not
-follow the guide lines (yet).
+follow the guidelines (yet).
 
 Writing new Generators
 ......................

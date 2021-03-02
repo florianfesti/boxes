@@ -18,7 +18,10 @@ from boxes import *
 
 class BurnTest(Boxes):
     """Test different burn values"""
-    description = """Set burn in the Default Settings to the lowest value
+    description = """This generator will make shapes that you can use to select
+optimal value for burn parameter for other generators. After burning try to
+attach sides with the same value and use best fitting one on real projects.
+In this generator set burn in the Default Settings to the lowest value
 to be tested. To get an idea cut a rectangle with known nominal size and
 measure the shrinkage due to the width of the laser cut. Now you can
 measure the burn value that you should use in other generators. It is half

@@ -360,7 +360,7 @@ You can replace the space characters representing the floor by a "X" to remove t
         hwalls = []
         vwalls = []
         floors = []
-        for line in input:
+        for nr, line in enumerate(input):
             if not line or line[0] == "#":
                 continue
             m = re.match(r"( \|)* ,>\s*(\d*\.?\d+)\s*mm\s*", line)
@@ -389,25 +389,25 @@ You can replace the space characters representing the floor by a "X" to remove t
                 f = []
                 for n, c in enumerate(line[:len(x) * 2 + 1]):
                     if n % 2:
-                        if c == 'X':
+                        if c in 'xX':
                             f.append(False)
                         elif c == ' ':
                             f.append(True)
                         else:
-                            raise ValueError(line)
+                            raise ValueError('''Can't parse line %i in layout: expected " ", "x" or "X" for char #%i''' % (nr+1, n+1))
                     else:
                         if c == ' ':
                             w.append(False)
                         elif c == '|':
                             w.append(True)
                         else:
-                            raise ValueError(line)
+                            raise ValueError('''Can't parse line %i in layout: expected " ", or "|" for char #%i''' % (nr+1, n+1))
 
                 floors.append(f)
                 vwalls.append(w)
-                m = re.match(r"([ |][ X])+[ |]\s*(\d*\.?\d+)\s*mm\s*", line)
+                m = re.match(r"([ |][ xX])+[ |]\s*(\d*\.?\d+)\s*mm\s*", line)
                 if not m:
-                    raise ValueError(line)
+                    raise ValueError('''Can't parse line %i in layout: Can read height of the row''' % (nr+1))
                 else:
                     y.append(float(m.group(2)))
 

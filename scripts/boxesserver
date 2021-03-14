@@ -268,13 +268,14 @@ class BServer:
 """)
         no_img_msg = _('There is no image yet. Please donate an image of your project on <a href=&quot;https://github.com/florianfesti/boxes/issues/140&quot;>GitHub</a>!')
 
+        if box.description:
+            result.append(markdown.markdown(_(box.description)))
+
         result.append(f'''<div>
 <img src="static/samples/{box.__class__.__name__}.jpg" width="100%" onerror="this.parentElement.innerHTML = '{no_img_msg}';"/>
 </div>
 ''')
 
-        if box.description:
-            result.append(markdown.markdown(_(box.description)))
         result.append("""
 </div>
 """ + self.footer(lang) + """</body>

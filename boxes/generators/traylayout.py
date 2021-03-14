@@ -25,6 +25,9 @@ class TrayLayout(Boxes):
     # This class generates the skeleton text file that can then be edited
     # to describe the actual box
 
+    description = """This is a two step process. The layout is based on a grid
+of sizes in x and y direction. Choose how many distances you need in both directions. The actual sizes and all other settings can be entered in the second step."""
+
     webinterface = True
 
     ui_group = "Tray"
@@ -85,6 +88,12 @@ class TrayLayout2(TrayLayout):
     # as string (with --layout) and turns it into a drawing for a box.
 
     webinterface = True
+
+    description = """Edit the layout text graphics to adjust your tray.
+Put in the sizes for each column and row. You can replace the hyphens and
+vertial bars representing the walls with a space character to remove the walls.
+You can replace the space characters representing the floor by a "X" to remove the floor for this compartment.
+"""
 
     def __init__(self, input=None, webargs=False):
         Boxes.__init__(self)

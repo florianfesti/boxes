@@ -30,7 +30,7 @@ class TwoPiece(Boxes):
         self.addSettingsArgs(edges.FingerJointSettings, finger=2.0, space=2.0)
 
         self.argparser.add_argument(
-            "--play",  action="store", type=float, default=0.05,
+            "--play",  action="store", type=float, default=0.15,
             help="play between the two parts as multipleof the wall thickness")
 
     def render(self):

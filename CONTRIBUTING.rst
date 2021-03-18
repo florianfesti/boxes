@@ -100,6 +100,11 @@ use or just more detailed descriptions. If you are interested in
 writing some please open a ticket. Your text does not have to be
 perfect. We can work on it together.
 
+Running the Code
+----------------------------
+
+To serve wesite, run `scripts/boxesserver` script
+
 Reporting bugs
 --------------
 

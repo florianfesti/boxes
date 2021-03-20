@@ -103,7 +103,7 @@ perfect. We can work on it together.
 Running the Code
 ----------------------------
 
-To serve wesite, run `scripts/boxesserver` script
+To serve website, run `scripts/boxesserver` script
 
 Reporting bugs
 --------------

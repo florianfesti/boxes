@@ -23,7 +23,7 @@ class BasedBox(Boxes):
     ui_group = "Box"
 
     description = """This box is more of a building block than a finished item.
-Use a vector graphics programm (like Inkscape) to add holes or adjust the base
+Use a vector graphics program (like Inkscape) to add holes or adjust the base
 plate. The width of the "brim" can also be adjusted with the **edge_width**
  parameter in the **Finger Joints Settings**."""
 

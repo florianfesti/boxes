@@ -25,7 +25,10 @@ class BasedBox(Boxes):
     description = """This box is more of a building block than a finished item.
 Use a vector graphics program (like Inkscape) to add holes or adjust the base
 plate. The width of the "brim" can also be adjusted with the **edge_width**
- parameter in the **Finger Joints Settings**."""
+ parameter in the **Finger Joints Settings**.
+ 
+See ClosedBox for variant without a base.
+"""
 
     def __init__(self):
         Boxes.__init__(self)

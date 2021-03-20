@@ -24,7 +24,9 @@ class ClosedBox(Boxes):
 
     description = """This box is more of a building block than a finished item.
 Use a vector graphics program (like Inkscape) to add holes or adjust the base
-plate."""
+plate.
+
+See BasedBox for variant with a base."""
 
     def __init__(self):
         Boxes.__init__(self)

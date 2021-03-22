@@ -17,7 +17,7 @@
 from boxes import *
 
 class WaivyKnob(Boxes):
-    """Round knob serraded outside for better gripping"""
+    """Round knob serrated outside for better gripping"""
     
     ui_group = "Part"
 

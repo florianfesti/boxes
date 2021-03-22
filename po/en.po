@@ -3765,8 +3765,8 @@ msgstr "WaivyKnob"
 
 #. description of WaivyKnob
 #: boxes/generators/waivyknob.py
-msgid "Round knob serraded outside for better gripping"
-msgstr "Round knob serraded outside for better gripping"
+msgid "Round knob serrated outside for better gripping"
+msgstr "Round knob serrated outside for better gripping"
 
 msgid "WaivyKnob Settings"
 msgstr "WaivyKnob Settings"

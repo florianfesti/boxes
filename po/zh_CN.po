@@ -877,7 +877,7 @@ msgstr "旋转设置"
 msgid "Round box made from layers with twist on top"
 msgstr "圆形盒由多层制成，顶部有扭曲"
 
-msgid "Round knob serraded outside for better gripping"
+msgid "Round knob serrated outside for better gripping"
 msgstr "圆形把手外有丝状突起，便于抓握"
 
 msgid "Round knob serrated outside for better gripping"

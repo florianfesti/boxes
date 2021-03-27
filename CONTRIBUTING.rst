@@ -84,6 +84,30 @@ this to work.
 The online documentation gets build and updated automatically by the Travis CI
 as soon as the changes makes it into the GitHub master branch.
 
+Provide photos for generators
+-----------------------------
+
+Many generators still come without an example photo. If you are
+creating such an item consider donating a good picture. You can
+simply attach it to `ticket #140
+<https://github.com/florianfesti/boxes/issues/140>`_. If you want you can
+also create a proper pull request instead:
+
+* Make sure you have sh, convert (ImageMagick), sed and sha256sum installed
+* The picture needs to be an jpg file with the name of the generator
+  (This is case sensitive. Use CamelCase.)
+* The picture should be 1200 pixels wide and square or not too far
+  from square (3:4 is fine).
+* Place the file in *static/samples/*
+* Check if the picture shows up at the bottom of the settings page of
+  the generator when running *scripts/boxesserver*
+* Change dir to *./scripts* and there execute *./gen_thumbnails.sh*
+* Check if the thumbnail is seen in the main page when hovering over
+  the generator entry
+* Create a commit including *static/samples/$GeneratorName\*.jpg* and
+  *static/samples/samples.sha256*
+* Create a pull request from that
+
 Improving the User Interface
 ----------------------------
 

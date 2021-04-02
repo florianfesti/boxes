@@ -17,7 +17,7 @@
 from boxes import *
 
 class DisplayShelf(Boxes): # change class name here and below
-    """Shelf with forward slanted floors"""
+    """Shelf with slanted floors"""
     
     ui_group = "Shelf"
 
@@ -35,7 +35,7 @@ class DisplayShelf(Boxes): # change class name here and below
             help="height of front walls")
         self.argparser.add_argument(
             "--angle",  action="store", type=float, default=30.0,
-            help="angle of floors")
+            help="angle of floors (negative values for slanting backwards)")
 
     def side(self):
 
@@ -45,7 +45,7 @@ class DisplayShelf(Boxes): # change class name here and below
         hs = (self.sl+t) * math.sin(a) + math.cos(a) * t
 
         for i in range(self.num):
-            pos_x = 0.5*t*math.sin(a)
+            pos_x = abs(0.5*t*math.sin(a))
             pos_y = hs - math.cos(a)*0.5*t + i * (self.h-hs) / (self.num - 0.5)
             self.fingerHolesAt(pos_x, pos_y, self.sl, -self.angle)
             pos_x += math.cos(-a) * (self.sl+0.5*t) + math.sin(a)*0.5*t
@@ -64,7 +64,7 @@ class DisplayShelf(Boxes): # change class name here and below
 
         a = math.radians(self.angle)
 
-        self.sl = sl = (y - t * (math.cos(a) + math.sin(a)) - math.sin(a) * f) / math.cos(a)
+        self.sl = sl = (y - (t * (math.cos(a) + abs(math.sin(a)))) - max(0, math.sin(a) * f)) / math.cos(a)
         
         # render your parts here
         self.rectangularWall(y, h, callback=[self.side], move="up")

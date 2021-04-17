@@ -2187,6 +2187,7 @@ Values:
 * absolute_params
 
  * bottom_hook : "hook" : "spring", "stud" or "none"
+ * pitch : 101.6 : vertical spacing of slots middle to middle (in mm)
 
 * relative (in multiples of thickness)
 
@@ -2197,6 +2198,7 @@ Values:
 
     absolute_params = {
         "bottom_hook" : ("hook", "spring", "stud", "none"),
+        "pitch" : 101.6,
     }
 
     relative_params = {
@@ -2274,13 +2276,14 @@ class SlatWallEdge(BaseEdge):
         self.polyline(length)
 
     def __call__(self, length, **kw):
-        step = 101.6 # 4"
+        pitch = self.settings.pitch
         tht, thb = self._top_hook_len()
         bht, bhb = self._bottom_hook_len()
 
-        if length >= step + tht + bhb and self.settings.bottom_hook != "none":
-            top_len = ((length-tht-1) // step) * step - thb - bht
-            bottom_len = (length-tht) % step - bhb
+        if (length >= pitch + tht + bhb and
+            self.settings.bottom_hook != "none"):
+            top_len = ((length-tht-1) // pitch) * pitch - thb - bht
+            bottom_len = (length-tht) % pitch - bhb
         else:
             top_len = length-tht-thb
             bottom_len = None

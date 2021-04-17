@@ -1936,17 +1936,18 @@ class Boxes:
             raise ValueError("two or three edges required")
 
         r = min(r, x, y)
-        alpha = math.degrees(math.atan2(y-r, float(x-r)))
+        a = math.atan2(y-r, float(x-r))
+        alpha = math.degrees(a)
 
-        width = x + edges[-1].spacing() + edges[1].spacing()
-        height = y + edges[0].spacing() + edges[2].spacing()
+        width = x + edges[-1].spacing()/math.sin(a) + edges[1].spacing()
+        height = y + edges[0].spacing() + edges[2].spacing() * math.cos(a) + 2* self.spacing
         if num > 1:
-            width += edges[-1].spacing() + edges[1].spacing() + 2*self.spacing
-            height += 0.7*r + edges[0].spacing() + edges[2].spacing() + self.spacing
+            width = 2*width - x + r
+        dx = width - x - edges[1].spacing() - self.spacing
+        dy = edges[0].spacing() + self.spacing
 
         overallwidth = width * (num // 2 + num % 2)
         overallheight = height
-
 
         if self.move(overallwidth, overallheight, move, before=True):
             return
@@ -1954,15 +1955,9 @@ class Boxes:
         if self.debug:
             self.rectangularHole(width/2., height/2., width, height)
 
-        if num > 1:
-            self.moveTo(self.spacing + edges[-1].spacing())
+        self.moveTo(dx, dy)
 
         for n in range(num):
-            self.moveTo(edges[-1].spacing()+self.spacing, edges[0].margin())
-            if n % 2 == 1:
-                self.moveTo(2*edges[1].spacing()+self.spacing, 0)
-            if num > 1:
-                self.moveTo(edges[1].spacing(), 0)
             for i, l in enumerate((x, y)):
                 self.cc(callback, i, y=edges[i].startwidth() + self.burn)
                 edges[i](l,
@@ -1981,11 +1976,9 @@ class Boxes:
             self.corner(90)
             self.ctx.stroke()
 
+            self.moveTo(width-2*dx, height - 2*dy, 180)
             if n % 2:
-                self.moveTo(-edges[1].spacing()-2*self.spacing-edges[-1].spacing(), height-edges[0].spacing(), 180)
-            else:
-                self.moveTo(width+1*edges[1].spacing()-self.spacing-2*edges[-1].spacing(), height-edges[0].spacing(), 180)
-
+                self.moveTo(width)
 
         self.move(overallwidth, overallheight, move, label=label)
 

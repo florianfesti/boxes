@@ -2188,6 +2188,7 @@ Values:
 
  * bottom_hook : "hook" : "spring", "stud" or "none"
  * pitch : 101.6 : vertical spacing of slots middle to middle (in mm)
+ * hook_depth : 4.0 : horizontal width of the hook
 
 * relative (in multiples of thickness)
 
@@ -2199,6 +2200,7 @@ Values:
     absolute_params = {
         "bottom_hook" : ("hook", "spring", "stud", "none"),
         "pitch" : 101.6,
+        "hook_depth" : 4.0,
     }
 
     relative_params = {
@@ -2225,12 +2227,13 @@ class SlatWallEdge(BaseEdge):
     reversed_ = False
 
     def _top_hook(self, reversed_=False):
-        w = 6
-        ro = 6
-        ri = 2
-        rt = min(1, w/2)
+        w = 6 # vertical width of hook
+        hd = self.settings.hook_depth
+        ro = 6 # outer radius
+        ri = 2 # inner radius
+        rt = min(1, hd/2) # top radius
         poly = [0, -90, 5.5-ri, (-90, ri), 12-ri-w-rt, (90, rt),
-                w-2*rt, (90, rt), 12-ro-rt, (90, ro), 5.5+w-ro, -90,
+                hd-2*rt, (90, rt), 12-ro-rt, (90, ro), 5.5+hd-ro, -90,
                 self.settings.hook_extra_height]
         if reversed_:
             poly = reversed(poly)
@@ -2242,6 +2245,7 @@ class SlatWallEdge(BaseEdge):
 
     def _bottom_hook(self, reversed_=False):
         slot = 8
+        hd = self.settings.hook_depth
 
         if self.settings.bottom_hook == "spring":
             r_plug = slot*.4
@@ -2254,7 +2258,7 @@ class SlatWallEdge(BaseEdge):
         elif self.settings.bottom_hook == "hook":
             d = 2
             poly = [self.settings.hook_extra_height + d - 1, -90,
-                    5.5+5, (90,1), slot-2, (90, 1), 5, 90, d,
+                    4.5+hd, (90,1), slot-2, (90, 1), hd-1, 90, d,
                     -90, 5.5, -90, self.settings.hook_extra_height + 1]
         elif self.settings.bottom_hook == "stud":
             poly = [self.settings.hook_extra_height, -90,

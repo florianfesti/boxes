@@ -58,7 +58,8 @@ class CustomBuildExtCommand(build_py):
             # we are surely not building a Debian package
             # then here is the default behavior:
             try:
-                path = check_output(["inkscape", "-x"]).decode().strip()
+                path = check_output(["inkscape", "--system-data-directory"]).decode().strip()
+                path = os.path.join(path, "extensions")
                 if not os.access(path, os.W_OK): # Can we install globally
                     # Not tested on Windows and Mac
                     path = os.path.expanduser("~/.config/inkscape/extensions")

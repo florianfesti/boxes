@@ -3745,11 +3745,6 @@ msgstr "couvercle supplémentaire (pour un bord haut droit seulement)"
 msgid "WaivyKnob"
 msgstr "Bouton cannelé"
 
-#. description of WaivyKnob
-#: boxes/generators/waivyknob.py
-msgid "Round knob serrated outside for better gripping"
-msgstr "Bouton rond cannelé pour une meilleure prise en main"
-
 msgid "WaivyKnob Settings"
 msgstr "Réglages du Bouton cannelé"
 

@@ -880,9 +880,6 @@ msgstr "圆形盒由多层制成，顶部有扭曲"
 msgid "Round knob serrated outside for better gripping"
 msgstr "圆形把手外有丝状突起，便于抓握"
 
-msgid "Round knob serrated outside for better gripping"
-msgstr "圆形旋钮外侧锯齿，以便更好地抓握"
-
 msgid "RoundedBox"
 msgstr "圆形框"
 

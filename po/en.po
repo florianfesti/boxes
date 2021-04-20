@@ -3763,11 +3763,6 @@ msgstr "additional lid (for straight top_edge only)"
 msgid "WaivyKnob"
 msgstr "WaivyKnob"
 
-#. description of WaivyKnob
-#: boxes/generators/waivyknob.py
-msgid "Round knob serrated outside for better gripping"
-msgstr "Round knob serrated outside for better gripping"
-
 msgid "WaivyKnob Settings"
 msgstr "WaivyKnob Settings"
 

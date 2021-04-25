@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="120mm"
+   height="120mm"
+   viewBox="0 0 120 120"
+   version="1.1"
+   id="svg993"
+   sodipodi:docname="burn2.svg"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)">
+  <defs
+     id="defs997" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1025"
+     id="namedview995"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:zoom="1.0333242"
+     inkscape:cx="265.91666"
+     inkscape:cy="200.60752"
+     inkscape:window-x="1920"
+     inkscape:window-y="31"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg993" />
+  <!--
+RoundedBox - Box with vertical edges rounded
+
+Created with Boxes.py (https://festi.info/boxes.py)
+Creation date: 2021-04-25 18:47:19
+Command line (remove spaces between dashes): boxes RoundedBox - -FingerJoint_angle=90.0 - -FingerJoint_style=rectangular - -FingerJoint_surroundingspaces=1 - -FingerJoint_edge_width=1.0 - -FingerJoint_finger=2.0 - -FingerJoint_play=0.0 - -FingerJoint_space=2.0 - -FingerJoint_width=1.0 - -Flex_stretch=1.05 - -Flex_connection=1.0 - -Flex_distance=0.5 - -Flex_width=5.0 - -x=50 - -y=50 - -h=50 - -outside=0 - -radius=5 - -wallpieces=1 - -edge_style=f - -top=closed - -thickness=3.0 - -format=svg - -tabs=0.0 - -debug=0 - -reference=100 - -burn=1
+Url: http://localhost:8000/RoundedBox?FingerJoint_angle=90.0&FingerJoint_style=rectangular&FingerJoint_surroundingspaces=1&FingerJoint_edge_width=1.0&FingerJoint_finger=2.0&FingerJoint_play=0.0&FingerJoint_space=2.0&FingerJoint_width=1.0&Flex_stretch=1.05&Flex_connection=1.0&Flex_distance=0.5&Flex_width=5.0&x=50&y=50&h=50&outside=0&radius=5&wallpieces=1&edge_style=f&top=closed&thickness=3.0&format=svg&tabs=0.0&debug=0&reference=100&burn=1&render=1
+SettingsUrl: http://localhost:8000/RoundedBox?FingerJoint_angle=90.0&FingerJoint_style=rectangular&FingerJoint_surroundingspaces=1&FingerJoint_edge_width=1.0&FingerJoint_finger=2.0&FingerJoint_play=0.0&FingerJoint_space=2.0&FingerJoint_width=1.0&Flex_stretch=1.05&Flex_connection=1.0&Flex_distance=0.5&Flex_width=5.0&x=50&y=50&h=50&outside=0&radius=5&wallpieces=1&edge_style=f&top=closed&thickness=3.0&format=svg&tabs=0.0&debug=0&reference=100&burn=1
+-->
+  <title
+     id="title967">RoundedBox</title>
+  <metadata
+     id="metadata969">
+    <rdf:RDF>
+      <cc:Work>
+        <dc:title>FlexBox - RoundedBox</dc:title>
+        <dc:date>2021-04-25 18:47:19</dc:date>
+        <dc:source>http://localhost:8000/RoundedBox?FingerJoint_angle=90.0&amp;FingerJoint_style=rectangular&amp;FingerJoint_surroundingspaces=1&amp;FingerJoint_edge_width=1.0&amp;FingerJoint_finger=2.0&amp;FingerJoint_play=0.0&amp;FingerJoint_space=2.0&amp;FingerJoint_width=1.0&amp;Flex_stretch=1.05&amp;Flex_connection=1.0&amp;Flex_distance=0.5&amp;Flex_width=5.0&amp;x=50&amp;y=50&amp;h=50&amp;outside=0&amp;radius=5&amp;wallpieces=1&amp;edge_style=f&amp;top=closed&amp;thickness=3.0&amp;format=svg&amp;tabs=0.0&amp;debug=0&amp;reference=100&amp;burn=1&amp;render=1</dc:source>
+        <dc:description>Box with vertical edges rounded
+
+Created with Boxes.py (https://festi.info/boxes.py)
+Command line: boxes RoundedBox --FingerJoint_angle=90.0 --FingerJoint_style=rectangular --FingerJoint_surroundingspaces=1 --FingerJoint_edge_width=1.0 --FingerJoint_finger=2.0 --FingerJoint_play=0.0 --FingerJoint_space=2.0 --FingerJoint_width=1.0 --Flex_stretch=1.05 --Flex_connection=1.0 --Flex_distance=0.5 --Flex_width=5.0 --x=50 --y=50 --h=50 --outside=0 --radius=5 --wallpieces=1 --edge_style=f --top=closed --thickness=3.0 --format=svg --tabs=0.0 --debug=0 --reference=100 --burn=1
+Url: http://localhost:8000/RoundedBox?FingerJoint_angle=90.0&amp;FingerJoint_style=rectangular&amp;FingerJoint_surroundingspaces=1&amp;FingerJoint_edge_width=1.0&amp;FingerJoint_finger=2.0&amp;FingerJoint_play=0.0&amp;FingerJoint_space=2.0&amp;FingerJoint_width=1.0&amp;Flex_stretch=1.05&amp;Flex_connection=1.0&amp;Flex_distance=0.5&amp;Flex_width=5.0&amp;x=50&amp;y=50&amp;h=50&amp;outside=0&amp;radius=5&amp;wallpieces=1&amp;edge_style=f&amp;top=closed&amp;thickness=3.0&amp;format=svg&amp;tabs=0.0&amp;debug=0&amp;reference=100&amp;burn=1&amp;render=1
+SettingsUrl: http://localhost:8000/RoundedBox?FingerJoint_angle=90.0&amp;FingerJoint_style=rectangular&amp;FingerJoint_surroundingspaces=1&amp;FingerJoint_edge_width=1.0&amp;FingerJoint_finger=2.0&amp;FingerJoint_play=0.0&amp;FingerJoint_space=2.0&amp;FingerJoint_width=1.0&amp;Flex_stretch=1.05&amp;Flex_connection=1.0&amp;Flex_distance=0.5&amp;Flex_width=5.0&amp;x=50&amp;y=50&amp;h=50&amp;outside=0&amp;radius=5&amp;wallpieces=1&amp;edge_style=f&amp;top=closed&amp;thickness=3.0&amp;format=svg&amp;tabs=0.0&amp;debug=0&amp;reference=100&amp;burn=1
+</dc:description>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="g1943"
+     transform="scale(2)">
+    <path
+       d="m 10,56 h 6 c 1,0 0,-1 0,0 v 2 c 0,0.552 0.448,1 1,1 h 6 c 0.552,0 1,-0.448 1,-1 v -2 c 0,-1 -1,0 0,0 h 6 6 c 1,0 0,-1 0,0 v 2 c 0,0.552 0.448,1 1,1 h 6 c 0.552,0 1,-0.448 1,-1 v -2 c 0,-1 -1,0 0,0 h 6 c 1.053,0 2.088,-0.277 3,-0.804 C 53.912,54.67 54.67,53.912 55.196,53 55.723,52.088 56,51.053 56,50 v -4 c 0,-1 -1,0 0,0 h 2 c 0.552,0 1,-0.448 1,-1 v -6 c 0,-0.552 -0.448,-1 -1,-1 h -2 c -1,0 0,1 0,0 v -4 c 0,-1 -1,0 0,0 h 2 c 0.552,0 1,-0.448 1,-1 v -6 c 0,-0.552 -0.448,-1 -1,-1 h -2 c -1,0 0,1 0,0 v -4 c 0,-1 -1,0 0,0 h 2 c 0.552,0 1,-0.448 1,-1 v -6 c 0,-0.552 -0.448,-1 -1,-1 h -2 c -1,0 0,1 0,0 V 10 C 56,8.947 55.723,7.912 55.196,7 54.67,6.088 53.912,5.33 53,4.804 52.088,4.277 51.053,4 50,4 h -4 c -1,0 0,1 0,0 V 2 C 46,1.448 45.552,1 45,1 h -6 c -0.552,0 -1,0.448 -1,1 v 2 c 0,1 1,0 0,0 h -4 c -1,0 0,1 0,0 V 2 C 34,1.448 33.552,1 33,1 h -6 c -0.552,0 -1,0.448 -1,1 v 2 c 0,1 1,0 0,0 h -4 c -1,0 0,1 0,0 V 2 C 22,1.448 21.552,1 21,1 h -6 c -0.552,0 -1,0.448 -1,1 v 2 c 0,1 1,0 0,0 H 10 C 8.947,4 7.912,4.277 7,4.804 6.088,5.33 5.33,6.088 4.804,7 4.277,7.912 4,8.947 4,10 v 4 c 0,1 1,0 0,0 H 2 c -0.552,0 -1,0.448 -1,1 v 6 c 0,0.552 0.448,1 1,1 h 2 c 1,0 0,-1 0,0 v 4 c 0,1 1,0 0,0 H 2 c -0.552,0 -1,0.448 -1,1 v 6 c 0,0.552 0.448,1 1,1 h 2 c 1,0 0,-1 0,0 v 4 c 0,1 1,0 0,0 H 2 c -0.552,0 -1,0.448 -1,1 v 6 c 0,0.552 0.448,1 1,1 h 2 c 1,0 0,-1 0,0 v 4 c 0,1.053 0.277,2.088 0.804,3 C 5.33,53.912 6.088,54.67 7,55.196 7.912,55.723 8.947,56 10,56 Z"
+       stroke="#000000"
+       stroke-width="2"
+       id="path1021"
+       style="fill:#999999;stroke:#cccccc;stroke-linecap:round;stroke-linejoin:round" />
+    <g
+       id="p-1"
+       style="fill:none;stroke-width:0.1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+       transform="translate(-9,-68.5)">
+      <path
+         d="m 19,124.5 h 6 c 1,0 0,-1 0,0 v 2 c 0,0.552 0.448,1 1,1 h 6 c 0.552,0 1,-0.448 1,-1 v -2 c 0,-1 -1,0 0,0 h 6 6 c 1,0 0,-1 0,0 v 2 c 0,0.552 0.448,1 1,1 h 6 c 0.552,0 1,-0.448 1,-1 v -2 c 0,-1 -1,0 0,0 h 6 c 1.053,0 2.088,-0.277 3,-0.804 0.912,-0.526 1.67,-1.284 2.196,-2.196 0.527,-0.912 0.804,-1.947 0.804,-3 v -4 c 0,-1 -1,0 0,0 h 2 c 0.552,0 1,-0.448 1,-1 v -6 c 0,-0.552 -0.448,-1 -1,-1 h -2 c -1,0 0,1 0,0 v -4 c 0,-1 -1,0 0,0 h 2 c 0.552,0 1,-0.448 1,-1 v -6 c 0,-0.552 -0.448,-1 -1,-1 h -2 c -1,0 0,1 0,0 v -4 c 0,-1 -1,0 0,0 h 2 c 0.552,0 1,-0.448 1,-1 v -6 c 0,-0.552 -0.448,-1 -1,-1 h -2 c -1,0 0,1 0,0 v -4 c 0,-1.053 -0.277,-2.088 -0.804,-3 C 63.67,74.588 62.912,73.83 62,73.304 61.088,72.777 60.053,72.5 59,72.5 h -4 c -1,0 0,1 0,0 v -2 c 0,-0.552 -0.448,-1 -1,-1 h -6 c -0.552,0 -1,0.448 -1,1 v 2 c 0,1 1,0 0,0 h -4 c -1,0 0,1 0,0 v -2 c 0,-0.552 -0.448,-1 -1,-1 h -6 c -0.552,0 -1,0.448 -1,1 v 2 c 0,1 1,0 0,0 h -4 c -1,0 0,1 0,0 v -2 c 0,-0.552 -0.448,-1 -1,-1 h -6 c -0.552,0 -1,0.448 -1,1 v 2 c 0,1 1,0 0,0 h -4 c -1.053,0 -2.088,0.277 -3,0.804 C 15.088,73.83 14.33,74.588 13.804,75.5 13.277,76.412 13,77.447 13,78.5 v 4 c 0,1 1,0 0,0 h -2 c -0.552,0 -1,0.448 -1,1 v 6 c 0,0.552 0.448,1 1,1 h 2 c 1,0 0,-1 0,0 v 4 c 0,1 1,0 0,0 h -2 c -0.552,0 -1,0.448 -1,1 v 6 c 0,0.552 0.448,1 1,1 h 2 c 1,0 0,-1 0,0 v 4 c 0,1 1,0 0,0 h -2 c -0.552,0 -1,0.448 -1,1 v 6 c 0,0.552 0.448,1 1,1 h 2 c 1,0 0,-1 0,0 v 4 c 0,1.053 0.277,2.088 0.804,3 0.526,0.912 1.284,1.67 2.196,2.196 0.912,0.527 1.947,0.804 3,0.804 z"
+         stroke="#000000"
+         stroke-width="2.00"
+         id="path976"
+         style="stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none" />
+    </g>
+    <path
+       style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#808080;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate;stop-color:#000000"
+       d="m 14.999997,2 h 6 v 1.388672 c -0.09327,0.08108 -0.20366,0.11222 -0.279297,0.238281 -0.329343,0.548906 -0.100937,1.156876 0.197266,1.455078 0.298202,0.298203 0.906172,0.526609 1.455078,0.197266 C 22.499105,5.203657 22.530242,5.093272 22.611325,5 h 2.777344 c 0.08108,0.09327 0.11222,0.20366 0.238281,0.279297 0.548906,0.329343 1.156876,0.100937 1.455073,-0.197266 0.29821,-0.298202 0.526607,-0.906172 0.19727,-1.455078 -0.0756,-0.126061 -0.18602,-0.157198 -0.2793,-0.238281 V 2 h 5.999967 v 1.388672 c -0.0933,0.08108 -0.20366,0.11222 -0.279287,0.238281 -0.32935,0.548906 -0.10094,1.156876 0.197257,1.455078 0.2982,0.298203 0.906167,0.526609 1.455074,0.197266 C 34.499071,5.203657 34.530201,5.093272 34.611291,5 h 2.777345 c 0.0811,0.09327 0.11222,0.20366 0.238277,0.279297 0.548907,0.329343 1.156874,0.100937 1.455074,-0.197266 0.298207,-0.298202 0.526617,-0.906172 0.197267,-1.455078 -0.0756,-0.126061 -0.186027,-0.157198 -0.279297,-0.238281 V 2 h 6.000004 v 1.388672 c -0.0933,0.08108 -0.203657,0.11222 -0.279297,0.238281 -0.329347,0.548906 -0.10094,1.156876 0.19726,1.455078 0.298207,0.298203 0.906174,0.526609 1.455081,0.197266 C 46.499065,5.203657 46.530205,5.093272 46.611292,5 h 3.388672 c 0.877624,0 1.740341,0.230955 2.499995,0.669922 0.759557,0.438079 1.392004,1.07052 1.830081,1.830078 0.438967,0.759654 0.669917,1.622372 0.669917,2.5 v 3.388672 c -0.0933,0.08108 -0.20366,0.11222 -0.27929,0.238281 -0.329347,0.548906 -0.10094,1.156876 0.19726,1.455078 0.298207,0.298203 0.906174,0.526609 1.455081,0.197266 0.12606,-0.07564 0.1572,-0.186025 0.238277,-0.279297 h 1.388674 v 6 h -1.388674 c -0.0811,-0.09327 -0.112217,-0.20366 -0.238277,-0.279297 -0.548907,-0.329343 -1.156874,-0.100937 -1.455081,0.197266 -0.2982,0.298202 -0.526607,0.906172 -0.19726,1.455078 0.0756,0.126061 0.18602,0.157198 0.27929,0.238281 v 2.777344 c -0.0933,0.08108 -0.20366,0.11222 -0.27929,0.238281 -0.329347,0.548906 -0.10094,1.156876 0.19726,1.455078 0.298207,0.298203 0.906174,0.526609 1.455081,0.197266 0.12606,-0.07564 0.1572,-0.186025 0.238277,-0.279297 h 1.388674 v 6 h -1.388674 c -0.0811,-0.0933 -0.112217,-0.20366 -0.238277,-0.2793 -0.548907,-0.32934 -1.156874,-0.10093 -1.455081,0.19727 -0.2982,0.2982 -0.526607,0.90617 -0.19726,1.45508 0.0756,0.12606 0.18602,0.1572 0.27929,0.23828 v 2.77734 c -0.0933,0.0811 -0.20366,0.11222 -0.27929,0.23828 -0.329347,0.54891 -0.10094,1.15688 0.19726,1.45508 0.298207,0.2982 0.906174,0.52661 1.455081,0.19727 0.12606,-0.0756 0.1572,-0.18603 0.238277,-0.2793 h 1.388674 v 6 h -1.388674 c -0.0811,-0.0933 -0.112217,-0.20366 -0.238277,-0.2793 -0.548907,-0.32934 -1.156874,-0.10093 -1.455081,0.19727 -0.2982,0.2982 -0.526607,0.90617 -0.19726,1.45508 0.0756,0.12606 0.18602,0.1572 0.27929,0.23828 V 50 c 0,0.87763 -0.23095,1.74035 -0.669917,2.5 -0.438077,0.75956 -1.070524,1.392 -1.830081,1.83008 C 51.740305,54.76904 50.877588,55 49.999964,55 h -5.38868 c -0.0811,-0.0933 -0.11222,-0.20366 -0.238277,-0.2793 -0.548907,-0.32934 -1.156874,-0.10093 -1.455074,0.19727 -0.298207,0.2982 -0.526617,0.90617 -0.197267,1.45508 0.0756,0.12606 0.186017,0.1572 0.279297,0.23828 V 58 h -6.000004 v -1.38867 c 0.0933,-0.0811 0.203657,-0.11222 0.279297,-0.23828 0.329347,-0.54891 0.10094,-1.15688 -0.19727,-1.45508 -0.298197,-0.2982 -0.906164,-0.52661 -1.455071,-0.19727 -0.12606,0.0756 -0.1572,0.18603 -0.238287,0.2793 h -5.38865 -5.388653 c -0.08108,-0.0933 -0.11222,-0.20366 -0.238281,-0.2793 -0.548906,-0.32934 -1.156876,-0.10093 -1.455078,0.19727 -0.298203,0.2982 -0.526609,0.90617 -0.197266,1.45508 0.07564,0.12606 0.186025,0.1572 0.279297,0.23828 V 58 h -6 v -1.38867 c 0.09327,-0.0811 0.20366,-0.11222 0.279297,-0.23828 0.329343,-0.54891 0.100937,-1.15688 -0.197266,-1.45508 C 16.783826,54.61977 16.175856,54.39136 15.62695,54.7207 15.500889,54.7963 15.469752,54.90673 15.388669,55 H 9.999997 c -0.877628,0 -1.740346,-0.23096 -2.5,-0.66992 C 6.740439,53.892 6.107998,53.25956 5.669919,52.5 5.230952,51.74035 4.999997,50.87763 4.999997,50 v -3.38867 c 0.09327,-0.0811 0.20366,-0.11222 0.279297,-0.23828 C 5.608637,45.82414 5.380231,45.21617 5.082028,44.91797 4.783826,44.61977 4.175856,44.39136 3.62695,44.7207 3.500889,44.7963 3.469752,44.90673 3.388669,45 H 1.999997 v -6 h 1.388672 c 0.08108,0.0933 0.11222,0.20366 0.238281,0.2793 0.548906,0.32934 1.156876,0.10093 1.455078,-0.19727 0.298203,-0.2982 0.526609,-0.90617 0.197266,-1.45508 -0.07564,-0.12606 -0.186025,-0.1572 -0.279297,-0.23828 v -2.77734 c 0.09327,-0.0811 0.20366,-0.11222 0.279297,-0.23828 C 5.608637,33.82414 5.380231,33.21617 5.082028,32.91797 4.783826,32.61977 4.175856,32.39136 3.62695,32.7207 3.500889,32.7963 3.469752,32.90673 3.388669,33 H 1.999997 v -6 h 1.388672 c 0.08108,0.09327 0.11222,0.20366 0.238281,0.279297 0.548906,0.329343 1.156876,0.100937 1.455078,-0.197266 0.298203,-0.298202 0.526609,-0.906172 0.197266,-1.455078 -0.07564,-0.126061 -0.186025,-0.157198 -0.279297,-0.238281 v -2.777344 c 0.09327,-0.08108 0.20366,-0.11222 0.279297,-0.238281 C 5.608637,21.824141 5.380231,21.216171 5.082028,20.917969 4.783826,20.619766 4.175856,20.39136 3.62695,20.720703 3.500889,20.79634 3.469752,20.906728 3.388669,21 H 1.999997 v -6 h 1.388672 c 0.08108,0.09327 0.11222,0.20366 0.238281,0.279297 0.548906,0.329343 1.156876,0.100937 1.455078,-0.197266 C 5.380231,14.783829 5.608637,14.175859 5.279294,13.626953 5.203654,13.500892 5.093269,13.469755 4.999997,13.388672 V 10 c 0,-0.877628 0.230955,-1.740346 0.669922,-2.5 C 6.107998,6.740442 6.740439,6.108001 7.499997,5.669922 8.259651,5.230955 9.122369,5 9.999997,5 h 3.388672 c 0.08108,0.09327 0.11222,0.20366 0.238281,0.279297 0.548906,0.329343 1.156876,0.100937 1.455078,-0.197266 0.298203,-0.298202 0.526609,-0.906172 0.197266,-1.455078 -0.07564,-0.126061 -0.186025,-0.157198 -0.279297,-0.238281 z"
+       id="path1017" />
+  </g>
+</svg>

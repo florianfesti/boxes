@@ -18,12 +18,7 @@ import sys
 import argparse
 import os.path
 from xml.sax.saxutils import quoteattr
-
-# Python 2 vs Python 3 compat
-try:
-    from urllib.parse import unquote_plus
-except ImportError:
-    from urllib import unquote_plus
+from urllib.parse import unquote_plus
 
 try:
     import boxes.generators
@@ -43,51 +38,62 @@ class Boxes2INX:
 
     def arg2inx(self, a, prefix):
         name = a.option_strings[0].replace("-", "")
+        
         if isinstance(a, argparse._HelpAction):
             return ""
+        
         viewname = name
         if prefix and name.startswith(prefix + '_'):
             viewname = name[len(prefix)+1:]
 
-        if (isinstance(a, argparse._StoreAction) and
-            hasattr(a.type, "inx")):
-            return a.type.inx(name, viewname, a)
-
-        elif a.dest == "layout": # XXX
+        #returns old enum type. disabled
+        #if (isinstance(a, argparse._StoreAction) and hasattr(a.type, "inx")):
+            #return a.type.inx(name, viewname, a) #see boxes.__init__.py
+            
+        #elif a.dest == "layout": # XXX
+        if a.dest == "layout": # XXX
             return ""
             val = a.default.split("\n")
             input = """<textarea name="%s" cols="%s" rows="%s">%s</textarea>""" % \
                     (name, max((len(l) for l in val))+10, len(val)+1, a.default)
-        elif a.choices:
-            return ('''      <param name="%s" type="enum" _gui-text="%s" gui-description=%s>\n'''
+                    
+        elif (isinstance(a, argparse._StoreAction) and hasattr(a.type, "inx")) or a.choices:
+            uniqueChoices = []
+            for e in a.choices:
+                if e not in uniqueChoices:
+                    uniqueChoices.append(e)
+            return ('''        <param name="%s" type="optiongroup" appearance="combo" gui-text="%s" gui-description=%s>\n'''
                       % (name, viewname, quoteattr(a.help or viewname)) +
-        "".join('        <item value="%s"%s>%s</item>\n' %
-                (e, ' selected="selected"' if e == a.default else "",
-                 e) for e in a.choices) + '      </param>\n')
+        "".join('            <option value="%s">%s</option>\n' % (e, e) for e in uniqueChoices) + '    </param>\n')
+            
         else:
             default = a.default
             if isinstance(a.type, boxes.BoolArg):
-                t = '"boolean"'
+                t = '"bool"'
                 default = str(a.default).lower()
+                
             elif a.type is boxes.argparseSections:
                 t = '"string"'
+                
             else:
                 t = { int : '"int"',
                       float : '"float" precision="2"',
                       str : '"string"',
                       }.get(a.type, '"string"')
-            return '''      <param name="%s" type=%s max="9999" _gui-text="%s" gui-description=%s>%s</param>\n''' % (name, t, viewname, quoteattr(a.help or viewname), default)
+                      
+            if t == '"int"' or t == '"float" precision="2"':
+                return '''        <param name="%s" type=%s max="9999" gui-text="%s" gui-description=%s>%s</param>\n''' % (name, t, viewname, quoteattr(a.help or viewname), default)
+
+            else:
+                return '''        <param name="%s" type=%s gui-text="%s" gui-description=%s>%s</param>\n''' % (name, t, viewname, quoteattr(a.help or viewname), default)
 
     def generator2inx(self, name, box):
         result = [ """<?xml version="1.0" encoding="UTF-8"?>
 <inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
-  <_name>%s</_name>
-  <dependency type="executable" location="path">boxes</dependency>
-  <id>info.festi.boxes.py.%s</id>
-
-  <param name="generator" type="string" gui-hidden="true">%s</param>
-  <param name="tab" type="notebook">
-""" % (name, name, name.lower())]
+<name>%s</name>
+<id>info.festi.boxes.py.%s</id>
+<param name="generator" type="string" gui-hidden="true">%s</param>
+<param name="tab" type="notebook">""" % (name, name, name.lower())]
         groupid = 0
         for group in box.argparser._action_groups:
             if not group._group_actions:
@@ -98,30 +104,40 @@ class Boxes2INX:
                 title = title[len("Settings for "):]
             if title.endswith(" Settings"):
                 title =	title[:-len(" Settings")]
-            result.append("""
-    <page name="%s" _gui-text="%s">
-""" % (groupid, title))
+         
+            pageParams = []
             for a in group._group_actions:
                 if a.dest in ("input", "output", "format"):
-                    continue
-                result.append(self.arg2inx(a, prefix))
-            result.append("    </page>\n")
+                    continue         
+                if self.arg2inx(a, prefix) != "":
+                    pageParams.append(self.arg2inx(a, prefix))
+            if len(pageParams) > 0:
+                result.append("""
+    <page name="tab_%s" gui-text="%s">
+""" % (groupid, title))
+                result.extend(pageParams)
+                result.append("    </page>")
+            
             groupid += 1
         result.append("""
-  </param>
-  <effect>
+    <page name="tab_%s" gui-text="Example">
+""" % (groupid))
+        result.append("        <image>./" + name + "-thumb.jpg</image>\n")
+        result.append("    </page>\n")
+        result.append("""</param>
+<label appearance="url">https://www.festi.info/boxes.py/""" + name + """</label>
+<effect>
     <object-type>all</object-type>
-      <effects-menu>
-        <submenu _name="Boxes.py">
-         <submenu _name="%s"/>
+    <effects-menu>
+        <submenu name="Boxes.py">
+            <submenu name="%s"/>
         </submenu>
-      </effects-menu>
-  </effect>
-  <script>
-    <command reldir="extensions">boxes</command>
-  </script>
-</inkscape-extension>
-""" % self.groups_by_name[box.ui_group].title)
+    </effects-menu>
+</effect>
+<script>
+    <command location="inx" interpreter="python">boxes_proxy.py</command>
+</script>
+</inkscape-extension>""" % self.groups_by_name[box.ui_group].title)
         return b''.join(s.encode("utf-8") for s in result)
 
     def writeINX(self, name, box, path):

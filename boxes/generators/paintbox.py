@@ -21,7 +21,7 @@ class PaintStorage(Boxes):
     """Stackable storage for hobby paint or other things"""
 
     webinterface = True
-    ui_group = "Shelf"  # see ./__init__.py for names
+    ui_group = "Shelf" # see ./__init__.py for names
 
     def __init__(self):
         Boxes.__init__(self)
@@ -79,11 +79,11 @@ class PaintStorage(Boxes):
         x, y = self.x, self.y
         t = self.thickness
 
-        stack = self.edges["s"].settings
+        stack = self.edges['s'].settings
         h = self.canheight - stack.height - stack.holedistance + t
 
-        hx = 1 / 2.0 * x
-        hh = h / 4.0
+        hx = 1/2.*x
+        hh = h/4.
         hr = min(hx, hh) / 2
 
         if not self.drawer:
@@ -92,11 +92,14 @@ class PaintStorage(Boxes):
                 lambda: self.rectangularHole(h / 3, (x / 2.0) - t, hh, hx, r=hr),
                 lambda: self.fingerHolesAt(-t, self.canheight / 3, x, 0),
             ]
+            bottom_keys = "EfEf"
         else:
             wall_keys = "FsFS"
             wall_callbacks = [
                 lambda: self.rectangularHole(h / 3, (x / 2.0) - t, hh, hx, r=hr)
             ]
+            bottom_keys = "FfFf"
+
 
         # Walls
         self.rectangularWall(
@@ -115,12 +118,12 @@ class PaintStorage(Boxes):
         )
 
         # Bottom
-        self.rectangularWall(y, x, "efef", move="up")
+        self.rectangularWall(y, x-2*t, bottom_keys, move="up")
 
         if not self.drawer:
             # Top
             self.rectangularWall(y, x, "efef", callback=[self.paintholes], move="up")
         else:
             # Sides
-            self.rectangularWall(y, h, "efef", move="up")
-            self.rectangularWall(y, h, "efef", move="up")
+            self.rectangularWall(y, h, "efff", move="up")
+            self.rectangularWall(y, h, "efff", move="up")

@@ -920,22 +920,23 @@ Values:
         if self.angle > 260:
             raise ValueError("StackableSettings: 'angle' is too big. Use value < 260")
 
-    def edgeObjects(self, boxes, chars="sS", add=True, fingersettings=None):
+    def edgeObjects(self, boxes, chars="sSš", add=True, fingersettings=None):
         fingersettings = fingersettings or boxes.edges["f"].settings
         edges = [StackableEdge(boxes, self, fingersettings),
-                 StackableEdgeTop(boxes, self, fingersettings)]
+                 StackableEdgeTop(boxes, self, fingersettings),
+                 StackableFeet(boxes, self, fingersettings)]
         return self._edgeObjects(edges, boxes, chars, add)
 
-class StackableEdge(BaseEdge):
+class StackableBaseEdge(BaseEdge):
     """Edge for having stackable Boxes. The Edge creates feet on the bottom
     and has matching recesses on the top corners."""
 
     char = "s"
-    description = "Stackable (bottom, finger joint holes)"
+    description = "Abstract Stackable class"
     bottom = True
 
     def __init__(self, boxes, settings, fingerjointsettings):
-        super(StackableEdge, self).__init__(boxes, settings)
+        super().__init__(boxes, settings)
 
         self.fingerjointsettings = fingerjointsettings
 
@@ -944,10 +945,6 @@ class StackableEdge(BaseEdge):
         r = s.height / 2.0 / (1 - math.cos(math.radians(s.angle)))
         l = r * math.sin(math.radians(s.angle))
         p = 1 if self.bottom else -1
-
-        if self.bottom:
-            self.boxes.fingerHolesAt(0, s.height + self.settings.holedistance + 0.5 * self.boxes.thickness,
-                                     length, 0)
 
         self.boxes.edge(s.width, tabs=1)
         self.boxes.corner(p * s.angle, r)
@@ -966,12 +963,32 @@ class StackableEdge(BaseEdge):
     def margin(self):
         return 0 if self.bottom else self.settings.height
 
+class StackableEdge(StackableBaseEdge):
+    """Edge for having stackable Boxes. The Edge creates feet on the bottom
+    and has matching recesses on the top corners."""
 
-class StackableEdgeTop(StackableEdge):
+    char = "s"
+    description = "Stackable (bottom, finger joint holes)"
+
+    def __call__(self, length, **kw):
+        s = self.settings
+        self.boxes.fingerHolesAt(
+            0,
+            s.height + s.holedistance + 0.5 * self.boxes.thickness,
+            length, 0)
+        super().__call__(length, **kw)
+
+class StackableEdgeTop(StackableBaseEdge):
     char = "S"
     description = "Stackable (top)"
     bottom = False
 
+class StackableFeet(StackableBaseEdge):
+    char = "š"
+    description = "Stackable feet (bottom)"
+
+    def _height(self):
+        return self.settings.height
 
 #############################################################################
 ####     Hinges

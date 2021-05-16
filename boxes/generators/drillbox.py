@@ -14,44 +14,78 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from boxes import *
+from boxes import Boxes, edges, Color
 
 
 class DrillBox(Boxes):
-    """Not yet parametrized box for drills from 1 to 12.5mm
-in 0.5mm steps, 3 holes each size"""
+    """A parametrized box for drills"""
 
     def __init__(self):
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings)
-        self.x, self.y, self.h = 120, 240, 60
+        self.buildArgParser(sx="25*3", sy="60*4", h=60)
+        self.argparser.add_argument(
+            "--holes",
+            action="store",
+            type=int,
+            default=3,
+            help="Number of holes for each size",
+        )
+        self.argparser.add_argument(
+            "--firsthole",
+            action="store",
+            type=float,
+            default=1.0,
+            help="Smallest hole",
+        )
+        self.argparser.add_argument(
+            "--holeincrement",
+            action="store",
+            type=float,
+            default=.5,
+            help="increment between holes",
+        )
 
     def holesx(self):
-        self.fingerHolesAt(0, 5, self.x, angle=0)
-        self.fingerHolesAt(0, 25, self.x, angle=0)
+        x = sum(self.sx)
+        self.fingerHolesAt(0, 5, x, angle=0)
+        self.fingerHolesAt(0, 25, x, angle=0)
 
     def holesy(self):
-        self.fingerHolesAt(0, 5, self.y, angle=0)
-        self.fingerHolesAt(0, 25, self.y, angle=0)
+        y = sum(self.sy)
+        self.fingerHolesAt(0, 5, y, angle=0)
+        self.fingerHolesAt(0, 25, y, angle=0)
 
-    def drillholes(self):
-        for i in range(6):
-            for j in range(4):
-                for k in range(3):
-                    r = (12.5 - 2 * i - 0.5 * j) * 0.5
-                    self.hole(i * 20 + 10, j * 60 + k * 20 + 10, r + 0.05)
-
-    def descriptionText(self):
-        for i in range(4):
-            for j in range(6):
-                self.rectangularHole(i * 60 + 30, 20 * j + 10, 58, 14 + 1 * j)
-                d = 2.5 - 0.5 * i + 2 * j
-                self.text("%.1f" % d, i * 60 + 20, 19 * j + 6,
-                          align="center", fontsize=6)
+    def drillholes(self, description=False):
+        y = 0
+        d = self.firsthole
+        for dy in self.sy:
+            x = 0
+            for dx in self.sx:
+                iy = dy / self.holes
+                for k in range(self.holes):
+                    self.hole(x + dx / 2, y + (k + 0.5) * iy, d + 0.05)
+                if description:
+                    self.rectangularHole(x + dx / 2, y + dy / 2, dx - 2, dy - 2)
+                    # TODO: make the "hole" green to indicate etching
+                    self.text(
+                        "%.1f" % d,
+                        x + 2,
+                        y + 2,
+                        270,
+                        align="right",
+                        fontsize=6,
+                        color=Color.GREEN,
+                    )
+                    # TODO: make the fontsize dynamic to make the text fit in all cases
+                d += self.holeincrement
+                x += dx
+            y += dy
 
     def render(self):
-        x, y, h = self.x, self.y, self.h
-        t = self.thickness
+        x = sum(self.sx)
+        y = sum(self.sy)
+        h = self.h
 
         self.edges["f"].settings.setValues(self.thickness, space=3, finger=3, surroundingspaces=1)
 
@@ -60,9 +94,6 @@ in 0.5mm steps, 3 holes each size"""
         self.rectangularWall(y, h, "FfeF", callback=[self.holesy])
         self.rectangularWall(x, h, "FfeF", callback=[self.holesx], move="left up")
 
-        self.rectangularWall(x, y, "ffff", move="up")
-        self.rectangularWall(x, y, "ffff", callback=[self.drillholes], move="up")
-        self.rectangularWall(x, y, "ffff", callback=[self.drillholes, self.descriptionText], move="up")
-
-
-
+        self.rectangularWall(x, y, "ffff", move="right")
+        self.rectangularWall(x, y, "ffff", callback=[self.drillholes], move="right")
+        self.rectangularWall(x, y, "ffff", callback=[lambda: self.drillholes(description=True)], move="right")

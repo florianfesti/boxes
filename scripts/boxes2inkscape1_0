@@ -58,9 +58,13 @@ class Boxes2INX:
                     (name, max((len(l) for l in val))+10, len(val)+1, a.default)
                     
         elif (isinstance(a, argparse._StoreAction) and hasattr(a.type, "inx")) or a.choices:
+            uniqueChoices = []
+            for e in a.choices:
+                if e not in uniqueChoices:
+                    uniqueChoices.append(e)
             return ('''        <param name="%s" type="optiongroup" appearance="combo" gui-text="%s" gui-description=%s>\n'''
                       % (name, viewname, quoteattr(a.help or viewname)) +
-        "".join('            <option value="%s">%s</option>\n' % (e, e) for e in a.choices) + '    </param>\n')
+        "".join('            <option value="%s">%s</option>\n' % (e, e) for e in uniqueChoices) + '    </param>\n')
             
         else:
             default = a.default

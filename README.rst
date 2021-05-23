@@ -1,6 +1,17 @@
 About Boxes.py
 ==============
 
+.. image:: static/samples/NotesHolder.jpg
+   :width: 18%
+.. image:: static/samples/OttoBody.jpg
+   :width: 18%
+.. image:: static/samples/PaintStorage.jpg
+   :width: 20%
+.. image:: static/samples/ShutterBox.jpg
+   :width: 20%
+.. image:: static/samples/TwoPiece.jpg
+   :width: 19%
+
 * Boxes.py is an online box generator
 
   * https://www.festi.info/boxes.py/index.html
@@ -12,6 +23,13 @@ About Boxes.py
 
 Boxes.py comes with a growing set of ready-to-use, fully parametrized
 generators. See https://florianfesti.github.io/boxes/html/generators.html for the full list.
+
+.. image:: static/samples/AngledBox.jpg
+   :width: 33%
+.. image:: static/samples/FlexBox2.jpg
+   :width: 33%
+.. image:: static/samples/HingeBox.jpg
+   :width: 33%
 
 Features
 --------
@@ -38,6 +56,20 @@ Dovetail joints can be used to join pieces in the same plane.
 
 Flex cuts allows bending and stretching the material in one direction. This
 is used for rounded edges and living hinges.
+
+.. image:: static/samples/TypeTray.jpg
+   :width: 33%
+.. image:: static/samples/BinTray.jpg
+   :width: 33%
+.. image:: static/samples/DisplayShelf.jpg
+   :width: 33%
+
+.. image:: static/samples/AgricolaInsert.jpg
+   :width: 33%
+.. image:: static/samples/HeartBox.jpg
+   :width: 33%
+.. image:: static/samples/Atreus21.jpg
+   :width: 33%
 
 Documentation
 -------------

@@ -125,6 +125,7 @@ class Boxes2INX:
         result.append("        <image>./" + name + "-thumb.jpg</image>\n")
         result.append("    </page>\n")
         result.append("""</param>
+<label appearance="url">https://www.festi.info/boxes.py/""" + name + """</label>
 <effect>
     <object-type>all</object-type>
     <effects-menu>

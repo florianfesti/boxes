@@ -17,7 +17,7 @@ Well, this could be a bug in Boxes.py but there are a few more likely causes to 
 Why is my box a bit too big?
 ----------------------------
 
-By default all sizes are inner sizes. So on the outside the box is bigger as the walls need to go somewhere. Some generators offer an "outside" param that includes the walls in the measurements. In general you shoould check the generated parts for plausability before hitting the start button on your laser cutter. 
+By default all sizes are inner sizes. So on the outside the box is bigger as the walls need to go somewhere. Some generators offer an "outside" param that includes the walls in the measurements. In general you should check the generated parts for plausability before hitting the start button on your laser cutter. 
 
 Why is my box a bit too small?
 ------------------------------

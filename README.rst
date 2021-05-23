@@ -57,12 +57,14 @@ Dovetail joints can be used to join pieces in the same plane.
 Flex cuts allows bending and stretching the material in one direction. This
 is used for rounded edges and living hinges.
 
+.. table:: Foobar
+   :widths: 33 33 33
 
-+----------------------------------------------+----------------------------------------------+----------------------------------------------+
-|   .. image:: static/samples/TypeTray.jpg     |     .. image:: static/samples/BinTray.jpg    | .. image:: static/samples/DisplayShelf.jpg   |
-+----------------------------------------------+----------------------------------------------+----------------------------------------------+
-| .. image:: static/samples/AgricolaInsert.jpg | .. image:: static/samples/HeartBox.jpg       | .. image:: static/samples/Atreus21.jpg       |
-+----------------------------------------------+----------------------------------------------+----------------------------------------------+
+   +----------------------------------------------+----------------------------------------------+----------------------------------------------+
+   |   .. image:: static/samples/TypeTray.jpg     |     .. image:: static/samples/BinTray.jpg    | .. image:: static/samples/DisplayShelf.jpg   |
+   +----------------------------------------------+----------------------------------------------+----------------------------------------------+
+   | .. image:: static/samples/AgricolaInsert.jpg | .. image:: static/samples/HeartBox.jpg       | .. image:: static/samples/Atreus21.jpg       |
+   +----------------------------------------------+----------------------------------------------+----------------------------------------------+
 
 
 Documentation

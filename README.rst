@@ -1,16 +1,9 @@
 About Boxes.py
 ==============
 
-.. image:: static/samples/NotesHolder-thumb.jpg
-   :width: 18%
-.. image:: static/samples/OttoBody-thumb.jpg
-   :width: 18%
-.. image:: static/samples/PaintStorage-thumb.jpg
-   :width: 20%
-.. image:: static/samples/ShutterBox-thumb.jpg
-   :width: 20%
-.. image:: static/samples/TwoPiece-thumb.jpg
-   :width: 19%
++----------------------------------------------+----------------------------------------------+----------------------------------------------+----------------------------------------------+----------------------------------------------+
+| .. image:: static/samples/NotesHolder.jpg    | .. image:: static/samples/OttoBody.jpg       | .. image:: static/samples/PaintStorage.jpg   | .. image:: static/samples/ShutterBox.jpg     | .. image:: static/samples/TwoPiece.jpg       |
++----------------------------------------------+----------------------------------------------+----------------------------------------------+----------------------------------------------+----------------------------------------------+
 
 * Boxes.py is an online box generator
 
@@ -24,12 +17,9 @@ About Boxes.py
 Boxes.py comes with a growing set of ready-to-use, fully parametrized
 generators. See https://florianfesti.github.io/boxes/html/generators.html for the full list.
 
-.. image:: static/samples/AngledBox-thumb.jpg
-   :width: 33%
-.. image:: static/samples/FlexBox2-thumb.jpg
-   :width: 33%
-.. image:: static/samples/HingeBox-thumb.jpg
-   :width: 33%
++----------------------------------------------+----------------------------------------------+----------------------------------------------+
+| .. image:: static/samples/AngledBox.jpg      | .. image:: static/samples/FlexBox2.jpg       | .. image:: static/samples/HingeBox.jpg       |
++----------------------------------------------+----------------------------------------------+----------------------------------------------+
 
 Features
 --------
@@ -57,15 +47,11 @@ Dovetail joints can be used to join pieces in the same plane.
 Flex cuts allows bending and stretching the material in one direction. This
 is used for rounded edges and living hinges.
 
-.. table:: Foobar
-   :widths: 33 33 33
-
-   +----------------------------------------------+----------------------------------------------+----------------------------------------------+
-   |   .. image:: static/samples/TypeTray.jpg     |     .. image:: static/samples/BinTray.jpg    | .. image:: static/samples/DisplayShelf.jpg   |
-   +----------------------------------------------+----------------------------------------------+----------------------------------------------+
-   | .. image:: static/samples/AgricolaInsert.jpg | .. image:: static/samples/HeartBox.jpg       | .. image:: static/samples/Atreus21.jpg       |
-   +----------------------------------------------+----------------------------------------------+----------------------------------------------+
-
++----------------------------------------------+----------------------------------------------+----------------------------------------------+
+|   .. image:: static/samples/TypeTray.jpg     |     .. image:: static/samples/BinTray.jpg    | .. image:: static/samples/DisplayShelf.jpg   |
++----------------------------------------------+----------------------------------------------+----------------------------------------------+
+| .. image:: static/samples/AgricolaInsert.jpg | .. image:: static/samples/HeartBox.jpg       | .. image:: static/samples/Atreus21.jpg       |
++----------------------------------------------+----------------------------------------------+----------------------------------------------+
 
 Documentation
 -------------

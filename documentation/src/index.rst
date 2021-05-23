@@ -14,6 +14,7 @@ Contents:
    :maxdepth: 1
 	
    README
+   faq
    install
    usermanual
    CONTRIBUTING.rst

@@ -16,8 +16,9 @@
 
 from boxes import Boxes, edges, boolarg
 
+
 class PaintStorage(Boxes):
-    """Stackable paint storage"""
+    """Stackable storage for hobby paint or other things"""
 
     webinterface = True
     ui_group = "Shelf" # see ./__init__.py for names
@@ -42,6 +43,9 @@ class PaintStorage(Boxes):
         self.argparser.add_argument(
             "--hexpattern", action="store", type=boolarg, default=False,
             help="Use hexagonal arrangement for the holes instead of orthogonal")
+        self.argparser.add_argument(
+            "--drawer", action="store", type=boolarg, default=False,
+            help="Create a stackable drawer instead")
 
     def paintholes(self):
         "Place holes for the paintcans evenly"
@@ -70,12 +74,10 @@ class PaintStorage(Boxes):
                           j * (self.candiameter+spacing_x) + (self.candiameter+spacing_x)/2,
                           self.candiameter/2)
 
-
     def render(self):
         # adjust to the variables you want in the local scope
         x, y = self.x, self.y
         t = self.thickness
-
 
         stack = self.edges['s'].settings
         h = self.canheight - stack.height - stack.holedistance + t
@@ -84,21 +86,50 @@ class PaintStorage(Boxes):
         hh = h/4.
         hr = min(hx, hh) / 2
 
-        # render your parts here
-        self.rectangularWall(h, x, "eseS", callback=[
-            lambda: self.rectangularHole(h/3, x/2., hh, hx, r=hr),
-            lambda: self.fingerHolesAt(0, self.canheight/3, x, 0)],
-                             move="right")
-        self.rectangularWall(y, x, "efef",
-                             move="right")
+        if not self.drawer:
+            wall_keys = "EsES"
+            wall_callbacks = [
+                lambda: self.rectangularHole(h / 3, (x / 2.0) - t, hh, hx, r=hr),
+                lambda: self.fingerHolesAt(0, self.canheight / 3, x, 0),
+            ]
+            bottom_keys = "EfEf"
+        else:
+            wall_keys = "FsFS"
+            wall_callbacks = [
+                lambda: self.rectangularHole(h / 3, (x / 2.0) - t, hh, hx, r=hr)
+            ]
+            bottom_keys = "FfFf"
 
-        self.rectangularWall(0.8*stack.height+stack.holedistance, x, "eeee",
-                             move="up")
-        self.rectangularWall(0.8*stack.height+stack.holedistance, x, "eeee",
-                             move="")
-        self.rectangularWall(y, x, "efef", callback=[self.paintholes],
-                             move="left")
-        self.rectangularWall(h, x, "eseS", callback=[
-            lambda: self.rectangularHole(h/3, x/2., hh, hx, r=hr),
-            lambda: self.fingerHolesAt(0, self.canheight/3, x, 0)],
-                             move="left")
+
+        # Walls
+        self.rectangularWall(
+            h, x - 2 * t, wall_keys,
+            ignore_widths=[1, 2, 5, 6],
+            callback=wall_callbacks, move="up",
+        )
+        self.rectangularWall(
+            h, x - 2 * t, wall_keys,
+            ignore_widths=[1, 2, 5, 6],
+            callback=wall_callbacks, move="right"
+        )
+
+        # Plates
+        self.rectangularWall(
+            0.8 * stack.height + stack.holedistance, x, "eeee", move=""
+        )
+        self.rectangularWall(
+            0.8 * stack.height + stack.holedistance, x, "eeee", move="down right"
+        )
+
+        # Bottom
+        self.rectangularWall(
+            y, x-2*t, bottom_keys, ignore_widths=[1, 2, 5, 6], move="up"
+        )
+
+        if not self.drawer:
+            # Top
+            self.rectangularWall(y, x, "efef", callback=[self.paintholes], move="up")
+        else:
+            # Sides
+            self.rectangularWall(y, h, "efff", move="up")
+            self.rectangularWall(y, h, "efff", move="up")

@@ -26,7 +26,7 @@ It can be used with the following code pattern:
 
 .. code-block:: python
 
-   with self.saved_context:
+   with self.saved_context():
        self.rectangularWall(x, h, move="right")
        self.rectangularWall(y, h, move="right")
        self.rectangularWall(y, h, move="right")

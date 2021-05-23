@@ -1,8 +1,13 @@
 Burn correction
 ===============
 
-The burn correction -- aka kerf -- is integrated into the low level
-commands of Boxes.py. So for the most part developer do not need to
+The burn correction -- aka kerf -- is done in two separate steps. The
+first mechanism is used during drawing. After rendering there is
+a post processing step that replaces the inverted arcs of the inner corners by
+Bezier loops that can be cut in a continous motion.
+
+The first mechanism is integrated into the low level
+commands of Boxes.py. So for the most part developers do not need to
 care about it. Nevertheless they need to understand how it works to
 catch the places the do need to care.
 
@@ -19,10 +24,10 @@ what Boxes.py does:
 
 .. image:: burn.svg
 
-This results in the straight lines touching the piece. This leads to
-overcuts. They are not as nice as proper dog bones as might be used by
+This results in the straight lines touching the piece. This would lead to
+overcuts that are not as nice as proper dog bones as might be used by
 a dedicated CAM software. But as Boxes.py is meant to be used for laser
-cutting this is deemed acceptable:
+cutting this deemed acceptable for a long time:
 
 .. image:: overcuts.svg
 
@@ -51,3 +56,24 @@ correct for the out-set at the outside of the part and again for in-set
 of the hole one is about to cut. This can be done in **x** or **y**
 direction depending on whether the cut ist started vertical or
 horizontally.
+
+Replacing the inverted arcs
+---------------------------
+
+The inverted arcs have several drawbacks. For one they remove more
+material than needed. This is not a big deal for laser cutters. But if
+the boxes are cut with a CNC milling machine that can be
+annoying. Another drawback is that the direction is reversed twice
+which requires the tool (typically the laser head) to come to a total stop.
+
+To solve this issue all paths are scanned for intersecting lines that
+are connected by an inverted arc. There the lines are shortened to the
+intersection point and the arc is replaced by a Bezier loop that is
+continues the lines and loops on the outside of the corner. That way
+the path still removes additional material to make sure the full
+inner corner is cleared out. The current implementation uses the
+former end points of the lines as control points. This gives
+reasonable results but errs on the save side. The amount of material
+removed can probably be further optimized.
+
+.. image:: burn2.svg

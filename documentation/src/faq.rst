@@ -32,7 +32,7 @@ Unfortunately some formats do not save the units of measurement or don't do so p
 Why are there tiny, weird loops in the corners?
 -----------------------------------------------
 
-These are called dog bones and make sure the corner is completely cut out. As lasers and milling tools are round they can't cut sharp inner corners. Have a look at `burn correction details<api_burn>`_.
+These are called dog bones and make sure the corner is completely cut out. As lasers and milling tools are round they can't cut sharp inner corners. Have a look at :doc:`burn correction details <api_burn>`.
 
 I really don't want those weird, tiny loops?
 --------------------------------------------

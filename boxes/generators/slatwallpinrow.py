@@ -39,7 +39,6 @@ class PinEdge(edges.BaseEdge):
 class SlatwallPinRow(Boxes):
     """Outset and angled plate to mount stuff to"""
 
-    ui_group = "Unstable"
     ui_group = "SlatWall"
 
     def __init__(self):
@@ -92,7 +91,7 @@ class SlatwallPinRow(Boxes):
             
     def backCB(self):
         t = self.thickness
-        self.fingerHolesAt(0, 2.5*t, self.x, 0)
+        self.fingerHolesAt(0, 2*t, self.x, 0)
         if self.angle < 0.001:
             return
         for i in range(1, self.hooks-1):
@@ -175,7 +174,7 @@ class SlatwallPinRow(Boxes):
         self.x = x = n*self.pinspacing + (n)*(n-1)/2 *self.pinspacing_increment
 
 
-        self.rectangularWall(x, 3*t, [p, "f", "f", "f"], move="up")
+        self.rectangularWall(x, 3*t, [p, "e", "f", "e"], move="up")
         self.rectangularWall(x, self.h, "efef", callback=[self.frontCB],
                              move="up")
         self.rectangularWall(x, self.h/2, "efef", callback=[self.backCB],

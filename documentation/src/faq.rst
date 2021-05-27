@@ -42,7 +42,7 @@ You can just set ``burn`` to ``0`` to make them go away. But you have then to us
 What settings were used to generate a drawing?
 ----------------------------------------------
 
-If you do have the SVG you can look into the meta data of the file. E.g. by opening it with ``Inkscape`` and look into the ``metadata`` tab in ``Document properties``. You can also just open the file with a text editor and find the details at the beginning of the file.
+If you do have the SVG or PostScriptyou can look into the meta data of the file. Most document viewers will have a ``Document properties`` window. You can also just open the file with a text editor and find the details at the first few lines.
 
 Note that you can just use the URL in there to get back to the settings page to change some values. The difference between the settings and the rendered drawing is just ``render=0`` or ``render=1`` at the end of the URL.
 

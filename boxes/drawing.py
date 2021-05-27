@@ -577,6 +577,30 @@ class PSSurface(Surface):
         ('monospaced', True, True) : 'Courier-BoldOblique',
         }
 
+    def _metadata(self):
+        md = self.metadata
+
+        desc = ""
+        desc += "%%Title: Boxes.py - {group} - {name}\n".format(**md)
+        desc += f'%%CreationDate: {datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n'
+        desc += f'%%Keywords: boxes.py, laser, laser cutter\n'
+        desc += f'%%Creator: {md.get("url") or md["cli"]}\n'
+        desc +=  "%%CreatedBy: Boxes.py (https://festi.info/boxes.py)\n"
+        for line in (md["short_description"] or "").split("\n"):
+            desc += "%% %s\n" % line
+        desc += "%\n"
+        if "description" in md and md["description"]:
+            desc += "%\n"
+            for line in md["description"].split("\n"):
+                desc += "%% %s\n" % line
+            desc += "%\n"
+
+        desc += "%% Command line: %s\n" % md["cli"]
+        if md["url"]:
+            desc += f'%%Url: {md["url"]}\n'
+            desc += f'%%SettingsUrl: {md["url"].replace("&render=1", "")}\n'
+        return desc
+
     def finish(self):
 
         extents = self._adjust_coordinates()
@@ -586,9 +610,9 @@ class PSSurface(Surface):
         f = open(self._fname, "w", encoding="latin1", errors="replace")
 
         f.write("%!PS-Adobe-2.0\n")
-        f.write(
-            f"""%%BoundingBox: 0 0 {w:.0f} {h:.0f}
-
+        f.write(f"%%BoundingBox: 0 0 {w:.0f} {h:.0f}\n")
+        f.write(self._metadata())
+        f.write("""
 1 setlinecap
 1 setlinejoin
 0.0 0.0 0.0 setrgbcolor

@@ -248,12 +248,13 @@ class SideEdge(edges.BaseEdge):
         self.reverse = reverse
 
     def __call__(self, length, **kw):
+        tab_start = self.tab_start
         tab_end = length - self.tab_start - self.tab_length
 
         if self.reverse:
-            self.tab_start, tab_end = tab_end, self.tab_start
+            tab_start, tab_end = tab_end, tab_start
 
-        self.edges["F"](self.tab_start)
+        self.edges["F"](tab_start)
         self.polyline(
             0,
             90,
@@ -277,12 +278,13 @@ class TabbedEdge(edges.BaseEdge):
         self.reverse = reverse
 
     def __call__(self, length, **kw):
+        tab_start = self.tab_start
         tab_end = length - self.tab_start - self.tab_length
 
         if self.reverse:
-            self.tab_start, tab_end = tab_end, self.tab_start
+            tab_start, tab_end = tab_end, tab_start
 
-        self.edges["f"](self.tab_start)
+        self.edges["f"](tab_start)
 
         self.ctx.save()
         self.fingerHolesAt(0, -self.thickness / 2, self.tab_length, 0)

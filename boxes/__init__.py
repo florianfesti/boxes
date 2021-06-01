@@ -72,9 +72,14 @@ def holeCol(func):
 
     @wraps(func)
     def f(self, *args, **kw):
+        if "color" in kw:
+            color = kw.pop("color")
+        else:
+            color = Color.INNER_CUT
+
         self.ctx.stroke()
         with self.saved_context():
-            self.set_source_color(Color.BLUE)
+            self.set_source_color(color)
             func(self, *args, **kw)
             self.ctx.stroke()
 

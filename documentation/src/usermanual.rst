@@ -147,3 +147,20 @@ settings to the user. In the web interface they are folded up. In the
 command line interfacce they are grouped together. Users should be
 aware that not all settings are practical to change. For now Boxes.py
 does not allow hiding some settings.
+
+Colors
+------
+The generated files uses the following color conventions:
+
+.. glossary::
+     Black 
+        The outer edges of a part
+     Blue
+        Inner edges of a part
+     Red
+        Comments or help lines that are not ment to be cut or etched
+     Green
+        Etchings
+
+Normaly you will cut things in the order: Green, Blue, Black. If other 
+colors are present, the meaning should hopefully be obvious.

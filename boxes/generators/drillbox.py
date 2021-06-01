@@ -66,8 +66,7 @@ class DrillBox(Boxes):
                 for k in range(self.holes):
                     self.hole(x + dx / 2, y + (k + 0.5) * iy, d + 0.05)
                 if description:
-                    self.rectangularHole(x + dx / 2, y + dy / 2, dx - 2, dy - 2)
-                    # TODO: make the "hole" green to indicate etching
+                    self.rectangularHole(x + dx / 2, y + dy / 2, dx - 2, dy - 2, color=Color.ETCHING)
                     self.text(
                         "%.1f" % d,
                         x + 2,
@@ -75,7 +74,7 @@ class DrillBox(Boxes):
                         270,
                         align="right",
                         fontsize=6,
-                        color=Color.GREEN,
+                        color=Color.ETCHING,
                     )
                     # TODO: make the fontsize dynamic to make the text fit in all cases
                 d += self.holeincrement

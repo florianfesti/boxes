@@ -293,6 +293,9 @@ class Boxes:
             "--debug", action="store", type=boolarg, default=False,
             help="print surrounding boxes for some structures")
         defaultgroup.add_argument(
+            "--nolabels", action="store", type=boolarg, default=False,
+            help="Hide the labels for parts")
+        defaultgroup.add_argument(
             "--reference", action="store", type=float, default=100,
             help="print reference rectangle with given length (zero to disable)")
         defaultgroup.add_argument(
@@ -1086,7 +1089,7 @@ class Boxes:
         self.ctx.translate(*self.ctx.get_current_point())
         self.ctx.rotate(angle)
 
-    def move(self, x, y, where, before=False):
+    def move(self, x, y, where, before=False, label=""):
         """Intended to be used by parts
         where can be combinations of "up" or "down", "left" or "right", "only",
         "mirror" and "rotated"
@@ -1104,6 +1107,9 @@ class Boxes:
         """
         if not where:
             where = ""
+
+        if not self.nolabels:
+            self.text(label, 5, 5, align="bottom left", color=Color.ANNOTATIONS, fontsize=4)
 
         terms = where.split()
         dontdraw = before and "only" in terms
@@ -1789,7 +1795,8 @@ class Boxes:
                         holesMargin=None, holesSettings=None,
                         bedBolts=None, bedBoltSettings=None,
                         callback=None,
-                        move=None):
+                        move=None,
+                        label=""):
         """
         Rectangular wall for all kind of box like objects
 
@@ -1803,6 +1810,7 @@ class Boxes:
         :param bedBoltSettings:  (Default value = None)
         :param callback:  (Default value = None)
         :param move:  (Default value = None)
+        :param label: rendered to identify parts, it is not ment to be cut or etched (Default value = "")
 
         """
         if len(edges) != 4:
@@ -1841,10 +1849,10 @@ class Boxes:
                         holesMargin + edges[0].startwidth())
             self.hexHolesRectangle(x - 2 * holesMargin, y - 2 * holesMargin, settings=holesSettings)
 
-        self.move(overallwidth, overallheight, move)
+        self.move(overallwidth, overallheight, move, label=label)
 
     def flangedWall(self, x, y, edges="FFFF", flanges=None, r=0.0,
-               callback=None, move=None):
+               callback=None, move=None, label=""):
         """Rectangular wall with flanges extending the regular size
 
         This is similar to the rectangularWall but it may extend to either side
@@ -1857,6 +1865,7 @@ class Boxes:
         :param r: radius of the corners of the flange
         :param callback:  (Default value = None)
         :param move:  (Default value = None)
+        :param label: rendered to identify parts, it is not ment to be cut or etched (Default value = "")        
         """
 
         t = self.thickness
@@ -1894,12 +1903,13 @@ class Boxes:
                 self.edges.get(edges[i], edges[i])(l)
                 self.edge(flanges[i+1]+t-rr)
             self.corner(90, rr)
-        self.move(tw, th, move)
+        self.move(tw, th, move, label=label)
 
     def rectangularTriangle(self, x, y, edges="eee", r=0.0, num=1,
                         bedBolts=None, bedBoltSettings=None,
                         callback=None,
-                        move=None):
+                        move=None,
+                        label=""):
         """
         Rectangular triangular wall
 
@@ -1912,7 +1922,7 @@ class Boxes:
         :param bedBoltSettings:  (Default value = None)
         :param callback:  (Default value = None)
         :param move:  (Default value = None)
-
+        :param label: rendered to identify parts, it is not ment to be cut or etched (Default value = "")    
         """
         edges = [self.edges.get(e, e) for e in edges]
         if len(edges) == 2:
@@ -1968,10 +1978,11 @@ class Boxes:
                 self.moveTo(width+1*edges[1].spacing()-self.spacing-2*edges[-1].spacing(), height-edges[0].spacing(), 180)
 
 
-        self.move(overallwidth, overallheight, move)
+        self.move(overallwidth, overallheight, move, label=label)
 
     def trapezoidWall(self, w, h0, h1, edges="eeee",
-                           callback=None, move=None):
+                           callback=None, move=None,
+                           label=""):
         """
         Rectangular trapezoidal wall
 
@@ -1981,7 +1992,7 @@ class Boxes:
         :param edges:  (Default value = "eee") bottom, right, left
         :param callback:  (Default value = None)
         :param move:  (Default value = None)
-
+        :param label: rendered to identify parts, it is not ment to be cut or etched (Default value = "")
         """
 
         edges = [self.edges.get(e, e) for e in edges]
@@ -2011,10 +2022,11 @@ class Boxes:
         edges[3](h0)
         self.edgeCorner(edges[-1], edges[0], 90)
 
-        self.move(overallwidth, overallheight, move)
+        self.move(overallwidth, overallheight, move, label=label)
 
     def trapezoidSideWall(self, w, h0, h1, edges="eeee",
-                          radius=0.0, callback=None, move=None):
+                          radius=0.0, callback=None, move=None,
+                          label=""):
         """
         Rectangular trapezoidal wall
 
@@ -2025,7 +2037,7 @@ class Boxes:
         :param radius: (Default vaule = 0.0) radius of upper corners
         :param callback:  (Default value = None)
         :param move:  (Default value = None)
-
+        :param label: rendered to identify parts, it is not ment to be cut or etched (Default value = "")
         """
 
         edges = [self.edges.get(e, e) for e in edges]
@@ -2067,7 +2079,7 @@ class Boxes:
         edges[3](h0)
         self.edgeCorner(edges[-1], edges[0], 90)
 
-        self.move(overallwidth, overallheight, move)
+        self.move(overallwidth, overallheight, move, label)
 
     ### polygonWall and friends
 

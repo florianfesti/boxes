@@ -7,10 +7,11 @@ ui_groups_by_name = {}
 
 class UIGroup:
 
-    def __init__(self, name, title=None, description=""):
+    def __init__(self, name, title=None, description="", image=""):
         self.name = name
         self.title = title or name
         self.description = description
+        self._image = image
         self.generators = []
         # register
         ui_groups_by_name[name] = self
@@ -19,15 +20,23 @@ class UIGroup:
         self.generators.append(box)
         self.generators.sort(key=lambda b:getattr(b, '__name__', None) or b.__class__.__name__)
 
+    @property
+    def thumbnail(self):
+        return self._image and f"{self._image}-thumb.jpg"
+
+    @property
+    def image(self):
+        return self._image and f"{self._image}.jpg"
+
 ui_groups = [
-    UIGroup("Box", "Boxes"),
-    UIGroup("FlexBox", "Boxes with flex"),
-    UIGroup("Tray", "Trays and Drawer Inserts"),
-    UIGroup("Shelf", "Shelves"),
-    UIGroup("SlatWall"),
-    UIGroup("Holes", "Hole patterns"),
-    UIGroup("Part", "Parts and Samples"),
-    UIGroup("Misc"),
+    UIGroup("Box", "Boxes", image="UniversalBox"),
+    UIGroup("FlexBox", "Boxes with flex", image="RoundedBox"),
+    UIGroup("Tray", "Trays and Drawer Inserts", image="TypeTray"),
+    UIGroup("Shelf", "Shelves", image="DisplayShelf"),
+    UIGroup("SlatWall", image="SlatwallTypeTray"),
+    UIGroup("Holes", "Hole patterns", image=""),
+    UIGroup("Part", "Parts and Samples", image="BurnTest"),
+    UIGroup("Misc", image="TrafficLight"),
     UIGroup("Unstable", description="Generators are still untested or need manual adjustment to be useful."),
     ]
 

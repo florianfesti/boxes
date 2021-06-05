@@ -335,11 +335,11 @@ class BServer:
 """ ]
         for nr, group in enumerate(self.groups):
             result.append(f'''
-<h3 id="h-{nr}" class="open" onclick="showHide('{nr}')">{_(group.title)}</h3>\n  <div id="{nr}">
-''')
-            result.append(f"""
-    <img style="width: 200px;" id="sample-{group.name}" src="static/nothing.png" alt="" />
-    <ul>\n""")
+<h3 id="h-{nr}" class="open" onclick="showHide('{nr}')"
+     onmouseenter="change('{group.name}', 'static/samples/{group.thumbnail}')"
+     onmouseleave="changeback('{group.name}')">{_(group.title)}</h3>
+  <img style="width: 200px;" id="sample-{group.name}" src="static/nothing.png" alt="" />
+  <div id="{nr}"><ul>''')
             for box in group.generators:
                 name = box.__name__
                 if name in ("TrayLayout2", ):
@@ -348,10 +348,9 @@ class BServer:
                 if box.__doc__:
                     docs = " - " + _(box.__doc__)
                 result.append(f"""
-         <li onmouseenter="change('{group.name}', 'static/samples/{name}-thumb.jpg')" onmouseleave="changeback('{group.name}')"><a href="{name}{langparam}">{_(name)}</a>{docs}</li>\n""")
+      <li onmouseenter="change('{group.name}', 'static/samples/{name}-thumb.jpg')" onmouseleave="changeback('{group.name}')"><a href="{name}{langparam}">{_(name)}</a>{docs}</li>""")
             result.append("""
-    </ul>
-  </div>
+  </ul></div>
 """)
         result.append("""
 </div>

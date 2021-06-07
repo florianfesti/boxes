@@ -31,7 +31,7 @@ General
 
    .. code::
 
-      pip3 install Markdown lxml affine
+      pip3 install Markdown affine
 
 4. Download Boxes.py via Git:
 

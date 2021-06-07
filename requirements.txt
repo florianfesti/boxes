@@ -1,5 +1,4 @@
 affine
 markdown
-lxml
 setuptools
 sphinx

@@ -19,11 +19,6 @@ Markdown
 :code:`Markdown` (package name may be :code:`python-markdown` or
 :code:`python3-markdown`) is used to format the description texts.
 
-LXML
-....
-
-:code:`lxml` (package name may be :code:`python-lxml` or :code:`python3-lxml`)
-is needed for the Inkscape plugin.
 
 setuptools
 ..........

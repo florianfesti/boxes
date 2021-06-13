@@ -21,8 +21,7 @@ import math
 class DoubleFlexDoorBox(boxes.Boxes):
     """Box with two part lid with living hinges and round corners"""
 
-    #ui_group = "FlexBox"
-    ui_group = "Unstable"
+    ui_group = "FlexBox"
 
     def __init__(self):
         boxes.Boxes.__init__(self)

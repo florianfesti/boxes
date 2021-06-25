@@ -475,7 +475,13 @@ class Boxes:
             self.inkscapefile = args[-1]
             del args[-1]
         args = [a for a in args if not a.startswith('--tab=')]
-        self.metadata["cli"] = "boxes " + self.__class__.__name__ + " " + " ".join((quote(arg) for arg in args))
+
+        def cliquote(s):
+            s = s.replace('\r', '')
+            s = s.replace('\n', "\\n")
+            return quote(s)
+
+        self.metadata["cli"] = "boxes " + self.__class__.__name__ + " " + " ".join((cliquote(arg) for arg in args))
         for key, value in vars(self.argparser.parse_args(args=args)).items():
             # treat edge settings separately
             for setting in self.edgesettings:

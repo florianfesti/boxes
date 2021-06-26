@@ -44,8 +44,8 @@ class Gears(Boxes):
             help="percent of the D section of shaft 1 (0 for same as shaft 1)")
 
         self.argparser.add_argument(
-            "--modulus",  action="store", type=float, default=5,
-            help="width of teeth in mm")
+            "--modulus",  action="store", type=float, default=2,
+            help="size of teeth (diameter / #teeth) in mm")
         self.argparser.add_argument(
             "--pressure_angle",  action="store", type=float, default=20,
             help="angle of the teeth touching (in degrees)")

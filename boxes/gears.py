@@ -417,7 +417,7 @@ class Gears():
         elif self.options.system == 'DP': # diametral pitch 
             circular_pitch = pi * 25.4 / dimension
         elif self.options.system == 'MM': # module (metric)
-            circular_pitch = dimension
+            circular_pitch = pi * dimension
         else:
             raise ValueError("unknown system '%s', try CP, DP, MM" % self.options.system)
 

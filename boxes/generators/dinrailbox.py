@@ -110,34 +110,38 @@ class DinRailBox(Boxes):
         o = self.rail_offset
         t = self.thickness
 
-        # lid
         self.rectangularWall(x, y, "EEEE", callback=[
             lambda:self.fingerHolesAt(.55*t, .05*t, y-.1*t, 90), None,
             lambda:self.fingerHolesAt(.55*t, .05*t, y-.1*t, 90), None],
-            move="right")
+            move="right", label="Front")
         
         self.lid_lip(y-.1*t, move="rotated right")
         self.lid_lip(y-.1*t, move="rotated right")
-        # floor
+
         self.rectangularWall(x, y, "ffff",
                              callback=[
-                                 lambda:self.fingerHolesAt(0, (y-w)/2-0.5*t+o-9, x, 0)],move="right")
+                                 lambda:self.fingerHolesAt(0, (y-w)/2-0.5*t+o-9, x, 0)],
+                             move="right", label="Back")
 
         # Change h edge to 8mm!
         self.edges["f"].settings.setValues(t, False, edge_width=8)
         dr = DinRailEdge(self, self.edges["f"].settings, w, o)
 
         self.rectangularWall(y, h, [dr, "F", "e", "F"],
-                             ignore_widths=[1, 6], move="rotated right")
+                             ignore_widths=[1, 6], move="rotated right",
+                             label="Left Side")
         self.rectangularWall(y, h, [dr, "F", "e", "F"],
-                             ignore_widths=[1, 6], move="rotated mirror right")
+                             ignore_widths=[1, 6], move="rotated mirror right",
+                             label="Right Side")
         self.rectangularWall(x, h, ["h", "f", "e", "f"],
                              callback=[None, None, self.lid_holes],
-                             ignore_widths=[1, 6], move="up")
+                             ignore_widths=[1, 6], move="up",
+                             label="Bottom")
         self.rectangularWall(x, h, ["h", "f", "e", "f"],
                              ignore_widths=[1, 6], callback=[
                                  self.spring, None, self.lid_holes],
-                             move="up")
+                             move="up",
+                             label="Top")
 
 
         self.rectangularWall(x, 8, "feee", callback=[

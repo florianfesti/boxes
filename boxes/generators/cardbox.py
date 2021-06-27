@@ -123,42 +123,41 @@ Add the top of the rails to the sides and the grip rail to the lid (still missin
         self.addPart(p)
 
         with self.saved_context():
-            # Lid
-            self.rectangularWall(x-t*.2, y, "Feee", move="right")
-            # Bottom
+            self.rectangularWall(x-t*.2, y, "Feee", move="right", label="Lid")
             self.rectangularWall(x, y, "ffff", callback=[self.divider_bottom],
-                                 move="right")
+                                 move="right", label="Bottom")
 
         self.rectangularWall(x, y, "EEEE", move="up only")
 
         with self.saved_context():
-            # Back
             self.rectangularWall(x, h, "FFEF",
                                  callback=[self.divider_back_and_front],
-                                 move="right")
-            # Front
+                                 move="right",
+                                 label="Back")
             self.rectangularWall(x, h, "FFaF",
                                  callback=[self.divider_back_and_front],
-                                 move="right")
+                                 move="right", 
+                                 label="Front")
 
         self.rectangularWall(x, h, "EEEE", move="up only")
 
-        #lip of the lid
-        self.rectangularWall(x-t*.2, t, "fEeE", move="up")
+        self.rectangularWall(x-t*.2, t, "fEeE", move="up", label="Lid Lip")
 
-        # Outer sides
-        self.rectangularWall(h, y, "fFfF", move="right")
-        self.rectangularWall(h, y, "fFfF", move="right")
+        with self.saved_context():
+            self.rectangularWall(y, h, "FfFf", move="right", label="Outer Side Left")
+            self.rectangularWall(y, h, "FfFf", move="right", label="Outer Side Right")
+        self.rectangularWall(y, h, "fFfF", move="up only")
 
-        # Inner sides
-        self.rectangularWall(h-t, y, "eAee", move="right")
-        self.rectangularWall(h-t, y, "eAee", move="right")
+        with self.saved_context():
+            self.rectangularWall(y, h-t, "Aeee", move="right", label="Inner Side Left")
+            self.rectangularWall(y, h-t, "Aeee", move="right", label="Inner Side Right")
+        self.rectangularWall(y, h-t, "eAee", move="up only")
 
-        # Lips
-        self.rectangularWall(t, y, "eeef", move="right")
-        self.rectangularWall(t, y, "efee", move="right")
+        with self.saved_context():
+            self.rectangularWall(y, t, "eefe", move="right", label="Lip Left")
+            self.rectangularWall(y, t, "feee", move="right", label="Lip Right")
+        self.rectangularWall(y, t*2, "efee", move="up only")
 
-        # Divider
         for i in range(self.num - 1):
-            self.rectangularWall(h-t, y, "fAff", move="right")
+            self.rectangularWall(h-t, y, "fAff", move="right", label="Divider")
 

@@ -190,7 +190,7 @@ To remove the panel you have to press in the four tabs at the side. It is easies
 
         self.move(tw, th, move)
 
-    def side(self, borders, bottom="s", move=None):
+    def side(self, borders, bottom="s", move=None, label=""):
 
         t = self.thickness
         bottom = self.edges.get(bottom, bottom)
@@ -230,7 +230,7 @@ To remove the panel you have to press in the four tabs at the side. It is easies
             self.edges["f"](borders[-2]+bottom.startwidth())
         self.corner(borders[-1])
         
-        self.move(tw, th, move)
+        self.move(tw, th, move, label=label)
         
     def render(self):
         x, y, h = self.x, self.y, self.h
@@ -248,42 +248,41 @@ To remove the panel you have to press in the four tabs at the side. It is easies
         self.latchpos = latchpos = 6*t
 
         borders = self.borders()
-        self.side(borders, bottom, move="right")
-        self.side(borders, bottom, move="right")
+        self.side(borders, bottom, move="right", label="Left Side")
+        self.side(borders, bottom, move="right", label="Right Side")
 
-        self.rectangularWall(borders[0], x, "ffff", move="right") # floor
-        self.rectangularWall( #front
+        self.rectangularWall(borders[0], x, "ffff", move="right", label="Floor")
+        self.rectangularWall(
             borders[2]-d1, x, ("F", "e", "F", bottom), ignore_widths=[7, 4],
-            move="right")
+            move="right", label="Front")
 
-        # panel
         if self.glued_panel:
-            self.rectangularWall(borders[4], x, "EEEE", move="right")
+            self.rectangularWall(borders[4], x, "EEEE", move="right", label="Panel")
         elif self.removable_panel:
-            self.rectangularWall(borders[4], x-2*t, "hEhE", move="right")
+            self.rectangularWall(borders[4], x-2*t, "hEhE", move="right", label="Panel")
         else:
-            self.rectangularWall(borders[4], x, "FEFE", move="right")
+            self.rectangularWall(borders[4], x, "FEFE", move="right", label="Panel")
 
-        if len(borders) == 10: # top
-            self.rectangularWall(borders[6]-d2, x, "FEFe", move="right")
+        if len(borders) == 10:
+            self.rectangularWall(borders[6]-d2, x, "FEFe", move="right", label="Top")
 
         if self.removable_backwall:
-            self.rectangularWall( # back wall
+            self.rectangularWall(
                 borders[-2]-1.05*t, x, "EeEe",
                 callback=[
                     lambda:self.latch_hole(latchpos),
                     lambda: self.fingerHolesAt(.5*t, 0, borders[-2]-4.05*t-latchpos),
                     lambda:self.latch_hole(borders[-2]-1.2*t-latchpos),
                     lambda: self.fingerHolesAt(.5*t, 3.05*t+latchpos, borders[-2]-4.05*t-latchpos)],
-                move="right")
-            self.rectangularWall(2*t, borders[-2]-4.05*t-latchpos, "EeEf", move="right")
-            self.rectangularWall(2*t, borders[-2]-4.05*t-latchpos, "EeEf", move="right")
-            # backwall bottom
+                move="right",
+                label="Back Wall")
+            self.rectangularWall(2*t, borders[-2]-4.05*t-latchpos, "EeEf", move="right", label="Guide")
+            self.rectangularWall(2*t, borders[-2]-4.05*t-latchpos, "EeEf", move="right", label="Guide")
             self.rectangularWall(t, x, ("F", bottom, "F", "e"),
-                                 ignore_widths=[0, 3], move="right")
+                                 ignore_widths=[0, 3], move="right", label="Bottom Back")
         else:
             self.rectangularWall(borders[-2], x, ("F", bottom, "F", "e"),
-                                 ignore_widths=[0, 3], move="right")
+                                 ignore_widths=[0, 3], move="right", label="Back Wall")
 
         # hardware for panel
         if self.removable_panel:

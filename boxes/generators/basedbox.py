@@ -46,13 +46,13 @@ See ClosedBox for variant without a base.
 
         t = self.thickness
 
-        self.rectangularWall(x, h, "fFFF", move="right")
-        self.rectangularWall(y, h, "ffFf", move="up")
-        self.rectangularWall(y, h, "ffFf")
-        self.rectangularWall(x, h, "fFFF", move="left up")
+        self.rectangularWall(x, h, "fFFF", move="right", label="Wall 1")
+        self.rectangularWall(y, h, "ffFf", move="up", label="Wall 2")
+        self.rectangularWall(y, h, "ffFf", label="Wall 4")
+        self.rectangularWall(x, h, "fFFF", move="left up", label="Wall 3")
 
-        self.rectangularWall(x, y, "ffff", move="right")
-        self.rectangularWall(x, y, "hhhh")
+        self.rectangularWall(x, y, "ffff", move="right", label="Top")
+        self.rectangularWall(x, y, "hhhh", label="Base")
 
 
 

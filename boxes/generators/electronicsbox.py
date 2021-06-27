@@ -71,22 +71,26 @@ class ElectronicsBox(Boxes):
             self.h = h = h - 3*t
 
         self.rectangularWall(x, h, "fFeF", callback=[self.wallxCB],
-                             move="right")
-        self.rectangularWall(y, h, "ffef", callback=[self.wallyCB], move="up")
-        self.rectangularWall(y, h, "ffef", callback=[self.wallyCB])
+                             move="right", label="Wall 1")
+        self.rectangularWall(y, h, "ffef", callback=[self.wallyCB],
+                             move="up", label="Wall 2")
+        self.rectangularWall(y, h, "ffef", callback=[self.wallyCB], 
+                             label="Wall 4")
         self.rectangularWall(x, h, "fFeF", callback=[self.wallxCB],
-                             move="left up")
+                             move="left up", label="Wall 3")
 
         if not self.outsidemounts:
             self.rectangularWall(x, y, "FFFF", callback=[
-            lambda:self.hole(hd, hd, d=d3)] *4, move="right")
+            lambda:self.hole(hd, hd, d=d3)] *4, move="right",
+            label="Bottom")
         else:
             self.flangedWall(x, y, edges="FFFF",
                              flanges=[0.0, 2*hd, 0., 2*hd], r=hd,
                              callback=[
-                    lambda:self.hole(hd, hd, d=d3)] * 4, move='up')
+                    lambda:self.hole(hd, hd, d=d3)] * 4, move='up',
+                    label="Bottom")
         self.rectangularWall(x, y, callback=[
-            lambda:self.hole(trh, trh, d=d2)] * 4, move='up')
+            lambda:self.hole(trh, trh, d=d2)] * 4, move='up', label="Top")
 
         self.rectangularTriangle(tr, tr, "ffe", num=4,
             callback=[None, lambda: self.hole(trh, trh, d=d1)])

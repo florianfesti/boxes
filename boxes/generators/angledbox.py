@@ -35,7 +35,7 @@ class AngledBox(Boxes):
             choices=["none", "angled hole", "angled lid", "angled lid2"],
             help="style of the top and lid")
 
-    def floor(self, x, y, n, edge='e', hole=None, move=None, callback=None):
+    def floor(self, x, y, n, edge='e', hole=None, move=None, callback=None, label=""):
         r, h, side  = self.regularPolygon(2*n+2, h=y/2.0)
         t = self.thickness
         
@@ -70,7 +70,7 @@ class AngledBox(Boxes):
             edge(l)
             self.edgeCorner(edge, edge, 360.0/(2*n + 2))
 
-        self.move(tx, ty, move)
+        self.move(tx, ty, move, label=label)
 
     def render(self):
 
@@ -108,36 +108,41 @@ class AngledBox(Boxes):
 
         with self.saved_context():
             if b != "e":
-                self.floor(x, y , n, edge='f', move="right")
+                self.floor(x, y , n, edge='f', move="right", label="Bottom")
             if self.top == "angled lid":
-                self.floor(x, y, n, edge='e', move="right")
-                self.floor(x, y, n, edge='E', move="right")
+                self.floor(x, y, n, edge='e', move="right", label="Lower Lid")
+                self.floor(x, y, n, edge='E', move="right", label="Upper Lid")
             elif self.top in ("angled hole", "angled lid2"):
-                self.floor(x, y, n, edge='F', move="right", hole=True)
+                self.floor(x, y, n, edge='F', move="right", hole=True, label="Top Rim and Lid")
                 if self.top == "angled lid2":
-                    self.floor(x, y, n, edge='E', move="right")
+                    self.floor(x, y, n, edge='E', move="right", label="Upper Lid")
         self.floor(x, y , n, edge='F', move="up only")
 
         fingers = self.top in ("angled lid2", "angled hole")
 
         self.rectangularWall(lx, h, move="right",
-                             edges=b+"GfG" if fingers else b+"GeG")
+                             edges=b+"GfG" if fingers else b+"GeG",
+                             label="wall {}".format(1))
 
-        for i in range(2):
+        for j in range(2):
             for i in range(n):
                 if i % 2:
                     self.rectangularWall(side, h, move="right",
-                                         edges=b+"GfG" if fingers else b+"GeG")
+                                         edges=b+"GfG" if fingers else b+"GeG",
+                                         label="wall {}".format(i+2+j*(n+1)))
                 else:
                     self.rectangularWall(side, h, move="right",
-                                         edges=b+"gfg" if fingers else b+"geg")
+                                         edges=b+"gfg" if fingers else b+"geg",
+                                         label="wall {}".format(i+2+j*(n+1)))
 
-        if i % 2:
+        if n % 2:
             self.rectangularWall(lx, h, move="right",
-                                 edges=b+"gfg" if fingers else b+"geg")
+                                 edges=b+"GfG" if fingers else b+"GeG",
+                                 label="wall {}".format(n+2))
         else:
             self.rectangularWall(lx, h, move="right",
-                                 edges=b+"GfG" if fingers else b+"GeG")
+                                 edges=b+"gfg" if fingers else b+"geg",
+                                 label="wall {}".format(n+2))
 
 
 

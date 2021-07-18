@@ -24,6 +24,11 @@ class OpenBox(Boxes):
     def __init__(self):
         Boxes.__init__(self)
         self.buildArgParser("x", "y", "h", "outside")
+        self.argparser.add_argument(
+            "--edgetype", action="store",
+            type=ArgparseEdgeType("Fh"), choices=list("Fh"),
+            default="F",
+            help="edge type")
         self.addSettingsArgs(edges.FingerJointSettings)
 
     def render(self):
@@ -35,8 +40,8 @@ class OpenBox(Boxes):
             y = self.adjustSize(y, False)
             h = self.adjustSize(h, False)
 
-
-        self.rectangularWall(x, h, "FFeF", move="right")
-        self.rectangularWall(y, h, "Feef", move="up")
-        self.rectangularWall(y, h, "Feef")
+        e = self.edgetype
+        self.rectangularWall(x, h, [e, e, "e", e], move="right")
+        self.rectangularWall(y, h, [e, "e", "e", "f"], move="up")
+        self.rectangularWall(y, h, [e, "e", "e", "f"])
         self.rectangularWall(x, y, "efff", move="left")

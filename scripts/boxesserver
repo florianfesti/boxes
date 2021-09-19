@@ -265,6 +265,7 @@ class BServer:
 -->
 <div class="clear"></div>
 <hr />
+<div class="description">
 """)
         no_img_msg = _('There is no image yet. Please donate an image of your project on <a href=&quot;https://github.com/florianfesti/boxes/issues/140&quot;>GitHub</a>!')
 
@@ -277,6 +278,7 @@ class BServer:
 ''')
 
         result.append("""
+</div>
 </div>
 """ + self.footer(lang) + """</body>
 </html>

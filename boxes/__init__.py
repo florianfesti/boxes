@@ -1936,6 +1936,7 @@ class Boxes:
             raise ValueError("two or three edges required")
 
         r = min(r, x, y)
+        alpha = math.degrees(math.atan2(y-r, float(x-r)))
 
         width = x + edges[-1].spacing() + edges[1].spacing()
         height = y + edges[0].spacing() + edges[2].spacing()
@@ -1946,7 +1947,6 @@ class Boxes:
         overallwidth = width * (num // 2 + num % 2)
         overallheight = height
 
-        alpha = math.degrees(math.atan2(y-r, float(x-r)))
 
         if self.move(overallwidth, overallheight, move, before=True):
             return
@@ -1968,11 +1968,15 @@ class Boxes:
                 edges[i](l,
                          bedBolts=self.getEntry(bedBolts, i),
                          bedBoltSettings=self.getEntry(bedBoltSettings, i))
-                self.edgeCorner(edges[i], edges[i + 1], 90)
+                if i==0:
+                    self.edgeCorner(edges[i], edges[i + 1], 90)
+            self.edgeCorner(edges[i], "e", 90)
 
             self.corner(alpha, r)
             self.cc(callback, 2)
+            self.step(edges[2].startwidth())
             edges[2](((x-r)**2+(y-r)**2)**0.5)
+            self.step(-edges[2].endwidth())
             self.corner(90-alpha, r)
             self.corner(90)
             self.ctx.stroke()

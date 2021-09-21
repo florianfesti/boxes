@@ -1939,7 +1939,7 @@ class Boxes:
         a = math.atan2(y-r, float(x-r))
         alpha = math.degrees(a)
 
-        width = x + edges[-1].spacing()/math.sin(a) + edges[1].spacing()
+        width = x + (edges[-1].spacing()+self.spacing)/math.sin(a) + edges[1].spacing()
         height = y + edges[0].spacing() + edges[2].spacing() * math.cos(a) + 2* self.spacing
         if num > 1:
             width = 2*width - x + r

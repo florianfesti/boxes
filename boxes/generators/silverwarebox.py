@@ -47,7 +47,7 @@ class Silverware(Boxes):
     ####################################################################
 
     def basePlate(self, x, y, r):
-        self.roundedPlate(x, y, r, callback=[
+        self.roundedPlate(x, y, r, extend_corners=False, callback=[
             lambda: self.fingerHolesAt(x / 3.0 - r, 0, 0.5 * (y - self.thickness)),
             lambda: self.fingerHolesAt(x / 6.0, 0, 0.5 * (y - self.thickness)),
             lambda: self.fingerHolesAt(y / 2.0 - r, 0, x),
@@ -55,7 +55,7 @@ class Silverware(Boxes):
         ])
 
     def wall(self, x=100, y=100, h=100, r=0):
-        self.surroundingWall(x, y, r, h, bottom='h', callback={
+        self.surroundingWall(x, y, r, h, top="E", bottom='h', callback={
             0: lambda: self.fingerHolesAt(x / 6.0, 0, h - 10),
             4: lambda: self.fingerHolesAt(x / 3.0 - r, 0, h - 10),
             1: lambda: self.fingerHolesAt(y / 2.0 - r, 0, h - 10),

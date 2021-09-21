@@ -1732,7 +1732,7 @@ class Boxes:
             bottomwidth = bottom.startwidth()
 
         overallwidth = 2*x + 2*y - 8*r + 4*c4 + (self.edges["d"].spacing() + self.edges["D"].spacing() + self.spacing) * pieces
-        overallheight = h + top.spacing() + bottom.spacing()
+        overallheight = h + max(t, top.spacing()) + max(t, bottom.spacing())
 
         if self.move(overallwidth, overallheight, move, before=True):
             return

@@ -20,6 +20,16 @@ import boxes
 class RoundedBox(boxes.Boxes):
     """Box with vertical edges rounded"""
 
+    description = """
+Default: edge_style = f Finger Joint:
+![Finger Joint](static/samples/RoundedBox-2.jpg)
+
+Alternative: edge_style = h Edge (parallel Finger Joint Holes):
+![Finger Joint Holes](static/samples/RoundedBox-3.jpg)
+
+With lid:
+"""
+
     ui_group = "FlexBox"
 
     def __init__(self):

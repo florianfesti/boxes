@@ -21,7 +21,12 @@ class ShutterBox(Boxes):
 
     ui_group = "FlexBox"
 
-    description = "Beware of the rolling shutter effect! Use wax on sliding surfaces."
+    description = """Beware of the rolling shutter effect! Use wax on sliding surfaces.
+
+![Inside](static/samples/ShutterBox-3.jpg)
+
+![Detail](static/samples/ShutterBox-2.jpg)
+"""
 
     def side(self, l, h, r, style, move=None):
         t = self.thickness

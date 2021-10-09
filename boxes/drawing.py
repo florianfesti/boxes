@@ -57,7 +57,7 @@ class Surface:
         else:
             m = Affine.scale(self.scale, self.scale) * m
 
-        self.transform(m, self.invert_y)
+        self.transform(self.scale, m, self.invert_y)
 
         return Extents(0, 0, extents.width * self.scale, extents.height * self.scale)
 
@@ -67,9 +67,9 @@ class Surface:
             p.render(renderer)
         renderer.finish()
 
-    def transform(self, m, invert_y=False):
+    def transform(self, f, m, invert_y=False):
         for p in self.parts:
-            p.transform(m, invert_y)
+            p.transform(f, m, invert_y)
 
     def new_part(self, name="part"):
         if self.parts and len(self.parts[-1].pathes) == 0:
@@ -104,10 +104,10 @@ class Part:
             return Extents()
         return sum([p.extents() for p in self.pathes])
 
-    def transform(self, m, invert_y=False):
+    def transform(self, f, m, invert_y=False):
         assert(not self.path)
         for p in self.pathes:
-            p.transform(m, invert_y)
+            p.transform(f, m, invert_y)
 
     def append(self, *path):
         self.path.append(list(path))
@@ -173,7 +173,8 @@ class Path:
                         e.add(x_, y_)
         return e
 
-    def transform(self, m, invert_y=False):
+    def transform(self, f, m, invert_y=False):
+        self.params["lw"] *= f
         for c in self.path:
             C = c[0]
             c[1], c[2] = m * (c[1], c[2])
@@ -553,7 +554,7 @@ Creation date: {date}
                     p.pop()
                 if p:  # might be empty if only contains text
                     t = ET.SubElement(g, "path", d=" ".join(p), stroke=color)
-                    t.set("stroke-width", f'{path.params["lw"]*self.scale:.2f}')
+                    t.set("stroke-width", f'{path.params["lw"]:.2f}')
                     t.tail = "\n  "
             t.tail = "\n"
         tree.write(open(self._fname, "wb"), xml_declaration=True, method="xml")
@@ -698,7 +699,7 @@ class PSSurface(Surface):
                     f.write("newpath\n")
                     f.write("\n".join(p))
                     f.write("\n")
-                    f.write(f"{path.params['lw']*self.scale} setlinewidth\n")
+                    f.write(f"{path.params['lw']} setlinewidth\n")
                     f.write(f"{color} setrgbcolor\n")
                     f.write("stroke\n\n")
         f.write(

@@ -23,7 +23,7 @@ class Folder(Boxes):
 
     def __init__(self):
         Boxes.__init__(self)
-        self.addSettingsArgs(edges.FingerJointSettings)
+        self.addSettingsArgs(edges.FlexSettings)
         self.buildArgParser("x", "y", "h")
         self.argparser.add_argument(
             "--r", action="store", type=float, default=10.0,

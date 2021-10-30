@@ -29,6 +29,12 @@ class TypeTray(_TopEdge):
         self.buildArgParser("sx", "sy", "h", "hi", "outside", "bottom_edge",
                             "top_edge")
         self.argparser.add_argument(
+            "--back_height",  action="store", type=float, default=0.0,
+            help="additional height of the back wall - e top egde only")
+        self.argparser.add_argument(
+            "--radius",  action="store", type=float, default=0.0,
+            help="radius for strengthening side walls with back_height")
+        self.argparser.add_argument(
             "--gripheight", action="store", type=float, default=30,
             dest="gh", help="height of the grip hole in mm")
         self.argparser.add_argument(
@@ -94,14 +100,19 @@ class TypeTray(_TopEdge):
         t1, t2, t3, t4 = self.topEdges(self.top_edge)
         self.closedtop = self.top_edge in "fFh"
 
+        bh = self.back_height if self.top_edge == "e" else 0.0
+
         # x sides
 
         self.ctx.save()
 
         # outer walls
-        self.rectangularWall(x, h, [b, "F", t1, "F"], callback=[self.xHoles, None, self.gripHole],
-                             ignore_widths=[1, 6], move="up")
-        self.rectangularWall(x, h, [b, "F", t3, "F"], callback=[self.mirrorX(self.xHoles, x), ],
+        self.rectangularWall(x, h+bh, [b, "F", t1, "F"],
+                             callback=[self.xHoles, None, self.gripHole],
+                             ignore_widths=[] if bh else [1, 6],
+                             move="up")
+        self.rectangularWall(x, h, [b, "F", t3, "F"],
+                             callback=[self.mirrorX(self.xHoles, x), ],
                              ignore_widths=[1, 6], move="up")
 
         # floor
@@ -136,10 +147,22 @@ class TypeTray(_TopEdge):
         # y walls
 
         # outer walls
-        self.rectangularWall(y, h, [b, "f", t2, "f"], callback=[self.yHoles, ],
-                             ignore_widths=[1, 6], move="up")
-        self.rectangularWall(y, h, [b, "f", t4, "f"], callback=[self.mirrorX(self.yHoles, y), ],
-                             ignore_widths=[1, 6], move="up")
+
+        if bh:
+            self.trapezoidSideWall(
+                y, h, h+bh, [b, "f", "e", "h"],
+                radius=self.radius, callback=[self.yHoles, ], move="up")
+            self.trapezoidSideWall(
+                y, h+bh, h, [b, "h", "e", "f"], radius=self.radius,
+                callback=[self.mirrorX(self.yHoles, y), ], move="up")
+        else:
+            self.rectangularWall(
+                y, h, [b, "f", t2, "f"], callback=[self.yHoles, ],
+                ignore_widths=[1, 6], move="up")
+            self.rectangularWall(
+                y, h, [b, "f", t4, "f"],
+                callback=[self.mirrorX(self.yHoles, y), ],
+                ignore_widths=[1, 6], move="up")
 
         # inner walls
         for i in range(len(self.sx) - 1):

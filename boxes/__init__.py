@@ -609,7 +609,7 @@ class Boxes:
 
         You will typically need to call .parseArgs() before calling this one"""
         self.open()
-        # Change settings and creat new Edges and part classes here
+        # Change settings and create new Edges and part classes here
         raise NotImplementedError
         self.close()
 
@@ -871,9 +871,9 @@ class Boxes:
         self.edge(edge1.endwidth() * math.tan(math.radians(angle/2.)))
 
     def regularPolygon(self, corners=3, radius=None, h=None, side=None):
-        """Give messures of a regular polygone
+        """Give measures of a regular polygon
 
-        :param corners: number of corners of the polygone
+        :param corners: number of corners of the polygon
         :param radius: distance center to one of the corners
         :param h: distance center to one of the sides (height of sector)
         :param side: length of one side
@@ -893,7 +893,7 @@ class Boxes:
 
     @restore
     def regularPolygonAt(self, x, y, corners, angle=0, r=None, h=None, side=None):
-        """Draw regular polygone"""
+        """Draw regular polygon"""
         self.moveTo(x, y, angle)
         r, h, side  = self.regularPolygon(corners, r, h, side)
         self.moveTo(-side/2.0, -h-self.burn)
@@ -903,9 +903,9 @@ class Boxes:
 
     def regularPolygonWall(self, corners=3, r=None, h=None, side=None,
                            edges='e', hole=None, callback=None, move=None):
-        """Create regular polygone as a wall
+        """Create regular polygon as a wall
 
-        :param corners: number of corners of the polygone
+        :param corners: number of corners of the polygon
         :param radius: distance center to one of the corners
         :param h: distance center to one of the sides (height of sector)
         :param side: length of one side
@@ -1103,7 +1103,7 @@ class Boxes:
         "mirror" will flip the part along the y axis
         "rotated" draws the parts rotated 90 counter clockwise
         The function returns whether actual drawing of the part
-        should be omited.
+        should be ommited.
 
         :param x: width of part
         :param y: height of part
@@ -1612,7 +1612,7 @@ class Boxes:
         For the callbacks the sides are counted depending on wallpieces
 
         :param x: width
-        :param y: hight
+        :param y: height
         :param r: radius of the corners
         :param callback:  (Default value = None)
         :param holesMargin:  (Default value = None) set to get hex holes
@@ -1620,7 +1620,7 @@ class Boxes:
         :param bedBolts:  (Default value = None)
         :param bedBoltSettings:  (Default value = None)
         :param wallpieces: (Default value = 1) # of separate surrounding walls
-        :param extend_corners: (Default value = True) have corners outset with teh edges
+        :param extend_corners: (Default value = True) have corners outset with the edges
         :param move:  (Default value = None)
 
         """
@@ -2036,7 +2036,7 @@ class Boxes:
         :param h0: left height
         :param h1: right height
         :param edges:  (Default value = "eeee") bottom, right, left
-        :param radius: (Default vaule = 0.0) radius of upper corners
+        :param radius: (Default value = 0.0) radius of upper corners
         :param callback:  (Default value = None)
         :param move:  (Default value = None)
         :param label: rendered to identify parts, it is not ment to be cut or etched (Default value = "")

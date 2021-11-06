@@ -111,9 +111,14 @@ class TypeTray(_TopEdge):
                              callback=[self.xHoles, None, self.gripHole],
                              ignore_widths=[] if bh else [1, 6],
                              move="up")
-        self.rectangularWall(x, h, [b, "F", t3, "F"],
-                             callback=[self.mirrorX(self.xHoles, x), ],
-                             ignore_widths=[1, 6], move="up")
+        if bh:
+            self.rectangularWall(x, h, [b, "f", t3, "f"],
+                                 callback=[self.mirrorX(self.xHoles, x), ],
+                                 move="up")
+        else:
+            self.rectangularWall(x, h, [b, "F", t3, "F"],
+                                 callback=[self.mirrorX(self.xHoles, x), ],
+                                 ignore_widths=[1, 6], move="up")
 
         # floor
         if b != "e":

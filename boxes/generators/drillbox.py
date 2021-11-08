@@ -64,7 +64,7 @@ class DrillBox(Boxes):
             for dx in self.sx:
                 iy = dy / self.holes
                 for k in range(self.holes):
-                    self.hole(x + dx / 2, y + (k + 0.5) * iy, d + 0.05)
+                    self.hole(x + dx / 2, y + (k + 0.5) * iy, d=d + 0.05)
                 if description:
                     self.rectangularHole(x + dx / 2, y + dy / 2, dx - 2, dy - 2, color=Color.ETCHING)
                     self.text(

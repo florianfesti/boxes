@@ -417,9 +417,14 @@ class BServer:
 
         type_, encoding = mimetypes.guess_type(filename)
         if encoding is None:
-            encoding = "utf8"
+            encoding = "utf-8"
 
-        start_response("200 OK", [('Content-type', "%s; charset=%s" % (type_, encoding))])
+        # Images do not have charset. Just bytes. Except text based svg.
+        # Todo: fallback if type_ is None?
+        if type_ is not None and "image" in type_ and type_ != "image/svg+xml":
+            start_response("200 OK", [('Content-type', "%s" % type_)])
+        else:
+            start_response("200 OK", [('Content-type', "%s; charset=%s" % (type_, encoding))])
 
         f = open(path, 'rb')
         return environ['wsgi.file_wrapper'](f, 512*1024)

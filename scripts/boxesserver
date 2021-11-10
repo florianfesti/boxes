@@ -211,9 +211,10 @@ class BServer:
 <html>
 <head>
     <title>""" + _("Boxes - %s") % _(name), """</title>
+    <meta charset="utf-8">
     <link rel="icon" type="image/svg+xml" href="static/boxes-logo.svg" sizes="any">
-    <link rel="shortcut icon" type="image/x-icon" href="static/favicon.ico">
-    <link rel="stylesheet" href="static/self.css" type="text/css" />
+    <link rel="icon" type="image/x-icon" href="static/favicon.ico">
+    <link rel="stylesheet" href="static/self.css">
 """, self.scripts % (len(box.argparser._action_groups)-3), """
    <meta name="flattr:id" content="456799">
 </head>
@@ -229,7 +230,7 @@ class BServer:
 </div>
 <div>
 <div class="clear"></div>
-<hr />
+<hr>
 <h2 style="margin: 0px 0px 0px 20px;" >""", _(name), """</h2>
         <p>""", _(box.__doc__) if box.__doc__ else "", """</p>
 <form action="%s" method="GET">
@@ -264,7 +265,7 @@ class BServer:
 </div>
 -->
 <div class="clear"></div>
-<hr />
+<hr>
 <div class="description">
 """)
         no_img_msg = _('There is no image yet. Please donate an image of your project on <a href=&quot;https://github.com/florianfesti/boxes/issues/140&quot;>GitHub</a>!')
@@ -273,7 +274,7 @@ class BServer:
             result.append(markdown.markdown(_(box.description)))
 
         result.append(f'''<div>
-<img src="static/samples/{box.__class__.__name__}.jpg" width="100%" onerror="this.parentElement.innerHTML = '{no_img_msg}';"/>
+<img src="static/samples/{box.__class__.__name__}.jpg" width="100%" onerror="this.parentElement.innerHTML = '{no_img_msg}';">
 </div>
 ''')
 
@@ -297,9 +298,10 @@ class BServer:
 <html>
 <head>
     <title>""" + _("Boxes.py") + """</title>
+    <meta charset="utf-8">
     <link rel="icon" type="image/svg+xml" href="static/boxes-logo.svg" sizes="any">
-    <link rel="shortcut icon" type="image/x-icon" href="static/favicon.ico">
-    <link rel="stylesheet" href="static/self.css" type="text/css" />
+    <link rel="icon" type="image/x-icon" href="static/favicon.ico">
+    <link rel="stylesheet" href="static/self.css">
     <script>
 	function change(group, img_link){
 	  document.getElementById("sample-"+group).src = img_link;
@@ -332,7 +334,7 @@ class BServer:
 </div>
 <div>
 <div class="clear"></div>
-<hr />
+<hr>
 <div class="menu" style="width: 100%">
 """ ]
         for nr, group in enumerate(self.groups):
@@ -340,7 +342,7 @@ class BServer:
 <h3 id="h-{nr}" class="open" onclick="showHide('{nr}')"
      onmouseenter="change('{group.name}', 'static/samples/{group.thumbnail}')"
      onmouseleave="changeback('{group.name}')">{_(group.title)}</h3>
-  <img style="width: 200px;" id="sample-{group.name}" src="static/nothing.png" alt="" />
+  <img style="width: 200px;" id="sample-{group.name}" src="static/nothing.png" alt="">
   <div id="{nr}"><ul>''')
             for box in group.generators:
                 name = box.__name__
@@ -359,7 +361,7 @@ class BServer:
 
 <div style="width: 5%; float: left;"></div>
 <div class="clear"></div>
-<hr />
+<hr>
 </div>
 </div>""" + self.footer(lang) + """
 </body>

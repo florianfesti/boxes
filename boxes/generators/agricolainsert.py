@@ -227,7 +227,7 @@ protruding underneath.
 
         # generate spacer
         spacer_height = card_tray_height / 2
-        spacer_spacing = card_tray_width-99.8
+        spacer_spacing = card_tray_width - 99.8
         spacer_upper_width = sloped_wall_posx_at_y0 + spacer_height * tan
         self.trapezoidWall(
             spacer_height,
@@ -827,17 +827,18 @@ class MoorBoxHoleEdge(edges.BaseEdge):
         hole_depth = self.height - 2 * radius
         lower_edge = notch_width - 2 * radius
 
-        one_side_polyline = lambda margin1, margin2: [
-            upper_edge,
-            (90, radius),
-            hole_depth - margin1,
-            (-90, radius),
-            lower_edge,
-            (-90, radius),
-            hole_depth - margin2,
-            (90, radius),
-            upper_edge,
-        ]
+        def one_side_polyline(margin1, margin2):
+            return [
+                upper_edge,
+                (90, radius),
+                hole_depth - margin1,
+                (-90, radius),
+                lower_edge,
+                (-90, radius),
+                hole_depth - margin2,
+                (90, radius),
+                upper_edge,
+            ]
 
         normal_side_polyline = one_side_polyline(hole_start, hole_start)
         corner_side_polyline = one_side_polyline(

@@ -16,6 +16,7 @@
 
 from boxes import *
 
+
 class SlatwallCaliper(Boxes):
     """Holds a single caliper to a slat wall"""
 
@@ -31,10 +32,10 @@ class SlatwallCaliper(Boxes):
         self.buildArgParser(h=100)
         # Add non default cli params if needed (see argparse std lib)
         self.argparser.add_argument(
-            "--width",  action="store", type=float, default=18.0,
+            "--width", action="store", type=float, default=18.0,
             help="width of the long end")
         self.argparser.add_argument(
-            "--heigth",  action="store", type=float, default=6.0,
+            "--heigth", action="store", type=float, default=6.0,
             help="heigth of the body")
 
     def side(self, move=None):
@@ -42,14 +43,14 @@ class SlatwallCaliper(Boxes):
         h = self.h
         hc = self.heigth
 
-        tw = self.edges["b"].spacing() + hc + 8*t
+        tw = self.edges["b"].spacing() + hc + 8 * t
 
         if self.move(tw, h, move, True):
             return
-        
+
         self.moveTo(self.edges["b"].startwidth())
-        self.polyline(5*t+hc, (90, 2*t), h/2-2*t, (180, 1.5*t), 0.25*h,
-                      -90, hc, -90, 0.75*h-2*t, (90, 2*t), 2*t, 90)
+        self.polyline(5 * t + hc, (90, 2 * t), h / 2 - 2 * t, (180, 1.5 * t), 0.25 * h,
+                      -90, hc, -90, 0.75 * h - 2 * t, (90, 2 * t), 2 * t, 90)
 
         self.edges["b"](h)
 
@@ -64,10 +65,10 @@ class SlatwallCaliper(Boxes):
 
         t = self.thickness
         h = self.h
-        
+
         self.side(move="right")
         self.side(move="right")
         w = self.width
-        self.flangedWall(w, h-2*t, flanges=[0, t, 0, t], edges="eeee",
-                         r=2*t,
-                         callback=[lambda:(self.slatWallHolesAt(1.5*t, 0, h, 90), self.slatWallHolesAt(w+2.5*t, 0, h, 90))])
+        self.flangedWall(w, h - 2 * t, flanges=[0, t, 0, t], edges="eeee",
+                         r=2 * t,
+                         callback=[lambda:(self.slatWallHolesAt(1.5 * t, 0, h, 90), self.slatWallHolesAt(w + 2.5 * t, 0, h, 90))])

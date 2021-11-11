@@ -17,6 +17,7 @@
 from boxes import *
 import math
 
+
 class FlexBox2(Boxes):
     """Box with living hinge and top corners rounded"""
 
@@ -36,7 +37,7 @@ class FlexBox2(Boxes):
 
     def flexBoxSide(self, y, h, r, callback=None, move=None):
         t = self.thickness
-        if self.move(y+2*t, h+t, move, True):
+        if self.move(y + 2 * t, h + t, move, True):
             return
 
         self.moveTo(t, t)
@@ -55,19 +56,19 @@ class FlexBox2(Boxes):
         self.edges["f"](h - r - self.latchsize)
         self.corner(90)
 
-        self.move(y+2*t, h+t, move)
+        self.move(y + 2 * t, h + t, move)
 
     def surroundingWall(self, move=None):
         y, h, x, r = self.y, self.h, self.x, self.radius
         t = self.thickness
 
-        tw = y + h - 3*r + 2*self.c4 + self.latchsize + t
-        th = x + 2.5*t
+        tw = y + h - 3 * r + 2 * self.c4 + self.latchsize + t
+        th = x + 2.5 * t
 
         if self.move(tw, th, move, True):
             return
 
-        self.moveTo(t, .25*t)
+        self.moveTo(t, .25 * t)
         self.edges["F"](h - r, False)
 
         if (y - 2 * r < t):
@@ -105,7 +106,6 @@ class FlexBox2(Boxes):
         self.radius = min(self.radius, max(0, self.h - self.latchsize))
         self.c4 = c4 = math.pi * self.radius * 0.5
 
-
         self.moveTo(2 * self.thickness, self.thickness)
 
         with self.saved_context():
@@ -115,7 +115,5 @@ class FlexBox2(Boxes):
         self.surroundingWall(move="up only")
 
         self.flexBoxSide(self.y, self.h, self.radius, move="right")
-        self.flexBoxSide(self.y, self.h, self.radius, move= "mirror right")
+        self.flexBoxSide(self.y, self.h, self.radius, move="mirror right")
         self.rectangularWall(self.x, self.h - self.radius - self.latchsize, edges="fFeF")
-
-

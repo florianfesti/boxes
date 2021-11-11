@@ -47,7 +47,7 @@ class Pulley(Boxes):
 
         # Add non default cli params if needed (see argparse std lib)
         # self.argparser.add_argument(
-        #    "--XX",  action="store", type=float, default=0.5,
+        #    "--XX", action="store", type=float, default=0.5,
         #    help="DESCRIPTION")
 
     def disk(self, diameter, hole, callback=None, move=""):
@@ -77,6 +77,3 @@ class Pulley(Boxes):
 
         for i in range(int(math.ceil(self.h / self.thickness))):
             self.pulley(self.teeth, self.profile, insideout=self.insideout, r_axle=self.axle / 2.0, move="right")
-
-
-

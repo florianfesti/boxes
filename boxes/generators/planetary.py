@@ -45,7 +45,7 @@ class Planetary(Boxes):
             "--shaft", action="store", type=float, default=6.,
             help="diameter of the shaft")
         # self.argparser.add_argument(
-        #    "--stages",  action="store", type=int, default=4,
+        #    "--stages", action="store", type=int, default=4,
         #    help="number of stages in the gear reduction")
 
     def render(self):
@@ -102,6 +102,3 @@ class Planetary(Boxes):
             self.gears(teeth=self.planetteeth, dimension=self.modulus,
                        angle=pressure_angle,
                        mount_hole=self.shaft, profile_shift=profile_shift, move="up")
-
-
-

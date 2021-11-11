@@ -1,3 +1,4 @@
+from random import random
 import math
 import datetime
 from affine import Affine
@@ -53,7 +54,7 @@ class Surface:
         m = Affine.translation(-extents.xmin, -extents.ymin)
         if self.invert_y:
             m = Affine.scale(self.scale, -self.scale) * m
-            m = Affine.translation(0, self.scale*extents.height) * m
+            m = Affine.translation(0, self.scale * extents.height) * m
         else:
             m = Affine.scale(self.scale, self.scale) * m
 
@@ -163,11 +164,11 @@ class Path:
                 l = len(text) * h * 0.7
                 align = params.get('align', 'left')
                 start, end = {
-                    'left' : (0, 1),
-                    'middle' : (-0.5, 0.5),
-                    'end' : (-1, 0),
-                    }[align]
-                for x in (start*l, end*l):
+                    'left': (0, 1),
+                    'middle': (-0.5, 0.5),
+                    'end': (-1, 0),
+                }[align]
+                for x in (start * l, end * l):
                     for y in (0, h):
                         x_, y_ = m * (x, y)
                         e.add(x_, y_)
@@ -194,8 +195,8 @@ class Path:
                     p12 = self.path[i - 1][1:3]
                     p21 = p[1:3]
                     p22 = self.path[i + 1][1:3]
-                    if (((p12[0]-p21[0])**2 + (p12[1]-p21[1])**2) >
-                        self.params["lw"]**2):
+                    if (((p12[0] - p21[0])**2 + (p12[1] - p21[1])**2)
+                            > self.params["lw"]**2):
                         continue
                     lines_intersect, x, y = line_intersection((p11, p12), (p21, p22))
                     if lines_intersect:
@@ -239,7 +240,7 @@ class Context:
             self._last_path,
         ) = self._stack.pop()
 
-    ## transformations
+    # transformations
 
     def translate(self, x, y):
         self._m *= Affine.translation(x, y)
@@ -257,7 +258,7 @@ class Context:
     def set_source_rgb(self, r, g, b):
         self._rgb = (r, g, b)
 
-    ## path methods
+    # path methods
 
     def _line_to(self, x, y):
         self._add_move()
@@ -290,7 +291,7 @@ class Context:
         by = y4 - yc
         q1 = ax * ax + ay * ay
         q2 = q1 + ax * bx + ay * by
-        k2 = 4/3 * ((2 * q1 * q2)**0.5 - q2) / (ax * by - ay * bx)
+        k2 = 4 / 3 * ((2 * q1 * q2)**0.5 - q2) / (ax * by - ay * bx)
 
         x2 = xc + ax - k2 * ay
         y2 = yc + ay + k2 * ax
@@ -373,7 +374,7 @@ class Context:
         # todo: check, if needed
         # self.stroke()
 
-    ## additional methods
+    # additional methods
     def new_part(self):
         self._dwg.new_part()
 
@@ -383,9 +384,9 @@ class SVGSurface(Surface):
     invert_y = True
 
     fonts = {
-        'serif' : 'TimesNewRoman, "Times New Roman", Times, Baskerville, Georgia, serif',
-        'sans-serif' : '"Helvetica Neue", Helvetica, Arial, sans-serif',
-        'monospaced' : '"Courier New", Courier, "Lucida Sans Typewriter"'
+        'serif': 'TimesNewRoman, "Times New Roman", Times, Baskerville, Georgia, serif',
+        'sans-serif': '"Helvetica Neue", Helvetica, Arial, sans-serif',
+        'monospaced': '"Courier New", Courier, "Lucida Sans Typewriter"'
     }
 
     def _addTag(self, parent, tag, text, first=False):
@@ -405,7 +406,7 @@ class SVGSurface(Surface):
         # Add Inkscape style rdf meta data
         root.set("xmlns:dc", "http://purl.org/dc/elements/1.1/")
         root.set("xmlns:cc", "http://creativecommons.org/ns#")
-        root.set("xmlns:rdf","http://www.w3.org/1999/02/22-rdf-syntax-ns#")
+        root.set("xmlns:rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
 
         title = "{group} - {name}".format(**md)
         date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -465,15 +466,14 @@ Creation date: {date}
         w = extents.width * self.scale
         h = extents.height * self.scale
 
-
         nsmap = {
-                "dc": "http://purl.org/dc/elements/1.1/",
-                "cc": "http://creativecommons.org/ns#",
-                "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-                "svg": "http://www.w3.org/2000/svg",
-                "xlink": "http://www.w3.org/1999/xlink",
-                "inkscape": "http://www.inkscape.org/namespaces/inkscape",
-            }
+            "dc": "http://purl.org/dc/elements/1.1/",
+            "cc": "http://creativecommons.org/ns#",
+            "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+            "svg": "http://www.w3.org/2000/svg",
+            "xlink": "http://www.w3.org/1999/xlink",
+            "inkscape": "http://www.inkscape.org/namespaces/inkscape",
+        }
         ET.register_namespace("", "http://www.w3.org/2000/svg")
         ET.register_namespace("xlink", "http://www.w3.org/1999/xlink")
         svg = ET.Element('svg', width=f"{w:.2f}mm", height=f"{h:.2f}mm",
@@ -485,7 +485,7 @@ Creation date: {date}
         tree = ET.ElementTree(svg)
 
         self._add_metadata(svg)
-        
+
         for i, part in enumerate(self.parts):
             if not part.pathes:
                 continue
@@ -530,7 +530,7 @@ Creation date: {date}
 
                         style = f"font-family: {font} ; font-weight: {fontweight}; font-style: {fontstyle}; fill: {rgb_to_svg_color(*params['rgb'])}"
                         t = ET.SubElement(g, "text",
-                                          #x=f"{x:.3f}", y=f"{y:.3f}",
+                                          # x=f"{x:.3f}", y=f"{y:.3f}",
                                           transform=f"matrix( {tm} )",
                                           style=style)
                         t.text = text
@@ -559,24 +559,25 @@ Creation date: {date}
             t.tail = "\n"
         tree.write(open(self._fname, "wb"), xml_declaration=True, method="xml")
 
+
 class PSSurface(Surface):
 
-    scale = 72 / 25.4 # 72 dpi
+    scale = 72 / 25.4  # 72 dpi
 
     fonts = {
-        ('serif', False, False) : 'Times-Roman',
-        ('serif', False, True) : 'Times-Italic',
-        ('serif', True, False) : 'Times-Bold',
-        ('serif', True, True) : 'Times-BoldItalic',
-        ('sans-serif', False, False) : 'Helvetica',
-        ('sans-serif', False, True) : 'Helvetica-Oblique',
-        ('sans-serif', True, False) : 'Helvetica-Bold',
-        ('sans-serif', True, True) : 'Helvetica-BoldOblique',
-        ('monospaced', False, False) : 'Courier',
-        ('monospaced', False, True) : 'Courier-Oblique',
-        ('monospaced', True, False) : 'Courier-Bold',
-        ('monospaced', True, True) : 'Courier-BoldOblique',
-        }
+        ('serif', False, False): 'Times-Roman',
+        ('serif', False, True): 'Times-Italic',
+        ('serif', True, False): 'Times-Bold',
+        ('serif', True, True): 'Times-BoldItalic',
+        ('sans-serif', False, False): 'Helvetica',
+        ('sans-serif', False, True): 'Helvetica-Oblique',
+        ('sans-serif', True, False): 'Helvetica-Bold',
+        ('sans-serif', True, True): 'Helvetica-BoldOblique',
+        ('monospaced', False, False): 'Courier',
+        ('monospaced', False, True): 'Courier-Oblique',
+        ('monospaced', True, False): 'Courier-Bold',
+        ('monospaced', True, True): 'Courier-BoldOblique',
+    }
 
     def _metadata(self):
         md = self.metadata
@@ -586,7 +587,7 @@ class PSSurface(Surface):
         desc += f'%%CreationDate: {datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n'
         desc += f'%%Keywords: boxes.py, laser, laser cutter\n'
         desc += f'%%Creator: {md.get("url") or md["cli"]}\n'
-        desc +=  "%%CreatedBy: Boxes.py (https://festi.info/boxes.py)\n"
+        desc += "%%CreatedBy: Boxes.py (https://festi.info/boxes.py)\n"
         for line in (md["short_description"] or "").split("\n"):
             desc += "%% %s\n" % line
         desc += "%\n"
@@ -661,16 +662,16 @@ class PSSurface(Surface):
                     elif C == "T":
                         m, text, params = c[3:]
                         tm = " ".join((f"{m[i]:.3f}" for i in (0, 3, 1, 4, 2, 5)))
-                        text = text.replace("(", "r\(").replace(")", r"\)")
+                        text = text.replace("(", r"r\(").replace(")", r"\)")
                         color = " ".join((f"{c:.2f}"
                                           for c in params["rgb"]))
                         align = params.get('align', 'left')
                         f.write(f"/{self.fonts[params['ff']]}-Latin1 findfont\n")
                         f.write(f"{params['fs']} scalefont\n")
                         f.write("setfont\n")
-                        #f.write(f"currentfont /Encoding  ISOLatin1Encoding put\n")
+                        # f.write(f"currentfont /Encoding  ISOLatin1Encoding put\n")
                         f.write(f"{color} setrgbcolor\n")
-                        f.write("matrix currentmatrix") # save current matrix
+                        f.write("matrix currentmatrix")  # save current matrix
                         f.write(f"[ {tm} ] concat\n")
                         if align == "left":
                             f.write(f"0.0\n")
@@ -678,14 +679,14 @@ class PSSurface(Surface):
                             f.write(f"({text}) stringwidth pop ")
                             if align == "middle":
                                 f.write(f"-0.5 mul\n")
-                            else: # end
+                            else:  # end
                                 f.write(f"neg\n")
                         # offset y by descender
                         f.write("currentfont dup /FontBBox get 1 get \n")
                         f.write("exch /FontMatrix get 3 get mul neg moveto \n")
 
-                        f.write(f"({text}) show\n") # text created by dup above
-                        f.write("setmatrix\n\n") # restore matrix
+                        f.write(f"({text}) show\n")  # text created by dup above
+                        f.write("setmatrix\n\n")  # restore matrix
                     else:
                         print("Unknown", c)
                 color = (
@@ -710,9 +711,6 @@ showpage
 """
         )
         f.close()
-
-
-from random import random
 
 
 def random_svg_color():

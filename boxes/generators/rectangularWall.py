@@ -16,17 +16,18 @@
 
 from boxes import *
 
+
 class RectangularWall(Boxes):
     """Simple wall"""
 
-    ui_group = "Part" # see ./__init__.py for names
+    ui_group = "Part"  # see ./__init__.py for names
 
     def __init__(self):
         Boxes.__init__(self)
 
         self.addSettingsArgs(edges.CabinetHingeSettings)
-        self.addSettingsArgs(edges.ClickSettings)        
-        self.addSettingsArgs(edges.DoveTailSettings)        
+        self.addSettingsArgs(edges.ClickSettings)
+        self.addSettingsArgs(edges.DoveTailSettings)
         self.addSettingsArgs(edges.FingerJointSettings)
         self.addSettingsArgs(edges.GearSettings)
         self.addSettingsArgs(edges.GripSettings)
@@ -53,12 +54,11 @@ class RectangularWall(Boxes):
             "--left_edge", action="store",
             type=ArgparseEdgeType("cCdDeEfFghiIjJkKlLmMnNoOpPqQRsSuUvV"), choices=list("cCdDeEfFghiIjJkKlLmMnNoOpPqQRsSuUvV"),
             default="e", help="edge type for left edge")
-        
 
     def cb(self, nr):
         t = self.thickness
         if self.edgetypes[nr] == "f":
-            self.fingerHolesAt(0, -2.5*t, self.h if nr % 2 else self.x, 0)
+            self.fingerHolesAt(0, -2.5 * t, self.h if nr % 2 else self.x, 0)
 
     def render(self):
         # adjust to the variables you want in the local scope
@@ -66,6 +66,5 @@ class RectangularWall(Boxes):
 
         self.edgetypes = [self.bottom_edge, self.right_edge, self.top_edge, self.left_edge]
 
-        self.moveTo(3*t, 3*t)
+        self.moveTo(3 * t, 3 * t)
         self.rectangularWall(self.x, self.h, self.edgetypes, callback=self.cb)
-

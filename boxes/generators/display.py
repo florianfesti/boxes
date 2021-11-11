@@ -17,6 +17,7 @@
 from boxes import *
 import math
 
+
 class Display(Boxes):
     """Diplay for flyers or leaflets"""
 
@@ -28,12 +29,11 @@ class Display(Boxes):
         self.buildArgParser(x=150., h=200.0)
         # Add non default cli params if needed (see argparse std lib)
         self.argparser.add_argument(
-            "--radius",  action="store", type=float, default=5.,
+            "--radius", action="store", type=float, default=5.,
             help="radius of the corners in mm")
         self.argparser.add_argument(
-            "--angle",  action="store", type=float, default=0.,
+            "--angle", action="store", type=float, default=0.,
             help="greater zero for top wider as bottom")
-
 
     def render(self):
         # adjust to the variables you want in the local scope
@@ -41,14 +41,13 @@ class Display(Boxes):
         a = self.angle
         t = self.thickness
 
-        self.roundedPlate(0.7*x, x, r, "e", extend_corners=False, move="up")
+        self.roundedPlate(0.7 * x, x, r, "e", extend_corners=False, move="up")
 
-        oh = 1.2*h-2*r
+        oh = 1.2 * h - 2 * r
         if a > 0:
-            self.moveTo(math.sin(math.radians(a))*oh)
-        self.rectangularHole(x/2, h*0.2, 0.7*x+0.1*t, 1.3*t)
+            self.moveTo(math.sin(math.radians(a)) * oh)
+        self.rectangularHole(x / 2, h * 0.2, 0.7 * x + 0.1 * t, 1.3 * t)
         self.moveTo(r)
-        self.polyline(x-2*r, (90-a, r), oh, (90+a, r),
-                      x-2*r+2*math.sin(math.radians(a))*oh,
-                      (90+a, r), oh, (90-a, r))
-
+        self.polyline(x - 2 * r, (90 - a, r), oh, (90 + a, r),
+                      x - 2 * r + 2 * math.sin(math.radians(a)) * oh,
+                      (90 + a, r), oh, (90 - a, r))

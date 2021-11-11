@@ -90,7 +90,6 @@ class Lamp(Boxes):
         h : height box
         """
 
-
         # self.edges["f"].settings = (5, 5) # XXX
 
         x, y, h = self.x, self.y, self.h
@@ -113,7 +112,9 @@ class Lamp(Boxes):
         #        lambda: self.hole(pos[0], pos[1], 7),])
         self.roundedPlate(d, d, r, move="only left up")
 
-        hole = lambda: self.hole(w, 70, 2)
+        def hole():
+            return self.hole(w, 70, 2)
+
         self.surroundingWall(d, d, r, 120, top='h', bottom='h', callback=[
             None, hole, None, hole], move="up")
 
@@ -129,6 +130,3 @@ class Lamp(Boxes):
 
         self.rectangularWall(x, h, edges='hFFF', holesMargin=5, move="right")
         self.rectangularWall(x, h, edges='hFFF', holesMargin=5)
-
-
-

@@ -23,9 +23,10 @@ except ImportError:
     sys.path.append(os.path.dirname(__file__) + "/../..")
     import boxes.generators
 
+
 class Boxes2rst:
     def __init__(self):
-        self.boxes = {b.__name__ : b() for b in boxes.generators.getAllBoxGenerators().values() if b.webinterface}
+        self.boxes = {b.__name__: b() for b in boxes.generators.getAllBoxGenerators().values() if b.webinterface}
         self.groups = boxes.generators.ui_groups
         self.groups_by_name = boxes.generators.ui_groups_by_name
 
@@ -46,10 +47,11 @@ class Boxes2rst:
                     f.write("\n\n.. autoclass:: %s.%s" % (
                         box.__class__.__module__, box.__class__.__name__))
                     f.write("\n\n")
-                    if os.path.exists("../../static/samples/"+ box.__class__.__name__+".jpg"):
-                        f.write(".. image:: ../../static/samples/" + box.__class__.__name__+".jpg\n\n")
+                    if os.path.exists("../../static/samples/" + box.__class__.__name__ + ".jpg"):
+                        f.write(".. image:: ../../static/samples/" + box.__class__.__name__ + ".jpg\n\n")
 
-if __name__=="__main__":
+
+if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: boxes2inksacpe TARGETPATH")
     b = Boxes2rst()

@@ -28,11 +28,11 @@ except ImportError:
 
 import boxes.generators
 
-#__version__ = get_distribution('boxes').version
+# __version__ = get_distribution('boxes').version
 
 
 def main():
-    #version = 'boxes.py v{}'.format(__version__)
+    # version = 'boxes.py v{}'.format(__version__)
 
     if len(sys.argv) > 1 and sys.argv[1].startswith("--id="):
         del sys.argv[1]
@@ -46,8 +46,10 @@ def main():
             name = name[12:]
         run_generator(name, sys.argv[2:])
 
+
 def print_usage():
     print(__doc__)
+
 
 def list_grouped_generators():
     print('Available generators:')

@@ -14,19 +14,21 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import re, datetime
+import re
+import datetime
 
 from xml.etree import cElementTree as ElementTree
-ElementTree.register_namespace("","http://www.w3.org/2000/svg")
+ElementTree.register_namespace("", "http://www.w3.org/2000/svg")
 ElementTree.register_namespace("xlink", "http://www.w3.org/1999/xlink")
 
-unit2mm = {"mm" : 1.0,
-           "cm" : 10.0,
-           "in" : 25.4,
-           "px" : 90.0/25.4,
-           "pt" : 90.0/25.4/1.25,
-           "pc" : 90.0/25.4/15,
-}
+unit2mm = {"mm": 1.0,
+           "cm": 10.0,
+           "in": 25.4,
+           "px": 90.0 / 25.4,
+           "pt": 90.0 / 25.4 / 1.25,
+           "pc": 90.0 / 25.4 / 15,
+           }
+
 
 def getSizeInMM(tree):
     root = tree.getroot()
@@ -40,20 +42,23 @@ def getSizeInMM(tree):
 
     return width, height
 
+
 def getViewBox(tree):
     root = tree.getroot()
     m = re.match(r"\s*(-?\d+\.?\d*)\s+"
-                     "(-?\d+\.?\d*)\s+"
-                     "(-?\d+\.?\d*)\s+"
-                     "(-?\d+\.?\d)\s*", root.get("viewBox"))
+                 r"(-?\d+\.?\d*)\s+"
+                 r"(-?\d+\.?\d*)\s+"
+                 r"(-?\d+\.?\d)\s*", root.get("viewBox"))
 
     return [float(m) for m in m.groups()]
+
 
 def ticksPerMM(tree):
     width, height = getSizeInMM(tree)
     x1, y1, x2, y2 = getViewBox(tree)
 
-    return x2/width, y2/height
+    return x2 / width, y2 / height
+
 
 def svgMerge(box, inkscape, output):
 
@@ -73,7 +78,7 @@ def svgMerge(box, inkscape, output):
     src_view = getViewBox(src_tree)
 
     off_x = src_view[0] * -scale_x
-    off_y = (src_view[1]+src_view[3]) * -scale_y + dest_height * scale_y
+    off_y = (src_view[1] + src_view[3]) * -scale_y + dest_height * scale_y
 
     for el in src_tree.getroot():
         import sys

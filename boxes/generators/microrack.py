@@ -90,11 +90,10 @@ class SBCMicroRack(Boxes):
             help="adds an additional vertical segment to hold the switch in place, works best w/ --stable"
         )
         # TODO flesh this idea out better
-        #self.argparser.add_argument(
+        # self.argparser.add_argument(
         #    "--fan", action='store', type=int, default=0, required=False,
         #    help="ensure that the x width is at least this much and as well, draw a snug holder for a fan someplace"
         # )
-
 
     def paint_mounting_holes(self):
         cy = self.clearance_y
@@ -139,17 +138,17 @@ class SBCMicroRack(Boxes):
         t = self.thickness
         x = self.x
         w = x + self.hole_dist_edge * 2
-        height_per = self.clearance_z + t 
+        height_per = self.clearance_z + t
         usb_height = self.netusb_z
         usb_width = self.netusb_x
         for i in range(self.sbcs):
-            self.rectangularHole(w/2, (height_per)*i+15 , usb_width, usb_height, r=1)
+            self.rectangularHole(w / 2, (height_per) * i + 15, usb_width, usb_height, r=1)
 
     def paint_finger_holes(self):
         t = self.thickness
         height_per = self.clearance_z + t
         for i in range(self.sbcs):
-            self.fingerHolesAt((height_per) * i + +height_per/2 + 1.5, self.hole_dist_edge, self.x, 90)
+            self.fingerHolesAt((height_per) * i + +height_per / 2 + 1.5, self.hole_dist_edge, self.x, 90)
 
     def render(self):
         # adjust to the variables you want in the local scope
@@ -162,14 +161,14 @@ class SBCMicroRack(Boxes):
         # render your parts here
 
         with self.saved_context():
-            self.rectangularWall(height_total + height_per/2,
+            self.rectangularWall(height_total + height_per / 2,
                                  x + self.hole_dist_edge * 2,
                                  "eseS",
                                  callback=[self.paint_finger_holes,
                                            self.paint_netusb_holes],
                                  move="up")
 
-            self.rectangularWall(height_total + height_per/2,
+            self.rectangularWall(height_total + height_per / 2,
                                  x + self.hole_dist_edge * 2,
                                  "eseS",
                                  callback=[self.paint_finger_holes,
@@ -183,7 +182,7 @@ class SBCMicroRack(Boxes):
                                      callback=[self.paint_stable_features],
                                      move="up")
 
-        self.rectangularWall(height_total + height_per/2,
+        self.rectangularWall(height_total + height_per / 2,
                              x + self.hole_dist_edge * 2,
                              "eseS",
                              move="right only")
@@ -199,4 +198,3 @@ class SBCMicroRack(Boxes):
                                  "efef",
                                  callback=[self.paint_mounting_holes],
                                  move="up")
-

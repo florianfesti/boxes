@@ -16,6 +16,7 @@
 
 from boxes import *
 
+
 class NemaMount(Boxes):
     """Mounting braket for a Nema motor"""
 
@@ -34,22 +35,20 @@ class NemaMount(Boxes):
             self.size, self.nema_sizes[8])
         t = self.thickness
 
-        x = y = h = motor + 2*t
-
+        x = y = h = motor + 2 * t
 
         self.rectangularWall(x, y, "ffef", callback=[
-            lambda: self.NEMA(self.size, x/2, y/2)], move="right")
+            lambda: self.NEMA(self.size, x / 2, y / 2)], move="right")
         self.rectangularTriangle(x, h, "fFe", num=2, move="right")
         self.rectangularWall(x, h, "FFeF", callback=[
 
-            lambda:self.rectangularHole((x-holes)/2, y/2, screws, holes,
-                                        screws/2),
+            lambda:self.rectangularHole((x - holes) / 2, y / 2, screws, holes,
+                                        screws / 2),
             None,
-            lambda:self.rectangularHole((x-holes)/2, y/2, screws, holes,
-                                        screws/2)],
+            lambda:self.rectangularHole((x - holes) / 2, y / 2, screws, holes,
+                                        screws / 2)],
                              move="right")
         self.moveTo(t, 0)
-        self.fingerHolesAt(0.5*t, t, x, 90)
-        self.fingerHolesAt(1.5*t+x, t, x, 90)
-        self.fingerHolesAt(t, 0.5*t, x, 0)
-
+        self.fingerHolesAt(0.5 * t, t, x, 90)
+        self.fingerHolesAt(1.5 * t + x, t, x, 90)
+        self.fingerHolesAt(t, 0.5 * t, x, 0)

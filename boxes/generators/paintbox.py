@@ -21,7 +21,7 @@ class PaintStorage(Boxes):
     """Stackable storage for hobby paint or other things"""
 
     webinterface = True
-    ui_group = "Shelf" # see ./__init__.py for names
+    ui_group = "Shelf"  # see ./__init__.py for names
 
     def __init__(self):
         Boxes.__init__(self)
@@ -51,28 +51,28 @@ class PaintStorage(Boxes):
         "Place holes for the paintcans evenly"
 
         if self.hexpattern:
-            self.moveTo(self.minspace/2, self.minspace/2)
+            self.moveTo(self.minspace / 2, self.minspace / 2)
             settings = self.hexHolesSettings
             settings.diameter = self.candiameter
             settings.distance = self.minspace
             settings.style = 'circle'
-            self.hexHolesRectangle(self.y - 1*self.minspace,
-                                   self.x - 1*self.minspace,
+            self.hexHolesRectangle(self.y - 1 * self.minspace,
+                                   self.x - 1 * self.minspace,
                                    settings)
             return
-        n_x = int(self.x / (self.candiameter+self.minspace))
-        n_y = int(self.y / (self.candiameter+self.minspace))
+        n_x = int(self.x / (self.candiameter + self.minspace))
+        n_y = int(self.y / (self.candiameter + self.minspace))
 
         if n_x <= 0 or n_y <= 0:
             return
 
-        spacing_x = (self.x - n_x*self.candiameter)/n_x
-        spacing_y = (self.y - n_y*self.candiameter)/n_y
+        spacing_x = (self.x - n_x * self.candiameter) / n_x
+        spacing_y = (self.y - n_y * self.candiameter) / n_y
         for i in range(n_y):
             for j in range(n_x):
-                self.hole(i * (self.candiameter+spacing_y) + (self.candiameter+spacing_y)/2,
-                          j * (self.candiameter+spacing_x) + (self.candiameter+spacing_x)/2,
-                          self.candiameter/2)
+                self.hole(i * (self.candiameter + spacing_y) + (self.candiameter + spacing_y) / 2,
+                          j * (self.candiameter + spacing_x) + (self.candiameter + spacing_x) / 2,
+                          self.candiameter / 2)
 
     def render(self):
         # adjust to the variables you want in the local scope
@@ -82,8 +82,8 @@ class PaintStorage(Boxes):
         stack = self.edges['s'].settings
         h = self.canheight - stack.height - stack.holedistance + t
 
-        hx = 1/2.*x
-        hh = h/4.
+        hx = 1 / 2. * x
+        hh = h / 4.
         hr = min(hx, hh) / 2
 
         if not self.drawer:
@@ -99,7 +99,6 @@ class PaintStorage(Boxes):
                 lambda: self.rectangularHole(h / 3, (x / 2.0) - t, hh, hx, r=hr)
             ]
             bottom_keys = "FfFf"
-
 
         # Walls
         self.rectangularWall(
@@ -123,7 +122,7 @@ class PaintStorage(Boxes):
 
         # Bottom
         self.rectangularWall(
-            y, x-2*t, bottom_keys, ignore_widths=[1, 2, 5, 6], move="up"
+            y, x - 2 * t, bottom_keys, ignore_widths=[1, 2, 5, 6], move="up"
         )
 
         if not self.drawer:

@@ -16,19 +16,19 @@
 
 from boxes import *
 
+
 class Edges(Boxes):
     """Print all registerd Edge types"""
-    
+
     webinterface = False
 
     def __init__(self):
-        Boxes.__init__(self)        
+        Boxes.__init__(self)
 
     def render(self):
         self.ctx = None
         self._buildObjects()
         chars = self.edges.keys()
-        for c in sorted(chars, key=lambda x:(x.lower(), x.isupper())):
-            print("%s %s - %s" %(c, self.edges[c].__class__.__name__,
+        for c in sorted(chars, key=lambda x: (x.lower(), x.isupper())):
+            print("%s %s - %s" % (c, self.edges[c].__class__.__name__,
                   self.edges[c].__doc__))
-

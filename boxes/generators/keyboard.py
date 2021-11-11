@@ -19,6 +19,7 @@ import re
 import argparse
 from boxes import Boxes, boolarg
 
+
 class Keyboard:
     """
     Code to manage Cherry MX compatible switches and Kailh hotswap socket.
@@ -89,7 +90,7 @@ class Keyboard:
             )
         if default_columns_definition:
             self.argparser.add_argument(
-            "--columns_definition",
+                "--columns_definition",
                 type=self.argparseColumnsDefinition,
                 default=default_columns_definition,
                 help=(
@@ -125,8 +126,8 @@ class Keyboard:
                 keys_count = int(m.group(1))
                 offset = float(m.group(2)) if m.group(2) else 0
                 n = int(m.group(3)) if m.group(3) else 1
-                result.extend([(offset, keys_count)]*n)
-        except:
+                result.extend([(offset, keys_count)] * n)
+        except Exception:
             raise argparse.ArgumentTypeError("Don't understand columns definition string")
 
         return result
@@ -166,7 +167,7 @@ class Keyboard:
             grid_hole(3, -4, led_hole_size)
 
     def apply_callback_on_columns(self, cb, columns_definition, spacing=None, reverse=False):
-        if spacing == None:
+        if spacing is None:
             spacing = self.STANDARD_KEY_SPACING
         if reverse:
             columns_definition = list(reversed(columns_definition))
@@ -216,10 +217,10 @@ class Keyboard:
         btn_full_side = [*btn_half_side, 0, *btn_half_side[::-1]]
         btn = [*btn_full_side, -90] * 4
 
-        self.moveTo(self.burn+0.81, 0.81, 90)
+        self.moveTo(self.burn + 0.81, 0.81, 90)
         self.polyline(*btn)
         self.moveTo(0, 0, 270)
-        self.moveTo(-self.burn-0.81, -0.81)
+        self.moveTo(-self.burn - 0.81, -0.81)
 
         if centered:
             self.moveTo(half_size, half_size)

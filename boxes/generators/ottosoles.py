@@ -16,6 +16,7 @@
 
 from boxes import *
 
+
 class OttoSoles(Boxes):
     """Foam soles for the OttO bot"""
 
@@ -24,17 +25,16 @@ class OttoSoles(Boxes):
     def __init__(self):
         Boxes.__init__(self)
 
-        self.buildArgParser(x=56., y=36.)        
+        self.buildArgParser(x=56., y=36.)
         self.argparser.add_argument(
-            "--width",  action="store", type=float, default=4.,
+            "--width", action="store", type=float, default=4.,
             help="width of sole stripe")
         self.argparser.add_argument(
-            "--chamfer",  action="store", type=float, default=5.,
+            "--chamfer", action="store", type=float, default=5.,
             help="chamfer at the corners")
         self.argparser.add_argument(
-            "--num",  action="store", type=int, default=2,
+            "--num", action="store", type=int, default=2,
             help="number of soles")
-
 
     def render(self):
         x, y = self.x, self.y
@@ -45,26 +45,25 @@ class OttoSoles(Boxes):
         w2 = w * 2**0.5 - c2 / 2
         d = w * math.tan(math.radians(22.5))
 
-        
         self.edges["d"].settings.setValues(w, size=0.4, depth=0.3,
                                            radius=0.05)
 
         self.moveTo(0, y, -90)
 
-        for i in range(self.num*2):
+        for i in range(self.num * 2):
             if c2 >= 2 * d:
-                self.polyline((c2, 1), 45, (y-2*c, 1), 45, c2/2., 90)
+                self.polyline((c2, 1), 45, (y - 2 * c, 1), 45, c2 / 2., 90)
                 self.edges["d"](w)
-                self.polyline(0, 90, c2/2-d, -45, (y-2*c-2*d, 1), -45,
-                              (c2-2*d, 1), -45,
-                              (x-2*c-2*d, 1), -45, c2/2-d, 90)
+                self.polyline(0, 90, c2 / 2 - d, -45, (y - 2 * c - 2 * d, 1), -45,
+                              (c2 - 2 * d, 1), -45,
+                              (x - 2 * c - 2 * d, 1), -45, c2 / 2 - d, 90)
                 self.edges["D"](w)
-                self.polyline(0, 90, c2/2., 45, (x-2*c, 1), 45)
-                self.moveTo(0, w + c2/2. + 2*2**0.5*self.burn)
+                self.polyline(0, 90, c2 / 2., 45, (x - 2 * c, 1), 45)
+                self.moveTo(0, w + c2 / 2. + 2 * 2**0.5 * self.burn)
             else:
-                self.polyline((c2, 1), 45, (y-2*c, 1), 45, c2/2., 90)
+                self.polyline((c2, 1), 45, (y - 2 * c, 1), 45, c2 / 2., 90)
                 self.edges["d"](w2)
-                self.polyline(0, 45, (y-2*w, 1), -90, (x-2*w, 1), 45)
+                self.polyline(0, 45, (y - 2 * w, 1), -90, (x - 2 * w, 1), 45)
                 self.edges["D"](w2)
-                self.polyline(0, 90, c2/2., 45, (x-2*c, 3), 45)
-                self.moveTo(0, w * 2**0.5 + 2*2**0.5*self.burn)
+                self.polyline(0, 90, c2 / 2., 45, (x - 2 * c, 3), 45)
+                self.moveTo(0, w * 2**0.5 + 2 * 2**0.5 * self.burn)

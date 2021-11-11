@@ -3,6 +3,7 @@
 from boxes import Boxes
 from boxes.edges import Edge
 
+
 class Rack19HalfWidth(Boxes):
     """Half width 19inch rack unit for musical equipment."""
 
@@ -46,13 +47,13 @@ class Rack19HalfWidth(Boxes):
 
     def rack_holes(self):
         """Rackmount holes."""
-        t = self.thickness # pylint: disable=invalid-name
+        t = self.thickness  # pylint: disable=invalid-name
         self.rectangularHole(6 + t, 10, 10, 6.5, r=3.25)
         self.rectangularHole(self.y - 6 + t, 10, 10, 6.5, r=3.25)
 
     def util_holes(self):
         """Add holes."""
-        self.moveTo(10, (44.45 - 4.45)/2)
+        self.moveTo(10, (44.45 - 4.45) / 2)
         for line in self.holes.split():
             with self.saved_context():
                 for hole in line:

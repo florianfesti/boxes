@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-09 19:12+0100\n"
+"POT-Creation-Date: 2021-11-11 13:21+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -5767,6 +5767,7 @@ msgid "Boxes - %s"
 msgstr ""
 
 #: scripts/boxesserver:225 scripts/boxesserver:296 scripts/boxesserver:316
+#: scripts/boxesserver:299 scripts/boxesserver:319
 msgid "Boxes.py"
 msgstr ""
 
@@ -5778,17 +5779,17 @@ msgstr ""
 msgid "Save to URL"
 msgstr ""
 
-#: scripts/boxesserver:269
+#: scripts/boxesserver:269 scripts/boxesserver:270
 msgid ""
 "There is no image yet. Please donate an image of your project on <a "
 "href=&quot;https://github.com/florianfesti/boxes/issues/140&quot;>GitHub</a>!"
 msgstr ""
 
-#: scripts/boxesserver:318
+#: scripts/boxesserver:318 scripts/boxesserver:321
 msgid "Create boxes and more with a laser cutter!"
 msgstr ""
 
-#: scripts/boxesserver:321
+#: scripts/boxesserver:321 scripts/boxesserver:324
 msgid ""
 "\n"
 "        <a href=\"https://hackaday.io/project/10649-boxespy\">Boxes.py</a> "
@@ -5799,23 +5800,23 @@ msgid ""
 "cuts, holes and slots for screws, hinges, gears, pulleys and much more."
 msgstr ""
 
-#: scripts/boxesserver:376
+#: scripts/boxesserver:376 scripts/boxesserver:383
 msgid "Get Source at GitHub"
 msgstr ""
 
-#: scripts/boxesserver:377
+#: scripts/boxesserver:377 scripts/boxesserver:384
 msgid "Documentation and API Description"
 msgstr ""
 
-#: scripts/boxesserver:378
+#: scripts/boxesserver:378 scripts/boxesserver:385
 msgid "Hackaday.io Project Page"
 msgstr ""
 
-#: scripts/boxesserver:387
+#: scripts/boxesserver:387 scripts/boxesserver:394
 #, python-format
 msgid "Error generating %s"
 msgstr ""
 
-#: scripts/boxesserver:392
+#: scripts/boxesserver:392 scripts/boxesserver:399
 msgid "An error occurred!"
 msgstr ""

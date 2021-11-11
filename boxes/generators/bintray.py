@@ -17,21 +17,23 @@
 from boxes import *
 import math
 
+
 class BinFrontEdge(edges.BaseEdge):
     char = "B"
+
     def __call__(self, length, **kw):
         f = self.settings.front
-        a1 = math.degrees(math.atan(f/(1-f)))
+        a1 = math.degrees(math.atan(f / (1 - f)))
         a2 = 45 + a1
         self.corner(-a1)
         for i, l in enumerate(self.settings.sy):
-            self.edges["e"](l* (f**2+(1-f)**2)**0.5)
-            self.corner(a2)            
-            self.edges["f"](l*f*2**0.5)
-            if i < len(self.settings.sy)-1:
+            self.edges["e"](l * (f**2 + (1 - f)**2)**0.5)
+            self.corner(a2)
+            self.edges["f"](l * f * 2**0.5)
+            if i < len(self.settings.sy) - 1:
                 if self.char == "B":
-                    self.polyline(0, 45, 0.5*self.settings.hi,
-                                  -90, self.thickness, -90, 0.5*self.settings.hi, 90-a1)
+                    self.polyline(0, 45, 0.5 * self.settings.hi,
+                                  -90, self.thickness, -90, 0.5 * self.settings.hi, 90 - a1)
                 else:
                     self.polyline(0, -45, self.thickness, -a1)
             else:
@@ -40,8 +42,10 @@ class BinFrontEdge(edges.BaseEdge):
     def margin(self):
         return max(self.settings.sy) * self.settings.front
 
+
 class BinFrontSideEdge(BinFrontEdge):
     char = 'b'
+
 
 class BinTray(Boxes):
     """A Type tray variant to be used up right with sloped walls in front"""
@@ -79,13 +83,13 @@ class BinTray(Boxes):
         for x in self.sx[:-1]:
             posx += x + self.thickness
             self.fingerHolesAt(posx, 0, self.hi)
-            
+
     def frontHoles(self, i):
         def CB():
             posx = -0.5 * self.thickness
             for x in self.sx[:-1]:
                 posx += x + self.thickness
-                self.fingerHolesAt(posx, 0, self.sy[i]*self.front*2**0.5)
+                self.fingerHolesAt(posx, 0, self.sy[i] * self.front * 2**0.5)
         return CB
 
     def yHoles(self):
@@ -115,14 +119,14 @@ class BinTray(Boxes):
         # outer walls
         e = ["F", "f", edges.SlottedEdge(self, self.sx[::-1], "G"), "f"]
 
-        self.rectangularWall(x, h, e, callback=[self.xHoles],  move="right")
+        self.rectangularWall(x, h, e, callback=[self.xHoles], move="right")
         self.rectangularWall(y, h, "FFbF", callback=[self.yHoles, ], move="up")
         self.rectangularWall(y, h, "FFbF", callback=[self.yHoles, ])
         self.rectangularWall(x, h, "Ffef", callback=[self.xHoles, ], move="left")
         self.rectangularWall(y, h, "FFBF", move="up only")
 
         # floor
-        self.rectangularWall(x, y, "ffff", callback=[self.xSlots, self.ySlots],move="right")
+        self.rectangularWall(x, y, "ffff", callback=[self.xSlots, self.ySlots], move="right")
         # Inner walls
         for i in range(len(self.sx) - 1):
             e = [edges.SlottedEdge(self, self.sy, "f"), "f", "B", "f"]
@@ -136,7 +140,4 @@ class BinTray(Boxes):
         # Front walls
         for i in range(len(self.sy)):
             e = [edges.SlottedEdge(self, self.sx, "g"), "F", "e", "F"]
-            self.rectangularWall(x, self.sy[i]*self.front*2**0.5, e, callback=[self.frontHoles(i)], move="up")
-
-
-
+            self.rectangularWall(x, self.sy[i] * self.front * 2**0.5, e, callback=[self.frontHoles(i)], move="up")

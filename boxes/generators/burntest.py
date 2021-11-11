@@ -16,6 +16,7 @@
 
 from boxes import *
 
+
 class BurnTest(Boxes):
     """Test different burn values"""
     description = """This generator will make shapes that you can use to select
@@ -40,12 +41,11 @@ See also LBeam that can serve as compact BurnTest and FlexTest for testing flex 
         self.addSettingsArgs(edges.FingerJointSettings)
         self.buildArgParser(x=100)
         self.argparser.add_argument(
-            "--step",  action="store", type=float, default=0.01,
+            "--step", action="store", type=float, default=0.01,
             help="increases in burn value between the sides")
         self.argparser.add_argument(
-            "--pairs",  action="store", type=int, default=2,
+            "--pairs", action="store", type=int, default=2,
             help="number of pairs (each testing four burn values)")
-
 
     def render(self):
         x, s = self.x, self.step
@@ -54,19 +54,19 @@ See also LBeam that can serve as compact BurnTest and FlexTest for testing flex 
         self.moveTo(t, t)
 
         for cnt in range(self.pairs):
-            
+
             for i in range(4):
-                self.text("%.3fmm" % self.burn, x/2, 2*t, align="center")
+                self.text("%.3fmm" % self.burn, x / 2, 2 * t, align="center")
                 self.edges["f"](x)
                 self.corner(90)
                 self.burn += s
-                
-            self.burn -= 4*s
 
-            self.moveTo(x+2*t+self.spacing, -t)
+            self.burn -= 4 * s
+
+            self.moveTo(x + 2 * t + self.spacing, -t)
             for i in range(4):
-                self.text("%.3fmm" % self.burn, x/2, 2*t, align="center")
+                self.text("%.3fmm" % self.burn, x / 2, 2 * t, align="center")
                 self.edges["F"](x)
                 self.polyline(t, 90, t)
                 self.burn += s
-            self.moveTo(x+2*t+self.spacing, t)
+            self.moveTo(x + 2 * t + self.spacing, t)

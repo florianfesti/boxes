@@ -16,9 +16,10 @@
 
 from boxes import *
 
+
 class ConcaveKnob(Boxes):
     """Round knob serrated outside for better gripping"""
-    
+
     ui_group = "Part"
 
     def __init__(self):
@@ -26,34 +27,34 @@ class ConcaveKnob(Boxes):
 
         # Add non default cli params if needed (see argparse std lib)
         self.argparser.add_argument(
-            "--diameter",  action="store", type=float, default=50.,
+            "--diameter", action="store", type=float, default=50.,
             help="Diameter of the knob (mm)")
         self.argparser.add_argument(
-            "--serrations",  action="store", type=int, default=3,
+            "--serrations", action="store", type=int, default=3,
             help="Number of serrations")
         self.argparser.add_argument(
-            "--rounded",  action="store", type=float, default=.2,
+            "--rounded", action="store", type=float, default=.2,
             help="Amount of circumference used for non convex parts")
         self.argparser.add_argument(
-            "--angle",  action="store", type=float, default=70.,
-            help="Angle between convex and concave parts")        
+            "--angle", action="store", type=float, default=70.,
+            help="Angle between convex and concave parts")
         self.argparser.add_argument(
-            "--bolthole",  action="store", type=float, default=6.,
+            "--bolthole", action="store", type=float, default=6.,
             help="Diameter of the bolt hole (mm)")
         self.argparser.add_argument(
-            "--dhole",  action="store", type=float, default=1.,
+            "--dhole", action="store", type=float, default=1.,
             help="D-Flat in fraction of the diameter")
         self.argparser.add_argument(
-            "--hexhead",  action="store", type=float, default=10.,
+            "--hexhead", action="store", type=float, default=10.,
             help="Width of the hex bolt head (mm)")
 
     def render(self):
         t = self.thickness
         self.parts.concaveKnob(self.diameter, self.serrations,
                                self.rounded, self.angle,
-                               callback=lambda:self.dHole(0, 0,
-                                                          d=self.bolthole,
-                                                          rel_w=self.dhole),
+                               callback=lambda: self.dHole(0, 0,
+                                                           d=self.bolthole,
+                                                           rel_w=self.dhole),
                                move="right")
         self.parts.concaveKnob(self.diameter, self.serrations,
                                self.rounded, self.angle,
@@ -61,5 +62,3 @@ class ConcaveKnob(Boxes):
                                move="right")
         self.parts.concaveKnob(self.diameter, self.serrations,
                                self.rounded, self.angle)
-
-

@@ -16,6 +16,7 @@
 
 from boxes import *
 
+
 class Console2(Boxes):
     """Console with slanted panel and service hatches"""
 
@@ -60,51 +61,51 @@ To remove the panel you have to press in the four tabs at the side. It is easies
         self.buildArgParser(x=100, y=100, h=100, bottom_edge="s",
                             outside=False)
         self.argparser.add_argument(
-            "--front_height",  action="store", type=float, default=30,
+            "--front_height", action="store", type=float, default=30,
             help="height of the front below the panel (in mm)")
         self.argparser.add_argument(
-            "--angle",  action="store", type=float, default=50,
+            "--angle", action="store", type=float, default=50,
             help="angle of the front panel (90°=upright)")
         self.argparser.add_argument(
-            "--removable_backwall",  action="store", type=boolarg, default=True,
+            "--removable_backwall", action="store", type=boolarg, default=True,
             help="have latches at the backwall")
         self.argparser.add_argument(
-            "--removable_panel",  action="store", type=boolarg, default=True,
+            "--removable_panel", action="store", type=boolarg, default=True,
             help="The panel is held by tabs and can be removed")
         self.argparser.add_argument(
-            "--glued_panel",  action="store", type=boolarg, default=True,
+            "--glued_panel", action="store", type=boolarg, default=True,
             help="the panel is glued and not held by finger joints")
 
     def borders(self):
         x, y, h, fh = self.x, self.y, self.h, self.front_height
         t = self.thickness
 
-        panel = min((h-fh)/math.cos(math.radians(90-self.angle)),
-                    y/math.cos(math.radians(self.angle)))
+        panel = min((h - fh) / math.cos(math.radians(90 - self.angle)),
+                    y / math.cos(math.radians(self.angle)))
         top = y - panel * math.cos(math.radians(self.angle))
         h = fh + panel * math.sin(math.radians(self.angle))
 
-        if top>0.1*t:
-            borders = [y, 90, fh, 90-self.angle, panel, self.angle, top,
+        if top > 0.1 * t:
+            borders = [y, 90, fh, 90 - self.angle, panel, self.angle, top,
                        90, h, 90]
         else:
-            borders = [y, 90, fh, 90-self.angle, panel, self.angle+90, h, 90]
+            borders = [y, 90, fh, 90 - self.angle, panel, self.angle + 90, h, 90]
         return borders
 
     def latch(self, move=None):
         t = self.thickness
         s = 0.1 * t
 
-        tw, th = 8*t, 3*t
+        tw, th = 8 * t, 3 * t
 
         if self.move(tw, th, move, True):
             return
-        
-        self.moveTo(0, 1.2*t)
-        self.polyline(t, -90, .2*t, 90, 2*t, -90, t, 90, t, 90, t, -90, 3*t,
-                      90, t, -90, t, 90, t, 90, 2*t, 90, 0.5*t,
-                      -94, 4.9*t, 94, .5*t, 86, 4.9*t, -176, 5*t,
-                      -90, 1.0*t, 90, t, 90, 1.8*t, 90)
+
+        self.moveTo(0, 1.2 * t)
+        self.polyline(t, -90, .2 * t, 90, 2 * t, -90, t, 90, t, 90, t, -90, 3 * t,
+                      90, t, -90, t, 90, t, 90, 2 * t, 90, 0.5 * t,
+                      -94, 4.9 * t, 94, .5 * t, 86, 4.9 * t, -176, 5 * t,
+                      -90, 1.0 * t, 90, t, 90, 1.8 * t, 90)
 
         self.move(tw, th, move)
 
@@ -112,14 +113,14 @@ To remove the panel you have to press in the four tabs at the side. It is easies
         t = self.thickness
         s = 0.1 * t
 
-        tw, th = 4*t, 4*t
+        tw, th = 4 * t, 4 * t
 
         if self.move(tw, th, move, True):
             return
 
-        self.moveTo(0.5*t)
-        self.polyline(t-0.5*s, 90, 2.5*t+.5*s, -90, t+s, -90, 2.5*t+.5*s, 90, t-0.5*s, 90,
-                      t, -90, 0.5*t, 90, 2*t, 45, 2**.5*t, 45, 2*t, 45, 2**.5*t, 45, 2*t, 90, 0.5*t, -90, t, 90)
+        self.moveTo(0.5 * t)
+        self.polyline(t - 0.5 * s, 90, 2.5 * t + .5 * s, -90, t + s, -90, 2.5 * t + .5 * s, 90, t - 0.5 * s, 90,
+                      t, -90, 0.5 * t, 90, 2 * t, 45, 2**.5 * t, 45, 2 * t, 45, 2**.5 * t, 45, 2 * t, 90, 0.5 * t, -90, t, 90)
 
         self.move(tw, th, move)
 
@@ -129,11 +130,11 @@ To remove the panel you have to press in the four tabs at the side. It is easies
         t = self.thickness
         s = 0.1 * t
 
-        self.moveTo(posx, 2*t, 180)
+        self.moveTo(posx, 2 * t, 180)
 
-        path = [1.5*t, -90, t, -90, t-0.5*s, 90]
-        path = path + [2*t] + list(reversed(path))
-        path = path[:-1] + [3*t] + list(reversed(path[:-1]))
+        path = [1.5 * t, -90, t, -90, t - 0.5 * s, 90]
+        path = path + [2 * t] + list(reversed(path))
+        path = path[:-1] + [3 * t] + list(reversed(path[:-1]))
 
         self.polyline(*path)
 
@@ -141,7 +142,7 @@ To remove the panel you have to press in the four tabs at the side. It is easies
         t = self.thickness
         s = 0.1 * t
 
-        tw, th = l, 3*t
+        tw, th = l, 3 * t
 
         if not self.glued_panel:
             th += t
@@ -149,44 +150,44 @@ To remove the panel you have to press in the four tabs at the side. It is easies
         if self.move(tw, th, move, True):
             return
 
-        self.rectangularHole(3*t, 1.5*t, 3*t, 1.05*t)
-        self.rectangularHole(l-3*t, 1.5*t, 3*t, 1.05*t)
-        self.rectangularHole(l/2, 1.5*t, 2*t, t)
+        self.rectangularHole(3 * t, 1.5 * t, 3 * t, 1.05 * t)
+        self.rectangularHole(l - 3 * t, 1.5 * t, 3 * t, 1.05 * t)
+        self.rectangularHole(l / 2, 1.5 * t, 2 * t, t)
         if self.glued_panel:
-            self.polyline(*([l, 90, t, 90, t, -90, t, -90, t, 90, t, 90]*2))
+            self.polyline(*([l, 90, t, 90, t, -90, t, -90, t, 90, t, 90] * 2))
         else:
-            self.polyline(l, 90, 3*t, 90)
+            self.polyline(l, 90, 3 * t, 90)
             self.edges["f"](l)
-            self.polyline(0, 90, 3*t, 90)
+            self.polyline(0, 90, 3 * t, 90)
         self.move(tw, th, move)
 
     def panel_lock(self, l, move=None):
         t = self.thickness
 
-        l -= 4*t
-        tw, th = l, 2.5*t
+        l -= 4 * t
+        tw, th = l, 2.5 * t
 
         if self.move(tw, th, move, True):
             return
 
-        end = [l/2-3*t, -90, 1.5*t, (90, .5*t), t, (90, .5*t),
-               t, 90, .5*t, -90, 0.5*t, -90, 0, (90, .5*t), 0, 90,]
+        end = [l / 2 - 3 * t, -90, 1.5 * t, (90, .5 * t), t, (90, .5 * t),
+               t, 90, .5 * t, -90, 0.5 * t, -90, 0, (90, .5 * t), 0, 90, ]
 
-        self.moveTo(l/2-t, 2*t, -90)
-        self.polyline(*([t, 90, 2*t, 90, t, -90] + end + [l] +
-                        list(reversed(end))))
+        self.moveTo(l / 2 - t, 2 * t, -90)
+        self.polyline(*([t, 90, 2 * t, 90, t, -90] + end + [l]
+                        + list(reversed(end))))
         self.move(tw, th, move)
 
     def panel_cross_beam(self, l, move=None):
         t = self.thickness
 
-        tw, th = l+2*t, 3*t
+        tw, th = l + 2 * t, 3 * t
 
         if self.move(tw, th, move, True):
             return
 
         self.moveTo(t, 0)
-        self.polyline(*([l, 90, t, -90, t, 90, t, 90, t, -90, t, 90]*2))
+        self.polyline(*([l, 90, t, -90, t, 90, t, 90, t, -90, t, 90] * 2))
 
         self.move(tw, th, move)
 
@@ -194,44 +195,44 @@ To remove the panel you have to press in the four tabs at the side. It is easies
 
         t = self.thickness
         bottom = self.edges.get(bottom, bottom)
-        
-        tw =  borders[0] + 2* self.edges["f"].spacing()
+
+        tw = borders[0] + 2 * self.edges["f"].spacing()
         th = borders[-2] + bottom.spacing() + self.edges["f"].spacing()
         if self.move(tw, th, move, True):
             return
 
         d1 = t * math.cos(math.radians(self.angle))
         d2 = t * math.sin(math.radians(self.angle))
-        
+
         self.moveTo(t, 0)
         bottom(borders[0])
         self.corner(90)
-        self.edges["f"](borders[2]+bottom.endwidth()-d1)
+        self.edges["f"](borders[2] + bottom.endwidth() - d1)
         self.edge(d1)
         self.corner(borders[3])
         if self.removable_panel:
-            self.rectangularHole(3*t, 1.5*t, 2.5*t, 1.05*t)
+            self.rectangularHole(3 * t, 1.5 * t, 2.5 * t, 1.05 * t)
         if not self.removable_panel and not self.glued_panel:
             self.edges["f"](borders[4])
         else:
             self.edge(borders[4])
         if self.removable_panel:
-            self.rectangularHole(-3*t, 1.5*t, 2.5*t, 1.05*t)
+            self.rectangularHole(-3 * t, 1.5 * t, 2.5 * t, 1.05 * t)
         if len(borders) == 10:
             self.corner(borders[5])
             self.edge(d2)
-            self.edges["f"](borders[6]-d2)
+            self.edges["f"](borders[6] - d2)
         self.corner(borders[-3])
         if self.removable_backwall:
-            self.rectangularHole(self.latchpos, 1.55*t, 1.1*t, 1.1*t)
-            self.edge(borders[-2]-t)
-            self.edges["f"](t+bottom.startwidth())
+            self.rectangularHole(self.latchpos, 1.55 * t, 1.1 * t, 1.1 * t)
+            self.edge(borders[-2] - t)
+            self.edges["f"](t + bottom.startwidth())
         else:
-            self.edges["f"](borders[-2]+bottom.startwidth())
+            self.edges["f"](borders[-2] + bottom.startwidth())
         self.corner(borders[-1])
-        
+
         self.move(tw, th, move, label=label)
-        
+
     def render(self):
         x, y, h = self.x, self.y, self.h
         t = self.thickness
@@ -245,7 +246,7 @@ To remove the panel you have to press in the four tabs at the side. It is easies
         d1 = t * math.cos(math.radians(self.angle))
         d2 = t * math.sin(math.radians(self.angle))
 
-        self.latchpos = latchpos = 6*t
+        self.latchpos = latchpos = 6 * t
 
         borders = self.borders()
         self.side(borders, bottom, move="right", label="Left Side")
@@ -253,31 +254,31 @@ To remove the panel you have to press in the four tabs at the side. It is easies
 
         self.rectangularWall(borders[0], x, "ffff", move="right", label="Floor")
         self.rectangularWall(
-            borders[2]-d1, x, ("F", "e", "F", bottom), ignore_widths=[7, 4],
+            borders[2] - d1, x, ("F", "e", "F", bottom), ignore_widths=[7, 4],
             move="right", label="Front")
 
         if self.glued_panel:
             self.rectangularWall(borders[4], x, "EEEE", move="right", label="Panel")
         elif self.removable_panel:
-            self.rectangularWall(borders[4], x-2*t, "hEhE", move="right", label="Panel")
+            self.rectangularWall(borders[4], x - 2 * t, "hEhE", move="right", label="Panel")
         else:
             self.rectangularWall(borders[4], x, "FEFE", move="right", label="Panel")
 
         if len(borders) == 10:
-            self.rectangularWall(borders[6]-d2, x, "FEFe", move="right", label="Top")
+            self.rectangularWall(borders[6] - d2, x, "FEFe", move="right", label="Top")
 
         if self.removable_backwall:
             self.rectangularWall(
-                borders[-2]-1.05*t, x, "EeEe",
+                borders[-2] - 1.05 * t, x, "EeEe",
                 callback=[
                     lambda:self.latch_hole(latchpos),
-                    lambda: self.fingerHolesAt(.5*t, 0, borders[-2]-4.05*t-latchpos),
-                    lambda:self.latch_hole(borders[-2]-1.2*t-latchpos),
-                    lambda: self.fingerHolesAt(.5*t, 3.05*t+latchpos, borders[-2]-4.05*t-latchpos)],
+                    lambda: self.fingerHolesAt(.5 * t, 0, borders[-2] - 4.05 * t - latchpos),
+                    lambda:self.latch_hole(borders[-2] - 1.2 * t - latchpos),
+                    lambda: self.fingerHolesAt(.5 * t, 3.05 * t + latchpos, borders[-2] - 4.05 * t - latchpos)],
                 move="right",
                 label="Back Wall")
-            self.rectangularWall(2*t, borders[-2]-4.05*t-latchpos, "EeEf", move="right", label="Guide")
-            self.rectangularWall(2*t, borders[-2]-4.05*t-latchpos, "EeEf", move="right", label="Guide")
+            self.rectangularWall(2 * t, borders[-2] - 4.05 * t - latchpos, "EeEf", move="right", label="Guide")
+            self.rectangularWall(2 * t, borders[-2] - 4.05 * t - latchpos, "EeEf", move="right", label="Guide")
             self.rectangularWall(t, x, ("F", bottom, "F", "e"),
                                  ignore_widths=[0, 3], move="right", label="Bottom Back")
         else:
@@ -287,8 +288,8 @@ To remove the panel you have to press in the four tabs at the side. It is easies
         # hardware for panel
         if self.removable_panel:
             if self.glued_panel:
-                self.panel_cross_beam(x-2.05*t, "rotated right")
-                self.panel_cross_beam(x-2.05*t, "rotated right")
+                self.panel_cross_beam(x - 2.05 * t, "rotated right")
+                self.panel_cross_beam(x - 2.05 * t, "rotated right")
 
             self.panel_lock(borders[4], "up")
             self.panel_lock(borders[4], "up")

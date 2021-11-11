@@ -52,10 +52,7 @@ See BasedBox for variant with a base."""
         self.rectangularWall(x, h, "FFFF", bedBolts=[d2] * 4, move="right", label="Wall 1")
         self.rectangularWall(y, h, "FfFf", bedBolts=[d3, d2, d3, d2], move="up", label="Wall 2")
         self.rectangularWall(y, h, "FfFf", bedBolts=[d3, d2, d3, d2], label="Wall 4")
-        self.rectangularWall(x, h, "FFFF", bedBolts=[d2] *4, move="left up", label="Wall 3")
+        self.rectangularWall(x, h, "FFFF", bedBolts=[d2] * 4, move="left up", label="Wall 3")
 
         self.rectangularWall(x, y, "ffff", bedBolts=[d2, d3, d2, d3], move="right", label="Top")
         self.rectangularWall(x, y, "ffff", bedBolts=[d2, d3, d2, d3], label="Bottom")
-
-
-

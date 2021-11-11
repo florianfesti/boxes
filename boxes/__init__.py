@@ -31,9 +31,10 @@ from boxes import svgutil
 from boxes import gears
 from boxes import pulley
 from boxes import parts
-from boxes.Color  import *
+from boxes.Color import *
 
-### Helpers
+# Helpers
+
 
 def dist(dx, dy):
     """
@@ -43,6 +44,7 @@ def dist(dx, dy):
     :param dy: delat y
     """
     return (dx * dx + dy * dy) ** 0.5
+
 
 def restore(func):
     """
@@ -87,7 +89,7 @@ def holeCol(func):
 
 
 #############################################################################
-### Building blocks
+# Building blocks
 #############################################################################
 
 class NutHole:
@@ -136,7 +138,7 @@ class NutHole:
 
 
 ##############################################################################
-### Argument types
+# Argument types
 ##############################################################################
 
 def argparseSections(s):
@@ -172,6 +174,7 @@ def argparseSections(s):
 
     return result
 
+
 class ArgparseEdgeType:
     """argparse type to select from a set of edge types"""
 
@@ -186,8 +189,8 @@ class ArgparseEdgeType:
         if len(pattern) != 1:
             raise ValueError("Edge type can only have one letter.")
         if pattern not in self.edges:
-            raise ValueError("Use one of the following values: " +
-                             ", ".join(edges))
+            raise ValueError("Use one of the following values: "
+                             + ", ".join(edges))
         return pattern
 
     def html(self, name, default, translate):
@@ -199,11 +202,12 @@ class ArgparseEdgeType:
 
     def inx(self, name, viewname, arg):
         return ('      <param name="%s" type="enum" gui-text="%s" gui-description=%s>\n' %
-                (name, viewname, quoteattr(arg.help or "")) +
-                ''.join(('        <item value="%s">%s %s</item>\n' % (
+                (name, viewname, quoteattr(arg.help or ""))
+                + ''.join(('        <item value="%s">%s %s</item>\n' % (
                     e, e, self.names.get(e, ""))
-                         for e in self.edges)) +
-                '      </param>\n')
+                    for e in self.edges))
+                + '      </param>\n')
+
 
 class BoolArg:
     def __call__(self, arg):
@@ -217,6 +221,7 @@ class BoolArg:
         return """<input name="%s" type="hidden" value="0">
 <input name="%s" type="checkbox" value="1"%s>""" % \
             (name, name, ' checked="checked"' if default else "")
+
 
 boolarg = BoolArg()
 
@@ -234,16 +239,16 @@ Values:
 """
 
     absolute_params = {
-        'diameter' : 10.0,
-        'distance' : 3.0,
-        'style' : ('circle', ),
+        'diameter': 10.0,
+        'distance': 3.0,
+        'style': ('circle', ),
     }
 
     relative_params = {}
 
 
 ##############################################################################
-### Main class
+# Main class
 ##############################################################################
 
 class Boxes:
@@ -252,7 +257,7 @@ class Boxes:
     webinterface = True
     ui_group = "Misc"
 
-    description = "" # Markdown syntax is supported
+    description = ""  # Markdown syntax is supported
 
     def __init__(self):
         self.formats = formats.Formats()
@@ -265,17 +270,17 @@ class Boxes:
         self.inkscapefile = None
 
         self.metadata = {
-            "name" : self.__class__.__name__,
-            "short_description" : self.__doc__,
-            "description" : self.description,
-            "group" : self.ui_group,
-            "url" : "",
-            "command_line" : ""
+            "name": self.__class__.__name__,
+            "short_description": self.__doc__,
+            "description": self.description,
+            "group": self.ui_group,
+            "url": "",
+            "command_line": ""
         }
 
         self.argparser._action_groups[1].title = self.__class__.__name__ + " Settings"
         defaultgroup = self.argparser.add_argument_group(
-                        "Default Settings")
+            "Default Settings")
         defaultgroup.add_argument(
             "--thickness", action="store", type=float, default=3.0,
             help="thickness of the material")
@@ -383,7 +388,8 @@ class Boxes:
             kw[arg] = None
         for arg, default in kw.items():
             if arg == "x":
-                if default is None: default = 100.0
+                if default is None:
+                    default = 100.0
                 help = "inner width in mm"
                 if "outside" in kw:
                     help += " (unless outside selected)"
@@ -391,7 +397,8 @@ class Boxes:
                     "--x", action="store", type=float, default=default,
                     help=help)
             elif arg == "y":
-                if default is None: default = 100.0
+                if default is None:
+                    default = 100.0
                 help = "inner depth in mm"
                 if "outside" in kw:
                     help += " (unless outside selected)"
@@ -399,25 +406,29 @@ class Boxes:
                     "--y", action="store", type=float, default=default,
                     help=help)
             elif arg == "sx":
-                if default is None: default = "50*3"
+                if default is None:
+                    default = "50*3"
                 self.argparser.add_argument(
                     "--sx", action="store", type=argparseSections,
                     default=default,
                     help="""sections left to right in mm. See --sy for format""")
             elif arg == "sy":
-                if default is None: default = "50*3"
+                if default is None:
+                    default = "50*3"
                 self.argparser.add_argument(
                     "--sy", action="store", type=argparseSections,
                     default=default,
                     help="""sections back to front in mm. Possible formats: overallwidth/numberof sections e.g. "250/5"; sectionwidth*numberofsections e.g. "50*5"; section widths separated by ":" e.g. "30:25.5:70""")
             elif arg == "sh":
-                if default is None: default = "50*3"
+                if default is None:
+                    default = "50*3"
                 self.argparser.add_argument(
                     "--sh", action="store", type=argparseSections,
                     default=default,
                     help="""sections bottom to top in mm. See --sy for format""")
             elif arg == "h":
-                if default is None: default = 100.0
+                if default is None:
+                    default = 100.0
                 help = "inner height in mm"
                 if "outside" in kw:
                     help += " (unless outside selected)"
@@ -425,30 +436,35 @@ class Boxes:
                     "--h", action="store", type=float, default=default,
                     help=help)
             elif arg == "hi":
-                if default is None: default = 0.0
+                if default is None:
+                    default = 0.0
                 self.argparser.add_argument(
                     "--hi", action="store", type=float, default=default,
                     help="inner height of inner walls in mm (unless outside selected)(leave to zero for same as outer walls)")
             elif arg == "bottom_edge":
-                if default is None: default = "h"
+                if default is None:
+                    default = "h"
                 self.argparser.add_argument(
                     "--bottom_edge", action="store",
                     type=ArgparseEdgeType("Fhse"), choices=list("Fhse"),
                     default=default,
                     help="edge type for bottom edge")
             elif arg == "top_edge":
-                if default is None: default = "e"
+                if default is None:
+                    default = "e"
                 self.argparser.add_argument(
                     "--top_edge", action="store",
                     type=ArgparseEdgeType("efFhcESikvLt"), choices=list("efFhcESikvfLt"),
                     default=default, help="edge type for top edge")
             elif arg == "outside":
-                if default is None: default = True
+                if default is None:
+                    default = True
                 self.argparser.add_argument(
                     "--outside", action="store", type=boolarg, default=default,
                     help="treat sizes as outside measurements that include the walls")
             elif arg == "nema_mount":
-                if default is None: default = 23
+                if default is None:
+                    default = 23
                 self.argparser.add_argument(
                     "--nema_mount", action="store",
                     type=int, choices=list(sorted(self.nema_sizes.keys())),
@@ -459,8 +475,7 @@ class Boxes:
     def addSettingsArgs(self, settings, prefix=None, **defaults):
         prefix = prefix or settings.__name__[:-len("Settings")]
         settings.parserArguments(self.argparser, prefix, **defaults)
-        self.edgesettings[prefix] =  {}
-
+        self.edgesettings[prefix] = {}
 
     def parseArgs(self, args=None):
         """
@@ -486,7 +501,7 @@ class Boxes:
             # treat edge settings separately
             for setting in self.edgesettings:
                 if key.startswith(setting + '_'):
-                    self.edgesettings[setting][key[len(setting)+1:]] = value
+                    self.edgesettings[setting][key[len(setting) + 1:]] = value
                     continue
             setattr(self, key, value)
 
@@ -526,49 +541,49 @@ class Boxes:
         # Finger joints
         # Share settings object
         s = edges.FingerJointSettings(self.thickness, True,
-                **self.edgesettings.get("FingerJoint", {}))
+                                      **self.edgesettings.get("FingerJoint", {}))
         s.edgeObjects(self)
         self.addPart(edges.FingerHoles(self, s), name="fingerHolesAt")
         # Stackable
         edges.StackableSettings(self.thickness, True,
-            **self.edgesettings.get("Stackable", {})).edgeObjects(self)
+                                **self.edgesettings.get("Stackable", {})).edgeObjects(self)
         # Dove tail joints
         edges.DoveTailSettings(self.thickness, True,
-            **self.edgesettings.get("DoveTail", {})).edgeObjects(self)
+                               **self.edgesettings.get("DoveTail", {})).edgeObjects(self)
         # Flex
         s = edges.FlexSettings(self.thickness, True,
-                **self.edgesettings.get("Flex", {}))
+                               **self.edgesettings.get("Flex", {}))
         self.addPart(edges.FlexEdge(self, s))
         # Clickable
         edges.ClickSettings(self.thickness, True,
-                **self.edgesettings.get("Click", {})).edgeObjects(self)
+                            **self.edgesettings.get("Click", {})).edgeObjects(self)
         # Hinges
         edges.HingeSettings(self.thickness, True,
-                **self.edgesettings.get("Hinge", {})).edgeObjects(self)
+                            **self.edgesettings.get("Hinge", {})).edgeObjects(self)
         edges.ChestHingeSettings(self.thickness, True,
-                **self.edgesettings.get("ChestHinge", {})).edgeObjects(self)
+                                 **self.edgesettings.get("ChestHinge", {})).edgeObjects(self)
         edges.CabinetHingeSettings(self.thickness, True,
-                **self.edgesettings.get("CabinetHinge", {})).edgeObjects(self)
+                                   **self.edgesettings.get("CabinetHinge", {})).edgeObjects(self)
         # Sliding Lid
         edges.LidSettings(self.thickness, True,
-                **self.edgesettings.get("Lid", {})).edgeObjects(self)
+                          **self.edgesettings.get("Lid", {})).edgeObjects(self)
         # Rounded Triangle Edge
         edges.RoundedTriangleEdgeSettings(self.thickness, True,
-                **self.edgesettings.get("RoundedTriangleEdge", {})).edgeObjects(self)
+                                          **self.edgesettings.get("RoundedTriangleEdge", {})).edgeObjects(self)
         # Grooved Edge
         edges.GroovedSettings(self.thickness, True,
                               **self.edgesettings.get("Grooved", {})).edgeObjects(self)
 
         # HexHoles
         self.hexHolesSettings = HexHolesSettings(self.thickness, True,
-                **self.edgesettings.get("HexHoles", {}))
+                                                 **self.edgesettings.get("HexHoles", {}))
 
         # Nuts
         self.addPart(NutHole(self, None))
         # Gears
         self.addPart(gears.Gears(self))
         s = edges.GearSettings(self.thickness, True,
-                **self.edgesettings.get("Gear", {}))
+                               **self.edgesettings.get("Gear", {}))
         self.addPart(edges.RackEdge(self, s))
         self.addPart(pulley.Pulley(self))
         self.addPart(parts.Parts(self))
@@ -662,7 +677,7 @@ class Boxes:
 
         Flush canvas to disk and convert output to requested format if needed.
         Call after .render()"""
-        if self.ctx == None:
+        if self.ctx is None:
             return
 
         self.ctx.stroke()
@@ -678,11 +693,11 @@ class Boxes:
             try:
                 out = sys.stdout.buffer
             except AttributeError:
-                out= sys.stdout
+                out = sys.stdout
             svgutil.svgMerge(self.output, self.inkscapefile, out)
 
     ############################################################
-    ### Turtle graphics commands
+    # Turtle graphics commands
     ############################################################
 
     def corner(self, degrees, radius=0, tabs=0):
@@ -698,7 +713,7 @@ class Boxes:
 
         try:
             degrees, radius = degrees
-        except:
+        except Exception:
             pass
 
         rad = degrees * math.pi / 180
@@ -712,27 +727,27 @@ class Boxes:
                 tabrad = -self.tabs / max(r_, 0.01)
 
             length = abs(r_ * rad)
-            tabs = min(tabs, int(length // (tabs*3*self.tabs)))
+            tabs = min(tabs, int(length // (tabs * 3 * self.tabs)))
         if tabs and self.tabs:
             l = (length - tabs * self.tabs) / tabs
             lang = math.degrees(l / r_)
             if degrees < 0:
                 lang = -lang
-            #print(degrees, radius, l, lang, tabs, math.degrees(tabrad))
-            self.corner(lang/2., radius)
-            for i in range(tabs-1):
+            # print(degrees, radius, l, lang, tabs, math.degrees(tabrad))
+            self.corner(lang / 2., radius)
+            for i in range(tabs - 1):
                 self.moveArc(math.degrees(tabrad), r_)
                 self.corner(lang, radius)
             if tabs:
                 self.moveArc(math.degrees(tabrad), r_)
-            self.corner(lang/2., radius)
+            self.corner(lang / 2., radius)
             return
 
-        if ((radius > 0.5* self.burn and abs(degrees) > 36) or
-            (abs(degrees) > 100)):
-            steps = int(abs(degrees)/ 36.) + 1
+        if ((radius > 0.5 * self.burn and abs(degrees) > 36)
+                or (abs(degrees) > 100)):
+            steps = int(abs(degrees) / 36.) + 1
             for i in range(steps):
-                self.corner(float(degrees)/steps, radius)
+                self.corner(float(degrees) / steps, radius)
             return
 
         if degrees > 0:
@@ -758,16 +773,16 @@ class Boxes:
             if self.tabs > length:
                 self.ctx.move_to(length, 0)
             else:
-                tabs = min(tabs, max(1, int(length // (tabs*3*self.tabs))))
+                tabs = min(tabs, max(1, int(length // (tabs * 3 * self.tabs))))
                 l = (length - tabs * self.tabs) / tabs
-                self.ctx.line_to(0.5*l, 0)
-                for i in range(tabs-1):
-                    self.ctx.move_to((i+0.5)*l+self.tabs, 0)
-                    self.ctx.line_to((i+0.5)*l+self.tabs+l, 0)
+                self.ctx.line_to(0.5 * l, 0)
+                for i in range(tabs - 1):
+                    self.ctx.move_to((i + 0.5) * l + self.tabs, 0)
+                    self.ctx.line_to((i + 0.5) * l + self.tabs + l, 0)
                 if tabs == 1:
-                    self.ctx.move_to((tabs-0.5)*l+self.tabs, 0)
+                    self.ctx.move_to((tabs - 0.5) * l + self.tabs, 0)
                 else:
-                    self.ctx.move_to((tabs-0.5)*l+2*self.tabs, 0)
+                    self.ctx.move_to((tabs - 0.5) * l + 2 * self.tabs, 0)
 
                 self.ctx.line_to(length, 0)
         else:
@@ -835,7 +850,7 @@ class Boxes:
 
         """
         d, d_nut, h_nut, l, l1 = bedBoltSettings or self.bedBoltSettings
-        self.edge((length - d) / 2.0, tabs=tabs//2)
+        self.edge((length - d) / 2.0, tabs=tabs // 2)
         self.corner(90)
         self.edge(l1)
         self.corner(90)
@@ -859,16 +874,16 @@ class Boxes:
         self.corner(90)
         self.edge(l1)
         self.corner(90)
-        self.edge((length - d) / 2.0, tabs=tabs-(tabs//2))
+        self.edge((length - d) / 2.0, tabs=tabs - (tabs // 2))
 
     def edgeCorner(self, edge1, edge2, angle=90):
         """Make a corner between two Edges. Take width of edges into account"""
         edge1 = self.edges.get(edge1, edge1)
         edge2 = self.edges.get(edge2, edge2)
 
-        self.edge(edge2.startwidth() * math.tan(math.radians(angle/2.)))
+        self.edge(edge2.startwidth() * math.tan(math.radians(angle / 2.)))
         self.corner(angle)
-        self.edge(edge1.endwidth() * math.tan(math.radians(angle/2.)))
+        self.edge(edge1.endwidth() * math.tan(math.radians(angle / 2.)))
 
     def regularPolygon(self, corners=3, radius=None, h=None, side=None):
         """Give measures of a regular polygon
@@ -880,14 +895,14 @@ class Boxes:
         :return: (radius, h, side)
         """
         if radius:
-            side = 2 * math.sin(math.radians(180.0/corners)) * radius
-            h = radius * math.cos(math.radians(180.0/corners))
+            side = 2 * math.sin(math.radians(180.0 / corners)) * radius
+            h = radius * math.cos(math.radians(180.0 / corners))
         elif h:
-            side = 2 * math.tan(math.radians(180.0/corners)) * h
-            radius = ((side/2.)**2+h**2)**0.5
+            side = 2 * math.tan(math.radians(180.0 / corners)) * h
+            radius = ((side / 2.)**2 + h**2)**0.5
         elif side:
-            h = 0.5 * side * math.tan(math.radians(90-180./corners))
-            radius = ((side/2.)**2+h**2)**0.5
+            h = 0.5 * side * math.tan(math.radians(90 - 180. / corners))
+            radius = ((side / 2.)**2 + h**2)**0.5
 
         return radius, h, side
 
@@ -895,11 +910,11 @@ class Boxes:
     def regularPolygonAt(self, x, y, corners, angle=0, r=None, h=None, side=None):
         """Draw regular polygon"""
         self.moveTo(x, y, angle)
-        r, h, side  = self.regularPolygon(corners, r, h, side)
-        self.moveTo(-side/2.0, -h-self.burn)
+        r, h, side = self.regularPolygon(corners, r, h, side)
+        self.moveTo(-side / 2.0, -h - self.burn)
         for i in range(corners):
             self.edge(side)
-            self.corner(360./corners)
+            self.corner(360. / corners)
 
     def regularPolygonWall(self, corners=3, r=None, h=None, side=None,
                            edges='e', hole=None, callback=None, move=None):
@@ -914,43 +929,42 @@ class Boxes:
         :param callback:  (Default value = None, middle=0, then sides=1..)
         :param move:  (Default value = None)
         """
-        r, h, side  = self.regularPolygon(corners, r, h, side)
+        r, h, side = self.regularPolygon(corners, r, h, side)
 
         t = self.thickness
 
         if not hasattr(edges, "__getitem__") or len(edges) == 1:
             edges = [edges] * corners
         edges = [self.edges.get(e, e) for e in edges]
-        edges += edges # append for wrapping around
+        edges += edges  # append for wrapping around
 
         if corners % 2:
             th = r + h + edges[0].spacing() + (
-                max(edges[corners//2].spacing(),
-                    edges[corners//2+1].spacing()) /
-                math.sin(math.radians(90-180/corners)))
+                max(edges[corners // 2].spacing(),
+                    edges[corners // 2 + 1].spacing())
+                / math.sin(math.radians(90 - 180 / corners)))
         else:
-            th = 2*h + edges[0].spacing() + edges[corners//2].spacing()
+            th = 2 * h + edges[0].spacing() + edges[corners // 2].spacing()
 
         tw = 0
         for i in range(corners):
-            ang = (180+360*i)/corners
-            tw = max(tw, 2*abs(math.sin(math.radians(ang))*
-                    (r + max(edges[i].spacing(), edges[i+1].spacing())/
-                     math.sin(math.radians(90-180/corners)))))
+            ang = (180 + 360 * i) / corners
+            tw = max(tw, 2 * abs(math.sin(math.radians(ang))
+                                 * (r + max(edges[i].spacing(), edges[i + 1].spacing())
+                     / math.sin(math.radians(90 - 180 / corners)))))
 
         if self.move(tw, th, move, before=True):
             return
 
-        self.moveTo(0.5*tw-0.5*side, edges[0].margin())
-
+        self.moveTo(0.5 * tw - 0.5 * side, edges[0].margin())
 
         if hole:
-            self.hole(side/2., h+edges[0].startwidth() + self.burn, hole/2.)
-        self.cc(callback, 0, side/2., h+edges[0].startwidth() + self.burn)
+            self.hole(side / 2., h + edges[0].startwidth() + self.burn, hole / 2.)
+        self.cc(callback, 0, side / 2., h + edges[0].startwidth() + self.burn)
         for i in range(corners):
-            self.cc(callback, i+1, 0, edges[i].startwidth() + self.burn)
+            self.cc(callback, i + 1, 0, edges[i].startwidth() + self.burn)
             edges[i](side)
-            self.edgeCorner(edges[i], edges[i+1], 360.0/corners)
+            self.edgeCorner(edges[i], edges[i + 1], 360.0 / corners)
 
         self.move(tw, th, move)
 
@@ -1052,7 +1066,7 @@ class Boxes:
         self.curveTo(r, 0, r, 0, r, r)
         self.curveTo(h - r, 0, h - r, 0, h - r, -d)
 
-    ### Navigation
+    # Navigation
 
     def moveTo(self, x, y=0.0, degrees=0):
         """
@@ -1079,11 +1093,11 @@ class Boxes:
 
         rad = math.radians(angle)
         if angle > 0:
-            self.moveTo(r*math.sin(rad),
-                        r*(1-math.cos(rad)), angle)
+            self.moveTo(r * math.sin(rad),
+                        r * (1 - math.cos(rad)), angle)
         else:
-            self.moveTo(r*math.sin(-rad),
-                        -r*(1-math.cos(rad)), angle)
+            self.moveTo(r * math.sin(-rad),
+                        -r * (1 - math.cos(rad)), angle)
 
     def _continueDirection(self, angle=0):
         """
@@ -1137,11 +1151,11 @@ class Boxes:
             # restore position
             self.ctx.restore()
             if self.labels:
-                self.text(label, x/2, y/2, align="middle center", color=Color.ANNOTATIONS, fontsize=4)
-            self.ctx.stroke() 
+                self.text(label, x / 2, y / 2, align="middle center", color=Color.ANNOTATIONS, fontsize=4)
+            self.ctx.stroke()
 
         for term in terms:
-            if not term in moves:
+            if term not in moves:
                 raise ValueError("Unknown direction: '%s'" % term)
             mx, my, movebeforeprint = moves[term]
             if movebeforeprint and before:
@@ -1156,7 +1170,7 @@ class Boxes:
                     self.ctx.rectangle(0, 0, x, y)
                 if "rotated" in terms:
                     self.moveTo(x, 0, 90)
-                    x, y = y, x # change back for "mirror"
+                    x, y = y, x  # change back for "mirror"
                 if "mirror" in terms:
                     self.moveTo(x, 0)
                     self.ctx.scale(-1, 1)
@@ -1182,7 +1196,7 @@ class Boxes:
         n = 10
         da = 2 * math.pi / n
         for i in range(n):
-            self.ctx.arc(-r, 0, r, a, a+da)
+            self.ctx.arc(-r, 0, r, a, a + da)
             a += da
         self.ctx.stroke()
 
@@ -1221,11 +1235,11 @@ class Boxes:
         :param center_y:  (Default value = True) if True, y position is the center, else the start
 
         """
-        r = min(r, dx/2., dy/2.)
+        r = min(r, dx / 2., dy / 2.)
         x_start = x if center_x else x + dx / 2.0
         y_start = y - dy / 2.0 if center_y else y
         self.moveTo(x_start, y_start + self.burn, 180)
-        self.edge(dx / 2.0 - r) # start with an edge to allow easier change of inner corners
+        self.edge(dx / 2.0 - r)  # start with an edge to allow easier change of inner corners
         for d in (dy, dx, dy, dx / 2.0 + r):
             self.corner(-90, r)
             self.edge(d - 2 * r)
@@ -1244,11 +1258,11 @@ class Boxes:
             return self.hole(x, y, r)
 
         a = math.degrees(math.acos(w / r))
-        self.moveTo(x, y, angle-a)
-        self.moveTo(r-self.burn, 0, -90)
-        self.corner(-360+2*a, r)
+        self.moveTo(x, y, angle - a)
+        self.moveTo(r - self.burn, 0, -90)
+        self.corner(-360 + 2 * a, r)
         self.corner(-a)
-        self.edge(2*r*math.sin(math.radians(a)))
+        self.edge(2 * r * math.sin(math.radians(a)))
 
     @restore
     @holeCol
@@ -1266,12 +1280,12 @@ class Boxes:
             return self.hole(x, y, r)
 
         a = math.degrees(math.acos(w / r))
-        self.moveTo(x, y, angle-a)
-        self.moveTo(r-self.burn, 0, -90)
+        self.moveTo(x, y, angle - a)
+        self.moveTo(r - self.burn, 0, -90)
         for i in range(2):
-            self.corner(-180+2*a, r)
+            self.corner(-180 + 2 * a, r)
             self.corner(-a)
-            self.edge(2*r*math.sin(math.radians(a)))
+            self.edge(2 * r * math.sin(math.radians(a)))
             self.corner(-a)
 
     @restore
@@ -1315,30 +1329,30 @@ class Boxes:
             self.moveTo(0, 1.4 * fontsize)
 
     tx_sizes = {
-        1 : 0.61,
-        2 : 0.70,
-        3 : 0.82,
-        4 : 0.96,
-        5 : 1.06,
-        6 : 1.27,
-        7 : 1.49,
-        8 : 1.75,
-        9 : 1.87,
-        10 : 2.05,
-        15 : 2.40,
-        20 : 2.85,
-        25 : 3.25,
-        30 : 4.05,
-        40 : 4.85,
-        45 : 5.64,
-        50 : 6.45,
-        55 : 8.05,
-        60 : 9.60,
-        70 : 11.20,
-        80 : 12.80,
-        90 : 14.40,
-        100 : 16.00,
-        }
+        1: 0.61,
+        2: 0.70,
+        3: 0.82,
+        4: 0.96,
+        5: 1.06,
+        6: 1.27,
+        7: 1.49,
+        8: 1.75,
+        9: 1.87,
+        10: 2.05,
+        15: 2.40,
+        20: 2.85,
+        25: 3.25,
+        30: 4.05,
+        40: 4.85,
+        45: 5.64,
+        50: 6.45,
+        55: 8.05,
+        60: 9.60,
+        70: 11.20,
+        80: 12.80,
+        90: 14.40,
+        100: 16.00,
+    }
 
     @restore
     @holeCol
@@ -1354,7 +1368,7 @@ class Boxes:
 
         size = self.tx_sizes.get(size, 0)
         ri = 0.5 * size * math.tan(math.radians(30))
-        ro = ri * (2**0.5-1)
+        ro = ri * (2**0.5 - 1)
 
         self.moveTo(size * 0.5 - self.burn, 0, -90)
         for i in range(6):
@@ -1419,7 +1433,7 @@ class Boxes:
 
         if settings is None:
             settings = self.hexHolesSettings
-        r, b, style = settings.diameter/2, settings.distance, settings.style
+        r, b, style = settings.diameter / 2, settings.distance, settings.style
 
         w = r + b / 2.0
         dist = w * math.cos(math.pi / 6.0)
@@ -1502,7 +1516,7 @@ class Boxes:
         """
         if settings is None:
             settings = self.hexHolesSettings
-        r, b, style = settings.diameter/2, settings.distance, settings.style
+        r, b, style = settings.diameter / 2, settings.distance, settings.style
 
         self.ctx.rectangle(0, 0, h, h)
         w = r + b / 2.0
@@ -1537,7 +1551,7 @@ class Boxes:
         cx = int(x // (5 * width))
         cy = int(y // (5 * width))
 
-        if cx == 0  or cy == 0:
+        if cx == 0 or cy == 0:
             return
 
         wx = x / 5. / cx
@@ -1576,17 +1590,17 @@ class Boxes:
         :param outside: meassure size from the outside of the walls - not the inside
         """
         self.moveTo(x, y, angle)
-        d = 0.5*self.thickness
+        d = 0.5 * self.thickness
         if outside:
             d = -d
 
-        self.fingerHolesAt(dx/2+d, -dy/2, dy, 90)
-        self.fingerHolesAt(-dx/2-d, -dy/2, dy, 90)
-        self.fingerHolesAt(-dx/2, -dy/2-d, dx, 0)
-        self.fingerHolesAt(-dx/2, dy/2+d, dx, 0)
+        self.fingerHolesAt(dx / 2 + d, -dy / 2, dy, 90)
+        self.fingerHolesAt(-dx / 2 - d, -dy / 2, dy, 90)
+        self.fingerHolesAt(-dx / 2, -dy / 2 - d, dx, 0)
+        self.fingerHolesAt(-dx / 2, dy / 2 + d, dx, 0)
 
     ##################################################
-    ### parts
+    # parts
     ##################################################
 
     def _splitWall(self, pieces, side):
@@ -1634,8 +1648,8 @@ class Boxes:
         if self.move(overallwidth, overallheight, move, before=True):
             return
 
-        lx = x - 2*r
-        ly = y - 2*r
+        lx = x - 2 * r
+        ly = y - 2 * r
 
         self.moveTo(edge.spacing(),
                     edge.margin())
@@ -1648,13 +1662,13 @@ class Boxes:
         for nr, l in enumerate((lx, ly, lx, ly)):
             if self._splitWall(wallpieces, nr):
                 for i in range(2):
-                    self.cc(callback, wallcount, y=edge.startwidth()+self.burn)
-                    edge(l / 2.0 ,
+                    self.cc(callback, wallcount, y=edge.startwidth() + self.burn)
+                    edge(l / 2.0,
                          bedBolts=self.getEntry(bedBolts, wallcount),
                          bedBoltSettings=self.getEntry(bedBoltSettings, wallcount))
                     wallcount += 1
             else:
-                self.cc(callback, wallcount, y=edge.startwidth()+self.burn)
+                self.cc(callback, wallcount, y=edge.startwidth() + self.burn)
                 edge(l,
                      bedBolts=self.getEntry(bedBolts, wallcount),
                      bedBoltSettings=self.getEntry(bedBoltSettings, wallcount))
@@ -1664,7 +1678,7 @@ class Boxes:
                     with self.saved_context():
                         self.moveTo(0, edge.startwidth())
                         self.polyline(0, (90, r), 0, -90, t, -90, 0,
-                                      (-90, r+t), 0, -90, t, -90, 0,)
+                                      (-90, r + t), 0, -90, t, -90, 0,)
                         self.ctx.stroke()
                 self.corner(90, r + edge.startwidth())
             else:
@@ -1731,7 +1745,7 @@ class Boxes:
             topwidth = top.startwidth()
             bottomwidth = bottom.startwidth()
 
-        overallwidth = 2*x + 2*y - 8*r + 4*c4 + (self.edges["d"].spacing() + self.edges["D"].spacing() + self.spacing) * pieces
+        overallwidth = 2 * x + 2 * y - 8 * r + 4 * c4 + (self.edges["d"].spacing() + self.edges["D"].spacing() + self.spacing) * pieces
         overallheight = h + max(t, top.spacing()) + max(t, bottom.spacing())
 
         if self.move(overallwidth, overallheight, move, before=True):
@@ -1740,16 +1754,16 @@ class Boxes:
         self.moveTo(left.spacing(), bottom.margin())
 
         wallcount = 0
-        tops = [] # edges needed on the top for this wall segment
+        tops = []  # edges needed on the top for this wall segment
 
-        if pieces<=2 and (y - 2 * r) < 1E-3:
+        if pieces <= 2 and (y - 2 * r) < 1E-3:
             # remove zero length y sides
             c4 *= 2
-            sides = (x/2-r, x - 2*r, x - 2*r)
-            if pieces > 0: # hack to get the right splits
+            sides = (x / 2 - r, x - 2 * r, x - 2 * r)
+            if pieces > 0:  # hack to get the right splits
                 pieces += 1
         else:
-            sides = (x/2-r, y - 2*r, x - 2*r, y - 2*r, x - 2*r)
+            sides = (x / 2 - r, y - 2 * r, x - 2 * r, y - 2 * r, x - 2 * r)
 
         for nr, l in enumerate(sides):
             if self._splitWall(pieces, nr) and nr > 0:
@@ -1764,10 +1778,10 @@ class Boxes:
                     right(h)
                     self.edgeCorner(right, top, 90)
                     for n, d in enumerate(reversed(tops)):
-                        if n % 2: # flex
-                            self.step(topwidth-top.endwidth())
+                        if n % 2:  # flex
+                            self.step(topwidth - top.endwidth())
                             self.edge(d)
-                            self.step(top.startwidth()-topwidth)
+                            self.step(top.startwidth() - topwidth)
                         else:
                             top(d)
                     self.edgeCorner(top, left, 90)
@@ -1788,9 +1802,9 @@ class Boxes:
                 wallcount += 1
                 bottom(l)
                 tops.append(l)
-            self.step(bottomwidth-bottom.endwidth())
+            self.step(bottomwidth - bottom.endwidth())
             self.edges["X"](c4, h + topwidth + bottomwidth)
-            self.step(bottom.startwidth()-bottomwidth)
+            self.step(bottom.startwidth() - bottomwidth)
             tops.append(c4)
 
         self.move(overallwidth, overallheight, move)
@@ -1835,13 +1849,13 @@ class Boxes:
         for i, l in enumerate((x, y, x, y)):
             self.cc(callback, i, y=edges[i].startwidth() + self.burn)
             e1, e2 = edges[i], edges[i + 1]
-            if (2*i-1 in ignore_widths or
-                2*i-1+8 in ignore_widths):
-                l += edges[i-1].endwidth()
-            if 2*i in ignore_widths:
-                l += edges[i+1].startwidth()
+            if (2 * i - 1 in ignore_widths
+                    or 2 * i - 1 + 8 in ignore_widths):
+                l += edges[i - 1].endwidth()
+            if 2 * i in ignore_widths:
+                l += edges[i + 1].startwidth()
                 e2 = self.edges["e"]
-            if 2*i+1in ignore_widths:
+            if 2 * i + 1 in ignore_widths:
                 e1 = self.edges["e"]
 
             edges[i](l,
@@ -1857,7 +1871,7 @@ class Boxes:
         self.move(overallwidth, overallheight, move, label=label)
 
     def flangedWall(self, x, y, edges="FFFF", flanges=None, r=0.0,
-               callback=None, move=None, label=""):
+                    callback=None, move=None, label=""):
         """Rectangular wall with flanges extending the regular size
 
         This is similar to the rectangularWall but it may extend to either side
@@ -1870,7 +1884,7 @@ class Boxes:
         :param r: radius of the corners of the flange
         :param callback:  (Default value = None)
         :param move:  (Default value = None)
-        :param label: rendered to identify parts, it is not ment to be cut or etched (Default value = "")        
+        :param label: rendered to identify parts, it is not ment to be cut or etched (Default value = "")
         """
 
         t = self.thickness
@@ -1881,10 +1895,10 @@ class Boxes:
         while len(flanges) < 4:
             flanges.append(0.0)
 
-        flanges = flanges + flanges # double to allow looping around
+        flanges = flanges + flanges  # double to allow looping around
 
-        tw = x + 2*t + flanges[1] + flanges[3]
-        th = y + 2*t + flanges[0] + flanges[2]
+        tw = x + 2 * t + flanges[1] + flanges[3]
+        th = y + 2 * t + flanges[0] + flanges[2]
 
         if self.move(tw, th, move, True):
             return
@@ -1895,26 +1909,26 @@ class Boxes:
         for i in range(4):
             l = y if i % 2 else x
 
-            rl = min(r, max(flanges[i-1], flanges[i]))
-            rr = min(r, max(flanges[i], flanges[i+1]))
+            rl = min(r, max(flanges[i - 1], flanges[i]))
+            rr = min(r, max(flanges[i], flanges[i + 1]))
             self.cc(callback, i, x=-rl)
             if flanges[i]:
                 if edges[i] == "F":
-                    self.fingerHolesAt(flanges[i-1]+t-rl, 0.5*t+flanges[i], l,
+                    self.fingerHolesAt(flanges[i - 1] + t - rl, 0.5 * t + flanges[i], l,
                                        angle=0)
-                self.edge(l+flanges[i-1]+flanges[i+1]+2*t-rl-rr)
+                self.edge(l + flanges[i - 1] + flanges[i + 1] + 2 * t - rl - rr)
             else:
-                self.edge(flanges[i-1]+t-rl)
+                self.edge(flanges[i - 1] + t - rl)
                 self.edges.get(edges[i], edges[i])(l)
-                self.edge(flanges[i+1]+t-rr)
+                self.edge(flanges[i + 1] + t - rr)
             self.corner(90, rr)
         self.move(tw, th, move, label=label)
 
     def rectangularTriangle(self, x, y, edges="eee", r=0.0, num=1,
-                        bedBolts=None, bedBoltSettings=None,
-                        callback=None,
-                        move=None,
-                        label=""):
+                            bedBolts=None, bedBoltSettings=None,
+                            callback=None,
+                            move=None,
+                            label=""):
         """
         Rectangular triangular wall
 
@@ -1927,7 +1941,7 @@ class Boxes:
         :param bedBoltSettings:  (Default value = None)
         :param callback:  (Default value = None)
         :param move:  (Default value = None)
-        :param label: rendered to identify parts, it is not ment to be cut or etched (Default value = "")    
+        :param label: rendered to identify parts, it is not ment to be cut or etched (Default value = "")
         """
         edges = [self.edges.get(e, e) for e in edges]
         if len(edges) == 2:
@@ -1936,13 +1950,13 @@ class Boxes:
             raise ValueError("two or three edges required")
 
         r = min(r, x, y)
-        a = math.atan2(y-r, float(x-r))
+        a = math.atan2(y - r, float(x - r))
         alpha = math.degrees(a)
 
-        width = x + (edges[-1].spacing()+self.spacing)/math.sin(a) + edges[1].spacing()
-        height = y + edges[0].spacing() + edges[2].spacing() * math.cos(a) + 2* self.spacing
+        width = x + (edges[-1].spacing() + self.spacing) / math.sin(a) + edges[1].spacing()
+        height = y + edges[0].spacing() + edges[2].spacing() * math.cos(a) + 2 * self.spacing
         if num > 1:
-            width = 2*width - x + r
+            width = 2 * width - x + r
         dx = width - x - edges[1].spacing() - self.spacing
         dy = edges[0].spacing() + self.spacing
 
@@ -1953,7 +1967,7 @@ class Boxes:
             return
 
         if self.debug:
-            self.rectangularHole(width/2., height/2., width, height)
+            self.rectangularHole(width / 2., height / 2., width, height)
 
         self.moveTo(dx, dy)
 
@@ -1963,28 +1977,28 @@ class Boxes:
                 edges[i](l,
                          bedBolts=self.getEntry(bedBolts, i),
                          bedBoltSettings=self.getEntry(bedBoltSettings, i))
-                if i==0:
+                if i == 0:
                     self.edgeCorner(edges[i], edges[i + 1], 90)
             self.edgeCorner(edges[i], "e", 90)
 
             self.corner(alpha, r)
             self.cc(callback, 2)
             self.step(edges[2].startwidth())
-            edges[2](((x-r)**2+(y-r)**2)**0.5)
+            edges[2](((x - r)**2 + (y - r)**2)**0.5)
             self.step(-edges[2].endwidth())
-            self.corner(90-alpha, r)
+            self.corner(90 - alpha, r)
             self.corner(90)
             self.ctx.stroke()
 
-            self.moveTo(width-2*dx, height - 2*dy, 180)
+            self.moveTo(width - 2 * dx, height - 2 * dy, 180)
             if n % 2:
                 self.moveTo(width)
 
         self.move(overallwidth, overallheight, move, label=label)
 
     def trapezoidWall(self, w, h0, h1, edges="eeee",
-                           callback=None, move=None,
-                           label=""):
+                      callback=None, move=None,
+                      label=""):
         """
         Rectangular trapezoidal wall
 
@@ -2005,8 +2019,8 @@ class Boxes:
         if self.move(overallwidth, overallheight, move, before=True):
             return
 
-        a = math.degrees(math.atan((h1-h0)/w))
-        l = ((h0-h1)**2+w**2)**0.5
+        a = math.degrees(math.atan((h1 - h0) / w))
+        l = ((h0 - h1)**2 + w**2)**0.5
 
         self.moveTo(edges[-1].spacing(), edges[0].margin())
         self.cc(callback, 0, y=edges[0].startwidth())
@@ -2050,15 +2064,15 @@ class Boxes:
         if self.move(overallwidth, overallheight, move, before=True):
             return
 
-        r = min(radius, abs(h0-h1))
-        ws = w-r
+        r = min(radius, abs(h0 - h1))
+        ws = w - r
         if h0 > h1:
             ws += edges[1].endwidth()
         else:
             ws += edges[3].startwidth()
-        hs = abs(h1-h0) - r
-        a = math.degrees(math.atan(hs/ws))
-        l = (ws**2+hs**2)**0.5
+        hs = abs(h1 - h0) - r
+        a = math.degrees(math.atan(hs / ws))
+        l = (ws**2 + hs**2)**0.5
 
         self.moveTo(edges[-1].spacing(), edges[0].margin())
         self.cc(callback, 0, y=edges[0].startwidth())
@@ -2068,7 +2082,7 @@ class Boxes:
         edges[1](h1)
 
         if h0 > h1:
-            self.polyline(0, (90-a, r))
+            self.polyline(0, (90 - a, r))
             self.cc(callback, 2)
             edges[2](l)
             self.polyline(0, (a, r), edges[3].startwidth(), 90)
@@ -2076,18 +2090,18 @@ class Boxes:
             self.polyline(0, 90, edges[1].endwidth(), (a, r))
             self.cc(callback, 2)
             edges[2](l)
-            self.polyline(0, (90-a, r))
+            self.polyline(0, (90 - a, r))
         self.cc(callback, 3, y=edges[-1].startwidth())
         edges[3](h0)
         self.edgeCorner(edges[-1], edges[0], 90)
 
         self.move(overallwidth, overallheight, move, label)
 
-    ### polygonWall and friends
+    # polygonWall and friends
 
     def _polygonWallExtend(self, borders, edge, close=False):
         posx, posy = 0, 0
-        ext = [ 0.0 ] * 4
+        ext = [0.0] * 4
         angle = 0
 
         def checkpoint(ext, x, y):
@@ -2104,30 +2118,30 @@ class Boxes:
                     angle = (angle + borders[i]) % 360
                     continue
                 if a > 0:
-                    centerx = posx + r * math.cos(math.radians(angle+90))
-                    centery = posy + r * math.sin(math.radians(angle+90))
+                    centerx = posx + r * math.cos(math.radians(angle + 90))
+                    centery = posy + r * math.sin(math.radians(angle + 90))
                 else:
-                    centerx = posx + r * math.cos(math.radians(angle-90))
-                    centery = posy + r * math.sin(math.radians(angle-90))
+                    centerx = posx + r * math.cos(math.radians(angle - 90))
+                    centery = posy + r * math.sin(math.radians(angle - 90))
 
                 for direction in (0, 90, 180, 270):
-                    if (a > 0 and
-                        angle <= direction and (angle + a) % 360 >= direction):
+                    if (a > 0
+                            and angle <= direction and (angle + a) % 360 >= direction):
                         direction -= 90
-                    elif (a < 0 and
-                          angle >= direction and (angle + a) % 360 <= direction):
+                    elif (a < 0
+                          and angle >= direction and (angle + a) % 360 <= direction):
                         direction -= 90
                     else:
                         continue
                     checkpoint(ext, centerx + r * math.cos(math.radians(direction)), centery + r * math.sin(math.radians(direction)))
-                    #print("%4s %4s %4s %f %f" % (angle, direction+90, angle+a, centerx + r * math.cos(math.radians(direction)), centery + r * math.sin(math.radians(direction))))
+                    # print("%4s %4s %4s %f %f" % (angle, direction+90, angle+a, centerx + r * math.cos(math.radians(direction)), centery + r * math.sin(math.radians(direction))))
                 angle = (angle + a) % 360
                 if a > 0:
-                    posx = centerx + r * math.cos(math.radians(angle-90))
-                    posy = centery + r * math.sin(math.radians(angle-90))
+                    posx = centerx + r * math.cos(math.radians(angle - 90))
+                    posy = centery + r * math.sin(math.radians(angle - 90))
                 else:
-                    posx = centerx + r * math.cos(math.radians(angle+90))
-                    posy = centery + r * math.sin(math.radians(angle+90))
+                    posx = centerx + r * math.cos(math.radians(angle + 90))
+                    posy = centery + r * math.sin(math.radians(angle + 90))
             else:
                 posx += borders[i] * math.cos(math.radians(angle))
                 posy += borders[i] * math.sin(math.radians(angle))
@@ -2144,7 +2158,7 @@ class Boxes:
                     callback=None, move=None):
 
         e = self.edges.get(edge, edge)
-        t = self.thickness # XXX edge.margin()
+        t = self.thickness  # XXX edge.margin()
 
         minx, miny, maxx, maxy = self._polygonWallExtend(borders, e)
 
@@ -2161,7 +2175,7 @@ class Boxes:
             self.cc(callback, i)
             self.edge(length_correction)
             l = borders[i] - length_correction
-            next_angle = borders[i+1]
+            next_angle = borders[i + 1]
 
             if isinstance(next_angle, (int, float)) and next_angle < 0:
                 length_correction = t * math.tan(math.radians((-next_angle / 2)))
@@ -2179,7 +2193,7 @@ class Boxes:
     def polygonWalls(self, borders, h, bottom="F", top="F", symetrical=True):
         bottom = self.edges.get(bottom, bottom)
         top = self.edges.get(top, top)
-        t = self.thickness # XXX edge.margin()
+        t = self.thickness  # XXX edge.margin()
 
         leftsettings = copy.deepcopy(self.edges["f"].settings)
         lf, lF, lh = leftsettings.edgeObjects(self, add=False)
@@ -2198,7 +2212,7 @@ class Boxes:
                     left, right = lf, rf
                 else:
                     # last part of an uneven lot
-                    if (part_cnt == (len(borders)//2)-1):
+                    if (part_cnt == (len(borders) // 2) - 1):
                         left, right = lF, rf
                     else:
                         left, right = lF, rF
@@ -2211,13 +2225,13 @@ class Boxes:
             self.moveTo(left.spacing() + self.spacing, 0)
             l = borders[i] - length_correction
             leftsettings.setValues(self.thickness, angle=angle)
-            angle = borders[i+1]
+            angle = borders[i + 1]
 
             while isinstance(angle, (tuple, list)):
                 bottom(l)
                 angle, radius = angle
                 lr = abs(math.radians(angle) * radius)
-                self.edges["X"](lr, h + 2*t) # XXX
+                self.edges["X"](lr, h + 2 * t)  # XXX
                 top_lengths.append(l)
                 top_lengths.append(lr)
                 top_edges.append(top)
@@ -2225,7 +2239,7 @@ class Boxes:
 
                 i += 2
                 l = borders[i]
-                angle = borders[i+1]
+                angle = borders[i + 1]
 
             rightsettings.setValues(self.thickness, angle=angle)
             if angle < 0:
@@ -2255,9 +2269,8 @@ class Boxes:
             part_cnt += 1
             i += 2
 
-
     ##################################################
-    ### Place Parts
+    # Place Parts
     ##################################################
 
     def partsMatrix(self, n, width, move, part, *l, **kw):
@@ -2276,13 +2289,13 @@ class Boxes:
         if not width:
             width = n
 
-        rows = n//width + (1 if n % width else 0)
+        rows = n // width + (1 if n % width else 0)
 
         if not move:
             move = ""
         move = move.split()
 
-        #move down / left before
+        # move down / left before
         for m in move:
             if m == "left":
                 kw["move"] = "left only"
@@ -2298,7 +2311,7 @@ class Boxes:
                 for j in range(width):
                     if "only" in move:
                         break
-                    if width*i+j >= n:
+                    if width * i + j >= n:
                         break
                     kw["move"] = "right"
                     part(*l, **kw)

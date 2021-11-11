@@ -44,36 +44,35 @@ class Rack19Box(Boxes):
 
     def wallxCB(self):
         t = self.thickness
-        self.fingerHolesAt(0, self.h-1.5*t, self.triangle, 0)
-        self.fingerHolesAt(self.x, self.h-1.5*t, self.triangle, 180)
-        
-    def wallxfCB(self): # front
+        self.fingerHolesAt(0, self.h - 1.5 * t, self.triangle, 0)
+        self.fingerHolesAt(self.x, self.h - 1.5 * t, self.triangle, 180)
+
+    def wallxfCB(self):  # front
         t = self.thickness
-        for x in (8.5, self.x+2*17.+2*t-8.5):
-            for y in (6., self.h-6.+t):
+        for x in (8.5, self.x + 2 * 17. + 2 * t - 8.5):
+            for y in (6., self.h - 6. + t):
                 self.rectangularHole(x, y, 10, 6.5, r=3.25)
-        
-        self.moveTo(t+17., t)
+
+        self.moveTo(t + 17., t)
         self.wallxCB()
-        
+
     def wallyCB(self):
         t = self.thickness
-        self.fingerHolesAt(0, self.h-1.5*t, self.triangle, 0)
-        self.fingerHolesAt(self.y, self.h-1.5*t, self.triangle, 180)
-        
-        
+        self.fingerHolesAt(0, self.h - 1.5 * t, self.triangle, 0)
+        self.fingerHolesAt(self.y, self.h - 1.5 * t, self.triangle, 180)
+
     def _render(self, type):
 
         t = self.thickness
         self.h = h = self.height * 44.45 - 0.787 - t
         if type == 10:
-            self.x = 219.0 - 2*t
+            self.x = 219.0 - 2 * t
         else:
-            self.x = 448.0 - 2*t
+            self.x = 448.0 - 2 * t
         x = self.x
         y = self.y = self.depth
 
-        d1, d2 =self.d1, self.d2
+        d1, d2 = self.d1, self.d2
         tr = self.triangle
         trh = tr / 3.
 
@@ -90,8 +89,7 @@ class Rack19Box(Boxes):
             lambda:self.hole(trh, trh, d=d2)] * 4, move='up')
 
         self.rectangularTriangle(tr, tr, "ffe", num=4,
-            callback=[None, lambda: self.hole(trh, trh, d=d1)])
-
+                                 callback=[None, lambda: self.hole(trh, trh, d=d1)])
 
     def render(self):
         self._render(type=19)

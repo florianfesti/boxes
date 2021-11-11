@@ -49,7 +49,7 @@ class CustomBuildExtCommand(build_py):
         if 'CURRENTLY_PACKAGING' in os.environ:
             # we are most probably building a Debian package
             # let us define a simple path!
-            path="/usr/share/inkscape/extensions"
+            path = "/usr/share/inkscape/extensions"
             self.distribution.data_files.append(
                 (path,
                  [i for i in glob.glob(os.path.join("inkex", "*.inx"))]))
@@ -60,7 +60,7 @@ class CustomBuildExtCommand(build_py):
             try:
                 path = check_output(["inkscape", "--system-data-directory"]).decode().strip()
                 path = os.path.join(path, "extensions")
-                if not os.access(path, os.W_OK): # Can we install globally
+                if not os.access(path, os.W_OK):  # Can we install globally
                     # Not tested on Windows and Mac
                     path = os.path.expanduser("~/.config/inkscape/extensions")
                 self.distribution.data_files.append(
@@ -68,9 +68,10 @@ class CustomBuildExtCommand(build_py):
                      [i for i in glob.glob(os.path.join("inkex", "*.inx"))]))
                 self.distribution.data_files.append((path, ['scripts/boxes']))
             except CalledProcessError:
-                pass # Inkscape is not installed
+                pass  # Inkscape is not installed
 
         build_py.run(self)
+
 
 setup(
     name='boxes',

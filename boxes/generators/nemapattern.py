@@ -16,6 +16,7 @@
 
 from boxes import *
 
+
 class NemaPattern(Boxes):
     """Mounting holes for a Nema motor"""
 
@@ -36,4 +37,4 @@ class NemaPattern(Boxes):
         motor, flange, holes, screws = self.nema_sizes.get(
             self.size, self.nema_sizes[8])
 
-        self.NEMA(self.size, motor/2, motor/2, screwholes=self.screwholes)
+        self.NEMA(self.size, motor / 2, motor / 2, screwholes=self.screwholes)

@@ -16,6 +16,7 @@
 
 from boxes import *
 
+
 class Console(Boxes):
     """Console with slanted panel"""
 
@@ -29,10 +30,10 @@ class Console(Boxes):
 
         self.buildArgParser(x=100, y=100, h=100, outside=False)
         self.argparser.add_argument(
-            "--front_height",  action="store", type=float, default=30,
+            "--front_height", action="store", type=float, default=30,
             help="height of the front below the panel (in mm)")
         self.argparser.add_argument(
-            "--angle",  action="store", type=float, default=50,
+            "--angle", action="store", type=float, default=50,
             help="angle of the front panel (90°=upright)")
 
     def render(self):
@@ -44,19 +45,19 @@ class Console(Boxes):
             self.y = y = self.adjustSize(y)
             self.h = h = self.adjustSize(h)
 
-        panel = min((h-hf)/math.cos(math.radians(90-self.angle)),
-                    y/math.cos(math.radians(self.angle)))
+        panel = min((h - hf) / math.cos(math.radians(90 - self.angle)),
+                    y / math.cos(math.radians(self.angle)))
         top = y - panel * math.cos(math.radians(self.angle))
         h = hf + panel * math.sin(math.radians(self.angle))
 
-        if top>0.1*t:
-            borders = [y, 90, hf, 90-self.angle, panel, self.angle, top,
+        if top > 0.1 * t:
+            borders = [y, 90, hf, 90 - self.angle, panel, self.angle, top,
                        90, h, 90]
         else:
-            borders = [y, 90, hf, 90-self.angle, panel, self.angle+90, h, 90]
+            borders = [y, 90, hf, 90 - self.angle, panel, self.angle + 90, h, 90]
 
-        if hf < 0.01*t:
-            borders[1:4] = [180-self.angle]
+        if hf < 0.01 * t:
+            borders[1:4] = [180 - self.angle]
 
         self.polygonWall(borders, move="right")
         self.polygonWall(borders, move="right")

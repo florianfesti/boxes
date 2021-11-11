@@ -58,4 +58,3 @@ class DisplayCase(Boxes):
 
         self.flangedWall(x, y, "FFFF", flanges=[self.overhang] * 4, move="right", label="Top")
         self.flangedWall(x, y, "FFFF", flanges=[self.overhang] * 4, label="Bottom")
-

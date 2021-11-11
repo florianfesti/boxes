@@ -37,7 +37,6 @@ class TrayInsert(Boxes):
         h = self.h
         t = self.thickness
 
-
         # Inner walls
         for i in range(len(self.sx) - 1):
             e = [edges.SlottedEdge(self, self.sy, slots=0.5 * h), "e", "e", "e"]
@@ -46,6 +45,3 @@ class TrayInsert(Boxes):
         for i in range(len(self.sy) - 1):
             e = ["e", "e", edges.SlottedEdge(self, self.sx[::-1], "e", slots=0.5 * h), "e"]
             self.rectangularWall(x, h, e, move="up")
-
-
-

@@ -16,6 +16,7 @@
 
 from boxes import *
 
+
 class LaserHoldfast(Boxes):
     """A holdfast for honey comb tables of laser cutters"""
 
@@ -26,18 +27,18 @@ class LaserHoldfast(Boxes):
 
         self.buildArgParser(x=25, h=40)
         self.argparser.add_argument(
-            "--hookheight",  action="store", type=float, default=5.0,
+            "--hookheight", action="store", type=float, default=5.0,
             help="height of the top hook")
         self.argparser.add_argument(
-            "--shaftwidth",  action="store", type=float, default=5.0,
+            "--shaftwidth", action="store", type=float, default=5.0,
             help="width of the shaft")
 
     def render(self):
         # adjust to the variables you want in the local scope
-        x, hh, h, sw = self.x, self.hookheight, self.h, self.shaftwidth 
+        x, hh, h, sw = self.x, self.hookheight, self.h, self.shaftwidth
         t = self.thickness
 
         a = 30
-        r = x/math.radians(a)
+        r = x / math.radians(a)
 
-        self.polyline(hh+h, (180, sw/2), h, -90+a/2, 0, (-a, r), 0, (180, hh/2), 0, (a, r+hh), 0 , -a/2, sw-math.sin(math.radians(a/2))*hh , 90)
+        self.polyline(hh + h, (180, sw / 2), h, -90 + a / 2, 0, (-a, r), 0, (180, hh / 2), 0, (a, r + hh), 0, -a / 2, sw - math.sin(math.radians(a / 2)) * hh, 90)

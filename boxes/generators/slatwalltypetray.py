@@ -17,6 +17,7 @@
 from boxes import *
 from boxes.lids import _TopEdge
 
+
 class SlatwallTypeTray(_TopEdge):
     """Type tray - allows only continuous walls"""
 
@@ -29,12 +30,11 @@ class SlatwallTypeTray(_TopEdge):
         self.addSettingsArgs(edges.SlatWallSettings)
         self.buildArgParser("sx", "sy", "h", "hi", "outside", "bottom_edge")
         self.argparser.add_argument(
-            "--back_height",  action="store", type=float, default=0.0,
+            "--back_height", action="store", type=float, default=0.0,
             help="additional height of the back wall")
         self.argparser.add_argument(
-            "--radius",  action="store", type=float, default=0.0,
+            "--radius", action="store", type=float, default=0.0,
             help="radius for strengthening walls with the hooks")
-        
 
     def xSlots(self):
         posx = -0.5 * self.thickness
@@ -75,7 +75,7 @@ class SlatwallTypeTray(_TopEdge):
         self.slatWallHolesAt = edges.SlatWallHoles(self, s)
 
         b = self.bottom_edge
-        
+
         if self.outside:
             self.sx = self.adjustSize(self.sx)
             self.sy = self.adjustSize(self.sy)
@@ -91,15 +91,14 @@ class SlatwallTypeTray(_TopEdge):
         hi = self.hi = self.hi or h
         t = self.thickness
 
-
         # outer walls
         # x sides
 
         self.ctx.save()
 
         # outer walls
-        self.rectangularWall(x, h, [b, "f", "e", "f"], callback=[self.xHoles],  move="up")
-        self.rectangularWall(x, h+bh, [b, "C", "e", "c"], callback=[self.mirrorX(self.xHoles, x), ], move="up")
+        self.rectangularWall(x, h, [b, "f", "e", "f"], callback=[self.xHoles], move="up")
+        self.rectangularWall(x, h + bh, [b, "C", "e", "c"], callback=[self.mirrorX(self.xHoles, x), ], move="up")
 
         # floor
         if b != "e":
@@ -119,9 +118,9 @@ class SlatwallTypeTray(_TopEdge):
         # y walls
 
         # outer walls
-        self.trapezoidSideWall(y, h, h+bh, [b, "B", "e", "h"], radius=self.radius, callback=[self.yHoles, ], move="up")
+        self.trapezoidSideWall(y, h, h + bh, [b, "B", "e", "h"], radius=self.radius, callback=[self.yHoles, ], move="up")
         self.moveTo(0, 8)
-        self.trapezoidSideWall(y, h+bh, h, [b, "h", "e", "b"], radius=self.radius, callback=[self.mirrorX(self.yHoles, y), ], move="up")
+        self.trapezoidSideWall(y, h + bh, h, [b, "h", "e", "b"], radius=self.radius, callback=[self.mirrorX(self.yHoles, y), ], move="up")
         self.moveTo(0, 8)
 
         # inner walls
@@ -129,7 +128,3 @@ class SlatwallTypeTray(_TopEdge):
             e = [edges.SlottedEdge(self, self.sy, be, slots=0.5 * hi),
                  "f", "e", "f"]
             self.rectangularWall(y, hi, e, move="up")
-
-
-
-

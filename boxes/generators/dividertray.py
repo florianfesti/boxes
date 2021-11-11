@@ -122,8 +122,13 @@ class DividerTray(Boxes):
 
         # Facing walls (outer) with finger holes to support side walls
         facing_wall_length = sum(self.sx) + self.thickness * (len(self.sx) - 1)
-        side_edge = lambda with_wall: "F" if with_wall else "e"
-        bottom_edge = lambda with_wall: "F" if with_wall else "e"
+
+        def side_edge(with_wall):
+            return "F" if with_wall else "e"
+
+        def bottom_edge(with_wall):
+            return "F" if with_wall else "e"
+
         for _ in range(2):
             self.rectangularWall(
                 facing_wall_length,
@@ -379,8 +384,8 @@ class SlotDescription:
     ):
         self.depth = depth
         self.width = width
-        self.start_radius = radius if start_radius == None else start_radius
-        self.end_radius = radius if end_radius == None else end_radius
+        self.start_radius = radius if start_radius is None else start_radius
+        self.end_radius = radius if end_radius is None else end_radius
         self.angle = angle
 
     def __repr__(self):

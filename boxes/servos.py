@@ -1,6 +1,7 @@
 import boxes.vectors
 import math
 
+
 class EyeEdge(boxes.edges.FingerHoleEdge):
 
     char = "m"
@@ -18,18 +19,18 @@ class EyeEdge(boxes.edges.FingerHoleEdge):
 
         pos_axle = self.servo.hinge_depth()
         self.ctx.save()
-        self.hole(length/2.0, -pos_axle,
-                  self.servo.axle/2.0 if self.driven else
-                  self.servo.servo_axle/2.0)
+        self.hole(length / 2.0, -pos_axle,
+                  self.servo.axle / 2.0 if self.driven else
+                  self.servo.servo_axle / 2.0)
         if self.outset:
-            self.fingerHoles(t, self.thickness / 2, length-2*t, 0)
+            self.fingerHoles(t, self.thickness / 2, length - 2 * t, 0)
         else:
             self.fingerHoles(0, self.thickness / 2, length, 0)
         self.ctx.restore()
         r = self.servo.servo_axle * 2
-        a, l = boxes.vectors.tangent(length/2, pos_axle, r)
+        a, l = boxes.vectors.tangent(length / 2, pos_axle, r)
         angle = math.degrees(a)
-        self.polyline(0, -angle, l, (2*angle, r), l, -angle, 0)
+        self.polyline(0, -angle, l, (2 * angle, r), l, -angle, 0)
 
     def startwidth(self):
         return self.fingerHoles.settings.thickness
@@ -37,13 +38,15 @@ class EyeEdge(boxes.edges.FingerHoleEdge):
     def margin(self):
         return self.servo.hinge_depth() + self.fingerHoles.settings.thickness + self.servo.servo_axle * 2
 
+
 def buildEdges(boxes, servo, chars="mMnN"):
     result = {}
     for n, char in enumerate(chars):
-        e = EyeEdge(boxes, servo, outset=(n<2), driven=(n % 2))
+        e = EyeEdge(boxes, servo, outset=(n < 2), driven=(n % 2))
         e.char = char
         result[char] = e
     return result
+
 
 class ServoArg:
 
@@ -75,14 +78,15 @@ class Servo:
     def edges(self, edges):
         return [self._edges.get(e, e) for e in edges]
 
+
 class Servo9g(Servo):
 
     height = 22.5
-    length = 28.0 # one tab in the wall
+    length = 28.0  # one tab in the wall
     width = 12.0
     axle_pos = 6.0
-    servo_axle = 4.6 # 6.9 for servo arm
-    
+    servo_axle = 4.6  # 6.9 for servo arm
+
     def top(self, x=0.0, y=0.0, angle=90.0):
         self.boxes.moveTo(x, y, angle)
         self.boxes.hole(6, 0, 6)
@@ -90,7 +94,7 @@ class Servo9g(Servo):
 
     def bottom(self, x=0.0, y=0.0, angle=90.0):
         self.boxes.moveTo(x, y, angle)
-        self.boxes.hole(6, 0, self.axle/2.0)
+        self.boxes.hole(6, 0, self.axle / 2.0)
 
     def front(self, x=0.0, y=0.0, angle=90.0):
         self.boxes.moveTo(x, y, angle)
@@ -101,7 +105,8 @@ class Servo9g(Servo):
         return self.height + self.boxes.thickness + 4.5
 
     def hinge_depth(self):
-        return self.height # XXX
+        return self.height  # XXX
+
 
 class Servo9gt(Servo9g):
     height = 35

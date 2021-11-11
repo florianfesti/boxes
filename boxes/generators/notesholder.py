@@ -17,18 +17,20 @@
 from boxes import *
 from boxes.edges import Edge
 
+
 class USlotEdge(Edge):
 
     def __call__(self, length, bedBolts=None, bedBoltSettings=None, **kw):
         l = length
         d = self.settings
-        r = min(3*self.thickness, (l-2*d)/2)
+        r = min(3 * self.thickness, (l - 2 * d) / 2)
         self.edges["f"](d)
-        self.polyline(0, 90, 0, (-90, r), l-2*d-2*r, (-90, r), 0, 90)
+        self.polyline(0, 90, 0, (-90, r), l - 2 * d - 2 * r, (-90, r), 0, 90)
         self.edges["f"](d)
 
     def margin(self):
         return self.edges["f"].margin()
+
 
 class HalfStackableEdge(edges.StackableEdge):
 
@@ -52,6 +54,7 @@ class HalfStackableEdge(edges.StackableEdge):
     def endwidth(self):
         return self.settings.holedistance + self.settings.thickness
 
+
 class NotesHolder(Boxes):
     """Box for holding a stack of paper, coasters etc"""
 
@@ -63,7 +66,7 @@ class NotesHolder(Boxes):
         self.addSettingsArgs(edges.StackableSettings)
         self.buildArgParser(x=78, y=78, h=35, bottom_edge="s")
         self.argparser.add_argument(
-            "--opening",  action="store", type=float, default=40,
+            "--opening", action="store", type=float, default=40,
             help="percent of front that's open")
 
     def render(self):
@@ -71,7 +74,7 @@ class NotesHolder(Boxes):
         t = self.thickness
 
         o = max(0, min(self.opening, 100))
-        sides = x * (1-o/100) / 2
+        sides = x * (1 - o / 100) / 2
 
         b = self.edges.get(self.bottom_edge, self.edges["F"])
         if self.bottom_edge == "s":
@@ -105,4 +108,3 @@ class NotesHolder(Boxes):
                 self.rectangularWall(x, y, ["f", "f", "f", "f"], move="up")
             else:
                 self.rectangularWall(x, y, [USlotEdge(self, sides), "f", "f", "f"], move="up")
-

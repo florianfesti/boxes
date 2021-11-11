@@ -16,10 +16,11 @@
 
 from boxes import *
 
-class BOX(Boxes): # Change class name!
+
+class BOX(Boxes):  # Change class name!
     """DESCRIPTION"""
 
-    ui_group = "Unstable" # see ./__init__.py for names
+    ui_group = "Unstable"  # see ./__init__.py for names
 
     def __init__(self):
         Boxes.__init__(self)
@@ -37,9 +38,8 @@ class BOX(Boxes): # Change class name!
         self.buildArgParser(x=100, sx="3*50", y=100, sy="3*50", h=100, hi=0)
         # Add non default cli params if needed (see argparse std lib)
         self.argparser.add_argument(
-            "--XX",  action="store", type=float, default=0.5,
+            "--XX", action="store", type=float, default=0.5,
             help="DESCRIPTION")
-
 
     def render(self):
         # adjust to the variables you want in the local scope
@@ -48,11 +48,10 @@ class BOX(Boxes): # Change class name!
 
         # Create new Edges here if needed E.g.:
         s = edges.FingerJointSettings(self.thickness, relative=False,
-                                      space = 10, finger=10,
+                                      space=10, finger=10,
                                       width=self.thickness)
         p = edges.FingerJointEdge(self, s)
         p.char = "p"
         self.addPart(p)
 
         # render your parts here
-

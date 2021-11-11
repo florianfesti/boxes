@@ -25,24 +25,26 @@ except ImportError:
     import boxes.generators
 from boxes import edges
 
+
 class DefaultParams(boxes.Boxes):
 
     def __init__(self):
         boxes.Boxes.__init__(self)
         self.buildArgParser("x", "y", "h", "hi", "sx", "sy", "sh",
                             "bottom_edge", "top_edge", "outside", "nema_mount")
-        self.addSettingsArgs(edges.FingerJointSettings, finger=1.0,space=1.0)
+        self.addSettingsArgs(edges.FingerJointSettings, finger=1.0, space=1.0)
         self.addSettingsArgs(edges.StackableSettings)
         self.addSettingsArgs(edges.HingeSettings)
         self.addSettingsArgs(edges.LidSettings)
         self.addSettingsArgs(edges.ClickSettings)
         self.addSettingsArgs(edges.FlexSettings)
 
+
 class Boxes2pot:
     def __init__(self):
         self.messages = []
         self.message_set = set()
-        self.boxes = {b.__name__ : b() for b in boxes.generators.getAllBoxGenerators().values() if b.webinterface}
+        self.boxes = {b.__name__: b() for b in boxes.generators.getAllBoxGenerators().values() if b.webinterface}
         self.groups = boxes.generators.ui_groups
         self.groups_by_name = boxes.generators.ui_groups_by_name
         self._readEdgeDescriptions()
@@ -76,7 +78,7 @@ class Boxes2pot:
                 prefix = getattr(group, "prefix", "")
                 name = a.option_strings[0].replace("-", "")
                 if prefix and name.startswith(prefix + '_'):
-                    name = name[len(prefix)+1:]
+                    name = name[len(prefix) + 1:]
                     self.add(name, "parameter name for " + prefix, location)
                 else:
                     self.add(name, "parameter name", location)
@@ -100,7 +102,7 @@ class Boxes2pot:
             if box.__doc__:
                 self.add(box.__doc__, "description of " + name, location)
             if box.description:
-                self.add(box.description, "long description of "+ name + " in markdown", location)
+                self.add(box.description, "long description of " + name + " in markdown", location)
             self.addBoxParams(name, box, location)
 
     def writePOT(self, fn):
@@ -117,7 +119,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 """)
-            
+
             for msg, comment, reference in self.messages:
                 f.write("\n")
                 if comment:
@@ -125,14 +127,15 @@ msgstr ""
                 if reference:
                     f.write("#: %s\n" % reference)
                 msg = msg.split("\n")
-                for i in range(len(msg)-1):
+                for i in range(len(msg) - 1):
                     msg[i] += "\\n"
                 f.write('msgid ')
                 for m in msg:
                     f.write(' "%s"\n' % m.replace('"', '\\"'))
                 f.write('msgstr ""\n')
 
-if __name__=="__main__":
+
+if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: boxes2inksacpe TARGETPATH")
     b = Boxes2pot()

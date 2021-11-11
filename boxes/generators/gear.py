@@ -16,6 +16,7 @@
 
 from boxes import *
 
+
 class Gears(Boxes):
     """Gears"""
 
@@ -24,7 +25,7 @@ class Gears(Boxes):
     def __init__(self):
         Boxes.__init__(self)
         self.argparser.add_argument(
-            "--teeth1",  action="store", type=int, default=12,
+            "--teeth1", action="store", type=int, default=12,
             help="number of teeth")
         self.argparser.add_argument(
             "--shaft1", action="store", type=float, default=6.,
@@ -34,7 +35,7 @@ class Gears(Boxes):
             help="percent of the D section of shaft 1 (100 for round shaft)")
 
         self.argparser.add_argument(
-            "--teeth2",  action="store", type=int, default=32,
+            "--teeth2", action="store", type=int, default=32,
             help="number of teeth in the other size of gears")
         self.argparser.add_argument(
             "--shaft2", action="store", type=float, default=0.0,
@@ -44,13 +45,13 @@ class Gears(Boxes):
             help="percent of the D section of shaft 1 (0 for same as shaft 1)")
 
         self.argparser.add_argument(
-            "--modulus",  action="store", type=float, default=2,
+            "--modulus", action="store", type=float, default=2,
             help="size of teeth (diameter / #teeth) in mm")
         self.argparser.add_argument(
-            "--pressure_angle",  action="store", type=float, default=20,
+            "--pressure_angle", action="store", type=float, default=20,
             help="angle of the teeth touching (in degrees)")
         self.argparser.add_argument(
-            "--profile_shift",  action="store", type=float, default=20,
+            "--profile_shift", action="store", type=float, default=20,
             help="in precent of the modulus")
 
     def render(self):
@@ -67,8 +68,8 @@ class Gears(Boxes):
 
         self.gears(teeth=self.teeth2, dimension=self.modulus,
                    angle=self.pressure_angle, profile_shift=self.profile_shift,
-                   callback=lambda:self.dHole(0, 0, d=self.shaft2,
-                                              rel_w=self.dpercentage2/100.),
+                   callback=lambda: self.dHole(0, 0, d=self.shaft2,
+                                               rel_w=self.dpercentage2 / 100.),
                    move="up")
         r2, d2, d2 = self.gears.sizes(
             teeth=self.teeth2, dimension=self.modulus,
@@ -76,21 +77,20 @@ class Gears(Boxes):
 
         self.gears(teeth=self.teeth1, dimension=self.modulus,
                    angle=self.pressure_angle, profile_shift=self.profile_shift,
-                   callback=lambda:self.dHole(0, 0, d=self.shaft1,
-                                              rel_w=self.dpercentage1/100.),
+                   callback=lambda: self.dHole(0, 0, d=self.shaft1,
+                                               rel_w=self.dpercentage1 / 100.),
                    move="up")
         r1, d1, d1 = self.gears.sizes(
             teeth=self.teeth1, dimension=self.modulus,
             angle=self.pressure_angle, profile_shift=self.profile_shift)
-        r = max(self.shaft1, self.shaft2)/2
-        self.hole(t+r, t+r, self.shaft1/2)
-        self.hole(t+r+r1+r2, t+r, self.shaft2/2)
-        self.moveTo(0, 2*r+t)
+        r = max(self.shaft1, self.shaft2) / 2
+        self.hole(t + r, t + r, self.shaft1 / 2)
+        self.hole(t + r + r1 + r2, t + r, self.shaft2 / 2)
+        self.moveTo(0, 2 * r + t)
 
         self.text("""Pitch radius 1: %.1fmm
 Outer diameter 1: %.1fmm
 Pitch radius 2: %.1fmm
 Outer diameter 2: %.1fmm
 Axis distance: %.1fmm
-        """ % (r1, d1, r2, d2, r1+r2), align="bottom left")
-        
+        """ % (r1, d1, r2, d2, r1 + r2), align="bottom left")

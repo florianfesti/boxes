@@ -17,6 +17,7 @@
 from boxes import *
 from boxes.lids import _TopEdge
 
+
 class StorageShelf(_TopEdge):
     """StorageShelf can be used to store Typetray"""
 
@@ -26,17 +27,15 @@ class StorageShelf(_TopEdge):
     def __init__(self):
         Boxes.__init__(self)
         self.addTopEdgeSettings(fingerjoint={"surroundingspaces": 0.5},
-                                roundedtriangle={"outset" : 1})
+                                roundedtriangle={"outset": 1})
         self.buildArgParser("x", "sy", "sh", "outside", "bottom_edge",
                             "top_edge")
         self.argparser.add_argument(
-            "--retainer",  action="store", type=float, default=0.0,
+            "--retainer", action="store", type=float, default=0.0,
             help="height of wall atthe front edges")
         self.argparser.add_argument(
-            "--retainer_hole_edge",  action="store", type=boolarg, default=False,
+            "--retainer_hole_edge", action="store", type=boolarg, default=False,
             help="use finger hole edge for retainer walls")
-        
-        
 
     def ySlots(self):
         posy = -0.5 * self.thickness
@@ -77,13 +76,12 @@ class StorageShelf(_TopEdge):
         x = self.x
         t = self.thickness
 
-
         # outer walls
         b = self.bottom_edge
         t1, t2, t3, t4 = self.topEdges(self.top_edge)
-        #if top_edge is t put the handle on the x walls
-        if(self.top_edge=='t'):
-            t1,t2,t3,t4=(t2,t1,t4,t3)
+        # if top_edge is t put the handle on the x walls
+        if(self.top_edge == 't'):
+            t1, t2, t3, t4 = (t2, t1, t4, t3)
         self.closedtop = self.top_edge in "fFh"
 
         # x sides
@@ -126,7 +124,7 @@ class StorageShelf(_TopEdge):
         # y walls
 
         # outer walls
-        self.rectangularWall(y, h, [b, "f", t2, "f"],  callback=[self.ySlots, self.hSlots,], move="up")
+        self.rectangularWall(y, h, [b, "f", t2, "f"], callback=[self.ySlots, self.hSlots, ], move="up")
 
         # inner walls
         for i in range(len(self.sy) - 1):
@@ -134,9 +132,8 @@ class StorageShelf(_TopEdge):
             e = [be, edges.SlottedEdge(self, self.sh, "e", slots=0.5 * x),
                  "e", "f"]
             if self.closedtop:
-                e = [be, edges.SlottedEdge(self, self.sh, "e", slots=0.5 * x),"f", "f"]
+                e = [be, edges.SlottedEdge(self, self.sh, "e", slots=0.5 * x), "f", "f"]
             self.rectangularWall(x, h, e, move="up")
-
 
         if self.retainer:
             for i in range(len(self.sh)):

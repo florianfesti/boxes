@@ -27,6 +27,7 @@ class InsetEdgeSettings(edges.Settings):
 
 class InsetEdge(edges.BaseEdge):
     """An edge with space to slide in a lid"""
+
     def __call__(self, length, **kw):
         t = self.settings.thickness
         self.corner(90)
@@ -47,15 +48,16 @@ class FingerHoleEdgeSettings(edges.Settings):
 
 class FingerHoleEdge(edges.BaseEdge):
     """An edge with room to get your fingers around cards"""
+
     def __call__(self, length, **kw):
-        depth = self.settings.wallheight-self.thickness-10
-        self.edge(length/2-10, tabs=2)
+        depth = self.settings.wallheight - self.thickness - 10
+        self.edge(length / 2 - 10, tabs=2)
         self.corner(90)
         self.edge(depth, tabs=2)
         self.corner(-180, 10)
         self.edge(depth, tabs=2)
         self.corner(90)
-        self.edge(length/2-10, tabs=2)
+        self.edge(length / 2 - 10, tabs=2)
 
 
 class CardBox(Boxes):
@@ -77,13 +79,13 @@ Add the top of the rails to the sides and the grip rail to the lid (still missin
         self.addSettingsArgs(edges.FingerJointSettings)
         self.buildArgParser(h=30)
         self.argparser.add_argument(
-            "--cardwidth",  action="store", type=float, default=65,
+            "--cardwidth", action="store", type=float, default=65,
             help="Width of the cards")
         self.argparser.add_argument(
-            "--cardheight",  action="store", type=float, default=90,
+            "--cardheight", action="store", type=float, default=90,
             help="Height of the cards")
         self.argparser.add_argument(
-            "--num",  action="store", type=int, default=2,
+            "--num", action="store", type=int, default=2,
             help="number of compartments")
 
     @property
@@ -96,14 +98,14 @@ Add the top of the rails to the sides and the grip rail to the lid (still missin
         y = self.cardheight
 
         for i in range(1, self.num):
-            self.fingerHolesAt(0.5*t + (c+t)*i, 0, y, 90)
+            self.fingerHolesAt(0.5 * t + (c + t) * i, 0, y, 90)
 
     def divider_back_and_front(self):
         t = self.thickness
         c = self.cardwidth
         y = self.h
         for i in range(1, self.num):
-            self.fingerHolesAt(0.5*t + (c+t)*i, 0, y, 90)
+            self.fingerHolesAt(0.5 * t + (c + t) * i, 0, y, 90)
 
     def render(self):
         h = self.h
@@ -123,28 +125,28 @@ Add the top of the rails to the sides and the grip rail to the lid (still missin
         self.addPart(p)
 
         with self.saved_context():
-            self.rectangularWall(x-t*.2, y, "Feee", move="right", label="Lid")
+            self.rectangularWall(x - t * .2, y, "Feee", move="right", label="Lid")
             self.rectangularWall(x, y, "ffff", callback=[self.divider_bottom],
                                  move="right", label="Bottom")
         self.rectangularWall(x, y, "EEEE", move="up only")
 
         with self.saved_context():
-            self.rectangularWall(x, h+t, "FFEF",
+            self.rectangularWall(x, h + t, "FFEF",
                                  callback=[self.divider_back_and_front],
                                  move="right",
                                  label="Back")
-            self.rectangularWall(x, h+t, "FFaF",
+            self.rectangularWall(x, h + t, "FFaF",
                                  callback=[self.divider_back_and_front],
-                                 move="right", 
+                                 move="right",
                                  label="Front")
-        self.rectangularWall(x, h+t, "EEEE", move="up only")
+        self.rectangularWall(x, h + t, "EEEE", move="up only")
 
-        self.rectangularWall(x-t*.2, t, "fEeE", move="up", label="Lid Lip")
+        self.rectangularWall(x - t * .2, t, "fEeE", move="up", label="Lid Lip")
 
         with self.saved_context():
-            self.rectangularWall(y, h+t, "FfFf", move="right", label="Outer Side Left")
-            self.rectangularWall(y, h+t, "FfFf", move="right", label="Outer Side Right")
-        self.rectangularWall(y, h+t, "fFfF", move="up only")
+            self.rectangularWall(y, h + t, "FfFf", move="right", label="Outer Side Left")
+            self.rectangularWall(y, h + t, "FfFf", move="right", label="Outer Side Right")
+        self.rectangularWall(y, h + t, "fFfF", move="up only")
 
         with self.saved_context():
             self.rectangularWall(y, h, "Aeee", move="right", label="Inner Side Left")
@@ -154,8 +156,7 @@ Add the top of the rails to the sides and the grip rail to the lid (still missin
         with self.saved_context():
             self.rectangularWall(y, t, "eefe", move="right", label="Lip Left")
             self.rectangularWall(y, t, "feee", move="right", label="Lip Right")
-        self.rectangularWall(y, t*2, "efee", move="up only")
+        self.rectangularWall(y, t * 2, "efee", move="up only")
 
         for i in range(self.num - 1):
             self.rectangularWall(h, y, "fAff", move="right", label="Divider")
-

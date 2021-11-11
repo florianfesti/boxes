@@ -16,6 +16,7 @@
 
 from boxes import *
 
+
 class FrontEdge(edges.Edge):
 
     def __call__(self, length, **kw):
@@ -24,13 +25,12 @@ class FrontEdge(edges.Edge):
         r = self.radius
         sw = self.slot_width
 
-        a = math.degrees(math.asin((r+sw/2)/(r+rh)))
-        l = (td - sw - 2*r) / 2
+        a = math.degrees(math.asin((r + sw / 2) / (r + rh)))
+        l = (td - sw - 2 * r) / 2
 
         for i in range(self.number):
-            self.polyline(l, (180-a, r), 0, (-360+2*a, rh), 0, (180-a, r), l)
-            
-        
+            self.polyline(l, (180 - a, r), 0, (-360 + 2 * a, rh), 0, (180 - a, r), l)
+
 
 class SlatwallChiselHolder(Boxes):
     """Slat wall tool holder for chisels, files and similar tools"""
@@ -46,25 +46,25 @@ class SlatwallChiselHolder(Boxes):
         self.buildArgParser(h=120)
 
         self.argparser.add_argument(
-            "--tooldiameter",  action="store", type=float, default=30.,
+            "--tooldiameter", action="store", type=float, default=30.,
             help="diameter of the tool including space to grab")
         self.argparser.add_argument(
-            "--holediameter",  action="store", type=float, default=30.,
+            "--holediameter", action="store", type=float, default=30.,
             help="diameter of the hole for the tool (handle should not fit through)")
         self.argparser.add_argument(
-            "--slot_width",  action="store", type=float, default=5.,
+            "--slot_width", action="store", type=float, default=5.,
             help="width of slots")
-        #self.argparser.add_argument(
-        #    "--angle",  action="store", type=float, default=0.,
+        # self.argparser.add_argument(
+        #    "--angle", action="store", type=float, default=0.,
         #    help="angle of the top - positive for leaning backwards")
         self.argparser.add_argument(
-            "--radius",  action="store", type=float, default=5.,
+            "--radius", action="store", type=float, default=5.,
             help="radius at the slots")
         self.argparser.add_argument(
-            "--number",  action="store", type=int, default=6,
+            "--number", action="store", type=int, default=6,
             help="number of tools/slots")
         self.argparser.add_argument(
-            "--hooks",  action="store", type=str, default="all",
+            "--hooks", action="store", type=str, default="all",
             choices=("all", "odds", "everythird"),
             help="amount of hooks / braces")
 
@@ -73,7 +73,7 @@ class SlatwallChiselHolder(Boxes):
         if i in (0, n):
             return True
         # fold for symmetry
-        #if i > n//2:
+        # if i > n//2:
         #    i = n - i
         if self.hooks == "all":
             return True
@@ -83,21 +83,21 @@ class SlatwallChiselHolder(Boxes):
             return not (i % 3)
 
     def braces(self):
-        return sum((self.brace(i) for i in range(self.number+1)))
+        return sum((self.brace(i) for i in range(self.number + 1)))
 
     def backCB(self):
         n = self.number
         rt = self.holediameter
         wt = self.tooldiameter
         t = self.thickness
-        
-        d = min(2*t, (wt-rt)/4.)
+
+        d = min(2 * t, (wt - rt) / 4.)
         self.slatWallHolesAt(d, 0, self.h, 90)
-        self.slatWallHolesAt(n*wt-d, 0, self.h, 90)
-        
+        self.slatWallHolesAt(n * wt - d, 0, self.h, 90)
+
         for i in range(1, n):
             if self.brace(i):
-                self.slatWallHolesAt(i*wt, 0, self.h, 90)
+                self.slatWallHolesAt(i * wt, 0, self.h, 90)
 
     def topCB(self):
         n = self.number
@@ -105,14 +105,14 @@ class SlatwallChiselHolder(Boxes):
         wt = self.tooldiameter
         t = self.thickness
         l = self.depth
-        
-        d = min(2*t, (wt-rt)/4.)
+
+        d = min(2 * t, (wt - rt) / 4.)
         self.fingerHolesAt(d, 0, l, 90)
-        self.fingerHolesAt(n*wt-d, 0, l, 90)
-        
+        self.fingerHolesAt(n * wt - d, 0, l, 90)
+
         for i in range(1, n):
             if self.brace(i):
-                self.fingerHolesAt(i*wt, 0, l, 90)
+                self.fingerHolesAt(i * wt, 0, l, 90)
 
     def render(self):
         # Add slat wall edges
@@ -121,14 +121,13 @@ class SlatwallChiselHolder(Boxes):
         s.edgeObjects(self)
         self.slatWallHolesAt = edges.SlatWallHoles(self, s)
 
-
         t = self.thickness
         wt = self.tooldiameter
         n = self.number
 
-        self.depth = depth = wt + 4*t
+        self.depth = depth = wt + 4 * t
 
-        self.rectangularWall(n*wt, self.h, "eeee", callback=[self.backCB], move="up")
-        self.rectangularWall(n*wt, depth, [FrontEdge(self, None), "e","e","e"], callback=[self.topCB], move="up")
+        self.rectangularWall(n * wt, self.h, "eeee", callback=[self.backCB], move="up")
+        self.rectangularWall(n * wt, depth, [FrontEdge(self, None), "e", "e", "e"], callback=[self.topCB], move="up")
         self.moveTo(0, t)
-        self.rectangularTriangle(depth, self.h, "fbe", r=3*t, num=self.braces())
+        self.rectangularTriangle(depth, self.h, "fbe", r=3 * t, num=self.braces())

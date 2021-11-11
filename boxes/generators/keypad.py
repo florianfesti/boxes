@@ -51,7 +51,7 @@ class Keypad(Boxes, Keyboard):
     def _get_x_y(self):
         """Gets the keypad's size based on the number of buttons."""
         spacing = self.btn_size + self.space_between_btn
-        border = 2*self.box_padding - self.space_between_btn
+        border = 2 * self.box_padding - self.space_between_btn
         x = len(self.columns_definition) * spacing + border
         y = max(offset + keys * spacing for (offset, keys) in self.columns_definition) + border
         return x, y

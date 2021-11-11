@@ -18,6 +18,7 @@ from boxes import *
 from boxes.edges import Bolts
 from boxes.lids import _TopEdge, _ChestLid
 
+
 class UniversalBox(_TopEdge, _ChestLid):
     """Box with various options for different styles and lids"""
 
@@ -25,18 +26,18 @@ class UniversalBox(_TopEdge, _ChestLid):
 
     def __init__(self):
         Boxes.__init__(self)
-        self.addTopEdgeSettings(roundedtriangle={"outset" : 1},
-                                hinge={"outset" : True})
+        self.addTopEdgeSettings(roundedtriangle={"outset": 1},
+                                hinge={"outset": True})
         self.addSettingsArgs(edges.FlexSettings)
         self.buildArgParser("top_edge", "bottom_edge",
                             "x", "y", "h", "outside")
         self.argparser.add_argument(
-            "--vertical_edges",  action="store", type=str,
+            "--vertical_edges", action="store", type=str,
             default="finger joints",
             choices=("finger joints", "finger holes"),
             help="connections used for the vertical edges")
         self.argparser.add_argument(
-            "--lid",  action="store", type=str, default="default (none)",
+            "--lid", action="store", type=str, default="default (none)",
             choices=("default (none)", "chest", "flat"),
             help="additional lid (for straight top_edge only)")
 
@@ -45,18 +46,20 @@ class UniversalBox(_TopEdge, _ChestLid):
 
         if top_edge == "f":
             edge = self.edges["F"]
-            self.moveTo(2*t+self.burn, 2*t, 90)
+            self.moveTo(2 * t + self.burn, 2 * t, 90)
         elif top_edge == "F":
             edge = self.edges["f"]
-            self.moveTo(t+self.burn, 2*t, 90)
+            self.moveTo(t + self.burn, 2 * t, 90)
         else:
             raise ValueError("Only f and F supported")
 
         for l in (y, x, y, x):
             edge(l)
-            if top_edge == "F": self.edge(t)
+            if top_edge == "F":
+                self.edge(t)
             self.corner(-90)
-            if top_edge == "F": self.edge(t)
+            if top_edge == "F":
+                self.edge(t)
 
     def render(self):
         x, y, h = self.x, self.y, self.h
@@ -89,7 +92,7 @@ class UniversalBox(_TopEdge, _ChestLid):
                 self.rectangularWall(x, y, "ffff", bedBolts=[d2, d3, d2, d3], move="up")
             if self.top_edge in "fF":
                 self.set_source_color(Color.RED)
-                self.rectangularWall(x+4*t, y+4*t, callback=[
+                self.rectangularWall(x + 4 * t, y + 4 * t, callback=[
                     lambda:self.top_hole(x, y, self.top_edge)], move="up")
                 self.set_source_color(Color.BLACK)
             self.drawLid(x, y, self.top_edge, [d2, d3])
@@ -104,5 +107,3 @@ class UniversalBox(_TopEdge, _ChestLid):
         self.rectangularWall(y, h, [b, "f", t4, "f"],
                              ignore_widths=[1, 6],
                              bedBolts=[d3], move="up")
-
-

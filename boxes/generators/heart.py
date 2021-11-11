@@ -16,6 +16,7 @@
 
 from boxes import *
 
+
 class HeartBox(Boxes):
     """Box in the form of an heart"""
 
@@ -24,25 +25,25 @@ class HeartBox(Boxes):
     def __init__(self):
         Boxes.__init__(self)
 
-        self.addSettingsArgs(edges.FingerJointSettings, finger=1.0,space=1.0)
+        self.addSettingsArgs(edges.FingerJointSettings, finger=1.0, space=1.0)
         self.addSettingsArgs(edges.FlexSettings)
         self.buildArgParser(x=150, h=50)
         self.argparser.add_argument(
-            "--top",  action="store", type=str, default="closed",
-            choices=["closed", "hole", "lid",],
+            "--top", action="store", type=str, default="closed",
+            choices=["closed", "hole", "lid", ],
             help="style of the top and lid")
 
     def CB(self):
         x = self.x
         t = self.thickness
 
-        l = 2/3. * x - t
-        r = l/2. - t
-        d = 2 *t
+        l = 2 / 3. * x - t
+        r = l / 2. - t
+        d = 2 * t
 
         if self.top == "closed":
             return
-        
+
         for i in range(2):
             self.moveTo(t, t)
             self.polyline((l, 2), (180, r), (d, 1), -90,
@@ -57,14 +58,14 @@ class HeartBox(Boxes):
         x, h = self.x, self.h
         t = self.thickness
 
-        l = 2/3. * x
-        r = l/2. - 0.5*t
-        
+        l = 2 / 3. * x
+        r = l / 2. - 0.5 * t
+
         borders = [l, (180, r), t, -90, t, (180, r), l, 90]
         self.polygonWalls(borders, h)
         self.rectangularWall(0, h, "FFFF", move="up only")
         self.polygonWall(borders, callback=[self.CB], move="right")
-        self.moveTo(-2*t)
+        self.moveTo(-2 * t)
         self.polygonWall(borders, move="mirror right")
         if self.top == "lid":
-            self.polygonWall([l+t, (180, r+t), 0, -90, 0, (180, r+t), l+t, 90], 'e')
+            self.polygonWall([l + t, (180, r + t), 0, -90, 0, (180, r + t), l + t, 90], 'e')

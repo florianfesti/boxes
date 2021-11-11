@@ -44,7 +44,7 @@ class JigsawPuzzle(Boxes):  # change class name here and below
     def edge(self, l):
         self.count += 1
         Boxes.edge(self, l)
-        # if (self.count % 2**5) == 0: #level == 3 and parity>0:
+        # if (self.count % 2**5) == 0:  #level == 3 and parity>0:
         #    self.corner(-360, 0.25*self.size/2**self.depth)
 
     def hilbert(self, level, parity=1):
@@ -71,7 +71,7 @@ class JigsawPuzzle(Boxes):  # change class name here and below
         # a final turn is needed to make the turtle
         # end up facing outward from the large square
         self.corner(parity * 90)
-        # if level == 3 and parity>0: # and random.random() < 100*0.5**(self.depth-2):
+        # if level == 3 and parity>0:  # and random.random() < 100*0.5**(self.depth-2):
         #  self.corner(-360, 0.4*self.size/2**self.depth)
         # with self.savedcontext():
         #     self.corner(parity*-90)
@@ -83,5 +83,3 @@ class JigsawPuzzle(Boxes):  # change class name here and below
         self.burn = 0.0
         self.moveTo(10, 10)
         self.hilbert(self.depth)
-
-

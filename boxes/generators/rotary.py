@@ -103,10 +103,10 @@ class Rotary(Boxes):
             "--knifethickness", action="store", type=float, default=8.,
             help="thickness of the knifes in mm. Use 0 for use with honey comb table.")
         self.argparser.add_argument(
-            "--beamwidth",  action="store", type=float, default=32.,
+            "--beamwidth", action="store", type=float, default=32.,
             help="width of the (aluminium) profile connecting the parts")
         self.argparser.add_argument(
-            "--beamheight",  action="store", type=float, default=7.1,
+            "--beamheight", action="store", type=float, default=7.1,
             help="height of the (aluminium) profile connecting the parts")
 
     def mainPlate(self):
@@ -115,13 +115,13 @@ class Rotary(Boxes):
         d = self.diameter
         a = self.axle
         bw, bh = self.beamwidth, self.beamheight
-        hh = 0.5 * d + bh + 2 # hole height
-        self.hole(1.0 * d, hh, a/2.)
-        #self.hole(1.0 * d, hh, d/2.)
-        self.hole(2.0 * d + 5, hh, a/2.)
-        #self.hole(2.0 * d + 5, hh, d/2.)
+        hh = 0.5 * d + bh + 2  # hole height
+        self.hole(1.0 * d, hh, a / 2.)
+        # self.hole(1.0 * d, hh, d/2.)
+        self.hole(2.0 * d + 5, hh, a / 2.)
+        # self.hole(2.0 * d + 5, hh, d/2.)
         # Main beam
-        self.rectangularHole(1.5*d+2.5, 0.5*bh, bw, bh)
+        self.rectangularHole(1.5 * d + 2.5, 0.5 * bh, bw, bh)
 
     def frontPlate(self):
         # Motor block inner side with motor mount
@@ -129,20 +129,20 @@ class Rotary(Boxes):
         d = self.diameter
         a = self.axle
         bw, bh = self.beamwidth, self.beamheight
-        hh = 0.5 * d + bh + 2 # hole height
-        self.hole(1.0 * d, hh, a/2.)
-        #self.hole(1.0 * d, hh, d/2.)
-        self.hole(2.0 * d + 5, hh, a/2.)
-        #self.hole(2.0 * d + 5, hh, d/2.)
+        hh = 0.5 * d + bh + 2  # hole height
+        self.hole(1.0 * d, hh, a / 2.)
+        # self.hole(1.0 * d, hh, d/2.)
+        self.hole(2.0 * d + 5, hh, a / 2.)
+        # self.hole(2.0 * d + 5, hh, d/2.)
         # Main beam
-        self.rectangularHole(1.5 * d+2.5, 0.5 * bh, bw, bh)
+        self.rectangularHole(1.5 * d + 2.5, 0.5 * bh, bw, bh)
         # Motor
         mx = 2.7 * d + 20
         self.rectangularHole(mx, hh, 36 + 20, 36, r=36 / 2.0)
 
         for x in (-1, 1):
-            for y in (-1,1):
-                self.rectangularHole(mx+x * 25, hh + y * 25, 20, 4, r=2)
+            for y in (-1, 1):
+                self.rectangularHole(mx + x * 25, hh + y * 25, 20, 4, r=2)
 
     def link(self, x, y, a, middleHole=False, move=None):
         t = self.thickness
@@ -212,26 +212,26 @@ class Rotary(Boxes):
 
         with self.saved_context():
             self.rectangularWall(hw, hh, edges="hFeF", callback=[
-                lambda: self.hole(hw / 2, hh - 20, 4)],move="right")
+                lambda: self.hole(hw / 2, hh - 20, 4)], move="right")
             self.rectangularWall(hw, hh, edges="hFeF", move="right")
             # Top
             th = self.th = 30
             #  sides
 
             self.rectangularWall(hw + 20, th, edges="fFeF", move="right",
-                    callback=[lambda: self.fingerHolesAt(20 - 0.5 * t, 0, th)])
+                                 callback=[lambda: self.fingerHolesAt(20 - 0.5 * t, 0, th)])
             self.rectangularWall(hw + 20, th, edges="fFeF", move="right",
-                    callback=[lambda: self.fingerHolesAt(20 - 0.5 * t, 0, th)])
+                                 callback=[lambda: self.fingerHolesAt(20 - 0.5 * t, 0, th)])
 
         self.rectangularWall(hw, hh, edges="hFeF", move="up only")
         outset = OutsetEdge(self, None)
         roller2 = RollerEdge2(self, None)
         self.rectangularWall(hl, th, edges=[roller2, "f", "e", "f"], callback=[
             lambda: self.hole(20, 15, a / 2), None, lambda: self.rectangularHole(50, th - 15, 70, a, r=a / 2)],
-                             move="up")
+            move="up")
         self.rectangularWall(hl, th, edges=[roller2, "f", "e", "f"], callback=[
             lambda: self.hole(20, 15, a / 2), None, lambda: self.rectangularHole(50, th - 15 - t, 70, a, r=a / 2)],
-                             move="up")
+            move="up")
         self.rectangularWall(hl, th, edges=[roller2, "f", RollerEdge(self, None), "f"], callback=[
             self.holderTopCB], move="up")
         self.rectangularWall(hl, 20 - t, edges="feee", move="up")
@@ -252,7 +252,7 @@ class Rotary(Boxes):
         with self.saved_context():
             self.rectangularWall(hw - 2 * t - 2, 60, edges="efef", move="right")
             self.rectangularWall(hw - 4 * t - 4, 60, edges="efef", move="right")
-            # Spindel auxiliaries 
+            # Spindel auxiliaries
             self.parts.waivyKnob(50, callback=lambda: self.nutHole("M8"), move="right")
             self.parts.waivyKnob(50, callback=lambda: self.nutHole("M8"), move="right")
 
@@ -261,42 +261,42 @@ class Rotary(Boxes):
         with self.saved_context():
             slot = edges.SlottedEdge(self, [(30 - t) / 2, (30 - t) / 2], slots=15)
             self.rectangularWall(30, 30, edges=["e", "e", slot, "e"],
-                callback=[lambda: self.hole(7, 23, self.axle / 2)], move="right")
+                                 callback=[lambda: self.hole(7, 23, self.axle / 2)], move="right")
             self.rectangularWall(30, 30, edges=["e", "e", slot, "e"],
-                callback=[lambda: self.hole(7, 23, self.axle / 2)], move="right")
+                                 callback=[lambda: self.hole(7, 23, self.axle / 2)], move="right")
             leftover = (hw - 6 * t - 6 - 20) / 2.0
             slot = edges.SlottedEdge(self, [leftover, 20, leftover], slots=15)
             self.rectangularWall(hw - 4 * t - 6, 30, edges=[slot, "e", "e", "e"],
-                             callback=[lambda: self.hole((hw - 4 * t - 6) / 2., 15, 4)], move="right")
+                                 callback=[lambda: self.hole((hw - 4 * t - 6) / 2., 15, 4)], move="right")
             for i in range(3):
                 self.rectangularWall(20, 30,
-                                 callback=[lambda: self.nutHole("M8", 10, 15)], move="right")
+                                     callback=[lambda: self.nutHole("M8", 10, 15)], move="right")
                 self.rectangularWall(20, 30,
                                      callback=[lambda: self.hole(10, 15, 4)], move="right")
 
         self.rectangularWall(30, 30, move="up only")
 
-        self.h = h = bh + 2 + 1.0 * d # height of outer pieces
+        self.h = h = bh + 2 + 1.0 * d  # height of outer pieces
         # Other side
         if self.knifethickness:
             ow = 10
             self.rectangularWall(3.6 * d, h, edges="hfFf", callback=[
                 lambda:self.rectangularHole(1.8 * d, 0.5 * bh, bw, bh)],
-                                 move="up")
+                move="up")
             self.rectangularWall(3.6 * d, h, edges="hfFf", callback=[
                 lambda:self.rectangularHole(1.8 * d, 0.5 * bh, bw, bh)],
-                                 move="up")
+                move="up")
             self.rectangularWall(3.6 * d, ow, edges="ffff", move="up")
             self.rectangularWall(3.6 * d, ow, edges="ffff", move="up")
             with self.saved_context():
                 self.rectangularWall(ow, h, edges="hFFH", move="right")
                 self.rectangularWall(ow, h, edges="hFFH", move="right")
             self.rectangularWall(ow, h, edges="hFFH", move="up only")
-        
+
         # Motor block
         mw = 40
-        self.rectangularWall(3.6 * d, h, edges=["h", "f", MotorEdge(self, None),"f"], callback=[self.mainPlate], move="up")
-        self.rectangularWall(3.6 * d, h, edges=["h", "f", MotorEdge(self, None),"f"], callback=[self.frontPlate], move="up")
+        self.rectangularWall(3.6 * d, h, edges=["h", "f", MotorEdge(self, None), "f"], callback=[self.mainPlate], move="up")
+        self.rectangularWall(3.6 * d, h, edges=["h", "f", MotorEdge(self, None), "f"], callback=[self.frontPlate], move="up")
         self.rectangularWall(3.6 * d, mw, edges="ffff", move="up")
         with self.saved_context():
             self.rectangularWall(mw, h, edges="hFeH", move="right")
@@ -324,6 +324,3 @@ class Rotary(Boxes):
                             hole=self.axle, move="right")
         self.parts.disc(self.diameter - 2 * self.rubberthickness + 4,
                         hole=self.axle, move="right up")
-
-
-

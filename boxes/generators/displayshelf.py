@@ -16,9 +16,10 @@
 
 from boxes import *
 
-class DisplayShelf(Boxes): # change class name here and below
+
+class DisplayShelf(Boxes):  # change class name here and below
     """Shelf with slanted floors"""
-    
+
     ui_group = "Shelf"
 
     def __init__(self):
@@ -28,29 +29,29 @@ class DisplayShelf(Boxes): # change class name here and below
 
         self.buildArgParser(x=400, y=100, h=300, outside=True)
         self.argparser.add_argument(
-            "--num",  action="store", type=int, default=3,
+            "--num", action="store", type=int, default=3,
             help="number of shelves")
         self.argparser.add_argument(
-            "--front",  action="store", type=float, default=20.0,
+            "--front", action="store", type=float, default=20.0,
             help="height of front walls")
         self.argparser.add_argument(
-            "--angle",  action="store", type=float, default=30.0,
+            "--angle", action="store", type=float, default=30.0,
             help="angle of floors (negative values for slanting backwards)")
 
     def side(self):
 
         t = self.thickness
         a = math.radians(self.angle)
-                
-        hs = (self.sl+t) * math.sin(a) + math.cos(a) * t
+
+        hs = (self.sl + t) * math.sin(a) + math.cos(a) * t
 
         for i in range(self.num):
-            pos_x = abs(0.5*t*math.sin(a))
-            pos_y = hs - math.cos(a)*0.5*t + i * (self.h-hs) / (self.num - 0.5)
+            pos_x = abs(0.5 * t * math.sin(a))
+            pos_y = hs - math.cos(a) * 0.5 * t + i * (self.h - hs) / (self.num - 0.5)
             self.fingerHolesAt(pos_x, pos_y, self.sl, -self.angle)
-            pos_x += math.cos(-a) * (self.sl+0.5*t) + math.sin(a)*0.5*t
-            pos_y += math.sin(-a) * (self.sl+0.5*t) + math.cos(a)*0.5*t
-            self.fingerHolesAt(pos_x, pos_y, self.front, 90-self.angle)
+            pos_x += math.cos(-a) * (self.sl + 0.5 * t) + math.sin(a) * 0.5 * t
+            pos_y += math.sin(-a) * (self.sl + 0.5 * t) + math.cos(a) * 0.5 * t
+            self.fingerHolesAt(pos_x, pos_y, self.front, 90 - self.angle)
 
     def render(self):
         # adjust to the variables you want in the local scope
@@ -60,12 +61,11 @@ class DisplayShelf(Boxes): # change class name here and below
 
         if self.outside:
             x = self.adjustSize(x)
-        
 
         a = math.radians(self.angle)
 
         self.sl = sl = (y - (t * (math.cos(a) + abs(math.sin(a)))) - max(0, math.sin(a) * f)) / math.cos(a)
-        
+
         # render your parts here
         self.rectangularWall(y, h, callback=[self.side], move="up")
         self.rectangularWall(y, h, callback=[self.side], move="up")
@@ -77,5 +77,3 @@ class DisplayShelf(Boxes): # change class name here and below
         else:
             for i in range(self.num):
                 self.rectangularWall(x, sl, "Efef", move="up")
-
-

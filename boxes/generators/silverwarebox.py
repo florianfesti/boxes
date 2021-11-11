@@ -25,7 +25,6 @@ class Silverware(Boxes):
 
     ui_group = "Unstable"
 
-
     def __init__(self):
         Boxes.__init__(self)
 
@@ -41,9 +40,8 @@ class Silverware(Boxes):
             "--handlewidth", action="store", type=int, default=120,
             help="Width of the handle")
 
-
     ####################################################################
-    ### Parts
+    # Parts
     ####################################################################
 
     def basePlate(self, x, y, r):
@@ -62,7 +60,7 @@ class Silverware(Boxes):
             3: lambda: self.fingerHolesAt(y / 2.0 - r, 0, h - 10),
             2: lambda: self.fingerHolesAt(x / 2.0 - r, 0, h - 10),
         },
-                             move="up")
+            move="up")
 
     @restore
     def centerWall(self, x, h):
@@ -83,7 +81,7 @@ class Silverware(Boxes):
         self.ctx.stroke()
 
     ##################################################
-    ### main
+    # main
     ##################################################
 
     def render(self):
@@ -106,4 +104,3 @@ class Silverware(Boxes):
 
         self.moveTo(-3.0 * (l + 2 * t + 8 * b), h - 10 + 2 * t + 8 * b)
         self.basePlate(x, y, r)
-

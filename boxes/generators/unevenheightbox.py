@@ -80,25 +80,22 @@ class UnevenHeightBox(Boxes):
 
             if self.lid:
                 maxh = max(heights)
-                lidheights = [maxh-h+self.lid_height for h in heights]
+                lidheights = [maxh - h + self.lid_height for h in heights]
                 h0, h1, h2, h3 = lidheights
                 lidheights += lidheights
-                edges = ["E" if (lidheights[i] == 0.0 and lidheights[i+1] == 0.0) else "f" for i in range(4)]
+                edges = ["E" if (lidheights[i] == 0.0 and lidheights[i + 1] == 0.0) else "f" for i in range(4)]
                 self.rectangularWall(x, y, edges, move="up")
 
         if self.lid:
-            self.moveTo(0, maxh+self.lid_height+self.edges["F"].spacing()+self.edges[b].spacing()+1*self.spacing, 180)
+            self.moveTo(0, maxh + self.lid_height + self.edges["F"].spacing() + self.edges[b].spacing() + 1 * self.spacing, 180)
             edge_inverse = {"e": "e", "z": "Z", "Z": "z"}
             edge_types = [edge_inverse[et] for et in edge_types]
 
-            self.trapezoidWall(y, h0, h3, "Ff" + edge_types[3] + "f", move="right" +
-                      (" only" if h0 == h3 == 0.0 else ""))
-            self.trapezoidWall(x, h3, h2, "FF" + edge_types[2] + "F", move="right" +
-                      (" only" if h3 == h2 == 0.0 else ""))
-            self.trapezoidWall(y, h2, h1, "Ff" + edge_types[1] + "f", move="right" +
-                      (" only" if h2 == h1 == 0.0 else ""))
-            self.trapezoidWall(x, h1, h0, "FF" + edge_types[0] + "F", move="right" +
-                      (" only" if h1 == h0 == 0.0 else ""))
-
-
-
+            self.trapezoidWall(y, h0, h3, "Ff" + edge_types[3] + "f", move="right"
+                               + (" only" if h0 == h3 == 0.0 else ""))
+            self.trapezoidWall(x, h3, h2, "FF" + edge_types[2] + "F", move="right"
+                               + (" only" if h3 == h2 == 0.0 else ""))
+            self.trapezoidWall(y, h2, h1, "Ff" + edge_types[1] + "f", move="right"
+                               + (" only" if h2 == h1 == 0.0 else ""))
+            self.trapezoidWall(x, h1, h0, "FF" + edge_types[0] + "F", move="right"
+                               + (" only" if h1 == h0 == 0.0 else ""))

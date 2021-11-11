@@ -16,6 +16,7 @@
 
 from boxes import *
 
+
 class HexHoles(Boxes):
     """Hexagonal pattern of holes for ventilation"""
 
@@ -26,10 +27,10 @@ class HexHoles(Boxes):
 
         self.addSettingsArgs(HexHolesSettings)
         self.argparser.add_argument(
-            "--width",  action="store", type=float, default=100.,
+            "--width", action="store", type=float, default=100.,
             help="width of the hole pattern (in mm)")
         self.argparser.add_argument(
-            "--height",  action="store", type=float, default=100.,
+            "--height", action="store", type=float, default=100.,
             help="height of the hole pattern (in mm)")
 
     def render(self):

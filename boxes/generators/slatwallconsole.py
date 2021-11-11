@@ -16,6 +16,7 @@
 
 from boxes import *
 
+
 class SlatwallConsole(Boxes):
     """Outset and angled plate to mount stuff to"""
 
@@ -30,10 +31,10 @@ class SlatwallConsole(Boxes):
         self.buildArgParser(sx=100, h=100, outside=True)
 
         self.argparser.add_argument(
-            "--top_depth",  action="store", type=float, default=50,
+            "--top_depth", action="store", type=float, default=50,
             help="depth at the top")
         self.argparser.add_argument(
-            "--bottom_depth",  action="store", type=float, default=35,
+            "--bottom_depth", action="store", type=float, default=35,
             help="depth at the bottom")
 
     def backHoles(self):
@@ -55,7 +56,6 @@ class SlatwallConsole(Boxes):
         s.edgeObjects(self)
         self.slatWallHolesAt = edges.SlatWallHoles(self, s)
 
-
         if self.outside:
             self.sx = self.adjustSize(self.sx)
             self.h = self.adjustSize(self.h)
@@ -65,12 +65,12 @@ class SlatwallConsole(Boxes):
         td = self.top_depth
         bd = self.bottom_depth
 
-        self.front = (h**2 + (td-bd)**2)**0.5
-            
+        self.front = (h**2 + (td - bd)**2)**0.5
+
         self.rectangularWall(x, h, "eCec", callback=[self.backHoles],
                              move="up")
         self.rectangularWall(x, self.front, "eFeF",
                              callback=[self.frontHoles], move="up")
 
-        for i in range(len(self.sx)+1):
+        for i in range(len(self.sx) + 1):
             self.trapezoidWall(h, td, bd, "befe", move="up")

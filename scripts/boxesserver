@@ -40,6 +40,7 @@ except ImportError:
     sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
     import boxes.generators
 
+
 class FileChecker(threading.Thread):
     def __init__(self, files=[], checkmodules=True):
         super(FileChecker, self).__init__()
@@ -56,7 +57,7 @@ class FileChecker(threading.Thread):
             if not path:
                 continue
             if path not in self.timestamps:
-                 self.timestamps[path] = os.stat(path).st_mtime
+                self.timestamps[path] = os.stat(path).st_mtime
 
     def filesOK(self):
         if self.checkmodules:
@@ -75,19 +76,25 @@ class FileChecker(threading.Thread):
                 os.execv(__file__, sys.argv)
             time.sleep(1)
 
-class ArgumentParserError(Exception): pass
+
+class ArgumentParserError(Exception):
+    pass
+
 
 class ThrowingArgumentParser(argparse.ArgumentParser):
     def error(self, message):
         raise ArgumentParserError(message)
-boxes.ArgumentParser = ThrowingArgumentParser # Evil hack
+
+
+boxes.ArgumentParser = ThrowingArgumentParser  # Evil hack
+
 
 class BServer:
 
     lang_re = re.compile(r"([a-z]{2,3}(-[-a-zA-Z0-9]*)?)\s*(;\s*q=(\d\.?\d*))?")
 
     def __init__(self):
-        self.boxes = {b.__name__ : b for b in boxes.generators.getAllBoxGenerators().values() if b.webinterface}
+        self.boxes = {b.__name__: b for b in boxes.generators.getAllBoxGenerators().values() if b.webinterface}
         self.boxes['TrayLayout2'] = boxes.generators.traylayout.TrayLayout2
         self.groups = boxes.generators.ui_groups
         self.groups_by_name = boxes.generators.ui_groups_by_name
@@ -147,25 +154,25 @@ class BServer:
         except OSError:
             return gettext.translation('boxes.py', languages=langs, fallback=True)
 
-    def arg2html(self, a, prefix, defaults={}, _=lambda s:s):
+    def arg2html(self, a, prefix, defaults={}, _=lambda s: s):
         name = a.option_strings[0].replace("-", "")
         if isinstance(a, argparse._HelpAction):
             return ""
         viewname = name
         if prefix and name.startswith(prefix + '_'):
-            viewname = name[len(prefix)+1:]
+            viewname = name[len(prefix) + 1:]
 
         default = defaults.get(name, None)
 
         row = """<tr><td>%s</td><td>%%s</td><td>%s</td></tr>\n""" % \
               (_(viewname), "" if not a.help else _(a.help))
-        if (isinstance(a, argparse._StoreAction) and
-            hasattr(a.type, "html")):
+        if (isinstance(a, argparse._StoreAction)
+           and hasattr(a.type, "html")):
             input = a.type.html(name, default or a.default, _)
         elif a.dest == "layout":
             val = (default or a.default).split("\n")
             input = """<textarea name="%s" cols="%s" rows="%s">%s</textarea>""" % \
-                    (name, max((len(l) for l in val))+10, len(val)+1, default or a.default)
+                    (name, max((len(l) for l in val)) + 10, len(val) + 1, default or a.default)
         elif a.choices:
             options = "\n".join(
                 ("""<option value="%s"%s>%s</option>""" %
@@ -173,8 +180,8 @@ class BServer:
                   _(e)) for e in a.choices))
             input = """<select name="%s" size="1">\n%s</select>\n""" % (name, options)
         else:
-            input =  """<input name="%s" type="text" value="%s">""" % \
-            (name, default or a.default)
+            input = """<input name="%s" type="text" value="%s">""" % \
+                (name, default or a.default)
 
         return row % input
 
@@ -214,13 +221,13 @@ class BServer:
     <link rel="icon" type="image/svg+xml" href="static/boxes-logo.svg" sizes="any">
     <link rel="shortcut icon" type="image/x-icon" href="static/favicon.ico">
     <link rel="stylesheet" href="static/self.css" type="text/css" />
-""", self.scripts % (len(box.argparser._action_groups)-3), """
+""", self.scripts % (len(box.argparser._action_groups) - 3), """
    <meta name="flattr:id" content="456799">
 </head>
 <body onload="hideargs()">
 
 
-<div class="container" style="background-color: #FFF8EA;">
+<div class="container" style="background-color:  #FFF8EA;">
 <div style="float: left;">
 <a href="./""" + langparam + '"><h1>' + _("Boxes.py") + """</h1></a>
 </div>
@@ -282,7 +289,7 @@ class BServer:
 </div>
 """ + self.footer(lang) + """</body>
 </html>
-        """ )
+        """)
         return (s.encode("utf-8") for s in result)
 
     def menu(self, lang):
@@ -301,20 +308,20 @@ class BServer:
     <link rel="shortcut icon" type="image/x-icon" href="static/favicon.ico">
     <link rel="stylesheet" href="static/self.css" type="text/css" />
     <script>
-	function change(group, img_link){
-	  document.getElementById("sample-"+group).src = img_link;
-	  document.getElementById("sample-"+group).style.height = "auto";
-	}
+    function change(group, img_link){
+      document.getElementById("sample-"+group).src = img_link;
+      document.getElementById("sample-"+group).style.height = "auto";
+    }
 
-	function changeback(group){
-	  document.getElementById("sample-" + group).src= "static/nothing.png";
-	  document.getElementById("sample-" + group).style.height= "0px";
-	}
+    function changeback(group){
+      document.getElementById("sample-" + group).src= "static/nothing.png";
+      document.getElementById("sample-" + group).style.height= "0px";
+    }
         </script>""", self.scripts % len(self.groups), """
      <meta name="flattr:id" content="456799">
 </head>
 <body onload="hideargs()">
-<div class="container" style="background-color: #FFF8EA;">
+<div class="container" style="background-color:  #FFF8EA;">
 <div style="width: 75%; float: left;">
 <h1>""" + _("Boxes.py") + """</h1>
 <p>
@@ -334,7 +341,7 @@ class BServer:
 <div class="clear"></div>
 <hr />
 <div class="menu" style="width: 100%">
-""" ]
+"""]
         for nr, group in enumerate(self.groups):
             result.append(f'''
 <h3 id="h-{nr}" class="open" onclick="showHide('{nr}')"
@@ -367,22 +374,21 @@ class BServer:
 """)
         return (s.encode("utf-8") for s in result)
 
-
     def footer(self, lang):
         _ = lang.gettext
         language = lang.info().get('language', '')
         return """
 <div class="footer container">
-<ul>
-  <li><form><select name="language" onchange='if(this.value != "%s") { this.form.submit(); }'>""" % language + \
-      ("<option value='' selected></option>" if not language else "") + \
-    "\n".join(
-      ("<option value='%s' %s>%s</option>" % (l, "selected" if l==language else "", l)
-       for l in self.getLanguages())) + """
+  <ul>
+    <li><form><select name="language" onchange='if(this.value != "%s") { this.form.submit(); }'>""" % language + \
+            ("<option value='' selected></option>" if not language else "") \
+            + "\n".join(
+                ("<option value='%s' %s>%s</option>" % (l, "selected" if l == language else "", l)
+                    for l in self.getLanguages())) + """
   </select></form></li>
-  <li><a href="https://github.com/florianfesti/boxes">""" + _("Get Source at GitHub") + """</a></li>
-  <li><a href="https://florianfesti.github.io/boxes/html/index.html">""" + _("Documentation and API Description") + """</a></li>
-  <li><a href="https://hackaday.io/project/10649-boxespy">""" + _("Hackaday.io Project Page") + """</a></li>
+    <li><a href="https://github.com/florianfesti/boxes">""" + _("Get Source at GitHub") + """</a></li>
+    <li><a href="https://florianfesti.github.io/boxes/html/index.html">""" + _("Documentation and API Description") + """</a></li>
+    <li><a href="https://hackaday.io/project/10649-boxespy">""" + _("Hackaday.io Project Page") + """</a></li>
 </ul>
 </div>
 """
@@ -391,23 +397,23 @@ class BServer:
         return [
             ("""<html>
 <head>
-  <title>""" +  _("Error generating %s") % _(name) +
-            """</title>
+  <title>""" + _("Error generating %s") % _(name)
+             + """</title>
   <meta name="flattr:id" content="456799">
 </head>
 <body>
-<h1>""" + _("An error occurred!") + "</h1>" +
-"".join(u"<p>%s</p>" % html.escape(s) for s in type(u"")(e).split(u"\n")) +
-"""
+<h1>""" + _("An error occurred!") + "</h1>"
+                + "".join(u"<p>%s</p>" % html.escape(s) for s in type(u"")(e).split(u"\n"))
+                + """
 </body>
 </html>
-""").encode("utf-8") ]
+""").encode("utf-8")]
 
     def serveStatic(self, environ, start_response):
         filename = environ["PATH_INFO"][len("/static/"):]
         path = os.path.join(self.staticdir, filename)
-        if (not re.match(r"[a-zA-Z0-9_/-]+\.[a-zA-Z0-9]+", filename) or
-            not os.path.exists(path)):
+        if (not re.match(r"[a-zA-Z0-9_/-]+\.[a-zA-Z0-9]+", filename)
+                or not os.path.exists(path)):
             if re.match(r"samples/.*-thumb.jpg", filename):
                 path = os.path.join(self.staticdir, "nothing.png")
             else:
@@ -427,10 +433,10 @@ class BServer:
             start_response("200 OK", [('Content-type', "%s; charset=%s" % (type_, encoding))])
 
         f = open(path, 'rb')
-        return environ['wsgi.file_wrapper'](f, 512*1024)
+        return environ['wsgi.file_wrapper'](f, 512 * 1024)
 
     def getURL(self, environ):
-        url = environ['wsgi.url_scheme']+'://'
+        url = environ['wsgi.url_scheme'] + '://'
 
         if environ.get('HTTP_HOST'):
             url += environ['HTTP_HOST']
@@ -455,7 +461,13 @@ class BServer:
             return self.serveStatic(environ, start_response)
 
         status = '200 OK'
-        headers = [('Content-type', 'text/html; charset=utf-8'), ('X-XSS-Protection', '1; mode=block'), ('X-Content-Type-Options', 'nosniff'), ('x-frame-options', 'SAMEORIGIN'), ('Referrer-Policy', 'no-referrer')]
+        headers = [
+            ('Content-type', 'text/html; charset=utf-8'),
+            ('X-XSS-Protection', '1; mode=block'),
+            ('X-Content-Type-Options', 'nosniff'),
+            ('x-frame-options', 'SAMEORIGIN'),
+            ('Referrer-Policy', 'no-referrer')
+        ]
 
         d = parse_qs(environ.get('QUERY_STRING', ''))
         name = environ["PATH_INFO"][1:]
@@ -476,7 +488,7 @@ class BServer:
             box = box_cls()
 
         if "render=1" not in args:
-            defaults = { }
+            defaults = {}
             for a in args:
                 kv = a.split('=')
                 if len(kv) == 2:
@@ -485,7 +497,7 @@ class BServer:
             start_response(status, headers)
             return self.args2html(name, box, lang, "./" + name, defaults=defaults)
         else:
-            args = ["--"+ arg for arg in args if arg != "render=1"]
+            args = ["--" + arg for arg in args if arg != "render=1"]
             try:
                 box.parseArgs(args)
             except (ArgumentParserError) as e:
@@ -535,7 +547,7 @@ class BServer:
             return (l for l in result)
 
 
-if __name__=="__main__":
+if __name__ == "__main__":
     if len(sys.argv) > 1:
         port = int(sys.argv[1])
     else:
@@ -544,9 +556,7 @@ if __name__=="__main__":
     fc.start()
     boxserver = BServer()
     httpd = make_server('', port, boxserver.serve)
-    print("BoxesServer serving on port %s..." %port)
+    print("BoxesServer serving on port %s..." % port)
     httpd.serve_forever()
 else:
     application = BServer().serve
-
-

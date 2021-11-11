@@ -20,6 +20,7 @@ import tempfile
 import os
 from boxes.drawing import SVGSurface, PSSurface, Context
 
+
 class Formats:
 
     pstoedit = "/usr/bin/pstoedit"
@@ -77,7 +78,7 @@ class Formats:
                 # XXX show stderr output
                 try:
                     os.unlink(tmpfile)
-                except:
+                except Exception:
                     pass
                 raise ValueError("Conversion failed. pstoedit returned %i" % err)
 

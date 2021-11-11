@@ -18,6 +18,7 @@ from boxes import *
 from boxes.lids import _TopEdge, _ChestLid
 import math
 
+
 class UBox(_TopEdge, _ChestLid):
     """Box various options for different stypes and lids"""
 
@@ -29,10 +30,10 @@ class UBox(_TopEdge, _ChestLid):
         self.addSettingsArgs(edges.FlexSettings)
         self.buildArgParser("top_edge", "x", "y", "h")
         self.argparser.add_argument(
-            "--radius",  action="store", type=float, default=30.0,
+            "--radius", action="store", type=float, default=30.0,
             help="radius of bottom corners")
         self.argparser.add_argument(
-            "--lid",  action="store", type=str, default="default (none)",
+            "--lid", action="store", type=str, default="default (none)",
             choices=("default (none)", "chest", "flat"),
             help="additional lid")
         self.angle = 0
@@ -42,19 +43,19 @@ class UBox(_TopEdge, _ChestLid):
         e = self.edges.get(edge, edge)
 
         w = self.edges["f"].spacing()
-        tw = x+2*w
-        th = y+w+e.spacing()
+        tw = x + 2 * w
+        th = y + w + e.spacing()
         if self.move(tw, th, move, True):
             return
 
-        self.moveTo(w+r, w)
-        self.edges["f"](x-2*r)
+        self.moveTo(w + r, w)
+        self.edges["f"](x - 2 * r)
         self.corner(90, r)
-        self.edges["f"](y-r)
+        self.edges["f"](y - r)
         self.edgeCorner("f", e)
         e(x)
         self.edgeCorner(e, "f")
-        self.edges["f"](y-r)
+        self.edges["f"](y - r)
         self.corner(90, r)
 
         self.move(tw, th, move)
@@ -64,35 +65,34 @@ class UBox(_TopEdge, _ChestLid):
         e = [self.edges.get(edge, edge) for edge in edges]
 
         w = self.edges["F"].spacing()
-        cl = r*math.pi/2
+        cl = r * math.pi / 2
 
-        tw = 2*y + x - 4*(cl-r) + e[0].spacing() + e[1].spacing()
-        th = h + 2*w
+        tw = 2 * y + x - 4 * (cl - r) + e[0].spacing() + e[1].spacing()
+        th = h + 2 * w
         if self.move(tw, th, move, True):
             return
 
         self.moveTo(e[0].spacing())
 
         for nr, flex in enumerate("XE"):
-            self.edges["F"](y-r)
-            if x-2*r > 0.1 * self.thickness:
+            self.edges["F"](y - r)
+            if x - 2 * r > 0.1 * self.thickness:
                 self.edges[flex](cl, h=th)
-                self.edges["F"](x-2*r)
+                self.edges["F"](x - 2 * r)
                 self.edges[flex](cl, h=th)
             else:
-                self.edges[flex](2*cl+x-2*r, h=th)
-            self.edges["F"](y-r)
+                self.edges[flex](2 * cl + x - 2 * r, h=th)
+            self.edges["F"](y - r)
             self.edgeCorner("F", e[nr])
             e[nr](h)
             self.edgeCorner(e[nr], "F")
-        
+
         self.move(tw, th, move)
 
     def render(self):
         x, y, h, r = self.x, self.y, self.h, self.radius
 
-        self.radius = r = min(r, x/2.0, y)
-
+        self.radius = r = min(r, x / 2.0, y)
 
         t1, t2, t3, t4 = self.topEdges(self.top_edge)
 
@@ -103,5 +103,3 @@ class UBox(_TopEdge, _ChestLid):
 
         self.drawLid(x, h, self.top_edge)
         self.drawAddOnLid(x, h, self.lid)
-
-

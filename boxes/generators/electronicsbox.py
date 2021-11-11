@@ -47,53 +47,50 @@ class ElectronicsBox(Boxes):
 
     def wallxCB(self):
         t = self.thickness
-        self.fingerHolesAt(0, self.h-1.5*t, self.triangle, 0)
-        self.fingerHolesAt(self.x, self.h-1.5*t, self.triangle, 180)
-        
+        self.fingerHolesAt(0, self.h - 1.5 * t, self.triangle, 0)
+        self.fingerHolesAt(self.x, self.h - 1.5 * t, self.triangle, 180)
+
     def wallyCB(self):
         t = self.thickness
-        self.fingerHolesAt(0, self.h-1.5*t, self.triangle, 0)
-        self.fingerHolesAt(self.y, self.h-1.5*t, self.triangle, 180)
-        
+        self.fingerHolesAt(0, self.h - 1.5 * t, self.triangle, 0)
+        self.fingerHolesAt(self.y, self.h - 1.5 * t, self.triangle, 180)
+
     def render(self):
 
         t = self.thickness
-        self.h = h = self.h + 2*t # compensate for lid
+        self.h = h = self.h + 2 * t  # compensate for lid
         x, y, h = self.x, self.y, self.h
-        d1, d2, d3 =self.d1, self.d2, self.d3
+        d1, d2, d3 = self.d1, self.d2, self.d3
         hd = self.holedist
         tr = self.triangle
         trh = tr / 3.
-        
+
         if self.outside:
             self.x = x = self.adjustSize(x)
             self.y = y = self.adjustSize(y)
-            self.h = h = h - 3*t
+            self.h = h = h - 3 * t
 
         self.rectangularWall(x, h, "fFeF", callback=[self.wallxCB],
                              move="right", label="Wall 1")
         self.rectangularWall(y, h, "ffef", callback=[self.wallyCB],
                              move="up", label="Wall 2")
-        self.rectangularWall(y, h, "ffef", callback=[self.wallyCB], 
+        self.rectangularWall(y, h, "ffef", callback=[self.wallyCB],
                              label="Wall 4")
         self.rectangularWall(x, h, "fFeF", callback=[self.wallxCB],
                              move="left up", label="Wall 3")
 
         if not self.outsidemounts:
             self.rectangularWall(x, y, "FFFF", callback=[
-            lambda:self.hole(hd, hd, d=d3)] *4, move="right",
-            label="Bottom")
+                lambda:self.hole(hd, hd, d=d3)] * 4, move="right",
+                label="Bottom")
         else:
             self.flangedWall(x, y, edges="FFFF",
-                             flanges=[0.0, 2*hd, 0., 2*hd], r=hd,
+                             flanges=[0.0, 2 * hd, 0., 2 * hd], r=hd,
                              callback=[
-                    lambda:self.hole(hd, hd, d=d3)] * 4, move='up',
-                    label="Bottom")
+                                 lambda:self.hole(hd, hd, d=d3)] * 4, move='up',
+                             label="Bottom")
         self.rectangularWall(x, y, callback=[
             lambda:self.hole(trh, trh, d=d2)] * 4, move='up', label="Top")
 
         self.rectangularTriangle(tr, tr, "ffe", num=4,
-            callback=[None, lambda: self.hole(trh, trh, d=d1)])
-
-
-
+                                 callback=[None, lambda: self.hole(trh, trh, d=d1)])

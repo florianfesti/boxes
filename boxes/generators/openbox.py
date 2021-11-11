@@ -16,6 +16,7 @@
 
 from boxes import *
 
+
 class OpenBox(Boxes):
     """Box with top and front open"""
 

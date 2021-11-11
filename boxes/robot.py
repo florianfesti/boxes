@@ -9,6 +9,7 @@ __all__ = [
     "RobotArmMu",
 ]
 
+
 class RobotArg:
 
     def __init__(self, includenone=False):
@@ -43,73 +44,79 @@ class _RobotArm:
         """Hack for easy access of Boxes methods"""
         return getattr(self.boxes, name)
 
+
 class RobotArmMM(_RobotArm):
     """Robot arm segment with two parallel servos"""
+
     def __call__(self, length, move=None):
         t = self.thickness
         w = self.servo.height
-        l = max(self.servo.length * 2, length + 2*self.servo.axle_pos)
+        l = max(self.servo.length * 2, length + 2 * self.servo.axle_pos)
 
-        th = max(2 * t + l, 2*w + 4*t + self.spacing)
-        tw = 5 * (w + 2*self.thickness + self.spacing)
+        th = max(2 * t + l, 2 * w + 4 * t + self.spacing)
+        tw = 5 * (w + 2 * self.thickness + self.spacing)
 
         if self.move(tw, th, move, True):
             return
 
         self.rectangularWall(w, l, "FfFf", callback=[
-            lambda:self.servo.top(w/2), None,
-            lambda:self.servo.top(w/2)], move="right")
+            lambda:self.servo.top(w / 2), None,
+            lambda:self.servo.top(w / 2)], move="right")
         self.rectangularWall(w, l, "FfFf", callback=[
-            lambda:self.servo.bottom(w/2), None,
-            lambda:self.servo.bottom(w/2)], move="right")
+            lambda:self.servo.bottom(w / 2), None,
+            lambda:self.servo.bottom(w / 2)], move="right")
         self.rectangularWall(w, l, "FFFF", move="right")
         self.rectangularWall(w, l, "FFFF", move="right")
         self.rectangularWall(w, w, "ffff", callback=[
-            lambda:self.servo.front(w/2)], move="up")
+            lambda:self.servo.front(w / 2)], move="up")
         self.rectangularWall(w, w, "ffff", callback=[
-            lambda:self.servo.front(w/2)], move="")
+            lambda:self.servo.front(w / 2)], move="")
 
         self.move(tw, th, move)
 
+
 class RobotArmMm(_RobotArm):
     """Robot arm segment with two orthogonal servos"""
+
     def __call__(self, length, move=None):
         t = self.thickness
         w = self.servo.height
         w2 = self.servo2.height
-        l = max(self.servo.length * 2, length + 2*self.servo.axle_pos)
+        l = max(self.servo.length * 2, length + 2 * self.servo.axle_pos)
 
-        th = max(2 * self.thickness + l, w + w2 + 4*t + self.spacing)
-        tw = 5 * (max(w, w2) + 2*self.thickness + self.spacing)
+        th = max(2 * self.thickness + l, w + w2 + 4 * t + self.spacing)
+        tw = 5 * (max(w, w2) + 2 * self.thickness + self.spacing)
 
         if self.move(tw, th, move, True):
             return
 
         self.rectangularWall(w2, l, "FfFf", callback=[
-            lambda:self.servo.top(w2/2)], move="right")
+            lambda:self.servo.top(w2 / 2)], move="right")
         self.rectangularWall(w2, l, "FfFf", callback=[
-            lambda:self.servo.bottom(w2/2)], move="right")
+            lambda:self.servo.bottom(w2 / 2)], move="right")
         self.rectangularWall(w, l, "FFFF", callback=[
-            None, None, lambda:self.servo2.top(w/2)], move="right")
+            None, None, lambda:self.servo2.top(w / 2)], move="right")
         self.rectangularWall(w, l, "FFFF", callback=[
-            None, None, lambda:self.servo2.bottom(w/2)], move="right")
+            None, None, lambda:self.servo2.bottom(w / 2)], move="right")
         self.rectangularWall(w2, w, "ffff", callback=[
-            lambda:self.servo.front(w2/2)], move="up")
+            lambda:self.servo.front(w2 / 2)], move="up")
         self.rectangularWall(w, w2, "ffff", callback=[
-            lambda:self.servo2.front(w/2)], move="")
+            lambda:self.servo2.front(w / 2)], move="")
 
         self.move(tw, th, move)
 
+
 class RobotArmUU(_RobotArm):
     """Robot arm segment with two parallel sets of hinge knuckles"""
+
     def __call__(self, length, move=None):
         t = self.thickness
         w = self.servo.hinge_width()
-        l = max(4*self.thickness, length - 2*t - 2*self.servo.height)
+        l = max(4 * self.thickness, length - 2 * t - 2 * self.servo.height)
 
         th = max(2 * self.servo._edges["m"].spacing() + l,
-                 2*w + 4*t + self.spacing)
-        tw = 5 * (w + 2*self.thickness + self.spacing)
+                 2 * w + 4 * t + self.spacing)
+        tw = 5 * (w + 2 * self.thickness + self.spacing)
 
         if self.move(tw, th, move, True):
             return
@@ -121,23 +128,25 @@ class RobotArmUU(_RobotArm):
         self.rectangularWall(w, l, "FfFf", move="right")
         self.rectangularWall(w, l, "FfFf", move="right")
         self.rectangularWall(w, w, "ffff", callback=[
-            lambda: self.hole(w/2, w/2, 6)], move="up")
+            lambda: self.hole(w / 2, w / 2, 6)], move="up")
         self.rectangularWall(w, w, "ffff", callback=[
-            lambda: self.hole(w/2, w/2, 6)], move="")
+            lambda: self.hole(w / 2, w / 2, 6)], move="")
 
         self.move(tw, th, move)
 
+
 class RobotArmUu(_RobotArm):
     """Robot arm segment with two orthogonal sets of hinge knuckles"""
+
     def __call__(self, length, move=None):
         t = self.thickness
         w = self.servo.hinge_width()
         w2 = self.servo2.hinge_width()
-        l = max(4*self.thickness, length - 2*t - 2*self.servo.height)
+        l = max(4 * self.thickness, length - 2 * t - 2 * self.servo.height)
 
         th = max(self.thickness + self.servo._edges["m"].spacing() + l,
-                 2*w + self.thickness + 4 * self.edges["f"].spacing())
-        tw = 5 * (w + 2*self.thickness + self.spacing)
+                 2 * w + self.thickness + 4 * self.edges["f"].spacing())
+        tw = 5 * (w + 2 * self.thickness + self.spacing)
 
         if self.move(tw, th, move, True):
             return
@@ -148,14 +157,16 @@ class RobotArmUu(_RobotArm):
         self.rectangularWall(w, l, e("FFmF"), ignore_widths=iw, move="right")
         self.rectangularWall(w, l, e("FFMF"), ignore_widths=iw, move="right")
         self.rectangularWall(w2, w, "ffff", callback=[
-                        lambda: self.hole(w2/2, w/2, 6)], move="up")
+            lambda: self.hole(w2 / 2, w / 2, 6)], move="up")
         self.rectangularWall(w2, w, "ffff", callback=[
-                        lambda: self.hole(w2/2, w/2, 6)], move="")
+            lambda: self.hole(w2 / 2, w / 2, 6)], move="")
 
         self.move(tw, th, move)
 
+
 class RobotArmMu(_RobotArm):
     """Robot arm segment with a servo and an orthogonal sets of hinge knuckles"""
+
     def __call__(self, length, move=None):
         t = self.thickness
         w = self.servo.height
@@ -164,7 +175,7 @@ class RobotArmMu(_RobotArm):
 
         th = max(t + l + self.servo2._edges["m"].spacing(),
                  w + w2 + self.thickness + 4 * self.edges["f"].spacing())
-        tw = 5 * (w + 2*self.thickness + self.spacing)
+        tw = 5 * (w + 2 * self.thickness + self.spacing)
 
         if self.move(tw, th, move, True):
             return
@@ -172,15 +183,15 @@ class RobotArmMu(_RobotArm):
         e = self.servo2.edges
         iw = (3, 4)
         self.rectangularWall(w2, l, "FfFf", callback=[
-            lambda:self.servo.top(w2/2)], move="right")
+            lambda:self.servo.top(w2 / 2)], move="right")
         self.rectangularWall(w2, l, "FfFf", callback=[
-            lambda:self.servo.bottom(w2/2)], move="right")
+            lambda:self.servo.bottom(w2 / 2)], move="right")
         self.rectangularWall(w, l, e("FFmF"), ignore_widths=iw, move="right")
         self.rectangularWall(w, l, e("FFMF"), ignore_widths=iw, move="right")
         self.rectangularWall(w2, w, "ffff", callback=[
-            lambda:self.servo.front(w2/2)], move="up")
+            lambda:self.servo.front(w2 / 2)], move="up")
         self.rectangularWall(w2, w, "ffff", callback=[
-            lambda: self.hole(w2/2, w/2, 6)], move="")
+            lambda: self.hole(w2 / 2, w / 2, 6)], move="")
 
         self.move(tw, th, move)
 

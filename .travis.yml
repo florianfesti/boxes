@@ -9,7 +9,7 @@ cache:
 branches:
   only:
     - master
-install: 
+install:
   - pip install sphinx affine
 script:
   #- python setup.py install

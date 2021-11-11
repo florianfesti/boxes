@@ -1,6 +1,7 @@
 from math import *
 from boxes import vectors
 
+
 def arcOnCircle(spanning_angle, outgoing_angle, r=1.0):
     angle = spanning_angle + 2 * outgoing_angle
     radius = r * sin(radians(0.5 * spanning_angle)) / sin(radians(180 - outgoing_angle - 0.5 * spanning_angle))
@@ -18,7 +19,7 @@ class Parts:
             return
         self.moveTo(size/2, size/2)
         self.cc(callback, None, 0, 0)
-        
+
         self.move(size, size, move)
     """
 
@@ -74,12 +75,12 @@ class Parts:
         if hole:
             self.hole(0, 0, hole / 2)
 
-        self.moveTo(diameter / 2, 0, 90-angle)
+        self.moveTo(diameter / 2, 0, 90 - angle)
         a, r = arcOnCircle(360. / n / 2, angle, diameter / 2)
         a2, r2 = arcOnCircle(360. / n / 2, -angle, diameter / 2)
 
         for i in range(n):
-            self.boxes.corner(a, r, tabs=(i % max(1, (n+1) // 6) == 0))
+            self.boxes.corner(a, r, tabs=(i % max(1, (n + 1) // 6) == 0))
             self.boxes.corner(a2, r2)
 
         self.move(size, size, move)
@@ -119,8 +120,7 @@ class Parts:
         for i in range(n):
             self.boxes.corner(a, r)
             self.corner(angle)
-            self.corner(360. / n * rounded, diameter / 2, tabs=
-                        (i % max(1, (n+1) // 6) == 0))
+            self.corner(360. / n * rounded, diameter / 2, tabs=(i % max(1, (n + 1) // 6) == 0))
             self.corner(angle)
 
         self.move(size, size, move)
@@ -135,7 +135,7 @@ class Parts:
         :param move: (Defaultvalue = None)
         """
         space = 360 * r_inside / self.spacing
-        n = min(n, 360 / (angle+space))
+        n = min(n, 360 / (angle + space))
 
         # XXX be smarter about space
         if self.move(r_outside, r_outside, move, True):
@@ -144,10 +144,10 @@ class Parts:
         self.moveTo(r_outside)
         for i in range(n):
             self.polyline(
-                0, (angle, r_outside), 0, 90, (r_outside-r_inside, 2),
-                90, (angle, r_inside), 0, 90, (r_outside-r_inside, 2),
+                0, (angle, r_outside), 0, 90, (r_outside - r_inside, 2),
+                90, (angle, r_inside), 0, 90, (r_outside - r_inside, 2),
                 90)
-            x, y = vectors.circlepoint(r_outside, math.radians(angle+space))
-            self.moveTo(y, r_outside-x, angle+space)
+            x, y = vectors.circlepoint(r_outside, radians(angle + space))
+            self.moveTo(y, r_outside - x, angle + space)
         self.move(r_outside, r_outside)
         return n

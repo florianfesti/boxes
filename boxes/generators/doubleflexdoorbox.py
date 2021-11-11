@@ -37,12 +37,12 @@ class DoubleFlexDoorBox(boxes.Boxes):
 
     def flexBoxSide(self, x, y, r, callback=None, move=None):
         t = self.thickness
-        ll = (x - 2*r) / 2 - self.latchsize
+        ll = (x - 2 * r) / 2 - self.latchsize
 
-        if self.move(x+2*t, y+2*t, move, True):
+        if self.move(x + 2 * t, y + 2 * t, move, True):
             return
 
-        self.moveTo(t+r, t)
+        self.moveTo(t + r, t)
 
         for i, l in zip(range(2), (x, y)):
             self.cc(callback, i)
@@ -54,28 +54,28 @@ class DoubleFlexDoorBox(boxes.Boxes):
         self.latch(self.latchsize)
         self.latch(self.latchsize, reverse=True)
         self.edge(ll)
-        
+
         self.corner(90, r)
         self.cc(callback, 3)
         self.edges["f"](y - 2 * r)
         self.corner(90, r)
 
-        self.move(x+2*t, y+2*t, move)
+        self.move(x + 2 * t, y + 2 * t, move)
 
     def surroundingWall(self, x, y, h, r, move=None):
         t = self.thickness
         c4 = math.pi * r * 0.5
 
-        tw = 2*x + 2*y - 8*r + 4*c4
-        th = h + 2.5*t
+        tw = 2 * x + 2 * y - 8 * r + 4 * c4
+        th = h + 2.5 * t
 
         if self.move(tw, th, move, True):
             return
 
-        self.moveTo(0, 0.25*t, -90)
+        self.moveTo(0, 0.25 * t, -90)
 
         self.latch(self.latchsize, False, True)
-        self.edge((x-2*r)/2 - self.latchsize, False)
+        self.edge((x - 2 * r) / 2 - self.latchsize, False)
         if y - 2 * r < t:
             self.edges["X"](2 * c4 + y - 2 * r, h + 2 * t)
         else:
@@ -89,11 +89,11 @@ class DoubleFlexDoorBox(boxes.Boxes):
             self.edges["X"](c4, h + 2 * t)
             self.edges["F"](y - 2 * r)
             self.edges["X"](c4, h + 2 * t)
-        self.edge((x-2*r)/2 - self.latchsize, False)
+        self.edge((x - 2 * r) / 2 - self.latchsize, False)
         self.latch(self.latchsize, False)
         self.edge(h + 2 * t)
         self.latch(self.latchsize, False, True)
-        self.edge((x-2*r)/2 - self.latchsize, False)
+        self.edge((x - 2 * r) / 2 - self.latchsize, False)
         self.edge(c4)
         self.edges["F"](y - 2 * r)
         self.edge(c4)
@@ -101,7 +101,7 @@ class DoubleFlexDoorBox(boxes.Boxes):
         self.edge(c4)
         self.edges["F"](y - 2 * r, False)
         self.edge(c4)
-        self.edge((x-2*r)/2 - self.latchsize)
+        self.edge((x - 2 * r) / 2 - self.latchsize)
         self.latch(self.latchsize, False, False)
         self.edge(h + 2 * t)
 
@@ -117,10 +117,9 @@ class DoubleFlexDoorBox(boxes.Boxes):
         t = self.thickness
         self.latchsize *= t
         x, y, h = self.x, self.y, self.h
-        r = self.radius or min(x - 2*self.latchsize, y) / 2.0
+        r = self.radius or min(x - 2 * self.latchsize, y) / 2.0
         r = min(r, y / 2.0)
-        self.radius = r = min(r, max(0, (x - 2*self.latchsize) / 2.0))
-
+        self.radius = r = min(r, max(0, (x - 2 * self.latchsize) / 2.0))
 
         # swap y and h for more consistent axis names
         self.surroundingWall(x, h, y, r, move="up")

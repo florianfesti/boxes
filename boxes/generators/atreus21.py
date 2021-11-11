@@ -87,7 +87,7 @@ class Atreus21(Boxes, Keyboard):
 
     @restore
     def half(self, hole_cb=None, reverse=False):
-        if hole_cb == None:
+        if hole_cb is None:
             hole_cb = self.key
         self.moveTo(self.half_btn, self.half_btn)
         self.apply_callback_on_columns(

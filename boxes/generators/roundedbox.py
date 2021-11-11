@@ -35,7 +35,7 @@ With lid:
     def __init__(self):
         boxes.Boxes.__init__(self)
         self.addSettingsArgs(boxes.edges.FingerJointSettings)
-        self.addSettingsArgs(boxes.edges.FlexSettings)            
+        self.addSettingsArgs(boxes.edges.FlexSettings)
         self.buildArgParser("x", "y", "h", "outside")
         self.argparser.add_argument(
             "--radius", action="store", type=float, default=15,
@@ -49,32 +49,32 @@ With lid:
             default="f",
             help="edge type for top and bottom edges")
         self.argparser.add_argument(
-            "--top",  action="store", type=str, default="none",
-            choices=["closed", "hole", "lid",],
+            "--top", action="store", type=str, default="none",
+            choices=["closed", "hole", "lid", ],
             help="style of the top and lid")
 
     def hole(self):
         t = self.thickness
         x, y, r = self.x, self.y, self.radius
 
-        dr = 2*t
+        dr = 2 * t
         if self.edge_style == "h":
             dr = t
 
         if r > dr:
             r -= dr
         else:
-            x += dr - 2*r
-            y += dr - 2*r
-            self.moveTo(dr-r, 0)
+            x += dr - 2 * r
+            y += dr - 2 * r
+            self.moveTo(dr - r, 0)
             r = 0
 
-        lx = x - 2*r - 2*dr
-        ly = y - 2*r - 2*dr
+        lx = x - 2 * r - 2 * dr
+        ly = y - 2 * r - 2 * dr
 
         self.moveTo(0, dr)
         for l in (lx, ly, lx, ly):
-            self.edge(l);
+            self.edge(l)
             self.corner(90, r)
 
     def render(self):
@@ -99,7 +99,7 @@ With lid:
         elif self.edge_style == "F":
             pe = "f"
             ec = False
-        else: # "h"
+        else:  # "h"
             pe = "f"
             corner_holes = True
             ec = True
@@ -112,14 +112,12 @@ With lid:
                               callback=[self.hole] if self.top != "closed" else None)
             if self.top == "lid":
                 r_extra = self.edges[self.edge_style].spacing()
-                self.roundedPlate(x+2*r_extra,
-                                  y+2*r_extra,
-                                  r+r_extra,
+                self.roundedPlate(x + 2 * r_extra,
+                                  y + 2 * r_extra,
+                                  r + r_extra,
                                   "e", wallpieces=self.wallpieces,
                                   extend_corners=False, move="right")
 
         self.roundedPlate(x, y, r, es, wallpieces=self.wallpieces, move="up only")
 
         self.surroundingWall(x, y, r, h, pe, pe, pieces=self.wallpieces)
-
-

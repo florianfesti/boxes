@@ -15,11 +15,12 @@
 
 from boxes import *
 
+
 class _ChestLid(Boxes):
 
     def getR(self, x, angle=0):
         t = self.thickness
-        d = x - 2*math.sin(math.radians(angle)) * (3*t)
+        d = x - 2 * math.sin(math.radians(angle)) * (3 * t)
 
         r = d / 2.0 / math.cos(math.radians(angle))
         return r
@@ -32,18 +33,18 @@ class _ChestLid(Boxes):
 
         t = self.thickness
         r = self.getR(x, angle)
-        if self.move(x+2*t, 0.5*x+3*t, move, True):
+        if self.move(x + 2 * t, 0.5 * x + 3 * t, move, True):
             return
 
         self.moveTo(t, 0)
         self.edge(x)
-        self.corner(90+angle)
-        self.edges["a"](3*t)
-        self.corner(180-2*angle, r)
-        self.edges["a"](3*t)
-        self.corner(90+angle)
+        self.corner(90 + angle)
+        self.edges["a"](3 * t)
+        self.corner(180 - 2 * angle, r)
+        self.edges["a"](3 * t)
+        self.corner(90 + angle)
 
-        self.move(x+2*t, 0.5*x+3*t, move, False)
+        self.move(x + 2 * t, 0.5 * x + 3 * t, move, False)
 
     def top(self, x, y, angle=0, move=None):
         if "a" not in self.edges:
@@ -52,25 +53,25 @@ class _ChestLid(Boxes):
             s.edgeObjects(self, "aA.")
 
         t = self.thickness
-        l = math.radians(180-2*angle) * self.getR(x, angle)
+        l = math.radians(180 - 2 * angle) * self.getR(x, angle)
 
-        tw = l + 6*t
-        th = y+2*t
+        tw = l + 6 * t
+        th = y + 2 * t
 
         if self.move(tw, th, move, True):
             return
 
-        self.edges["A"](3*t)
-        self.edges["X"](l, y+2*t)
-        self.edges["A"](3*t)
+        self.edges["A"](3 * t)
+        self.edges["X"](l, y + 2 * t)
+        self.edges["A"](3 * t)
         self.corner(90)
-        self.edge(y+2*t)
+        self.edge(y + 2 * t)
         self.corner(90)
-        self.edges["A"](3*t)
+        self.edges["A"](3 * t)
         self.edge(l)
-        self.edges["A"](3*t)
+        self.edges["A"](3 * t)
         self.corner(90)
-        self.edge(y+2*t)
+        self.edge(y + 2 * t)
         self.corner(90)
 
         self.move(tw, th, move)
@@ -87,6 +88,7 @@ class _ChestLid(Boxes):
         else:
             return False
         return True
+
 
 class _TopEdge(Boxes):
 
@@ -132,9 +134,9 @@ class _TopEdge(Boxes):
         elif top_edge == "i":
             self.rectangularWall(x, y, "IEJe", move="up")
         elif top_edge == "k":
-            outset =  self.edges["k"].settings.outset
+            outset = self.edges["k"].settings.outset
             self.edges["k"].settings.setValues(self.thickness, outset=True)
-            lx = x/2.0-0.1*self.thickness
+            lx = x / 2.0 - 0.1 * self.thickness
             self.edges['k'].settings.setValues(self.thickness, grip_length=5)
             self.rectangularWall(lx, y, "IeJe", move="right")
             self.rectangularWall(lx, y, "IeJe", move="up")
@@ -152,4 +154,3 @@ class _TopEdge(Boxes):
         else:
             return False
         return True
-

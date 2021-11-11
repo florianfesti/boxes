@@ -16,10 +16,11 @@
 
 from boxes import *
 
+
 class SlatwallEdges(Boxes):
     """Shows the different edge types for slat walls"""
 
-    ui_group = "SlatWall" # see ./__init__.py for names
+    ui_group = "SlatWall"  # see ./__init__.py for names
 
     def __init__(self):
         Boxes.__init__(self)
@@ -38,7 +39,7 @@ class SlatwallEdges(Boxes):
         h = self.h
 
         for i, c in enumerate("aAbBcCdD"):
-            self.text(c, x=i*30+15, y=5)
+            self.text(c, x=i * 30 + 15, y=5)
         self.text("slatWallHolesAt", 115, 15)
         self.moveTo(0, 25)
         self.rectangularWall(40, h, "eAea", move="right")

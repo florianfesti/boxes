@@ -16,7 +16,8 @@
 
 from boxes import *
 
-class SlatwallXXX(Boxes): # Change class name!
+
+class SlatwallXXX(Boxes):  # Change class name!
     """DESCRIPTION"""
 
     ui_group = "SlatWall"
@@ -31,7 +32,7 @@ class SlatwallXXX(Boxes): # Change class name!
         self.buildArgParser(x=100, sx="3*50", y=100, sy="3*50", h=100, hi=0)
         # Add non default cli params if needed (see argparse std lib)
         self.argparser.add_argument(
-            "--XX",  action="store", type=float, default=0.5,
+            "--XX", action="store", type=float, default=0.5,
             help="DESCRIPTION")
 
     def render(self):

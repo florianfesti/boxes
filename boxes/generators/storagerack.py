@@ -16,6 +16,7 @@
 
 from boxes import *
 
+
 class StorageRack(Boxes):
     """StorageRack to store boxes and trays which have their own floor"""
 
@@ -34,12 +35,12 @@ Drawers are not included:
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings)
         self.addSettingsArgs(edges.StackableSettings)
-        
+
         self.argparser.add_argument(
-            "--depth",  action="store", type=float, default=200,
+            "--depth", action="store", type=float, default=200,
             help="depth of the rack")
         self.argparser.add_argument(
-            "--rail",  action="store", type=float, default=30,
+            "--rail", action="store", type=float, default=30,
             help="depth of the rack")
         self.buildArgParser("x", "sh", "outside", "bottom_edge")
         self.argparser.add_argument(
@@ -58,8 +59,8 @@ Drawers are not included:
         posh = -0.5 * self.thickness
         for nr, h in enumerate(self.sh[:-1]):
             posh += h + self.thickness
-            if ((self.bottom_edge == "e" and nr == 0) or
-                (self.top_edge == "e" and nr == len(self.sh) - 2)): 
+            if ((self.bottom_edge == "e" and nr == 0)
+                    or (self.top_edge == "e" and nr == len(self.sh) - 2)):
                 self.fingerHolesAt(0, posh, self.x, 0)
             else:
                 self.fingerHolesAt(0, posh, self.rail, 0)
@@ -75,7 +76,6 @@ Drawers are not included:
         x = self.x
         d = self.depth
         t = self.thickness
-
 
         # outer walls
         b = self.bottom_edge
@@ -94,12 +94,12 @@ Drawers are not included:
         self.rectangularWall(d, x, "fffE", move="up")
         self.rectangularWall(d, x, "fffE", move="up")
 
-        num = len(self.sh)-1
+        num = len(self.sh) - 1
         if b == "e":
             num -= 1
         if t == "e":
             num -= 1
-            
+
         for i in range(num):
             self.rectangularWall(d, self.rail, "ffee", move="up")
             self.rectangularWall(d, self.rail, "feef", move="up")
@@ -108,4 +108,4 @@ Drawers are not included:
         self.rectangularWall(d, h, "ffff", move="right only")
 
         # back wall
-        self.rectangularWall(x, h, [b, "f", t, "f"],  callback=[self.backHoles], move="up")
+        self.rectangularWall(x, h, [b, "f", t, "f"], callback=[self.backHoles], move="up")

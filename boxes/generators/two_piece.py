@@ -18,7 +18,7 @@ from boxes import *
 
 
 class TwoPiece(Boxes):
-    """A two piece box where top slips over the bottom half to form 
+    """A two piece box where top slips over the bottom half to form
        the enclosure.
     """
 
@@ -30,7 +30,7 @@ class TwoPiece(Boxes):
         self.addSettingsArgs(edges.FingerJointSettings, finger=2.0, space=2.0)
 
         self.argparser.add_argument(
-            "--play",  action="store", type=float, default=0.15,
+            "--play", action="store", type=float, default=0.15,
             help="play between the two parts as multipleof the wall thickness")
 
     def render(self):
@@ -41,8 +41,8 @@ class TwoPiece(Boxes):
         p = self.play * t
 
         if self.outside:
-            x -= 4*t + 2*p
-            y -= 4*t + 2*p
+            x -= 4 * t + 2 * p
+            y -= 4 * t + 2 * p
             h -= 2 * t
             hi -= 2 * t
 
@@ -50,15 +50,14 @@ class TwoPiece(Boxes):
         self.edges["f"].settings.setValues(t, False, edge_width=self.edges["f"].settings.edge_width + p)
 
         for i in range(2):
-            d = i * 2 * (t+p)
+            d = i * 2 * (t + p)
             height = [hi, h][i]
             with self.saved_context():
-                self.rectangularWall(x+d, height, "fFeF", move="right")
-                self.rectangularWall(y+d, height, "ffef", move="right")
-                self.rectangularWall(x+d, height, "fFeF", move="right")
-                self.rectangularWall(y+d, height, "ffef", move="right")
+                self.rectangularWall(x + d, height, "fFeF", move="right")
+                self.rectangularWall(y + d, height, "ffef", move="right")
+                self.rectangularWall(x + d, height, "fFeF", move="right")
+                self.rectangularWall(y + d, height, "ffef", move="right")
             self.rectangularWall(y, height, "ffef", move="up only")
 
         self.rectangularWall(x, y, "hhhh", bedBolts=None, move="right")
-        self.rectangularWall(x+d, y+d, "FFFF", bedBolts=None, move="right")
-        
+        self.rectangularWall(x + d, y + d, "FFFF", bedBolts=None, move="right")

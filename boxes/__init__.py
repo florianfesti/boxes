@@ -1939,15 +1939,15 @@ class Boxes:
         a = math.atan2(y-r, float(x-r))
         alpha = math.degrees(a)
 
-        width = x + (edges[-1].spacing()+self.spacing)/math.sin(a) + edges[1].spacing()
-        height = y + edges[0].spacing() + edges[2].spacing() * math.cos(a) + 2* self.spacing
+        width = x + (edges[-1].spacing()+self.spacing)/math.sin(a) + edges[1].spacing() + self.spacing
+        height = y + edges[0].spacing() + edges[2].spacing() * math.cos(a) + 2* self.spacing + self.spacing
         if num > 1:
-            width = 2*width - x + r
-        dx = width - x - edges[1].spacing() - self.spacing
-        dy = edges[0].spacing() + self.spacing
+            width = 2*width - x + r - self.spacing
+        dx = width - x - edges[1].spacing() - self.spacing / 2
+        dy = edges[0].spacing() + self.spacing / 2
 
-        overallwidth = width * (num // 2 + num % 2)
-        overallheight = height
+        overallwidth = width * (num // 2 + num % 2) - self.spacing
+        overallheight = height - self.spacing
 
         if self.move(overallwidth, overallheight, move, before=True):
             return
@@ -1955,7 +1955,7 @@ class Boxes:
         if self.debug:
             self.rectangularHole(width/2., height/2., width, height)
 
-        self.moveTo(dx, dy)
+        self.moveTo(dx - self.spacing / 2, dy - self.spacing / 2)
 
         for n in range(num):
             for i, l in enumerate((x, y)):

@@ -1860,8 +1860,9 @@ class Boxes:
                callback=None, move=None, label=""):
         """Rectangular wall with flanges extending the regular size
 
-        This is similar to the rectangularWall but it may extend to either side
-        replacing the F edge with fingerHoles. Use with E and F for edges only.
+        This is similar to the rectangularWall but it may extend to either
+        side. Sides with flanges may only have e, E, or F edges - the later
+        being replaced with fingerHoles.
 
         :param x: width
         :param y: height
@@ -1881,16 +1882,19 @@ class Boxes:
         while len(flanges) < 4:
             flanges.append(0.0)
 
-        flanges = flanges + flanges # double to allow looping around
+        edges = [self.edges.get(e, e) for e in edges]
+        # double to allow looping around
+        edges = edges + edges
+        flanges = flanges + flanges
 
-        tw = x + 2*t + flanges[1] + flanges[3]
-        th = y + 2*t + flanges[0] + flanges[2]
+        tw = x + edges[1].spacing() + flanges[1] + edges[3].spacing() + flanges[3]
+        th = y + edges[0].spacing() + flanges[0] + edges[2].spacing() + flanges[2]
 
         if self.move(tw, th, move, True):
             return
 
         rl = min(r, max(flanges[-1], flanges[0]))
-        self.moveTo(rl)
+        self.moveTo(rl + edges[-1].margin(), edges[0].margin())
 
         for i in range(4):
             l = y if i % 2 else x
@@ -1899,14 +1903,14 @@ class Boxes:
             rr = min(r, max(flanges[i], flanges[i+1]))
             self.cc(callback, i, x=-rl)
             if flanges[i]:
-                if edges[i] == "F":
+                if edges[i] is self.edges["F"]:
                     self.fingerHolesAt(flanges[i-1]+t-rl, 0.5*t+flanges[i], l,
                                        angle=0)
-                self.edge(l+flanges[i-1]+flanges[i+1]+2*t-rl-rr)
+                self.edge(l+flanges[i-1]+flanges[i+1]+edges[i-1].endwidth()+edges[i+1].startwidth()-rl-rr)
             else:
-                self.edge(flanges[i-1]+t-rl)
-                self.edges.get(edges[i], edges[i])(l)
-                self.edge(flanges[i+1]+t-rr)
+                self.edge(flanges[i-1]+edges[i-1].endwidth()-rl)
+                edges[i](l)
+                self.edge(flanges[i+1]+edges[i+1].startwidth()-rr)
             self.corner(90, rr)
         self.move(tw, th, move, label=label)
 

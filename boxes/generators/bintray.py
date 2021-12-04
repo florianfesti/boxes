@@ -90,7 +90,7 @@ class BinTray(Boxes):
 
     def yHoles(self):
         posy = -0.5 * self.thickness
-        for y in self.sy[:-1]:
+        for y in reversed(self.sy[1:]):
             posy += y + self.thickness
             self.fingerHolesAt(posy, 0, self.hi)
 

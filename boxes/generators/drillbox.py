@@ -20,6 +20,8 @@ from boxes import Boxes, edges, Color
 class DrillBox(Boxes):
     """A parametrized box for drills"""
 
+    ui_group = "Tray"
+
     def __init__(self):
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings,

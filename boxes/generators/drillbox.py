@@ -22,7 +22,8 @@ class DrillBox(Boxes):
 
     def __init__(self):
         Boxes.__init__(self)
-        self.addSettingsArgs(edges.FingerJointSettings)
+        self.addSettingsArgs(edges.FingerJointSettings,
+                             space=3, finger=3, surroundingspaces=1)
         self.buildArgParser(sx="25*3", sy="60*4", h=60)
         self.argparser.add_argument(
             "--holes",
@@ -85,8 +86,6 @@ class DrillBox(Boxes):
         x = sum(self.sx)
         y = sum(self.sy)
         h = self.h
-
-        self.edges["f"].settings.setValues(self.thickness, space=3, finger=3, surroundingspaces=1)
 
         self.rectangularWall(x, h, "FfeF", callback=[self.holesx], move="right")
         self.rectangularWall(y, h, "FfeF", callback=[self.holesy], move="up")

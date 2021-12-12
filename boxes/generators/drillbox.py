@@ -24,7 +24,8 @@ class DrillBox(Boxes):
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings,
                              space=3, finger=3, surroundingspaces=1)
-        self.buildArgParser(sx="25*3", sy="60*4", h=60, bottom_edge="h")
+        self.buildArgParser(sx="25*3", sy="60*4", sh="5:25:10",
+                            bottom_edge="h")
         self.argparser.add_argument(
             "--holes",
             action="store",
@@ -47,15 +48,13 @@ class DrillBox(Boxes):
             help="increment between holes",
         )
 
-    def holesx(self):
-        x = sum(self.sx)
-        self.fingerHolesAt(0, 5, x, angle=0)
-        self.fingerHolesAt(0, 25, x, angle=0)
+    def sideholes(self, l):
+        t = self.thickness
+        h = -0.5 * t
+        for d in self.sh[:-1]:
+            h += d + t
+            self.fingerHolesAt(0, h, l, angle=0)
 
-    def holesy(self):
-        y = sum(self.sy)
-        self.fingerHolesAt(0, 5, y, angle=0)
-        self.fingerHolesAt(0, 25, y, angle=0)
 
     def drillholes(self, description=False):
         y = 0
@@ -85,18 +84,26 @@ class DrillBox(Boxes):
     def render(self):
         x = sum(self.sx)
         y = sum(self.sy)
-        h = self.h
+
+        h = sum(self.sh) + self.thickness * (len(self.sh)-1)
         b = self.bottom_edge
 
         self.rectangularWall(
-            x, h, b + "feF", callback=[self.holesx], move="right")
+            x, h, b + "feF",
+            callback=[lambda: self.sideholes(x)], move="right")
         self.rectangularWall(
-            y, h, b + "feF", callback=[self.holesy], move="up")
+            y, h, b + "feF", callback=[lambda: self.sideholes(y)], move="up")
         self.rectangularWall(
-            y, h, b + "feF", callback=[self.holesy])
+            y, h, b + "feF", callback=[lambda: self.sideholes(y)])
         self.rectangularWall(
-            x, h, b + "feF", callback=[self.holesx], move="left up")
+            x, h, b + "feF",
+            callback=[lambda: self.sideholes(x)], move="left up")
         if b != "e":
             self.rectangularWall(x, y, "ffff", move="right")
-        self.rectangularWall(x, y, "ffff", callback=[self.drillholes], move="right")
-        self.rectangularWall(x, y, "ffff", callback=[lambda: self.drillholes(description=True)], move="right")
+        for d in self.sh[:-2]:
+            self.rectangularWall(
+                x, y, "ffff", callback=[self.drillholes], move="right")
+        self.rectangularWall(
+            x, y, "ffff",
+            callback=[lambda: self.drillholes(description=True)],
+            move="right")

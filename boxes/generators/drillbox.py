@@ -24,7 +24,7 @@ class DrillBox(Boxes):
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings,
                              space=3, finger=3, surroundingspaces=1)
-        self.buildArgParser(sx="25*3", sy="60*4", h=60)
+        self.buildArgParser(sx="25*3", sy="60*4", h=60, bottom_edge="h")
         self.argparser.add_argument(
             "--holes",
             action="store",
@@ -86,12 +86,17 @@ class DrillBox(Boxes):
         x = sum(self.sx)
         y = sum(self.sy)
         h = self.h
+        b = self.bottom_edge
 
-        self.rectangularWall(x, h, "FfeF", callback=[self.holesx], move="right")
-        self.rectangularWall(y, h, "FfeF", callback=[self.holesy], move="up")
-        self.rectangularWall(y, h, "FfeF", callback=[self.holesy])
-        self.rectangularWall(x, h, "FfeF", callback=[self.holesx], move="left up")
-
-        self.rectangularWall(x, y, "ffff", move="right")
+        self.rectangularWall(
+            x, h, b + "feF", callback=[self.holesx], move="right")
+        self.rectangularWall(
+            y, h, b + "feF", callback=[self.holesy], move="up")
+        self.rectangularWall(
+            y, h, b + "feF", callback=[self.holesy])
+        self.rectangularWall(
+            x, h, b + "feF", callback=[self.holesx], move="left up")
+        if b != "e":
+            self.rectangularWall(x, y, "ffff", move="right")
         self.rectangularWall(x, y, "ffff", callback=[self.drillholes], move="right")
         self.rectangularWall(x, y, "ffff", callback=[lambda: self.drillholes(description=True)], move="right")

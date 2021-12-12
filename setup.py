@@ -80,7 +80,8 @@ setup(
     author_email='florian@festi.info',
     url='https://github.com/florianfesti/boxes',
     packages=find_packages(),
-    install_requires=['affine', 'markdown'],
+    python_requires='>=3.6',
+    install_requires=['affine>=2.0', 'markdown'],
     scripts=['scripts/boxes', 'scripts/boxesserver'],
     cmdclass={
         'build_py': CustomBuildExtCommand,

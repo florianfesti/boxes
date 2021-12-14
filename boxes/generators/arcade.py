@@ -17,7 +17,7 @@
 from boxes import *
 
 class Arcade(Boxes):
-    """Desktop Arcade Maschine"""
+    """Desktop Arcade Machine"""
     
     def __init__(self):
         Boxes.__init__(self)

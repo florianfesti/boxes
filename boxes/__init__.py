@@ -1689,6 +1689,42 @@ class Boxes:
 
         self.move(overallwidth, overallheight, move)
 
+    def surroundingWallPiece(self, cbnr, x, y, r, pieces=1):
+        """
+        Return the geometry of a pices of surroundingWall with the given
+        callback number.
+        :param cbnr: number of the callback corresponding to
+                     this part of the wall
+        :param x: width of matching roundedPlate
+        :param y: height of matching roundedPlate
+        :param r: corner radius of matching roundedPlate
+        :param pieces: (Default value = 1) number of separate pieces
+        :return: (left, length, right) left and right are Booleans that are
+        True if the start or end of the wall is on that side.
+        """
+        if pieces<=2 and (y - 2 * r) < 1E-3:
+            # remove zero length y sides
+            sides = (x/2-r, x - 2*r, x - 2*r)
+            if pieces > 0: # hack to get the right splits
+                pieces += 1
+        else:
+            sides = (x/2-r, y - 2*r, x - 2*r, y - 2*r, x - 2*r)
+
+        wallcount = 0
+        for nr, l in enumerate(sides):
+            if self._splitWall(pieces, nr) and nr > 0:
+                if wallcount == cbnr:
+                    return (False, l/2, True)
+                wallcount += 1
+                if wallcount == cbnr:
+                    return (True, l/2, False)
+                wallcount += 1
+            else:
+                if wallcount == cbnr:
+                    return (False, l, False)
+                wallcount += 1
+        return (False, 0.0, False)
+
     def surroundingWall(self, x, y, r, h,
                         bottom='e', top='e',
                         left="D", right="d",

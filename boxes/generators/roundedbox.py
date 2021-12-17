@@ -36,7 +36,7 @@ With lid:
         boxes.Boxes.__init__(self)
         self.addSettingsArgs(boxes.edges.FingerJointSettings)
         self.addSettingsArgs(boxes.edges.FlexSettings)            
-        self.buildArgParser("x", "y", "h", "outside")
+        self.buildArgParser("x", "y", "outside", sh="100.0")
         self.argparser.add_argument(
             "--radius", action="store", type=float, default=15,
             help="Radius of the corners in mm")
@@ -77,19 +77,28 @@ With lid:
             self.edge(l);
             self.corner(90, r)
 
+    def cb(self, nr):
+        h = 0.5 * self.thickness
+
+        left, l, right = self.surroundingWallPiece(nr, self.x, self.y, self.radius, self.wallpieces)
+        for dh in self.sh[:-1]:
+            h += dh
+            self.fingerHolesAt(0, h, l, 0)
+
     def render(self):
 
-        x, y, h, r = self.x, self.y, self.h, self.radius
+        x, y, sh, r = self.x, self.y, self.sh, self.radius
 
         if self.outside:
             self.x = x = self.adjustSize(x)
             self.y = y = self.adjustSize(y)
-            self.h = h = self.adjustSize(h)
+            self.sh = sh = self.adjustSize(sh)
 
         r = self.radius = min(r, y / 2.0)
 
         t = self.thickness
 
+        h = sum(sh) + t * (len(sh) - 1)
         es = self.edge_style
 
         corner_holes = True
@@ -107,6 +116,9 @@ With lid:
         with self.saved_context():
             self.roundedPlate(x, y, r, es, wallpieces=self.wallpieces,
                               extend_corners=ec, move="right")
+            for dh in self.sh[:-1]:
+                self.roundedPlate(x, y, r, "f", wallpieces=self.wallpieces,
+                                  extend_corners=False, move="right")
             self.roundedPlate(x, y, r, es, wallpieces=self.wallpieces,
                               extend_corners=ec, move="right",
                               callback=[self.hole] if self.top != "closed" else None)
@@ -120,6 +132,7 @@ With lid:
 
         self.roundedPlate(x, y, r, es, wallpieces=self.wallpieces, move="up only")
 
-        self.surroundingWall(x, y, r, h, pe, pe, pieces=self.wallpieces)
+        self.surroundingWall(x, y, r, h, pe, pe, pieces=self.wallpieces,
+                             callback=self.cb)
 
 

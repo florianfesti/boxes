@@ -71,7 +71,7 @@ class PaperBox(Boxes):
         self.argparser.add_argument(
             "--margin",
             type=float,
-            default=0.5,
+            default=0,
             help="Margin for the glued sides",
         )
         self.argparser.add_argument(

@@ -16,7 +16,6 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import math
-from functools import partial
 from boxes import Boxes
 
 
@@ -43,6 +42,15 @@ class PaperBox(Boxes):
         self.buildArgParser("x", "y", "h")
 
         self.argparser.add_argument(
+            "--design",
+            action="store",
+            type=str,
+            default="automatic",
+            choices=("automatic", "widebox", "tuckbox"),
+            help="different design for paper consumption optimization. The tuckbox also has locking cut for its lid.",
+        )
+
+        self.argparser.add_argument(
             "--lid_heigth",
             type=float,
             default=15,
@@ -63,8 +71,8 @@ class PaperBox(Boxes):
         self.argparser.add_argument(
             "--margin",
             type=float,
-            default=0.5,
-            help="Space between the two folded sides to glue",
+            default=0,
+            help="Margin for the glued sides",
         )
         self.argparser.add_argument(
             "--mark_length",
@@ -87,9 +95,63 @@ class PaperBox(Boxes):
         )
 
     def render(self):
-        width = self.x
-        length = self.y
-        height = self.h
+        if self.design == "automatic":
+            self.design = "tuckbox" if self.h > self.y else "widebox"
+
+        path = (
+            self.tuckbox(self.x, self.y, self.h)
+            if self.design == "tuckbox"
+            else self.widebox(self.x, self.y, self.h)
+        )
+
+        self.polyline(*path)
+
+    def tuckbox(self, width, length, height):
+        lid_cut_length = min(10, length / 2, width / 5)
+        half_side = (
+            self.mark(self.mark_length)
+            + [
+                0,
+                90,
+            ]
+            + self.ear_description(length, lid_cut_length)
+            + [
+                0,
+                -90,
+                length,
+                0,
+            ]
+            + self.lid_cut(lid_cut_length)
+            + self.lid(width - 2 * self.thickness)
+            + [0]
+            + self.lid_cut(lid_cut_length, reverse=True)
+            + [
+                length,
+                -90,
+            ]
+            + self.ear_description(length, lid_cut_length, reverse=True)
+            + self.mark(self.mark_length)
+        )
+        return (
+            [height, 0]
+            + half_side
+            + self.side_with_finger_hole(width, self.finger_hole_diameter)
+            + self.mark(self.mark_length)
+            + [
+                0,
+                90,
+            ]
+            + self.tab_description(length - self.margin - self.thickness, height)
+            + [
+                0,
+                90,
+            ]
+            + self.mark(self.mark_length)
+            + [width]
+            + list(reversed(half_side))
+        )
+
+    def widebox(self, width, length, height):
         half_side = (
             self.mark(self.mark_length)
             + [
@@ -124,18 +186,22 @@ class PaperBox(Boxes):
                 0,
             ]
             + self.mark(self.mark_length)
-            + [
-                self.lid_heigth - self.lid_radius,
-                (90, self.lid_radius),
-            ]
         )
-        path = (
+        return (
             self.side_with_finger_hole(width, self.finger_hole_diameter)
             + half_side
-            + [width - 2 * self.lid_radius]
+            + self.lid(width)
             + list(reversed(half_side))
         )
-        self.polyline(*path)
+
+    def lid(self, width):
+        return [
+            self.lid_heigth - self.lid_radius,
+            (90, self.lid_radius),
+            width - 2 * self.lid_radius,
+            (90, self.lid_radius),
+            self.lid_heigth - self.lid_radius,
+        ]
 
     def mark(self, length):
         if length == 0:
@@ -148,6 +214,17 @@ class PaperBox(Boxes):
             length,
             -90,
         ]
+
+    def lid_cut(self, length, reverse=False):
+        path = [
+            90,
+            length + self.thickness,
+            -180,
+            length,
+            90,
+        ]
+
+        return [0] + (list(reversed(path)) if reverse else path)
 
     def side_with_finger_hole(self, width, finger_hole_diameter):
         half_width = (width - finger_hole_diameter) / 2
@@ -177,3 +254,26 @@ class PaperBox(Boxes):
             side,
             deg - 90,
         ]
+
+    def ear_description(self, length, lid_cut_length, reverse=False):
+        ear_depth = max(lid_cut_length, self.lid_heigth)
+        radius = min(self.lid_radius, ear_depth - lid_cut_length)
+        start_margin = self.thickness
+        end_margin = 2 * self.burn
+        path = [
+            start_margin,
+            -90,
+            lid_cut_length,
+            90,
+            0,
+            (-90, radius),
+            0,
+            90,
+            length - radius - start_margin - end_margin,
+            90,
+            ear_depth,
+            -90,
+            end_margin,
+        ]
+
+        return (list(reversed(path)) if reverse else path) + [0]

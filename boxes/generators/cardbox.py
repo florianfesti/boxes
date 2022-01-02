@@ -123,10 +123,11 @@ Add the top of the rails to the sides and the grip rail to the lid (still missin
         self.addPart(p)
 
         with self.saved_context():
-            self.rectangularWall(x-t*.2, y, "Feee", move="right", label="Lid")
+            self.rectangularWall(x-t*.2, y, "eeFe", move="right", label="Lid")
             self.rectangularWall(x, y, "ffff", callback=[self.divider_bottom],
                                  move="right", label="Bottom")
-        self.rectangularWall(x, y, "EEEE", move="up only")
+        self.rectangularWall(x, y, "eEEE", move="up only")
+        self.rectangularWall(x-t*.2, t, "fEeE", move="up", label="Lid Lip")
 
         with self.saved_context():
             self.rectangularWall(x, h+t, "FFEF",
@@ -139,7 +140,6 @@ Add the top of the rails to the sides and the grip rail to the lid (still missin
                                  label="Front")
         self.rectangularWall(x, h+t, "EEEE", move="up only")
 
-        self.rectangularWall(x-t*.2, t, "fEeE", move="up", label="Lid Lip")
 
         with self.saved_context():
             self.rectangularWall(y, h+t, "FfFf", move="right", label="Outer Side Left")

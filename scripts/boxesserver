@@ -382,9 +382,10 @@ class BServer:
       ("<option value='%s' %s>%s</option>" % (l, "selected" if l==language else "", l)
        for l in self.getLanguages())) + """
   </select></form></li>
-  <li><a href="https://github.com/florianfesti/boxes">""" + _("Get Source at GitHub") + """</a></li>
-  <li><a href="https://florianfesti.github.io/boxes/html/index.html">""" + _("Documentation and API Description") + """</a></li>
-  <li><a href="https://hackaday.io/project/10649-boxespy">""" + _("Hackaday.io Project Page") + """</a></li>
+  <li><a href="https://florianfesti.github.io/boxes/html/usermanual.html">""" + _("Help") + """</a></li>
+  <li><a href="https://hackaday.io/project/10649-boxespy">""" + _("Home Page") + """</a></li>
+  <li><a href="https://florianfesti.github.io/boxes/html/index.html">""" + _("Documentation") + """</a></li>
+  <li><a href="https://github.com/florianfesti/boxes">""" + _("Sources") + """</a></li>
 </ul>
 </div>
 """

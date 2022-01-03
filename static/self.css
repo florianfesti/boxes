@@ -71,6 +71,10 @@ table {
     margin-left: 30px;
 }
 
+table tr p {
+    display: inline;
+}
+
 /* Container */
 
 .container {

@@ -42,7 +42,7 @@ With lid:
             help="Radius of the corners in mm")
         self.argparser.add_argument(
             "--wallpieces", action="store", type=int, default=1,
-            choices=[1, 2, 3, 4], help="# pieces of outer wall")
+            choices=[1, 2, 3, 4], help="\# pieces of outer wall")
         self.argparser.add_argument(
             "--edge_style", action="store",
             type=boxes.ArgparseEdgeType("fFh"), choices=list("fFh"),

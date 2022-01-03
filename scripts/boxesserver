@@ -158,7 +158,7 @@ class BServer:
         default = defaults.get(name, None)
 
         row = """<tr><td>%s</td><td>%%s</td><td>%s</td></tr>\n""" % \
-              (_(viewname), "" if not a.help else _(a.help))
+              (_(viewname), "" if not a.help else markdown.markdown(_(a.help)))
         if (isinstance(a, argparse._StoreAction) and
             hasattr(a.type, "html")):
             input = a.type.html(name, default or a.default, _)

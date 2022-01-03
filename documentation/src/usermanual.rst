@@ -138,27 +138,88 @@ the given length. It can be used to check if the drawing is still at
 the right scale or may give clues on how to scale it back to the right
 proportions.
 
+Common Parameters and Types
+---------------------------
+
+Section parameters
+..................
+
+Some generators support an arbitrary number of sections. This can be used for rows or columns of compartments, staggered heights or otherwise dividing some length in multiple sub sections. The standard parameter making use of this are ``sx``, ``sy`` and ``sh`` (instead of ``x``, ``y`` and ``h``).
+
+Most generators will add walls between the comparments, so the total size might be larger depending on the number of compartments (and additional walls).
+
+The sizes of the sections are divided by a colon (``:``) e.g. ``30:25.5:70``. Instead of repeating the same value they can be replaced by ``value*numberofsections``  e.g. ``50*3`` meaning the same as ``50:50:50``. To equally divide a length into several sections ``overallwidth/numberofsections`` can be used - e.g. ``120/4`` being the same as ``30:30:30:30``. All these formats can be freely mixed.
+
+
+outside
+.......
+
+Most messurements are internal sizes. If a generator offers this parameter it will re-calculate the inner sizes to fit walls and outside features within the given dimmensions. This can be a bit surprising for edge types that have protrusions like hinge eyes, handles, feet, etc as those are typically also taken into account. If the dimmensions are not sufficient to accommendate these features the box may not work properly. Most generators do not have checks for such issues (like negative height) and it is left in the responsibility of the user to check if the result still is sane.
+
+For generators offering multiple compartments this will also fit-in the inner walls. It will sum up all sections then subtract the space needed for the walls and then scale all compartments so they will fill the remaining space.
+
+
 Edge Type parameters
 --------------------
 
 All but the simplest edge types have a number of settings controlling
 how exactly they should look. Generators are encouraged to offer these
 settings to the user. In the web interface they are folded up. In the
-command line interfacce they are grouped together. Users should be
+command line interface they are grouped together. Users should be
 aware that not all settings are practical to change. For now Boxes.py
 does not allow hiding some settings.
+
+Finger Joint Settings
+.....................
+
+.. glossary::
+
+   finger
+      width of the fingers in multiples of the thickness
+
+   space
+      width of the spaces between fingers in multiples of the thickness
+
+   surroundingspaces
+      minimal amount of space before the first and after the last finger. This is in multiples of regular space between fingers. Reduce this if there are no fingers fitting on short edges.
+
+   style
+      how finger joints should look like. There may be more styles to choose from in the future.
+
+Stackable Edge Settings
+.......................
+
+For boxes to actually stack they need to be the same width and depth and ``angle``, ``width`` and ``height`` of the feet need to be the same.
+
+.. glossary::
+
+   angle
+      inside angle of the feet.
+
+   height
+      height of the feet
+
+   holedistance
+      distance from finger holes to bottom edge. May be reduced to save height by sacrificing stability of the connection to the bottom of the box.
+
+   width
+      width of the feet
 
 Colors
 ------
 The generated files uses the following color conventions:
 
 .. glossary::
+
      Black 
         The outer edges of a part
+
      Blue
         Inner edges of a part
+
      Red
         Comments or help lines that are not ment to be cut or etched
+
      Green
         Etchings
 

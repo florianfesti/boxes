@@ -1693,14 +1693,12 @@ class Boxes:
         """
         Return the geometry of a pices of surroundingWall with the given
         callback number.
-        :param cbnr: number of the callback corresponding to
-                     this part of the wall
+        :param cbnr: number of the callback corresponding to this part of the wall
         :param x: width of matching roundedPlate
         :param y: height of matching roundedPlate
         :param r: corner radius of matching roundedPlate
         :param pieces: (Default value = 1) number of separate pieces
-        :return: (left, length, right) left and right are Booleans that are
-        True if the start or end of the wall is on that side.
+        :return: (left, length, right) left and right are Booleans that are True if the start or end of the wall is on that side.
         """
         if pieces<=2 and (y - 2 * r) < 1E-3:
             # remove zero length y sides

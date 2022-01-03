@@ -278,29 +278,29 @@ class Boxes:
                         "Default Settings")
         defaultgroup.add_argument(
             "--thickness", action="store", type=float, default=3.0,
-            help="thickness of the material")
+            help="thickness of the material [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#thickness)")
         defaultgroup.add_argument(
             "--output", action="store", type=str, default="box.svg",
             help="name of resulting file")
         defaultgroup.add_argument(
             "--format", action="store", type=str, default="svg",
             choices=self.formats.getFormats(),
-            help="format of resulting file")
+            help="format of resulting file [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#format)")
         defaultgroup.add_argument(
             "--tabs", action="store", type=float, default=0.0,
             help="width of tabs holding the parts in place in mm (not supported everywhere)")
         defaultgroup.add_argument(
             "--debug", action="store", type=boolarg, default=False,
-            help="print surrounding boxes for some structures")
+            help="print surrounding boxes for some structures [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#debug)")
         defaultgroup.add_argument(
             "--labels", action="store", type=boolarg, default=True,
             help="label the parts (where available)")
         defaultgroup.add_argument(
             "--reference", action="store", type=float, default=100,
-            help="print reference rectangle with given length (zero to disable)")
+            help="print reference rectangle with given length (zero to disable) [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#reference)")
         defaultgroup.add_argument(
             "--burn", action="store", type=float, default=0.1,
-            help='burn correction in mm (bigger values for tighter fit). Use BurnTest in "Parts and Samples" to find the right value.')
+            help='burn correction in mm (bigger values for tighter fit). Use BurnTest in "Parts and Samples" to find the right value. [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#burn)')
 
     @contextmanager
     def saved_context(self):
@@ -403,19 +403,19 @@ class Boxes:
                 self.argparser.add_argument(
                     "--sx", action="store", type=argparseSections,
                     default=default,
-                    help="""sections left to right in mm. See --sy for format""")
+                    help="""sections left to right in mm [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#section-parameters)""")
             elif arg == "sy":
                 if default is None: default = "50*3"
                 self.argparser.add_argument(
                     "--sy", action="store", type=argparseSections,
                     default=default,
-                    help="""sections back to front in mm. Possible formats: overallwidth/numberof sections e.g. "250/5"; sectionwidth*numberofsections e.g. "50*5"; section widths separated by ":" e.g. "30:25.5:70""")
+                    help="""sections back to front in mm [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#section-parameters)""")
             elif arg == "sh":
                 if default is None: default = "50*3"
                 self.argparser.add_argument(
                     "--sh", action="store", type=argparseSections,
                     default=default,
-                    help="""sections bottom to top in mm. See --sy for format""")
+                    help="""sections bottom to top in mm [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#section-parameters)""")
             elif arg == "h":
                 if default is None: default = 100.0
                 help = "inner height in mm"
@@ -446,7 +446,7 @@ class Boxes:
                 if default is None: default = True
                 self.argparser.add_argument(
                     "--outside", action="store", type=boolarg, default=default,
-                    help="treat sizes as outside measurements that include the walls")
+                    help="treat sizes as outside measurements that include the walls [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#outside)")
             elif arg == "nema_mount":
                 if default is None: default = 23
                 self.argparser.add_argument(

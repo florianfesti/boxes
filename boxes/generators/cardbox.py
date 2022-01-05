@@ -67,9 +67,13 @@ class CardBox(Boxes):
 
 Place inner walls on floor first (if any). Then add the outer walls. Glue the two walls without finger joins to the inside of the side walls. Make sure there is no squeeze out on top, as this is going to form the rail for the lid.
 
-Add the top of the rails to the sides and the grip rail to the lid (still missing in the picture at the bottom):
+Add the top of the rails to the sides and the grip rail to the lid.
+
+Details of the lid and rails
 
 ![Details](static/samples/CardBox-detail.jpg)
+
+Whole box (early version still missing grip rail on the lid):
 """
 
     def __init__(self):

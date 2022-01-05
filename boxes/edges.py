@@ -1984,6 +1984,10 @@ class DoveTailJoint(BaseEdge):
         sections = int((length) // (s.size * 2))
         leftover = length - sections * s.size * 2
 
+        if sections == 0:
+            self.edge(length)
+            return
+
         p = 1 if positive else -1
 
         self.edge((s.size + leftover) / 2.0 + diffx - l1, tabs=1)

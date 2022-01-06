@@ -65,7 +65,7 @@ are required:
 
    .. code::
 
-      brew cask install inkscape
+      brew install inkscape
 
 2. From the root directory of the repository, run:
 

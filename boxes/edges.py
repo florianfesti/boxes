@@ -670,16 +670,16 @@ Values:
 
 * absolute
   * style : "rectangular" : style of the fingers
-  * surroundingspaces : 2 : maximum space at the start and end in multiple of normal spaces
+  * surroundingspaces : 2 : manimal space at the start and end in multiple of normal spaces
   * angle: 90 : Angle of the walls meeting
 
 * relative (in multiples of thickness)
 
-  * space : 2.0 : space between fingers
-  * finger : 2.0 : width of the fingers
-  * width : 1.0 : width of finger holes
-  * edge_width : 1.0 : space below holes of FingerHoleEdge
-  * play : 0.0 : extra space to allow finger move in and out
+  * space : 2.0 : space between fingers (multiples of thickness)
+  * finger : 2.0 : width of the fingers (multiples of thickness)
+  * width : 1.0 : width of finger holes (multiples of thickness)
+  * edge_width : 1.0 : space below holes of FingerHoleEdge (multiples of thickness)
+  * play : 0.0 : extra space to allow finger move in and out (multiples of thickness)
 
 """
 
@@ -911,9 +911,9 @@ Values:
 
 * relative (in multiples of thickness)
 
-  * height : 2.0 : height of the feet
-  * width  : 4.0 : width of the feet
-  * holedistance : 1.0 : distance from finger holes to bottom edge
+  * height : 2.0 : height of the feet (multiples of thickness)
+  * width  : 4.0 : width of the feet (multiples of thickness)
+  * holedistance : 1.0 : distance from finger holes to bottom edge (multiples of thickness)
 
 """
 
@@ -1020,9 +1020,9 @@ Values:
 
 * relative (in multiples of thickness)
 
- * hingestrength : 1 : thickness of the arc holding the pin in place
- * axle : 2 : diameter of the pin hole
- * grip_length : 0 : fixed length of the grips on he lids
+ * hingestrength : 1 : thickness of the arc holding the pin in place (multiples of thickness)
+ * axle : 2 : diameter of the pin hole (multiples of thickness)
+ * grip_length : 0 : fixed length of the grips on he lids (multiples of thickness)
 
 """
     absolute_params = {
@@ -1274,8 +1274,8 @@ Values:
 
 * relative (in multiples of thickness)
 
- * pin_height : 2.0 : radius of the disc rotating in the hinge
- * hinge_strength : 1.0 : thickness of the arc holding the pin in place
+ * pin_height : 2.0 : radius of the disc rotating in the hinge (multiples of thickness)
+ * hinge_strength : 1.0 : thickness of the arc holding the pin in place (multiples of thickness)
 """
 
     relative_params = {
@@ -1432,9 +1432,9 @@ Values:
 
 * relative (in multiples of thickness)
 
- * eye : 1.5 : radius of the eye (in multiples of thickness)
- * play : 0.05 : space between eyes (in multiples of thickness)
- * spacing : 2.0 : minimum space around the hinge
+ * eye : 1.5 : radius of the eye (multiples of thickness)
+ * play : 0.05 : space between eyes (multiples of thickness)
+ * spacing : 2.0 : minimum space around the hinge (multiples of thickness)
 """
     absolute_params = {
         "bore": 3.2,
@@ -1798,8 +1798,8 @@ Values:
 
 * relative (in multiples of thickness)
 
-  * depth : 3.0 : length of the hooks
-  * bottom_radius : 0.1 : radius at the bottom
+  * depth : 3.0 : length of the hooks (multiples of thickness)
+  * bottom_radius : 0.1 : radius at the bottom (multiples of thickness)
 """
 
     absolute_params = {
@@ -1943,9 +1943,9 @@ Values:
 
 * relative (in multiples of thickness)
 
-  * size : 3 : from one middle of a dove tail to another
-  * depth : 1.5 : how far the dove tails stick out of/into the edge
-  * radius : 0.2 : radius used on all four corners
+  * size : 3 : from one middle of a dove tail to another (multiples of thickness)
+  * depth : 1.5 : how far the dove tails stick out of/into the edge (multiples of thickness)
+  * radius : 0.2 : radius used on all four corners (multiples of thickness)
 
 """
     absolute_params = {
@@ -2033,9 +2033,9 @@ Values:
 
 * relative (in multiples of thickness)
 
- * distance : 0.5 : width of the pattern perpendicular to the cuts
- * connection : 1.0 : width of the gaps in the cuts
- * width" : 5.0 : width of the pattern in direction of the cuts
+ * distance : 0.5 : width of the pattern perpendicular to the cuts (multiples of thickness)
+ * connection : 1.0 : width of the gaps in the cuts (multiples of thickness)
+ * width : 5.0 : width of the pattern in direction of the cuts (multiples of thickness)
 
 """
     relative_params = {
@@ -2168,7 +2168,7 @@ Values:
 
 * relative (in multiples of thickness)
 
- * outset : 0 : extend the triangle along the length of the edge
+ * outset : 0 : extend the triangle along the length of the edge (multiples of thickness)
 
 """
 
@@ -2252,8 +2252,8 @@ Values:
 
 * relative (in multiples of thickness)
 
- * hook_extra_height : 2.0 : space surrounding connectors (in multiples of thickness)
- * edge_width : 1.0 : space below holes of FingerHoleEdge
+ * hook_extra_height : 2.0 : space surrounding connectors (multiples of thickness)
+ * edge_width : 1.0 : space below holes of FingerHoleEdge (multiples of thickness)
 
 """
 

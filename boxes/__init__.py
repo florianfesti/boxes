@@ -300,7 +300,7 @@ class Boxes:
             help="print reference rectangle with given length (zero to disable) [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#reference)")
         defaultgroup.add_argument(
             "--burn", action="store", type=float, default=0.1,
-            help='burn correction in mm (bigger values for tighter fit). Use BurnTest in "Parts and Samples" to find the right value. [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#burn)')
+            help='burn correction in mm (bigger values for tighter fit) [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#burn)')
 
     @contextmanager
     def saved_context(self):
@@ -446,7 +446,7 @@ class Boxes:
                 if default is None: default = True
                 self.argparser.add_argument(
                     "--outside", action="store", type=boolarg, default=default,
-                    help="treat sizes as outside measurements that include the walls [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#outside)")
+                    help="treat sizes as outside measurements [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#outside)")
             elif arg == "nema_mount":
                 if default is None: default = 23
                 self.argparser.add_argument(

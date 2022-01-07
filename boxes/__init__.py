@@ -288,7 +288,7 @@ class Boxes:
             help="format of resulting file [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#format)")
         defaultgroup.add_argument(
             "--tabs", action="store", type=float, default=0.0,
-            help="width of tabs holding the parts in place in mm (not supported everywhere)")
+            help="width of tabs holding the parts in place in mm (not supported everywhere) [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#tabs)")
         defaultgroup.add_argument(
             "--debug", action="store", type=boolarg, default=False,
             help="print surrounding boxes for some structures [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#debug)")

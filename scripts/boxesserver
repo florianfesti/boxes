@@ -169,7 +169,7 @@ class BServer:
         elif a.choices:
             options = "\n".join(
                 ("""<option value="%s"%s>%s</option>""" %
-                 (e, ' selected="selected"' if e == (default or a.default) else "",
+                 (e, ' selected="selected"' if (e == (default or a.default)) or (str(e) == str(default or a.default)) else "",
                   _(e)) for e in a.choices))
             input = """<select name="%s" size="1">\n%s</select>\n""" % (name, options)
         else:

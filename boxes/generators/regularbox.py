@@ -21,11 +21,16 @@ import copy
 class RegularBox(BayonetBox):
     """Box with regular polygon as base"""
 
+    description = """For short side walls that don't fit a connecting finger reduce *surroundingspaces* and *finger* in the Finger Joint Settings.
+
+The lids needs to be glued. For the bayonet lid all outside rings attach to the bottom, all inside rings to the top.
+"""
+ 
     ui_group = "Box"
 
     def __init__(self):
         Boxes.__init__(self)
-        self.addSettingsArgs(edges.FingerJointSettings)
+        self.addSettingsArgs(edges.FingerJointSettings, surroundingspaces=1)
         self.buildArgParser("h", "outside")
         self.argparser.add_argument(
             "--radius",  action="store", type=float, default=50.0,

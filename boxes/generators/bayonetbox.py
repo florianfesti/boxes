@@ -19,7 +19,7 @@ from boxes import *
 class BayonetBox(Boxes):
     """Round box made from layers with twist on top"""
 
-    description = """Glue together. All outside rings to the bottom, all inside rings to the top."""
+    description = """Glue together - all outside rings to the bottom, all inside rings to the top."""
     ui_group = "Box"
 
     def __init__(self):

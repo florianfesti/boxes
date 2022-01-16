@@ -186,6 +186,9 @@ Finger Joint Settings
    style
       how finger joints should look like. There may be more styles to choose from in the future.
 
+   extra_length
+      Make the outset part of the finger joint longer to allow grinding off burn marks. Note that this may not be great for non 90° joints where the corner is butted against the opposing cutout.
+
 Stackable Edge Settings
 .......................
 

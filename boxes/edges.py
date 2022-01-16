@@ -680,7 +680,7 @@ Values:
   * width : 1.0 : width of finger holes (multiples of thickness)
   * edge_width : 1.0 : space below holes of FingerHoleEdge (multiples of thickness)
   * play : 0.0 : extra space to allow finger move in and out (multiples of thickness)
-
+  * extra_length : 0.0 : extra material to grind away burn marks (multiples of thickness)
 """
 
     absolute_params = {
@@ -695,6 +695,7 @@ Values:
         "width": 1.0,
         "edge_width": 1.0,
         "play" : 0.0,
+        "extra_length" : 0.0,
     }
 
     def checkValues(self):
@@ -727,18 +728,21 @@ class FingerJointBase:
         return fingers, leftover
 
     def fingerLength(self, angle):
-        if angle >=90:
-            return self.settings.thickness, 0
+        # sharp corners
+        if angle >=90 or angle <= -90:
+            return self.settings.thickness + self.settings.extra_length, 0
 
+        # inner blunt corners
         if angle < 0:
-            return math.sin(math.radians(-angle)) * self.settings.thickness, 0
+            return (math.sin(math.radians(-angle)) * self.settings.thickness +
+                    self.settings.extra_length), 0
 
-        # 0 to 90
+        # 0 to 90 (blunt corners)
         a = 90 - (180-angle) / 2.0
         fingerlength = self.settings.thickness * math.tan(math.radians(a))
         b = 90-2*a
         spacerecess = -math.sin(math.radians(b)) * fingerlength
-        return fingerlength, spacerecess
+        return fingerlength + self.settings.extra_length, spacerecess
 
 class FingerJointEdge(BaseEdge, FingerJointBase):
     """Finger joint edge """

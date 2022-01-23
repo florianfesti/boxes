@@ -157,13 +157,17 @@ Assembly: Start with putting the slots of the inner walls together. Then add the
         else:
             raise ValueError("Only edges h and f supported: ")
         self.corner(a)
-        self.edgeCorner(edges[0], edges[1], 90)
+        self.edgeCorner(edges[0], "e", 90)
+        self.corner(-90)
+        self.edgeCorner("e", edges[1], 90)
         edges[1](eh+h)
         self.edgeCorner(edges[1], edges[2], 90)
         edges[2](x)
         self.edgeCorner(edges[2], edges[3], 90)
         edges[3](h)
-        self.edgeCorner(edges[3], edges[0], 90)
+        self.edgeCorner(edges[3], "e", 90)
+        self.corner(-90)
+        self.edgeCorner("e", edges[0], 90)
 
         self.moveTo(0, self.burn+edges[0].startwidth(), 0)
         

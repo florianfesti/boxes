@@ -75,15 +75,14 @@ class SlatwallDrillBox(DrillStand):
 
         bottom_angle = math.atan(self.extra_height / x) # radians
 
-        self.xOutsideWall(sh[0], "fFeF", move="up")
+        self.xOutsideWall(sh[0], "hFeF", move="up")
         for i in range(1, len(sy)):
             self.xWall(i, move="up")
-        self.xOutsideWall(sh[-1], "fCec", move="up")
+        self.xOutsideWall(sh[-1], "hCec", move="up")
 
-        self.rectangularWall(x/math.cos(bottom_angle)-t*math.tan(bottom_angle), y, "FeFe", callback=[self.bottomCB], move="up")
+        self.rectangularWall(x/math.cos(bottom_angle)-t*math.tan(bottom_angle), y, "fefe", callback=[self.bottomCB], move="up")
         
         self.sideWall(move="right")
         for i in range(1, len(sx)):
             self.yWall(i, move="right")
         self.sideWall(self.extra_height, move="right")
-            

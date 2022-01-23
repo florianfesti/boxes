@@ -54,7 +54,7 @@ class SlatwallDrillBox(DrillStand):
 
         self.rectangularWall(x/math.cos(bottom_angle)-t*math.tan(bottom_angle), y, "fefe", callback=[self.bottomCB], move="up")
         
-        self.sideWall(edges="eBf", move="right")
+        self.sideWall(edges="eBf", foot_height=2*t, move="right")
         for i in range(1, len(sx)):
             self.yWall(i, move="right")
-        self.sideWall(self.extra_height, edges="eBf", move="right")
+        self.sideWall(self.extra_height, foot_height=2*t, edges="eBf", move="right")

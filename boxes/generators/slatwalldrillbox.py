@@ -33,34 +33,6 @@ class SlatwallDrillBox(DrillStand):
             "--extra_height",  action="store", type=float, default=15.0,
             help="height difference left to right")
 
-    def sideWall(self, extra_height=0.0, move=None):
-        t = self.thickness
-        x, sx, y, sy, sh = self.x, self.sx, self.y, self.sy, self.sh
-        eh = extra_height
-
-        tw, th = sum(sy) + t * len(sy) + t, max(sh) + eh
-
-        if self.move(tw, th, move, True):
-            return
-
-        self.moveTo(t)
-        self.polyline(y+t, 90)
-        self.edges["B"](sh[-1]+eh)
-        self.polyline(0, 90, t)
-        for i in range(len(sy)-1, 0, -1):
-            self.edge(sy[i])
-            if sh[i] > sh[i-1]:
-                self.fingerHolesAt(0.5*t, self.burn, sh[i]+eh, 90)
-                self.polyline(t, 90, sh[i] - sh[i-1], -90)
-            else:
-                self.polyline(0, -90, sh[i-1] - sh[i], 90, t)
-                self.fingerHolesAt(-0.5*t, self.burn, sh[i-1]+eh)
-        self.polyline(sy[0], 90)
-        self.edges["f"](sh[0]+eh)
-        self.corner(90)
-        
-        self.move(tw, th, move)
-
     def render(self):
         # Add slat wall edges
         s = edges.SlatWallSettings(self.thickness, True,
@@ -82,7 +54,7 @@ class SlatwallDrillBox(DrillStand):
 
         self.rectangularWall(x/math.cos(bottom_angle)-t*math.tan(bottom_angle), y, "fefe", callback=[self.bottomCB], move="up")
         
-        self.sideWall(move="right")
+        self.sideWall(edges="eBf", move="right")
         for i in range(1, len(sx)):
             self.yWall(i, move="right")
-        self.sideWall(self.extra_height, move="right")
+        self.sideWall(self.extra_height, edges="eBf", move="right")

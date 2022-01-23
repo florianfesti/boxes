@@ -63,22 +63,28 @@ Assembly: Start with putting the slots of the inner walls together. Then add the
         
         self.move(tw, th, move)
 
-    def sideWall(self, extra_height=0.0, foot_height=0.0, move=None):
+    def sideWall(self, extra_height=0.0, foot_height=0.0, edges="šFf", move=None):
         t = self.thickness
         x, sx, y, sy, sh = self.x, self.sx, self.y, self.sy, self.sh
         eh = extra_height
         fh = foot_height
 
-        tw, th = sum(sy) + t * len(sy) + t, max(sh) + eh
+        edges = [self.edges.get(e, e) for e in edges]
+
+        tw = sum(sy) + t * len(sy) + t
+        th = max(sh) + eh + fh + edges[0].spacing()
 
         if self.move(tw, th, move, True):
             return
 
-        self.edges["š"](y+2*t)
-        self.edgeCorner("š", "e")
+        self.moveTo(edges[0].margin())
+
+        edges[0](y+2*t)
+        self.edgeCorner(edges[0], "e")
         self.edge(fh)
-        self.edges["F"](sh[-1]+eh)
-        self.polyline(0, 90, t)
+        self.step(edges[1].startwidth() - t)
+        edges[1](sh[-1]+eh)
+        self.edgeCorner(edges[1], "e")
         for i in range(len(sy)-1, 0, -1):
             self.edge(sy[i])
             if sh[i] > sh[i-1]:
@@ -87,10 +93,12 @@ Assembly: Start with putting the slots of the inner walls together. Then add the
             else:
                 self.polyline(0, -90, sh[i-1] - sh[i], 90, t)
                 self.fingerHolesAt(-0.5*t, self.burn, sh[i-1]+eh)
-        self.polyline(sy[0], 90)
-        self.edges["f"](sh[0]+eh)
-        self.polyline(0, -90, t, 90, fh)
-        self.edgeCorner("e", "š")
+        self.polyline(sy[0])
+        self.edgeCorner("e", edges[2])
+        edges[2](sh[0]+eh)
+        self.step(t - edges[2].endwidth())
+        self.polyline(fh)
+        self.edgeCorner("e", edges[0])
         
         self.move(tw, th, move)
 

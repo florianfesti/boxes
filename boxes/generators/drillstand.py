@@ -15,6 +15,7 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
+import boxes
 
 class DrillStand(Boxes):
     """Box for drills with each compartment of a different height"""
@@ -145,7 +146,16 @@ Assembly: Start with putting the slots of the inner walls together. Then add the
         self.moveTo(edges[3].spacing(), eh+edges[0].margin(), -a)
 
         self.edge(t*math.tan(math.radians(a)))
-        edges[0](x*fa - t*math.tan(math.radians(a)))
+        if isinstance(edges[0], boxes.edges.FingerHoleEdge):
+            with self.saved_context():
+                self.moveTo(0, 0, a)
+                self.fingerHolesAt(
+                    0, 1.5*t, x*fa - t*math.tan(math.radians(a)), -a)
+            self.edge(x*fa - t*math.tan(math.radians(a)))
+        elif isinstance(edges[0], boxes.edges.FingerJointEdge):
+            edges[0](x*fa - t*math.tan(math.radians(a)))
+        else:
+            raise ValueError("Only edges h and f supported: ")
         self.corner(a)
         self.edgeCorner(edges[0], edges[1], 90)
         edges[1](eh+h)
@@ -188,15 +198,15 @@ Assembly: Start with putting the slots of the inner walls together. Then add the
 
         bottom_angle = math.atan(self.extra_height / x) # radians
 
-        self.xOutsideWall(sh[0], "fFeF", move="up")
+        self.xOutsideWall(sh[0], "hFeF", move="up")
         for i in range(1, len(sy)):
             self.xWall(i, move="up")
-        self.xOutsideWall(sh[-1], "ffef", move="up")
+        self.xOutsideWall(sh[-1], "hfef", move="up")
 
-        self.rectangularWall(x/math.cos(bottom_angle)-t*math.tan(bottom_angle), y, "FeFe", callback=[self.bottomCB], move="up")
+        self.rectangularWall(x/math.cos(bottom_angle)-t*math.tan(bottom_angle), y, "fefe", callback=[self.bottomCB], move="up")
         
-        self.sideWall(foot_height=self.extra_height+t, move="right")
+        self.sideWall(foot_height=self.extra_height+2*t, move="right")
         for i in range(1, len(sx)):
             self.yWall(i, move="right")
-        self.sideWall(self.extra_height, t, move="right")
+        self.sideWall(self.extra_height, 2*t, move="right")
             

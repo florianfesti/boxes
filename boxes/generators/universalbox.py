@@ -27,7 +27,6 @@ class UniversalBox(_TopEdge, _ChestLid):
         Boxes.__init__(self)
         self.addTopEdgeSettings(roundedtriangle={"outset" : 1},
                                 hinge={"outset" : True})
-        self.addSettingsArgs(edges.FlexSettings)
         self.buildArgParser("top_edge", "bottom_edge",
                             "x", "y", "h", "outside")
         self.argparser.add_argument(

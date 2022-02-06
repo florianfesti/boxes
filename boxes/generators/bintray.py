@@ -15,7 +15,7 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
-import math
+import math, copy
 
 class BinFrontEdge(edges.BaseEdge):
     char = "B"
@@ -110,7 +110,9 @@ class BinTray(Boxes):
         self.addPart(BinFrontEdge(self, self))
         self.addPart(BinFrontSideEdge(self, self))
 
-        edges.FingerJointSettings(self.thickness, True, angle=45).edgeObjects(self, chars="gGH")
+        angledsettings = copy.deepcopy(self.edges["f"].settings)
+        angledsettings.setValues(self.thickness, True, angle=45)
+        angledsettings.edgeObjects(self, chars="gGH")
 
         # outer walls
         e = ["F", "f", edges.SlottedEdge(self, self.sx[::-1], "G"), "f"]

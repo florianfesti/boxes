@@ -18,11 +18,12 @@
 import subprocess
 import tempfile
 import os
+import shutil
 from boxes.drawing import SVGSurface, PSSurface, Context
 
 class Formats:
 
-    pstoedit = "/usr/bin/pstoedit"
+    pstoedit_candidates = ["/usr/bin/pstoedit", "pstoedit", "pstoedit.exe"]
 
     _BASE_FORMATS = ['svg', 'svg_Ponoko', 'ps']
 
@@ -49,13 +50,15 @@ class Formats:
     }
 
     def __init__(self):
-        pass
+        for cmd in self.pstoedit_candidates:
+            self.pstoedit = shutil.which(cmd)
+            if self.pstoedit:
+                break
 
     def getFormats(self):
-        if os.path.isfile(self.pstoedit):
+        if self.pstoedit:
             return sorted(self.formats.keys())
-        else:
-            return self._BASE_FORMATS
+        return self._BASE_FORMATS
 
     def getSurface(self, fmt, filename):
         if fmt in ("svg", "svg_Ponoko"):

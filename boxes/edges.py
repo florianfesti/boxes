@@ -2262,6 +2262,7 @@ Values:
 """
 
     absolute_params = {
+        "type" : ("slatwall", "dinrail"),
         "bottom_hook" : ("hook", "spring", "stud", "none"),
         "pitch" : 101.6,
         "hook_depth" : 4.0,
@@ -2291,19 +2292,28 @@ class SlatWallEdge(BaseEdge):
     reversed_ = False
 
     def _top_hook(self, reversed_=False):
-        w = 6 # vertical width of hook
-        hd = self.settings.hook_depth
-        ro = 6 # outer radius
-        ri = 2 # inner radius
-        rt = min(1, hd/2) # top radius
-        poly = [0, -90, 5.5-ri, (-90, ri), 12-ri-w-rt, (90, rt),
-                hd-2*rt, (90, rt), 12-ro-rt, (90, ro), 5.5+hd-ro, -90,
-                self.settings.hook_extra_height]
+        if self.settings.type == "slatwall":
+            w = 6 # vertical width of hook
+            hd = self.settings.hook_depth
+            ro = 6 # outer radius
+            ri = 2 # inner radius
+            rt = min(1, hd/2) # top radius
+            poly = [0, -90, 5.5-ri, (-90, ri), 12-ri-w-rt, (90, rt),
+                    hd-2*rt, (90, rt), 12-ro-rt, (90, ro), 5.5+hd-ro, -90,
+                    self.settings.hook_extra_height]
+        else:
+            r = 1.
+            poly = [0, -90, 7.5-r, (90, r), 15+3-2*r, (90, r), 6-2*r, (90, r),
+                    3-r, -90, 1.5, -90, 5+self.settings.hook_extra_height]
+
         if reversed_:
             poly = reversed(poly)
         self.polyline(*poly)
 
     def _top_hook_len(self):
+        if self.settings.type == "dinrail":
+            return (20, self.settings.hook_extra_height)
+
         w = 6 + 1
         return (w, self.settings.hook_extra_height - 1)
 
@@ -2311,7 +2321,16 @@ class SlatWallEdge(BaseEdge):
         slot = 8
         hd = self.settings.hook_depth
 
-        if self.settings.bottom_hook == "spring":
+        if self.settings.type == "dinrail":
+            slot = 20
+            if self.settings.bottom_hook == "stud":
+                r = 1.
+                poly = [0, -90, 7.5-r, (90, r),
+                        slot - 2*r + 2*self.settings.hook_extra_height,
+                        (90, r), 7.5-r, -90, 0]
+            else:
+                poly = [2*self.settings.hook_extra_height + slot]
+        elif self.settings.bottom_hook == "spring":
             r_plug = slot*.4
             slotslot = slot - r_plug * 2**0.5
             poly = [self.settings.hook_extra_height, -90,
@@ -2336,6 +2355,9 @@ class SlatWallEdge(BaseEdge):
         self.polyline(*poly)
 
     def _bottom_hook_len(self):
+        if self.settings.type == "dinrail":
+            return (20 + self.settings.hook_extra_height,
+                    self.settings.hook_extra_height)
         slot = 8
         return (slot + self.settings.hook_extra_height,
                 self.settings.hook_extra_height)
@@ -2348,13 +2370,21 @@ class SlatWallEdge(BaseEdge):
         tht, thb = self._top_hook_len()
         bht, bhb = self._bottom_hook_len()
 
-        if (length >= pitch + tht + bhb and
-            self.settings.bottom_hook != "none"):
-            top_len = ((length-tht-1) // pitch) * pitch - thb - bht
-            bottom_len = (length-tht) % pitch - bhb
-        else:
-            top_len = length-tht-thb
-            bottom_len = None
+        if self.settings.type == "dinrail":
+            if length >= tht + thb + bht + bhb:
+                top_len = length - (tht + thb + bht + bhb)
+                bottom_len = 0
+            else:
+                top_len = length - (tht + thb)
+                bottom_len = None
+        else: # slatwall
+            if (length >= pitch + tht + bhb and
+                self.settings.bottom_hook != "none"):
+                top_len = ((length-tht-1) // pitch) * pitch - thb - bht
+                bottom_len = (length-tht) % pitch - bhb
+            else:
+                top_len = length-tht-thb
+                bottom_len = None
 
         if self.reversed_:
             if bottom_len is not None:

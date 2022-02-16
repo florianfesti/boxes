@@ -57,7 +57,7 @@ Please add mounting holes yourself."""
             help="height underneath the dispenser (in mm)")
         self.argparser.add_argument(
             "--sideedges",  action="store", type=ArgparseEdgeType("Fh"),
-            default="F",
+            choices=list("Fh"), default="F",
             help="edges used for holding the front panels and back")
 
 

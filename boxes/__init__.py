@@ -198,9 +198,9 @@ class ArgparseEdgeType:
         return """<select name="%s" size="1">\n%s</select>\n""" % (name, options)
 
     def inx(self, name, viewname, arg):
-        return ('      <param name="%s" type="enum" gui-text="%s" gui-description=%s>\n' %
+        return ('        <param name="%s" type="optiongroup" appearance="combo" gui-text="%s" gui-description=%s>\n' %
                 (name, viewname, quoteattr(arg.help or "")) +
-                ''.join(('        <item value="%s">%s %s</item>\n' % (
+                ''.join(('            <option value="%s">%s %s</option>\n' % (
                     e, e, self.names.get(e, ""))
                          for e in self.edges)) +
                 '      </param>\n')

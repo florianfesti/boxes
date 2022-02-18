@@ -46,18 +46,14 @@ class Boxes2INX:
         if prefix and name.startswith(prefix + '_'):
             viewname = name[len(prefix)+1:]
 
-        #returns old enum type. disabled
-        #if (isinstance(a, argparse._StoreAction) and hasattr(a.type, "inx")):
-            #return a.type.inx(name, viewname, a) #see boxes.__init__.py
-            
-        #elif a.dest == "layout": # XXX
-        if a.dest == "layout": # XXX
+        if (isinstance(a, argparse._StoreAction) and hasattr(a.type, "inx")):
+            return a.type.inx(name, viewname, a) #see boxes.__init__.py
+        elif a.dest == "layout":
             return ""
             val = a.default.split("\n")
             input = """<textarea name="%s" cols="%s" rows="%s">%s</textarea>""" % \
                     (name, max((len(l) for l in val))+10, len(val)+1, a.default)
-                    
-        elif (isinstance(a, argparse._StoreAction) and hasattr(a.type, "inx")) or a.choices:
+        elif a.choices:
             uniqueChoices = []
             for e in a.choices:
                 if e not in uniqueChoices:
@@ -65,7 +61,6 @@ class Boxes2INX:
             return ('''        <param name="%s" type="optiongroup" appearance="combo" gui-text="%s" gui-description=%s>\n'''
                       % (name, viewname, quoteattr(a.help or viewname)) +
         "".join('            <option value="%s">%s</option>\n' % (e, e) for e in uniqueChoices) + '    </param>\n')
-            
         else:
             default = a.default
             if isinstance(a.type, boxes.BoolArg):

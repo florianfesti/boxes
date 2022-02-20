@@ -15,32 +15,23 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
-from boxes import walledges
+from boxes.walledges import WallMountedBox
 
-class SlatwallEdges(Boxes):
-    """Shows the different edge types for slat walls"""
-
-    ui_group = "SlatWall" # see ./__init__.py for names
+class WallEdges(WallMountedBox):
+    """Shows the different edge types for wall systems"""
 
     def __init__(self):
-        Boxes.__init__(self)
-
-        self.addSettingsArgs(edges.FingerJointSettings)
-        self.addSettingsArgs(walledges.SlatWallSettings)
+        super().__init__()
         self.buildArgParser(h=120)
 
     def render(self):
-
-        s = walledges.SlatWallSettings(self.thickness, True,
-                                       **self.edgesettings.get("SlatWall", {}))
-        s.edgeObjects(self)
-        self.wallHolesAt = self.edges["|"]
+        self.generateWallEdges()
 
         h = self.h
 
         for i, c in enumerate("aAbBcCdD"):
             self.text(c, x=i*30+15, y=5)
-        self.text("slatWallHolesAt", 115, 15)
+        self.text("wallHolesAt", 115, 15)
         self.moveTo(0, 25)
         self.rectangularWall(40, h, "eAea", move="right")
         self.rectangularWall(40, h, "eBeb", move="right")

@@ -15,6 +15,7 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
+from boxes.walledges import WallMountedBox
 
 class FrontEdge(edges.Edge):
 
@@ -29,16 +30,11 @@ class FrontEdge(edges.Edge):
             self.polyline(w, (90, r1), ds-r1-r2, (-90, r2), ws-2*r2,
                           (-90, r2), ds-r1-r2, (90, r1), w)        
 
-class SlatwallSlottedHolder(Boxes):
-    """Slat wall tool holder with slots"""
-
-    ui_group = "SlatWall"
+class WallSlottedHolder(WallMountedBox):
+    """Wall tool holder with slots"""
 
     def __init__(self):
-        Boxes.__init__(self)
-
-        self.addSettingsArgs(edges.FingerJointSettings, surroundingspaces=1.0)
-        self.addSettingsArgs(edges.SlatWallSettings)
+        super().__init__()
 
         self.buildArgParser(h=120)
 
@@ -92,12 +88,12 @@ class SlatwallSlottedHolder(Boxes):
         t = self.thickness
         
         d = min(2*t, (wt-ws)/4.)
-        self.slatWallHolesAt(d, 0, self.h, 90)
-        self.slatWallHolesAt(n*wt-d, 0, self.h, 90)
+        self.wallHolesAt(d, 0, self.h, 90)
+        self.wallHolesAt(n*wt-d, 0, self.h, 90)
         
         for i in range(1, n):
             if self.brace(i):
-                self.slatWallHolesAt(i*wt, 0, self.h, 90)
+                self.wallHolesAt(i*wt, 0, self.h, 90)
 
     def topCB(self):
         n = self.number
@@ -115,12 +111,7 @@ class SlatwallSlottedHolder(Boxes):
                 self.fingerHolesAt(i*wt, 0, l, 90)
 
     def render(self):
-        # Add slat wall edges
-        s = edges.SlatWallSettings(self.thickness, True,
-                                   **self.edgesettings.get("SlatWall", {}))
-        s.edgeObjects(self)
-        self.slatWallHolesAt = edges.SlatWallHoles(self, s)
-
+        self.generateWallEdges()
 
         t = self.thickness
         l1, l2 = self.additional_depth, self.slot_depth

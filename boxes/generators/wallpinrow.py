@@ -15,6 +15,7 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
+from boxes.walledges import WallMountedBox
 
 class PinEdge(edges.BaseEdge):
     def __call__(self, length, **kw):
@@ -36,16 +37,11 @@ class PinEdge(edges.BaseEdge):
     def margin(self):
         return self.settings.thickness+self.settings.pinlength
 
-class SlatwallPinRow(Boxes):
+class WallPinRow(WallMountedBox):
     """Outset and angled plate to mount stuff to"""
 
-    ui_group = "SlatWall"
-
     def __init__(self):
-        Boxes.__init__(self)
-
-        self.addSettingsArgs(edges.FingerJointSettings, surroundingspaces=0.0)
-        self.addSettingsArgs(edges.SlatWallSettings)
+        super().__init__()
 
         self.argparser.add_argument(
             "--pins",  action="store", type=int, default=8,
@@ -68,7 +64,7 @@ class SlatwallPinRow(Boxes):
 
         self.argparser.add_argument(
             "--hooks",  action="store", type=int, default=3,
-            help="number of hooks into the slatwall")
+            help="number of hooks into the wall")
         self.argparser.add_argument(
             "--h",  action="store", type=float, default=50.0,
             help="height of the front plate (in mm) - needs to be at least 7 time the thickness")
@@ -158,11 +154,7 @@ class SlatwallPinRow(Boxes):
         
             
     def render(self):
-        # Add slat wall edges
-        s = edges.SlatWallSettings(self.thickness, True,
-                                   **self.edgesettings.get("SlatWall", {}))
-        s.edgeObjects(self)
-        self.slatWallHolesAt = edges.SlatWallHoles(self, s)
+        self.generateWallEdges()
 
         p = PinEdge(self, self)
         n = self.pins

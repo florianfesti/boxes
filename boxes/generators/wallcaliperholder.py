@@ -15,17 +15,13 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
+from boxes.walledges import WallMountedBox
 
-class SlatwallCaliper(Boxes):
-    """Holds a single caliper to a slat wall"""
-
-    ui_group = "SlatWall"
+class WallCaliper(WallMountedBox):
+    """Holds a single caliper to a wall"""
 
     def __init__(self):
-        Boxes.__init__(self)
-
-        self.addSettingsArgs(edges.FingerJointSettings)
-        self.addSettingsArgs(edges.SlatWallSettings)
+        super().__init__()
 
         # remove cli params you do not need
         self.buildArgParser(h=100)
@@ -56,11 +52,7 @@ class SlatwallCaliper(Boxes):
         self.move(tw, h, move)
 
     def render(self):
-        # Add slat wall edges
-        s = edges.SlatWallSettings(self.thickness, True,
-                                   **self.edgesettings.get("SlatWall", {}))
-        s.edgeObjects(self)
-        self.slatWallHolesAt = edges.SlatWallHoles(self, s)
+        self.generateWallEdges()
 
         t = self.thickness
         h = self.h
@@ -70,4 +62,4 @@ class SlatwallCaliper(Boxes):
         w = self.width
         self.flangedWall(w, h, flanges=[0, 2*t, 0, 2*t], edges="eeee",
                          r=2*t,
-                         callback=[lambda:(self.slatWallHolesAt(1.5*t, 0, h, 90), self.slatWallHolesAt(w+2.5*t, 0, h, 90))])
+                         callback=[lambda:(self.wallHolesAt(1.5*t, 0, h, 90), self.wallHolesAt(w+2.5*t, 0, h, 90))])

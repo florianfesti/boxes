@@ -15,6 +15,7 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
+from boxes.walledges import WallMountedBox
 
 class SlottedEdge(edges.Edge):
 
@@ -41,16 +42,12 @@ class SlottedEdge(edges.Edge):
         self.polyline(0, -45)
         self.edge(length-l)
 
-class SlatwallWrenchHolder(Boxes):
-    """Hold a set of wrenches at a slat wall"""
+class WallWrenchHolder(WallMountedBox):
+    """Hold a set of wrenches at a wall"""
 
-    ui_group = "SlatWall"
 
     def __init__(self):
-        Boxes.__init__(self)
-
-        self.addSettingsArgs(edges.FingerJointSettings)
-        self.addSettingsArgs(edges.SlatWallSettings)
+        super().__init__()
 
         # remove cli params you do not need
         self.buildArgParser(x=100)
@@ -79,11 +76,7 @@ class SlatwallWrenchHolder(Boxes):
 
 
     def render(self):
-        # Add slat wall edges
-        s = edges.SlatWallSettings(self.thickness, True,
-                                   **self.edgesettings.get("SlatWall", {}))
-        s.edgeObjects(self)
-        self.slatWallHolesAt = edges.SlatWallHoles(self, s)
+        self.generateWallEdges()
 
         h = ((self.min_strength + self.max_strength) * self.number * 2**0.5
              +  self.extra_distance * (self.number - 1)

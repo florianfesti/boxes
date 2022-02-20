@@ -16,17 +16,13 @@
 
 from boxes import *
 from .drillstand import DrillStand
+from boxes.walledges import WallMountedBox
 
-class SlatwallDrillBox(DrillStand):
+class WallDrillBox(WallMountedBox, DrillStand):
     """Box for drills with each compartment with a different height"""
 
-    ui_group = "SlatWall"
-
     def __init__(self):
-        Boxes.__init__(self)
-
-        self.addSettingsArgs(edges.FingerJointSettings)
-        self.addSettingsArgs(edges.SlatWallSettings)
+        super().__init__()
 
         self.buildArgParser(sx="25*6", sy="10:20:30", sh="25:40:60")
         self.argparser.add_argument(
@@ -34,11 +30,7 @@ class SlatwallDrillBox(DrillStand):
             help="height difference left to right")
 
     def render(self):
-        # Add slat wall edges
-        s = edges.SlatWallSettings(self.thickness, True,
-                                   **self.edgesettings.get("SlatWall", {}))
-        s.edgeObjects(self)
-        self.slatWallHolesAt = edges.SlatWallHoles(self, s)
+        self.generateWallEdges()
 
         t = self.thickness
         sx, sy, sh = self.sx, self.sy, self.sh

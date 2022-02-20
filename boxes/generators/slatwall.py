@@ -15,6 +15,7 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
+from boxes import walledges
 
 class SlatwallEdges(Boxes):
     """Shows the different edge types for slat walls"""
@@ -25,15 +26,15 @@ class SlatwallEdges(Boxes):
         Boxes.__init__(self)
 
         self.addSettingsArgs(edges.FingerJointSettings)
-        self.addSettingsArgs(edges.SlatWallSettings)
+        self.addSettingsArgs(walledges.SlatWallSettings)
         self.buildArgParser(h=120)
 
     def render(self):
 
-        s = edges.SlatWallSettings(self.thickness, True,
-                                   **self.edgesettings.get("SlatWall", {}))
+        s = walledges.SlatWallSettings(self.thickness, True,
+                                       **self.edgesettings.get("SlatWall", {}))
         s.edgeObjects(self)
-        self.slatWallHolesAt = edges.SlatWallHoles(self, s)
+        self.wallHolesAt = self.edges["|"]
 
         h = self.h
 
@@ -44,6 +45,6 @@ class SlatwallEdges(Boxes):
         self.rectangularWall(40, h, "eAea", move="right")
         self.rectangularWall(40, h, "eBeb", move="right")
         self.rectangularWall(40, h, "eCec", callback=[
-            lambda: self.slatWallHolesAt(20, 0, h, 90)], move="right")
+            lambda: self.wallHolesAt(20, 0, h, 90)], move="right")
         self.moveTo(10)
         self.rectangularWall(40, h, "eDed", move="right")

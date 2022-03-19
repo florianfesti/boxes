@@ -186,7 +186,10 @@ class Path:
                 if invert_y:
                     c[3] *= Affine.scale(1, -1)
 
-    def faster_edges(self):
+    def faster_edges(self, inner_corners):
+        if inner_corners == "backarc":
+            return
+
         for (i, p) in enumerate(self.path):
             if p[0] == "C" and i > 1 and i < len(self.path) - 1:
                 if self.path[i - 1][0] == "L" and self.path[i + 1][0] == "L":
@@ -200,8 +203,12 @@ class Path:
                     lines_intersect, x, y = line_intersection((p11, p12), (p21, p22))
                     if lines_intersect:
                         self.path[i - 1] = ("L", x, y)
-                        self.path[i] = ("C", x, y, *p12, *p21)
-
+                        if inner_corners == "loop":
+                            self.path[i] = ("C", x, y, *p12, *p21)
+                        else:
+                            self.path[i] =  ("L", x, y)
+        # filter duplicates
+        self.path = [p for n, p in enumerate(self.path) if p != self.path[n-1]]
 
 class Context:
     def __init__(self, surface, *al, **ad):
@@ -460,7 +467,7 @@ Creation date: {date}
         m.tail = '\n'
         root.insert(0, m)
 
-    def finish(self):
+    def finish(self, inner_corners="loop"):
         extents = self._adjust_coordinates()
         w = extents.width * self.scale
         h = extents.height * self.scale
@@ -498,7 +505,7 @@ Creation date: {date}
                 x, y = 0, 0
                 start = None
                 last = None
-                path.faster_edges()
+                path.faster_edges(inner_corners)
                 for c in path.path:
                     x0, y0 = x, y
                     C, x, y = c[0:3]
@@ -602,7 +609,7 @@ class PSSurface(Surface):
             desc += f'%%SettingsUrl: {md["url"].replace("&render=1", "")}\n'
         return desc
 
-    def finish(self):
+    def finish(self, inner_corners="loop"):
 
         extents = self._adjust_coordinates()
         w = extents.width
@@ -644,7 +651,7 @@ class PSSurface(Surface):
             for j, path in enumerate(part.pathes):
                 p = []
                 x, y = 0, 0
-                path.faster_edges()
+                path.faster_edges(inner_corners)
 
                 for c in path.path:
                     x0, y0 = x, y

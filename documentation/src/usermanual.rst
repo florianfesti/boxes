@@ -117,6 +117,21 @@ For plywood values of 0.2 to 0.3mm still allow getting the parts out
 by hand (Depending on you laser cutter and the exact material). With
 little more you will need a knife to cut them loose. 
 
+inner_corners
+.............
+
+How to handle inner corners. Inner corners are an issue as a round
+tool like a laser or mill cannot create sharp inner corners. There are
+different options:
+
+* ``loop`` create a loop that fills the corner
+* ``corner`` just a simple sharp corner in the path that will leave a
+  radius untouched.
+* ``backarc`` naive implementation with inverted arcs connection the
+  straight lines.
+
+See also :doc:`burn correction details <api_burn>`
+
 debug
 .....
 

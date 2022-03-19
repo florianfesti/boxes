@@ -32,12 +32,12 @@ Unfortunately some formats do not save the units of measurement or don't do so p
 Why are there tiny, weird loops in the corners?
 -----------------------------------------------
 
-These are called dog bones and make sure the corner is completely cut out. As lasers and milling tools are round they can't cut sharp inner corners. Have a look at :doc:`burn correction details <api_burn>`.
+These are called dog bones and make sure the corner is completely cut out. As lasers and milling tools are round they can't cut sharp inner corners. Have a look at :doc:`burn correction details <api_burn>` for details.
 
 I really don't want those weird, tiny loops?
 --------------------------------------------
 
-You can just set ``burn`` to ``0`` to make them go away. But you have then to use a separate CAM software to do the burn correction (aka kerf). Or your laser cutter software may be able to take care of that.
+You can set the ``inner_corners`` default setting to ``corner``
 
 What settings were used to generate a drawing?
 ----------------------------------------------

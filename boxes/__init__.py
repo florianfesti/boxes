@@ -299,6 +299,10 @@ class Boxes:
             "--reference", action="store", type=float, default=100,
             help="print reference rectangle with given length (in mm)(zero to disable) [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#reference)")
         defaultgroup.add_argument(
+            "--inner_corners", action="store", type=str, default="loop",
+            choices=["loop", "corner", "backarc"],
+            help="style for inner corners [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#inner-corners)")
+        defaultgroup.add_argument(
             "--burn", action="store", type=float, default=0.1,
             help='burn correction (in mm)(bigger values for tighter fit) [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#burn)')
 
@@ -671,7 +675,7 @@ class Boxes:
         self.surface.set_metadata(self.metadata)
 
         self.surface.flush()
-        self.surface.finish()
+        self.surface.finish(self.inner_corners)
 
         self.formats.convert(self.output, self.format, self.metadata)
         if self.inkscapefile:

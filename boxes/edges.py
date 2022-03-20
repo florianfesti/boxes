@@ -684,7 +684,7 @@ Values:
 """
 
     absolute_params = {
-        "style" : ("rectangular", "springs", "barbs"),
+        "style" : ("rectangular", "springs", "barbs", "snap"),
         "surroundingspaces": 2.0,
         "angle" : 90.0,
     }
@@ -753,6 +753,7 @@ class FingerJointEdge(BaseEdge, FingerJointBase):
     def __call__(self, length, bedBolts=None, bedBoltSettings=None, **kw):
 
         positive = self.positive
+        t = self.settings.thickness
 
         s, f, thickness = self.settings.space, self.settings.finger, self.settings.thickness
 
@@ -792,7 +793,6 @@ class FingerJointEdge(BaseEdge, FingerJointBase):
                     90, 0.9*h, -180, 0.9*h, 90, 0.1*h,
                     (90 * p, 0.2 *h), 0.8*h, -90 * p)
             elif positive and self.settings.style == "barbs":
-                t = self.settings.thickness
                 n = int((h-0.1*t) // (0.3*t))
                 a = math.degrees(math.atan(0.5))
                 l = 5**0.5
@@ -801,6 +801,18 @@ class FingerJointEdge(BaseEdge, FingerJointBase):
                 self.polyline(
                     0, -90, *poly, 90, f, 90, *reversed(poly), -90
                 )
+            elif positive and self.settings.style == "snap":
+                a12 = math.degrees(math.atan(0.5))
+                l12 = t / math.cos(math.radians(a12))
+                d = 4*t
+                d2 = d + 1*t
+                a = math.degrees(math.atan((0.5*t)/(h+d2)))
+                l = (h+d2) / math.cos(math.radians(a))
+                poly = [0, 90, d, -180, d+h, -90, 0.5*t, 90+a12, l12, 90-a12,
+                        0.5*t, 90-a, l, +a, 0, (-180, 0.1*t), h+d2, 90, f-1.7*t, 90-a12, l12, a12, h, -90, 0]
+                if i < fingers//2:
+                    poly = list(reversed(poly))
+                self.polyline(*poly)
             else:
                 self.polyline(0, -90 * p, h, 90 * p, f, 90 * p, h, -90 * p)
 
@@ -810,6 +822,8 @@ class FingerJointEdge(BaseEdge, FingerJointBase):
         """ """
         widths = self.fingerLength(self.settings.angle)
         if self.positive:
+            if self.settings.style == "snap":
+                return widths[0] - widths[1] + self.settings.thickness
             return widths[0] - widths[1]
         else:
             return 0

@@ -684,7 +684,7 @@ Values:
 """
 
     absolute_params = {
-        "style" : ("rectangular", "springs"),
+        "style" : ("rectangular", "springs", "barbs"),
         "surroundingspaces": 2.0,
         "angle" : 90.0,
     }
@@ -790,7 +790,17 @@ class FingerJointEdge(BaseEdge, FingerJointBase):
                     0.1 * h, 90, 0.9*h, -180, 0.9*h, 90,
                     f - 0.6*h,
                     90, 0.9*h, -180, 0.9*h, 90, 0.1*h,
-                (90 * p, 0.2 *h), 0.8*h, -90 * p)
+                    (90 * p, 0.2 *h), 0.8*h, -90 * p)
+            elif positive and self.settings.style == "barbs":
+                t = self.settings.thickness
+                n = int((h-0.1*t) // (0.3*t))
+                a = math.degrees(math.atan(0.5))
+                l = 5**0.5
+                poly = [h - n*0.3*t] + \
+                    ([-45, 0.1*2**0.5*t, 45+a, l*0.1*t, -a, 0] * n)
+                self.polyline(
+                    0, -90, *poly, 90, f, 90, *reversed(poly), -90
+                )
             else:
                 self.polyline(0, -90 * p, h, 90 * p, f, 90 * p, h, -90 * p)
 

@@ -23,6 +23,8 @@ import math
 class DividerTray(Boxes):
     """Divider tray - rows and dividers"""
 
+    description = "Adding '0:' at the start of the sy parameter adds a slot at the very back. Adding ':0' at the end of sy adds a slot meeting the bottom at the very front. This is especially useful if slot angle is set above zero."
+
     ui_group = "Tray"
 
     def __init__(self):

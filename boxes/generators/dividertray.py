@@ -182,15 +182,20 @@ class DividerTray(Boxes):
             # with margin
             - self.divider_bottom_margin
         )
+        self.generate_divider(
+            self.sx, divider_height, "up",
+            first_tab_width=self.thickness if self.left_wall else 0,
+            second_tab_width=self.thickness if self.right_wall else 0
+        )
         for i, length in enumerate(self.sx):
             is_first_wall = i == 0
             is_last_wall = i == len(self.sx) - 1
             self.generate_divider(
-                length,
+                [length],
                 divider_height,
-                "up",
-                only_one_wall=(is_first_wall and not self.left_wall)
-                or (is_last_wall and not self.right_wall),
+                "right",
+                first_tab_width=self.thickness if self.left_wall or i>0 else 0,
+                second_tab_width=self.thickness if self.right_wall or i<(len(self.sx) - 1) else 0,
             )
 
         if self.debug:
@@ -236,9 +241,9 @@ class DividerTray(Boxes):
             posx += x + self.thickness
             self.fingerHolesAt(posx, 0, length)
 
-    def generate_divider(self, width, height, move, only_one_wall=False):
-        second_tab_width = 0 if only_one_wall else self.thickness
-        total_width = width + self.thickness + second_tab_width
+    def generate_divider(
+            self, widths, height, move, first_tab_width=0, second_tab_width=0):
+        total_width = sum(widths) + (len(widths)-1) * self.thickness + first_tab_width + second_tab_width
 
         if self.move(total_width, height, move, True):
             return
@@ -247,27 +252,31 @@ class DividerTray(Boxes):
 
         upper_radius = self.divider_upper_notch_radius
         lower_radius = self.divider_lower_notch_radius
-        upper_third = (width - 2 * upper_radius - 2 * lower_radius) / 3
 
         # Upper: first tab width
-        self.edge(self.thickness)
+        self.edge(first_tab_width)
 
-        # Upper: divider width (with notch if possible)
-        if upper_third > 0:
-            self.polyline(
-                upper_third,
-                (90, upper_radius),
-                self.divider_notch_depth - upper_radius - lower_radius,
-                (-90, lower_radius),
-                upper_third,
-                (-90, lower_radius),
-                self.divider_notch_depth - upper_radius - lower_radius,
-                (90, upper_radius),
-                upper_third,
-            )
-        else:
-            # if there isn't enough room for the radius, we don't use it
-            self.edge(width)
+        for nr, width in enumerate(widths):
+            if nr > 0:
+                self.edge(self.thickness)
+
+            # Upper: divider width (with notch if possible)
+            upper_third = (width - 2 * upper_radius - 2 * lower_radius) / 3
+            if upper_third > 0:
+                self.polyline(
+                    upper_third,
+                    (90, upper_radius),
+                    self.divider_notch_depth - upper_radius - lower_radius,
+                    (-90, lower_radius),
+                    upper_third,
+                    (-90, lower_radius),
+                    self.divider_notch_depth - upper_radius - lower_radius,
+                    (90, upper_radius),
+                    upper_third,
+                )
+            else:
+                # if there isn't enough room for the radius, we don't use it
+                self.edge(width)
 
         self.polyline(
             # Upper: second tab width if needed
@@ -279,14 +288,24 @@ class DividerTray(Boxes):
             second_tab_width,
             -90,
             height - self.slot_depth,
-            # Lower edge
-            90,
-            width,
-            # Second side, always a tab
+            90)
+        # Lower edge
+        for width in reversed(widths[1:]):
+            self.polyline(width, 90,
+                          height - self.slot_depth,
+                          -90,
+                          self.thickness,
+                          -90,
+                          height - self.slot_depth,
+                          90)
+
+        self.polyline(
+            # Second side tab
+            widths[0],
             90,
             height - self.slot_depth,
             -90,
-            self.thickness,
+            first_tab_width,
             90,
             self.slot_depth,
         )

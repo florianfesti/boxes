@@ -56,8 +56,6 @@ class HingeBox(Boxes):
         self.rectangularWall(y, h, "Ffef")
         self.rectangularWall(x, h, "FFuF", move="left up")
 
-        print(s, bool(s))
-        
         # lid
         self.rectangularWall(x, hl, "UFFF", move="right")
         if s:

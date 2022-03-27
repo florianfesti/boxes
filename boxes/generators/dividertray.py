@@ -188,8 +188,6 @@ class DividerTray(Boxes):
             second_tab_width=self.thickness if self.right_wall else 0
         )
         for i, length in enumerate(self.sx):
-            is_first_wall = i == 0
-            is_last_wall = i == len(self.sx) - 1
             self.generate_divider(
                 [length],
                 divider_height,

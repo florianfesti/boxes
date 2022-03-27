@@ -19,18 +19,19 @@ import subprocess
 import tempfile
 import os
 import shutil
-from boxes.drawing import SVGSurface, PSSurface, Context
+from boxes.drawing import SVGSurface, PSSurface, LBRN2Surface, Context
 
 class Formats:
 
     pstoedit_candidates = ["/usr/bin/pstoedit", "pstoedit", "pstoedit.exe"]
 
-    _BASE_FORMATS = ['svg', 'svg_Ponoko', 'ps']
+    _BASE_FORMATS = ['svg', 'svg_Ponoko', 'ps', 'lbrn2']
 
     formats = {
         "svg": None,
         "svg_Ponoko": None,
         "ps": None,
+        "lbrn2": None,
         "dxf": "-flat 0.1 -f dxf:-mm".split(),
         "gcode": "-f gcode".split(),
         "plt": "-f plot-hpgl".split(),
@@ -42,6 +43,7 @@ class Formats:
         "svg": [('Content-type', 'image/svg+xml; charset=utf-8')],
         "svg_Ponoko": [('Content-type', 'image/svg+xml; charset=utf-8')],
         "ps": [('Content-type', 'application/postscript')],
+        "lbrn2": [('Content-type', 'application/lbrn2')],
         "dxf": [('Content-type', 'image/vnd.dxf')],
         "plt": [('Content-type', ' application/vnd.hp-hpgl')],
         "gcode": [('Content-type', 'text/plain; charset=utf-8')],
@@ -64,7 +66,10 @@ class Formats:
         if fmt in ("svg", "svg_Ponoko"):
             surface = SVGSurface(filename)
         else:
-            surface = PSSurface(filename)
+            if fmt == "lbrn2":
+                surface = LBRN2Surface(filename)
+            else:
+                surface = PSSurface(filename)
 
         ctx = Context(surface)
         return surface, ctx

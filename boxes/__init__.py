@@ -1279,7 +1279,7 @@ class Boxes:
             self.corner(-a)
 
     @restore
-    def text(self, text, x=0, y=0, angle=0, align="", fontsize=10, color=[0.0, 0.0, 0.0]):
+    def text(self, text, x=0, y=0, angle=0, align="", fontsize=10, color=[0.0, 0.0, 0.0], font="Arial"):
         """
         Draw text
 
@@ -1315,7 +1315,7 @@ class Boxes:
                 raise ValueError("Unknown alignment: %s" % align)
 
         for line in reversed(text):
-            self.ctx.show_text(line, fs=fontsize, align=halign, rgb=color)
+            self.ctx.show_text(line, fs=fontsize, align=halign, rgb=color, font=font)
             self.moveTo(0, 1.4 * fontsize)
 
     tx_sizes = {
@@ -1879,7 +1879,7 @@ class Boxes:
             if 2*i in ignore_widths:
                 l += edges[i+1].startwidth()
                 e2 = self.edges["e"]
-            if 2*i+1in ignore_widths:
+            if 2*i+1 in ignore_widths:
                 e1 = self.edges["e"]
 
             edges[i](l,

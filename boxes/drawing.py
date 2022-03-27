@@ -718,7 +718,197 @@ showpage
         )
         f.close()
 
+class LBRN2Surface(Surface):
 
+    invert_y = False
+    dbg = False
+
+    fonts = {
+        'serif' : 'Times New Roman',
+        'sans-serif' : 'Arial',
+        'monospaced' : 'Courier New'
+    }
+
+    def finish(self, inner_corners="loop"):
+        if self.dbg: print("LBRN2 save")
+        extents = self._adjust_coordinates()
+        w = extents.width * self.scale
+        h = extents.height * self.scale
+
+        svg = ET.Element('LightBurnProject', AppVersion="1.0.06", FormatVersion="1", MaterialHeight="0", MirrorX="False", MirrorY="False")
+        svg.text = "\n"
+        num = 0
+        txtOffset = {}
+
+        tree = ET.ElementTree(svg)
+        if self.dbg: print ("8", num)
+                
+        for i, part in enumerate(self.parts):
+            if self.dbg: print ("7", num)
+            if not part.pathes:
+                continue
+            for j, path in enumerate(part.pathes):
+                Color = 2*int(path.params["rgb"][0])+4*int(path.params["rgb"][1])+int(path.params["rgb"][2])
+                if Color == 4:  # 4 is yellow in Lightburn
+                    Color = 3   # use green instead
+                p = []
+                x, y = 0, 0
+                C = ""
+                start = None
+                last = None
+                path.faster_edges(inner_corners)
+                num = 0
+                cnt = 1
+                
+                ende = len(path.path)-1
+                if self.dbg: 
+                    for c in path.path:
+                        print ("6",num, c)
+                        num += 1
+                    
+                num = 0
+                c = path.path[num]
+                C, x, y = c[0:3]
+                if self.dbg: print("ende:" ,ende)
+                while num < ende or (C == "T" and num <= ende): #len(path.path):
+                    if self.dbg: print ("0", num)
+                    c = path.path[num]
+                    if self.dbg: print("first: ", num, c)
+
+                    C, x, y = c[0:3]
+                    if C == "M":
+                        if self.dbg: print ("1", num)
+                        sh = ET.SubElement(svg, "Shape", Type="Path", CutIndex=str(Color))
+                        sh.text = "\n  "
+                        sh.tail = "\n"
+                        vl = ET.SubElement(sh, "VertList")
+                        vl.text = f"V{x:.3f} {y:.3f}c0x1c1x1"
+                        vl.tail = "\n"
+                        pl = ET.SubElement(sh, "PrimList")
+                        pl.text = ""#f"L{cnt} {cnt+1}"
+                        pl.tail = "\n"
+                        start = c
+                        x0, y0 = x, y
+                        # do something with M
+                        done = False
+                        bspline = False
+                        while done == False and num < ende: #len(path.path):
+                            num += 1
+                            c = path.path[num]
+                            if self.dbg: print ("next: ",num, c)
+                            C, x, y = c[0:3]
+                            if C == "M":
+                                if start and points_equal(start[1], start[2], x, y):
+                                    pl.text = "LineClosed"
+                                start = c
+                                cnt = 1
+                                if self.dbg: print ("next, because M")
+                                done = True
+                            elif C == "T":
+                                if self.dbg: print ("next, because T")
+                                done = True
+                            else:
+                                if C == "L":
+                                    vl.text+=(f"V{x:.3f} {y:.3f}c0x1c1x1")
+                                    pl.text += f"L{cnt-1} {cnt}"
+                                    cnt +=1
+                                elif C == "C":
+                                    x1, y1, x2, y2 = c[3:]
+                                    if self.dbg: print ("C: ",x0, y0, x1, y1, x, y, x2, y2)
+                                    vl.text+=(f"V{x0:.3f} {y0:.3f}c0x{(x1):.3f}c0y{(y1):.3f}c1x1V{x:.3f} {y:.3f}c0x1c1x{(x2):.3f}c1y{(y2):.3f}")
+                                    pl.text += f"L{cnt-1} {cnt}B{cnt} {cnt+1}"
+                                    cnt +=2
+                                    bspline = True
+                                else:
+                                    print("unknown", c)
+                            if done == False:
+                                x0, y0 = x, y
+                
+                        if start and points_equal(start[1], start[2], x0, y0):
+                                if bspline == False:
+                                    pl.text = "LineClosed"
+                        start = c
+                        if self.dbg: print ("2", num)
+                    elif C == "T":
+                        cnt = 1
+                        #C = ""
+                        if self.dbg: print ("3", num)
+                        m, text, params = c[3:]
+                        m = m * Affine.translation(0, params['fs'])
+                        if self.dbg: print ("T: ",x, y, c)
+                        num += 1
+                        font, bold, italic = params['ff']
+                        if params.get('font', 'Arial')=='Arial':
+                            f = self.fonts[font]
+                        else:
+                            f = params.get('font', 'Arial')
+                        fontColor = 2*int(params['rgb'][0])+4*int(params['rgb'][1])+int(params['rgb'][2])
+                        if fontColor == 4:  # 4 is yellow in Lightburn
+                            fontColor = 3   # use green instead
+
+                        #alignment can be left|middle|end
+                        if params.get('align', 'left')=='middle':
+                            hor = '1'
+                        else:
+                            if params.get('align', 'left')=='end':
+                                hor = '2'
+                            else:
+                                hor = '0'
+                        ver = 2 # vertical is always bottom, text is shifted in box class
+                        
+                        pos = text.find('%')
+                        offs = 0
+                        if pos >- 1:
+                            if self.dbg: print ("p: ", pos, text[pos+1:pos+3])
+                            texttype = '2'
+                            if self.dbg: print("l ", len(text[pos+1:pos+3]))
+                            if text[pos+1:pos+2].isnumeric():
+                                if self.dbg: print ("t0", text[pos+1:pos+3])
+                                if text[pos+1:pos+3].isnumeric() and len(text[pos+1:pos+3]) == 2:
+                                    if self.dbg: print ("t1")
+                                    if text[pos:pos+3] in txtOffset:
+                                        if self.dbg: print ("t2")
+                                        offs = txtOffset[text[pos:pos+3]] + 1
+                                    else:
+                                        if self.dbg: print ("t3")
+                                        offs = 0
+                                    txtOffset[text[pos:pos+3]] = offs
+                                else:
+                                    if self.dbg: print ("t4")
+                                    if text[pos:pos+2] in txtOffset:
+                                        if self.dbg: print ("t5")
+                                        offs = txtOffset[text[pos:pos+2]] + 1
+                                    else:
+                                        offs = 0
+                                        if self.dbg: print ("t6")
+                                    txtOffset[text[pos:pos+2]] = offs
+                            else:
+                                if self.dbg: print ("t7")
+                                texttype = '0'
+                        else:
+                            texttype = '0'
+                            if self.dbg: print ("t8")
+                        if self.dbg: print ("o: ", text, txtOffset, offs)
+
+                        sh = ET.SubElement(svg, "Shape", Type="Text", CutIndex=str(fontColor), Font=f"{f}", H=f"{(params['fs']*1.75*0.6086434):.3f}", Str=f"{text}", Bold=f"{'1' if bold else '0'}", Italic=f"{'1' if italic else '0'}", Ah=f"{str(hor)}", Av=f"{str(ver)}", Eval=f"{texttype}", VariableOffset=f"{str(offs)}")  # 1mm = 1.75 Lightburn H units
+                        sh.text = "\n  "
+                        sh.tail = "\n"
+                        xf = ET.SubElement(sh, "XForm")
+                        xf.text = " ".join((f"{m[i]:.3f}" for i in (0, 3, 1, 4, 2, 5)))
+                        xf.tail = "\n"
+                    else:
+                        if self.dbg: print ("4", num)
+                        print ("next, because not M")
+                        num += 1
+
+        url = self.metadata["url"].replace("&render=1", "") # remove render argument to get web form again
+        
+        pl = ET.SubElement(svg, "Notes", ShowOnLoad="1", Notes="File created by Boxes.py script, programmed by Florian Festi.\nLightburn output by Klaus Steinhammer.\n\nURL with settings:\n" + str(url))
+        pl.text = ""
+        pl.tail = "\n"
+
+        if self.dbg: print ("5", num)
+        tree.write(open(self._fname, "wb"), xml_declaration=True, method="xml", encoding="UTF-8")
 from random import random
 
 

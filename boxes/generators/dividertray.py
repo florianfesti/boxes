@@ -83,6 +83,12 @@ class DividerTray(Boxes):
             help="divider's notch's depth",
         )
         self.argparser.add_argument(
+            "--divider_play",
+            type=float,
+            default=0.15,
+            help="divider's play to avoid them clamping onto the walls",
+        )
+        self.argparser.add_argument(
             "--left_wall",
             type=boolarg,
             default=True,
@@ -264,8 +270,7 @@ class DividerTray(Boxes):
             return
 
         # Upper edge with a finger notch
-
-        play = 0.05 * self.thickness
+        play = self.divider_play
 
         # Upper: first tab width
         self.edge(first_tab_width - play)

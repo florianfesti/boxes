@@ -65,11 +65,10 @@ class Formats:
     def getSurface(self, fmt, filename):
         if fmt in ("svg", "svg_Ponoko"):
             surface = SVGSurface(filename)
+        elif fmt == "lbrn2":
+            surface = LBRN2Surface(filename)
         else:
-            if fmt == "lbrn2":
-                surface = LBRN2Surface(filename)
-            else:
-                surface = PSSurface(filename)
+            surface = PSSurface(filename)
 
         ctx = Context(surface)
         return surface, ctx

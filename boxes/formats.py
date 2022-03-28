@@ -68,7 +68,10 @@ class Formats:
         elif fmt == "lbrn2":
             surface = LBRN2Surface(filename)
         else:
-            surface = PSSurface(filename)
+            if fmt == "lbrn2":
+                surface = LBRN2Surface(filename)
+            else:
+                surface = PSSurface(filename)
 
         ctx = Context(surface)
         return surface, ctx

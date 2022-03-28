@@ -20,6 +20,56 @@ from boxes import Boxes, edges, boolarg
 import math
 
 
+class NotchSettings(edges.Settings):
+    """Settings for Notches"""
+
+    absolute_params = {
+        "upper_radius": 1,
+        "lower_radius": 8,
+        "depth": 15,
+    }
+
+
+class SlotSettings(edges.Settings):
+    """Settings for Slots Edge
+
+    Values:
+
+    * absolute
+      * depth : 20 : depth of the slot in mm
+      * angle : 0 : angle at which slots are generated, in degrees. 0° is vertical.
+      * radius : 2 : radius of the slot entrance in mm
+      * extra_slack : 0.2 : extra slack (in addition to thickness and kerf) for slot width to help insert dividers"""
+
+    absolute_params = {
+        "depth": 20,
+        "angle": 0,
+        "radius": 2,
+        "extra_slack": 0.2,
+    }
+
+
+class DividerSettings(edges.Settings):
+    """Settings for Dividers
+    Values:
+
+    * absolute_params
+
+     * bottom_margin : 0 : margin between box's bottom and divider's
+
+    * relative (in multiples of thickness)
+
+     * play : 0.5 : divider's play to avoid them clamping onto the walls
+    """
+
+    absolute_params = {
+        "bottom_margin": 0,
+    }
+    relative_params = {
+        "play": 0.05,
+    }
+
+
 class DividerTray(Boxes):
     """Divider tray - rows and dividers"""
 
@@ -31,62 +81,14 @@ class DividerTray(Boxes):
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings)
         self.buildArgParser("sx", "sy", "h", "outside")
+        self.addSettingsArgs(SlotSettings)
+        self.addSettingsArgs(NotchSettings)
+        self.addSettingsArgs(DividerSettings)
         self.argparser.add_argument(
             "--notches_in_wall",
             type=boolarg,
             default=True,
             help="generate the same notches on the walls that are on the dividers",
-        )
-        self.argparser.add_argument(
-            "--slot_depth", type=float, default=20, help="depth of the slot in mm"
-        )
-        self.argparser.add_argument(
-            "--slot_angle",
-            type=float,
-            default=0,
-            help="angle at which slots are generated, in degrees. 0° is vertical.",
-        )
-        self.argparser.add_argument(
-            "--slot_radius",
-            type=float,
-            default=2,
-            help="radius of the slot entrance in mm",
-        )
-        self.argparser.add_argument(
-            "--slot_extra_slack",
-            type=float,
-            default=0.2,
-            help="extra slack (in addition to thickness and kerf) for slot width to help insert dividers",
-        )
-        self.argparser.add_argument(
-            "--divider_bottom_margin",
-            type=float,
-            default=0,
-            help="margin between box's bottom and divider's",
-        )
-        self.argparser.add_argument(
-            "--divider_upper_notch_radius",
-            type=float,
-            default=1,
-            help="divider's notch's upper radius",
-        )
-        self.argparser.add_argument(
-            "--divider_lower_notch_radius",
-            type=float,
-            default=8,
-            help="divider's notch's lower radius",
-        )
-        self.argparser.add_argument(
-            "--divider_notch_depth",
-            type=float,
-            default=15,
-            help="divider's notch's depth",
-        )
-        self.argparser.add_argument(
-            "--divider_play",
-            type=float,
-            default=0.15,
-            help="divider's play to avoid them clamping onto the walls",
         )
         self.argparser.add_argument(
             "--left_wall",
@@ -114,16 +116,16 @@ class DividerTray(Boxes):
         if not self.outside:
             # If the parameter 'h' is the inner height of the content itself,
             # then the actual tray height needs to be adjusted with the angle
-            self.h = self.h * math.cos(math.radians(self.slot_angle))
+            self.h = self.h * math.cos(math.radians(self.Slot_angle))
 
         slot_descriptions = SlotDescriptionsGenerator().generate_all_same_angles(
             self.sy,
             self.thickness,
-            self.slot_extra_slack,
-            self.slot_depth,
+            self.Slot_extra_slack,
+            self.Slot_depth,
             self.h,
-            self.slot_angle,
-            self.slot_radius,
+            self.Slot_angle,
+            self.Slot_radius,
         )
 
         # If measures are outside, we need to readjust slots afterwards
@@ -142,9 +144,6 @@ class DividerTray(Boxes):
             DividerNotchesEdge(
                 self,
                 list(reversed(self.sx)),
-                self.divider_upper_notch_radius,
-                self.divider_lower_notch_radius,
-                self.divider_notch_depth,
             )
             if self.notches_in_wall
             else "e"
@@ -199,11 +198,11 @@ class DividerTray(Boxes):
         # Dividers
         divider_height = (
             # h, with angle adjustement
-            self.h / math.cos(math.radians(self.slot_angle))
+            self.h / math.cos(math.radians(self.Slot_angle))
             # removing what exceeds in the width of the divider
-            - self.thickness * math.tan(math.radians(self.slot_angle))
+            - self.thickness * math.tan(math.radians(self.Slot_angle))
             # with margin
-            - self.divider_bottom_margin
+            - self.Divider_bottom_margin
         )
         self.generate_divider(
             self.sx, divider_height, "up",
@@ -251,7 +250,7 @@ class DividerTray(Boxes):
             debug_info.append("Tray_height:{0:.2f}".format(self.h))
             debug_info.append(
                 "Content_height:{0:.2f}".format(
-                    self.h / math.cos(math.radians(self.slot_angle))
+                    self.h / math.cos(math.radians(self.Slot_angle))
                 )
             )
             self.text(str.join("\n", debug_info), x=5, y=5, align="bottom left")
@@ -270,7 +269,7 @@ class DividerTray(Boxes):
             return
 
         # Upper edge with a finger notch
-        play = self.divider_play
+        play = self.Divider_play
 
         # Upper: first tab width
         self.edge(first_tab_width - play)
@@ -281,9 +280,6 @@ class DividerTray(Boxes):
             DividerNotchesEdge(
                 self,
                 [width],
-                self.divider_upper_notch_radius,
-                self.divider_lower_notch_radius,
-                self.divider_notch_depth,
             )(width)
 
         self.polyline(
@@ -291,31 +287,35 @@ class DividerTray(Boxes):
             second_tab_width - play,
             # First side, with tab depth only if there is 2 walls
             90,
-            self.slot_depth,
+            self.Slot_depth,
             90,
             second_tab_width,
             -90,
-            height - self.slot_depth,
-            90)
+            height - self.Slot_depth,
+            90,
+        )
         # Lower edge
         for width in reversed(widths[1:]):
-            self.polyline(width - 2 * play, 90,
-                          height - self.slot_depth,
-                          -90,
-                          self.thickness + 2 * play,
-                          -90,
-                          height - self.slot_depth,
-                          90)
+            self.polyline(
+                width - 2 * play,
+                90,
+                height - self.Slot_depth,
+                -90,
+                self.thickness + 2 * play,
+                -90,
+                height - self.Slot_depth,
+                90,
+            )
 
         self.polyline(
             # Second side tab
             widths[0] - 2 * play,
             90,
-            height - self.slot_depth,
+            height - self.Slot_depth,
             -90,
             first_tab_width,
             90,
-            self.slot_depth,
+            self.Slot_depth,
         )
 
         # Move for next piece
@@ -531,14 +531,11 @@ class DividerNotchesEdge(edges.BaseEdge):
 
     description = "Edge with multiple notches for easier access to dividers"
 
-    def __init__(self, boxes, sx, upper_radius, lower_radius, depth):
+    def __init__(self, boxes, sx):
 
         super(DividerNotchesEdge, self).__init__(boxes, None)
 
         self.sx = sx
-        self.upper_radius = upper_radius
-        self.lower_radius = lower_radius
-        self.depth = depth
 
     def __call__(self, _, **kw):
         first = True
@@ -550,18 +547,23 @@ class DividerNotchesEdge(edges.BaseEdge):
             self.edge_with_notch(width)
 
     def edge_with_notch(self, width):
-        # Upper: divider width (with notch if possible)
-        upper_third = (width - 2 * self.upper_radius - 2 * self.lower_radius) / 3
+        # width (with notch if possible)
+        upper_third = (
+            width - 2 * self.Notch_upper_radius - 2 * self.Notch_lower_radius
+        ) / 3
         if upper_third > 0:
+            straightHeight = (
+                self.Notch_depth - self.Notch_upper_radius - self.Notch_lower_radius
+            )
             self.polyline(
                 upper_third,
-                (90, self.upper_radius),
-                self.depth - self.upper_radius - self.lower_radius,
-                (-90, self.lower_radius),
+                (90, self.Notch_upper_radius),
+                straightHeight,
+                (-90, self.Notch_lower_radius),
                 upper_third,
-                (-90, self.lower_radius),
-                self.depth - self.upper_radius - self.lower_radius,
-                (90, self.upper_radius),
+                (-90, self.Notch_lower_radius),
+                straightHeight,
+                (90, self.Notch_upper_radius),
                 upper_third,
             )
         else:

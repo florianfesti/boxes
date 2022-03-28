@@ -1140,7 +1140,7 @@ class Boxes:
         if not before:
             # restore position
             self.ctx.restore()
-            if self.labels:
+            if self.labels and label:
                 self.text(label, x/2, y/2, align="middle center", color=Color.ANNOTATIONS, fontsize=4)
             self.ctx.stroke() 
 

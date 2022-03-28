@@ -32,6 +32,12 @@ class DividerTray(Boxes):
         self.addSettingsArgs(edges.FingerJointSettings)
         self.buildArgParser("sx", "sy", "h", "outside")
         self.argparser.add_argument(
+            "--notches_in_wall",
+            type=boolarg,
+            default=True,
+            help="generate the same notches on the walls that are on the dividers",
+        )
+        self.argparser.add_argument(
             "--slot_depth", type=float, default=20, help="depth of the slot in mm"
         )
         self.argparser.add_argument(
@@ -75,6 +81,12 @@ class DividerTray(Boxes):
             type=float,
             default=15,
             help="divider's notch's depth",
+        )
+        self.argparser.add_argument(
+            "--divider_play",
+            type=float,
+            default=0.15,
+            help="divider's play to avoid them clamping onto the walls",
         )
         self.argparser.add_argument(
             "--left_wall",
@@ -126,6 +138,17 @@ class DividerTray(Boxes):
         facing_wall_length = sum(self.sx) + self.thickness * (len(self.sx) - 1)
         side_edge = lambda with_wall: "F" if with_wall else "e"
         bottom_edge = lambda with_wall: "F" if with_wall else "e"
+        upper_edge = (
+            DividerNotchesEdge(
+                self,
+                list(reversed(self.sx)),
+                self.divider_upper_notch_radius,
+                self.divider_lower_notch_radius,
+                self.divider_notch_depth,
+            )
+            if self.notches_in_wall
+            else "e"
+        )
         for _ in range(2):
             self.rectangularWall(
                 facing_wall_length,
@@ -133,7 +156,7 @@ class DividerTray(Boxes):
                 [
                     bottom_edge(self.bottom),
                     side_edge(self.right_wall),
-                    "e",
+                    upper_edge,
                     side_edge(self.left_wall),
                 ],
                 callback=[partial(self.generate_finger_holes, self.h)],
@@ -188,8 +211,6 @@ class DividerTray(Boxes):
             second_tab_width=self.thickness if self.right_wall else 0
         )
         for i, length in enumerate(self.sx):
-            is_first_wall = i == 0
-            is_last_wall = i == len(self.sx) - 1
             self.generate_divider(
                 [length],
                 divider_height,
@@ -249,10 +270,7 @@ class DividerTray(Boxes):
             return
 
         # Upper edge with a finger notch
-
-        upper_radius = self.divider_upper_notch_radius
-        lower_radius = self.divider_lower_notch_radius
-        play = 0.05 * self.thickness
+        play = self.divider_play
 
         # Upper: first tab width
         self.edge(first_tab_width - play)
@@ -260,24 +278,13 @@ class DividerTray(Boxes):
         for nr, width in enumerate(widths):
             if nr > 0:
                 self.edge(self.thickness)
-
-            # Upper: divider width (with notch if possible)
-            upper_third = (width - 2 * upper_radius - 2 * lower_radius) / 3
-            if upper_third > 0:
-                self.polyline(
-                    upper_third,
-                    (90, upper_radius),
-                    self.divider_notch_depth - upper_radius - lower_radius,
-                    (-90, lower_radius),
-                    upper_third,
-                    (-90, lower_radius),
-                    self.divider_notch_depth - upper_radius - lower_radius,
-                    (90, upper_radius),
-                    upper_third,
-                )
-            else:
-                # if there isn't enough room for the radius, we don't use it
-                self.edge(width)
+            DividerNotchesEdge(
+                self,
+                [width],
+                self.divider_upper_notch_radius,
+                self.divider_lower_notch_radius,
+                self.divider_notch_depth,
+            )(width)
 
         self.polyline(
             # Upper: second tab width if needed
@@ -517,6 +524,49 @@ class SlotDescriptionsGenerator:
         descriptions.get_last_edge().angle_compensation += end_length
 
         return descriptions
+
+
+class DividerNotchesEdge(edges.BaseEdge):
+    """Edge with multiple notches for easier access to dividers"""
+
+    description = "Edge with multiple notches for easier access to dividers"
+
+    def __init__(self, boxes, sx, upper_radius, lower_radius, depth):
+
+        super(DividerNotchesEdge, self).__init__(boxes, None)
+
+        self.sx = sx
+        self.upper_radius = upper_radius
+        self.lower_radius = lower_radius
+        self.depth = depth
+
+    def __call__(self, _, **kw):
+        first = True
+        for width in self.sx:
+            if first:
+                first = False
+            else:
+                self.edge(self.thickness)
+            self.edge_with_notch(width)
+
+    def edge_with_notch(self, width):
+        # Upper: divider width (with notch if possible)
+        upper_third = (width - 2 * self.upper_radius - 2 * self.lower_radius) / 3
+        if upper_third > 0:
+            self.polyline(
+                upper_third,
+                (90, self.upper_radius),
+                self.depth - self.upper_radius - self.lower_radius,
+                (-90, self.lower_radius),
+                upper_third,
+                (-90, self.lower_radius),
+                self.depth - self.upper_radius - self.lower_radius,
+                (90, self.upper_radius),
+                upper_third,
+            )
+        else:
+            # if there isn't enough room for the radius, we don't use it
+            self.edge(width)
 
 
 class DividerSlotsEdge(edges.BaseEdge):

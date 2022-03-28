@@ -889,12 +889,16 @@ class LBRN2Surface(Surface):
                             texttype = '0'
                             if self.dbg: print ("t8")
                         if self.dbg: print ("o: ", text, txtOffset, offs)
-                        sh = ET.SubElement(svg, "Shape", Type="Text", CutIndex=str(fontColor), Font=f"{f}", H=f"{(params['fs']*1.75*0.6086434):.3f}", Str=f"{text}", Bold=f"{'1' if bold else '0'}", Italic=f"{'1' if italic else '0'}", Ah=f"{str(hor)}", Av=f"{str(ver)}", Eval=f"{texttype}", VariableOffset=f"{str(offs)}")  # 1mm = 1.75 Lightburn H units
-                        sh.text = "\n  "
-                        sh.tail = "\n"
-                        xf = ET.SubElement(sh, "XForm")
-                        xf.text = " ".join((f"{m[i]:.3f}" for i in (0, 3, 1, 4, 2, 5)))
-                        xf.tail = "\n"
+
+                        if not text:
+                            if self.dbg: print ("T: text with empty string - ",x, y, c)
+                        else:
+                            sh = ET.SubElement(svg, "Shape", Type="Text", CutIndex=str(fontColor), Font=f"{f}", H=f"{(params['fs']*1.75*0.6086434):.3f}", Str=f"{text}", Bold=f"{'1' if bold else '0'}", Italic=f"{'1' if italic else '0'}", Ah=f"{str(hor)}", Av=f"{str(ver)}", Eval=f"{texttype}", VariableOffset=f"{str(offs)}")  # 1mm = 1.75 Lightburn H units
+                            sh.text = "\n  "
+                            sh.tail = "\n"
+                            xf = ET.SubElement(sh, "XForm")
+                            xf.text = " ".join((f"{m[i]:.3f}" for i in (0, 3, 1, 4, 2, 5)))
+                            xf.tail = "\n"
                     else:
                         if self.dbg: print ("4", num)
                         print ("next, because not M")

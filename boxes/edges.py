@@ -126,7 +126,7 @@ class Bolts(BoltPolicy):
 class Settings(object):
     """Generic Settings class
 
-    Used by different other classes to store messurements and details.
+    Used by different other classes to store measurements and details.
     Supports absolute values and settings that grow with the thickness
     of the material used.
 
@@ -670,7 +670,7 @@ Values:
 
 * absolute
   * style : "rectangular" : style of the fingers
-  * surroundingspaces : 2 : manimal space at the start and end in multiple of normal spaces
+  * surroundingspaces : 2 : minimal space at the start and end in multiple of normal spaces
   * angle: 90 : Angle of the walls meeting
 
 * relative (in multiples of thickness)

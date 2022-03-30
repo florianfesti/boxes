@@ -150,8 +150,10 @@ class Path:
     def __repr__(self):
         l = len(self.path)
         # x1,y1 = self.path[0][1:3]
-        x2, y2 = self.path[-1][1:3]
-        return f"Path[{l}] to ({x2:.2f},{y2:.2f})"
+        if l>0:
+            x2, y2 = self.path[-1][1:3]
+            return f"Path[{l}] to ({x2:.2f},{y2:.2f})"
+        return f"empty Path"
 
     def extents(self):
         e = Extents()
@@ -208,7 +210,8 @@ class Path:
                         else:
                             self.path[i] =  ("L", x, y)
         # filter duplicates
-        self.path = [p for n, p in enumerate(self.path) if p != self.path[n-1]]
+        if len(self.path) > 1: # no need to find duplicates if only one element in path
+            self.path = [p for n, p in enumerate(self.path) if p != self.path[n-1]]
 
 class Context:
     def __init__(self, surface, *al, **ad):
@@ -759,14 +762,13 @@ class LBRN2Surface(Surface):
                 path.faster_edges(inner_corners)
                 num = 0
                 cnt = 1
-                
                 ende = len(path.path)-1
                 if self.dbg: 
                     for c in path.path:
                         print ("6",num, c)
                         num += 1
+                    num = 0
                     
-                num = 0
                 c = path.path[num]
                 C, x, y = c[0:3]
                 if self.dbg: print("ende:" ,ende)

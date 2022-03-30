@@ -34,13 +34,13 @@ class BottleTag(Boxes):
             "--height", action="store", type=float, default=98,
             help="height of neck tag")
         self.argparser.add_argument(
-            "--r1", action="store", type=float, default=12,
-            help="inner radius of bottle neck hole")
+            "--min_diameter", action="store", type=float, default=24,
+            help="inner diameter of bottle neck hole")
         self.argparser.add_argument(
-            "--r2", action="store", type=float, default=25,
-            help="outer radius of bottle neck hole")
+            "--max_diameter", action="store", type=float, default=50,
+            help="outer diameter of bottle neck hole")
         self.argparser.add_argument(
-            "--r3", action="store", type=float, default=15,
+            "--radius", action="store", type=float, default=15,
             help="corner radius of bottom tag")
         self.argparser.add_argument(
             "--segment_width", action="store", type=int, default=3,
@@ -50,34 +50,35 @@ class BottleTag(Boxes):
         # adjust to the variables you want in the local scope
         width = self.width
         height = self.height
-        r1 = self.r1
-        r2 = self.r2
-        r3 = self.r3
+        r_min = self.min_diameter / 2
+        r_max = self.max_diameter / 2
+        r = self.radius
         segment_width = self.segment_width
 
         # tag outline
-        self.edge(width - r3 - r3)
-        self.corner(90, r3)
-        self.edge(height - width / 2.0 - r3)
+        self.moveTo(r)
+        self.edge(width - r - r)
+        self.corner(90, r)
+        self.edge(height - width / 2.0 - r)
         self.corner(180, width / 2)
-        self.edge(height - width / 2.0 - r3)
-        self.corner(90, r3)
+        self.edge(height - width / 2.0 - r)
+        self.corner(90, r)
 
         # move to centre of hole and cut the inner circle
-        self.moveTo(width / 2 - r3, height - width / 2)
+        self.moveTo(width / 2 - r, height - width / 2)
         with self.saved_context():
-            self.moveTo(0, -r1)
-            self.corner(360, r1)
+            self.moveTo(0, -r_min)
+            self.corner(360, r_min)
 
-        # draw the radial lines approx 2mm apart on r1
-        seg_angle = math.degrees(segment_width / r1)
+        # draw the radial lines approx 2mm apart on r_min
+        seg_angle = math.degrees(segment_width / r_min)
         # for neatness, we want an integral number of cuts
         num = math.floor(360 / seg_angle)
         for i in range(num):
             with self.saved_context():
                 self.moveTo(0, 0, i * 360.0 / num)
-                self.moveTo(r1)
-                self.edge(r2 - r1)
+                self.moveTo(r_min)
+                self.edge(r_max - r_min)
                 # Add some right angle components to reduce tearing
                 with self.saved_context():
                     self.moveTo(0, 0, 90)

@@ -21,7 +21,7 @@ import math
 
 
 class NotchSettings(edges.Settings):
-    """Settings for Notches"""
+    """Settings for Notches on the Dividers"""
 
     absolute_params = {
         "upper_radius": 1,
@@ -31,7 +31,7 @@ class NotchSettings(edges.Settings):
 
 
 class SlotSettings(edges.Settings):
-    """Settings for Slots Edge
+    """Settings for Divider Slots
 
     Values:
 
@@ -39,7 +39,7 @@ class SlotSettings(edges.Settings):
       * depth : 20 : depth of the slot in mm
       * angle : 0 : angle at which slots are generated, in degrees. 0° is vertical.
       * radius : 2 : radius of the slot entrance in mm
-      * extra_slack : 0.2 : extra slack (in addition to thickness and kerf) for slot width to help insert dividers"""
+      * extra_slack : 0.2 : extra slack (in addition to thickness and kerf) to help insert dividers in mm"""
 
     absolute_params = {
         "depth": 20,
@@ -55,11 +55,11 @@ class DividerSettings(edges.Settings):
 
     * absolute_params
 
-     * bottom_margin : 0 : margin between box's bottom and divider's
+     * bottom_margin : 0 : margin between box's bottom and divider's in mm
 
     * relative (in multiples of thickness)
 
-     * play : 0.5 : divider's play to avoid them clamping onto the walls
+     * play : 0.05 : play to avoid them clamping onto the walls (in multiples of thickness)
     """
 
     absolute_params = {

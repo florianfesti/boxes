@@ -46,7 +46,9 @@ class ChecklistBoard(Boxes): # Change class name!
         self.argparser.add_argument("--AnswerHeight",  action="store", type=float, default=20.0, help="Height of the answer cards in mm (vertical size)")
         self.argparser.add_argument("--AnswerWidth",  action="store", type=float, default=20.0, help="Width of the answer cards in mm (horizontal size)")
         self.argparser.add_argument("--Clamping",  action="store", type=float, default=0.5, help="Height of the clamping bump in mm")
-        self.argparser.add_argument("--Corners",  action="store", type=float, default=2, help="Corner radius in mm")
+        self.argparser.add_argument("--CornerRadius",  action="store", type=float, default=2, help="Corner radius in mm")
+        self.argparser.add_argument("--AlignmentPins",  action="store", type=float, default=2, help="Diameter of the alignment pins in mm")
+        self.argparser.add_argument("--GrooveAngle",  action="store", type=float, default=120, help="Angle of the groove arc cuts")
 
     def DebugTurtle(self):
         self.hole(0,0,0.5)
@@ -73,9 +75,7 @@ class ChecklistBoard(Boxes): # Change class name!
         self.corner(inv * -angle)
 
     def roundWall(self, x, y, r, edges="eeee", callback=None,
-                     holesRadius=None,
-                     move=None,
-                     label=""):
+                     holesRadius=None):
         """Wall with rounded corner
 
         For the callbacks the sides are counted depending on wallpieces
@@ -85,8 +85,7 @@ class ChecklistBoard(Boxes): # Change class name!
         :param r: radius of the corners
         :param edges:  (Default value = "eeee") bottom, right, top, left
         :param callback:  (Default value = None)
-        :param holesMargin:  (Default value = None) set to get hex holes
-        :param move:  (Default value = None)
+        :param holesRadius:  (Default value = None) set to get alignment holes
 
         """
         
@@ -97,70 +96,80 @@ class ChecklistBoard(Boxes): # Change class name!
         edges += edges  # append for wrapping around
         overallwidth = x + edges[-1].spacing() + edges[1].spacing()
         overallheight = y + edges[0].spacing() + edges[2].spacing()
-
-        if self.move(overallwidth, overallheight, move, before=True):
-            return
-
-#        self.DebugTurtle()
+        
         lx = x - 2*r
         ly = y - 2*r
 
 #        self.moveTo(edges[3].spacing(), edges[3].margin())
         self.moveTo(r, 0)
-        self.DebugTurtle()
         
         for nr, l in enumerate((lx, ly, lx, ly)):
             self.cc(callback, nr, y=edges[nr].startwidth() + self.burn)
             self.step(edges[nr].endwidth())
             edges[nr](l)
             self.step(-edges[nr].startwidth())
-            print ("1: ", nr, edges[nr].endwidth())
             self.corner(90, r)
-            print ("2: ", nr, edges[nr].startwidth())
 
 #        self.ctx.restore()
 #        self.ctx.save()
 
-#        self.DebugTurtle()
         
 #        self.moveTo(-edges[0].spacing(), -edges[0].margin())
         self.moveTo(-r, 0)
-
-#        self.DebugTurtle()
+        
 
         if holesRadius is not None:
+            if (r - holesRadius) < holesRadius/2:
+                r += holesRadius *1.5
             self.moveTo(r , r )
-#            self.DebugTurtle()
             self.hole(0, 0, r=holesRadius)
-            self.hole(x - 2 * r, 0, r=holesRadius)
+#            self.hole(x - 2 * r, 0, r=holesRadius)
             self.hole(0, y - 2 * r, r=holesRadius)
             self.hole(x - 2 * r, y - 2 * r, r=holesRadius)
-
-        self.move(overallwidth, overallheight, move, label)
+            self.moveTo(-r , -r )
         
     def render(self):
         # adjust to the variables you want in the local scope
 #        x, y, h = self.x, self.y, self.h
         t = self.thickness
 
+        totalwidth = self.CardWidth + t + t + self.AnswerWidth;
+        extraLength = max(self.CornerRadius, self.thickness + self.AlignmentPins) # length of the header and footer
+        cardLength = (self.CardHight + t) * self.CardNum - t # length of the card section
+        totalheight = extraLength + cardLength + extraLength
+ 
         # Create new Edges here if needed E.g.:
-        s = edges.FingerJointSettings(self.thickness, relative=False,
-                                      space = 10, finger=10,
-                                      width=self.thickness)
-        p = edges.FingerJointEdge(self, s)
-        p.char = "p"
+        s = edges.GroovedSettings(
+        self.thickness, 
+        style=edges.GroovedSettings.PARAM_ARC, 
+        arc_angle=self.GrooveAngle, 
+        width = self.CardHight / cardLength,
+        gap = t / cardLength,
+        margin = 0)
+        
+        p = edges.GroovedEdgeBase(self, s)
+# used edge chars:
+# C, c, D, d, E, e, F, f, g, h, I, i, j, J, K, k, L, l, M, m, N, n, O, o, P, p, Q, q, R, S, s, š, T, t, U, u, V, v, X, Z, z
+        p.char = "a"
         self.addPart(p)
 
+
+
+
         # render your parts here
-        totalwidth = self.CardWidth + t + t + self.AnswerWidth;
-        totalheight = 5 + (self.CardHight + t) * self.CardNum - t + 5
-         
+
+        self.move(x=totalwidth, y=totalheight, where ="up", before=True, label="Front")
+        self.roundWall(totalwidth, totalheight, 0, edges='eaea', holesRadius=self.AlignmentPins/2)
+        self.DebugTurtle()
+        self.move(x=totalwidth, y=totalheight, where ="up", before=False, label="Front")
+  
+ 
         self.move(x=totalwidth, y=totalheight, where ="up", before=True, label="Back")
-        self.roundWall(totalwidth, totalheight, self.Corners, edges='ZZZZ', holesRadius=1)
-#        self.roundedPlate(totalwidth, totalheight, self.Corners, edge='e', extend_corners=False)
+        self.roundWall(totalwidth, totalheight, self.CornerRadius, edges='eeee', holesRadius=self.AlignmentPins/2)
         self.move(x=totalwidth, y=totalheight, where ="up", before=False, label="Back")
         
 #        self.clamping_arc(100,self.Clamping)
+#        self.roundedPlate(totalwidth, totalheight, self.Corners, edge='e', extend_corners=False)
         
         #self.trapezoidWall(100, 100, 100, ["z", "z", "z", "z"], move="right")
 

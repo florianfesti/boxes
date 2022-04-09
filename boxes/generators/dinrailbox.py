@@ -20,7 +20,7 @@ from boxes import *
 class DinRailEdge(edges.FingerHoleEdge):
 
     def __init__(self, boxes, settings, width=35.0, offset=0.0):
-        super(DinRailEdge, self).__init__(boxes, settings)
+        super().__init__(boxes, settings)
         self.width = width
         self.offset = offset
 

@@ -781,7 +781,7 @@ class MoorBoxSideEdge(edges.BaseEdge):
     """
 
     def __init__(self, boxes, corner_length, corner_height, lower_corner):
-        super(MoorBoxSideEdge, self).__init__(boxes, None)
+        super().__init__(boxes, None)
         self.corner_height = corner_height
         self.lower_corner = lower_corner
         self.corner_length = corner_length
@@ -812,7 +812,7 @@ class MoorBoxHoleEdge(edges.BaseEdge):
     """
 
     def __init__(self, boxes, height, corner_height, lower_corner):
-        super(MoorBoxHoleEdge, self).__init__(boxes, None)
+        super().__init__(boxes, None)
         self.height = height
         self.corner_height = corner_height
         self.lower_corner = lower_corner
@@ -864,7 +864,7 @@ class BedHeadEdge(edges.BaseEdge):
     """
 
     def __init__(self, boxes, hole_depth):
-        super(BedHeadEdge, self).__init__(boxes, None)
+        super().__init__(boxes, None)
         self.hole_depth = hole_depth
 
     def __call__(self, length, **kw):
@@ -895,7 +895,7 @@ class Bed2SidesEdge(edges.BaseEdge):
     """
 
     def __init__(self, boxes, bed_length, full_head_length, full_foot_height):
-        super(Bed2SidesEdge, self).__init__(boxes, None)
+        super().__init__(boxes, None)
         self.bed_length = bed_length
         self.full_head_length = full_head_length
         self.full_foot_height = full_foot_height
@@ -927,7 +927,7 @@ class NoopEdge(edges.BaseEdge):
     """
 
     def __init__(self, boxes):
-        super(NoopEdge, self).__init__(boxes, None)
+        super().__init__(boxes, None)
 
     def __call__(self, length, **kw):
         # cancel turn

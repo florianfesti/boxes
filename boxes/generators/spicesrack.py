@@ -143,7 +143,6 @@ class SpicesRack(Boxes):
         self.angle = math.degrees(math.atan(self.base_r/self.height))
         self.hole_length = (self.base_h**2+self.height**2)**0.5
         self.hole_distance = (self.diameter-self.base_r) * math.sin(math.radians(self.angle))
-        print(self.angle)
 
         self.h = (self.space + d) / math.cos(math.radians(self.angle))
         h = self.numy * self.h - self.h / 2 + 6*t

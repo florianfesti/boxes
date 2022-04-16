@@ -214,7 +214,7 @@ class PhoneHolder(Boxes):
 
 class BottomEdge(edges.BaseEdge):
     def __init__(self, boxes, support_start_height, support_spacing):
-        super(BottomEdge, self).__init__(boxes, None)
+        super().__init__(boxes, None)
         self.support_start_height = support_start_height
         self.support_spacing = support_spacing
 
@@ -242,7 +242,7 @@ class BottomEdge(edges.BaseEdge):
 
 class SideEdge(edges.BaseEdge):
     def __init__(self, boxes, tab_start, tab_length, reverse=False):
-        super(SideEdge, self).__init__(boxes, None)
+        super().__init__(boxes, None)
         self.tab_start = tab_start
         self.tab_length = tab_length
         self.reverse = reverse
@@ -271,7 +271,7 @@ class SideEdge(edges.BaseEdge):
 
 class TabbedEdge(edges.BaseEdge):
     def __init__(self, boxes, tab_start, tab_length, tab_depth, reverse=False):
-        super(TabbedEdge, self).__init__(boxes, None)
+        super().__init__(boxes, None)
         self.tab_start = tab_start
         self.tab_length = tab_length
         self.tab_depth = tab_depth

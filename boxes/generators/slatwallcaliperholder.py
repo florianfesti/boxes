@@ -68,6 +68,6 @@ class SlatwallCaliper(Boxes):
         self.side(move="right")
         self.side(move="right")
         w = self.width
-        self.flangedWall(w, h-2*t, flanges=[0, t, 0, t], edges="eeee",
+        self.flangedWall(w, h, flanges=[0, 2*t, 0, 2*t], edges="eeee",
                          r=2*t,
                          callback=[lambda:(self.slatWallHolesAt(1.5*t, 0, h, 90), self.slatWallHolesAt(w+2.5*t, 0, h, 90))])

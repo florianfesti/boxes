@@ -533,7 +533,7 @@ class DividerNotchesEdge(edges.BaseEdge):
 
     def __init__(self, boxes, sx):
 
-        super(DividerNotchesEdge, self).__init__(boxes, None)
+        super().__init__(boxes, None)
 
         self.sx = sx
 
@@ -578,7 +578,7 @@ class DividerSlotsEdge(edges.BaseEdge):
 
     def __init__(self, boxes, descriptions):
 
-        super(DividerSlotsEdge, self).__init__(boxes, None)
+        super().__init__(boxes, None)
 
         self.descriptions = descriptions
 

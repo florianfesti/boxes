@@ -723,6 +723,7 @@ showpage
 
 class LBRN2Surface(Surface):
 
+
     invert_y = False
     dbg = False
 
@@ -750,6 +751,13 @@ class LBRN2Surface(Surface):
             if self.dbg: print ("7", num)
             if not part.pathes:
                 continue
+            gp = ET.SubElement(svg, "Shape", Type="Group")
+            gp.text = "\n  "
+            gp.tail = "\n"
+            children = ET.SubElement(gp, "Children")
+            children.text = "\n  "
+            children.tail = "\n"
+            
             for j, path in enumerate(part.pathes):
                 Color = 2*int(path.params["rgb"][0])+4*int(path.params["rgb"][1])+int(path.params["rgb"][2])
                 if Color == 4:  # 4 is yellow in Lightburn
@@ -780,7 +788,7 @@ class LBRN2Surface(Surface):
                     C, x, y = c[0:3]
                     if C == "M":
                         if self.dbg: print ("1", num)
-                        sh = ET.SubElement(svg, "Shape", Type="Path", CutIndex=str(Color))
+                        sh = ET.SubElement(children, "Shape", Type="Path", CutIndex=str(Color))
                         sh.text = "\n  "
                         sh.tail = "\n"
                         vl = ET.SubElement(sh, "VertList")
@@ -895,7 +903,7 @@ class LBRN2Surface(Surface):
                         if not text:
                             if self.dbg: print ("T: text with empty string - ",x, y, c)
                         else:
-                            sh = ET.SubElement(svg, "Shape", Type="Text", CutIndex=str(fontColor), Font=f"{f}", H=f"{(params['fs']*1.75*0.6086434):.3f}", Str=f"{text}", Bold=f"{'1' if bold else '0'}", Italic=f"{'1' if italic else '0'}", Ah=f"{str(hor)}", Av=f"{str(ver)}", Eval=f"{texttype}", VariableOffset=f"{str(offs)}")  # 1mm = 1.75 Lightburn H units
+                            sh = ET.SubElement(children, "Shape", Type="Text", CutIndex=str(fontColor), Font=f"{f}", H=f"{(params['fs']*1.75*0.6086434):.3f}", Str=f"{text}", Bold=f"{'1' if bold else '0'}", Italic=f"{'1' if italic else '0'}", Ah=f"{str(hor)}", Av=f"{str(ver)}", Eval=f"{texttype}", VariableOffset=f"{str(offs)}")  # 1mm = 1.75 Lightburn H units
                             sh.text = "\n  "
                             sh.tail = "\n"
                             xf = ET.SubElement(sh, "XForm")

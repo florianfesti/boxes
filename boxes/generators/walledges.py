@@ -29,13 +29,22 @@ class WallEdges(WallMountedBox):
 
         h = self.h
 
-        for i, c in enumerate("aAbBcCdD"):
-            self.text(c, x=i*30+15, y=5)
-        self.text("wallHolesAt", 115, 15)
         self.moveTo(0, 25)
-        self.rectangularWall(40, h, "eAea", move="right")
-        self.rectangularWall(40, h, "eBeb", move="right")
-        self.rectangularWall(40, h, "eCec", callback=[
-            lambda: self.wallHolesAt(20, 0, h, 90)], move="right")
+        self.rectangularWall(
+            40, h, "eAea", move="right",
+            callback=[lambda : (self.text("a", 0, -20),
+                                self.text("A", 30, -20))])
+        self.rectangularWall(
+            40, h, "eBeb", move="right",
+            callback=[lambda : (self.text("b", 0, -20),
+                                self.text("B", 30, -20))])
+        self.rectangularWall(40, h, "eCec",
+            callback=[lambda : (self.text("c", 0, -20),
+                                self.text("C", 30, -20),
+                                self.text("wallHolesAt", -5, -30),
+                                self.wallHolesAt(20, 0, h, 90))], move="right")
         self.moveTo(10)
-        self.rectangularWall(40, h, "eDed", move="right")
+        self.rectangularWall(
+            40, h, "eDed", move="right",
+            callback=[lambda : (self.text("d", 0, -20),
+                                self.text("D", 30, -20))])

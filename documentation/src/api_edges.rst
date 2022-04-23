@@ -38,6 +38,7 @@ A set of instances are kept the ``.edges`` attribute of the
 * f : FingerJointEdge
 * F : FingerJointEdgeCounterPart
 * g : GrippingEdge
+* G : MountingEdge
 * h : FingerHoleEdge
 * ijk : Hinge (start, end, both sides)
 * IJK : HingePin (start, end, both sides)

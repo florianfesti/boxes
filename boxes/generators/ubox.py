@@ -37,14 +37,14 @@ class UBox(_TopEdge, _ChestLid):
             help="additional lid")
         self.angle = 0
 
-    def U(self, x, y, r, edge="e", move=None):
+    def U(self, x, y, r, edge="e", move=None, label=""):
 
         e = self.edges.get(edge, edge)
 
         w = self.edges["f"].spacing()
         tw = x+2*w
         th = y+w+e.spacing()
-        if self.move(tw, th, move, True):
+        if self.move(tw, th, move, True, label=label):
             return
 
         self.moveTo(w+r, w)
@@ -57,9 +57,9 @@ class UBox(_TopEdge, _ChestLid):
         self.edges["f"](y-r)
         self.corner(90, r)
 
-        self.move(tw, th, move)
+        self.move(tw, th, move, label=label)
 
-    def Uwall(self, x, y, h, r, edges="ee", move=None):
+    def Uwall(self, x, y, h, r, edges="ee", move=None, label=""):
 
         e = [self.edges.get(edge, edge) for edge in edges]
 
@@ -68,7 +68,7 @@ class UBox(_TopEdge, _ChestLid):
 
         tw = 2*y + x - 4*(cl-r) + e[0].spacing() + e[1].spacing()
         th = h + 2*w
-        if self.move(tw, th, move, True):
+        if self.move(tw, th, move, True, label=label):
             return
 
         self.moveTo(e[0].spacing())
@@ -86,7 +86,7 @@ class UBox(_TopEdge, _ChestLid):
             e[nr](h)
             self.edgeCorner(e[nr], "F")
         
-        self.move(tw, th, move)
+        self.move(tw, th, move, label=label)
 
     def render(self):
         x, y, h, r = self.x, self.y, self.h, self.radius
@@ -96,12 +96,12 @@ class UBox(_TopEdge, _ChestLid):
 
         t1, t2, t3, t4 = self.topEdges(self.top_edge)
 
-        self.U(x, y, r, t1, move="right")
-        self.U(x, y, r, t3, move="up")
-        self.U(x, y, r, t3, move="left only")
-        self.Uwall(x, y, h, r, [t2, t4], move="up")
+        self.U(x, y, r, t1, move="right", label="left")
+        self.U(x, y, r, t3, move="up", label="right")
+        self.U(x, y, r, t3, move="left only", label="invisible")
+        self.Uwall(x, y, h, r, [t2, t4], move="up", label="wall")
 
-        self.drawLid(x, h, self.top_edge)
-        self.drawAddOnLid(x, h, self.lid)
+        self.drawLid(x, h, self.top_edge, label="lid")
+        self.drawAddOnLid(x, h, self.lid, label="addon lid")
 
 

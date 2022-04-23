@@ -15,17 +15,22 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
-
+from boxes.lids import _TopEdge, _ChestLid
 
 class MagazinFile(Boxes):
     """Open magazine file"""
 
     def __init__(self):
         Boxes.__init__(self)
-        self.buildArgParser("x", "y", "h", "hi", "outside")
+        self.buildArgParser(x=100, y=200, h=300, hi=0, outside=False)
         self.addSettingsArgs(edges.FingerJointSettings)
+        self.addSettingsArgs(edges.MountingSettings, margin=0, num=1)
+        self.argparser.add_argument(
+            "--top_edge", action="store",
+            type=ArgparseEdgeType("eG"), choices=list("eG"),
+            default="e", help="edge type for top edge")
 
-    def side(self, w, h, hi):
+    def side(self, w, h, hi, edg):
         r = min(h - hi, w) / 2.0
 
         if (h - hi) > w:
@@ -47,11 +52,13 @@ class MagazinFile(Boxes):
         self.edges["F"](hi)
         self.corner(90)
         self.edge(e_w)
-        self.edge(lx)
+        self.edges[edg](lx)
+        #self.edge(lx)
         self.corner(-90, r)
         self.edge(ly)
         self.corner(90, r)
-        self.edge(lx)
+        self.edges[edg](lx)
+        #self.edge(lx)
         self.edge(e_w)
         self.corner(90)
         self.edges["F"](h)
@@ -68,17 +75,18 @@ class MagazinFile(Boxes):
         x, y, h, = self.x, self.y, self.h
         self.hi = hi = self.hi or (h / 2.0)
         t = self.thickness
+        t1, t2, t3, t4 = _TopEdge.topEdges(self,self.top_edge)
 
 
         with self.saved_context():
-            self.rectangularWall(x, h, "Ffef", move="up")
+            self.rectangularWall(x, h, "Ff"+t2+"f", move="up")
             self.rectangularWall(x, hi, "Ffef", move="up")
             self.rectangularWall(x, y, "ffff")
 
         self.rectangularWall(x, h, "Ffef", move="right only")
-        self.side(y, h, hi)
+        self.side(y, h, hi, t1)
         self.moveTo(y + 15, h + hi + 15, 180)
-        self.side(y, h, hi)
+        self.side(y, h, hi, t3)
 
 
 

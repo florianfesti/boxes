@@ -55,7 +55,9 @@ class BinTray(Boxes):
         self.argparser.add_argument(
             "--front", action="store", type=float, default=0.4,
             help="fraction of bin height covert with slope")
-
+        self.argparser.add_argument("--AddMountingHoles",  action="store", type=boolarg, default=False, help="Add mounting holes at back plate")
+        self.argparser.add_argument("--dD", action="store", type=argparseSections, default="3.5:6.5", help="diameter of shaft and head of mounting screw in mm")
+        
     def xSlots(self):
         posx = -0.5 * self.thickness
         for x in self.sx[:-1]:
@@ -73,6 +75,26 @@ class BinTray(Boxes):
             for x in self.sx:
                 self.fingerHolesAt(posy, posx, x)
                 posx += x + self.thickness
+                
+    def addMount(self):
+        if not self.AddMountingHoles:
+            return
+            
+        if self.dD[0] < 2 * self.burn:
+            return
+
+        if len(self.dD) < 2:
+            self.dD[1] = self.dD[0] * 2.05
+            
+            
+        y = max (self.thickness * 1.25, self.thickness * 0.5 + self.dD[1]/2)
+        dx = sum(self.sx) + self.thickness * (len(self.sx)-1)
+
+        x1 = dx * 0.125
+        x2 = dx * 0.875
+
+        self.mountingHole(x1, y, self.dD[0], self.dD[1], -90)
+        self.mountingHole(x2, y, self.dD[0], self.dD[1], -90)
 
     def xHoles(self):
         posx = -0.5 * self.thickness
@@ -102,6 +124,7 @@ class BinTray(Boxes):
 
         x = sum(self.sx) + self.thickness * (len(self.sx) - 1)
         y = sum(self.sy) + self.thickness * (len(self.sy) - 1)
+            
         h = self.h
         hi = self.hi = h
         t = self.thickness
@@ -117,28 +140,28 @@ class BinTray(Boxes):
         # outer walls
         e = ["F", "f", edges.SlottedEdge(self, self.sx[::-1], "G"), "f"]
 
-        self.rectangularWall(x, h, e, callback=[self.xHoles],  move="right")
-        self.rectangularWall(y, h, "FFbF", callback=[self.yHoles, ], move="up")
-        self.rectangularWall(y, h, "FFbF", callback=[self.yHoles, ])
-        self.rectangularWall(x, h, "Ffef", callback=[self.xHoles, ], move="left")
+        self.rectangularWall(x, h, e, callback=[self.xHoles],  move="right", label="bottom")
+        self.rectangularWall(y, h, "FFbF", callback=[self.yHoles, ], move="up", label="left")
+        self.rectangularWall(y, h, "FFbF", callback=[self.yHoles, ], label="right")
+        self.rectangularWall(x, h, "Ffef", callback=[self.xHoles, ], move="left", label="top")
         self.rectangularWall(y, h, "FFBF", move="up only")
 
         # floor
-        self.rectangularWall(x, y, "ffff", callback=[self.xSlots, self.ySlots],move="right")
+        self.rectangularWall(x, y, "ffff", callback=[self.xSlots, self.ySlots, self.addMount],move="right", label="back")
         # Inner walls
         for i in range(len(self.sx) - 1):
             e = [edges.SlottedEdge(self, self.sy, "f"), "f", "B", "f"]
-            self.rectangularWall(y, hi, e, move="up")
+            self.rectangularWall(y, hi, e, move="up", label="inner vertical " + str(i+1))
 
         for i in range(len(self.sy) - 1):
             e = [edges.SlottedEdge(self, self.sx, "f", slots=0.5 * hi), "f",
                  edges.SlottedEdge(self, self.sx[::-1], "G"), "f"]
-            self.rectangularWall(x, hi, e, move="up")
+            self.rectangularWall(x, hi, e, move="up", label="inner horizontal " + str(i+1))
 
         # Front walls
         for i in range(len(self.sy)):
             e = [edges.SlottedEdge(self, self.sx, "g"), "F", "e", "F"]
-            self.rectangularWall(x, self.sy[i]*self.front*2**0.5, e, callback=[self.frontHoles(i)], move="up")
+            self.rectangularWall(x, self.sy[i]*self.front*2**0.5, e, callback=[self.frontHoles(i)], move="up", label="retainer " + str(i+1))
 
 
 

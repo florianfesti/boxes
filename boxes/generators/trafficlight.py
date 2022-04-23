@@ -62,6 +62,9 @@ When turned by 90°, it can be also used to create a bottle holder."""
         self.argparser.add_argument(
             "--upright",  action="store", type=boolarg, default=True,
             help="stack lights upright (or side by side)")
+            
+        self.argparser.add_argument("--AddMountingHoles",  action="store", type=boolarg, default=False, help="Add mounting holes at back plate")
+        self.argparser.add_argument("--dD", action="store", type=argparseSections, default="3.5:6.5", help="diameter of shaft and head of mounting screw in mm")
 
     def backCB(self):
         t = self.thickness
@@ -85,13 +88,13 @@ When turned by 90°, it can be also used to create a bottle holder."""
     def frontCB(self):
         self.hole(self.h/2, self.h/2, self.h/2-self.thickness)
 
-    def wall(self, h1, h2, w, edges="ffef", callback=None, move=""):
+    def wall(self, h1, h2, w, edges="ffef", callback=None, move="", label = ""):
         edges = [self.edges.get(e, e) for e in edges]
         edges += edges  # append for wrapping around
         overallwidth = w + edges[-1].spacing() + edges[1].spacing()
         overallheight = max(h1, h2) + edges[0].spacing() + edges[2].spacing()
 
-        if self.move(overallwidth, overallheight, move, before=True):
+        if self.move(overallwidth, overallheight, move, before=True, label= label):
             return
 
         a = math.atan((h2-h1)/float(w))
@@ -112,7 +115,43 @@ When turned by 90°, it can be also used to create a bottle holder."""
         edges[3](h1)
         self.edgeCorner(edges[3], edges[3 + 1], 90)
 
-        self.move(overallwidth, overallheight, move)
+        self.move(overallwidth, overallheight, move, label = label)
+        
+    def addMountH(self, width, height):
+        if not self.AddMountingHoles:
+            return
+
+        if self.dD[0] < 2 * self.burn:
+            return
+
+        if len(self.dD) < 2:
+            self.dD[1] = self.dD[0] * 2.05
+            
+        y = height - max (self.thickness * 1.25, self.thickness * 0.5 + self.dD[1]/2)
+        dx = width
+
+        x1 = dx * 0.125
+        x2 = dx * 0.875
+
+        self.mountingHole(x1, y, self.dD[0], self.dD[1], 90)
+        self.mountingHole(x2, y, self.dD[0], self.dD[1], 90)
+
+    def addMountV(self, width, height):
+        if not self.AddMountingHoles:
+            return
+
+        if len(self.dD) < 2:
+            self.dD[0] = 3.5
+            self.dD[1] = 6.5
+            
+        dy = height
+        x = max (self.thickness * 2.5, self.thickness * 1.75 + self.dD[1]/2)
+
+        y1 = self.thickness * 0.75 + dy * 0.125
+        y2 = self.thickness * 0.75 + dy * 0.875
+
+        self.mountingHole(x, y1, self.dD[0], self.dD[1], 180)
+        self.mountingHole(x, y2, self.dD[0], self.dD[1], 180)
     
     def render(self):
         # adjust to the variables you want in the local scope
@@ -126,44 +165,47 @@ When turned by 90°, it can be also used to create a bottle holder."""
         self.addPart(ShadyEdge(self, None))
 
         # back
-        self.rectangularWall(th, h, "FFFF", callback=[self.backCB], move="up")
+        if self.upright:
+            self.rectangularWall(th, h, "FFFF", callback=[self.backCB, self.addMountV(th,h)], move="up", label = "back")
+        else:
+            self.rectangularWall(th, h, "FFFF", callback=[self.backCB, self.addMountH(th,h)], move="up", label = "back")
 
         if self.upright:
             # sides
-            self.rectangularWall(th, d, "fFsF", callback=[self.sideCB], move="up")
-            self.rectangularWall(th, d, "fFsF", callback=[self.sideCB], move="up")
+            self.rectangularWall(th, d, "fFsF", callback=[self.sideCB], move="up", label = "left")
+            self.rectangularWall(th, d, "fFsF", callback=[self.sideCB], move="up", label = "right")
 
             # horizontal Walls / blinds tops
             e = edges.CompoundEdge(self, "fF", (d, s))
             e2 = edges.CompoundEdge(self, "Ff", (s, d))
             for i in range(n):
                 self.rectangularWall(h, d+s, ['f', e, 'e', e2],
-                                     move="right" if i<n-1 else "right up")
+                                     move="right" if i<n-1 else "right up", label="horizontal Wall " + str(i+1))
         else:
             # bottom
             self.rectangularWall(th, d, "fFeF", callback=[self.sideCB],
-                                 move="up")
+                                 move="up", label="bottom")
             # top
             self.rectangularWall(th, d+s, "fFeF", callback=[self.topCB],
-                                 move="up")
+                                 move="up", label="top")
             # vertical walls
             for i in range(n):
-                self.wall(d, d+s, h, move="right" if i<n-1 else "right up")
+                self.wall(d, d+s, h, move="right" if i<n-1 else "right up", label="vertical wall " + str(i+1))
 
         # fronts
         for i in range(n):
             self.rectangularWall(h, h, "efef", callback=[self.frontCB],
-                                 move="left" if i<n-1 else "left up")
+                                 move="left" if i<n-1 else "left up", label="front " + str(i+1))
 
         if self.upright:
             # bottom wall
-            self.rectangularWall(h, d, "ffef", move="up")
+            self.rectangularWall(h, d, "ffef", move="up", label="bottom wall")
         else:
             # vertical wall
-            self.wall(d, d+s, h, move="up")
+            self.wall(d, d+s, h, move="up", label="vertical wall")
 
         # Colored windows
         for i in range(n):
-            self.parts.disc(h-2*t, move="right")
+            self.parts.disc(h-2*t, move="right", label="colored windows")
         
 

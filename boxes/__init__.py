@@ -359,12 +359,12 @@ class Boxes:
         if self.reference and self.format != 'svg_Ponoko':
             self.move(10, 10, "up", before=True)
             self.ctx.rectangle(0, 0, self.reference, 10)
-            if self.reference < 40:
-                self.text("%.fmm" % self.reference, self.reference + 5, 5,
-                          align="middle left", fontsize=8, color=Color.ETCHING)
+            if self.reference < 80:
+                self.text("%.fmm, burn:%.2fmm" % (self.reference , self.burn), self.reference + 5, 5,
+                          fontsize=8, align="middle left", color=Color.ANNOTATIONS)
             else:
-                self.text("%.fmm" % self.reference, self.reference / 2.0, 5,
-                          align="middle center", fontsize=8, color=Color.ETCHING)
+                self.text("%.fmm, burn:%.2fmm" % (self.reference , self.burn), self.reference / 2.0, 5,
+                          fontsize=8, align="middle center", color=Color.ANNOTATIONS)
             self.move(10, 10, "up")
             self.ctx.stroke()
 

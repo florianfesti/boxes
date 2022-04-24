@@ -1324,14 +1324,14 @@ class Boxes:
         
         if d_shaft < 2*self.burn:
             d_shaft = 2 * self.burn + 1E-9
-        rs = d_shaft/2 - self.burn
-        rh = d_head/2 - self.burn
+        rs = d_shaft/2
+        rh = d_head/2
         
         if not d_head or d_head < 2* self.burn:
             self.hole(x,y,d=d_shaft,tabs=tabs)
             return
 
-        self.moveTo(x + rs, y, angle)
+        self.moveTo(x + rs - self.burn, y, angle)
         self.corner(-180, rs, tabs)
         self.edge(2*rs,tabs)
         a = math.degrees(math.asin(rs/rh))

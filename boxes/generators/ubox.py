@@ -78,16 +78,24 @@ class UBox(_TopEdge):
             else:
                 self.edges[flex](2*cl+x-2*r, h=th)
             self.edges["F"](y-r)
-            self.edgeCorner("F", e[nr])
-            e[nr](h)
-            self.edgeCorner(e[nr], "F")
-
+            if edges[0] in (self.edges["i"], self.edges["k"]):
+                # hinged lids, mimic ignor_widths
+                self.edgeCorner("e", e[nr])
+                e[nr](h + self.edges["F"].startwidth() +
+                      self.edges["F"].endwidth())
+                self.edgeCorner(e[nr], "e")
+            else:
+                self.edgeCorner("F", e[nr])
+                e[nr](h)
+                self.edgeCorner(e[nr], "F")
         self.move(tw, th, move, label=label)
 
     def render(self):
         x, y, h, r = self.x, self.y, self.h, self.radius
 
         self.radius = r = min(r, x/2.0, y)
+
+        self.edges["i"].settings.style = "flush_inset"
 
         _ = self.translations.gettext
         t1, t2, t3, t4 = self.topEdges(self.top_edge)

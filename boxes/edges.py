@@ -1294,21 +1294,17 @@ class HingeSettings(Settings):
 Values:
 
 * absolute_params
-
- * style : "outset" : "outset" or "flush"
  * outset : False : have lid overlap at the sides (similar to OutSetEdge)
  * pinwidth : 1.0 : set to lower value to get disks surrounding the pins
  * grip_percentage" : 0 : percentage of the lid that should get grips
 
 * relative (in multiples of thickness)
-
  * hingestrength : 1 : thickness of the arc holding the pin in place (multiples of thickness)
  * axle : 2 : diameter of the pin hole (multiples of thickness)
  * grip_length : 0 : fixed length of the grips on he lids (multiples of thickness)
 
 """
     absolute_params = {
-        "style": ("outset", "flush"),
         "outset": False,
         "pinwidth": 0.5,
         "grip_percentage": 0,
@@ -1319,6 +1315,8 @@ Values:
         "axle": 2.0,
         "grip_length": 0,
     }
+
+    style = "outset"  # "outset", "flush", "flush_inset"
 
     def checkValues(self) -> None:
         if self.axle / self.thickness < 0.1:
@@ -1420,16 +1418,16 @@ class Hinge(BaseEdge):
         return self.settings.axle + 2.0 * self.settings.hingestrength + 0.5 * self.settings.thickness
 
     def __call__(self, l, **kw):
-        hlen = getattr(self, self.settings.style + 'len', self.outsetlen)()
+        hlen = getattr(self, self.settings.style + 'len', self.flushlen)()
 
-        if self.layout & 1:
-            getattr(self, self.settings.style, self.outset)()
+        if self.layout in (1, 3):
+            getattr(self, self.settings.style, self.flush)()
 
         self.edge(l - (self.layout & 1) * hlen - bool(self.layout & 2) * hlen,
                   tabs=2)
 
-        if self.layout & 2:
-            getattr(self, self.settings.style, self.outset)(True)
+        if self.layout in (2, 3):
+            getattr(self, self.settings.style, self.flush)(True)
 
 
 class HingePin(BaseEdge):
@@ -1457,7 +1455,12 @@ class HingePin(BaseEdge):
         return self.settings.outset * self.boxes.thickness
 
     def margin(self) -> float:
-        return self.settings.thickness
+        if self.settings.outset and (
+                self.grip_percentage > 0.0 or
+                self.settings.grip_length > 0.0 ):
+            return self.settings.thickness + self.boxes.edges['g'].margin()
+        else:
+            return self.settings.thickness
 
     def outset(self, _reversed: bool = False) -> None:
         t: float = self.settings.thickness
@@ -1501,8 +1504,11 @@ class HingePin(BaseEdge):
     def flush(self, _reversed: bool = False) -> None:
         t: float = self.settings.thickness
         pinl = (self.settings.axle ** 2 - t ** 2) ** 0.5 * self.settings.pinwidth
-        d = (self.settings.axle - pinl) / 2.0
-        pin = (self.settings.hingestrength + d, -90.,
+        d = d1 = (self.settings.axle - pinl) / 2.0
+        if self.settings.style == "flush_inset":
+            d1 -= self.settings.thickness
+
+        pin = (self.settings.hingestrength + d1, -90.,
                t, 90.,
                pinl,
                90.,
@@ -1526,6 +1532,8 @@ class HingePin(BaseEdge):
 
     def flushlen(self):
         l = self.settings.hingestrength + self.settings.axle
+        if self.settings.style == "flush_inset":
+            l -= self.settings.thickness
 
         if self.settings.outset:
             l += self.settings.hingestrength + 0.5 * self.settings.thickness
@@ -1533,7 +1541,7 @@ class HingePin(BaseEdge):
         return l
 
     def __call__(self, l, **kw):
-        plen = getattr(self, self.settings.style + 'len', self.outsetlen)()
+        plen = getattr(self, self.settings.style + 'len', self.flushlen)()
         glen = l * self.settings.grip_percentage / 100 + \
                self.settings.grip_length
 
@@ -1542,18 +1550,18 @@ class HingePin(BaseEdge):
 
         glen = min(glen, l - plen)
 
-        if self.layout & 1 and self.layout & 2:
-            getattr(self, self.settings.style, self.outset)()
+        if self.layout == 3:
+            getattr(self, self.settings.style, self.flush)()
             self.edge(l - 2 * plen, tabs=2)
-            getattr(self, self.settings.style, self.outset)(True)
-        elif self.layout & 1:
-            getattr(self, self.settings.style, self.outset)()
+            getattr(self, self.settings.style, self.flush)(True)
+        elif self.layout == 1:
+            getattr(self, self.settings.style, self.flush)()
             self.edge(l - plen - glen, tabs=2)
             self.edges['g'](glen)
-        else:
+        else: # self.layout == 2
             self.edges['g'](glen)
             self.edge(l - plen - glen, tabs=2)
-            getattr(self, self.settings.style, self.outset)(True)
+            getattr(self, self.settings.style, self.flush)(True)
 
 
 #############################################################################

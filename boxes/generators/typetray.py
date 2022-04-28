@@ -231,6 +231,11 @@ class TypeTray(_TopEdge):
         tl, tb, tr, tf = self.topEdges(self.top_edge)
         self.closedtop = self.top_edge in "fFhŠ"
 
+        ignore_widths = [1, 6]
+        if self.top_edge in "ik":
+            self.edges[self.top_edge].settings.style = "flush_inset"
+            ignore_widths = [1, 3, 4, 6]
+
         bh = self.back_height if self.top_edge == "e" else 0.0
 
         self.textcontent = []
@@ -272,7 +277,7 @@ class TypeTray(_TopEdge):
         else:
             self.rectangularWall(
                 x, h, ["f" if self.handle else b, "F", tf, "F"],
-                callback=frontCBs, ignore_widths=[] if self.handle else [1, 6],
+                callback=frontCBs, ignore_widths=[] if self.handle else ignore_widths,
                 move="up", label="front")
 
 
@@ -308,7 +313,7 @@ class TypeTray(_TopEdge):
         else:
             self.rectangularWall(x, h, [b, "F", tb, "F"],
                                  callback=[self.xHoles],
-                                 ignore_widths=[1, 6],
+                                 ignore_widths=ignore_widths,
                                  move="up", label="back")
 
         # top / lid

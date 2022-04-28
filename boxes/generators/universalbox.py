@@ -75,12 +75,17 @@ class UniversalBox(_TopEdge):
             self.y = y = self.adjustSize(y)
             self.h = h = self.adjustSize(h, b, self.top_edge)
 
+        ignore_widths = [1, 6]
+        if self.top_edge in "ik":
+            self.edges[self.top_edge].settings.style = "flush_inset"
+            ignore_widths = [1, 3, 4, 6]
+
         with self.saved_context():
             self.rectangularWall(x, h, [b, sideedge, tf, sideedge],
-                                 ignore_widths=[1, 6],
+                                 ignore_widths=ignore_widths,
                                  bedBolts=[d2], move="up", label="front")
             self.rectangularWall(x, h, [b, sideedge, tb, sideedge],
-                                 ignore_widths=[1, 6],
+                                 ignore_widths=ignore_widths,
                                  bedBolts=[d2], move="up", label="back")
 
             if self.bottom_edge != "e":
@@ -90,15 +95,16 @@ class UniversalBox(_TopEdge):
                 self.rectangularWall(x+4*t, y+4*t, callback=[
                     lambda:self.top_hole(x, y, self.top_edge)], move="up", label="top hole")
                 self.set_source_color(Color.BLACK)
+
             self.drawLid(x, y, self.top_edge, [d2, d3])
             self.lid(x, y, self.top_edge)
 
         self.rectangularWall(x, h, [b, sideedge, tf, sideedge],
-                             ignore_widths=[1, 6],
+                             ignore_widths=ignore_widths,
                              bedBolts=[d2], move="right only", label="invisible")
         self.rectangularWall(y, h, [b, "f", tl, "f"],
-                             ignore_widths=[1, 6],
+                             ignore_widths=ignore_widths,
                              bedBolts=[d3], move="up", label="left")
         self.rectangularWall(y, h, [b, "f", tr, "f"],
-                             ignore_widths=[1, 6],
+                             ignore_widths=ignore_widths,
                              bedBolts=[d3], move="up", label="right")

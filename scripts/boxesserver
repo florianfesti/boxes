@@ -543,11 +543,11 @@ if __name__=="__main__":
     port = 8000
     if len(sys.argv) > 1:
         tmp = sys.argv[1].split(':')
-    if len(hostport) == 2:
-        host = tmp[0]
-        port = int(tmp[1])
-    else:
-        port = int(tmp[0])
+        if len(tmp) == 2:
+            host = tmp[0]
+            port = int(tmp[1])
+        else:
+            port = int(tmp[0])
     fc = FileChecker()
     fc.start()
     boxserver = BServer()

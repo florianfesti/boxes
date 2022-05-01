@@ -92,15 +92,15 @@ class StorageShelf(_TopEdge):
 
         # outer walls
         # XXX retainer
-        self.rectangularWall(x, h, [b, "F", t1, "e"], callback=[None, self.hHoles, ], move="up")
-        self.rectangularWall(x, h, [b, "e", t3, "F"], callback=[None, self.hHoles, ], move="up")
+        self.rectangularWall(x, h, [b, "F", t1, "e"], callback=[None, self.hHoles, ], move="up", label="left")
+        self.rectangularWall(x, h, [b, "e", t3, "F"], callback=[None, self.hHoles, ], move="up", label="right")
 
         # floor
         if b != "e":
             e = "fffe"
             if self.retainer:
                 e = "ffff"
-            self.rectangularWall(x, y, e, callback=[None, self.yHoles], move="up")
+            self.rectangularWall(x, y, e, callback=[None, self.yHoles], move="up", label="bottom")
 
         # inner walls
 
@@ -111,22 +111,22 @@ class StorageShelf(_TopEdge):
             if self.retainer:
                 e[3] = "f"
 
-            self.rectangularWall(x, y, e, move="up")
+            self.rectangularWall(x, y, e, move="up", label="inner horizontal " + str(i+1))
 
         # top / lid
         if self.closedtop:
             e = "FFFe" if self.top_edge == "f" else "fffe"
-            self.rectangularWall(x, y, e, callback=[None, self.yHoles, ], move="up")
+            self.rectangularWall(x, y, e, callback=[None, self.yHoles, ], move="up", label="top")
         else:
             self.drawLid(x, y, self.top_edge)
 
         self.ctx.restore()
-        self.rectangularWall(x, h, "ffff", move="right only")
+        self.rectangularWall(x, h, "ffff", move="right only", label="invisible")
 
         # y walls
 
         # outer walls
-        self.rectangularWall(y, h, [b, "f", t2, "f"],  callback=[self.ySlots, self.hSlots,], move="up")
+        self.rectangularWall(y, h, [b, "f", t2, "f"],  callback=[self.ySlots, self.hSlots,], move="up", label="back")
 
         # inner walls
         for i in range(len(self.sy) - 1):
@@ -135,7 +135,7 @@ class StorageShelf(_TopEdge):
                  "e", "f"]
             if self.closedtop:
                 e = [be, edges.SlottedEdge(self, self.sh, "e", slots=0.5 * x),"f", "f"]
-            self.rectangularWall(x, h, e, move="up")
+            self.rectangularWall(x, h, e, move="up", label="inner vertical " + str(i+1))
 
 
         if self.retainer:
@@ -144,4 +144,4 @@ class StorageShelf(_TopEdge):
                 e = "FEeE"
                 if self.retainer_hole_edge or (i == 0 and b == "h"):
                     e = "hEeE"
-                self.rectangularWall(y, self.retainer, e, move="up")
+                self.rectangularWall(y, self.retainer, e, move="up", label="retainer " + str(i+1))

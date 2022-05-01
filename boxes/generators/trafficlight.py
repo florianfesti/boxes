@@ -85,13 +85,13 @@ When turned by 90°, it can be also used to create a bottle holder."""
     def frontCB(self):
         self.hole(self.h/2, self.h/2, self.h/2-self.thickness)
 
-    def wall(self, h1, h2, w, edges="ffef", callback=None, move=""):
+    def wall(self, h1, h2, w, edges="ffef", callback=None, move="", label = ""):
         edges = [self.edges.get(e, e) for e in edges]
         edges += edges  # append for wrapping around
         overallwidth = w + edges[-1].spacing() + edges[1].spacing()
         overallheight = max(h1, h2) + edges[0].spacing() + edges[2].spacing()
 
-        if self.move(overallwidth, overallheight, move, before=True):
+        if self.move(overallwidth, overallheight, move, before=True, label= label):
             return
 
         a = math.atan((h2-h1)/float(w))
@@ -112,7 +112,7 @@ When turned by 90°, it can be also used to create a bottle holder."""
         edges[3](h1)
         self.edgeCorner(edges[3], edges[3 + 1], 90)
 
-        self.move(overallwidth, overallheight, move)
+        self.move(overallwidth, overallheight, move, label = label)
     
     def render(self):
         # adjust to the variables you want in the local scope
@@ -126,44 +126,44 @@ When turned by 90°, it can be also used to create a bottle holder."""
         self.addPart(ShadyEdge(self, None))
 
         # back
-        self.rectangularWall(th, h, "FFFF", callback=[self.backCB], move="up")
+        self.rectangularWall(th, h, "FFFF", callback=[self.backCB], move="up", label = "back")
 
         if self.upright:
             # sides
-            self.rectangularWall(th, d, "fFsF", callback=[self.sideCB], move="up")
-            self.rectangularWall(th, d, "fFsF", callback=[self.sideCB], move="up")
+            self.rectangularWall(th, d, "fFsF", callback=[self.sideCB], move="up", label = "left")
+            self.rectangularWall(th, d, "fFsF", callback=[self.sideCB], move="up", label = "right")
 
             # horizontal Walls / blinds tops
             e = edges.CompoundEdge(self, "fF", (d, s))
             e2 = edges.CompoundEdge(self, "Ff", (s, d))
             for i in range(n):
                 self.rectangularWall(h, d+s, ['f', e, 'e', e2],
-                                     move="right" if i<n-1 else "right up")
+                                     move="right" if i<n-1 else "right up", label="horizontal Wall " + str(i+1))
         else:
             # bottom
             self.rectangularWall(th, d, "fFeF", callback=[self.sideCB],
-                                 move="up")
+                                 move="up", label="bottom")
             # top
             self.rectangularWall(th, d+s, "fFeF", callback=[self.topCB],
-                                 move="up")
+                                 move="up", label="top")
             # vertical walls
             for i in range(n):
-                self.wall(d, d+s, h, move="right" if i<n-1 else "right up")
+                self.wall(d, d+s, h, move="right" if i<n-1 else "right up", label="vertical wall " + str(i+1))
 
         # fronts
         for i in range(n):
             self.rectangularWall(h, h, "efef", callback=[self.frontCB],
-                                 move="left" if i<n-1 else "left up")
+                                 move="left" if i<n-1 else "left up", label="front " + str(i+1))
 
         if self.upright:
             # bottom wall
-            self.rectangularWall(h, d, "ffef", move="up")
+            self.rectangularWall(h, d, "ffef", move="up", label="bottom wall")
         else:
             # vertical wall
-            self.wall(d, d+s, h, move="up")
+            self.wall(d, d+s, h, move="up", label="vertical wall")
 
         # Colored windows
         for i in range(n):
-            self.parts.disc(h-2*t, move="right")
+            self.parts.disc(h-2*t, move="right", label="colored window " + str(i+1))
         
 

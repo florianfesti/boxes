@@ -1590,7 +1590,7 @@ class CabinetHingeEdge(BaseEdge):
             th = 4*e+3*t+self.boxes.spacing
             tw = max(e, 2*t) * pairs
 
-        if self.move(tw, th, move, True):
+        if self.move(tw, th, move, True, label="hinges"):
             return
 
         if self.settings.style == "outside":
@@ -1613,7 +1613,7 @@ class CabinetHingeEdge(BaseEdge):
                               90, t, 90, (ax+t)-e, -90, l-3*t, (90, e))
                 self.moveTo(2*max(e, 1.5*t) + self.boxes.spacing)
 
-            self.move(tw, th, move)
+            self.move(tw, th, move, label="hinges")
             return
 
         if e <= 2*t:
@@ -1633,7 +1633,7 @@ class CabinetHingeEdge(BaseEdge):
             if i % 2:
                 self.moveTo(2*max(e, 2*t) + 2*self.boxes.spacing)
 
-        self.move(th, tw, move)
+        self.move(th, tw, move, label="hinges")
 
 #############################################################################
 ####     Slide-on lid

@@ -961,11 +961,13 @@ Values:
         if self.angle > 260:
             raise ValueError("StackableSettings: 'angle' is too big. Use value < 260")
 
-    def edgeObjects(self, boxes, chars="sSš", add=True, fingersettings=None):
+    def edgeObjects(self, boxes, chars="sSšŠ", add=True, fingersettings=None):
         fingersettings = fingersettings or boxes.edges["f"].settings
         edges = [StackableEdge(boxes, self, fingersettings),
                  StackableEdgeTop(boxes, self, fingersettings),
-                 StackableFeet(boxes, self, fingersettings)]
+                 StackableFeet(boxes, self, fingersettings),
+                 StackableHoleEdgeTop(boxes, self, fingersettings),
+                 ]
         return self._edgeObjects(edges, boxes, chars, add)
 
 class StackableBaseEdge(BaseEdge):
@@ -1030,6 +1032,22 @@ class StackableFeet(StackableBaseEdge):
 
     def _height(self):
         return self.settings.height
+
+class StackableHoleEdgeTop(StackableBaseEdge):
+    char = "Š"
+    description = "Stackable edge with finger holes (top)"
+    bottom = False
+
+    def startwidth(self):
+        return self.settings.thickness + self.settings.holedistance
+
+    def __call__(self, length, **kw):
+        s = self.settings
+        self.boxes.fingerHolesAt(
+            0,
+            s.holedistance + 0.5 * self.boxes.thickness,
+            length, 0)
+        super().__call__(length, **kw)
 
 #############################################################################
 ####     Hinges

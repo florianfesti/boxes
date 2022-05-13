@@ -1237,6 +1237,17 @@ class Boxes:
     @restore
     @holeCol
     def dHole(self, x, y, r=None, d=None, w=None, rel_w=0.75, angle=0):
+        """
+        Draw a hole for a shaft with flat edge - D shaped hole
+        :param x: center position
+        :param y: center position
+        :param r: radius (overrides d)
+        :param d: diameter
+        :param w: width measured against flat side in mm
+        :param rel_w: width in percent
+        :param angle: orentation (rotation) of the flat side
+        """
+        
         if r is None:
             r = d / 2.0
         if w is None:
@@ -1257,6 +1268,18 @@ class Boxes:
     @restore
     @holeCol
     def flatHole(self, x, y, r=None, d=None, w=None, rel_w=0.75, angle=0):
+        """
+        Draw a hole for a shaft with two opposed flat edges - () shaped hole
+        :param x: center position
+        :param y: center position
+        :param r: radius (overrides d)
+        :param d: diameter
+        :param w: width measured against flat side in mm
+        :param rel_w: width in percent
+        :param angle: orientation (rotation) of the flat sides
+        """
+
+
         if r is None:
             r = d / 2.0
         if w is None:
@@ -1277,6 +1300,38 @@ class Boxes:
             self.corner(-a)
             self.edge(2*r*math.sin(math.radians(a)))
             self.corner(-a)
+
+    @restore
+    @holeCol
+    def mountingHole(self, x, y, d_shaft=0.0, d_head=0.0, angle=0, tabs=0):
+        """
+        Draw a pear shaped mounting hole for sliding over a screw head. Total height = 1.5* d_shaft + d_head
+
+        :param x: position
+        :param y: postion
+        :param d_shaft: diameter of the screw shaft
+        :param d_head: diameter of the screw head
+        :param angle: rotation angle of the hole
+
+        """
+        
+        if d_shaft < 2*self.burn:
+            d_shaft = 2 * self.burn + 1E-9
+        rs = d_shaft/2
+        rh = d_head/2
+        
+        if not d_head or d_head < 2* self.burn:
+            self.hole(x,y,d=d_shaft,tabs=tabs)
+            return
+
+        self.moveTo(x + rs - self.burn, y, angle)
+        self.corner(-180, rs, tabs)
+        self.edge(2*rs,tabs)
+        a = math.degrees(math.asin(rs/rh))
+        self.corner(90-a, 0, tabs)
+        self.corner(-360+2*a,rh,tabs)
+        self.corner(90-a, 0, tabs)
+        self.edge(2*rs,tabs)
 
     @restore
     def text(self, text, x=0, y=0, angle=0, align="", fontsize=10, color=[0.0, 0.0, 0.0], font="Arial"):

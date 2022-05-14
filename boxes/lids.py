@@ -125,7 +125,7 @@ class _TopEdge(Boxes):
             self.rectangularWall(x, y, "CCCC", bedBolts=[d2, d3, d2, d3], move="up", label="top")
         elif top_edge == "f":
             self.rectangularWall(x, y, "FFFF", move="up", label="top")
-        elif top_edge == "F" or top_edge == "h":
+        elif top_edge in "FhŠ":
             self.rectangularWall(x, y, "ffff", move="up", label="top")
         elif top_edge == "L":
             self.rectangularWall(x, y, "nlmE", move="up", label="lid top")

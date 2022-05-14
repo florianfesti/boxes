@@ -1324,7 +1324,8 @@ class Boxes:
             self.hole(x,y,d=d_shaft,tabs=tabs)
             return
 
-        self.moveTo(x + rs - self.burn, y, angle)
+        self.moveTo(x,y,angle)
+        self.moveTo(0, rs - self.burn, 0)
         self.corner(-180, rs, tabs)
         self.edge(2*rs,tabs)
         a = math.degrees(math.asin(rs/rh))

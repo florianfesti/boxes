@@ -117,28 +117,28 @@ class BinTray(Boxes):
         # outer walls
         e = ["F", "f", edges.SlottedEdge(self, self.sx[::-1], "G"), "f"]
 
-        self.rectangularWall(x, h, e, callback=[self.xHoles],  move="right")
-        self.rectangularWall(y, h, "FFbF", callback=[self.yHoles, ], move="up")
-        self.rectangularWall(y, h, "FFbF", callback=[self.yHoles, ])
-        self.rectangularWall(x, h, "Ffef", callback=[self.xHoles, ], move="left")
+        self.rectangularWall(x, h, e, callback=[self.xHoles],  move="right", label="bottom")
+        self.rectangularWall(y, h, "FFbF", callback=[self.yHoles, ], move="up", label="left")
+        self.rectangularWall(y, h, "FFbF", callback=[self.yHoles, ], label="right")
+        self.rectangularWall(x, h, "Ffef", callback=[self.xHoles, ], move="left", label="top")
         self.rectangularWall(y, h, "FFBF", move="up only")
 
         # floor
-        self.rectangularWall(x, y, "ffff", callback=[self.xSlots, self.ySlots],move="right")
+        self.rectangularWall(x, y, "ffff", callback=[self.xSlots, self.ySlots],move="right", label="back")
         # Inner walls
         for i in range(len(self.sx) - 1):
             e = [edges.SlottedEdge(self, self.sy, "f"), "f", "B", "f"]
-            self.rectangularWall(y, hi, e, move="up")
+            self.rectangularWall(y, hi, e, move="up", label="inner vertical " + str(i+1))
 
         for i in range(len(self.sy) - 1):
             e = [edges.SlottedEdge(self, self.sx, "f", slots=0.5 * hi), "f",
                  edges.SlottedEdge(self, self.sx[::-1], "G"), "f"]
-            self.rectangularWall(x, hi, e, move="up")
+            self.rectangularWall(x, hi, e, move="up", label="inner horizontal " + str(i+1))
 
         # Front walls
         for i in range(len(self.sy)):
             e = [edges.SlottedEdge(self, self.sx, "g"), "F", "e", "F"]
-            self.rectangularWall(x, self.sy[i]*self.front*2**0.5, e, callback=[self.frontHoles(i)], move="up")
+            self.rectangularWall(x, self.sy[i]*self.front*2**0.5, e, callback=[self.frontHoles(i)], move="up", label="retainer " + str(i+1))
 
 
 

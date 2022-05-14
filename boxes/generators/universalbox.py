@@ -80,29 +80,29 @@ class UniversalBox(_TopEdge, _ChestLid):
         with self.saved_context():
             self.rectangularWall(x, h, [b, sideedge, t1, sideedge],
                                  ignore_widths=[1, 6],
-                                 bedBolts=[d2], move="up")
+                                 bedBolts=[d2], move="up", label="left")
             self.rectangularWall(x, h, [b, sideedge, t3, sideedge],
                                  ignore_widths=[1, 6],
-                                 bedBolts=[d2], move="up")
+                                 bedBolts=[d2], move="up", label="right")
 
             if self.bottom_edge != "e":
-                self.rectangularWall(x, y, "ffff", bedBolts=[d2, d3, d2, d3], move="up")
+                self.rectangularWall(x, y, "ffff", bedBolts=[d2, d3, d2, d3], move="up", label="bottom")
             if self.top_edge in "fF":
-                self.set_source_color(Color.RED)
+                self.set_source_color(Color.MAGENTA)    # I don't know why this part has a different color, but RED is not a good choice because RED is used for annotations
                 self.rectangularWall(x+4*t, y+4*t, callback=[
-                    lambda:self.top_hole(x, y, self.top_edge)], move="up")
+                    lambda:self.top_hole(x, y, self.top_edge)], move="up", label="top hole")
                 self.set_source_color(Color.BLACK)
             self.drawLid(x, y, self.top_edge, [d2, d3])
             self.drawAddOnLid(x, y, self.lid)
 
         self.rectangularWall(x, h, [b, sideedge, t3, sideedge],
                              ignore_widths=[1, 6],
-                             bedBolts=[d2], move="right only")
+                             bedBolts=[d2], move="right only", label="invisible")
         self.rectangularWall(y, h, [b, "f", t2, "f"],
                              ignore_widths=[1, 6],
-                             bedBolts=[d3], move="up")
+                             bedBolts=[d3], move="up", label="back")
         self.rectangularWall(y, h, [b, "f", t4, "f"],
                              ignore_widths=[1, 6],
-                             bedBolts=[d3], move="up")
+                             bedBolts=[d3], move="up", label="front")
 
 

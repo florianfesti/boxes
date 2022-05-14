@@ -25,7 +25,7 @@ class Parts:
     def __getattr__(self, name):
         return getattr(self.boxes, name)
 
-    def disc(self, diameter, hole=0, callback=None, move=""):
+    def disc(self, diameter, hole=0, callback=None, move="", label=""):
         """Simple disc
 
         :param diameter: diameter of the disc
@@ -36,7 +36,7 @@ class Parts:
         size = diameter
         r = diameter / 2.0
 
-        if self.move(size, size, move, before=True):
+        if self.move(size, size, move, before=True, label=label):
             return
 
         self.moveTo(size / 2, size / 2)
@@ -47,7 +47,7 @@ class Parts:
         self.cc(callback, None, 0, 0)
         self.moveTo(r + self.burn, 0, 90)
         self.corner(360, r, tabs=6)
-        self.move(size, size, move)
+        self.move(size, size, move, label=label)
 
     def waivyKnob(self, diameter, n=20, angle=45, hole=0, callback=None, move=""):
         """Disc with a waivy edge to be easier to be gripped

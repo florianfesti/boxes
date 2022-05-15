@@ -165,6 +165,9 @@ Most generators will add walls between the comparments, so the total size might 
 
 The sizes of the sections are divided by a colon (``:``) e.g. ``30:25.5:70``. Instead of repeating the same value they can be replaced by ``value*numberofsections``  e.g. ``50*3`` meaning the same as ``50:50:50``. To equally divide a length into several sections ``overallwidth/numberofsections`` can be used - e.g. ``120/4`` being the same as ``30:30:30:30``. All these formats can be freely mixed.
 
+mounting_holes
+..................
+Some generators provide the option to create pear shaped mounting holes. To generate the right size holes, the shaft and the head diameter of the mounting screw must be configured. The format is "shaft:head", both diameters given in mm (e.g ``3.5:6.5``). If only the shaft diameter is given (e.g. ``3.5``), a round mounting hole is generated. Setting the mounting hole diameter parameter to ``0`` disables the creation of mounting holes.
 
 outside
 .......

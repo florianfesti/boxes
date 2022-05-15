@@ -48,7 +48,7 @@ When turned by 90°, it can be also used to create a bottle holder."""
         self.addSettingsArgs(edges.FingerJointSettings)
 
         # remove cli params you do not need
-        self.buildArgParser("h")
+        self.buildArgParser("h", "hole_dD")
         # Add non default cli params if needed (see argparse std lib)
         self.argparser.add_argument(
             "--depth",  action="store", type=float, default=100,
@@ -62,8 +62,6 @@ When turned by 90°, it can be also used to create a bottle holder."""
         self.argparser.add_argument(
             "--upright",  action="store", type=boolarg, default=True,
             help="stack lights upright (or side by side)")
-
-        self.argparser.add_argument("--hole_dD", action="store", type=argparseSections, default="3.5:6.5", help="mounting hole diameter (shaft:head) in mm [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#mounting-holes)")
 
     def backCB(self):
         t = self.thickness

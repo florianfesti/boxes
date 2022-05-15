@@ -50,12 +50,11 @@ class BinTray(Boxes):
 
     def __init__(self):
         Boxes.__init__(self)
-        self.buildArgParser("sx", "sy", "h", "outside")
+        self.buildArgParser("sx", "sy", "h", "outside", "hole_dD")
         self.addSettingsArgs(edges.FingerJointSettings, surroundingspaces=0.5)
         self.argparser.add_argument(
             "--front", action="store", type=float, default=0.4,
             help="fraction of bin height covert with slope")
-        self.argparser.add_argument("--hole_dD", action="store", type=argparseSections, default="3.5:6.5", help="mounting hole diameter (shaft:head) in mm [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#mounting-holes)")
         
     def xSlots(self):
         posx = -0.5 * self.thickness

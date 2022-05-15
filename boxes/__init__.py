@@ -433,6 +433,11 @@ class Boxes:
                 self.argparser.add_argument(
                     "--hi", action="store", type=float, default=default,
                     help="inner height of inner walls in mm (unless outside selected)(leave to zero for same as outer walls)")
+            elif arg == "hole_dD":
+                if default is None: default = "3.5:6.5"
+                self.argparser.add_argument(
+                    "--hole_dD", action="store", type=argparseSections, default=default,
+                    help="mounting hole diameter (shaft:head) in mm [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#mounting-holes)")
             elif arg == "bottom_edge":
                 if default is None: default = "h"
                 self.argparser.add_argument(

@@ -143,7 +143,7 @@ class BinTray(Boxes):
         self.rectangularWall(y, h, "FFBF", move="up only")
 
         # floor
-        self.rectangularWall(x, y, "ffff", callback=[self.xSlots, self.ySlots, self.addMount],move="right", label="back")
+        self.rectangularWall(x, y, "ffff", callback=[self.xSlots, self.ySlots, self.addMount], move="right", label="back")
         # Inner walls
         for i in range(len(self.sx) - 1):
             e = [edges.SlottedEdge(self, self.sy, "f"), "f", "B", "f"]

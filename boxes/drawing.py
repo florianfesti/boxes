@@ -461,12 +461,12 @@ Created with Boxes.py (https://festi.info/boxes.py)
 Creation date: {date}
 """.format(date=date, **md)
 
-        txt += "Command line (remove spaces between dashes): %s\n" % md["cli"].replace("--", "- -")
+        txt += "Command line (remove spaces between dashes): %s\n" % md["cli"]
 
         if md["url"]:
             txt += "Url: %s\n" % md["url"]
             txt += "SettingsUrl: %s\n" % md["url"].replace("&render=1", "")
-        m = ET.Comment(txt)
+        m = ET.Comment(txt.replace("--", "- -").replace("--", "- -")) # ----
         m.tail = '\n'
         root.insert(0, m)
 

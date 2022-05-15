@@ -76,9 +76,6 @@ class BinTray(Boxes):
                 posx += x + self.thickness
                 
     def addMount(self):
-        if self.hole_dD[0] < 2 * self.burn:
-            return # no hole if no diameter is given
-
         ds = self.hole_dD[0]
 
         if len(self.hole_dD) < 2: # if no head diameter is given
@@ -86,10 +83,9 @@ class BinTray(Boxes):
             y = max (self.thickness * 1.25, self.thickness * 1.0 + ds) # and we assume that a typical screw head diameter is twice the shaft diameter
         else:
             dh = self.hole_dD[1] # use given head diameter
-            y = max (self.thickness * 1.25, self.thickness * 1.0 + dh/2) # and offset the hole to have enough space for the head
+            y = max (self.thickness * 1.25, self.thickness * 1.0 + dh / 2) # and offset the hole to have enough space for the head
 
-        dx = sum(self.sx) + self.thickness * (len(self.sx)-1)
-
+        dx = sum(self.sx) + self.thickness * (len(self.sx) - 1)
         x1 = dx * 0.125
         x2 = dx * 0.875
 

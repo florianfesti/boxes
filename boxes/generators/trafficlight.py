@@ -93,7 +93,7 @@ When turned by 90°, it can be also used to create a bottle holder."""
         overallwidth = w + edges[-1].spacing() + edges[1].spacing()
         overallheight = max(h1, h2) + edges[0].spacing() + edges[2].spacing()
 
-        if self.move(overallwidth, overallheight, move, before=True, label= label):
+        if self.move(overallwidth, overallheight, move, before=True, label=label):
             return
 
         a = math.atan((h2-h1)/float(w))
@@ -117,9 +117,6 @@ When turned by 90°, it can be also used to create a bottle holder."""
         self.move(overallwidth, overallheight, move, label=label)
         
     def addMountH(self, width, height):
-        if self.hole_dD[0] < 2 * self.burn:
-            return # no hole if no diameter is given
-
         ds = self.hole_dD[0]
 
         if len(self.hole_dD) < 2: # if no head diameter is given
@@ -127,10 +124,9 @@ When turned by 90°, it can be also used to create a bottle holder."""
             y = height - max (self.thickness * 1.25, self.thickness * 1.0 + ds) # and we assume that a typical screw head diameter is twice the shaft diameter
         else:
             dh = self.hole_dD[1] # use given head diameter
-            y = height - max (self.thickness * 1.25, self.thickness * 1.0 + dh/2) # and offset the hole to have enough space for the head
+            y = height - max (self.thickness * 1.25, self.thickness * 1.0 + dh / 2) # and offset the hole to have enough space for the head
 
         dx = width
-
         x1 = dx * 0.125
         x2 = dx * 0.875
 
@@ -148,7 +144,7 @@ When turned by 90°, it can be also used to create a bottle holder."""
             x = max (self.thickness * 2.75, self.thickness * 2.25 + ds) # and we assume that a typical screw head diameter is twice the shaft diameter
         else:
             dh = self.hole_dD[1] # use given head diameter
-            x = max (self.thickness * 2.75, self.thickness * 2.25 + dh/2) # and offset the hole to have enough space for the head
+            x = max (self.thickness * 2.75, self.thickness * 2.25 + dh / 2) # and offset the hole to have enough space for the head
 
         dy = height
 
@@ -171,9 +167,9 @@ When turned by 90°, it can be also used to create a bottle holder."""
 
         # back
         if self.upright:
-            self.rectangularWall(th, h, "FFFF", callback=[self.backCB, self.addMountV(th,h)], move="up", label="back")
+            self.rectangularWall(th, h, "FFFF", callback=[self.backCB, self.addMountV(th, h)], move="up", label="back")
         else:
-            self.rectangularWall(th, h, "FFFF", callback=[self.backCB, self.addMountH(th,h)], move="up", label="back")
+            self.rectangularWall(th, h, "FFFF", callback=[self.backCB, self.addMountH(th, h)], move="up", label="back")
 
         if self.upright:
             # sides
@@ -211,5 +207,5 @@ When turned by 90°, it can be also used to create a bottle holder."""
 
         # Colored windows
         for i in range(n):
-            self.parts.disc(h-2*t, move="right") # , label="colored windows")
+            self.parts.disc(h-2*t, move="right") # , label="colored windows") --> todo
         

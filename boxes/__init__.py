@@ -567,11 +567,9 @@ class Boxes:
         # Grooved Edge
         edges.GroovedSettings(self.thickness, True,
                               **self.edgesettings.get("Grooved", {})).edgeObjects(self)
-
         # Mounting Edge
         edges.MountingSettings(self.thickness, True,
                               **self.edgesettings.get("Mounting", {})).edgeObjects(self)
-
         # HexHoles
         self.hexHolesSettings = HexHolesSettings(self.thickness, True,
                 **self.edgesettings.get("HexHoles", {}))

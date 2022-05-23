@@ -350,12 +350,12 @@ class MountingSettings(Settings):
 Values:
 * absolute_params
 
- * style : "straight edge within" : edge style
- * side : "left" : side of box (please not that not all valid configurations make sense...)
+ * style : "straight edge, within" : edge style
+ * side : "left" : side of box (not all valid configurations make sense...)
  * num : 2 : number of mounting holes (integer)
  * margin : 0.125 : minimum space left and right without holes (fraction of the edge length)
- * d_shaft : 3.0 : shaft diameter of mounting screw
- * d_head : 6.5 : head diameter of mounting screw
+ * d_shaft : 3.0 : shaft diameter of mounting screw (in mm)
+ * d_head : 6.5 : head diameter of mounting screw (in mm)
 """
 
     PARAM_IN  = "straight edge, within"

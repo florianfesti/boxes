@@ -1091,11 +1091,13 @@ Values:
         if self.angle > 260:
             raise ValueError("StackableSettings: 'angle' is too big. Use value < 260")
 
-    def edgeObjects(self, boxes, chars="sSš", add=True, fingersettings=None):
+    def edgeObjects(self, boxes, chars="sSšŠ", add=True, fingersettings=None):
         fingersettings = fingersettings or boxes.edges["f"].settings
         edges = [StackableEdge(boxes, self, fingersettings),
                  StackableEdgeTop(boxes, self, fingersettings),
-                 StackableFeet(boxes, self, fingersettings)]
+                 StackableFeet(boxes, self, fingersettings),
+                 StackableHoleEdgeTop(boxes, self, fingersettings),
+                 ]
         return self._edgeObjects(edges, boxes, chars, add)
 
 class StackableBaseEdge(BaseEdge):
@@ -1160,6 +1162,22 @@ class StackableFeet(StackableBaseEdge):
 
     def _height(self):
         return self.settings.height
+
+class StackableHoleEdgeTop(StackableBaseEdge):
+    char = "Š"
+    description = "Stackable edge with finger holes (top)"
+    bottom = False
+
+    def startwidth(self):
+        return self.settings.thickness + self.settings.holedistance
+
+    def __call__(self, length, **kw):
+        s = self.settings
+        self.boxes.fingerHolesAt(
+            0,
+            s.holedistance + 0.5 * self.boxes.thickness,
+            length, 0)
+        super().__call__(length, **kw)
 
 #############################################################################
 ####     Hinges
@@ -1720,7 +1738,7 @@ class CabinetHingeEdge(BaseEdge):
             th = 4*e+3*t+self.boxes.spacing
             tw = max(e, 2*t) * pairs
 
-        if self.move(tw, th, move, True):
+        if self.move(tw, th, move, True, label="hinges"):
             return
 
         if self.settings.style == "outside":
@@ -1743,7 +1761,7 @@ class CabinetHingeEdge(BaseEdge):
                               90, t, 90, (ax+t)-e, -90, l-3*t, (90, e))
                 self.moveTo(2*max(e, 1.5*t) + self.boxes.spacing)
 
-            self.move(tw, th, move)
+            self.move(tw, th, move, label="hinges")
             return
 
         if e <= 2*t:
@@ -1763,7 +1781,7 @@ class CabinetHingeEdge(BaseEdge):
             if i % 2:
                 self.moveTo(2*max(e, 2*t) + 2*self.boxes.spacing)
 
-        self.move(th, tw, move)
+        self.move(th, tw, move, label="hinges")
 
 #############################################################################
 ####     Slide-on lid

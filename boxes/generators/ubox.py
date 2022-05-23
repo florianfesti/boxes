@@ -101,7 +101,7 @@ class UBox(_TopEdge, _ChestLid):
         self.U(x, y, r, t3, move="left only", label="invisible")
         self.Uwall(x, y, h, r, [t2, t4], move="up", label="wall")
 
-        self.drawLid(x, h, self.top_edge, label="lid")
-        self.drawAddOnLid(x, h, self.lid, label="addon lid")
+        self.drawLid(x, h, self.top_edge)
+        self.drawAddOnLid(x, h, self.lid)
 
 

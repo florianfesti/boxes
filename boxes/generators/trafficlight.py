@@ -48,7 +48,7 @@ When turned by 90°, it can be also used to create a bottle holder."""
         self.addSettingsArgs(edges.FingerJointSettings)
 
         # remove cli params you do not need
-        self.buildArgParser("h")
+        self.buildArgParser("h", "hole_dD")
         # Add non default cli params if needed (see argparse std lib)
         self.argparser.add_argument(
             "--depth",  action="store", type=float, default=100,
@@ -62,9 +62,6 @@ When turned by 90°, it can be also used to create a bottle holder."""
         self.argparser.add_argument(
             "--upright",  action="store", type=boolarg, default=True,
             help="stack lights upright (or side by side)")
-            
-        self.argparser.add_argument("--AddMountingHoles",  action="store", type=boolarg, default=False, help="Add mounting holes at back plate")
-        self.argparser.add_argument("--dD", action="store", type=argparseSections, default="3.5:6.5", help="diameter of shaft and head of mounting screw in mm")
 
     def backCB(self):
         t = self.thickness
@@ -88,13 +85,13 @@ When turned by 90°, it can be also used to create a bottle holder."""
     def frontCB(self):
         self.hole(self.h/2, self.h/2, self.h/2-self.thickness)
 
-    def wall(self, h1, h2, w, edges="ffef", callback=None, move="", label = ""):
+    def wall(self, h1, h2, w, edges="ffef", callback=None, move="", label=""):
         edges = [self.edges.get(e, e) for e in edges]
         edges += edges  # append for wrapping around
         overallwidth = w + edges[-1].spacing() + edges[1].spacing()
         overallheight = max(h1, h2) + edges[0].spacing() + edges[2].spacing()
 
-        if self.move(overallwidth, overallheight, move, before=True, label= label):
+        if self.move(overallwidth, overallheight, move, before=True, label=label):
             return
 
         a = math.atan((h2-h1)/float(w))
@@ -115,43 +112,45 @@ When turned by 90°, it can be also used to create a bottle holder."""
         edges[3](h1)
         self.edgeCorner(edges[3], edges[3 + 1], 90)
 
-        self.move(overallwidth, overallheight, move, label = label)
+        self.move(overallwidth, overallheight, move, label=label)
         
     def addMountH(self, width, height):
-        if not self.AddMountingHoles:
-            return
+        ds = self.hole_dD[0]
 
-        if self.dD[0] < 2 * self.burn:
-            return
+        if len(self.hole_dD) < 2: # if no head diameter is given
+            dh = 0 # only a round hole is generated
+            y = height - max (self.thickness * 1.25, self.thickness * 1.0 + ds) # and we assume that a typical screw head diameter is twice the shaft diameter
+        else:
+            dh = self.hole_dD[1] # use given head diameter
+            y = height - max (self.thickness * 1.25, self.thickness * 1.0 + dh / 2) # and offset the hole to have enough space for the head
 
-        if len(self.dD) < 2:
-            self.dD[1] = self.dD[0] * 2.05
-            
-        y = height - max (self.thickness * 1.25, self.thickness * 0.5 + self.dD[1]/2)
         dx = width
-
         x1 = dx * 0.125
         x2 = dx * 0.875
 
-        self.mountingHole(x1, y, self.dD[0], self.dD[1], 90)
-        self.mountingHole(x2, y, self.dD[0], self.dD[1], 90)
+        self.mountingHole(x1, y, ds, dh, 90)
+        self.mountingHole(x2, y, ds, dh, 90)
 
     def addMountV(self, width, height):
-        if not self.AddMountingHoles:
-            return
+        if self.hole_dD[0] < 2 * self.burn:
+            return # no hole if no diameter is given
 
-        if len(self.dD) < 2:
-            self.dD[0] = 3.5
-            self.dD[1] = 6.5
-            
+        ds = self.hole_dD[0]
+
+        if len(self.hole_dD) < 2: # if no head diameter is given
+            dh = 0 # only a round hole is generated
+            x = max (self.thickness * 2.75, self.thickness * 2.25 + ds) # and we assume that a typical screw head diameter is twice the shaft diameter
+        else:
+            dh = self.hole_dD[1] # use given head diameter
+            x = max (self.thickness * 2.75, self.thickness * 2.25 + dh / 2) # and offset the hole to have enough space for the head
+
         dy = height
-        x = max (self.thickness * 2.5, self.thickness * 1.75 + self.dD[1]/2)
 
         y1 = self.thickness * 0.75 + dy * 0.125
         y2 = self.thickness * 0.75 + dy * 0.875
 
-        self.mountingHole(x, y1, self.dD[0], self.dD[1], 180)
-        self.mountingHole(x, y2, self.dD[0], self.dD[1], 180)
+        self.mountingHole(x, y1, ds, dh, 180)
+        self.mountingHole(x, y2, ds, dh, 180)
     
     def render(self):
         # adjust to the variables you want in the local scope
@@ -166,14 +165,14 @@ When turned by 90°, it can be also used to create a bottle holder."""
 
         # back
         if self.upright:
-            self.rectangularWall(th, h, "FFFF", callback=[self.backCB, self.addMountV(th,h)], move="up", label = "back")
+            self.rectangularWall(th, h, "FFFF", callback=[self.backCB, self.addMountV(th, h)], move="up", label="back")
         else:
-            self.rectangularWall(th, h, "FFFF", callback=[self.backCB, self.addMountH(th,h)], move="up", label = "back")
+            self.rectangularWall(th, h, "FFFF", callback=[self.backCB, self.addMountH(th, h)], move="up", label="back")
 
         if self.upright:
             # sides
-            self.rectangularWall(th, d, "fFsF", callback=[self.sideCB], move="up", label = "left")
-            self.rectangularWall(th, d, "fFsF", callback=[self.sideCB], move="up", label = "right")
+            self.rectangularWall(th, d, "fFsF", callback=[self.sideCB], move="up", label="left")
+            self.rectangularWall(th, d, "fFsF", callback=[self.sideCB], move="up", label="right")
 
             # horizontal Walls / blinds tops
             e = edges.CompoundEdge(self, "fF", (d, s))
@@ -206,6 +205,4 @@ When turned by 90°, it can be also used to create a bottle holder."""
 
         # Colored windows
         for i in range(n):
-            self.parts.disc(h-2*t, move="right", label="colored windows")
-        
-
+            self.parts.disc(h-2*t, move="right") # , label="colored windows") --> todo

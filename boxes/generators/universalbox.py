@@ -88,12 +88,12 @@ class UniversalBox(_TopEdge, _ChestLid):
             if self.bottom_edge != "e":
                 self.rectangularWall(x, y, "ffff", bedBolts=[d2, d3, d2, d3], move="up", label="bottom")
             if self.top_edge in "fF":
-                self.set_source_color(Color.RED)
+                self.set_source_color(Color.MAGENTA)    # I don't know why this part has a different color, but RED is not a good choice because RED is used for annotations
                 self.rectangularWall(x+4*t, y+4*t, callback=[
-                    lambda:self.top_hole(x, y, self.top_edge)], move="up", label="top")
+                    lambda:self.top_hole(x, y, self.top_edge)], move="up", label="top hole")
                 self.set_source_color(Color.BLACK)
-            self.drawLid(x, y, self.top_edge, [d2, d3], label="lid")
-            self.drawAddOnLid(x, y, self.lid, label="addon lid")
+            self.drawLid(x, y, self.top_edge, [d2, d3])
+            self.drawAddOnLid(x, y, self.lid)
 
         self.rectangularWall(x, h, [b, sideedge, t3, sideedge],
                              ignore_widths=[1, 6],

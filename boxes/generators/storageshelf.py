@@ -84,7 +84,7 @@ class StorageShelf(_TopEdge):
         #if top_edge is t put the handle on the x walls
         if(self.top_edge=='t'):
             t1,t2,t3,t4=(t2,t1,t4,t3)
-        self.closedtop = self.top_edge in "fFh"
+        self.closedtop = self.top_edge in "fFhŠ"
 
         # x sides
 
@@ -118,7 +118,7 @@ class StorageShelf(_TopEdge):
             e = "FFFe" if self.top_edge == "f" else "fffe"
             self.rectangularWall(x, y, e, callback=[None, self.yHoles, ], move="up", label="top")
         else:
-            self.drawLid(x, y, self.top_edge, label="lid")
+            self.drawLid(x, y, self.top_edge)
 
         self.ctx.restore()
         self.rectangularWall(x, h, "ffff", move="right only", label="invisible")

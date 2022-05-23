@@ -75,15 +75,15 @@ class _ChestLid(Boxes):
 
         self.move(tw, th, move, label=label)
 
-    def drawAddOnLid(self, x, y, style, label=""):
+    def drawAddOnLid(self, x, y, style):
         if style == "flat":
-            self.rectangularWall(x, y, "eeee", move="right", label=label)
-            self.rectangularWall(x, y, "EEEE", move="up", label=label)
+            self.rectangularWall(x, y, "eeee", move="right", label="lid bottom")
+            self.rectangularWall(x, y, "EEEE", move="up", label="lid top")
         elif style == "chest":
-            self.side(x, move="right", label=label)
-            self.side(x, move="up", label=label)
-            self.side(x, move="left only", label=label)
-            self.top(x, y, move="up", label=label)
+            self.side(x, move="right", label="lid right")
+            self.side(x, move="up", label="lid left")
+            self.side(x, move="left only", label="invisible")
+            self.top(x, y, move="up", label="lid top")
         else:
             return False
         return True
@@ -133,35 +133,35 @@ class _TopEdge(Boxes):
                 t1 = t3 = t4 = "e"
         return [t1, t2, t3, t4]
 
-    def drawLid(self, x, y, top_edge, bedBolts=[None, None], label=""):
+    def drawLid(self, x, y, top_edge, bedBolts=[None, None]):
         d2, d3 = bedBolts
         if top_edge == "c":
-            self.rectangularWall(x, y, "CCCC", bedBolts=[d2, d3, d2, d3], move="up", label=label)
+            self.rectangularWall(x, y, "CCCC", bedBolts=[d2, d3, d2, d3], move="up", label="top")
         elif top_edge == "f":
-            self.rectangularWall(x, y, "FFFF", move="up", label=label)
-        elif top_edge == "F" or top_edge == "h":
-            self.rectangularWall(x, y, "ffff", move="up", label=label)
+            self.rectangularWall(x, y, "FFFF", move="up", label="top")
+        elif top_edge in "FhŠ":
+            self.rectangularWall(x, y, "ffff", move="up", label="top")
         elif top_edge == "L":
-            self.rectangularWall(x, y, "nlmE", move="up", label=label)
+            self.rectangularWall(x, y, "nlmE", move="up", label="lid top")
         elif top_edge == "i":
-            self.rectangularWall(x, y, "IEJe", move="up", label=label)
+            self.rectangularWall(x, y, "IEJe", move="up", label="lid top")
         elif top_edge == "k":
             outset =  self.edges["k"].settings.outset
             self.edges["k"].settings.setValues(self.thickness, outset=True)
             lx = x/2.0-0.1*self.thickness
             self.edges['k'].settings.setValues(self.thickness, grip_length=5)
-            self.rectangularWall(lx, y, "IeJe", move="right", label=label)
-            self.rectangularWall(lx, y, "IeJe", move="up", label=label)
-            self.rectangularWall(lx, y, "IeJe", move="left only", label=label)
+            self.rectangularWall(lx, y, "IeJe", move="right", label="lid top left")
+            self.rectangularWall(lx, y, "IeJe", move="up", label="lid top right")
+            self.rectangularWall(lx, y, "IeJe", move="left only", label="invisible")
             self.edges["k"].settings.setValues(self.thickness, outset=outset)
         elif top_edge == "S":
-            self.rectangularWall(x, y, "ffff", move="up", label=label)
-            self.rectangularWall(x, 0, "sFeF", move="up", label=label)
-            self.rectangularWall(x, 0, "sFeF", move="up", label=label)
-            self.rectangularWall(y, 0, "sfef", move="up", label=label)
-            self.rectangularWall(y, 0, "sfef", move="up", label=label)
+            self.rectangularWall(x, y, "ffff", move="up", label="lid top")
+            self.rectangularWall(x, 0, "sFeF", move="up", label="lid top left")
+            self.rectangularWall(x, 0, "sFeF", move="up", label="lid top right")
+            self.rectangularWall(y, 0, "sfef", move="up", label="lid top front")
+            self.rectangularWall(y, 0, "sfef", move="up", label="lid top back")
         elif top_edge == "v":
-            self.rectangularWall(x, y, "VEEE", move="up", label=label)
+            self.rectangularWall(x, y, "VEEE", move="up", label="lid top")
             self.edges["v"].parts(move="up")
         else:
             return False

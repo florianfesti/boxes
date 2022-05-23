@@ -22,7 +22,17 @@ class DrillStand(Boxes):
 
     description = """Note: `sh` gives the hight of the rows front to back. It though should have the same number of entries as `sy`. These heights are the one on the left side and increase throughout the row. To have each compartement a bit higher than the previous one the steps in `sh` should be a bit bigger than `extra_height`.
 
-Assembly: Start with putting the slots of the inner walls together. Then add the front and the back wall. Be especially careful with adding the bottom. It is always assymetrical and flush with the right/lower side while being a little short on the left/higher side to not protrude into the side wall. Add the very left and right walls last.
+Assembly:
+
+![Parts](static/samples/DrillStand-drawing.png)
+
+Start with putting the slots of the inner walls together. Be especially careful with adding the bottom. It is always assymetrical and flush with the right/lower side while being a little short on the left/higher side to not protrude into the side wall.
+
+|      |      |
+| ---- | ---- |
+| ![Assembly inner walls](static/samples/DrillStand-assembly-1.jpg) | ![Assembly bottom](static/samples/DrillStand-assembly-2.jpg) |
+| Then add the front and the back wall. | Add the very left and right walls last. |
+| ![Assembly front and back](static/samples/DrillStand-assembly-3.jpg) | ![Assembly side walls](static/samples/DrillStand-assembly-4.jpg) |
 """
 
     ui_group = "Misc"

@@ -1246,6 +1246,7 @@ class Boxes:
     def dHole(self, x, y, r=None, d=None, w=None, rel_w=0.75, angle=0):
         """
         Draw a hole for a shaft with flat edge - D shaped hole
+
         :param x: center position
         :param y: center position
         :param r: radius (overrides d)
@@ -1253,8 +1254,9 @@ class Boxes:
         :param w: width measured against flat side in mm
         :param rel_w: width in percent
         :param angle: orentation (rotation) of the flat side
+
         """
-        
+
         if r is None:
             r = d / 2.0
         if w is None:
@@ -1277,6 +1279,7 @@ class Boxes:
     def flatHole(self, x, y, r=None, d=None, w=None, rel_w=0.75, angle=0):
         """
         Draw a hole for a shaft with two opposed flat edges - ( ) shaped hole
+
         :param x: center position
         :param y: center position
         :param r: radius (overrides d)
@@ -1284,8 +1287,8 @@ class Boxes:
         :param w: width measured against flat side in mm
         :param rel_w: width in percent
         :param angle: orientation (rotation) of the flat sides
-        """
 
+        """
 
         if r is None:
             r = d / 2.0

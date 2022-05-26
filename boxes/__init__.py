@@ -361,10 +361,10 @@ class Boxes:
             self.ctx.rectangle(0, 0, self.reference, 10)
             if self.reference < 40:
                 self.text("%.fmm" % self.reference, self.reference + 5, 5,
-                          align="middle left")
+                          align="middle left", fontsize=8, color=Color.ETCHING)
             else:
                 self.text("%.fmm" % self.reference, self.reference / 2.0, 5,
-                          align="middle center")
+                          align="middle center", fontsize=8, color=Color.ETCHING)
             self.move(10, 10, "up")
             self.ctx.stroke()
 

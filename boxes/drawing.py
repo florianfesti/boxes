@@ -546,7 +546,7 @@ Creation date: {date}
                         t.text = text
                         t.set("font-size", f"{params['fs']}px")
                         t.set("text-anchor", params.get('align', 'left'))
-                        t.set("alignment-baseline", 'hanging')
+                        t.set("dominant-baseline", 'hanging')
                     else:
                         print("Unknown", c)
 

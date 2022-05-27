@@ -79,7 +79,7 @@ class MagazinFile(Boxes):
 
 
         with self.saved_context():
-            self.rectangularWall(x, h, "Ff"+t2+"f", move="up")
+            self.rectangularWall(x, h, ["F", "f", t2, "f"], move="up")
             self.rectangularWall(x, hi, "Ffef", move="up")
             self.rectangularWall(x, y, "ffff")
 

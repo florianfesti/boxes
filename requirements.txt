@@ -2,3 +2,4 @@ affine
 markdown
 setuptools
 sphinx
+shapely

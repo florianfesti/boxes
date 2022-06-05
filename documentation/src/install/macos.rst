@@ -31,7 +31,7 @@ General
 
    .. code::
 
-      pip3 install Markdown affine
+      pip3 install Markdown affine shapely
 
 4. Download Boxes.py via Git:
 

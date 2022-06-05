@@ -24,6 +24,9 @@ from xml.sax.saxutils import quoteattr
 from contextlib import contextmanager
 import copy
 from shlex import quote
+from shapely.geometry import *
+from shapely.ops import split
+import random
 
 from boxes import edges
 from boxes import formats
@@ -241,6 +244,33 @@ Values:
 
     relative_params = {}
 
+class fillHolesSettings(edges.Settings):
+    """Settings for Hole filling
+
+Values:
+
+* absolute
+  * fill_pattern :        "no fill" : style of hole pattern
+  * hole_style :          "round" : style of holes (does not apply to fill patterns 'vbar' and 'hbar')
+  * max_random :          1000 : maximum number of random holes
+  * bar_length :          50 : maximum length of bars
+  * hole_max_radius :     12.0 : maximum radius of generated holes (in mm)
+  * hole_min_radius :     4.0 : minimum radius of generated holes (in mm)
+  * space_between_holes : 4.0 : hole to hole spacing (in mm)
+  * space_to_border :     4.0 : hole to border spacing (in mm)
+
+"""
+
+    absolute_params = {
+        "fill_pattern":        ("no fill", "hex", "square", "random", "hbar", "vbar"),
+        "hole_style":          ("round", "triangle", "square", "hexagon", "octagon"),
+        "max_random":          1000,
+        "bar_length":          50,
+        "hole_max_radius":     3.0,
+        "hole_min_radius":     0.5,
+        "space_between_holes": 4.0,
+        "space_to_border":     4.0,
+    }
 
 ##############################################################################
 ### Main class
@@ -1501,7 +1531,367 @@ class Boxes:
                           y * 0.5 * holedistance,
                           0.5 * diameter)
 
-    # hexHoles
+    @restore
+    def showBorderPoly(self,border,color=Color.ANNOTATIONS):
+        """
+        draw border polygon (for debugging only)
+
+        :param border:     array with coordinate [(x0,y0), (x1,y1),...] of the border polygon
+
+        """
+        self.set_source_color(color)
+        self.ctx.save()
+        self.ctx.move_to(*border[0])
+
+        for x, y in border[1:]:
+            self.ctx.line_to(x, y)
+
+        self.ctx.line_to(*border[0])
+        self.ctx.restore()
+
+        i = 0
+        for x, y in border:
+            i += 1
+            self.hole(x, y, 0.5, color=color)
+            self.text(str(i), x, y, fontsize=2, color=color)
+
+    @restore
+    @holeCol
+    def fillHoles(self, pattern, border, max_radius, hspace=3, bspace=0, min_radius=0.5, style="round", bar_length=50, max_random=1000):
+        """
+        fill a polygon defined by its outline with holes
+
+        :param pattern:     defines the hole pattern - currently "random", "hex", "square" "hbar" or "vbar" are supported
+        :param border:      array with coordinate [(x0,y0), (x1,y1),...] of the border polygon
+        :param max_radius:  maximum hole radius
+        :param hspace:      space between holes
+        :param bspace:      space to border
+        :param min_radius:  minimum hole radius
+        :param style:       defines hole style - currently one of "round", "triangle", "square", "hexagon" or "octagon"
+        :param bar_length:  maximum bar length
+        :param max_random:  maximum number of random holes
+
+        """
+        if pattern not in ["random", "hex", "square", "hbar", "vbar"]:
+            return
+
+        a = 0
+        if style == "round":
+            n = 0
+        elif style == "triangle":
+            n = 3
+            a = 60
+        elif style == "square":
+            n = 4
+        elif style == "hexagon":
+            n = 6
+            a = 30
+        elif style == "octagon":
+            n = 8
+            a = 22.5
+        else:
+            raise ValueError("fillHoles - unknown hole style: %s)" % style)
+
+# note to myself: ^y  x>
+
+        if self.debug:
+            self.showBorderPoly(border)
+
+        borderPoly = Polygon(border)
+        min_x, min_y, max_x, max_y = borderPoly.bounds
+
+        if pattern == "vbar":
+            border = [(max_y - y + min_y, x) for x, y in border]
+            borderPoly = Polygon(border)
+            min_x, min_y, max_x, max_y = borderPoly.bounds
+            self.moveTo(0, max_x + min_x, -90)
+            pattern = "hbar"
+            if self.debug:
+                self.showBorderPoly(border, color=Color.MAGENTA)
+
+        row = 0
+        i = 0
+
+        # calc the next smaller radius to fit an 'optimum' number of circles
+        # for x direction
+        nx = math.ceil((max_x - min_x - 2 * bspace + hspace) / (2 * max_radius + hspace))
+        max_radius_x = (max_x - min_x - 2 * bspace - (nx - 1) * hspace) / nx / 2
+
+        # for y direction
+        if pattern == "hex":
+            ny = math.ceil((max_y - min_y - 2 * bspace - 2 * max_radius) / (math.sqrt(3) / 2 * (2 * max_radius + hspace)))
+            max_radius_y = (max_y - min_y - 2 * bspace - math.sqrt(3) / 2 * ny * hspace) / (math.sqrt(3) * ny + 2 )
+        else:
+            ny = math.ceil((max_y - min_y - 2 * bspace + hspace) / (2 * max_radius + hspace))
+            max_radius_y = (max_y - min_y - 2 * bspace - (ny - 1) * hspace) / ny / 2
+
+        if pattern == "random":
+            grid = {}
+            misses = 0 # in a row
+            while i < max_random and misses < 20:
+                i += 1
+                misses += 1
+                # random new point
+                x = random.randrange(math.floor(min_x + bspace), math.ceil(max_x - bspace)) # randomness takes longer to compute
+                y = random.randrange(math.floor(min_y + bspace), math.ceil(max_y - bspace)) # but generates a new pattern for each run
+                pt = Point(x, y).buffer(min_radius + bspace)
+                # check if point is within border
+                if borderPoly.contains(pt):
+                    pt1 = Point(x, y)
+                    grid_x = int(x//(2*max_radius+hspace))
+                    grid_y = int(y//(2*max_radius+hspace))
+                    # compute distance between hole and border
+                    bdist = borderPoly.exterior.distance(pt1) - bspace
+                    # compute minimum distance to all other holes
+                    hdist = max_radius
+                    try: # learned from https://medium.com/techtofreedom/5-ways-to-break-out-of-nested-loops-in-python-4c505d34ace7
+                        for gx in (-1, 0, 1):
+                            for gy in (-1, 0, 1):
+                                for pt2 in grid.get((grid_x+gx, grid_y+gy), []):
+                                    pt3 = Point(pt2.x, pt2.y)
+                                    hdist = min(hdist, pt1.distance(pt3) - pt2.z - hspace)
+                                    if hdist < min_radius:
+                                        hdist = 0
+                                        raise StopIteration
+                    except StopIteration:
+                        pass
+                    # find maximum radius depending on distances
+                    r = min(bdist, hdist)
+                    # if too small, dismiss cycle
+                    if r < min_radius:
+                        continue
+                    # if too large, limit to max size
+                    if r > max_radius:
+                        r = max_radius
+                    # store in grid with radius as z value
+                    grid.setdefault((grid_x, grid_y), []).append(
+                        Point(x, y, r))
+                    misses = 0
+                    # and finally paint the hole
+                    self.regularPolygonHole(x, y, r=r, n=n, a=a)
+                    # rinse and repeat
+
+        elif pattern in ("square", "hex"):
+            # use 'optimum' hole size
+            max_radius = min(max_radius_x, max_radius_y)
+
+            # check if at least one line fits (we do horizontal filling)
+            if (max_y - min_y) < (2 * max_radius + 2 * bspace):
+                return
+
+            # make cutPolys a little wider to avoid
+            # overlapping with lines to be cut
+            outerCutPoly = borderPoly.buffer(-1 * (bspace - 0.000001),
+                                             join_style=2)
+            outerTestPoly = borderPoly.buffer(-1 * (bspace - 0.01),
+                                              join_style=2)
+            # shrink original polygon to get place for full size polygons
+            innerCutPoly = borderPoly.buffer(-1 * (bspace + max_radius - 0.0001), join_style=2)
+            innerTestPoly = borderPoly.buffer(-1 * (bspace + max_radius - 0.001), join_style=2)
+
+            # get left and right boundaries of cut polygon
+            x_cpl, y_cpl, x_cpr, y_cpr = outerCutPoly.bounds
+
+            if self.debug:
+                self.showBorderPoly(list(outerCutPoly.exterior.coords))
+                self.showBorderPoly(list(innerCutPoly.exterior.coords))
+            
+            # set startpoint
+            y = min_y + bspace + max_radius_y
+
+            while y < (max_y - bspace - max_radius_y):
+                if pattern == "square" or row % 2 == 0:
+                    xs = min_x + bspace + max_radius_x
+                else:
+                    xs = min_x + max_radius_x * 2 + hspace / 2 + bspace
+
+                # create line segments cut by the polygons
+                line_complete = LineString([(x_cpl, y), (max_x + 1, y)])
+                # cut accurate
+                outer_line_split = split(line_complete, outerCutPoly)
+                line_complete = LineString([(x_cpl, y), (max_x + 1, y)])
+                inner_line_split = split(line_complete, innerCutPoly)
+                inner_line_index = 0
+
+                if self.debug and False:
+                    for line in inner_line_split.geoms:
+                        self.hole(line.bounds[0], line.bounds[1], 1.1)
+                        self.hole(line.bounds[2], line.bounds[3], .9)
+
+                # process each line
+                for line_this in outer_line_split.geoms:
+
+                    if self.debug and False:  # enable to debug missing lines
+                        x_start, y_start, x_end, y_end = line_this.bounds
+                        with self.saved_context():
+                            self.moveTo(x_start, y_start ,0)
+                            self.hole(0, 0, 0.5)
+                            self.edge(x_end - x_start)
+                        with self.saved_context():
+                            self.moveTo(x_start, y_start ,0)
+                            self.text(str(outerTestPoly.contains(line_this)), 0, 0, fontsize=2, color=Color.ANNOTATIONS)
+                        with self.saved_context():
+                            self.moveTo(x_end, y_end ,0)
+                            self.hole(0, 0, 0.5)
+
+                    if not outerTestPoly.contains(line_this):
+                        continue
+                    x_start, y_start , x_end, y_end = line_this.bounds
+                    #initialize walking x coordinate
+                    xw = (math.ceil((x_start - xs) / (2 * max_radius_x + hspace)) * (2 * max_radius_x + hspace)) + xs
+
+                    # look up matching inner line
+                    while (inner_line_index < len(inner_line_split) and
+                           (inner_line_split.geoms[inner_line_index].bounds[2] <  xw
+                            or not innerTestPoly.contains(inner_line_split.geoms[inner_line_index]))):
+                        inner_line_index += 1
+
+                    # and process line
+                    while not xw > x_end:
+                        # are we in inner polygone already?
+                        if (len(inner_line_split) > inner_line_index and
+                            xw > inner_line_split.geoms[inner_line_index].bounds[0]):
+                            # place inner, full size polygons
+                            while xw < inner_line_split.geoms[inner_line_index].bounds[2]:
+                                self.regularPolygonHole(xw, y, r=max_radius, n=n, a=a)
+                                xw += (2 * max_radius_x + hspace)
+                            # forward to next inner line
+                            while (inner_line_index < len(inner_line_split) and
+                                   (inner_line_split.geoms[inner_line_index].bounds[0] <  xw
+                                    or not innerTestPoly.contains(inner_line_split.geoms[inner_line_index]))):
+                                inner_line_index += 1
+                            if xw > x_end:
+                                break
+
+                        # Check distance to border to size the polygon
+                        pt = Point(xw, y)
+                        r = min(borderPoly.exterior.distance(pt) - bspace,
+                                max_radius)
+                        # if too small, dismiss
+                        if r >= min_radius:
+                            self.regularPolygonHole(xw, y, r=r, n=n, a=a)
+                        xw += (2 * max_radius_x + hspace)
+
+                row += 1
+                if pattern == "square":
+                    y += 2 * max_radius_y + hspace - 0.0001
+                else:
+                    y += (math.sqrt(3) / 2 * (2 * max_radius_y + hspace)) - 0.0001
+
+        elif pattern == "hbar":
+            # 'optimum' hole size to be used
+            max_radius = max_radius_y
+            # check if at least one bar fits
+            if (max_y - min_y) < (2 * max_radius + 2 * bspace):
+                return
+
+            #shrink original polygon
+            shrinkPoly = borderPoly.buffer(-1 * (bspace + max_radius - 0.01), join_style=2)
+            cutPoly = borderPoly.buffer(-1 * (bspace + max_radius - 0.000001), join_style=2)
+
+            if self.debug:
+                self.showBorderPoly(list(shrinkPoly.exterior.coords))
+
+            segment_length = [bar_length / 2, bar_length]
+            segment_max = 1
+            segment_toggle = False
+
+            # set startpoint
+            y = min_y + bspace + max_radius
+            # and calc step width
+            step_y = 2 * max_radius_y + hspace - 0.0001
+
+            while y < (max_y - bspace - max_radius):
+                # toggle segment length each new line
+                if segment_toggle:
+                    segment_max = 0
+                segment_toggle ^= 1
+
+                # create line from left to right and cut according to shrinked polygon
+                line_complete = LineString([(min_x - 1, y), (max_x + 1, y)])
+                line_split = split(line_complete, cutPoly)
+
+                # process each line
+                for line_this in line_split.geoms:
+
+                    if self.debug and False:  # enable to debug missing lines
+                        x_start, y_start , x_end, y_end = line_this.bounds
+                        with self.saved_context():
+                            self.moveTo(x_start, y_start ,0)
+                            self.hole(0, 0, 0.5)
+                            self.edge(x_end - x_start)
+                        with self.saved_context():
+                            self.moveTo(x_start, y_start ,0)
+                            self.text(str(shrinkPoly.contains(line_this)), 0, 0, fontsize=2, color=Color.ANNOTATIONS)
+                        with self.saved_context():
+                            self.moveTo(x_end, y_end ,0)
+                            self.hole(0, 0, 0.5)
+
+                    if shrinkPoly.contains(line_this):
+                        # long segment are cut down further
+                        if line_this.length > segment_length[segment_max]:
+                            line_working = line_this
+                            length = line_working.length
+                            while length > 0:
+                                x_start, y_start , xw_end, yw_end = line_working.bounds
+                                # calculate point with required distance from start point
+                                p = line_working.interpolate(segment_length[segment_max])
+                                # and use its coordinates as endpoint for this segment
+                                x_end = p.x
+                                y_end = p.y
+                                # draw segment
+                                self.set_source_color(Color.INNER_CUT)
+                                with self.saved_context():
+                                    self.moveTo(x_start, y_start + max_radius,0)
+                                    self.edge(x_end - x_start)
+                                    self.corner(-180, max_radius)
+                                    self.edge(x_end - x_start)
+                                    self.corner(-180, max_radius)
+
+                                if self.debug and False:  # enable to debug cutting lines
+                                    self.set_source_color(Color.ANNOTATIONS)
+                                    with self.saved_context():
+                                        self.moveTo(x_start, y_start, 0)
+                                        self.edge(x_end - x_start)
+
+                                    s = "long - y: " + str(round(y, 1)) + " xs: "  + str(round(x_start, 1)) + " xe: " + str(round(x_end, 1)) + " l: " + str(round(length, 1)) + " max: " + str(round(segment_length[segment_max], 1))
+                                    with self.saved_context():
+                                        self.text(s, x_start, y_start, fontsize=2, color=Color.ANNOTATIONS)
+
+                                # subtract length of segmant from total segment length
+                                length -= (x_end - x_start + hspace + 2 * max_radius)
+                                # create remaining line to work with
+                                line_working = LineString([(x_end + hspace + 2 * max_radius, y_end), (xw_end, yw_end)])
+                                # next segment shall be long
+                                segment_max = 1
+                        else:
+                            # short segment can be drawn instantly
+                            x_start, y_start , x_end, y_end = line_this.bounds
+                            self.set_source_color(Color.INNER_CUT)
+                            with self.saved_context():
+                                self.moveTo(x_start, y_start + max_radius, 0)
+                                self.edge(x_end - x_start)
+                                self.corner(-180, max_radius)
+                                self.edge(x_end - x_start)
+                                self.corner(-180, max_radius)
+
+                            if self.debug and False:  # enable to debug short lines
+                                self.set_source_color(Color.ANNOTATIONS)
+                                with self.saved_context():
+                                    self.moveTo(x_start, y_start, 0)
+                                    self.edge(x_end - x_start)
+
+                                s = "short - y: " + str(round(y, 1)) + " xs: "  + str(round(x_start, 1)) + " xe: " + str(round(x_end, 1)) + " l: " + str(round(line_this.length, 1)) + " max: " + str(round(segment_length[segment_max], 1))
+                                with self.saved_context():
+                                    self.text(s, x_start, y_start, fontsize=2, color=Color.ANNOTATIONS)
+
+                            segment_max = 1
+                            # short segment shall be skipped if a short segment shall start the line
+                            if segment_toggle:
+                                segment_max = 0
+                y += step_y
+        else:
+           raise ValueError("fillHoles - unknown hole pattern: %s)" % pattern)
 
     def hexHolesRectangle(self, x, y, settings=None, skip=None):
         """Fills a rectangle with holes in a hex pattern.

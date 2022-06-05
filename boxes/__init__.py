@@ -357,7 +357,7 @@ class Boxes:
         self.set_font("sans-serif")
         self._buildObjects()
         if self.reference and self.format != 'svg_Ponoko':
-            self.move(10, 10, "up", before=True)
+            self.move(self.reference, 10, "up", before=True)
             self.ctx.rectangle(0, 0, self.reference, 10)
             if self.reference < 80:
                 self.text("%.fmm, burn:%.2fmm" % (self.reference , self.burn), self.reference + 5, 5,
@@ -365,7 +365,7 @@ class Boxes:
             else:
                 self.text("%.fmm, burn:%.2fmm" % (self.reference , self.burn), self.reference / 2.0, 5,
                           fontsize=8, align="middle center", color=Color.ANNOTATIONS)
-            self.move(10, 10, "up")
+            self.move(self.reference, 10, "up")
             self.ctx.stroke()
 
     def buildArgParser(self, *l, **kw):
@@ -1161,10 +1161,13 @@ class Boxes:
                 self.moveTo(mx, my)
         if not dontdraw:
             if before:
+                # paint debug rectangle
+                if self.debug:
+                    with self.saved_context():
+                        self.set_source_color(Color.ANNOTATIONS)
+                        self.ctx.rectangle(0, 0, x, y)
                 # save position
                 self.ctx.save()
-                if self.debug:
-                    self.ctx.rectangle(0, 0, x, y)
                 if "rotated" in terms:
                     self.moveTo(x, 0, 90)
                     x, y = y, x # change back for "mirror"
@@ -1172,7 +1175,6 @@ class Boxes:
                     self.moveTo(x, 0)
                     self.ctx.scale(-1, 1)
                 self.moveTo(self.spacing / 2.0, self.spacing / 2.0)
-
         self.ctx.new_part()
 
         return dontdraw

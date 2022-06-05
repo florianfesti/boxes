@@ -1201,6 +1201,36 @@ class Boxes:
 
     @restore
     @holeCol
+    def regularPolygonHole(self, x, y, r=0.0, d=0.0, n=6, a=0.0, tabs=0):
+        """
+        Draw a hole in shape of an n-edged regular polygon
+
+        :param x: position
+        :param y: postion
+        :param r: radius
+        :param n: number of edges
+        :param a: rotation angle
+
+        """
+
+        if not r:
+            r = d / 2.0
+
+        if n == 0:
+            self.hole(x, y, r=r, tabs=tabs)
+            return
+        if r < self.burn:
+            r = self.burn + 1E-9
+        r_ = r - self.burn
+        self.moveTo(x, y, a)
+        self.moveTo(r_, 0, 90+180/n)
+        l = 2 * r_ * math.sin(math.pi / n)
+        for i in range(n):
+            self.edge(l)
+            self.corner(360/n)
+
+    @restore
+    @holeCol
     def hole(self, x, y, r=0.0, d=0.0, tabs=0):
         """
         Draw a round hole

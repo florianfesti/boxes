@@ -20,7 +20,7 @@ divided up into different groups to make it easier to find them:
 
 The parameters for each generators also come in groups.
 
-Units of meassurement
+Units of measurements
 ---------------------
 
 In general all measurements are in Millimeters (mm). There is no
@@ -82,7 +82,7 @@ Small changes in the burn param can make a notable difference. Typical
 steps for adjustment are 0.01 or even 0.005mm to choose between
 different amounts of force needed to press plywood together.
 
-To find the right burn value cut out a rectangle and then meassure how
+To find the right burn value cut out a rectangle and then measure how
 much smaller it is than its nominal size. The burn value should be
 around half of the difference. To test the fit for several values at
 once you can use the **BurnTest** generator in the "Parts and Samples" section.
@@ -165,11 +165,14 @@ Most generators will add walls between the comparments, so the total size might 
 
 The sizes of the sections are divided by a colon (``:``) e.g. ``30:25.5:70``. Instead of repeating the same value they can be replaced by ``value*numberofsections``  e.g. ``50*3`` meaning the same as ``50:50:50``. To equally divide a length into several sections ``overallwidth/numberofsections`` can be used - e.g. ``120/4`` being the same as ``30:30:30:30``. All these formats can be freely mixed.
 
+mounting_holes
+..................
+Some generators provide the option to create pear shaped mounting holes. To generate the right size holes, the shaft and the head diameter of the mounting screw must be configured. The format is "shaft:head", both diameters given in mm (e.g ``3.5:6.5``). If only the shaft diameter is given (e.g. ``3.5``), a round mounting hole is generated. Setting the mounting hole diameter parameter to ``0`` disables the creation of mounting holes.
 
 outside
 .......
 
-Most messurements are internal sizes. If a generator offers this parameter it will re-calculate the inner sizes to fit walls and outside features within the given dimmensions. This can be a bit surprising for edge types that have protrusions like hinge eyes, handles, feet, etc as those are typically also taken into account. If the dimmensions are not sufficient to accommendate these features the box may not work properly. Most generators do not have checks for such issues (like negative height) and it is left in the responsibility of the user to check if the result still is sane.
+Most measurements are internal sizes. If a generator offers this parameter it will re-calculate the inner sizes to fit walls and outside features within the given dimensions. This can be a bit surprising for edge types that have protrusions like hinge eyes, handles, feet, etc as those are typically also taken into account. If the dimensions are not sufficient to accommodate these features the box may not work properly. Most generators do not have checks for such issues (like negative height) and it is left in the responsibility of the user to check if the result still is sane.
 
 For generators offering multiple compartments this will also fit-in the inner walls. It will sum up all sections then subtract the space needed for the walls and then scale all compartments so they will fill the remaining space.
 
@@ -236,10 +239,10 @@ The generated files uses the following color conventions:
         Inner edges of a part
 
      Red
-        Comments or help lines that are not ment to be cut or etched
+        Comments or help lines that are not meant to be cut or etched
 
      Green
         Etchings
 
-Normaly you will cut things in the order: Green, Blue, Black. If other 
+Normally you will cut things in the order: Green, Blue, Black. If other 
 colors are present, the meaning should hopefully be obvious.

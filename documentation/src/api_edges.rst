@@ -28,6 +28,9 @@ classes have a number of methods to deal with these kind of offsets.
 A set of instances are kept the ``.edges`` attribute of the
 ``Boxes`` class. It is a dict with strings of length one as keys:
 
+* aAbB : reserved to be used in generators
+* c : ClickConnector
+* C : ClickEdge
 * d : DoveTailJoint
 * D : DoveTailJointCounterPart
 * e : Edge
@@ -35,11 +38,30 @@ A set of instances are kept the ``.edges`` attribute of the
 * f : FingerJointEdge
 * F : FingerJointEdgeCounterPart
 * g : GrippingEdge
+* G : MountingEdge
 * h : FingerHoleEdge
 * ijk : Hinge (start, end, both sides)
 * IJK : HingePin (start, end, both sides)
+* L : LidHoleEdge
+* l : LidEdge
+* M : LidSideLeft
+* m : LidLeft
+* N : LidSideRight
+* n : LidRight
+* Oo : ChestHinge 
+* Pp : ChestHingeTop
+* Q : ChestHingeFront
+* q : ChestHingePin
+* R : RackEdge
 * s : StackableEdge
 * S : StackableEdgeTop
+* š : StackableFeet
+* T : RoundedTriangleFingerHolesEdge
+* t : RoundedTriangleEdge
+* uUvV : CabinetHingeEdge
+* X : FlexEdge
+* Z : GroovedEdgeCounterPart
+* z : GroovedEdge
 
 Edge base class
 ---------------

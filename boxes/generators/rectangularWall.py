@@ -39,19 +39,19 @@ class RectangularWall(Boxes):
 
         self.argparser.add_argument(
             "--bottom_edge", action="store",
-            type=ArgparseEdgeType("cCdDeEfFghiIjJkKlLmMnNoOpPqQRsSuUvV"), choices=list("cCdDeEfFghiIjJkKlLmMnNoOpPqQRsSuUvV"),
+            type=ArgparseEdgeType("cCdDeEfFghiIjJkKlLmMnNoOpPqQRsSšŠuUvV"), choices=list("cCdDeEfFghiIjJkKlLmMnNoOpPqQRsSšŠuUvV"),
             default="e", help="edge type for bottom edge")
         self.argparser.add_argument(
             "--right_edge", action="store",
-            type=ArgparseEdgeType("cCdDeEfFghiIjJkKlLmMnNoOpPqQRsSuUvV"), choices=list("cCdDeEfFghiIjJkKlLmMnNoOpPqQRsSuUvV"),
+            type=ArgparseEdgeType("cCdDeEfFghiIjJkKlLmMnNoOpPqQRsSšŠuUvV"), choices=list("cCdDeEfFghiIjJkKlLmMnNoOpPqQRsSšŠuUvV"),
             default="e", help="edge type for right edge")
         self.argparser.add_argument(
             "--top_edge", action="store",
-            type=ArgparseEdgeType("cCdDeEfFghiIjJkKlLmMnNoOpPqQRsSuUvV"), choices=list("cCdDeEfFghiIjJkKlLmMnNoOpPqQRsSuUvV"),
+            type=ArgparseEdgeType("cCdDeEfFghiIjJkKlLmMnNoOpPqQRsSšŠuUvV"), choices=list("cCdDeEfFghiIjJkKlLmMnNoOpPqQRsSšŠuUvV"),
             default="e", help="edge type for top edge")
         self.argparser.add_argument(
             "--left_edge", action="store",
-            type=ArgparseEdgeType("cCdDeEfFghiIjJkKlLmMnNoOpPqQRsSuUvV"), choices=list("cCdDeEfFghiIjJkKlLmMnNoOpPqQRsSuUvV"),
+            type=ArgparseEdgeType("cCdDeEfFghiIjJkKlLmMnNoOpPqQRsSšŠuUvV"), choices=list("cCdDeEfFghiIjJkKlLmMnNoOpPqQRsSšŠuUvV"),
             default="e", help="edge type for left edge")
         
 

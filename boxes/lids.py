@@ -24,7 +24,7 @@ class _ChestLid(Boxes):
         r = d / 2.0 / math.cos(math.radians(angle))
         return r
 
-    def side(self, x, angle=0, move=""):
+    def side(self, x, angle=0, move="", label=""):
         if "a" not in self.edges:
             s = edges.FingerJointSettings(self.thickness, True,
                                           finger=1.0, space=1.0)
@@ -32,7 +32,7 @@ class _ChestLid(Boxes):
 
         t = self.thickness
         r = self.getR(x, angle)
-        if self.move(x+2*t, 0.5*x+3*t, move, True):
+        if self.move(x+2*t, 0.5*x+3*t, move, True, label=label):
             return
 
         self.moveTo(t, 0)
@@ -43,9 +43,9 @@ class _ChestLid(Boxes):
         self.edges["a"](3*t)
         self.corner(90+angle)
 
-        self.move(x+2*t, 0.5*x+3*t, move, False)
+        self.move(x+2*t, 0.5*x+3*t, move, False, label=label)
 
-    def top(self, x, y, angle=0, move=None):
+    def top(self, x, y, angle=0, move=None, label=""):
         if "a" not in self.edges:
             s = edges.FingerJointSettings(self.thickness, True,
                                           finger=1.0, space=1.0)
@@ -57,7 +57,7 @@ class _ChestLid(Boxes):
         tw = l + 6*t
         th = y+2*t
 
-        if self.move(tw, th, move, True):
+        if self.move(tw, th, move, True, label=label):
             return
 
         self.edges["A"](3*t)
@@ -73,17 +73,17 @@ class _ChestLid(Boxes):
         self.edge(y+2*t)
         self.corner(90)
 
-        self.move(tw, th, move)
+        self.move(tw, th, move, label=label)
 
     def drawAddOnLid(self, x, y, style):
         if style == "flat":
-            self.rectangularWall(x, y, "eeee", move="right")
-            self.rectangularWall(x, y, "EEEE", move="up")
+            self.rectangularWall(x, y, "eeee", move="right", label="lid bottom")
+            self.rectangularWall(x, y, "EEEE", move="up", label="lid top")
         elif style == "chest":
-            self.side(x, move="right")
-            self.side(x, move="up")
-            self.side(x, move="left only")
-            self.top(x, y, move="up")
+            self.side(x, move="right", label="lid right")
+            self.side(x, move="up", label="lid left")
+            self.side(x, move="left only", label="invisible")
+            self.top(x, y, move="up", label="lid top")
         else:
             return False
         return True
@@ -92,7 +92,7 @@ class _TopEdge(Boxes):
 
     def addTopEdgeSettings(self, fingerjoint={}, stackable={}, hinge={},
                            cabinethinge={}, lid={}, click={},
-                           roundedtriangle={}):
+                           roundedtriangle={}, mounting={}):
         self.addSettingsArgs(edges.FingerJointSettings, **fingerjoint)
         self.addSettingsArgs(edges.StackableSettings, **stackable)
         self.addSettingsArgs(edges.HingeSettings, **hinge)
@@ -100,6 +100,7 @@ class _TopEdge(Boxes):
         self.addSettingsArgs(edges.LidSettings, **lid)
         self.addSettingsArgs(edges.ClickSettings, **click)
         self.addSettingsArgs(edges.RoundedTriangleEdgeSettings, **roundedtriangle)
+        self.addSettingsArgs(edges.MountingSettings, **mounting)
 
     def topEdges(self, top_edge):
         t1 = t2 = t3 = t4 = self.edges.get(top_edge, self.edges["e"])
@@ -117,37 +118,47 @@ class _TopEdge(Boxes):
             t2 = t3 = t4 = "e"
         elif t1.char == "t":
             t1 = t3 = "e"
+        elif t1.char == "G":
+            t1 = t2 = t3 = t4 = "e"
+            if self.edges["G"].settings.side == edges.MountingSettings.PARAM_LEFT:
+                t1 = "G"
+            elif self.edges["G"].settings.side == edges.MountingSettings.PARAM_RIGHT:
+                t3 = "G"
+            elif self.edges["G"].settings.side == edges.MountingSettings.PARAM_FRONT:
+                t4 = "G"
+            else: #PARAM_BACK
+                t2 = "G"
         return [t1, t2, t3, t4]
 
     def drawLid(self, x, y, top_edge, bedBolts=[None, None]):
         d2, d3 = bedBolts
         if top_edge == "c":
-            self.rectangularWall(x, y, "CCCC", bedBolts=[d2, d3, d2, d3], move="up")
+            self.rectangularWall(x, y, "CCCC", bedBolts=[d2, d3, d2, d3], move="up", label="top")
         elif top_edge == "f":
-            self.rectangularWall(x, y, "FFFF", move="up")
-        elif top_edge == "F" or top_edge == "h":
-            self.rectangularWall(x, y, "ffff", move="up")
+            self.rectangularWall(x, y, "FFFF", move="up", label="top")
+        elif top_edge in "FhŠ":
+            self.rectangularWall(x, y, "ffff", move="up", label="top")
         elif top_edge == "L":
-            self.rectangularWall(x, y, "nlmE", move="up")
+            self.rectangularWall(x, y, "nlmE", move="up", label="lid top")
         elif top_edge == "i":
-            self.rectangularWall(x, y, "IEJe", move="up")
+            self.rectangularWall(x, y, "IEJe", move="up", label="lid top")
         elif top_edge == "k":
             outset =  self.edges["k"].settings.outset
             self.edges["k"].settings.setValues(self.thickness, outset=True)
             lx = x/2.0-0.1*self.thickness
             self.edges['k'].settings.setValues(self.thickness, grip_length=5)
-            self.rectangularWall(lx, y, "IeJe", move="right")
-            self.rectangularWall(lx, y, "IeJe", move="up")
-            self.rectangularWall(lx, y, "IeJe", move="left only")
+            self.rectangularWall(lx, y, "IeJe", move="right", label="lid top left")
+            self.rectangularWall(lx, y, "IeJe", move="up", label="lid top right")
+            self.rectangularWall(lx, y, "IeJe", move="left only", label="invisible")
             self.edges["k"].settings.setValues(self.thickness, outset=outset)
         elif top_edge == "S":
-            self.rectangularWall(x, y, "ffff", move="up")
-            self.rectangularWall(x, 0, "sFeF", move="up")
-            self.rectangularWall(x, 0, "sFeF", move="up")
-            self.rectangularWall(y, 0, "sfef", move="up")
-            self.rectangularWall(y, 0, "sfef", move="up")
+            self.rectangularWall(x, y, "ffff", move="up", label="lid top")
+            self.rectangularWall(x, 0, "sFeF", move="up", label="lid top left")
+            self.rectangularWall(x, 0, "sFeF", move="up", label="lid top right")
+            self.rectangularWall(y, 0, "sfef", move="up", label="lid top front")
+            self.rectangularWall(y, 0, "sfef", move="up", label="lid top back")
         elif top_edge == "v":
-            self.rectangularWall(x, y, "VEEE", move="up")
+            self.rectangularWall(x, y, "VEEE", move="up", label="lid top")
             self.edges["v"].parts(move="up")
         else:
             return False

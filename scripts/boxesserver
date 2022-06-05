@@ -271,7 +271,8 @@ class BServer:
         no_img_msg = _('There is no image yet. Please donate an image of your project on <a href=&quot;https://github.com/florianfesti/boxes/issues/140&quot;>GitHub</a>!')
 
         if box.description:
-            result.append(markdown.markdown(_(box.description)))
+            result.append(markdown.markdown(_(box.description),
+                                            extensions=["extra"]))
 
         result.append(f'''<div>
 <img src="static/samples/{box.__class__.__name__}.jpg" width="100%" onerror="this.parentElement.innerHTML = '{no_img_msg}';">
@@ -539,15 +540,20 @@ class BServer:
 
 
 if __name__=="__main__":
+    host = ''
+    port = 8000
     if len(sys.argv) > 1:
-        port = int(sys.argv[1])
-    else:
-        port = 8000
+        tmp = sys.argv[1].split(':')
+        if len(tmp) == 2:
+            host = tmp[0]
+            port = int(tmp[1])
+        else:
+            port = int(tmp[0])
     fc = FileChecker()
     fc.start()
     boxserver = BServer()
-    httpd = make_server('', port, boxserver.serve)
-    print("BoxesServer serving on port %s..." %port)
+    httpd = make_server(host, port, boxserver.serve)
+    print("BoxesServer serving on host:port %s:%s..." % (host, port) )
     httpd.serve_forever()
 else:
     application = BServer().serve

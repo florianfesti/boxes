@@ -44,7 +44,7 @@ Drawers are not included:
         self.buildArgParser("x", "sh", "outside", "bottom_edge")
         self.argparser.add_argument(
             "--top_edge", action="store",
-            type=ArgparseEdgeType("Fhe"), choices=list("Fhe"),
+            type=ArgparseEdgeType("FheSŠ"), choices=list("FheSŠ"),
             default="F",
             help="edge type for top edge")
 
@@ -80,7 +80,7 @@ Drawers are not included:
         # outer walls
         b = self.bottom_edge
         t = self.top_edge
-        self.closedtop = self.top_edge in "fFh"
+        self.closedtop = self.top_edge in "fFhŠ"
 
         # sides
 

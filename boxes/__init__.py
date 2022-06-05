@@ -359,12 +359,12 @@ class Boxes:
         if self.reference and self.format != 'svg_Ponoko':
             self.move(10, 10, "up", before=True)
             self.ctx.rectangle(0, 0, self.reference, 10)
-            if self.reference < 40:
-                self.text("%.fmm" % self.reference, self.reference + 5, 5,
-                          align="middle left")
+            if self.reference < 80:
+                self.text("%.fmm, burn:%.2fmm" % (self.reference , self.burn), self.reference + 5, 5,
+                          fontsize=8, align="middle left", color=Color.ANNOTATIONS)
             else:
-                self.text("%.fmm" % self.reference, self.reference / 2.0, 5,
-                          align="middle center")
+                self.text("%.fmm, burn:%.2fmm" % (self.reference , self.burn), self.reference / 2.0, 5,
+                          fontsize=8, align="middle center", color=Color.ANNOTATIONS)
             self.move(10, 10, "up")
             self.ctx.stroke()
 
@@ -433,6 +433,11 @@ class Boxes:
                 self.argparser.add_argument(
                     "--hi", action="store", type=float, default=default,
                     help="inner height of inner walls in mm (unless outside selected)(leave to zero for same as outer walls)")
+            elif arg == "hole_dD":
+                if default is None: default = "3.5:6.5"
+                self.argparser.add_argument(
+                    "--hole_dD", action="store", type=argparseSections, default=default,
+                    help="mounting hole diameter (shaft:head) in mm [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#mounting-holes)")
             elif arg == "bottom_edge":
                 if default is None: default = "h"
                 self.argparser.add_argument(
@@ -444,7 +449,7 @@ class Boxes:
                 if default is None: default = "e"
                 self.argparser.add_argument(
                     "--top_edge", action="store",
-                    type=ArgparseEdgeType("efFhcESikvLt"), choices=list("efFhcESikvfLt"),
+                    type=ArgparseEdgeType("efFhcESŠikvLtG"), choices=list("efFhcESŠikvfLtG"),
                     default=default, help="edge type for top edge")
             elif arg == "outside":
                 if default is None: default = True
@@ -562,7 +567,9 @@ class Boxes:
         # Grooved Edge
         edges.GroovedSettings(self.thickness, True,
                               **self.edgesettings.get("Grooved", {})).edgeObjects(self)
-
+        # Mounting Edge
+        edges.MountingSettings(self.thickness, True,
+                              **self.edgesettings.get("Mounting", {})).edgeObjects(self)
         # HexHoles
         self.hexHolesSettings = HexHolesSettings(self.thickness, True,
                 **self.edgesettings.get("HexHoles", {}))
@@ -1237,6 +1244,19 @@ class Boxes:
     @restore
     @holeCol
     def dHole(self, x, y, r=None, d=None, w=None, rel_w=0.75, angle=0):
+        """
+        Draw a hole for a shaft with flat edge - D shaped hole
+
+        :param x: center position
+        :param y: center position
+        :param r: radius (overrides d)
+        :param d: diameter
+        :param w: width measured against flat side in mm
+        :param rel_w: width in percent
+        :param angle: orentation (rotation) of the flat side
+
+        """
+
         if r is None:
             r = d / 2.0
         if w is None:
@@ -1257,6 +1277,19 @@ class Boxes:
     @restore
     @holeCol
     def flatHole(self, x, y, r=None, d=None, w=None, rel_w=0.75, angle=0):
+        """
+        Draw a hole for a shaft with two opposed flat edges - ( ) shaped hole
+
+        :param x: center position
+        :param y: center position
+        :param r: radius (overrides d)
+        :param d: diameter
+        :param w: width measured against flat side in mm
+        :param rel_w: width in percent
+        :param angle: orientation (rotation) of the flat sides
+
+        """
+
         if r is None:
             r = d / 2.0
         if w is None:
@@ -1277,6 +1310,40 @@ class Boxes:
             self.corner(-a)
             self.edge(2*r*math.sin(math.radians(a)))
             self.corner(-a)
+
+    @restore
+    @holeCol
+    def mountingHole(self, x, y, d_shaft, d_head=0.0, angle=0, tabs=0):
+        """
+        Draw a pear shaped mounting hole for sliding over a screw head. Total height = 1.5* d_shaft + d_head
+
+        :param x: position
+        :param y: postion
+        :param d_shaft: diameter of the screw shaft
+        :param d_head: diameter of the screw head
+        :param angle: rotation angle of the hole
+
+        """
+        
+        if d_shaft < (2 * self.burn):
+            return  # no hole if diameter is smaller then the capabilities of the machine
+        
+        if not d_head or d_head < (2 * self.burn): # if no head diameter is given
+            self.hole(x, y ,d=d_shaft, tabs=tabs)  # only a round hole is generated
+            return
+            
+        rs = d_shaft / 2
+        rh = d_head / 2
+        
+        self.moveTo(x, y, angle)
+        self.moveTo(0, rs - self.burn, 0)
+        self.corner(-180, rs, tabs)
+        self.edge(2 * rs,tabs)
+        a = math.degrees(math.asin(rs / rh))
+        self.corner(90 - a, 0, tabs)
+        self.corner(-360 + 2 * a, rh, tabs)
+        self.corner(90 - a, 0, tabs)
+        self.edge(2 * rs, tabs)
 
     @restore
     def text(self, text, x=0, y=0, angle=0, align="", fontsize=10, color=[0.0, 0.0, 0.0], font="Arial"):

@@ -51,7 +51,7 @@ class BOX(Boxes): # Change class name!
                                       space = 10, finger=10,
                                       width=self.thickness)
         p = edges.FingerJointEdge(self, s)
-        p.char = "p"
+        p.char = "a" # 'a', 'A', 'b' and 'B' is reserved for beeing used within generators
         self.addPart(p)
 
         # render your parts here

@@ -22,7 +22,7 @@ class CustomBuildExtCommand(build_py):
             os.path.join("scripts", "boxes2pot"),
             "po/boxes.py.pot"))
         os.system("%s %s" % (
-            "xgettext -L Python -j -o po/boxes.py.pot",
+            "xgettext -L Python -j --from-code=utf-8 -o po/boxes.py.pot",
             "boxes/*.py scripts/boxesserver scripts/boxes"))
 
     def generate_mo_files(self):

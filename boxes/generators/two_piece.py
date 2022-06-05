@@ -22,6 +22,12 @@ class TwoPiece(Boxes):
        the enclosure.
     """
 
+    description = """
+Set *hi* larger than *h* to leave gap between the inner and outer shell. This can be used to make opening the box easier. Set *hi* smaller to only have a small inner ridge that will allow the content to be momre visible after opening.
+
+![Bottom view](static/samples/TwoPiece2.jpg)
+"""
+
     ui_group = "Box"
 
     def __init__(self):

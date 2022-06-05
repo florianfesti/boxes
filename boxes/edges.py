@@ -126,7 +126,7 @@ class Bolts(BoltPolicy):
 class Settings(object):
     """Generic Settings class
 
-    Used by different other classes to store messurements and details.
+    Used by different other classes to store measurements and details.
     Supports absolute values and settings that grow with the thickness
     of the material used.
 
@@ -340,6 +340,136 @@ class OutSetEdge(Edge):
 
     def startwidth(self):
         return self.boxes.thickness
+
+#############################################################################
+####     MountingEdge
+#############################################################################
+
+class MountingSettings(Settings):
+    """Settings for Mouning Edge
+Values:
+* absolute_params
+
+ * style : "straight edge, within" : edge style
+ * side : "left" : side of box (not all valid configurations make sense...)
+ * num : 2 : number of mounting holes (integer)
+ * margin : 0.125 : minimum space left and right without holes (fraction of the edge length)
+ * d_shaft : 3.0 : shaft diameter of mounting screw (in mm)
+ * d_head : 6.5 : head diameter of mounting screw (in mm)
+"""
+
+    PARAM_IN  = "straight edge, within"
+    PARAM_EXT = "straight edge, extended"
+    PARAM_TAB = "mounting tab"
+    
+    PARAM_LEFT = "left"
+    PARAM_BACK = "back"
+    PARAM_RIGHT = "right"
+    PARAM_FRONT = "front"
+
+    absolute_params = {
+        "style": (PARAM_IN, PARAM_EXT, PARAM_TAB),
+        "side": (PARAM_LEFT, PARAM_BACK, PARAM_RIGHT, PARAM_FRONT),
+        "num": 2,
+        "margin": 0.125,
+        "d_shaft" : 3.0,
+        "d_head" : 6.5
+    }
+
+    def edgeObjects(self, boxes, chars="G", add=True):
+        edges = [MountingEdge(boxes, self)]
+        return self._edgeObjects(edges, boxes, chars, add)
+
+
+class MountingEdge(BaseEdge):
+    description = """Edge with pear shaped mounting holes""" # for slide-on mounting using flat-head screws"""
+    char = 'G'
+
+    def margin(self):
+        if self.settings.style == MountingSettings.PARAM_TAB:
+            return 2.75 * self.boxes.thickness + self.settings.d_head
+        else:
+            return 0
+    
+    def startwidth(self):
+        if self.settings.style == MountingSettings.PARAM_EXT:
+            return 2.5 * self.boxes.thickness + self.settings.d_head
+        else:
+            return 0
+    
+    def __call__(self, length, **kw):
+        if length == 0.0:
+            return
+
+        def check_bounds(val, mn, mx, name):
+            if not mn <= val <= mx:
+                raise ValueError(f"MountingEdge: {name} needs to be in [{mn}, {mx}] but is {val}")
+
+        style = self.settings.style
+        margin = self.settings.margin
+        num = self.settings.num
+        ds = self.settings.d_shaft
+        dh = self.settings.d_head
+        if dh > 0:
+            width = 3 * self.thickness + dh
+        else:
+            width = ds
+
+        if num != int(num):
+            raise ValueError(f"MountingEdge: num needs to be an integer number")
+            
+        check_bounds(margin, 0, 0.5, "margin")
+        if not dh == 0:
+            if not dh > ds:
+                raise ValueError(f"MountingEdge: d_shaft needs to be in 0 or > {ds}, but is {dh}")
+
+        # Check how many holes fit
+        count = max(1, int(num))
+        if count > 1:
+            margin_ = length * margin
+            gap = (length - 2 * margin_ - width*count) / (count - 1)
+            if gap < width:
+                count = int(((length - 2 * margin + width)  / (2 * width)) - 0.5)
+                if count < 1:
+                    self.edge(length)
+                    return
+                if count < 2:
+                    margin_ = (length - width) / 2
+                    gap = 0
+                else:
+                    gap = (length - 2 * margin_ - width*count) / (count - 1)
+        else:
+            margin_ = (length - width) / 2
+            gap = 0
+            
+        if style == MountingSettings.PARAM_TAB:
+            
+            # The edge until the first groove
+            self.edge(margin_, tabs=1)
+            
+            for i in range(count):
+                if i > 0:
+                    self.edge(gap)
+                self.corner(-90,self.thickness/2)
+                self.edge(dh+1.5*ds-self.thickness/4-dh/2)
+                self.corner(90,self.thickness+dh/2)
+                self.corner(-90)
+                self.corner(90)
+                self.mountingHole(0,self.thickness*1.25+ds/2,ds,dh,-90)
+                self.corner(90,self.thickness+dh/2)
+                self.edge(dh+1.5*ds-self.thickness/4-dh/2)
+                self.corner(-90,self.thickness/2)
+                
+            # The edge until the end
+            self.edge(margin_, tabs=1)
+        else:
+            x = margin_
+            for i in range(count):
+                x += width/2
+                self.mountingHole(x,ds/2+self.thickness*1.5,ds,dh,-90)
+                x += width/2
+                x += gap
+            self.edge(length)
 
 
 #############################################################################
@@ -670,7 +800,7 @@ Values:
 
 * absolute
   * style : "rectangular" : style of the fingers
-  * surroundingspaces : 2 : manimal space at the start and end in multiple of normal spaces
+  * surroundingspaces : 2 : minimal space at the start and end in multiple of normal spaces
   * angle: 90 : Angle of the walls meeting
 
 * relative (in multiples of thickness)
@@ -961,11 +1091,13 @@ Values:
         if self.angle > 260:
             raise ValueError("StackableSettings: 'angle' is too big. Use value < 260")
 
-    def edgeObjects(self, boxes, chars="sSš", add=True, fingersettings=None):
+    def edgeObjects(self, boxes, chars="sSšŠ", add=True, fingersettings=None):
         fingersettings = fingersettings or boxes.edges["f"].settings
         edges = [StackableEdge(boxes, self, fingersettings),
                  StackableEdgeTop(boxes, self, fingersettings),
-                 StackableFeet(boxes, self, fingersettings)]
+                 StackableFeet(boxes, self, fingersettings),
+                 StackableHoleEdgeTop(boxes, self, fingersettings),
+                 ]
         return self._edgeObjects(edges, boxes, chars, add)
 
 class StackableBaseEdge(BaseEdge):
@@ -1030,6 +1162,22 @@ class StackableFeet(StackableBaseEdge):
 
     def _height(self):
         return self.settings.height
+
+class StackableHoleEdgeTop(StackableBaseEdge):
+    char = "Š"
+    description = "Stackable edge with finger holes (top)"
+    bottom = False
+
+    def startwidth(self):
+        return self.settings.thickness + self.settings.holedistance
+
+    def __call__(self, length, **kw):
+        s = self.settings
+        self.boxes.fingerHolesAt(
+            0,
+            s.holedistance + 0.5 * self.boxes.thickness,
+            length, 0)
+        super().__call__(length, **kw)
 
 #############################################################################
 ####     Hinges
@@ -1590,7 +1738,7 @@ class CabinetHingeEdge(BaseEdge):
             th = 4*e+3*t+self.boxes.spacing
             tw = max(e, 2*t) * pairs
 
-        if self.move(tw, th, move, True):
+        if self.move(tw, th, move, True, label="hinges"):
             return
 
         if self.settings.style == "outside":
@@ -1613,7 +1761,7 @@ class CabinetHingeEdge(BaseEdge):
                               90, t, 90, (ax+t)-e, -90, l-3*t, (90, e))
                 self.moveTo(2*max(e, 1.5*t) + self.boxes.spacing)
 
-            self.move(tw, th, move)
+            self.move(tw, th, move, label="hinges")
             return
 
         if e <= 2*t:
@@ -1633,7 +1781,7 @@ class CabinetHingeEdge(BaseEdge):
             if i % 2:
                 self.moveTo(2*max(e, 2*t) + 2*self.boxes.spacing)
 
-        self.move(th, tw, move)
+        self.move(th, tw, move, label="hinges")
 
 #############################################################################
 ####     Slide-on lid

@@ -46,7 +46,7 @@ class FrontEdge(edges.BaseEdge):
         self.edge(self.barrier_height)
         self.edge(self.thickness)
 
-class CanStorage(Boxes): # self.canHightange class name!
+class CanStorage(Boxes):
     """Storage box for round containers"""
 
     ui_group = "Misc"
@@ -57,6 +57,7 @@ class CanStorage(Boxes): # self.canHightange class name!
         Boxes.__init__(self)
 
         self.addSettingsArgs(edges.FingerJointSettings, finger=2.0, space=2.0, surroundingspaces=0.0)
+        self.addSettingsArgs(fillHolesSettings)
 
         self.argparser.add_argument(
             "--top_edge", action="store",
@@ -77,19 +78,59 @@ class CanStorage(Boxes): # self.canHightange class name!
         self.argparser.add_argument(
             "--canNum",  action="store", type=int, default=12,
             help="number of cans to be stored")
+    
+    def cb_top_chute(self, nr):
+        if nr == 0:
+            # fill with holes
+            border = [
+                (0, 0), 
+                (self.top_chute_depth, 0), 
+                (self.top_chute_depth, self.width), 
+                (0, self.width),                
+                ]
+            if self.mydebug:
+                self.showBorderPoly(border)
+            if self.fillHoles_fill_pattern != "no fill":
+                self.fillHoles(
+                    pattern="hbar", 
+                    border=border,
+                    max_radius=2, 
+                    hspace=2, 
+                    bspace=2, 
+                    )           
+        
+    def cb_top(self, nr):
+        if nr == 0:
+            # fill with holes
+            border = [
+                (0, 0), 
+                (self.depth, 0), 
+                (self.depth, self.width), 
+                (0, self.width),                
+                ]
+            if self.mydebug:
+                self.showBorderPoly(border)
+            if self.fillHoles_fill_pattern != "no fill":
+                self.fillHoles(
+                    pattern="hbar", 
+                    border=border,
+                    max_radius=2, 
+                    hspace=2, 
+                    bspace=2, 
+                    )            
             
-    def cb(self, nr):
+    def cb_sides(self, nr):
         if nr == 0:
             # for debugging only
             if self.mydebug:
                 # draw orientation points
-                self.hole(0, 0, 1)
-                self.hole(0, self.thickness, 1)
-                self.hole(0, self.thickness + self.canDiameter, 1)
-                self.hole(0, self.thickness + self.canDiameter + self.bottom_chute_height, 1)
-                self.hole(0, self.thickness + self.canDiameter + self.bottom_chute_height + self.top_chute_height + self.thickness, 1)
-                self.hole(0, self.thickness + self.canDiameter + self.bottom_chute_height + self.top_chute_height + self.thickness + self.canDiameter, 1)
-                self.hole(0, self.thickness + self.canDiameter + self.bottom_chute_height + self.top_chute_height + self.thickness + self.canDiameter + 1.0 * self.thickness, 1)
+                self.hole(0, 0, 1, color=Color.ANNOTATIONS)
+                self.hole(0, self.thickness, 1, color=Color.ANNOTATIONS)
+                self.hole(0, self.thickness + self.canDiameter, 1, color=Color.ANNOTATIONS)
+                self.hole(0, self.thickness + self.canDiameter + self.bottom_chute_height, 1, color=Color.ANNOTATIONS)
+                self.hole(0, self.thickness + self.canDiameter + self.bottom_chute_height + self.top_chute_height + self.thickness, 1, color=Color.ANNOTATIONS)
+                self.hole(0, self.thickness + self.canDiameter + self.bottom_chute_height + self.top_chute_height + self.thickness + self.canDiameter, 1, color=Color.ANNOTATIONS)
+                self.hole(0, self.thickness + self.canDiameter + self.bottom_chute_height + self.top_chute_height + self.thickness + self.canDiameter + 1.0 * self.thickness, 1, color=Color.ANNOTATIONS)
                 with self.saved_context():
                     # draw cans, bottom row
                     self.moveTo(0, self.thickness, self.angle)
@@ -119,6 +160,31 @@ class CanStorage(Boxes): # self.canHightange class name!
             with self.saved_context():
                 self.moveTo(0.5 * self.thickness, 1.1 * self.thickness + self.burn, 90)
                 self.fingerHolesAt(0, 0, self.barrier_height, 0)
+            # fill with holes
+            border = [
+                (self.thickness, self.thickness), 
+                (self.depth, self.thickness + self.depth * math.sin(math.radians(self.angle))), 
+                (self.depth, self.height), 
+                (self.thickness + 0.75 * self.canDiameter, self.height),
+                (self.thickness + 0.75 * self.canDiameter, self.thickness + self.canDiameter + self.bottom_chute_height + self.top_chute_height + self.thickness - 0.75 * self.canDiameter * math.sin(math.radians(self.angle))),
+                (self.top_chute_depth, self.thickness + self.canDiameter + self.depth * math.sin(math.radians(self.angle)) + self.thickness),
+                (self.top_chute_depth, self.thickness + self.canDiameter + self.depth * math.sin(math.radians(self.angle))),
+                (self.thickness + 0.75 * self.canDiameter, self.thickness + self.canDiameter + self.bottom_chute_height + self.top_chute_height - 0.75 * self.canDiameter * math.sin(math.radians(self.angle))),
+                (self.thickness + 0.75 * self.canDiameter, self.thickness + self.bottom_chute_height ),
+                (self.thickness, self.thickness + self.bottom_chute_height ),
+                ]
+            if self.mydebug:
+                self.showBorderPoly(border)
+            if self.fillHoles_fill_pattern != "no fill":
+                self.fillHoles(
+                    pattern=self.fillHoles_fill_pattern, 
+                    border=border, 
+                    max_radius=self.fillHoles_hole_max_radius, 
+                    hspace=self.fillHoles_space_between_holes, 
+                    bspace=self.fillHoles_space_to_border, 
+                    min_radius=self.fillHoles_hole_min_radius, 
+                    style=self.fillHoles_hole_style,
+                    maxcnt=2000)            
         
     def render(self):
         self.mydebug = False # set to True to enable debugging
@@ -152,15 +218,15 @@ class CanStorage(Boxes): # self.canHightange class name!
         edgs = self.bottom_edge + "h" + self.top_edge + "a"
         
         # render your parts here
-        self.rectangularWall(self.depth, self.height, edges=edgs, callback=self.cb, move="up", label="right")
-        self.rectangularWall(self.depth, self.height, edges=edgs, callback=self.cb, move="up mirror", label="left")
+        self.rectangularWall(self.depth, self.height, edges=edgs, callback=self.cb_sides, move="up", label="right")
+        self.rectangularWall(self.depth, self.height, edges=edgs, callback=self.cb_sides, move="up mirror", label="left")
         
         self.rectangularWall(self.bottom_chute_depth, self.width, "fefe", move="up", label="bottom chute")
-        self.rectangularWall(self.top_chute_depth, self.width, "fefe", move="up", label="top chute")
+        self.rectangularWall(self.top_chute_depth, self.width, "fefe", callback=self.cb_top_chute, move="up", label="top chute")
 
         self.rectangularWall(self.barrier_height, self.width, "fefe", move="right", label="barrier")
         self.rectangularWall(self.height, self.width, "fefe", move="up", label="back")
         self.rectangularWall(self.barrier_height, self.width, "fefe", move="left only", label="invisible")
         
         if self.top_edge != "e":
-            self.rectangularWall(self.depth, self.width, "fefe", move="up", label="top")
+            self.rectangularWall(self.depth, self.width, "fefe", callback=self.cb_top, move="up", label="top")

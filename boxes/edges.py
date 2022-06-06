@@ -1670,14 +1670,17 @@ class CabinetHingeEdge(BaseEdge):
 
         if self.top:
             # start with space
-            poly = [spacing, 90, e+p, 180, 0]
+            poly = [spacing, 90, e+p]
         else:
             # start with hinge eye
             poly = [spacing+p, 90, e+p, 0]
         for i in range(n):
             if (i % 2) ^ self.top:
                 # space
-                poly += [90, t + 2*p, 90]
+                if i == 0:
+                    poly += [-90, t + 2*p, 90]
+                else:
+                    poly += [90, t + 2*p, 90]
             else:
                 # hinge eye
                 poly += [t-p, -90, t, -90, t-p]
@@ -1687,7 +1690,7 @@ class CabinetHingeEdge(BaseEdge):
             poly += [0, e+p, 90, p+spacing]
         else:
             # stopped with space
-            poly += [0, 180, e+p, 90, 0+spacing ]
+            poly[-1:] = [-90, e+p, 90, 0+spacing ]
 
         width = (t+p) * n + p + 2 * spacing
 

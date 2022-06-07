@@ -118,15 +118,15 @@ class Part:
             return
         # search for path ending at new start coordinates to append this path to
         xy0 = self.path[0][1:3]
-        for p in reversed(self.pathes):
-            if self.path[0][0] == "T":
-                break
-            xy1 = p.path[-1][1:3]
-            if points_equal(*xy0, *xy1):
-                # todo: check for same color and linewidth
-                p.path.extend(self.path[1:])
-                self.path = []
-                return p
+        if (not points_equal(*xy0, *self.path[-1][1:3]) and
+            not self.path[0][0] == "T"):
+            for p in reversed(self.pathes):
+                xy1 = p.path[-1][1:3]
+                if points_equal(*xy0, *xy1):
+                    # todo: check for same color and linewidth
+                    p.path.extend(self.path[1:])
+                    self.path = []
+                    return p
         p = Path(self.path, params)
         self.pathes.append(p)
         self.path = []

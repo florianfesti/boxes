@@ -44,7 +44,7 @@ class DinRailEdge(edges.FingerHoleEdge):
 class DinRailBox(Boxes):
     """Box for DIN rail used in electrical junction boxes"""
 
-    ui_group = "Box"
+    ui_group = "WallMounted"
 
     def latch(self, l, move=None):
 
@@ -113,7 +113,7 @@ class DinRailBox(Boxes):
         self.rectangularWall(x, y, "EEEE", callback=[
             lambda:self.fingerHolesAt(.55*t, .05*t, y-.1*t, 90), None,
             lambda:self.fingerHolesAt(.55*t, .05*t, y-.1*t, 90), None],
-            move="right", label="Front")
+            move="right", label="Lid")
         
         self.lid_lip(y-.1*t, move="rotated right")
         self.lid_lip(y-.1*t, move="rotated right")
@@ -129,18 +129,18 @@ class DinRailBox(Boxes):
 
         self.rectangularWall(y, h, [dr, "F", "e", "F"],
                              ignore_widths=[1, 6], move="rotated right",
-                             label="Left Side")
+                             label="Left Side upsidedown")
         self.rectangularWall(y, h, [dr, "F", "e", "F"],
                              ignore_widths=[1, 6], move="rotated mirror right",
                              label="Right Side")
         self.rectangularWall(x, h, ["h", "f", "e", "f"],
-                             callback=[None, None, self.lid_holes],
-                             ignore_widths=[1, 6], move="up",
-                             label="Bottom")
-        self.rectangularWall(x, h, ["h", "f", "e", "f"],
                              ignore_widths=[1, 6], callback=[
                                  self.spring, None, self.lid_holes],
                              move="up",
+                             label="Bottom")
+        self.rectangularWall(x, h, ["h", "f", "e", "f"],
+                             callback=[None, None, self.lid_holes],
+                             ignore_widths=[1, 6], move="up",
                              label="Top")
 
 

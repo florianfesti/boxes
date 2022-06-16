@@ -30,6 +30,7 @@ class AllEdges(Boxes):
         self.addSettingsArgs(edges.LidSettings)
         self.addSettingsArgs(edges.ClickSettings)
         self.addSettingsArgs(edges.FlexSettings)
+        self.addSettingsArgs(edges.HandleEdgeSettings)
 
         self.buildArgParser(x=100)
 

@@ -479,7 +479,7 @@ class Boxes:
                 if default is None: default = "e"
                 self.argparser.add_argument(
                     "--top_edge", action="store",
-                    type=ArgparseEdgeType("efFhcESŠikvLtG"), choices=list("efFhcESŠikvfLtG"),
+                    type=ArgparseEdgeType("efFhcESŠikvLtGyY"), choices=list("efFhcESŠikvfLtGyY"),
                     default=default, help="edge type for top edge")
             elif arg == "outside":
                 if default is None: default = True
@@ -600,6 +600,9 @@ class Boxes:
         # Mounting Edge
         edges.MountingSettings(self.thickness, True,
                               **self.edgesettings.get("Mounting", {})).edgeObjects(self)
+        # Handle Edge
+        edges.HandleEdgeSettings(self.thickness, True,
+                              **self.edgesettings.get("HandleEdge", {})).edgeObjects(self)
         # HexHoles
         self.hexHolesSettings = HexHolesSettings(self.thickness, True,
                 **self.edgesettings.get("HexHoles", {}))

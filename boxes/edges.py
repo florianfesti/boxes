@@ -23,6 +23,39 @@ import abc
 
 from boxes import gears
 
+def argparseSections(s):
+    """
+    Parse sections parameter
+
+    :param s: string to parse
+
+    """
+
+    result = []
+
+    s = re.split(r"\s|:", s)
+
+    try:
+        for part in s:
+            m = re.match(r"^(\d+(\.\d+)?)/(\d+)$", part)
+            if m:
+                n = int(m.group(3))
+                result.extend([float(m.group(1)) / n] * n)
+                continue
+            m = re.match(r"^(\d+(\.\d+)?)\*(\d+)$", part)
+            if m:
+                n = int(m.group(3))
+                result.extend([float(m.group(1))] * n)
+                continue
+            result.append(float(part))
+    except ValueError:
+        raise argparse.ArgumentTypeError("Don't understand sections string")
+
+    if not result:
+        result.append(0.0)
+
+    return result
+
 def getDescriptions():
     d = {edge.char: edge.description for edge in globals().values()
          if inspect.isclass(edge) and issubclass(edge, BaseEdge)
@@ -2465,3 +2498,112 @@ class RoundedTriangleFingerHolesEdge(RoundedTriangleEdge):
     def __call__(self,  length, **kw):
         self.fingerHolesAt(0, 0.5*self.settings.thickness, length, 0)
         super().__call__(length, **kw)
+
+
+class HandleEdgeSettings(Settings):
+
+    """Settings for HandleEdge
+Values:
+
+* absolute_params
+
+ * height      : 20.     : height above the wall in mm
+ * radius      : 10.     : radius of corners in mm
+ * hole_width  : "40:40" : width of hole(s) in percentage of maximum hole width (width of edge - (n+1) * material thickness)
+ * hole_height : 75.     : height of hole(s) in percentage of maximum hole height (handle height - 2 * material thickness)
+ * on_sides    : True,   : added to side panels if checked, to front and back otherwise (only used with top_edge parameter)
+
+* relative
+
+ * outset      : 1.      : extend the handle along the length of the edge (multiples of thickness)
+
+"""
+
+    absolute_params = {
+        "height" : 20.,
+        "radius" : 10.,
+        "hole_width" : "40:40",
+        "hole_height" : 75.,
+        "on_sides": True,
+    }
+
+    relative_params = {
+        "outset" : 1.,
+    }
+
+    def edgeObjects(self, boxes, chars="yY", add=True):
+        edges = [HandleEdge(boxes, self),
+                 HandleHoleEdge(boxes, self)]
+        return self._edgeObjects(edges, boxes, chars, add)
+
+# inspiration came from https://www.thingiverse.com/thing:327393
+
+class HandleEdge(Edge):
+    """Extends an 'edge' by adding a rounded bumpout with optional holes"""
+    description = "Handle for e.g. a drawer"
+    char = "y"
+    extra_height = 0.0
+
+    def __call__(self, length, **kw):
+        length += 2 * self.settings.outset
+        extra_height = self.extra_height * self.settings.thickness
+
+        r = self.settings.radius
+        if r >  length / 2:
+            r = length / 2
+        if r >  self.settings.height:
+            r = self.settings.height
+
+        widths = argparseSections(self.settings.hole_width)
+
+        if self.settings.outset:
+            self.polyline(0, -180, self.settings.outset, 90)
+        else:
+            self.corner(-90)
+
+        if self.settings.hole_height and sum(widths) > 0:
+            if sum(widths) < 100:
+                slot_offset = ((1 - sum(widths) / 100) * (length - (len(widths) + 1) * self.thickness)) / (len(widths) * 2)
+            else:
+                slot_offset = 0
+
+            slot_height = (self.settings.height - 2 * self.thickness) * self.settings.hole_height / 100
+            slot_x = self.thickness + slot_offset
+
+            for w in widths:
+                if sum(widths) > 100:
+                    slotwidth = w / sum(widths) * (length - (len(widths) + 1) * self.thickness)
+                else:
+                    slotwidth = w / 100 * (length - (len(widths) + 1) * self.thickness)
+                slot_x += slotwidth / 2
+                with self.saved_context():
+                    self.moveTo((self.settings.height / 2) + extra_height, slot_x, 0)
+                    self.rectangularHole(0,0,slot_height,slotwidth,slot_height/2,True,True)
+                slot_x += slotwidth / 2 + slot_offset + self.thickness + slot_offset
+
+        self.edge(self.settings.height - r + extra_height, tabs=1)
+        self.corner(90, r, tabs=1)
+        self.edge(length - 2 * r, tabs=1)
+        self.corner(90, r, tabs=1)
+        self.edge(self.settings.height - r + extra_height, tabs=1)
+
+        if self.settings.outset:
+            self.polyline(0, 90, self.settings.outset, -180)
+        else:
+            self.corner(-90)
+
+    def margin(self):
+        return self.settings.height
+
+class HandleHoleEdge(HandleEdge):
+    """Extends an 'edge' by adding a rounded bumpout with optional holes and holes for parallel finger joint"""
+    description = "Handle with holes for parallel finger joint"
+    char = "Y"
+    extra_height = 1.0
+
+    def __call__(self,  length, **kw):
+        self.fingerHolesAt(0, -0.5*self.settings.thickness, length, 0)
+        super().__call__(length, **kw)
+
+    def margin(self):
+        return self.settings.height + self.extra_height*self.settings.thickness

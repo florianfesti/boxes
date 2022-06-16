@@ -61,6 +61,8 @@ A set of instances are kept the ``.edges`` attribute of the
 * t : RoundedTriangleEdge
 * uUvV : CabinetHingeEdge
 * X : FlexEdge
+* y : HandleEdge
+* Y : HandleHoleEdge
 * Z : GroovedEdgeCounterPart
 * z : GroovedEdge
 

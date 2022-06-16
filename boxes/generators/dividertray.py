@@ -162,7 +162,7 @@ class DividerTray(Boxes):
                     side_edge(self.left_wall),
                 ],
                 callback=[partial(self.generate_finger_holes, self.h)],
-                move="up",
+                move="up", label = "Front" if _ else "Back",
             )
 
         # Side walls (outer & inner) with slots to support dividers
@@ -174,13 +174,13 @@ class DividerTray(Boxes):
                 be = "f" if self.bottom else "e"
             se = DividerSlotsEdge(self, slot_descriptions.descriptions)
             self.rectangularWall(
-                side_wall_length, self.h, [be, "f", se, "f"], move="up"
+                side_wall_length, self.h, [be, "f", se, "f"], move="up", label="Sidepiece " + str(_ + 1)
             )
 
         # Switch to right side of the file
         self.ctx.restore()
         self.rectangularWall(
-            max(facing_wall_length, side_wall_length), self.h, "ffff", move="right only"
+            max(facing_wall_length, side_wall_length), self.h, "ffff", move="right only", label="invisible"
         )
 
         # Bottom piece.
@@ -195,7 +195,7 @@ class DividerTray(Boxes):
                     "f" if self.left_wall else "e",
                 ],
                 callback=[partial(self.generate_finger_holes, side_wall_length)],
-                move="up",
+                move="up", label="Bottom",
             )
 
         # Dividers
@@ -322,7 +322,7 @@ class DividerTray(Boxes):
         )
 
         # Move for next piece
-        self.move(total_width, height, move)
+        self.move(total_width, height, move, label="Divider")
 
 
 class SlottedEdgeDescriptions:

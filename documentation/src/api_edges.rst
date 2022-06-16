@@ -56,6 +56,7 @@ A set of instances are kept the ``.edges`` attribute of the
 * s : StackableEdge
 * S : StackableEdgeTop
 * š : StackableFeet
+* Š : StackableHoleEdgeTop
 * T : RoundedTriangleFingerHolesEdge
 * t : RoundedTriangleEdge
 * uUvV : CabinetHingeEdge

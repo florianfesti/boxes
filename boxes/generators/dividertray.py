@@ -83,6 +83,7 @@ There are 3 different sets of dividers rendered: One single divider spanning acr
     def __init__(self):
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings)
+        self.addSettingsArgs(edges.HandleEdgeSettings)
         self.buildArgParser("sx", "sy", "h", "outside")
         self.addSettingsArgs(SlotSettings)
         self.addSettingsArgs(NotchSettings)
@@ -107,6 +108,9 @@ There are 3 different sets of dividers rendered: One single divider spanning acr
         )
         self.argparser.add_argument(
             "--bottom", type=boolarg, default=False, help="generate wall on the bottom",
+        )
+        self.argparser.add_argument(
+            "--handle", type=boolarg, default=False, help="add handle to the bottom",
         )
 
     def render(self):
@@ -145,7 +149,7 @@ There are 3 different sets of dividers rendered: One single divider spanning acr
         # Facing walls (outer) with finger holes to support side walls
         facing_wall_length = sum(self.sx) + self.thickness * (len(self.sx) - 1)
         side_edge = lambda with_wall: "F" if with_wall else "e"
-        bottom_edge = lambda with_wall: "F" if with_wall else "e"
+        bottom_edge = lambda with_wall, with_handle: ("f" if with_handle else "F") if with_wall else "e"
         upper_edge = (
             DividerNotchesEdge(
                 self,
@@ -159,7 +163,7 @@ There are 3 different sets of dividers rendered: One single divider spanning acr
                 facing_wall_length,
                 self.h,
                 [
-                    bottom_edge(self.bottom),
+                    bottom_edge(self.bottom, _ and self.handle),
                     side_edge(self.right_wall),
                     upper_edge,
                     side_edge(self.left_wall),
@@ -194,7 +198,7 @@ There are 3 different sets of dividers rendered: One single divider spanning acr
                 [
                     "f",
                     "f" if self.right_wall else "e",
-                    "f",
+                    "Y" if self.handle else "f",
                     "f" if self.left_wall else "e",
                 ],
                 callback=[partial(self.generate_finger_holes, side_wall_length)],

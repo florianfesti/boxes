@@ -2356,7 +2356,7 @@ Values:
 """
 
     absolute_params = {
-        "height" : 150.,
+        "height" : 50.,
         "radius" : 30.,
         "r_hole" : 2.,
     }

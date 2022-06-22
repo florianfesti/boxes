@@ -15,7 +15,7 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
-from boxes.walledges import WallMountedBox
+from boxes.walledges import _WallMountedBox
 
 class FrontEdge(edges.Edge):
 
@@ -33,7 +33,7 @@ class FrontEdge(edges.Edge):
             
         
 
-class WallChiselHolder(WallMountedBox):
+class WallChiselHolder(_WallMountedBox):
     """Wall tool holder for chisels, files and similar tools"""
 
     def __init__(self):

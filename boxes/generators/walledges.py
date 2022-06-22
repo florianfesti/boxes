@@ -15,9 +15,9 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
-from boxes.walledges import WallMountedBox
+from boxes.walledges import _WallMountedBox
 
-class WallEdges(WallMountedBox):
+class WallEdges(_WallMountedBox):
     """Shows the different edge types for wall systems"""
 
     def __init__(self):

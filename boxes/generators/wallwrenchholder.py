@@ -15,7 +15,7 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
-from boxes.walledges import WallMountedBox
+from boxes.walledges import _WallMountedBox
 
 class SlottedEdge(edges.Edge):
 
@@ -42,7 +42,7 @@ class SlottedEdge(edges.Edge):
         self.polyline(0, -45)
         self.edge(length-l)
 
-class WallWrenchHolder(WallMountedBox):
+class WallWrenchHolder(_WallMountedBox):
     """Hold a set of wrenches at a wall"""
 
 

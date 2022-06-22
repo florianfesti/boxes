@@ -15,9 +15,9 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
-from boxes.walledges import WallMountedBox
+from boxes.walledges import _WallMountedBox
 
-class WallPlaneHolder(WallMountedBox):
+class WallPlaneHolder(_WallMountedBox):
     """Hold a plane to a wall"""
 
     def __init__(self):

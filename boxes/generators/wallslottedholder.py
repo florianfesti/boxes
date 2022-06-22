@@ -15,7 +15,7 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
-from boxes.walledges import WallMountedBox
+from boxes.walledges import _WallMountedBox
 
 class FrontEdge(edges.Edge):
 
@@ -30,7 +30,7 @@ class FrontEdge(edges.Edge):
             self.polyline(w, (90, r1), ds-r1-r2, (-90, r2), ws-2*r2,
                           (-90, r2), ds-r1-r2, (90, r1), w)        
 
-class WallSlottedHolder(WallMountedBox):
+class WallSlottedHolder(_WallMountedBox):
     """Wall tool holder with slots"""
 
     def __init__(self):

@@ -15,9 +15,9 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
-from boxes.walledges import WallMountedBox
+from boxes.walledges import _WallMountedBox
 
-class WallConsole(WallMountedBox):
+class WallConsole(_WallMountedBox):
     """Outset and angled plate to mount stuff to"""
 
     def __init__(self):

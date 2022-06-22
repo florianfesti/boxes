@@ -15,9 +15,9 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
-from boxes.walledges import WallMountedBox
+from boxes.walledges import _WallMountedBox
 
-class WallStairs(WallMountedBox):
+class WallStairs(_WallMountedBox):
     """Platforms in different heights e.g. for screw drivers"""
 
     description = """You are supposed to add holes or slots to the stair tops yourself using Inkscape or another vector drawing or CAD program.

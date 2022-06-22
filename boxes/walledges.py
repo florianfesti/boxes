@@ -1,7 +1,7 @@
 from .edges import Settings, BaseEdge
 from boxes import Boxes, edges
 
-class WallMountedBox(Boxes):
+class _WallMountedBox(Boxes):
     ui_group = "WallMounted"
 
     def __init__(self):

@@ -16,13 +16,13 @@
 
 from boxes import *
 from .drillstand import DrillStand
-from boxes.walledges import WallMountedBox
+from boxes.walledges import _WallMountedBox
 
-class WallDrillBox(DrillStand, WallMountedBox):
+class WallDrillBox(DrillStand, _WallMountedBox):
     """Box for drills with each compartment with a different height"""
 
     def __init__(self):
-        WallMountedBox.__init__(self) # don't call DrillStand.__init__
+        _WallMountedBox.__init__(self) # don't call DrillStand.__init__
 
         self.addSettingsArgs(edges.StackableSettings, height=1.0, width=3)
         self.buildArgParser(sx="25*6", sy="10:20:30", sh="25:40:60")

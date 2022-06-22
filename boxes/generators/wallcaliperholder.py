@@ -15,9 +15,9 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
-from boxes.walledges import WallMountedBox
+from boxes.walledges import _WallMountedBox
 
-class WallCaliper(WallMountedBox):
+class WallCaliper(_WallMountedBox):
     """Holds a single caliper to a wall"""
 
     def __init__(self):

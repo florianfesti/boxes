@@ -15,7 +15,7 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
-from boxes.walledges import WallMountedBox
+from boxes.walledges import _WallMountedBox
 
 class PinEdge(edges.BaseEdge):
     def __call__(self, length, **kw):
@@ -37,7 +37,7 @@ class PinEdge(edges.BaseEdge):
     def margin(self):
         return self.settings.thickness+self.settings.pinlength
 
-class WallPinRow(WallMountedBox):
+class WallPinRow(_WallMountedBox):
     """Outset and angled plate to mount stuff to"""
 
     def __init__(self):

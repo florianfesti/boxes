@@ -30,6 +30,7 @@ from xml.sax.saxutils import quoteattr
 
 from shapely.geometry import *
 from shapely.ops import split
+import gettext
 
 from boxes import edges
 from boxes import formats
@@ -297,6 +298,7 @@ class Boxes:
         self.edgesettings: dict[Any, Any] = {}
         self.inkscapefile = None
         self.non_default_args: dict[Any, Any] = {}
+        self.translations = gettext.NullTranslations()
 
         self.metadata = {
             "name" : self.__class__.__name__,

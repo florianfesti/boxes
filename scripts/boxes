@@ -17,6 +17,7 @@ Options:
 
 import os
 import sys
+import gettext
 
 try:
     import boxes
@@ -58,13 +59,19 @@ def list_grouped_generators():
         for box in group.generators:
             print(' *  {}  -  {}'.format(box.__name__, box.__doc__ or ''))
 
-
+def get_translation():
+    try:
+        return gettext.translation('boxes.py', localedir='locale')
+    except OSError:
+        return gettext.translation('boxes.py', fallback=True)
+            
 def run_generator(name, args):
     generators = generators_by_name()
     lower_name = name.lower()
 
     if lower_name in generators.keys():
         box = generators[lower_name]()
+        box.translations = get_translation()
         box.parseArgs(args)
         box.open()
         box.render()

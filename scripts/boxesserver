@@ -260,6 +260,8 @@ class BServer:
             groupid += 1
 
         result.append(f"""
+<input type="hidden" name="language" id="language" value="{lang_name}">
+
 <p>
  <button name="render" value="1" formtarget="_blank">{_("Generate")}</button>
  <button name="render" value="2" formtarget="_self">{_("Download")}</button>
@@ -597,6 +599,8 @@ class BServer:
             box = box_cls(self, webargs=True)
         else:
             box = box_cls()
+
+        box.translations = lang
 
         if render == "0":
             defaults = {}

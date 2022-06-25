@@ -57,6 +57,7 @@ class CanStorage(Boxes):
         Boxes.__init__(self)
 
         self.addSettingsArgs(edges.FingerJointSettings, finger=2.0, space=2.0, surroundingspaces=0.0)
+        self.addSettingsArgs(edges.StackableSettings)
         self.addSettingsArgs(fillHolesSettings)
 
         self.argparser.add_argument(
@@ -229,3 +230,11 @@ class CanStorage(Boxes):
         
         if self.top_edge != "e":
             self.rectangularWall(self.depth, self.width, "fefe", callback=self.cb_top, move="up", label="top")
+
+        if self.bottom_edge == "š":
+            self.rectangularWall(self.edges["š"].settings.width+3*self.thickness, self.edges["š"].settings.height-4*self.burn, "eeee", move="right", label="Stabilizer 1")
+            self.rectangularWall(self.edges["š"].settings.width+3*self.thickness, self.edges["š"].settings.height-4*self.burn, "eeee", move="right", label="Stabilizer 2")
+            self.rectangularWall(self.edges["š"].settings.width+5*self.thickness, self.edges["š"].settings.height-4*self.burn, "eeee", move="right", label="Stabilizer 3")
+            self.rectangularWall(self.edges["š"].settings.width+5*self.thickness, self.edges["š"].settings.height-4*self.burn, "eeee", move="right", label="Stabilizer 4")
+            self.text("Glue a stabilizer on the inside of each bottom\nside stacking foot for lateral stabilization.",5,0, fontsize=4, color=Color.ANNOTATIONS)
+                            

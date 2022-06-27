@@ -168,7 +168,7 @@ class Settings(object):
 
             # Overwrite default
             if name in defaults:
-                default = defaults[name]
+                default = type(default)(defaults[name])
 
             if type(default) not in (bool, int, float, str):
                 raise ValueError("Type not supported: %r", default)
@@ -800,7 +800,7 @@ Values:
 
 * absolute
   * style : "rectangular" : style of the fingers
-  * surroundingspaces : 2 : minimal space at the start and end in multiple of normal spaces
+  * surroundingspaces : 2.0 : minimal space at the start and end in multiple of normal spaces
   * angle: 90 : Angle of the walls meeting
 
 * relative (in multiples of thickness)

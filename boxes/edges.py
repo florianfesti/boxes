@@ -880,14 +880,49 @@ class FingerJointEdge(BaseEdge, FingerJointBase):
     description = "Finger Joint"
     positive = True
 
+    def draw_finger(self, f, h, style, positive=True):
+        t = self.settings.thickness
+
+        if positive:
+            if style == "springs":
+                self.polyline(
+                    0, -90 * p, 0.8*h, (90 * p, 0.2*h),
+                    0.1 * h, 90, 0.9*h, -180, 0.9*h, 90,
+                    f - 0.6*h,
+                    90, 0.9*h, -180, 0.9*h, 90, 0.1*h,
+                    (90 * p, 0.2 *h), 0.8*h, -90 * p)
+            elif style == "barbs":
+                n = int((h-0.1*t) // (0.3*t))
+                a = math.degrees(math.atan(0.5))
+                l = 5**0.5
+                poly = [h - n*0.3*t] + \
+                    ([-45, 0.1*2**0.5*t, 45+a, l*0.1*t, -a, 0] * n)
+                self.polyline(
+                    0, -90, *poly, 90, f, 90, *reversed(poly), -90
+                )
+            elif style == "snap":
+                a12 = math.degrees(math.atan(0.5))
+                l12 = t / math.cos(math.radians(a12))
+                d = 4*t
+                d2 = d + 1*t
+                a = math.degrees(math.atan((0.5*t)/(h+d2)))
+                l = (h+d2) / math.cos(math.radians(a))
+                poly = [0, 90, d, -180, d+h, -90, 0.5*t, 90+a12, l12, 90-a12,
+                        0.5*t, 90-a, l, +a, 0, (-180, 0.1*t), h+d2, 90, f-1.7*t, 90-a12, l12, a12, h, -90, 0]
+                if i < fingers//2:
+                    poly = list(reversed(poly))
+                self.polyline(*poly)
+            else:
+                self.polyline(0, -90, h, 90, f, 90, h, -90)
+        else:
+            self.polyline(0, 90, h, -90, f, -90, h, 90)
+
     def __call__(self, length, bedBolts=None, bedBoltSettings=None, **kw):
 
         positive = self.positive
         t = self.settings.thickness
 
         s, f, thickness = self.settings.space, self.settings.finger, self.settings.thickness
-
-        p = 1 if positive else -1
 
         fingers, leftover = self.calcFingers(length, bedBolts)
 
@@ -914,37 +949,7 @@ class FingerJointEdge(BaseEdge, FingerJointBase):
                     self.bedBoltHole(s, bedBoltSettings)
                 else:
                     self.edge(s)
-
-            if positive and self.settings.style == "springs":
-                self.polyline(
-                    0, -90 * p, 0.8*h, (90 * p, 0.2*h),
-                    0.1 * h, 90, 0.9*h, -180, 0.9*h, 90,
-                    f - 0.6*h,
-                    90, 0.9*h, -180, 0.9*h, 90, 0.1*h,
-                    (90 * p, 0.2 *h), 0.8*h, -90 * p)
-            elif positive and self.settings.style == "barbs":
-                n = int((h-0.1*t) // (0.3*t))
-                a = math.degrees(math.atan(0.5))
-                l = 5**0.5
-                poly = [h - n*0.3*t] + \
-                    ([-45, 0.1*2**0.5*t, 45+a, l*0.1*t, -a, 0] * n)
-                self.polyline(
-                    0, -90, *poly, 90, f, 90, *reversed(poly), -90
-                )
-            elif positive and self.settings.style == "snap":
-                a12 = math.degrees(math.atan(0.5))
-                l12 = t / math.cos(math.radians(a12))
-                d = 4*t
-                d2 = d + 1*t
-                a = math.degrees(math.atan((0.5*t)/(h+d2)))
-                l = (h+d2) / math.cos(math.radians(a))
-                poly = [0, 90, d, -180, d+h, -90, 0.5*t, 90+a12, l12, 90-a12,
-                        0.5*t, 90-a, l, +a, 0, (-180, 0.1*t), h+d2, 90, f-1.7*t, 90-a12, l12, a12, h, -90, 0]
-                if i < fingers//2:
-                    poly = list(reversed(poly))
-                self.polyline(*poly)
-            else:
-                self.polyline(0, -90 * p, h, 90 * p, f, 90 * p, h, -90 * p)
+            self.draw_finger(f, h, self.settings.style, positive)
 
         self.edge(leftover / 2.0, tabs=1)
 

@@ -122,8 +122,7 @@ class Part:
             not self.path[0][0] == "T"):
             for p in reversed(self.pathes):
                 xy1 = p.path[-1][1:3]
-                if points_equal(*xy0, *xy1):
-                    # todo: check for same color and linewidth
+                if points_equal(*xy0, *xy1) and p.params == params:
                     p.path.extend(self.path[1:])
                     self.path = []
                     return p

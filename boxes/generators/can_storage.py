@@ -46,6 +46,20 @@ class FrontEdge(edges.BaseEdge):
         self.edge(self.barrier_height)
         self.edge(self.thickness)
 
+class TopChuteEdge(edges.BaseEdge):
+    char = "b"
+
+    def __call__(self, length, **kw):
+        self.edge(0.2 * length - self.thickness)
+        self.corner(90, self.thickness)
+        self.edge(self.canDiameter - 2 * self.thickness)
+        self.corner(-90, self.thickness)
+        self.edge(0.6 * length - 2 * self.thickness)
+        self.corner(-90, self.thickness)
+        self.edge(self.canDiameter - 2 * self.thickness)
+        self.corner(90, self.thickness)
+        self.edge(0.2 * length - self.thickness)
+
 class CanStorage(Boxes):
     """Storage box for round containers"""
 
@@ -190,6 +204,7 @@ class CanStorage(Boxes):
         
     def render(self):
         self.addPart(FrontEdge(self, self))
+        self.addPart(TopChuteEdge(self, self))
         
         if self.canDiameter < 8 * self.thickness:
             self.edges["f"].settings.setValues(self.thickness, True, finger=1.0)
@@ -197,11 +212,10 @@ class CanStorage(Boxes):
         self.edges["f"].settings.setValues(self.thickness, True, surroundingspaces=0.0)
         
         if self.canDiameter < 4 * self.thickness:
-            raise ValueError("Can diameter has to be at least 4 times the meterial thickness!")
+            raise ValueError("Can diameter has to be at least 4 times the material thickness!")
 
         if self.canNum < 4:
             raise ValueError("4 cans is the minimum!")
-
         
         self.depth = self.canDiameter * (math.ceil(self.canNum / 2) + 0.1) + self.thickness
         self.top_chute_height = max(self.depth * math.sin(math.radians(self.angle)), 0.1 * self.canDiameter)
@@ -222,7 +236,7 @@ class CanStorage(Boxes):
         self.rectangularWall(self.depth, self.height, edges=edgs, callback=self.cb_sides, move="up mirror", label="left")
         
         self.rectangularWall(self.bottom_chute_depth, self.width, "fefe", move="up", label="bottom chute")
-        self.rectangularWall(self.top_chute_depth, self.width, "fefe", callback=self.cb_top_chute, move="up", label="top chute")
+        self.rectangularWall(self.top_chute_depth, self.width, "fbfe", callback=self.cb_top_chute, move="up", label="top chute")
 
         self.rectangularWall(self.barrier_height, self.width, "fefe", move="right", label="barrier")
         self.rectangularWall(self.height, self.width, "fefe", move="up", label="back")

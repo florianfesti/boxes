@@ -65,8 +65,7 @@ class LaptopStand(Boxes):  # Change class name!
     def render(self):
         calcs = self.perform_calculations()
 
-        self.draw_triangle(calcs, False)
-        self.draw_triangle(calcs, True)
+        self.laptopstand_triangles(calcs, move="up")
 
     def perform_calculations(self):
         # a
@@ -123,12 +122,25 @@ class LaptopStand(Boxes):  # Change class name!
             half_hyp=half_hyp,
         )
 
-    def draw_triangle(self, calcs, top):
-        if top:
-            self.moveTo(0, calcs["height"] + self.ground_offset + 10)
+    def laptopstand_triangles(self, calcs, move=None):
+        tw = calcs["base"] + self.spacing + 2 * (calcs["base_extra"] + math.sin(math.radians(calcs["angle"]))*(calcs["lip_outer"]+1))
+        th = calcs["height"] + 2 * self.ground_offset + self.spacing
 
+        if self.move(tw, th, move, True):
+            return
+        self.moveTo(calcs["base_extra"]+self.spacing + math.sin(math.radians(calcs["angle"]))*(calcs["lip_outer"]+1))
+        self.draw_triangle(calcs, top=False)
+        self.moveTo(calcs["base"] - self.spacing,
+                    th, 180)
+        self.draw_triangle(calcs, top=True)
+
+        self.move(tw, th, move)
+
+    @restore
+    def draw_triangle(self, calcs, top):
         # Rear end
-        self.corner(270)
+        self.moveTo(0, calcs["height"] + self.ground_offset, -90)
+
         self.edge(calcs["height"] + self.ground_offset)
         self.corner(90)
 
@@ -185,4 +197,4 @@ class LaptopStand(Boxes):  # Change class name!
             # Top without slot
             self.edge(calcs["hyp"])
 
-        self.corner(180 + calcs["angle"])
+        self.corner(90 + calcs["angle"])

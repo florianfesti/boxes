@@ -1674,16 +1674,22 @@ class Boxes:
             if (max_y - min_y) < (2 * max_radius + 2 * bspace):
                 return
 
-            #shrink original polygon
-            # make cutPoly a little wider to avoid overlapping with lines to be cut
-            cutPoly = borderPoly.buffer(-1 * (bspace + max_radius - 0.0001), join_style=2)
-            # testPoly is a litte wider than cutPoly to mitigate rounding errors
-            testPoly = borderPoly.buffer(-1 * (bspace + max_radius - 0.001), join_style=2) 
+            # make cutPolys a little wider to avoid
+            # overlapping with lines to be cut
+            outerCutPoly = borderPoly.buffer(-1 * (bspace - 0.000001),
+                                             join_style=2)
+            outerTestPoly = borderPoly.buffer(-1 * (bspace - 0.01),
+                                              join_style=2)
+            # shrink original polygon to get place for full size polygons
+            innerCutPoly = borderPoly.buffer(-1 * (bspace + max_radius - 0.0001), join_style=2)
+            innerTestPoly = borderPoly.buffer(-1 * (bspace + max_radius - 0.001), join_style=2)
 
-            x_cpl, y_cpl, x_cpr, y_cpr = cutPoly.bounds # get left and right boundaries of cut polygon
+            # get left and right boundaries of cut polygon
+            x_cpl, y_cpl, x_cpr, y_cpr = outerCutPoly.bounds
 
             if self.debug:
-                self.showBorderPoly(list(cutPoly.exterior.coords))
+                self.showBorderPoly(list(outerCutPoly.exterior.coords))
+                self.showBorderPoly(list(innerCutPoly.exterior.coords))
             
             # set startpoint
             y = min_y + bspace + max_radius_y
@@ -1694,12 +1700,21 @@ class Boxes:
                 else:
                     xs = min_x + max_radius_x * 2 + hspace / 2 + bspace
                                     
-                # create line from left to right and cut according to shrinked polygon
-                line_complete = LineString([(xs, y), (max_x + 1, y)])
-                line_split = split(line_complete, cutPoly) # cut accurate
+                # create line segments cut by the polygons
+                line_complete = LineString([(x_cpl, y), (max_x + 1, y)])
+                # cut accurate
+                outer_line_split = split(line_complete, outerCutPoly)
+                line_complete = LineString([(x_cpl, y), (max_x + 1, y)])
+                inner_line_split = split(line_complete, innerCutPoly)
+                inner_line_index = 0
+
+                if self.debug and False:
+                    for line in inner_line_split.geoms:
+                        self.hole(line.bounds[0], line.bounds[1], 1.1)
+                        self.hole(line.bounds[2], line.bounds[3], .9)
 
                 # process each line
-                for line_this in line_split.geoms:
+                for line_this in outer_line_split.geoms:
 
                     if self.debug and False:  # enable to debug missing lines
                         x_start, y_start, x_end, y_end = line_this.bounds
@@ -1709,21 +1724,49 @@ class Boxes:
                             self.edge(x_end - x_start)
                         with self.saved_context():
                             self.moveTo(x_start, y_start ,0)
-                            self.text(str(testPoly.contains(line_this)), 0, 0, fontsize=2, color=Color.ANNOTATIONS)
+                            self.text(str(outerTestPoly.contains(line_this)), 0, 0, fontsize=2, color=Color.ANNOTATIONS)
                         with self.saved_context():
                             self.moveTo(x_end, y_end ,0)
                             self.hole(0, 0, 0.5)
 
-                    if testPoly.contains(line_this): # test a little bit more inwards to mitigate rounding errors
-                        x_start, y_start , x_end, y_end = line_this.bounds
-                        #initialize walking x coordinate
-                        xw = (math.ceil((x_start - xs) / (2 * max_radius_x + hspace)) * (2 * max_radius_x + hspace)) + xs
-                        # and process line
-                        while not xw > x_end:
-                            # finally paint the hole
-                            self.regularPolygonHole(xw, y, r=max_radius, n=n, a=a)
-                            # rinse and repeat
-                            xw += (2 * max_radius_x + hspace)
+                    if not outerTestPoly.contains(line_this):
+                        continue
+                    x_start, y_start , x_end, y_end = line_this.bounds
+                    #initialize walking x coordinate
+                    xw = (math.ceil((x_start - xs) / (2 * max_radius_x + hspace)) * (2 * max_radius_x + hspace)) + xs
+
+                    # look up matching inner line
+                    while (inner_line_index < len(inner_line_split) and
+                           (inner_line_split.geoms[inner_line_index].bounds[2] <  xw
+                            or not innerTestPoly.contains(inner_line_split.geoms[inner_line_index]))):
+                        inner_line_index += 1
+
+                    # and process line
+                    while not xw > x_end:
+                        # are we in inner polygone already?
+                        if (len(inner_line_split) > inner_line_index and
+                            xw > inner_line_split.geoms[inner_line_index].bounds[0]):
+                            # place inner, full size polygons
+                            while xw < inner_line_split.geoms[inner_line_index].bounds[2]:
+                                self.regularPolygonHole(xw, y, r=max_radius, n=n, a=a)
+                                xw += (2 * max_radius_x + hspace)
+                            # forward to next inner line
+                            while (inner_line_index < len(inner_line_split) and
+                                   (inner_line_split.geoms[inner_line_index].bounds[0] <  xw
+                                    or not innerTestPoly.contains(inner_line_split.geoms[inner_line_index]))):
+                                inner_line_index += 1
+                            if xw > x_end:
+                                break
+
+                        # Check distance to border to size the polygon
+                        pt = Point(xw, y)
+                        r = min(borderPoly.exterior.distance(pt) - bspace,
+                                max_radius)
+                        # if too small, dismiss
+                        if r >= min_radius:
+                            self.regularPolygonHole(xw, y, r=r, n=n, a=a)
+                        xw += (2 * max_radius_x + hspace)
+
                 row += 1
                 if pattern == "square":
                     y += 2 * max_radius_y + hspace - 0.0001

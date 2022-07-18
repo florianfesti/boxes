@@ -29,10 +29,11 @@ class BirdHouse(Boxes):
         # remove cli params you do not need
         self.buildArgParser(x=200, y=200, h=200)
 
-    def side(self, x, h, edges="hFffF", callback=None, move=None):
-        angles = (90, 45, 90, 45, 90)
+    def side(self, x, h, edges="hFeffeF", callback=None, move=None):
+        angles = (90, 0, 45, 90, 45, 0, 90)
         roof = 2**0.5 * x / 2
-        lengths = (x, h, roof, roof, h)
+        t = self.thickness
+        lengths = (x, h, t, roof, roof, t, h)
 
         edges = [self.edges.get(e, e) for e in edges]
         edges.append(edges[0]) # wrap arround
@@ -43,7 +44,7 @@ class BirdHouse(Boxes):
         if self.move(tw, th, move, True):
             return
         
-        for i in range(5):
+        for i in range(7):
             self.cc(callback, i, y=self.burn+edges[i].startwidth())
             edges[i](lengths[i])
             self.edgeCorner(edges[i], edges[i+1], angles[i])            
@@ -63,8 +64,8 @@ class BirdHouse(Boxes):
         cbx = [lambda: self.side_hole(x)]
         cby = [lambda: self.side_hole(y)]
         
-        self.side(x, h, callback=cby, move="right")
-        self.side(x, h, callback=cby, move="right")
+        self.side(x, h, callback=cbx, move="right")
+        self.side(x, h, callback=cbx, move="right")
         self.rectangularWall(y, h, "hfef", callback=cby, move="right")
         self.rectangularWall(y, h, "hfef", callback=cby, move="right")
         self.rectangularWall(x, y, "ffff", move="right")

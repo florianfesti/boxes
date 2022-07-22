@@ -33,8 +33,9 @@ class FillTest(Boxes): # Change class name!
 
 
     def xHoles(self):
-        border = [(0, 0), (245, 0), (225, 150), (235, 150), (255, 0), (300, 0), (270, 200), (45, 200), (45, 50), (35, 50), (35, 200), (0, 200)]
-        
+#        border = [(0, 0), (245, 0), (225, 150), (235, 150), (255, 0), (300, 0), (270, 200), (45, 200), (45, 50), (35, 50), (35, 200), (0, 200)]
+        border = [(5, 10), (245, 10), (225, 150), (235, 150), (255, 10), (290, 10), (270, 190), (45, 190), (45, 50), (35, 50), (35, 190), (5, 190)]
+               
         self.showBorderPoly(border)
 
         start_time = time.time()
@@ -52,6 +53,6 @@ class FillTest(Boxes): # Change class name!
         print('fillHoles - Execution time:', (end_time-start_time)*1000, 'ms ', self.fillHoles_fill_pattern)        
 
     def render(self):
-        self.rectangularWall(300,200,"eeee",callback=[self.xHoles, None, None, None],)
+        self.rectangularWall(320,220,"eeee",callback=[self.xHoles, None, None, None],)
 
 

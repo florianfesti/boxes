@@ -1530,14 +1530,14 @@ class Boxes:
                           0.5 * diameter)
 
     @restore
-    def showBorderPoly(self,border):
+    def showBorderPoly(self,border,color=Color.ANNOTATIONS):
         """
         draw border polygon (for debugging only)
 
         :param border:     array with coordinate [(x0,y0), (x1,y1),...] of the border polygon
 
         """ 
-        self.set_source_color(Color.ANNOTATIONS)
+        self.set_source_color(color)
         self.ctx.save()
         self.ctx.move_to(*border[0])
 
@@ -1550,8 +1550,8 @@ class Boxes:
         i = 0
         for x, y in border:
             i += 1
-            self.hole(x, y, 0.5, color=Color.ANNOTATIONS)
-            self.text(str(i), x, y, fontsize=2, color=Color.ANNOTATIONS)
+            self.hole(x, y, 0.5, color=color)
+            self.text(str(i), x, y, fontsize=2, color=color)
 
     @restore
     @holeCol
@@ -1596,13 +1596,15 @@ class Boxes:
 
         borderPoly = Polygon(border)
         min_x, min_y, max_x, max_y = borderPoly.bounds
-
+        
         if pattern == "vbar":
-            border = [(max_y - y, x) for x, y in border]
+            border = [(max_y - y + min_y, x) for x, y in border]
             borderPoly = Polygon(border)
             min_x, min_y, max_x, max_y = borderPoly.bounds
-            self.moveTo(0, max_x, -90)
+            self.moveTo(0, max_x + min_x, -90)
             pattern = "hbar"
+            if self.debug:
+                self.showBorderPoly(border, color=Color.MAGENTA)
 
         row = 0        
         i = 0

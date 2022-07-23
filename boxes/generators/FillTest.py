@@ -20,23 +20,23 @@ import random
 import time
 
 class FillTest(Boxes): # Change class name!
-    """DESCRIPTION"""
+    """Piece for testing different settings for hole filling"""
 
-    ui_group = "Unstable" # see ./__init__.py for names
+    ui_group = "Part"
 
     def __init__(self):
         Boxes.__init__(self)
 
-        self.addSettingsArgs(fillHolesSettings, hole_max_radius=4, hole_min_radius=1, space_between_holes=3, space_to_border=2, maximum=1000)
+        self.addSettingsArgs(fillHolesSettings, fill_pattern="hex")
 
-        self.buildArgParser(x=100, y=100, h=100, hi=0)
+        self.buildArgParser()
 
 
     def xHoles(self):
-#        border = [(0, 0), (245, 0), (225, 150), (235, 150), (255, 0), (300, 0), (270, 200), (45, 200), (45, 50), (35, 50), (35, 200), (0, 200)]
         border = [(5, 10), (245, 10), (225, 150), (235, 150), (255, 10), (290, 10), (270, 190), (45, 190), (45, 50), (35, 50), (35, 190), (5, 190)]
                
         self.showBorderPoly(border)
+        self.text("Area to be filled", 150, 190, align="bottom center", color=Color.ANNOTATIONS)
 
         start_time = time.time()
         self.fillHoles(
@@ -47,7 +47,9 @@ class FillTest(Boxes): # Change class name!
             bspace=self.fillHoles_space_to_border, 
             min_radius=self.fillHoles_hole_min_radius, 
             style=self.fillHoles_hole_style,
-            maximum=self.fillHoles_maximum)
+            bar_length=self.fillHoles_bar_length,
+            max_random=self.fillHoles_max_random
+            )
         end_time = time.time()
 
         print('fillHoles - Execution time:', (end_time-start_time)*1000, 'ms ', self.fillHoles_fill_pattern)        

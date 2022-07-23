@@ -29,14 +29,32 @@ class FillTest(Boxes): # Change class name!
 
         self.addSettingsArgs(fillHolesSettings, fill_pattern="hex")
 
-        self.buildArgParser()
+        self.buildArgParser(x=320, y=220)
 
 
     def xHoles(self):
-        border = [(5, 10), (245, 10), (225, 150), (235, 150), (255, 10), (290, 10), (270, 190), (45, 190), (45, 50), (35, 50), (35, 190), (5, 190)]
+#        border = [(5, 10), (245, 10), (225, 150), (235, 150), (255, 10), (290, 10), (270, 190), (45, 190), (45, 50), (35, 50), (35, 190), (5, 190)]
+
+        x, y = self.x, self.y
+
+        border = [
+            (  5/320*x,  10/220*y), 
+            (245/320*x,  10/220*y), 
+            (225/320*x, 150/220*y), 
+            (235/320*x, 150/220*y), 
+            (255/320*x,  10/220*y), 
+            (290/320*x,  10/220*y), 
+            (270/320*x, 190/220*y), 
+            ( 45/320*x, 190/220*y), 
+            ( 45/320*x,  50/220*y), 
+            ( 35/320*x,  50/220*y), 
+            ( 35/320*x, 190/220*y), 
+            (  5/320*x, 190/220*y), 
+            ]
+
                
         self.showBorderPoly(border)
-        self.text("Area to be filled", 150, 190, align="bottom center", color=Color.ANNOTATIONS)
+        self.text("Area to be filled", x/2, 190/220*y, align="bottom center", color=Color.ANNOTATIONS)
 
         start_time = time.time()
         self.fillHoles(
@@ -55,6 +73,6 @@ class FillTest(Boxes): # Change class name!
 #        print('fillHoles - Execution time:', (end_time-start_time)*1000, 'ms ', self.fillHoles_fill_pattern)        
 
     def render(self):
-        self.rectangularWall(320,220,"eeee",callback=[self.xHoles, None, None, None],)
+        self.rectangularWall(self.x, self.y, "eeee", callback=[self.xHoles, None, None, None],)
 
 

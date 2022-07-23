@@ -52,7 +52,7 @@ class FillTest(Boxes): # Change class name!
             )
         end_time = time.time()
 
-        print('fillHoles - Execution time:', (end_time-start_time)*1000, 'ms ', self.fillHoles_fill_pattern)        
+#        print('fillHoles - Execution time:', (end_time-start_time)*1000, 'ms ', self.fillHoles_fill_pattern)        
 
     def render(self):
         self.rectangularWall(320,220,"eeee",callback=[self.xHoles, None, None, None],)

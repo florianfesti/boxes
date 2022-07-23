@@ -252,7 +252,8 @@ Values:
 * absolute
   * fill_pattern :        "no fill" : style of hole pattern
   * hole_style :          "round" : style of holes (does not apply to fill patterns 'vbar' and 'hbar')
-  * maximum :             1000 : maximum number of random holes / maximum length of bars
+  * max_random :          1000 : maximum number of random holes
+  * bar_length :          50 : maximum length of bars
   * hole_max_radius :     12.0 : maximum radius of generated holes (in mm)
   * hole_min_radius :     4.0 : minimum radius of generated holes (in mm)
   * space_between_holes : 4.0 : hole to hole spacing (in mm)
@@ -263,9 +264,10 @@ Values:
     absolute_params = {
         "fill_pattern":        ("no fill", "hex", "square", "random", "hbar", "vbar"),
         "hole_style":          ("round", "triangle", "square", "hexagon", "octagon"),
-        "maximum":             1000,
-        "hole_max_radius":     12.0,
-        "hole_min_radius":     4.0,
+        "max_random":          1000,
+        "bar_length":          50,
+        "hole_max_radius":     3.0,
+        "hole_min_radius":     0.5,
         "space_between_holes": 4.0,
         "space_to_border":     4.0,
     }
@@ -1555,18 +1557,19 @@ class Boxes:
 
     @restore
     @holeCol
-    def fillHoles(self, pattern, border, max_radius, hspace=3, bspace=0, min_radius=0.5, style="round", maximum=1000):
+    def fillHoles(self, pattern, border, max_radius, hspace=3, bspace=0, min_radius=0.5, style="round", bar_length=50, max_random=1000):
         """
         fill a polygon defined by its outline with holes
 
-        :param pattern:    defines the hole pattern - currently "random", "hex", "square" "hbar" or "vbar" are supported
-        :param border:     array with coordinate [(x0,y0), (x1,y1),...] of the border polygon
-        :param max_radius: maximum hole radius
-        :param hspace:     space between holes
-        :param bspace:     space to border
-        :param min_radius: minimum hole radius
-        :param style:      defines hole style - currently one of "round", "triangle", "square", "hexagon" or "octagon"
-        :param maximum:    maximum number of holes / maximum length of bars
+        :param pattern:     defines the hole pattern - currently "random", "hex", "square" "hbar" or "vbar" are supported
+        :param border:      array with coordinate [(x0,y0), (x1,y1),...] of the border polygon
+        :param max_radius:  maximum hole radius
+        :param hspace:      space between holes
+        :param bspace:      space to border
+        :param min_radius:  minimum hole radius
+        :param style:       defines hole style - currently one of "round", "triangle", "square", "hexagon" or "octagon"
+        :param bar_length:  maximum bar length
+        :param max_random:  maximum number of random holes
 
         """
         if pattern not in ["random", "hex", "square", "hbar", "vbar"]:
@@ -1625,7 +1628,7 @@ class Boxes:
         if pattern == "random":
             grid = {}
             misses = 0 # in a row
-            while i < maximum and misses < 20:
+            while i < max_random and misses < 20:
                 i += 1
                 misses += 1
                 # random new point
@@ -1789,7 +1792,7 @@ class Boxes:
             if self.debug:
                 self.showBorderPoly(list(shrinkPoly.exterior.coords))
 
-            segment_length = [maximum / 2, maximum]
+            segment_length = [bar_length / 2, bar_length]
             segment_max = 1
             segment_toggle = False
 

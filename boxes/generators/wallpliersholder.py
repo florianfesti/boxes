@@ -15,17 +15,14 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
+from boxes.walledges import _WallMountedBox
 
-class SlatwallPliersHolder(Boxes):
+class WallPliersHolder(_WallMountedBox):
     """Bar to hang pliers on"""
 
-    ui_group = "SlatWall"
-
     def __init__(self):
-        Boxes.__init__(self)
+        super().__init__()
 
-        self.addSettingsArgs(edges.FingerJointSettings)
-        
         self.buildArgParser(sx="100*3", y=50, h=50, outside=True)
 
         self.argparser.add_argument(
@@ -71,17 +68,14 @@ class SlatwallPliersHolder(Boxes):
         posx = -t
         for dx in self.sx[:-1]:
             posx += dx + t
-            self.slatWallHolesAt(posx, 0, self.h_t, 90)
+            self.wallHolesAt(posx, 0, self.h_t, 90)
 
     def render(self):
+        self.generateWallEdges()
 
         if self.outside:
             self.sx = self.adjustSize(self.sx)
         
-        s = edges.SlatWallSettings(self.thickness)
-        s.edgeObjects(self)
-        self.slatWallHolesAt = edges.SlatWallHoles(self, s)
-
         sx, y, h = self.sx, self.y, self.h
         t = self.thickness
 

@@ -112,8 +112,11 @@ class DividerTray(Boxes):
         if side_walls_number == 0:
             raise ValueError("You need at least one side wall to generate this tray")
 
-        # If measures are inside, we need to adjust height before slot generation
-        if not self.outside:
+        # We need to adjust height before slot generation
+        if self.outside:
+            if self.bottom:
+                self.h -= self.thickness
+        else:
             # If the parameter 'h' is the inner height of the content itself,
             # then the actual tray height needs to be adjusted with the angle
             self.h = self.h * math.cos(math.radians(self.Slot_angle))

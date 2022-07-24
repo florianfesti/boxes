@@ -14,6 +14,12 @@ Affine
 :code:`Affine` (package name may be :code:`python-affine` or
 :code:`python3-affine`) is used for vector calculation.
 
+Shapely
+.......
+:code:`shapely` (package name may be :code:`python-shapely` or
+:code:`python3-shapely`) is used for filling shapes (with holes).
+
+
 Markdown
 ........
 :code:`Markdown` (package name may be :code:`python-markdown` or

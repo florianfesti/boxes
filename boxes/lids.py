@@ -92,7 +92,7 @@ class _TopEdge(Boxes):
 
     def addTopEdgeSettings(self, fingerjoint={}, stackable={}, hinge={},
                            cabinethinge={}, lid={}, click={},
-                           roundedtriangle={}):
+                           roundedtriangle={}, mounting={}):
         self.addSettingsArgs(edges.FingerJointSettings, **fingerjoint)
         self.addSettingsArgs(edges.StackableSettings, **stackable)
         self.addSettingsArgs(edges.HingeSettings, **hinge)
@@ -100,6 +100,7 @@ class _TopEdge(Boxes):
         self.addSettingsArgs(edges.LidSettings, **lid)
         self.addSettingsArgs(edges.ClickSettings, **click)
         self.addSettingsArgs(edges.RoundedTriangleEdgeSettings, **roundedtriangle)
+        self.addSettingsArgs(edges.MountingSettings, **mounting)
 
     def topEdges(self, top_edge):
         t1 = t2 = t3 = t4 = self.edges.get(top_edge, self.edges["e"])
@@ -117,6 +118,16 @@ class _TopEdge(Boxes):
             t2 = t3 = t4 = "e"
         elif t1.char == "t":
             t1 = t3 = "e"
+        elif t1.char == "G":
+            t1 = t2 = t3 = t4 = "e"
+            if self.edges["G"].settings.side == edges.MountingSettings.PARAM_LEFT:
+                t1 = "G"
+            elif self.edges["G"].settings.side == edges.MountingSettings.PARAM_RIGHT:
+                t3 = "G"
+            elif self.edges["G"].settings.side == edges.MountingSettings.PARAM_FRONT:
+                t4 = "G"
+            else: #PARAM_BACK
+                t2 = "G"
         return [t1, t2, t3, t4]
 
     def drawLid(self, x, y, top_edge, bedBolts=[None, None]):

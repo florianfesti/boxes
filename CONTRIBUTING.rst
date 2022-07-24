@@ -67,6 +67,21 @@ Boxes.py. Here are some guidelines that make it easier to get them added:
 * For more complicated generators there can be multiple patches -
   each adding another feature
 
+Adding new Dependencies
+.......................
+
+Adding new dependencies should be considered thoroughly. If a new
+depencendcy is added it needs to be added in all these places:
+
+* *documentation/src/install.rst*
+* RST files in *documentation/src/install/*
+* *scripts/Dockerfile*
+* *.travis.yml*
+
+If it is a Python module it also needs to be added:
+* *requirements.txt*
+* *setup.py*
+
 Improving the Documentation
 ---------------------------
 

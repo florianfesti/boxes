@@ -16,17 +16,14 @@
 
 from boxes import *
 from boxes.lids import _TopEdge
+from boxes.walledges import _WallMountedBox
 
-class SlatwallTypeTray(_TopEdge):
+class WallTypeTray(_WallMountedBox, _TopEdge):
     """Type tray - allows only continuous walls"""
 
-    ui_group = "SlatWall"
-
     def __init__(self):
-        Boxes.__init__(self)
-        self.addSettingsArgs(edges.FingerJointSettings)
+        super().__init__()
         self.addSettingsArgs(edges.StackableSettings)
-        self.addSettingsArgs(edges.SlatWallSettings)
         self.buildArgParser("sx", "sy", "h", "hi", "outside", "bottom_edge")
         self.argparser.add_argument(
             "--back_height",  action="store", type=float, default=0.0,
@@ -68,12 +65,7 @@ class SlatwallTypeTray(_TopEdge):
 
     def render(self):
 
-        # Add slat wall edges
-        s = edges.SlatWallSettings(self.thickness, True,
-                                   **self.edgesettings.get("SlatWall", {}))
-        s.edgeObjects(self)
-        self.slatWallHolesAt = edges.SlatWallHoles(self, s)
-
+        self.generateWallEdges()
         b = self.bottom_edge
         
         if self.outside:

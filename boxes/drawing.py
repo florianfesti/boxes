@@ -2,6 +2,7 @@ import math
 import datetime
 from affine import Affine
 from boxes.extents import Extents
+from boxes.Color import Color as bColor
 
 try:
     from xml.etree import cElementTree as ET
@@ -117,15 +118,14 @@ class Part:
             return
         # search for path ending at new start coordinates to append this path to
         xy0 = self.path[0][1:3]
-        for p in reversed(self.pathes):
-            if self.path[0][0] == "T":
-                break
-            xy1 = p.path[-1][1:3]
-            if points_equal(*xy0, *xy1):
-                # todo: check for same color and linewidth
-                p.path.extend(self.path[1:])
-                self.path = []
-                return p
+        if (not points_equal(*xy0, *self.path[-1][1:3]) and
+            not self.path[0][0] == "T"):
+            for p in reversed(self.pathes):
+                xy1 = p.path[-1][1:3]
+                if points_equal(*xy0, *xy1) and p.params == params:
+                    p.path.extend(self.path[1:])
+                    self.path = []
+                    return p
         p = Path(self.path, params)
         self.pathes.append(p)
         self.path = []
@@ -546,7 +546,7 @@ Creation date: {date}
                         t.text = text
                         t.set("font-size", f"{params['fs']}px")
                         t.set("text-anchor", params.get('align', 'left'))
-                        t.set("alignment-baseline", 'hanging')
+                        t.set("dominant-baseline", 'hanging')
                     else:
                         print("Unknown", c)
 
@@ -733,6 +733,17 @@ class LBRN2Surface(Surface):
         'monospaced' : 'Courier New'
     }
 
+    lbrn2_colors=[
+        0,  # Colors.OUTER_CUT    (BLACK)   --> Lightburn C00 (black)
+        1,  # Colors.INNER_CUT    (BLUE)    --> Lightburn C01 (blue)
+        3,  # Colors.ETCHING      (GREEN)   --> Lightburn C02 (green)
+        6,  # Colors.ETCHING_DEEP (CYAN)    --> Lightburn C06 (cyan)
+        30, # Colors.ANNOTATIONS  (RED)     --> Lightburn T1
+        7,  # Colors.OUTER_CUT    (MAGENTA) --> Lightburn C07 (magenta)
+        4,  # Colors.OUTER_CUT    (YELLOW)  --> Lightburn C04 (yellow)
+        8,  # Colors.OUTER_CUT    (WHITE)   --> Lightburn C08 (grey)
+        ]
+
     def finish(self, inner_corners="loop"):
         if self.dbg: print("LBRN2 save")
         extents = self._adjust_coordinates()
@@ -746,6 +757,46 @@ class LBRN2Surface(Surface):
 
         tree = ET.ElementTree(svg)
         if self.dbg: print ("8", num)
+        
+        cs = ET.SubElement(svg, "CutSetting", Type="Cut")
+        index    = ET.SubElement(cs, "index",    Value="3")         # green layer (ETCHING)
+        name     = ET.SubElement(cs, "name",     Value="Etch")
+        priority = ET.SubElement(cs, "priority", Value="0")         # is cut first
+
+        cs = ET.SubElement(svg, "CutSetting", Type="Cut")
+        index    = ET.SubElement(cs, "index",    Value="6")         # cyan layer (ETCHING_DEEP)
+        name     = ET.SubElement(cs, "name",     Value="Deep Etch")
+        priority = ET.SubElement(cs, "priority", Value="1")         # is cut second
+
+        cs = ET.SubElement(svg, "CutSetting", Type="Cut")
+        index    = ET.SubElement(cs, "index",    Value="7")         # magenta layer (MAGENTA)
+        name     = ET.SubElement(cs, "name",     Value="C07")
+        priority = ET.SubElement(cs, "priority", Value="2")         # is cut third
+
+        cs = ET.SubElement(svg, "CutSetting", Type="Cut")
+        index    = ET.SubElement(cs, "index",    Value="4")         # yellow layer (YELLOW)
+        name     = ET.SubElement(cs, "name",     Value="C04")
+        priority = ET.SubElement(cs, "priority", Value="3")         # is cut third
+
+        cs = ET.SubElement(svg, "CutSetting", Type="Cut")
+        index    = ET.SubElement(cs, "index",    Value="8")         # grey layer (WHITE)
+        name     = ET.SubElement(cs, "name",     Value="C08")
+        priority = ET.SubElement(cs, "priority", Value="4")         # is cut fourth
+
+        cs = ET.SubElement(svg, "CutSetting", Type="Cut")
+        index    = ET.SubElement(cs, "index",    Value="1")         # blue layer (INNER_CUT)
+        name     = ET.SubElement(cs, "name",     Value="Inner Cut")
+        priority = ET.SubElement(cs, "priority", Value="5")         # is cut fifth
+
+        cs = ET.SubElement(svg, "CutSetting", Type="Cut")
+        index    = ET.SubElement(cs, "index",    Value="0")         # black layer (OUTER_CUT)
+        name     = ET.SubElement(cs, "name",     Value="Outer Cut")
+        priority = ET.SubElement(cs, "priority", Value="6")         # is cut sixth
+
+        cs = ET.SubElement(svg, "CutSetting", Type="Tool")
+        index    = ET.SubElement(cs, "index",    Value="30")        # T1 layer (ANNOTATIONS)
+        name     = ET.SubElement(cs, "name",     Value="T1")        # tool layer do not support names
+        priority = ET.SubElement(cs, "priority", Value="7")         # is not cut at all
                 
         for i, part in enumerate(self.parts):
             if self.dbg: print ("7", num)
@@ -759,9 +810,8 @@ class LBRN2Surface(Surface):
             children.tail = "\n"
             
             for j, path in enumerate(part.pathes):
-                Color = 2*int(path.params["rgb"][0])+4*int(path.params["rgb"][1])+int(path.params["rgb"][2])
-                if Color == 4:  # 4 is yellow in Lightburn
-                    Color = 3   # use green instead
+                myColor = self.lbrn2_colors[4*int(path.params["rgb"][0])+2*int(path.params["rgb"][1])+int(path.params["rgb"][2])]
+
                 p = []
                 x, y = 0, 0
                 C = ""
@@ -788,7 +838,7 @@ class LBRN2Surface(Surface):
                     C, x, y = c[0:3]
                     if C == "M":
                         if self.dbg: print ("1", num)
-                        sh = ET.SubElement(children, "Shape", Type="Path", CutIndex=str(Color))
+                        sh = ET.SubElement(children, "Shape", Type="Path", CutIndex=str(myColor))
                         sh.text = "\n  "
                         sh.tail = "\n"
                         vl = ET.SubElement(sh, "VertList")
@@ -852,9 +902,7 @@ class LBRN2Surface(Surface):
                             f = self.fonts[font]
                         else:
                             f = params.get('font', 'Arial')
-                        fontColor = 2*int(params['rgb'][0])+4*int(params['rgb'][1])+int(params['rgb'][2])
-                        if fontColor == 4:  # 4 is yellow in Lightburn
-                            fontColor = 3   # use green instead
+                        fontColor = self.lbrn2_colors[4*int(params["rgb"][0])+2*int(params["rgb"][1])+int(params["rgb"][2])]
 
                         #alignment can be left|middle|end
                         if params.get('align', 'left')=='middle':
@@ -864,7 +912,7 @@ class LBRN2Surface(Surface):
                                 hor = '2'
                             else:
                                 hor = '0'
-                        ver = 2 # vertical is always bottom, text is shifted in box class
+                        ver = 1 # vertical is always bottom, text is shifted in box class
                         
                         pos = text.find('%')
                         offs = 0

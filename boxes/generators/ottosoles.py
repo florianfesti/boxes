@@ -24,7 +24,7 @@ class OttoSoles(Boxes):
     def __init__(self):
         Boxes.__init__(self)
 
-        self.buildArgParser(x=56., y=36.)        
+        self.buildArgParser(x=58., y=38.)
         self.argparser.add_argument(
             "--width",  action="store", type=float, default=4.,
             help="width of sole stripe")

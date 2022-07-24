@@ -10,7 +10,7 @@ branches:
   only:
     - master
 install: 
-  - pip install sphinx affine
+  - pip install sphinx affine shapely
 script:
   #- python setup.py install
   - cd ./documentation/src/ && make html #linkchecker

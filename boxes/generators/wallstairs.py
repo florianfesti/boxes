@@ -15,21 +15,17 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
+from boxes.walledges import _WallMountedBox
 
-class SlatwallStairs(Boxes):
+class WallStairs(_WallMountedBox):
     """Platforms in different heights e.g. for screw drivers"""
 
     description = """You are supposed to add holes or slots to the stair tops yourself using Inkscape or another vector drawing or CAD program.
 
 sh gives height of the stairs from front to back. Note that the overall width and height is bigger than the nominal values as walls and the protrusions are not included in the measurements.
 """
-    ui_group = "SlatWall"
-
     def __init__(self):
-        Boxes.__init__(self)
-
-        self.addSettingsArgs(edges.FingerJointSettings)
-        self.addSettingsArgs(edges.SlatWallSettings)
+        super().__init__()
 
         self.buildArgParser(sx="250/3", sy="40*3", sh="30:100:180")
         self.argparser.add_argument(
@@ -67,11 +63,7 @@ sh gives height of the stairs from front to back. Note that the overall width an
             
 
     def render(self):
-        # Add slat wall edges
-        s = edges.SlatWallSettings(self.thickness, True,
-                                   **self.edgesettings.get("SlatWall", {}))
-        s.edgeObjects(self)
-        self.slatWallHolesAt = edges.SlatWallHoles(self, s)
+        self.generateWallEdges()
 
         self.extra_height = 20
         t = self.thickness

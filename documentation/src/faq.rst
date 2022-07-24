@@ -5,6 +5,11 @@ Frequently Asked Questions
 .. toctree::
    :maxdepth: 1
 
+Can I sell boxes I created with Boxes.py
+----------------------------------------
+
+Yes. Boxes.py is under the GPLv3 license (see <https://www.gnu.org/licenses/gpl-3.0.html>). This license grants you far reaching rights on what you can do with the software including using it and the drawings it produces to any means. The license also puts some obligations on you. But those are about changing and distributing the software itself. The resulting drawings do not fall under the GPL license.
+
 Why do my parts not fit together?
 ---------------------------------
 
@@ -42,7 +47,7 @@ You can set the ``inner_corners`` default setting to ``corner``
 What settings were used to generate a drawing?
 ----------------------------------------------
 
-If you do have the SVG or PostScriptyou can look into the meta data of the file. Most document viewers will have a ``Document properties`` window. You can also just open the file with a text editor and find the details at the first few lines.
+If you do have a SVG or PostScript you can look into the meta data of the file. Most document viewers will have a ``Document properties`` window. You can also just open the file with a text editor and find the details at the first few lines.
 
 Note that you can just use the URL in there to get back to the settings page to change some values. The difference between the settings and the rendered drawing is just ``render=0`` or ``render=1`` at the end of the URL.
 

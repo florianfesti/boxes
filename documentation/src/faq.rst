@@ -8,7 +8,7 @@ Frequently Asked Questions
 Can I sell boxes I created with Boxes.py
 ----------------------------------------
 
-Yes. Boxes.py is under the GPLv3 license (see <https://www.gnu.org/licenses/gpl-3.0.html>). This license grants you far reaching rights on what you can do with the software including using it and the drawings it produces to any means. The license also puts some obligations on you. But those are about changing and distributing the software itself. The resulting drawings do not fall under the GPL license.
+Yes. Boxes.py is under the GPLv3 license (see https://www.gnu.org/licenses/gpl-3.0.html). This license grants you far reaching rights on what you can do with the software including using it and the drawings it produces to any means. The license also puts some obligations on you. But those are about changing and distributing the software itself. The resulting drawings do not fall under the GPL license.
 
 Why do my parts not fit together?
 ---------------------------------

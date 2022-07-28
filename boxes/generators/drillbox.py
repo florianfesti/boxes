@@ -101,14 +101,18 @@ class DrillBox(_TopEdge):
 
         self.rectangularWall(
             x, h, [b, "f", t1, "F"],
+            ignore_widths=[1, 6],
             callback=[lambda: self.sideholes(x)], move="right")
         self.rectangularWall(
             y, h, [b, "f", t2, "F"], callback=[lambda: self.sideholes(y)],
+            ignore_widths=[1, 6],
             move="up")
         self.rectangularWall(
-            y, h, [b, "f", t3, "F"], callback=[lambda: self.sideholes(y)])
+            y, h, [b, "f", t3, "F"], callback=[lambda: self.sideholes(y)],
+            ignore_widths=[1, 6])
         self.rectangularWall(
             x, h, [b, "f", t4, "F"],
+            ignore_widths=[1, 6],
             callback=[lambda: self.sideholes(x)], move="left up")
         if b != "e":
             self.rectangularWall(x, y, "ffff", move="right")

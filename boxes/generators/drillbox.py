@@ -14,18 +14,26 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from boxes import Boxes, edges, Color
+from boxes import Boxes, edges, Color, ArgparseEdgeType
+from boxes.lids import _TopEdge
 
-
-class DrillBox(Boxes):
+class DrillBox(_TopEdge):
     """A parametrized box for drills"""
 
     ui_group = "Tray"
 
     def __init__(self):
         Boxes.__init__(self)
+
         self.addSettingsArgs(edges.FingerJointSettings,
                              space=3, finger=3, surroundingspaces=1)
+        self.addSettingsArgs(edges.RoundedTriangleEdgeSettings, outset=1)
+        self.addSettingsArgs(edges.StackableSettings)
+        self.addSettingsArgs(edges.MountingSettings)
+        self.argparser.add_argument(
+            "--top_edge", action="store",
+            type=ArgparseEdgeType("eStG"), choices=list("eStG"),
+            default="e", help="edge type for top edge")
         self.buildArgParser(sx="25*3", sy="60*4", sh="5:25:10",
                             bottom_edge="h")
         self.argparser.add_argument(
@@ -89,16 +97,18 @@ class DrillBox(Boxes):
 
         h = sum(self.sh) + self.thickness * (len(self.sh)-1)
         b = self.bottom_edge
+        t1, t2, t3, t4 = self.topEdges(self.top_edge)
 
         self.rectangularWall(
-            x, h, b + "feF",
+            x, h, [b, "f", t1, "F"],
             callback=[lambda: self.sideholes(x)], move="right")
         self.rectangularWall(
-            y, h, b + "feF", callback=[lambda: self.sideholes(y)], move="up")
+            y, h, [b, "f", t2, "F"], callback=[lambda: self.sideholes(y)],
+            move="up")
         self.rectangularWall(
-            y, h, b + "feF", callback=[lambda: self.sideholes(y)])
+            y, h, [b, "f", t3, "F"], callback=[lambda: self.sideholes(y)])
         self.rectangularWall(
-            x, h, b + "feF",
+            x, h, [b, "f", t4, "F"],
             callback=[lambda: self.sideholes(x)], move="left up")
         if b != "e":
             self.rectangularWall(x, y, "ffff", move="right")

@@ -346,12 +346,12 @@ class OutSetEdge(Edge):
 #############################################################################
 
 class MountingSettings(Settings):
-    """Settings for Mouning Edge
+    """Settings for Mounting Edge
 Values:
 * absolute_params
 
  * style : "straight edge, within" : edge style
- * side : "left" : side of box (not all valid configurations make sense...)
+ * side : "back" : side of box (not all valid configurations make sense...)
  * num : 2 : number of mounting holes (integer)
  * margin : 0.125 : minimum space left and right without holes (fraction of the edge length)
  * d_shaft : 3.0 : shaft diameter of mounting screw (in mm)
@@ -369,7 +369,7 @@ Values:
 
     absolute_params = {
         "style": (PARAM_IN, PARAM_EXT, PARAM_TAB),
-        "side": (PARAM_LEFT, PARAM_BACK, PARAM_RIGHT, PARAM_FRONT),
+        "side": (PARAM_BACK, PARAM_LEFT, PARAM_RIGHT, PARAM_FRONT),
         "num": 2,
         "margin": 0.125,
         "d_shaft" : 3.0,

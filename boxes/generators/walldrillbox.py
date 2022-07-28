@@ -20,6 +20,7 @@ from boxes.walledges import _WallMountedBox
 
 class WallDrillBox(DrillStand, _WallMountedBox):
     """Box for drills with each compartment with a different height"""
+    ui_group = "WallMounted"
 
     def __init__(self):
         _WallMountedBox.__init__(self) # don't call DrillStand.__init__

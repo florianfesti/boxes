@@ -2469,8 +2469,11 @@ class Boxes:
         r = min(r, x, y)
         a = math.atan2(y-r, float(x-r))
         alpha = math.degrees(a)
-
-        width = x + (edges[-1].spacing()+self.spacing)/math.sin(a) + edges[1].spacing() + self.spacing
+        print(a, alpha)
+        if a > 0:
+            width = x + (edges[-1].spacing()+self.spacing)/math.sin(a) + edges[1].spacing() + self.spacing
+        else:
+            width = x + (edges[-1].spacing()+self.spacing) + edges[1].spacing() + self.spacing
         height = y + edges[0].spacing() + edges[2].spacing() * math.cos(a) + 2* self.spacing + self.spacing
         if num > 1:
             width = 2*width - x + r - self.spacing

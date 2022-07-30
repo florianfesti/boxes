@@ -1,5 +1,6 @@
 from .edges import Settings, BaseEdge
 from boxes import Boxes, edges
+import math
 
 class _WallMountedBox(Boxes):
     ui_group = "WallMounted"
@@ -13,9 +14,11 @@ class _WallMountedBox(Boxes):
         self.addSettingsArgs(WallSettings)
         self.addSettingsArgs(SlatWallSettings)
         self.addSettingsArgs(DinRailSettings)
+        self.addSettingsArgs(FrenchCleatSettings)
         self.argparser.add_argument(
             "--walltype",  action="store", type=str, default="plain",
-            choices=["plain", "plain reenforced", "slatwall", "dinrail"],
+            choices=["plain", "plain reenforced", "slatwall", "dinrail",
+                     "french cleat"],
             help="Type of wall system to attach to")
 
     def generateWallEdges(self):
@@ -31,6 +34,10 @@ class _WallMountedBox(Boxes):
             s = DinRailSettings(
                 self.thickness, True,
                 **self.edgesettings.get("DinRail", {}))
+        elif self.walltype == "french cleat":
+            s = FrenchCleatSettings(
+                self.thickness, True,
+                **self.edgesettings.get("FrenchCleat", {}))
 
         s.edgeObjects(self)
         self.wallHolesAt = self.edges["|"]
@@ -345,3 +352,79 @@ Values:
     }
 
     base_class = DinRailEdge
+
+#############################################################################
+####     French Cleats
+#############################################################################
+
+class FrenchCleatEdge(WallEdge):
+
+    def lengths(self, length):
+        d = self.settings.depth
+        t = self.settings.thickness
+        s = self.settings.spacing
+        h = d * math.tan(math.radians(self.settings.angle))
+        if length < 3*t + 1.5*d + h:
+            return [length]
+        if length > 5*t + 1.5*d + h and self.settings.bottom == "stud":
+            return [2*t, 1.5*d + h, length - 3*t - 2.5*d - h, d, t]
+        if length > 3*t + 2.5*d + s and self.settings.bottom == "hook":
+            dist = ((length - 3*t - 1.5*d - h) // s ) * s - 1.5*d -h
+            return [2*t, 1.5*d + h, dist, 1.5*d + h, length-dist-2*t-3*d-2*h]
+        return [2*t, 2.5*d, length-2*t-2.5*d]
+
+    def _section(self, nr, length):
+        d = self.settings.depth
+        t = self.settings.thickness
+        r = min(0.5*t, 0.1*d)
+        a = self.settings.angle
+        h = d * math.tan(math.radians(a))
+        l = d / math.cos(math.radians(a))
+
+        if nr == 0 or self.settings.bottom == "hook":
+            poly = [0, -90, 0, (90, d), .5*d+h, 90+a, l, -90-a, length-1.5*d]
+        elif nr == 1:
+            if self.settings.bottom == "stud":
+                r = min(t, length/4, d)
+                poly = [0, -90, d-r, (90, r),
+                        length - 2*r,
+                        (90, r), d-r, -90, 0]
+            else:
+                poly = [length]
+        if self._reversed:
+            poly = reversed(poly)
+        self.polyline(*poly)
+
+    def margin(self):
+        return self.settings.depth
+
+class FrenchCleatSettings(WallSettings):
+
+    """Settings for FrenchCleatEdges
+Values:
+
+* absolute_params
+
+ * bottom : "stud" : "stud", "hook" or "none"
+ * depth : 18.0 : horizontal width of the hook in mm
+ * angle : 45.0 : angle of the cut (0 for horizontal)
+ * spacing : 200.0 : distance of the cleats in mm (for bottom hook)
+
+* relative (in multiples of thickness)
+
+ * edge_width : 1.0 : space below holes of FingerHoleEdge (multiples of thickness)
+
+"""
+
+    absolute_params = {
+        "bottom" : ("stud", "hook", "none"),
+        "depth" : 18.0,
+        "spacing" : 200.0,
+        "angle" : 45.0,
+    }
+
+    relative_params = {
+        "edge_width": 1.0,
+    }
+
+    base_class = FrenchCleatEdge

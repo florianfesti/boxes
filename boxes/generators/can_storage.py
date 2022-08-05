@@ -21,7 +21,7 @@ class FrontEdge(edges.BaseEdge):
     char = "a"
 
     def __call__(self, length, **kw):
-        x = math.ceil( ((self.canDiameter * 0.5 + 2 * self.thickness) * math.sin(math.radians(self.angle))) / self.thickness)
+        x = math.ceil( ((self.canDiameter * 0.5 + 2 * self.thickness) * math.sin(math.radians(self.chuteAngle))) / self.thickness)
         if self.top_edge != "e":
             self.corner(90, self.thickness)
             self.edge(0.5 * self.canDiameter)            
@@ -60,12 +60,25 @@ class TopChuteEdge(edges.BaseEdge):
         self.corner(90, self.thickness)
         self.edge(0.2 * length - self.thickness)
 
+class BarrierEdge(edges.BaseEdge):
+    char = "A"
+
+    def __call__(self, length, **kw):
+        self.edge(0.2*length)
+        self.corner(90,self.thickness/2)
+        self.corner(-90,self.thickness/2)
+        self.edge(0.6*length-2*self.thickness)
+        self.corner(-90,self.thickness/2)
+        self.corner(90,self.thickness/2)
+        self.edge(0.2*length)
+
+    def startwidth(self):
+        return self.boxes.thickness
+
 class CanStorage(Boxes):
     """Storage box for round containers"""
 
     ui_group = "Misc"
-    
-    angle = 3.0 # slope angle of the chutes in degree
     
     def __init__(self):
         Boxes.__init__(self)
@@ -85,10 +98,10 @@ class CanStorage(Boxes):
 
         # Add non default cli params if needed (see argparse std lib)
         self.argparser.add_argument(
-            "--canDiameter",  action="store", type=float, default=67,
+            "--canDiameter",  action="store", type=float, default=75,
             help="outer diameter of the cans to be stored (in mm)")
         self.argparser.add_argument(
-            "--canHight",  action="store", type=float, default=115,
+            "--canHight",  action="store", type=float, default=110,
             help="hight of the cans to be stored (in mm)")
         self.argparser.add_argument(
             "--canNum",  action="store", type=int, default=12,
@@ -98,22 +111,33 @@ class CanStorage(Boxes):
             help="slope angle of the chutes")
         
     def DrawPusher(self, dbg = False):
-        bw = self.pusherAngle
-        cw = 90+self.angle
-        aw = 180 - cw - bw
-        a = self.pusherLength
-        b = a / math.sin(math.radians(aw)) * math.sin(math.radians(bw))
-        c = a / math.sin(math.radians(aw)) * math.sin(math.radians(cw))
-        
-        if dbg == False:
-            self.move(c * math.cos(math.radians(self.angle)),b * math.cos(math.radians(self.angle)), where ="right", before=True, label="Pusher")
-        self.edge(a)
-        self.corner(90-self.angle)
-        self.edge(b)
-        self.corner(90+self.pusherAngle+self.angle)
-        self.edge(c)
-        if dbg == False:
-            self.move(c * math.cos(math.radians(self.angle)),b * math.cos(math.radians(self.angle)), where ="right", before=False, label="Pusher")
+        with self.saved_context():
+            if dbg == False:
+                self.moveTo(0,self.thickness)
+            self.edge(0.25*self.pusherA)
+            self.corner(-90)
+            self.edge(self.thickness)
+            self.corner(90)
+            self.edge(0.5*self.pusherA)
+            self.corner(90)
+            self.edge(self.thickness)
+            self.corner(-90)
+            self.edge(0.25*self.pusherA)
+            
+            self.corner(90-self.chuteAngle)
+            
+            self.edge(0.25*self.pusherB)
+            self.corner(-90)
+            self.edge(self.thickness)
+            self.corner(90)
+            self.edge(0.5*self.pusherB)
+            self.corner(90)
+            self.edge(self.thickness)
+            self.corner(-90)
+            self.edge(0.25*self.pusherB)
+
+            self.corner(90+self.pusherAngle+self.chuteAngle)
+            self.edge(self.pusherC)
         
     def cb_top_chute(self, nr):
         if nr == 0:
@@ -135,9 +159,9 @@ class CanStorage(Boxes):
                 self.fillHoles(
                     pattern="hbar", 
                     border=border,
-                    max_radius = min(2*self.thickness, self.fillHoles_hole_max_radius) if self.fillHoles_fill_pattern in ["hbar", "vbar"] else 2*self.thickness,
-                    hspace=min(2*self.thickness, self.fillHoles_space_between_holes) if self.fillHoles_fill_pattern in ["hbar", "vbar"] else 2*self.thickness,
-                    bspace=min(2*self.thickness, self.fillHoles_space_to_border)  if self.fillHoles_fill_pattern in ["hbar", "vbar"] else 2*self.thickness,
+                    max_radius = min(2*self.thickness, self.fillHoles_hole_max_radius) if self.fillHoles_fill_pattern in ["hbar", "vbar"] else min(2*self.thickness, self.width/30),
+                    hspace=min(2*self.thickness, self.fillHoles_space_between_holes) if self.fillHoles_fill_pattern in ["hbar", "vbar"] else min(2*self.thickness, self.width/20),
+                    bspace=min(2*self.thickness, self.fillHoles_space_to_border)  if self.fillHoles_fill_pattern in ["hbar", "vbar"] else min(2*self.thickness, self.width/20),
                     bar_length=self.fillHoles_bar_length,
                     max_random=self.fillHoles_max_random,
                     )           
@@ -156,12 +180,28 @@ class CanStorage(Boxes):
                 self.fillHoles(
                     pattern="hbar", 
                     border=border,
-                    max_radius = min(2*self.thickness, self.fillHoles_hole_max_radius) if self.fillHoles_fill_pattern in ["hbar", "vbar"] else 2*self.thickness,
-                    hspace=min(2*self.thickness, self.fillHoles_space_between_holes) if self.fillHoles_fill_pattern in ["hbar", "vbar"] else 2*self.thickness,
-                    bspace=min(2*self.thickness, self.fillHoles_space_to_border)  if self.fillHoles_fill_pattern in ["hbar", "vbar"] else 2*self.thickness,
+                    max_radius = min(2*self.thickness, self.fillHoles_hole_max_radius) if self.fillHoles_fill_pattern in ["hbar", "vbar"] else min(2*self.thickness, self.width/30),
+                    hspace=min(2*self.thickness, self.fillHoles_space_between_holes) if self.fillHoles_fill_pattern in ["hbar", "vbar"] else min(2*self.thickness, self.width/20),
+                    bspace=min(2*self.thickness, self.fillHoles_space_to_border)  if self.fillHoles_fill_pattern in ["hbar", "vbar"] else min(2*self.thickness, self.width/20),
                     bar_length=self.fillHoles_bar_length,
                     max_random=self.fillHoles_max_random,
                     )            
+
+    def cb_bottom_chute(self, nr):
+        if nr == 1:
+            # holes for pusher
+            self.rectangularHole(self.width*0.85-0.5*self.thickness, 0.25*self.pusherA, self.thickness, 0.5*self.pusherA, center_x=False, center_y=False)
+            self.rectangularHole(self.width*0.5 -0.5*self.thickness, 0.25*self.pusherA, self.thickness, 0.5*self.pusherA, center_x=False, center_y=False)
+            self.rectangularHole(self.width*0.15-0.5*self.thickness, 0.25*self.pusherA, self.thickness, 0.5*self.pusherA, center_x=False, center_y=False)
+            
+
+    def cb_back(self, nr):
+        if nr == 1:
+            # holes for pusher
+            self.rectangularHole(self.width*0.85-0.5*self.thickness, self.thickness + self.depth * math.tan(math.radians(self.chuteAngle)) + 0.25*self.pusherB, self.thickness, 0.5*self.pusherB + self.thickness, center_x=False, center_y=False)
+            self.rectangularHole(self.width*0.5 -0.5*self.thickness, self.thickness + self.depth * math.tan(math.radians(self.chuteAngle)) + 0.25*self.pusherB, self.thickness, 0.5*self.pusherB + self.thickness, center_x=False, center_y=False)
+            self.rectangularHole(self.width*0.15-0.5*self.thickness, self.thickness + self.depth * math.tan(math.radians(self.chuteAngle)) + 0.25*self.pusherB, self.thickness, 0.5*self.pusherB + self.thickness, center_x=False, center_y=False)
+
             
     def cb_sides(self, nr):
         if nr == 0:
@@ -177,7 +217,7 @@ class CanStorage(Boxes):
                 self.hole(0, self.thickness + self.canDiameter + self.bottom_chute_height + self.top_chute_height + self.thickness + self.canDiameter + 1.0 * self.thickness, 1, color=Color.ANNOTATIONS)
                 with self.saved_context():
                     # draw cans, bottom row
-                    self.moveTo(0, self.thickness, self.angle)
+                    self.moveTo(0, self.thickness, self.chuteAngle)
                     self.rectangularHole(2*self.thickness, 0, math.ceil(self.canNum / 2) * self.canDiameter, self.canDiameter, center_x=False, center_y=False, color=Color.ANNOTATIONS)
                     for i in range(math.ceil(self.canNum / 2)-1):
                         self.hole(2*self.thickness+(0.5 + i) * self.canDiameter, self.canDiameter / 2, self.canDiameter / 2, color=Color.ANNOTATIONS)
@@ -186,43 +226,43 @@ class CanStorage(Boxes):
 
                 with self.saved_context():
                     # draw pusher
-                    self.moveTo(self.depth-self.pusherLength, self.thickness + (self.depth-self.pusherLength) * math.tan(math.radians(self.angle)))
-                    self.moveTo(0,0,self.angle)
+                    self.moveTo(self.depth-self.pusherA, self.thickness + (self.depth-self.pusherA) * math.tan(math.radians(self.chuteAngle)))
+                    self.moveTo(0,0,self.chuteAngle)
                     self.DrawPusher(True)
                     
                 with self.saved_context():
                     # draw cans, top row
-                    self.moveTo(0, self.thickness + self.canDiameter + self.bottom_chute_height + self.top_chute_height + 0.5 * self.thickness, -self.angle)
+                    self.moveTo(0, self.thickness + self.canDiameter + self.bottom_chute_height + self.top_chute_height + 0.5 * self.thickness, -self.chuteAngle)
                     self.rectangularHole(0, 0.5 * self.thickness, math.ceil(self.canNum / 2) * self.canDiameter, self.canDiameter, center_x=False, center_y=False, color=Color.ANNOTATIONS)
                     for i in range(math.ceil(self.canNum / 2)):
                         self.hole((0.5 + i) * self.canDiameter, self.canDiameter / 2 + 0.5 * self.thickness, self.canDiameter / 2, color=Color.ANNOTATIONS)
                 with self.saved_context():
                     # draw barrier
-                    self.moveTo(1.5 * self.thickness, 1.1 * self.thickness + self.burn + math.sin(math.radians(self.angle)) * 2 * self.thickness, 90)
+                    self.moveTo(1.5 * self.thickness, 1.1 * self.thickness + self.burn + math.sin(math.radians(self.chuteAngle)) * 2 * self.thickness, 90)
                     self.rectangularHole(0, 0, self.barrier_height, self.thickness, center_x=False, center_y=True, color=Color.ANNOTATIONS)
 
             # bottom chute
             with self.saved_context():
-                self.moveTo(0, 0.5 * self.thickness, self.angle)
-                self.fingerHolesAt(0, 0, self.depth / math.cos(math.radians(self.angle)), 0)
+                self.moveTo(0, 0.5 * self.thickness, self.chuteAngle)
+                self.fingerHolesAt(0, 0, self.depth / math.cos(math.radians(self.chuteAngle)), 0)
             # top chute
             with self.saved_context():
-                self.moveTo(0, self.thickness + self.canDiameter + self.bottom_chute_height + self.top_chute_height + 0.5 * self.thickness, -self.angle)
+                self.moveTo(0, self.thickness + self.canDiameter + self.bottom_chute_height + self.top_chute_height + 0.5 * self.thickness, -self.chuteAngle)
                 self.fingerHolesAt(0, 0, self.top_chute_depth, 0)
             # front barrier
             with self.saved_context():
-                self.moveTo(1.5 * self.thickness, 1.1 * self.thickness + self.burn + math.sin(math.radians(self.angle)) * 2 * self.thickness, 90)
+                self.moveTo(1.5 * self.thickness, 1.1 * self.thickness + self.burn + math.sin(math.radians(self.chuteAngle)) * 2 * self.thickness, 90)
                 self.fingerHolesAt(0, 0, self.barrier_height, 0)
             # fill with holes
             border = [
-                (2*self.thickness, 0.5*self.thickness + 2*self.thickness * math.tan(math.radians(self.angle)) + 0.5*self.thickness/math.cos(math.radians(self.angle))), 
-                (self.depth, self.thickness + self.depth * math.tan(math.radians(self.angle))), 
+                (2*self.thickness, 0.5*self.thickness + 2*self.thickness * math.tan(math.radians(self.chuteAngle)) + 0.5*self.thickness/math.cos(math.radians(self.chuteAngle))), 
+                (self.depth, self.thickness + self.depth * math.tan(math.radians(self.chuteAngle))), 
                 (self.depth, self.height), 
                 (self.thickness + 0.75 * self.canDiameter, self.height),
-                (self.thickness + 0.75 * self.canDiameter,                  0.5*self.thickness + self.canDiameter + self.bottom_chute_height + self.top_chute_height + self.thickness - (self.thickness + 0.75 * self.canDiameter) * math.tan(math.radians(self.angle)) + 0.5*self.thickness/math.cos(math.radians(self.angle))),
-                (self.top_chute_depth * math.cos(math.radians(self.angle)), self.thickness + self.canDiameter + self.bottom_chute_height + self.top_chute_height + self.thickness - (self.top_chute_depth) * math.sin(math.radians(self.angle))),
-                (self.top_chute_depth * math.cos(math.radians(self.angle)), self.thickness + self.canDiameter + self.bottom_chute_height + self.top_chute_height - (self.top_chute_depth) * math.sin(math.radians(self.angle))),
-                (self.thickness + 0.75 * self.canDiameter,                  1.5*self.thickness + self.canDiameter + self.bottom_chute_height + self.top_chute_height - (self.thickness + 0.75 * self.canDiameter) * math.tan(math.radians(self.angle)) - 0.5*self.thickness/math.cos(math.radians(self.angle))),
+                (self.thickness + 0.75 * self.canDiameter,                  0.5*self.thickness + self.canDiameter + self.bottom_chute_height + self.top_chute_height + self.thickness - (self.thickness + 0.75 * self.canDiameter) * math.tan(math.radians(self.chuteAngle)) + 0.5*self.thickness/math.cos(math.radians(self.chuteAngle))),
+                (self.top_chute_depth * math.cos(math.radians(self.chuteAngle)), self.thickness + self.canDiameter + self.bottom_chute_height + self.top_chute_height + self.thickness - (self.top_chute_depth) * math.sin(math.radians(self.chuteAngle))),
+                (self.top_chute_depth * math.cos(math.radians(self.chuteAngle)), self.thickness + self.canDiameter + self.bottom_chute_height + self.top_chute_height - (self.top_chute_depth) * math.sin(math.radians(self.chuteAngle))),
+                (self.thickness + 0.75 * self.canDiameter,                  1.5*self.thickness + self.canDiameter + self.bottom_chute_height + self.top_chute_height - (self.thickness + 0.75 * self.canDiameter) * math.tan(math.radians(self.chuteAngle)) - 0.5*self.thickness/math.cos(math.radians(self.chuteAngle))),
                 (self.thickness + 0.75 * self.canDiameter, 2*self.thickness + self.barrier_height ),
                 (2*self.thickness, 2*self.thickness + self.barrier_height), 
                 ]
@@ -240,12 +280,16 @@ class CanStorage(Boxes):
                 )
         
     def render(self):
-        self.angle = self.chuteAngle
+        self.chuteAngle = self.chuteAngle
+        
         self.pusherAngle = 30 # angle of pusher
-        self.pusherLength = 0.75 * self.canDiameter # length of pusher
+        self.pusherA = 0.75 * self.canDiameter # length of pusher
+        self.pusherB = self.pusherA / math.sin(math.radians(180 - (90+self.chuteAngle) - self.pusherAngle)) * math.sin(math.radians(self.pusherAngle))
+        self.pusherC = self.pusherA / math.sin(math.radians(180 - (90+self.chuteAngle) - self.pusherAngle)) * math.sin(math.radians(90+self.chuteAngle))
     
         self.addPart(FrontEdge(self, self))
         self.addPart(TopChuteEdge(self, self))
+        self.addPart(BarrierEdge(self, self))
         
         if self.canDiameter < 8 * self.thickness:
             self.edges["f"].settings.setValues(self.thickness, True, finger=1.0)
@@ -259,10 +303,10 @@ class CanStorage(Boxes):
             raise ValueError("4 cans is the minimum!")
 
         self.depth = self.canDiameter * (math.ceil(self.canNum / 2) + 0.1) + self.thickness
-        self.top_chute_height = max(self.depth * math.sin(math.radians(self.angle)), 0.1 * self.canDiameter)
-        self.top_chute_depth = (self.depth - 1.1 * self.canDiameter) / math.cos(math.radians(self.angle))
-        self.bottom_chute_height = max((self.depth - 1.1 * self.canDiameter) * math.sin(math.radians(self.angle)), 0.1 * self.canDiameter)
-        self.bottom_chute_depth = self.depth / math.cos(math.radians(self.angle))
+        self.top_chute_height = max(self.depth * math.sin(math.radians(self.chuteAngle)), 0.1 * self.canDiameter)
+        self.top_chute_depth = (self.depth - 1.1 * self.canDiameter) / math.cos(math.radians(self.chuteAngle))
+        self.bottom_chute_height = max((self.depth - 1.1 * self.canDiameter) * math.sin(math.radians(self.chuteAngle)), 0.1 * self.canDiameter)
+        self.bottom_chute_depth = self.depth / math.cos(math.radians(self.chuteAngle))
         self.barrier_height = 0.25 * self.canDiameter
         
         if (self.top_chute_depth + self.bottom_chute_height - self.thickness) < (self.barrier_height + self.canDiameter * 0.1):
@@ -276,23 +320,37 @@ class CanStorage(Boxes):
         self.rectangularWall(self.depth, self.height, edges=edgs, callback=self.cb_sides, move="up", label="right")
         self.rectangularWall(self.depth, self.height, edges=edgs, callback=self.cb_sides, move="up mirror", label="left")
         
-        self.rectangularWall(self.bottom_chute_depth, self.width, "fefe", move="up", label="bottom chute")
+        self.rectangularWall(self.bottom_chute_depth, self.width, "fefe", callback=self.cb_bottom_chute, move="up", label="bottom chute")
         self.rectangularWall(self.top_chute_depth, self.width, "fbfe", callback=self.cb_top_chute, move="up", label="top chute")
 
-        self.rectangularWall(self.barrier_height, self.width, "fefe", move="right", label="barrier")
-        self.rectangularWall(self.height, self.width, "fefe", move="up", label="back")
+        self.rectangularWall(self.barrier_height, self.width, "fAfe", move="right", label="barrier")
+        self.rectangularWall(self.height, self.width, "fefe", callback=self.cb_back, move="up", label="back")
         self.rectangularWall(self.barrier_height, self.width, "fefe", move="left only", label="invisible")
         
         if self.top_edge != "e":
             self.rectangularWall(self.depth, self.width, "fefe", callback=self.cb_top, move="up", label="top")
+            
+        pusherH = self.pusherB * math.cos(math.radians(self.chuteAngle)) + self.thickness
+        pusherV = self.pusherC * math.cos(math.radians(self.chuteAngle)) + self.thickness
+
+        self.move(pusherV, pusherH, where ="right", before=True, label="Pusher")
+        self.DrawPusher()
+        self.move(pusherV, pusherH, where ="right", before=False, label="Pusher")
+        self.move(pusherV, pusherH, where ="right", before=True, label="Pusher")
+        self.DrawPusher()
+        self.move(pusherV, pusherH, where ="right", before=False, label="Pusher")
+        self.move(pusherV, pusherH, where ="up", before=True, label="Pusher")
+        self.DrawPusher()
+        self.text("Glue the Pusher pieces into slots on bottom\nand back plates to prevent stuck cans.", pusherV+3,0, fontsize=4, color=Color.ANNOTATIONS)
+        self.move(pusherV, pusherH, where ="up", before=False, label="Pusher")
+
+        self.move(pusherV, pusherH, where ="left only", before=True, label="Pusher")
+        self.move(pusherV, pusherH, where ="left only", before=True, label="Pusher")
 
         if self.bottom_edge == "š":
             self.rectangularWall(self.edges["š"].settings.width+3*self.thickness, self.edges["š"].settings.height-4*self.burn, "eeee", move="right", label="Stabilizer 1")
             self.rectangularWall(self.edges["š"].settings.width+3*self.thickness, self.edges["š"].settings.height-4*self.burn, "eeee", move="right", label="Stabilizer 2")
             self.rectangularWall(self.edges["š"].settings.width+5*self.thickness, self.edges["š"].settings.height-4*self.burn, "eeee", move="right", label="Stabilizer 3")
             self.rectangularWall(self.edges["š"].settings.width+5*self.thickness, self.edges["š"].settings.height-4*self.burn, "eeee", move="right", label="Stabilizer 4")
-            self.text("Glue a stabilizer on the inside of each bottom\nside stacking foot for lateral stabilization.",5,0, fontsize=4, color=Color.ANNOTATIONS)
+            self.text("Glue a stabilizer on the inside of each bottom\nside stacking foot for lateral stabilization.",3 ,0 , fontsize=4, color=Color.ANNOTATIONS)
 
-        self.DrawPusher()
-        self.DrawPusher()
-        self.DrawPusher()

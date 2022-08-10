@@ -1231,7 +1231,7 @@ class Boxes:
 
     @restore
     @holeCol
-    def regularPolygonHole(self, x, y, r=0.0, d=0.0, n=6, a=0.0, tabs=0):
+    def regularPolygonHole(self, x, y, r=0.0, d=0.0, n=6, a=0.0, tabs=0, corner_radius=0.0):
         """
         Draw a hole in shape of an n-edged regular polygon
 
@@ -1249,15 +1249,30 @@ class Boxes:
         if n == 0:
             self.hole(x, y, r=r, tabs=tabs)
             return
+ 
         if r < self.burn:
             r = self.burn + 1E-9
         r_ = r - self.burn
+        
+        if corner_radius < self.burn:
+            corner_radius = self.burn
+        cr_ = corner_radius - self.burn
+
+        side_length = 2 * r_ * math.sin(math.pi / n)
+        apothem = r_ * math.cos(math.pi / n)
+        # the corner chord:
+        s = math.sqrt(2 * math.pow(cr_, 2) * (1 - math.cos(2 * math.pi / n)))
+        # the missing portion of the rounded corner:
+        b = math.sin(math.pi / n) / math.sin(2 * math.pi / n) * s
+        # the flat portion of the side:
+        flat_side_length = side_length - 2 * b
+        
         self.moveTo(x, y, a)
         self.moveTo(r_, 0, 90+180/n)
-        l = 2 * r_ * math.sin(math.pi / n)
-        for i in range(n):
-            self.edge(l)
-            self.corner(360/n)
+        self.moveTo(b, 0, 0)
+        for _ in range(n):
+            self.edge(flat_side_length)
+            self.corner(360/n, cr_)
 
     @restore
     @holeCol

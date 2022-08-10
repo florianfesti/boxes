@@ -1461,13 +1461,23 @@ Values:
 
  * pin_height : 2.0 : radius of the disc rotating in the hinge (multiples of thickness)
  * hinge_strength : 1.0 : thickness of the arc holding the pin in place (multiples of thickness)
+
+* absolute
+
+ * finger_joints_on_box : False : whether to include finger joints on the edge with the box
+ * finger_joints_on_lid : False : whether to include finger joints on the edge with the lid
 """
 
     relative_params = {
         "pin_height" : 2.0,
         "hinge_strength" : 1.0,
         "play" : 0.1,
-        }
+    }
+    
+    absolute_params = {
+        "finger_joints_on_box" : False,
+        "finger_joints_on_lid" : False,
+    }
 
     def checkValues(self):
         if self.pin_height / self.thickness < 1.2:
@@ -1512,10 +1522,21 @@ class ChestHinge(BaseEdge):
             self.hole(-t, -s-p, p, tabs=4)
             self.rectangularHole(-0.5*t, -s-p-0.5*pinh, t, pinh)
 
-        poly = (0, -180, t, (270, p+s), 0, -90, l+t-p-s)
+        if self.settings.finger_joints_on_box:
+            final_segment = t-s
+            draw_rest_of_edge = lambda : self.edges["F"](l-p)
+        else:
+            final_segment = l+t-p-s
+            draw_rest_of_edge = lambda : None
+
+        poly = (0, -180, t, (270, p+s), 0, -90, final_segment)
+
         if self.reversed:
-            poly = reversed(poly)
-        self.polyline(*poly)
+            draw_rest_of_edge()
+            self.polyline(*reversed(poly))
+        else:
+            self.polyline(*poly)
+            draw_rest_of_edge()
 
     def margin(self):
         if self.reversed:
@@ -1551,10 +1572,22 @@ class ChestHingeTop(ChestHinge):
         p = self.settings.pin_height
         s = self.settings.hinge_strength
         play = self.settings.play
-        poly = (0, -180, t, -180, 0, (-90, p+s+play), 0, 90, l+t-p-s-play)
+
+        if self.settings.finger_joints_on_lid:
+            final_segment = t-s-play
+            draw_rest_of_edge = lambda : self.edges["F"](l-p)
+        else:
+            final_segment = l+t-p-s-play
+            draw_rest_of_edge = lambda : None
+
+        poly = (0, -180, t, -180, 0, (-90, p+s+play), 0, 90, final_segment)
+
         if self.reversed:
-            poly = reversed(poly)
-        self.polyline(*poly)
+            draw_rest_of_edge()
+            self.polyline(*reversed(poly))
+        else:
+            self.polyline(*poly)
+            draw_rest_of_edge()
 
     def startwidth(self):
         if self.reversed:
@@ -1583,9 +1616,18 @@ class ChestHingePin(BaseEdge):
         p = self.settings.pin_height
         s = self.settings.hinge_strength
         pinh = self.settings.pinheight()
+
+        if self.settings.finger_joints_on_lid:
+            middle_segment = [0]
+            draw_rest_of_edge = lambda : self.edges["F"](l+2*t)
+        else:
+            middle_segment = [l+2*t,]
+            draw_rest_of_edge = lambda : None
+
         poly = [0, -90, s+p-pinh, -90, t, 90, pinh, 90,]
-        poly += [l+2*t,] + list(reversed(poly))
         self.polyline(*poly)
+        draw_rest_of_edge()
+        self.polyline(*(middle_segment + list(reversed(poly))))
 
     def margin(self):
         return (self.settings.pin_height+self.settings.hinge_strength)

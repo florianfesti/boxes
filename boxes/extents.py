@@ -4,7 +4,7 @@ class Extents:
     def __init__(self,xmin=float('inf'),ymin=float('inf'),xmax=float('-inf'),ymax=float('-inf')):
         self.xmin = xmin
         self.ymin = ymin
-        self.xmax = xmax 
+        self.xmax = xmax
         self.ymax = ymax
 
     def add(self,x,y):
@@ -19,7 +19,7 @@ class Extents:
 
     def __add__(self,extent):
         #todo: why can this happen?
-        if extent ==0: 
+        if extent == 0:
             return Extents(self.xmin,self.ymin,self.xmax,self.ymax)
         return Extents(
             min(self.xmin,extent.xmin),min(self.ymin,extent.ymin),
@@ -30,15 +30,15 @@ class Extents:
         if extent == 0:
             return Extents(self.xmin,self.ymin,self.xmax,self.ymax)
         return self.__add__(extent)
-       
+
     def get_width(self):
         return self.xmax-self.xmin
-    
+
     def get_height(self):
         return self.ymax-self.ymin
 
     width = property(get_width)
     height = property(get_height)
-    
+
     def __repr__(self):
         return f'Extents ({self.xmin},{self.ymin})-({self.xmax},{self.ymax})'

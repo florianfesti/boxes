@@ -179,6 +179,10 @@ img[id|=sample] {
     display: inline-block;
 }
 
+.menu h3 {
+    cursor: pointer;
+}
+
 textarea {
     font-family: monospace;
 }

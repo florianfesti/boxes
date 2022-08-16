@@ -78,6 +78,15 @@ class BarrierEdge(edges.BaseEdge):
 class CanStorage(Boxes):
     """Storage box for round containers"""
 
+    description = """
+for AA batteries:
+
+![CanStorage for AA batteries](static/samples/CanStorageAA.jpg)
+
+for canned tomatos:
+"""
+
+
     ui_group = "Misc"
     
     def __init__(self):

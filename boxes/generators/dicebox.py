@@ -20,7 +20,7 @@ from boxes import *
 class DiceBox(Boxes):
     """Box with lid and integraded hinge for storing dice"""
 
-    ui_group = "Misc"
+    ui_group = "Box"
 
     def __init__(self):
         Boxes.__init__(self)

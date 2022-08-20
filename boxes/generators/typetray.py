@@ -97,10 +97,9 @@ class TypeTray(_TopEdge):
         hi = self.hi = self.hi or h
         t = self.thickness
 
-
         # outer walls
         b = self.bottom_edge
-        t1, t2, t3, t4 = self.topEdges(self.top_edge)
+        t2, t1, t4, t3 = self.topEdges(self.top_edge)
         self.closedtop = self.top_edge in "fFhŠ"
 
         bh = self.back_height if self.top_edge == "e" else 0.0

@@ -202,7 +202,7 @@ Finger Joint Settings
       minimal amount of space before the first and after the last finger. This is in multiples of regular space between fingers. Reduce this if there are no fingers fitting on short edges.
 
    style
-      how finger joints should look like. There may be more styles to choose from in the future.
+      how finger joints should look like. There may be more styles to choose from in the future. Note that snap fingers will only be drawn for fingers of width 1.9 and above.
 
    extra_length
       Make the outset part of the finger joint longer to allow grinding off burn marks. Note that this may not be great for non 90° joints where the corner is butted against the opposing cutout.

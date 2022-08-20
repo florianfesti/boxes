@@ -900,7 +900,7 @@ class FingerJointEdge(BaseEdge, FingerJointBase):
                 self.polyline(
                     0, -90, *poly, 90, f, 90, *reversed(poly), -90
                 )
-            elif style == "snap":
+            elif style == "snap" and f > 1.9 * t:
                 a12 = math.degrees(math.atan(0.5))
                 l12 = t / math.cos(math.radians(a12))
                 d = 4*t

@@ -109,12 +109,12 @@ class TypeTray(_TopEdge):
 
         self.ctx.save()
 
-        # outer walls
+        # outer walls - front/back
         if bh:
             self.rectangularWall(x, h+bh, [b, "f", t1, "f"],
                                  callback=[self.xHoles, None, self.gripHole],
                                  ignore_widths=[],
-                                 move="up")
+                                 move="up", label="back")
             self.rectangularWall(x, h, ["f" if self.handle else b, "f", t3, "f"],
                                  callback=[self.mirrorX(self.xHoles, x), ],
                                  move="up")
@@ -122,7 +122,7 @@ class TypeTray(_TopEdge):
             self.rectangularWall(x, h, [b, "F", t1, "F"],
                                  callback=[self.xHoles, None, self.gripHole],
                                  ignore_widths=[1, 6],
-                                 move="up")
+                                 move="up", label="back")
             self.rectangularWall(x, h, ["f" if self.handle else b, "F", t3, "F"],
                                  callback=[self.mirrorX(self.xHoles, x), ],
                                  ignore_widths=[] if self.handle else [1, 6],
@@ -131,9 +131,9 @@ class TypeTray(_TopEdge):
         # floor
         if b != "e":
             if self.handle:
-                self.rectangularWall(x, y, "ffYf", callback=[self.xSlots, self.ySlots], move="up")
+                self.rectangularWall(x, y, "ffYf", callback=[self.xSlots, self.ySlots], move="up", label="bottom")
             else:
-                self.rectangularWall(x, y, "ffff", callback=[self.xSlots, self.ySlots], move="up")
+                self.rectangularWall(x, y, "ffff", callback=[self.xSlots, self.ySlots], move="up", label="bottom")
 
         # Inner walls
 
@@ -161,7 +161,7 @@ class TypeTray(_TopEdge):
 
         # y walls
 
-        # outer walls
+        # outer walls - left/right
 
         if bh:
             self.trapezoidSideWall(

@@ -40,6 +40,8 @@ The wall with the big hole is the sloped one. It goes between the two
 low-height long wall with a sloped edge which should go from the sloped wall to
 the other side. You can finish the tray with the last wall at the end.
 
+![3D example](static/samples/CardGameTrayInsert.png)
+
 """
 
     # TODO with side tab / without side tab

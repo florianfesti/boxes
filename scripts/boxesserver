@@ -45,6 +45,7 @@ class FileChecker(threading.Thread):
         super(FileChecker, self).__init__()
         self.checkmodules = checkmodules
         self.timestamps = {}
+        self._stopped = False
         for path in files:
             self.timestamps[path] = os.stat(path).st_mtime
         if checkmodules:
@@ -70,10 +71,13 @@ class FileChecker(threading.Thread):
         return True
 
     def run(self):
-        while True:
+        while not self._stopped:
             if not self.filesOK():
                 os.execv(__file__, sys.argv)
             time.sleep(1)
+
+    def stop(self):
+        self._stopped = True
 
 class ArgumentParserError(Exception): pass
 
@@ -554,7 +558,12 @@ if __name__=="__main__":
     boxserver = BServer()
     httpd = make_server(host, port, boxserver.serve)
     print("BoxesServer serving on host:port %s:%s..." % (host, port) )
-    httpd.serve_forever()
+    try:
+        httpd.serve_forever()
+    except KeyboardInterrupt:
+        fc.stop()
+    httpd.server_close()
+    print("BoxesServer stops.")
 else:
     application = BServer().serve
 

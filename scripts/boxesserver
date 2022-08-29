@@ -242,10 +242,10 @@ class BServer:
             if len(group._group_actions) == 1 and isinstance(group._group_actions[0], argparse._HelpAction):
                 continue
             prefix = getattr(group, "prefix", None)
-            result.append('''<h3 id="h-%s" class="open" onclick="showHide(%s)">%s</h3>\n<table id="%s">\n''' % (groupid, groupid, _(group.title), groupid))
+            result.append('''<h3 id="h-%s" class="open" onclick="showHide(%s)">%s</h3>\n<table role="presentation" id="%s">\n''' % (groupid, groupid, _(group.title), groupid))
             for a in group._group_actions:
                 if a.dest in ("input", "output"):
-
+                    
                     continue
                 result.append(self.arg2html(a, prefix, defaults, _))
             result.append("</table>")

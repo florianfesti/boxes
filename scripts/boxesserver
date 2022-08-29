@@ -160,25 +160,24 @@ class BServer:
             viewname = name[len(prefix)+1:]
 
         default = defaults.get(name, None)
-
-        row = """<tr><td>%s</td><td>%%s</td><td>%s</td></tr>\n""" % \
-              (_(viewname), "" if not a.help else markdown.markdown(_(a.help)))
+        row = """<tr><td id="%s"><label for="%s">%s</label></td><td>%%s</td><td id="%s">%s</td></tr>\n""" % \
+              (name+"_id", name, _(viewname), name+"_description","" if not a.help else markdown.markdown(_(a.help)))
         if (isinstance(a, argparse._StoreAction) and
             hasattr(a.type, "html")):
             input = a.type.html(name, default or a.default, _)
         elif a.dest == "layout":
             val = (default or a.default).split("\n")
-            input = """<textarea name="%s" cols="%s" rows="%s">%s</textarea>""" % \
-                    (name, max((len(l) for l in val))+10, len(val)+1, default or a.default)
+            input = """<textarea name="%s" id="%s" aria-labeledby="%s %s" cols="%s" rows="%s">%s</textarea>""" % \
+                    (name, name, name+"_id", name+"_description", max((len(l) for l in val))+10, len(val)+1, default or a.default)
         elif a.choices:
             options = "\n".join(
                 ("""<option value="%s"%s>%s</option>""" %
                  (e, ' selected="selected"' if (e == (default or a.default)) or (str(e) == str(default or a.default)) else "",
                   _(e)) for e in a.choices))
-            input = """<select name="%s" size="1">\n%s</select>\n""" % (name, options)
+            input = """<select name="%s" id="%s" aria-labeledby="%s %s" size="1" >\n%s</select>\n""" % (name, name, name+"_id", name+"_description", options)
         else:
-            input =  """<input name="%s" type="text" value="%s">""" % \
-            (name, default or a.default)
+            input =  """<input name="%s" id="%s" aria-labeledby="%s %s" type="text" value="%s" >""" % \
+            (name, name, name+"_id", name+"_description", default or a.default)
 
         return row % input
 
@@ -245,11 +244,12 @@ class BServer:
                 continue
             if len(group._group_actions) == 1 and isinstance(group._group_actions[0], argparse._HelpAction):
                 continue
-            prefix = getattr(group, "prefix", None) 
+            prefix = getattr(group, "prefix", None)
             result.append('''<h3 id="h-%s" tabindex="0" class="open" onclick="showHide(%s)" onkeypress="if(event.keyCode == 13) showHide(%s)">%s</h3>\n<table role="presentation" id="%s">\n''' % (groupid, groupid, groupid, _(group.title), groupid))
 
             for a in group._group_actions:
                 if a.dest in ("input", "output"):
+
                     continue
                 result.append(self.arg2html(a, prefix, defaults, _))
             result.append("</table>")

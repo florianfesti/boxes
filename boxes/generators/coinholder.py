@@ -63,10 +63,10 @@ class CoinHolder(Boxes): # Change class name!
         """
         Function that puts two finger holes at the bottom cube plate for the coin holder
         """
-        self.fingerHolesAt(self.x/2 - self.thickness - (self.coin_plate/2), self.y/2+self.coin_plate_x/2-self.thickness, self.coin_plate_x, -90)
-        self.fingerHolesAt(self.x/2 - self.thickness + (self.coin_plate/2), self.y/2+self.coin_plate_x/2-self.thickness, self.coin_plate_x, -90)
+        self.fingerHolesAt(self.x/2 - self.thickness - self.thickness/2 - (self.coin_plate/2), self.y/2+self.coin_plate_x/2-self.thickness, self.coin_plate_x, -90)
+        self.fingerHolesAt(self.x/2 - self.thickness + self.thickness/2 + (self.coin_plate/2), self.y/2+self.coin_plate_x/2-self.thickness, self.coin_plate_x, -90)
         
-        self.fingerHolesAt(self.x/2-self.coin_plate/2-self.thickness, self.y/2-self.coin_plate_x/2-self.thickness, self.coin_plate, 0)
+        self.fingerHolesAt(self.x/2-self.coin_plate/2-self.thickness, self.y/2-self.coin_plate_x/2-self.thickness*1.5, self.coin_plate, 0)
     
     def coinCutout(self):
         """

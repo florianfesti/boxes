@@ -104,6 +104,9 @@ class _TopEdge(Boxes):
         self.addSettingsArgs(edges.HandleEdgeSettings, **handle)
 
     def topEdges(self, top_edge):
+        """Return top edges belonging to given main edge type
+        as a list containing edge for left, back, right, front.
+        """
         t1 = t2 = t3 = t4 = self.edges.get(top_edge, self.edges["e"])
 
         if t1.char == "i":

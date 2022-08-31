@@ -245,8 +245,9 @@ class BServer:
                 continue
             if len(group._group_actions) == 1 and isinstance(group._group_actions[0], argparse._HelpAction):
                 continue
-            prefix = getattr(group, "prefix", None)
-            result.append('''<h3 id="h-%s" class="open" onclick="showHide(%s)">%s</h3>\n<table role="presentation" id="%s">\n''' % (groupid, groupid, _(group.title), groupid))
+            prefix = getattr(group, "prefix", None) 
+            result.append('''<h3 id="h-%s" tabindex="0" class="open" onclick="showHide(%s)" onkeypress="if(event.keyCode == 13) showHide(%s)">%s</h3>\n<table role="presentation" id="%s">\n''' % (groupid, groupid, groupid, _(group.title), groupid))
+
             for a in group._group_actions:
                 if a.dest in ("input", "output"):
                     continue
@@ -344,7 +345,7 @@ class BServer:
 """ ]
         for nr, group in enumerate(self.groups):
             result.append(f'''
-<h3 id="h-{nr}" class="open" onclick="showHide('{nr}')"
+<h3 id="h-{nr}" class="open" tabindex="0" onclick="showHide('{nr}')" onkeypress="if(event.keyCode == 13) showHide('{nr}')"
      onmouseenter="change('{group.name}', 'static/samples/{group.thumbnail}')"
      onmouseleave="changeback('{group.name}')">{_(group.title)}</h3>
   <img style="width: 200px;" id="sample-{group.name}" src="static/nothing.png" alt="">

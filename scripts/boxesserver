@@ -156,7 +156,6 @@ class BServer:
             viewname = name[len(prefix)+1:]
 
         default = defaults.get(name, None)
-#fix here?
         row = """<tr><td id="%s"><label for="%s">%s</label></td><td>%%s</td><td id="%s">%s</td></tr>\n""" % \
               (name+"_id", name, _(viewname), name+"_description","" if not a.help else markdown.markdown(_(a.help)))
         if (isinstance(a, argparse._StoreAction) and

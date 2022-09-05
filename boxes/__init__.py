@@ -198,7 +198,7 @@ class ArgparseEdgeType:
             ("""<option value="%s"%s>%s</option>""" %
              (e, ' selected="selected"' if e == default else "",
               translate("%s %s" % (e, self.names.get(e, "")))) for e in self.edges))
-        return """<select name="%s" size="1">\n%s</select>\n""" % (name, options) #here
+        return """<select name="%s" id="%s" aria-labeledby="%s %s" size="1">\n%s</select>\n""" % (name,  name, name+"_id", name+"_description", options)
 
     def inx(self, name, viewname, arg):
         return ('        <param name="%s" type="optiongroup" appearance="combo" gui-text="%s" gui-description=%s>\n' %
@@ -219,7 +219,7 @@ class BoolArg:
             default = self(default)
         return """<input name="%s" type="hidden" value="0">
 <input name="%s" id="%s" aria-labeledby="%s %s" type="checkbox" value="1"%s>""" % \
-            (name, name, name, name+"_id", name+"_description",' checked="checked"' if default else "") #fix here
+            (name, name, name, name+"_id", name+"_description",' checked="checked"' if default else "") 
 
 boolarg = BoolArg()
 

@@ -1,1 +1,2 @@
 *.py text eol=lf
+scripts/** eol=lf

@@ -5,8 +5,11 @@
 
 # Run the docker container
 # docker run -ti -p 4000:8000 boxes.py
-# Run the docker container with a bind mount
+
+# Run the docker container with a bind mount (Windows Command Line)
 # docker run -ti -p 4000:8000 -v %cd%/scripts:/boxes/scripts boxes.py
+# Run the docker container with a bind mount (PowerShell)
+# docker run -ti -p 4000:8000 -v ${PWD}/scripts:/boxes/scripts boxes.py
 
 # Get the web interface at http://localhost:4000
 # First access may take a while as the Python files need to be complied

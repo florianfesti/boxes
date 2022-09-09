@@ -1,13 +1,14 @@
 # Simple Fedora based Docker container for running Boxes.py
 
-# Note that it downloads Boxes.py from GitHub and does not use your local copy
-# of the repository. Adjust the git command below to get it from somewhere else
+# Build the docker container
+# docker build -t boxes.py .
 
-# Build with
-#  docker build -t boxes.py .
-# Run with 
-#  docker run -ti -p 4000:8000 boxes.py
-# to get the web interface at localhost:4000
+# Run the docker container
+# docker run -ti -p 4000:8000 boxes.py
+# Run the docker container with a bind mount
+# docker run -ti -p 4000:8000 -v %cd%/scripts:/boxes/scripts boxes.py
+
+# Get the web interface at http://localhost:4000
 # First access may take a while as the Python files need to be complied
 
 # Use latest Fedora release as base

@@ -37,7 +37,7 @@ class CoinHolderSideEdge(edges.BaseEdge):
         return self.settings.coin_plate_x
 
 class CoinDisplay(Boxes):
-    """This is a showcase holder for a coin"""
+    """A showcase enclosure for a circular coin"""
 
     ui_group = "Misc"
 

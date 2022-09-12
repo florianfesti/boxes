@@ -36,10 +36,10 @@ class CoinHolderSideEdge(edges.BaseEdge):
     def margin(self):
         return self.settings.coin_plate_x
 
-class CoinHolder(Boxes): # Change class name!
+class CoinDisplay(Boxes):
     """This is a showcase holder for a coin"""
 
-    ui_group = "Unstable"
+    ui_group = "Misc"
 
     def __init__(self):
         Boxes.__init__(self)

@@ -22,7 +22,7 @@ class CoinHolderSideEdge(edges.BaseEdge):
         a_l = self.coin_plate
         a_l2 = self.settings.coin_plate * math.sin(self.settings.angle)
         a = math.degrees(self.settings.angle)
-        
+
         print(a, a_l, a_l2)
         self.corner(-a)
         # Draw the angled edge, but set the thickness to two temporarily
@@ -30,14 +30,14 @@ class CoinHolderSideEdge(edges.BaseEdge):
         self.edges["F"].settings.thickness = self.thickness * 2
         self.edges["F"](a_l)
         self.edges["F"].settings.thickness = self.thickness
-        
+
         self.polyline(0, 90+a, a_l2, -90)
 
     def margin(self):
         return self.settings.coin_plate_x
 
 class CoinDisplay(Boxes):
-    """A showcase enclosure for a circular coin"""
+    """A showcase for a single coin"""
 
     ui_group = "Misc"
 
@@ -58,16 +58,16 @@ class CoinDisplay(Boxes):
         self.argparser.add_argument(
             "--angle",  action="store", type=float, default=30,
             help="The angle that the coin will tilt as")
-    
+
     def bottomHoles(self):
         """
         Function that puts two finger holes at the bottom cube plate for the coin holder
         """
         self.fingerHolesAt(self.x/2 - self.thickness - self.thickness/2 - (self.coin_plate/2), self.y/2+self.coin_plate_x/2-self.thickness, self.coin_plate_x, -90)
         self.fingerHolesAt(self.x/2 - self.thickness + self.thickness/2 + (self.coin_plate/2), self.y/2+self.coin_plate_x/2-self.thickness, self.coin_plate_x, -90)
-        
+
         self.fingerHolesAt(self.x/2-self.coin_plate/2-self.thickness, self.y/2-self.coin_plate_x/2-self.thickness*1.5, self.coin_plate, 0)
-    
+
     def coinCutout(self):
         """
         Function that puts a circular hole in the coin holder piece
@@ -75,7 +75,7 @@ class CoinDisplay(Boxes):
         self.hole(self.coin_plate/2, self.coin_plate/2, self.coin_d/2)
 
     def render(self):
-        
+
         x, y, h = self.x, self.y, self.h
 
         if self.outside:
@@ -89,12 +89,12 @@ class CoinDisplay(Boxes):
         d3 = edges.Bolts(3)
 
         d2 = d3 = None
-        
+
         self.addPart(CoinHolderSideEdge(self, self))
-        
+
         self.angle = math.radians(self.angle)
         self.coin_plate_x = self.coin_plate * math.cos(self.angle)
-        
+
         self.rectangularWall(x, h, "FFFF", bedBolts=[d2] * 4, move="right", label="Wall 1")
         self.rectangularWall(y, h, "FfFf", bedBolts=[d3, d2, d3, d2], move="up", label="Wall 2")
         self.rectangularWall(y, h, "FfFf", bedBolts=[d3, d2, d3, d2], label="Wall 4")
@@ -102,14 +102,14 @@ class CoinDisplay(Boxes):
 
         self.rectangularWall(x, y, "ffff", bedBolts=[d2, d3, d2, d3], move="right", label="Top")
         self.rectangularWall(x, y, "ffff", bedBolts=[d2, d3, d2, d3], move="right", label="Bottom", callback=[self.bottomHoles])
-        
+
         # Draw the coin holder side holsers
         e = ["f", "f", "B", "e"]
         self.rectangularWall(self.coin_plate_x, self.coin_showcase_h, e, move="right", label="CoinSide1")
         self.rectangularWall(self.coin_plate_x, self.coin_showcase_h, e, move="right", label="CoinSide2")
-        
+
         self.rectangularWall(self.coin_plate, self.coin_plate, "efef", move="left down", label="Coin Plate Base")
         self.rectangularWall(self.coin_plate, self.coin_plate, "efef", move="down", label="Coin Plate", callback=[self.coinCutout])
-        
+
         self.rectangularWall(self.coin_plate, self.coin_showcase_h, "fFeF", move="down", label="CoinSide3")
 

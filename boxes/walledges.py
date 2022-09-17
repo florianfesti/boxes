@@ -220,13 +220,14 @@ class SlatWallEdge(WallEdge):
     def _section(self, nr, length):
         w = 6 # vertical width of hook
         hd = self.settings.hook_depth
+        hdist = self.settings.hook_distance
         ro = 6 # outer radius
         ri = 2 # inner radius
         rt = min(1, hd/2) # top radius
         slot = 8
         if nr == 0:
-            poly = [0, -90, 5.5-ri, (-90, ri), 12-ri-w-rt, (90, rt),
-                    hd-2*rt, (90, rt), 12-ro-rt, (90, ro), 5.5+hd-ro, -90,
+            poly = [0, -90, hdist-ri, (-90, ri), 12-ri-w-rt, (90, rt),
+                    hd-2*rt, (90, rt), 12-ro-rt, (90, ro), hdist+hd-ro, -90,
                     length-6]
         elif nr == 1:
             if self.settings.bottom_hook == "spring":
@@ -266,6 +267,7 @@ Values:
  * bottom_hook : "hook" : "spring", "stud" or "none"
  * pitch : 101.6 : vertical spacing of slots middle to middle (in mm)
  * hook_depth : 4.0 : horizontal width of the hook
+ * hook_distance : 5.5 : horizontal space to the hook
 
 * relative (in multiples of thickness)
 
@@ -278,6 +280,7 @@ Values:
         "bottom_hook" : ("hook", "spring", "stud", "none"),
         "pitch" : 101.6,
         "hook_depth" : 4.0,
+        "hook_distance" : 5.5,
     }
 
     relative_params = {

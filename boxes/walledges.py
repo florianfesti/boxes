@@ -202,32 +202,34 @@ class SlatWallEdge(WallEdge):
 
     def lengths(self, length):
         pitch = self.settings.pitch
+        h = self.settings.hook_height
         he = self.settings.hook_extra_height
 
         lengths = []
-        if length < 6 + he:
+        if length < h + he:
             return [length]
-        lengths = [0, 6 + he]
-        length -= 6 + he
+        lengths = [0, h + he]
+        length -= h + he
         if length > pitch:
-            lengths.extend([(length // pitch) * pitch - 8 - 2*he,
-                            8 + 2*he,
+            lengths.extend([(length // pitch) * pitch - h - 2 - 2*he,
+                            h + 2 + 2*he,
                             length % pitch])
         else:
             lengths.append(length)
         return lengths
 
     def _section(self, nr, length):
-        w = 6 # vertical width of hook
+        w = self.settings.hook_height # vertical width of hook
         hd = self.settings.hook_depth
         hdist = self.settings.hook_distance
-        ro = 6 # outer radius
-        ri = 2 # inner radius
+        hh = self.settings.hook_overall_height
+        ro = w # outer radius
+        ri = min(w/2, hd/2) # inner radius
         rt = min(1, hd/2) # top radius
-        slot = 8
+        slot = self.settings.hook_height + 2 # XXX
         if nr == 0:
-            poly = [0, -90, hdist-ri, (-90, ri), 12-ri-w-rt, (90, rt),
-                    hd-2*rt, (90, rt), 12-ro-rt, (90, ro), hdist+hd-ro, -90,
+            poly = [0, -90, hdist-ri, (-90, ri), hh-ri-w-rt, (90, rt),
+                    hd-2*rt, (90, rt), hh-ro-rt, (90, ro), hdist+hd-ro, -90,
                     length-6]
         elif nr == 1:
             if self.settings.bottom_hook == "spring":
@@ -255,7 +257,7 @@ class SlatWallEdge(WallEdge):
         self.polyline(*poly)
 
     def margin(self):
-        return 6+5.5
+        return self.settings.hook_depth + self.settings.hook_distance
 
 class SlatWallSettings(WallSettings):
 
@@ -268,6 +270,8 @@ Values:
  * pitch : 101.6 : vertical spacing of slots middle to middle (in mm)
  * hook_depth : 4.0 : horizontal width of the hook
  * hook_distance : 5.5 : horizontal space to the hook
+ * hook_height : 6.0 : height of the horizontal bar of the hook
+ * hook_overall_height : 12.0 : height of the hook top to bottom
 
 * relative (in multiples of thickness)
 
@@ -281,6 +285,8 @@ Values:
         "pitch" : 101.6,
         "hook_depth" : 4.0,
         "hook_distance" : 5.5,
+        "hook_height" : 6.0,
+        "hook_overall_height" : 12.0,
     }
 
     relative_params = {

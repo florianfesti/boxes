@@ -9,6 +9,9 @@ from .keyboard import Keyboard
 
 class Keypad(Boxes, Keyboard):
     """Generator for keypads with mechanical switches."""
+
+    description = "Note that top layers use a different material thickness according to the top1_thickness and top2_thickness (if enabled)."
+
     ui_group = 'Box'
     btn_size = 15.6
     space_between_btn = 4

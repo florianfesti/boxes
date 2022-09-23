@@ -73,7 +73,10 @@ class DividerSettings(edges.Settings):
 class DividerTray(Boxes):
     """Divider tray - rows and dividers"""
 
-    description = "Adding '0:' at the start of the sy parameter adds a slot at the very back. Adding ':0' at the end of sy adds a slot meeting the bottom at the very front. This is especially useful if slot angle is set above zero."
+    description = """Adding '0:' at the start of the sy parameter adds a slot at the very back. Adding ':0' at the end of sy adds a slot meeting the bottom at the very front. This is especially useful if slot angle is set above zero.
+
+There are 3 different sets of dividers rendered: One single divider spanning across all columns and two sets with one divider per column - one set with tabs of a full wall thickness and one set with tabs of half wall thickness that can go side by side. You will likely need to cut each of the dividers you want multiple times.
+    """
 
     ui_group = "Tray"
 
@@ -212,14 +215,17 @@ class DividerTray(Boxes):
             first_tab_width=self.thickness if self.left_wall else 0,
             second_tab_width=self.thickness if self.right_wall else 0
         )
-        for i, length in enumerate(self.sx):
-            self.generate_divider(
-                [length],
-                divider_height,
-                "right",
-                first_tab_width=self.thickness if self.left_wall or i>0 else 0,
-                second_tab_width=self.thickness if self.right_wall or i<(len(self.sx) - 1) else 0,
-            )
+        for tabs in [self.thickness, self.thickness / 2]:
+            with self.saved_context():
+                for i, length in enumerate(self.sx):
+                    self.generate_divider(
+                        [length],
+                        divider_height,
+                        "right",
+                        first_tab_width=tabs if self.left_wall or i>0 else 0,
+                        second_tab_width=tabs if self.right_wall or i<(len(self.sx) - 1) else 0,
+                    )
+            self.generate_divider(self.sx, divider_height, "up only")
 
         if self.debug:
             debug_info = ["Debug"]

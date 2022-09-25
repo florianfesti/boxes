@@ -199,7 +199,7 @@ Finger Joint Settings
       width of the spaces between fingers in multiples of the thickness
 
    surroundingspaces
-      minimal amount of space before the first and after the last finger. This is in multiples of regular space between fingers. Reduce this if there are no fingers fitting on short edges.
+      amount of space before the first and after the last finger. This is in multiples of regular space between fingers. The actual space is larger when needed but can be smaller for very short edges.
 
    style
       how finger joints should look like. There may be more styles to choose from in the future. Note that snap fingers will only be drawn for fingers of width 1.9 and above.

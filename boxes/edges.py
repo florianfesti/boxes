@@ -833,7 +833,7 @@ Values:
 
 * absolute
   * style : "rectangular" : style of the fingers
-  * surroundingspaces : 2.0 : minimal space at the start and end in multiple of normal spaces
+  * surroundingspaces : 2.0 : space at the start and end in multiple of normal spaces
   * angle: 90 : Angle of the walls meeting
 
 * relative (in multiples of thickness)
@@ -878,6 +878,9 @@ class FingerJointBase:
         space, finger = self.settings.space, self.settings.finger
         fingers = int((length - (self.settings.surroundingspaces - 1) * space) //
                       (space + finger))
+        # shrink surrounding space up to half a thickness each side
+        if fingers == 0 and length > finger + 1.0 * self.settings.thickness:
+            fingers = 1
         if not finger:
             fingers = 0
         if bedBolts:
@@ -955,12 +958,22 @@ class FingerJointEdge(BaseEdge, FingerJointBase):
         positive = self.positive
         t = self.settings.thickness
 
-        s, f, thickness = self.settings.space, self.settings.finger, self.settings.thickness
+        s, f = self.settings.space, self.settings.finger
+        thickness = self.settings.thickness
+        style = self.settings.style
+        play = self.settings.play
 
         fingers, leftover = self.calcFingers(length, bedBolts)
 
+        # not enough space for normal fingers - use small rectangular one
+        if (fingers == 0 and f and
+            leftover > 0.75*thickness and leftover > 4*play):
+            fingers = 1
+            f = leftover = leftover / 2.0
+            bedBolts = None
+            style = "rectangular"
+
         if not positive:
-            play = self.settings.play
             f += play
             s -= play
             leftover -= play
@@ -982,7 +995,7 @@ class FingerJointEdge(BaseEdge, FingerJointBase):
                     self.bedBoltHole(s, bedBoltSettings)
                 else:
                     self.edge(s)
-            self.draw_finger(f, h, self.settings.style,
+            self.draw_finger(f, h, style,
                              positive, i < fingers//2)
 
         self.edge(leftover / 2.0, tabs=1)
@@ -1035,6 +1048,13 @@ class FingerHoles(FingerJointBase):
             p = self.settings.play
             b = self.boxes.burn
             fingers, leftover = self.calcFingers(length, bedBolts)
+
+            # not enough space for normal fingers - use small rectangular one
+            if (fingers == 0 and f and
+                leftover > 0.75*self.settings.thickness and leftover > 4*p):
+                fingers = 1
+                f = leftover = leftover / 2.0
+                bedBolts = None
 
             if self.boxes.debug:
                 self.ctx.rectangle(b, -self.settings.width / 2 + b,

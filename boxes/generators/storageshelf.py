@@ -84,7 +84,7 @@ class StorageShelf(_TopEdge):
         #if top_edge is t put the handle on the x walls
         if(self.top_edge=='t'):
             t1,t2,t3,t4=(t2,t1,t4,t3)
-        self.closedtop = self.top_edge in "fFhŠ"
+        self.closedtop = self.top_edge in "fFhŠY"
 
         # x sides
 

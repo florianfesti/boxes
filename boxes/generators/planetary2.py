@@ -19,9 +19,11 @@ import math
 
 class Planetary2(Boxes):
 
-    """Balanced force Difference Planetary Gear"""
+    """Balanced force Difference Planetary Gear (not yet working properly)"""
 
-    ui_group = "Part"
+    ui_group = "Unstable"
+
+    description = """Still has issues. The middle planetary gears set must not have a mashing sun gear as it can't be a proper gear set."""
 
     def __init__(self):
         Boxes.__init__(self)
@@ -43,7 +45,7 @@ class Planetary2(Boxes):
             "--deltateeth", action="store", type=int, default=1,
             help="enable secondary ring with given delta to the ring gear")
         self.argparser.add_argument(
-            "--modulus", action="store", type=float, default=3,
+            "--modulus", action="store", type=float, default=1.0,
             help="modulus of the theeth in mm")
         self.argparser.add_argument(
             "--shaft", action="store", type=float, default=6.,

@@ -92,7 +92,7 @@ class _TopEdge(Boxes):
 
     def addTopEdgeSettings(self, fingerjoint={}, stackable={}, hinge={},
                            cabinethinge={}, lid={}, click={},
-                           roundedtriangle={}, mounting={}):
+                           roundedtriangle={}, mounting={}, handle={}):
         self.addSettingsArgs(edges.FingerJointSettings, **fingerjoint)
         self.addSettingsArgs(edges.StackableSettings, **stackable)
         self.addSettingsArgs(edges.HingeSettings, **hinge)
@@ -101,6 +101,7 @@ class _TopEdge(Boxes):
         self.addSettingsArgs(edges.ClickSettings, **click)
         self.addSettingsArgs(edges.RoundedTriangleEdgeSettings, **roundedtriangle)
         self.addSettingsArgs(edges.MountingSettings, **mounting)
+        self.addSettingsArgs(edges.HandleEdgeSettings, **handle)
 
     def topEdges(self, top_edge):
         t1 = t2 = t3 = t4 = self.edges.get(top_edge, self.edges["e"])
@@ -128,6 +129,18 @@ class _TopEdge(Boxes):
                 t4 = "G"
             else: #PARAM_BACK
                 t2 = "G"
+        elif t1.char == "y":
+            t1 = t2 = t3 = t4 = "e"
+            if self.edges["y"].settings.on_sides == True:
+                t1 = t3 = "y"
+            else:
+                t2 = t4 = "y"
+        elif t1.char == "Y":
+            t1 = t2 = t3 = t4 = "h"
+            if self.edges["Y"].settings.on_sides == True:
+                t1 = t3 = "Y"
+            else:
+                t2 = t4 = "Y"
         return [t1, t2, t3, t4]
 
     def drawLid(self, x, y, top_edge, bedBolts=[None, None]):
@@ -136,7 +149,7 @@ class _TopEdge(Boxes):
             self.rectangularWall(x, y, "CCCC", bedBolts=[d2, d3, d2, d3], move="up", label="top")
         elif top_edge == "f":
             self.rectangularWall(x, y, "FFFF", move="up", label="top")
-        elif top_edge in "FhŠ":
+        elif top_edge in "FhŠY":
             self.rectangularWall(x, y, "ffff", move="up", label="top")
         elif top_edge == "L":
             self.rectangularWall(x, y, "nlmE", move="up", label="lid top")

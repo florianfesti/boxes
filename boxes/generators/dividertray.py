@@ -73,13 +73,17 @@ class DividerSettings(edges.Settings):
 class DividerTray(Boxes):
     """Divider tray - rows and dividers"""
 
-    description = "Adding '0:' at the start of the sy parameter adds a slot at the very back. Adding ':0' at the end of sy adds a slot meeting the bottom at the very front. This is especially useful if slot angle is set above zero."
+    description = """Adding '0:' at the start of the sy parameter adds a slot at the very back. Adding ':0' at the end of sy adds a slot meeting the bottom at the very front. This is especially useful if slot angle is set above zero.
+
+There are 3 different sets of dividers rendered: One single divider spanning across all columns and two sets with one divider per column - one set with tabs of a full wall thickness and one set with tabs of half wall thickness that can go side by side. You will likely need to cut each of the dividers you want multiple times.
+    """
 
     ui_group = "Tray"
 
     def __init__(self):
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings)
+        self.addSettingsArgs(edges.HandleEdgeSettings)
         self.buildArgParser("sx", "sy", "h", "outside")
         self.addSettingsArgs(SlotSettings)
         self.addSettingsArgs(NotchSettings)
@@ -104,6 +108,9 @@ class DividerTray(Boxes):
         )
         self.argparser.add_argument(
             "--bottom", type=boolarg, default=False, help="generate wall on the bottom",
+        )
+        self.argparser.add_argument(
+            "--handle", type=boolarg, default=False, help="add handle to the bottom",
         )
 
     def render(self):
@@ -142,7 +149,7 @@ class DividerTray(Boxes):
         # Facing walls (outer) with finger holes to support side walls
         facing_wall_length = sum(self.sx) + self.thickness * (len(self.sx) - 1)
         side_edge = lambda with_wall: "F" if with_wall else "e"
-        bottom_edge = lambda with_wall: "F" if with_wall else "e"
+        bottom_edge = lambda with_wall, with_handle: ("f" if with_handle else "F") if with_wall else "e"
         upper_edge = (
             DividerNotchesEdge(
                 self,
@@ -156,7 +163,7 @@ class DividerTray(Boxes):
                 facing_wall_length,
                 self.h,
                 [
-                    bottom_edge(self.bottom),
+                    bottom_edge(self.bottom, _ and self.handle),
                     side_edge(self.right_wall),
                     upper_edge,
                     side_edge(self.left_wall),
@@ -191,7 +198,7 @@ class DividerTray(Boxes):
                 [
                     "f",
                     "f" if self.right_wall else "e",
-                    "f",
+                    "Y" if self.handle else "f",
                     "f" if self.left_wall else "e",
                 ],
                 callback=[partial(self.generate_finger_holes, side_wall_length)],
@@ -212,14 +219,17 @@ class DividerTray(Boxes):
             first_tab_width=self.thickness if self.left_wall else 0,
             second_tab_width=self.thickness if self.right_wall else 0
         )
-        for i, length in enumerate(self.sx):
-            self.generate_divider(
-                [length],
-                divider_height,
-                "right",
-                first_tab_width=self.thickness if self.left_wall or i>0 else 0,
-                second_tab_width=self.thickness if self.right_wall or i<(len(self.sx) - 1) else 0,
-            )
+        for tabs in [self.thickness, self.thickness / 2]:
+            with self.saved_context():
+                for i, length in enumerate(self.sx):
+                    self.generate_divider(
+                        [length],
+                        divider_height,
+                        "right",
+                        first_tab_width=tabs if self.left_wall or i>0 else 0,
+                        second_tab_width=tabs if self.right_wall or i<(len(self.sx) - 1) else 0,
+                    )
+            self.generate_divider(self.sx, divider_height, "up only")
 
         if self.debug:
             debug_info = ["Debug"]

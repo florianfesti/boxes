@@ -99,7 +99,7 @@ class TypeTray(_TopEdge):
 
         # outer walls
         b = self.bottom_edge
-        t2, t1, t4, t3 = self.topEdges(self.top_edge)
+        tl, tb, tr, tf = self.topEdges(self.top_edge)
         self.closedtop = self.top_edge in "fFhŠ"
 
         bh = self.back_height if self.top_edge == "e" else 0.0
@@ -110,20 +110,20 @@ class TypeTray(_TopEdge):
 
         # outer walls - front/back
         if bh:
-            self.rectangularWall(x, h+bh, [b, "f", t1, "f"],
+            self.rectangularWall(x, h+bh, [b, "f", tb, "f"],
                                  callback=[self.xHoles],
                                  ignore_widths=[],
                                  move="up", label="back")
-            self.rectangularWall(x, h, ["f" if self.handle else b, "f", t3, "f"],
+            self.rectangularWall(x, h, ["f" if self.handle else b, "f", tf, "f"],
                                  callback=[self.mirrorX(self.xHoles, x),
                                            None, self.gripHole],
                                  move="up", label="front")
         else:
-            self.rectangularWall(x, h, [b, "F", t1, "F"],
+            self.rectangularWall(x, h, [b, "F", tb, "F"],
                                  callback=[self.xHoles],
                                  ignore_widths=[1, 6],
                                  move="up", label="back")
-            self.rectangularWall(x, h, ["f" if self.handle else b, "F", t3, "F"],
+            self.rectangularWall(x, h, ["f" if self.handle else b, "F", tf, "F"],
                                  callback=[self.mirrorX(self.xHoles, x),
                                            None, self.gripHole],
                                  ignore_widths=[] if self.handle else [1, 6],
@@ -175,11 +175,11 @@ class TypeTray(_TopEdge):
                 move="up", label="right side")
         else:
             self.rectangularWall(
-                y, h, [b, "f", t2, "f"], callback=[self.yHoles, ],
+                y, h, [b, "f", tl, "f"], callback=[self.yHoles, ],
                 ignore_widths=[6] if self.handle else [1, 6],
                 move="up", label="left side")
             self.rectangularWall(
-                y, h, [b, "f", t4, "f"],
+                y, h, [b, "f", tr, "f"],
                 callback=[self.mirrorX(self.yHoles, y), ],
                 ignore_widths=[1] if self.handle else [1, 6],
                 move="up", label="right side")

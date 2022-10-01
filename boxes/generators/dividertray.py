@@ -329,6 +329,7 @@ There are 3 different sets of dividers rendered: One single divider spanning acr
             first_tab_width,
             90,
             self.Slot_depth,
+            90
         )
 
         # Move for next piece

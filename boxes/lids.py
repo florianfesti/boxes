@@ -107,44 +107,44 @@ class _TopEdge(Boxes):
         """Return top edges belonging to given main edge type
         as a list containing edge for left, back, right, front.
         """
-        t1 = t2 = t3 = t4 = self.edges.get(top_edge, self.edges["e"])
+        tl = tb = tr = tf = self.edges.get(top_edge, self.edges["e"])
 
-        if t1.char == "i":
-            t2 = t4 = "e"
-            t3 = "j"
-        elif t1.char == "k":
-            t2 = t4 = "e"
-        elif t1.char == "L":
-            t1 = "M"
-            t2 = "e"
-            t3 = "N"
-        elif t1.char == "v":
-            t2 = t3 = t4 = "e"
-        elif t1.char == "t":
-            t1 = t3 = "e"
-        elif t1.char == "G":
-            t1 = t2 = t3 = t4 = "e"
+        if tl.char == "i":
+            tb = tf = "e"
+            tr = "j"
+        elif tl.char == "k":
+            tb = tf = "e"
+        elif tl.char == "L":
+            tl = "M"
+            tb = "e"
+            tr = "N"
+        elif tl.char == "v":
+            tb = tr = tf = "e"
+        elif tl.char == "t":
+            tl = tr = "e"
+        elif tl.char == "G":
+            tl = tb = tr = tf = "e"
             if self.edges["G"].settings.side == edges.MountingSettings.PARAM_LEFT:
-                t1 = "G"
+                tl = "G"
             elif self.edges["G"].settings.side == edges.MountingSettings.PARAM_RIGHT:
-                t3 = "G"
+                tr = "G"
             elif self.edges["G"].settings.side == edges.MountingSettings.PARAM_FRONT:
-                t4 = "G"
+                tf = "G"
             else: #PARAM_BACK
-                t2 = "G"
-        elif t1.char == "y":
-            t1 = t2 = t3 = t4 = "e"
+                tb = "G"
+        elif tl.char == "y":
+            tl = tb = tr = tf = "e"
             if self.edges["y"].settings.on_sides == True:
-                t1 = t3 = "y"
+                tl = tr = "y"
             else:
-                t2 = t4 = "y"
-        elif t1.char == "Y":
-            t1 = t2 = t3 = t4 = "h"
+                tb = tf = "y"
+        elif tl.char == "Y":
+            tl = tb = tr = tf = "h"
             if self.edges["Y"].settings.on_sides == True:
-                t1 = t3 = "Y"
+                tl = tr = "Y"
             else:
-                t2 = t4 = "Y"
-        return [t1, t2, t3, t4]
+                tb = tf = "Y"
+        return [tl, tb, tr, tf]
 
     def drawLid(self, x, y, top_edge, bedBolts=[None, None]):
         d2, d3 = bedBolts

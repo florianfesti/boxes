@@ -73,10 +73,18 @@ class DividerSettings(edges.Settings):
 class DividerTray(Boxes):
     """Divider tray - rows and dividers"""
 
-    description = """Adding '0:' at the start of the sy parameter adds a slot at the very back. Adding ':0' at the end of sy adds a slot meeting the bottom at the very front. This is especially useful if slot angle is set above zero.
+    description = """
+Adding '0:' at the start of the sy parameter adds a slot at the very back. Adding ':0' at the end of sy adds a slot meeting the bottom at the very front. This is especially useful if slot angle is set above zero.
 
-There are 3 different sets of dividers rendered: One single divider spanning across all columns and two sets with one divider per column - one set with tabs of a full wall thickness and one set with tabs of half wall thickness that can go side by side. You will likely need to cut each of the dividers you want multiple times.
-    """
+There are 4 different sets of dividers rendered:
+
+* With asymetric tabs so the tabs fit on top of each other
+* With tabs of half wall thickness that can go side by side
+* With tabs of a full wall thickness
+* One single divider spanning across all columns
+
+You will likely need to cut each of the dividers you want multiple times.
+"""
 
     ui_group = "Tray"
 
@@ -219,7 +227,9 @@ There are 3 different sets of dividers rendered: One single divider spanning acr
             first_tab_width=self.thickness if self.left_wall else 0,
             second_tab_width=self.thickness if self.right_wall else 0
         )
-        for tabs in [self.thickness, self.thickness / 2]:
+        for tabs, asymetric_tabs in [(self.thickness, None),
+                                     (self.thickness / 2, None),
+                                     (self.thickness, 0.5),]:
             with self.saved_context():
                 for i, length in enumerate(self.sx):
                     self.generate_divider(
@@ -228,7 +238,10 @@ There are 3 different sets of dividers rendered: One single divider spanning acr
                         "right",
                         first_tab_width=tabs if self.left_wall or i>0 else 0,
                         second_tab_width=tabs if self.right_wall or i<(len(self.sx) - 1) else 0,
+                        asymetric_tabs=asymetric_tabs,
                     )
+                    if asymetric_tabs:
+                        self.moveTo(-tabs, self.spacing)
             self.generate_divider(self.sx, divider_height, "up only")
 
         if self.debug:
@@ -275,18 +288,26 @@ There are 3 different sets of dividers rendered: One single divider spanning acr
             self.fingerHolesAt(posx, 0, length)
 
     def generate_divider(
-            self, widths, height, move, first_tab_width=0, second_tab_width=0):
+            self, widths, height, move,
+            first_tab_width=0, second_tab_width=0,
+            asymetric_tabs=None):
         total_width = sum(widths) + (len(widths)-1) * self.thickness + first_tab_width + second_tab_width
 
         if self.move(total_width, height, move, True):
             return
 
-        # Upper edge with a finger notch
         play = self.Divider_play
+        left_tab_height = right_tab_height = self.Slot_depth
+        if asymetric_tabs:
+            left_tab_height = left_tab_height * asymetric_tabs - play
+            right_tab_height = right_tab_height * (1-asymetric_tabs)
 
         # Upper: first tab width
-        self.edge(first_tab_width - play)
-
+        if asymetric_tabs:
+            self.moveTo(first_tab_width - play)
+        else:
+            self.edge(first_tab_width - play)
+        # Upper edge with a finger notch
         for nr, width in enumerate(widths):
             if nr > 0:
                 self.edge(self.thickness)
@@ -300,11 +321,11 @@ There are 3 different sets of dividers rendered: One single divider spanning acr
             second_tab_width - play,
             # First side, with tab depth only if there is 2 walls
             90,
-            self.Slot_depth,
+            left_tab_height,
             90,
             second_tab_width,
             -90,
-            height - self.Slot_depth,
+            height - left_tab_height,
             90,
         )
         # Lower edge
@@ -328,9 +349,16 @@ There are 3 different sets of dividers rendered: One single divider spanning acr
             -90,
             first_tab_width,
             90,
-            self.Slot_depth,
+            right_tab_height,
             90
         )
+        if asymetric_tabs:
+            self.polyline(
+                first_tab_width - play,
+                -90,
+                self.Slot_depth-right_tab_height,
+                90
+            )
 
         # Move for next piece
         self.move(total_width, height, move, label="Divider")

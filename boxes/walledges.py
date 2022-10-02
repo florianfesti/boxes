@@ -373,14 +373,20 @@ class FrenchCleatEdge(WallEdge):
         t = self.settings.thickness
         s = self.settings.spacing
         h = d * math.tan(math.radians(self.settings.angle))
-        if length < 3*t + 1.5*d + h:
+        # make small enough to not have finger holes
+        top = 0.5*t
+        bottom = 0.5 * t
+        if length < top + bottom + 1.5*d + h:
             return [length]
-        if length > 5*t + 1.5*d + h and self.settings.bottom == "stud":
-            return [2*t, 1.5*d + h, length - 3*t - 2.5*d - h, d, t]
-        if length > 3*t + 2.5*d + s and self.settings.bottom == "hook":
-            dist = ((length - 3*t - 1.5*d - h) // s ) * s - 1.5*d -h
-            return [2*t, 1.5*d + h, dist, 1.5*d + h, length-dist-2*t-3*d-2*h]
-        return [2*t, 2.5*d, length-2*t-2.5*d]
+        if length > top + bottom + 2*t + 1.5*d + h and \
+           self.settings.bottom == "stud":
+            return [top, 1.5*d + h, length - top - bottom - 2.5*d - h,
+                    d, bottom]
+        if length > top + bottom + 2.5*d + s and \
+           self.settings.bottom == "hook":
+            dist = ((length - top - t - 1.5*d - h) // s ) * s - 1.5*d - h
+            return [top, 1.5*d + h, dist, 1.5*d + h, length-dist-top-3*d-2*h]
+        return [top, 2.5*d, length-top-2.5*d]
 
     def _section(self, nr, length):
         d = self.settings.depth

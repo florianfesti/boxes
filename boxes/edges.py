@@ -1482,7 +1482,7 @@ class HingePin(BaseEdge):
 
     def __call__(self, l, **kw):
         plen = getattr(self, self.settings.style + 'len', self.outsetlen)()
-        glen = l * self.settings.grip_percentage + \
+        glen = l * self.settings.grip_percentage / 100 + \
                self.settings.grip_length
 
         if not self.settings.outset:

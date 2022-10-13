@@ -1,0 +1,173 @@
+usuario@Soporte-3:~$ git clone https://github.com/florianfesti/boxes.git
+Cloning into 'boxes'...
+remote: Enumerating objects: 7867, done.
+remote: Counting objects: 100% (545/545), done.
+remote: Compressing objects: 100% (328/328), done.
+remote: Total 7867 (delta 234), reused 514 (delta 216), pack-reused 7322
+Receiving objects: 100% (7867/7867), 64.82 MiB | 5.45 MiB/s, done.
+Resolving deltas: 100% (5330/5330), done.
+usuario@Soporte-3:~$ cd boxes
+usuario@Soporte-3:~/boxes$ ls
+boxes               documentation  LICENSE.txt  po                scripts
+CODE_OF_CONDUCT.md  examples       locale       README.rst        setup.py
+CONTRIBUTING.rst    inkex          MANIFEST.in  requirements.txt  static
+usuario@Soporte-3:~/boxes$ python3 -m pip install -r requirements.txt
+Collecting affine
+  Downloading affine-2.3.1-py2.py3-none-any.whl (16 kB)
+Collecting markdown
+  Downloading Markdown-3.4.1-py3-none-any.whl (93 kB)
+     |████████████████████████████████| 93 kB 1.7 MB/s
+Requirement already satisfied: setuptools in /usr/lib/python3/dist-packages (from -r requirements.txt (line 3)) (52.0.0)
+Collecting sphinx
+  Downloading sphinx-5.2.3-py3-none-any.whl (3.2 MB)
+     |████████████████████████████████| 3.2 MB 8.2 MB/s
+Collecting shapely
+  Downloading Shapely-1.8.5-cp39-cp39-manylinux_2_12_x86_64.manylinux2010_x86_64.whl (2.1 MB)
+     |████████████████████████████████| 2.1 MB 5.4 MB/s
+Collecting importlib-metadata>=4.4
+  Downloading importlib_metadata-5.0.0-py3-none-any.whl (21 kB)
+Collecting zipp>=0.5
+  Downloading zipp-3.9.0-py3-none-any.whl (5.8 kB)
+Collecting docutils<0.20,>=0.14
+  Downloading docutils-0.19-py3-none-any.whl (570 kB)
+     |████████████████████████████████| 570 kB 5.2 MB/s
+Collecting snowballstemmer>=2.0
+  Downloading snowballstemmer-2.2.0-py2.py3-none-any.whl (93 kB)
+     |████████████████████████████████| 93 kB 1.2 MB/s
+Collecting Pygments>=2.12
+  Downloading Pygments-2.13.0-py3-none-any.whl (1.1 MB)
+     |████████████████████████████████| 1.1 MB 4.4 MB/s
+Collecting sphinxcontrib-serializinghtml>=1.1.5
+  Downloading sphinxcontrib_serializinghtml-1.1.5-py2.py3-none-any.whl (94 kB)
+     |████████████████████████████████| 94 kB 3.6 MB/s
+Collecting packaging>=21.0
+  Downloading packaging-21.3-py3-none-any.whl (40 kB)
+     |████████████████████████████████| 40 kB 4.4 MB/s
+Collecting sphinxcontrib-devhelp
+  Downloading sphinxcontrib_devhelp-1.0.2-py2.py3-none-any.whl (84 kB)
+     |████████████████████████████████| 84 kB 4.6 MB/s
+Collecting sphinxcontrib-htmlhelp>=2.0.0
+  Downloading sphinxcontrib_htmlhelp-2.0.0-py2.py3-none-any.whl (100 kB)
+     |████████████████████████████████| 100 kB 6.5 MB/s
+Collecting requests>=2.5.0
+  Downloading requests-2.28.1-py3-none-any.whl (62 kB)
+     |████████████████████████████████| 62 kB 1.1 MB/s
+Collecting Jinja2>=3.0
+  Downloading Jinja2-3.1.2-py3-none-any.whl (133 kB)
+     |████████████████████████████████| 133 kB 8.4 MB/s
+Collecting sphinxcontrib-jsmath
+  Downloading sphinxcontrib_jsmath-1.0.1-py2.py3-none-any.whl (5.1 kB)
+Collecting imagesize>=1.3
+  Downloading imagesize-1.4.1-py2.py3-none-any.whl (8.8 kB)
+Collecting alabaster<0.8,>=0.7
+  Downloading alabaster-0.7.12-py2.py3-none-any.whl (14 kB)
+Collecting babel>=2.9
+  Downloading Babel-2.10.3-py3-none-any.whl (9.5 MB)
+     |████████████████████████████████| 9.5 MB 9.2 MB/s
+Collecting sphinxcontrib-applehelp
+  Downloading sphinxcontrib_applehelp-1.0.2-py2.py3-none-any.whl (121 kB)
+     |████████████████████████████████| 121 kB 9.5 MB/s
+Collecting sphinxcontrib-qthelp
+  Downloading sphinxcontrib_qthelp-1.0.3-py2.py3-none-any.whl (90 kB)
+     |████████████████████████████████| 90 kB 7.2 MB/s
+Collecting pytz>=2015.7
+  Downloading pytz-2022.4-py2.py3-none-any.whl (500 kB)
+     |████████████████████████████████| 500 kB 10.4 MB/s
+Collecting MarkupSafe>=2.0
+  Downloading MarkupSafe-2.1.1-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (25 kB)
+Collecting pyparsing!=3.0.5,>=2.0.2
+  Downloading pyparsing-3.0.9-py3-none-any.whl (98 kB)
+     |████████████████████████████████| 98 kB 6.0 MB/s
+Collecting charset-normalizer<3,>=2
+  Downloading charset_normalizer-2.1.1-py3-none-any.whl (39 kB)
+Collecting idna<4,>=2.5
+  Downloading idna-3.4-py3-none-any.whl (61 kB)
+     |████████████████████████████████| 61 kB 206 kB/s
+Collecting certifi>=2017.4.17
+  Downloading certifi-2022.9.24-py3-none-any.whl (161 kB)
+     |████████████████████████████████| 161 kB 9.3 MB/s
+Collecting urllib3<1.27,>=1.21.1
+  Downloading urllib3-1.26.12-py2.py3-none-any.whl (140 kB)
+     |████████████████████████████████| 140 kB 8.0 MB/s
+Installing collected packages: zipp, urllib3, pytz, pyparsing, MarkupSafe, idna, charset-normalizer, certifi, sphinxcontrib-serializinghtml, sphinxcontrib-qthelp, sphinxcontrib-jsmath, sphinxcontrib-htmlhelp, sphinxcontrib-devhelp, sphinxcontrib-applehelp, snowballstemmer, requests, Pygments, packaging, Jinja2, importlib-metadata, imagesize, docutils, babel, alabaster, sphinx, shapely, markdown, affine
+  WARNING: The script normalizer is installed in '/home/usuario/.local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+  WARNING: The script pygmentize is installed in '/home/usuario/.local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+  WARNING: The script docutils is installed in '/home/usuario/.local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+  WARNING: The script pybabel is installed in '/home/usuario/.local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+  WARNING: The scripts sphinx-apidoc, sphinx-autogen, sphinx-build and sphinx-quickstart are installed in '/home/usuario/.local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+  WARNING: The script markdown_py is installed in '/home/usuario/.local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+Successfully installed Jinja2-3.1.2 MarkupSafe-2.1.1 Pygments-2.13.0 affine-2.3.1 alabaster-0.7.12 babel-2.10.3 certifi-2022.9.24 charset-normalizer-2.1.1 docutils-0.19 idna-3.4 imagesize-1.4.1 importlib-metadata-5.0.0 markdown-3.4.1 packaging-21.3 pyparsing-3.0.9 pytz-2022.4 requests-2.28.1 shapely-1.8.5 snowballstemmer-2.2.0 sphinx-5.2.3 sphinxcontrib-applehelp-1.0.2 sphinxcontrib-devhelp-1.0.2 sphinxcontrib-htmlhelp-2.0.0 sphinxcontrib-jsmath-1.0.1 sphinxcontrib-qthelp-1.0.3 sphinxcontrib-serializinghtml-1.1.5 urllib3-1.26.12 zipp-3.9.0
+usuario@Soporte-3:~/boxes$ ls
+boxes               documentation  LICENSE.txt  po                scripts
+CODE_OF_CONDUCT.md  examples       locale       README.rst        setup.py
+CONTRIBUTING.rst    inkex          MANIFEST.in  requirements.txt  static
+usuario@Soporte-3:~/boxes$ ls scripts
+boxes  boxes2inkscape  boxes2pot  boxes_example.ipynb  boxesserver  Dockerfile  gen_thumbnails.sh
+usuario@Soporte-3:~/boxes$ python3 scripts/boxesserver
+BoxesServer serving on host:port :8000...
+127.0.0.1 - - [13/Oct/2022 10:53:34] "GET / HTTP/1.1" 200 32493
+127.0.0.1 - - [13/Oct/2022 10:53:34] "GET /static/self.css HTTP/1.1" 200 2357
+127.0.0.1 - - [13/Oct/2022 10:53:34] "GET /static/fonts.css HTTP/1.1" 200 1592
+127.0.0.1 - - [13/Oct/2022 10:53:35] "GET /static/normalize.css HTTP/1.1" 200 4693
+127.0.0.1 - - [13/Oct/2022 10:53:35] "GET /static/boxes-logo.svg HTTP/1.1" 200 12702
+127.0.0.1 - - [13/Oct/2022 10:53:35] "GET /static/nothing.png HTTP/1.1" 200 89
+127.0.0.1 - - [13/Oct/2022 10:53:35] "GET /static/fonts/bungeeshade/v3/DtVkJxarWL0t2KdzK3oI_jkc6SjT.woff2 HTTP/1.1" 200 42432
+127.0.0.1 - - [13/Oct/2022 10:53:35] "GET /static/nothing.png HTTP/1.1" 200 89
+127.0.0.1 - - [13/Oct/2022 10:53:35] "GET /static/favicon.ico HTTP/1.1" 200 16958
+127.0.0.1 - - [13/Oct/2022 10:53:36] "GET /static/samples/TrafficLight-thumb.jpg HTTP/1.1" 200 4100
+127.0.0.1 - - [13/Oct/2022 10:53:37] "GET /static/samples/BurnTest-thumb.jpg HTTP/1.1" 200 3422
+127.0.0.1 - - [13/Oct/2022 10:53:37] "GET /static/samples/ HTTP/1.1" 404 9
+127.0.0.1 - - [13/Oct/2022 10:53:38] "GET /static/samples/UniversalBox-thumb.jpg HTTP/1.1" 200 5133
+127.0.0.1 - - [13/Oct/2022 10:53:38] "GET /static/samples/RoundedBox-thumb.jpg HTTP/1.1" 200 2803
+127.0.0.1 - - [13/Oct/2022 10:53:38] "GET /static/samples/TypeTray-thumb.jpg HTTP/1.1" 200 3553
+127.0.0.1 - - [13/Oct/2022 10:53:38] "GET /static/samples/DisplayShelf-thumb.jpg HTTP/1.1" 200 4419
+127.0.0.1 - - [13/Oct/2022 10:53:38] "GET /static/samples/WallTypeTray-thumb.jpg HTTP/1.1" 200 4143
+127.0.0.1 - - [13/Oct/2022 10:53:41] "GET /static/samples/ HTTP/1.1" 404 9
+127.0.0.1 - - [13/Oct/2022 10:53:42] "GET /static/samples/ HTTP/1.1" 404 9
+127.0.0.1 - - [13/Oct/2022 10:53:42] "GET /static/samples/Atreus21-thumb.jpg HTTP/1.1" 200 6502
+127.0.0.1 - - [13/Oct/2022 10:53:42] "GET /static/samples/BottleTag-thumb.jpg HTTP/1.1" 200 6969
+127.0.0.1 - - [13/Oct/2022 10:53:42] "GET /static/samples/CanStorage-thumb.jpg HTTP/1.1" 200 5444
+127.0.0.1 - - [13/Oct/2022 10:53:43] "GET /static/samples/CoinDisplay-thumb.jpg HTTP/1.1" 200 4469
+127.0.0.1 - - [13/Oct/2022 10:53:43] "GET /static/samples/CoffeeCapsuleHolder-thumb.jpg HTTP/1.1" 200 4235
+127.0.0.1 - - [13/Oct/2022 10:53:47] "GET /static/samples/BottleStack-thumb.jpg HTTP/1.1" 200 89
+127.0.0.1 - - [13/Oct/2022 10:53:50] "GET /static/samples/Arcade-thumb.jpg HTTP/1.1" 200 89
+127.0.0.1 - - [13/Oct/2022 10:53:53] "GET /BottleTag?language=en HTTP/1.1" 200 7965
+127.0.0.1 - - [13/Oct/2022 10:53:53] "GET /static/self.css HTTP/1.1" 200 2357
+127.0.0.1 - - [13/Oct/2022 10:53:54] "GET /static/fonts.css HTTP/1.1" 200 1592
+127.0.0.1 - - [13/Oct/2022 10:53:54] "GET /static/normalize.css HTTP/1.1" 200 4693
+127.0.0.1 - - [13/Oct/2022 10:53:54] "GET /static/boxes-logo.svg HTTP/1.1" 200 12702
+127.0.0.1 - - [13/Oct/2022 10:53:54] "GET /static/samples/BottleTag.jpg HTTP/1.1" 200 82889
+127.0.0.1 - - [13/Oct/2022 10:53:54] "GET /static/fonts/bungeeshade/v3/DtVkJxarWL0t2KdzK3oI_jkc6SjT.woff2 HTTP/1.1" 200 42432
+127.0.0.1 - - [13/Oct/2022 10:53:54] "GET /static/fonts/luckiestguy/v8/_gP_1RrxsjcxVyin9l9n_j2hTd52.woff2 HTTP/1.1" 200 17024
+127.0.0.1 - - [13/Oct/2022 10:53:57] "GET /BottleTag?width=72&height=98&min_diameter=24&max_diameter=50&radius=15&segment_width=3&thickness=3.0&format=svg&tabs=0.0&debug=0&labels=0&labels=1&reference=100&inner_corners=loop&burn=0.1&render=1 HTTP/1.1" 200 6346
+127.0.0.1 - - [13/Oct/2022 10:53:57] "GET /favicon.ico HTTP/1.1" 200 32493
+127.0.0.1 - - [13/Oct/2022 10:55:22] "GET /BottleTag?width=70&height=90&min_diameter=44&max_diameter=60&radius=8&segment_width=3&thickness=3.0&format=svg&tabs=0.0&debug=0&labels=0&labels=1&reference=100&inner_corners=loop&burn=0.1&render=1 HTTP/1.1" 200 7988
+127.0.0.1 - - [13/Oct/2022 10:55:22] "GET /favicon.ico HTTP/1.1" 200 32493
+127.0.0.1 - - [13/Oct/2022 12:04:45] "GET / HTTP/1.1" 200 32493
+127.0.0.1 - - [13/Oct/2022 12:04:45] "GET /static/self.css HTTP/1.1" 200 2357
+127.0.0.1 - - [13/Oct/2022 12:04:45] "GET /static/fonts.css HTTP/1.1" 200 1592
+127.0.0.1 - - [13/Oct/2022 12:04:45] "GET /static/normalize.css HTTP/1.1" 200 4693
+127.0.0.1 - - [13/Oct/2022 12:04:45] "GET /static/boxes-logo.svg HTTP/1.1" 200 12702
+127.0.0.1 - - [13/Oct/2022 12:04:45] "GET /static/nothing.png HTTP/1.1" 200 89
+127.0.0.1 - - [13/Oct/2022 12:04:46] "GET /static/fonts/bungeeshade/v3/DtVkJxarWL0t2KdzK3oI_jkc6SjT.woff2 HTTP/1.1" 200 42432
+127.0.0.1 - - [13/Oct/2022 12:04:46] "GET /static/samples/RoundedBox-thumb.jpg HTTP/1.1" 200 2803
+127.0.0.1 - - [13/Oct/2022 12:04:53] "GET /static/samples/RoundedBox-thumb.jpg HTTP/1.1" 200 2803
+127.0.0.1 - - [13/Oct/2022 12:04:54] "GET /static/samples/UniversalBox-thumb.jpg HTTP/1.1" 200 5133
+127.0.0.1 - - [13/Oct/2022 12:04:54] "GET /static/samples/ HTTP/1.1" 404 9
+127.0.0.1 - - [13/Oct/2022 12:04:54] "GET /static/samples/BurnTest-thumb.jpg HTTP/1.1" 200 3422
+127.0.0.1 - - [13/Oct/2022 12:04:55] "GET /static/samples/TrafficLight-thumb.jpg HTTP/1.1" 200 4100
+127.0.0.1 - - [13/Oct/2022 12:04:55] "GET /static/samples/ HTTP/1.1" 404 9
+127.0.0.1 - - [13/Oct/2022 12:04:55] "GET /static/samples/TypeTray-thumb.jpg HTTP/1.1" 200 3553
+127.0.0.1 - - [13/Oct/2022 12:04:57] "GET /static/samples/ HTTP/1.1" 404 9
+127.0.0.1 - - [13/Oct/2022 12:07:01] "GET /static/samples/RoundedBox-thumb.jpg HTTP/1.1" 200 2803
+127.0.0.1 - - [13/Oct/2022 12:07:01] "GET /static/samples/UniversalBox-thumb.jpg HTTP/1.1" 200 5133
+127.0.0.1 - - [13/Oct/2022 12:07:03] "GET /static/samples/TypeTray-thumb.jpg HTTP/1.1" 200 3553
+127.0.0.1 - - [13/Oct/2022 12:07:03] "GET /static/samples/TrafficLight-thumb.jpg HTTP/1.1" 200 4100
+127.0.0.1 - - [13/Oct/2022 12:07:05] "GET /static/samples/ HTTP/1.1" 404 9
+^CBoxesServer stops.

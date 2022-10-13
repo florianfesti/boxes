@@ -76,3 +76,16 @@ Another way of installing Boxes.py on Windows is to use the Windows Subsystem
 for Linux (WSL). This requires newer versions of Windows 10. Once it is
 installed (e.g. via the Ubuntu App from the Microsoft Store), the installation
 is identical to the installation on Linux systems.
+
+Once wsl is installed, run it and enter the following commands:
+
+- :code:`cd ~`
+- :code:`git clone https://github.com/florianfesti/boxes.git`
+- :code:`cd ~/boxes`
+- :code:`python3 -m pip install -r ~/boxes/requirements.txt`
+- :code:`python3 ~/boxes/scripts/boxesserver`
+
+.. figure:: win11-wsl-boxesserver-localhost.png
+       :scale: 50%
+       :alt: Screenshot of a browser window running Boxes.py locally on WSL
+       :align: center

@@ -44,8 +44,7 @@ in the :code:`boxes.formats.Formats` class.
 Python
 ......
 
-Boxes.py is implemented in Python 3. It used to work on Python 2.7,
-too. But with the Python 2 approaching end of life support has been dropped.
+Boxes.py is implemented in Python 3. For supported minor version see `setup.py`.
 
 Sphinx
 ......

@@ -817,7 +817,7 @@ class SlottedEdge(BaseEdge):
             if self.slots:
                 Slot(self.boxes, self.slots)(self.settings.thickness)
             else:
-                self.edge(self.settings.thickness)
+                self.boxes.edge(self.settings.thickness)
 
         self.edge(self.sections[-1])
 

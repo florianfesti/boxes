@@ -67,7 +67,7 @@ class DisplayShelf(Boxes): # change class name here and below
             hypotenuse = (height - lip_height) / math.sin(a)
             top_width = width - math.sqrt((hypotenuse ** 2) - ((height - lip_height) * 2))
 
-            borders = [width, 90, lip_height, self.angle, hypotenuse, -135, top_width, -90, height, 90]
+            borders = [width, 90, lip_height, self.angle, hypotenuse, 180+self.angle, top_width, 180+90, height, 0]
 
             self.polygonWall(borders, edge='e', callback=[self.side], move="up")
             self.polygonWall(borders, edge='e', callback=[self.side], move="up")

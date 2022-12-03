@@ -2692,12 +2692,26 @@ class Boxes:
         return ext
 
     def polygonWall(self, borders, edge="f", turtle=False,
-                    callback=None, move=None):
+                    callback=None, move=None, label=""):
+        """
+        Polygon wall for all kind of multi-edged objects
 
-        e = self.edges.get(edge, edge)
+        :param borders: array of distance and angles to draw
+        :param edge:  (Default value = "f") Edges to apply. If the array of borders contains more segments that edges, the edge will wrap. Only edge types without start and end width suppported for now.
+        :param turtle: (Default value = False)
+        :param callback:  (Default value = None)
+        :param move:  (Default value = None)
+        :param label: rendered to identify parts, it is not ment to be cut or etched (Default value = "")
+
+        """
+        try:
+            edges = [self.edges.get(e, e) for e in edge]
+        except TypeError:
+            edges = [self.edges.get(edge, edge)]
+
         t = self.thickness # XXX edge.margin()
 
-        minx, miny, maxx, maxy = self._polygonWallExtend(borders, e)
+        minx, miny, maxx, maxy = self._polygonWallExtend(borders, edges[0])
 
         tw, th = maxx - minx, maxy - miny
 
@@ -2719,12 +2733,13 @@ class Boxes:
             else:
                 length_correction = 0.0
             l -= length_correction
-            e(l)
+            edge = edges[(i//2)%len(edges)]
+            edge(l)
             self.edge(length_correction)
             self.corner(next_angle, tabs=1)
 
         if not turtle:
-            self.move(tw, th, move)
+            self.move(tw, th, move, label=label)
 
     @restore
     def polygonWalls(self, borders, h, bottom="F", top="F", symetrical=True):

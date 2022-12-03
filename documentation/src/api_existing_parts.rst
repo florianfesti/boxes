@@ -11,6 +11,7 @@ Currently there are the following parts:
 .. automethod:: boxes.Boxes.flangedWall
 .. automethod:: boxes.Boxes.rectangularTriangle
 .. automethod:: boxes.Boxes.regularPolygonWall
+.. automethod:: boxes.Boxes.polygonWall
 .. automethod:: boxes.Boxes.roundedPlate
 .. automethod:: boxes.Boxes.surroundingWall
 

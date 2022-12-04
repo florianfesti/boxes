@@ -219,7 +219,7 @@ class BoolArg:
             default = self(default)
         return """<input name="%s" type="hidden" value="0">
 <input name="%s" id="%s" aria-labeledby="%s %s" type="checkbox" value="1"%s>""" % \
-            (name, name, name, name+"_id", name+"_description",' checked="checked"' if default else "") 
+            (name, name, name, name+"_id", name+"_description",' checked="checked"' if default else "")
 
 boolarg = BoolArg()
 
@@ -1182,7 +1182,7 @@ class Boxes:
             self.ctx.restore()
             if self.labels and label:
                 self.text(label, x/2, y/2, align="middle center", color=Color.ANNOTATIONS, fontsize=4)
-            self.ctx.stroke() 
+            self.ctx.stroke()
 
         for term in terms:
             if not term in moves:
@@ -1252,11 +1252,11 @@ class Boxes:
         if n == 0:
             self.hole(x, y, r=r, tabs=tabs)
             return
- 
+
         if r < self.burn:
             r = self.burn + 1E-9
         r_ = r - self.burn
-        
+
         if corner_radius < self.burn:
             corner_radius = self.burn
         cr_ = corner_radius - self.burn
@@ -1269,7 +1269,7 @@ class Boxes:
         b = math.sin(math.pi / n) / math.sin(2 * math.pi / n) * s
         # the flat portion of the side:
         flat_side_length = side_length - 2 * b
-        
+
         self.moveTo(x, y, a)
         self.moveTo(r_, 0, 90+180/n)
         self.moveTo(b, 0, 0)
@@ -1404,17 +1404,17 @@ class Boxes:
         :param angle: rotation angle of the hole
 
         """
-        
+
         if d_shaft < (2 * self.burn):
             return  # no hole if diameter is smaller then the capabilities of the machine
-        
+
         if not d_head or d_head < (2 * self.burn): # if no head diameter is given
             self.hole(x, y ,d=d_shaft, tabs=tabs)  # only a round hole is generated
             return
-            
+
         rs = d_shaft / 2
         rh = d_head / 2
-        
+
         self.moveTo(x, y, angle)
         self.moveTo(0, rs - self.burn, 0)
         self.corner(-180, rs, tabs)
@@ -1713,7 +1713,7 @@ class Boxes:
             if self.debug:
                 self.showBorderPoly(list(outerCutPoly.exterior.coords))
                 self.showBorderPoly(list(innerCutPoly.exterior.coords))
-            
+
             # set startpoint
             y = min_y + bspace + max_radius_y
 
@@ -2415,7 +2415,7 @@ class Boxes:
         :param r: radius of the corners of the flange
         :param callback:  (Default value = None)
         :param move:  (Default value = None)
-        :param label: rendered to identify parts, it is not ment to be cut or etched (Default value = "")        
+        :param label: rendered to identify parts, it is not ment to be cut or etched (Default value = "")
         """
 
         t = self.thickness
@@ -2475,7 +2475,7 @@ class Boxes:
         :param bedBoltSettings:  (Default value = None)
         :param callback:  (Default value = None)
         :param move:  (Default value = None)
-        :param label: rendered to identify parts, it is not ment to be cut or etched (Default value = "")    
+        :param label: rendered to identify parts, it is not ment to be cut or etched (Default value = "")
         """
         edges = [self.edges.get(e, e) for e in edges]
         if len(edges) == 2:

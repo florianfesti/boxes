@@ -41,12 +41,15 @@ class DisplayShelf(Boxes): # change class name here and below
 
         t = self.thickness
         a = math.radians(self.angle)
-                
+
         hs = (self.sl+t) * math.sin(a) + math.cos(a) * t
 
         for i in range(self.num):
             pos_x = abs(0.5*t*math.sin(a))
-            pos_y = hs - math.cos(a)*0.5*t + i * (self.h-hs) / (self.num - 0.5)
+            pos_y = hs - math.cos(a)*0.5*t + i * (self.h-abs(hs)) / (self.num - 0.5)
+            if a < 0:
+                pos_y += -math.sin(a) * self.sl
+
             self.fingerHolesAt(pos_x, pos_y, self.sl, -self.angle)
             pos_x += math.cos(-a) * (self.sl+0.5*t) + math.sin(a)*0.5*t
             pos_y += math.sin(-a) * (self.sl+0.5*t) + math.cos(a)*0.5*t

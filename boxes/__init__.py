@@ -424,7 +424,7 @@ class Boxes:
                 else:
                     shaft_length = 25.4 * float(shaft_length)
             nut_width, nut_height, shaft_width = HexSizes[bolt_std]
-            self.bedBoltSettings = (shaft_width, nut_width, nut_height, shaft_length, shaft_length - nut_height*2)
+            self.bedBoltSettings = (shaft_width, nut_width, nut_height, shaft_length - self.thickness, shaft_length - self.thickness - nut_height*2)
         if self.nut_dist:
             self.bedBoltSettings = (*self.bedBoltSettings[:-1], self.nut_dist)
         self.surface, self.ctx = self.formats.getSurface(self.format, self.output)

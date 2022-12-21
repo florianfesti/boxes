@@ -44,10 +44,11 @@ See BasedBox for variant with a base."""
 
         t = self.thickness
 
-        d2 = edges.Bolts(2)
-        d3 = edges.Bolts(3)
-
-        d2 = d3 = None
+        if self.bolts:
+            d2 = edges.Bolts(2)
+            d3 = edges.Bolts(3)
+        else:
+            d2 = d3 = None
 
         self.rectangularWall(x, h, "FFFF", bedBolts=[d2] * 4, move="right", label="Wall 1")
         self.rectangularWall(y, h, "FfFf", bedBolts=[d3, d2, d3, d2], move="up", label="Wall 2")

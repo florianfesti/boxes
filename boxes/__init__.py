@@ -366,6 +366,14 @@ class Boxes:
         defaultgroup.add_argument(
             "--burn", action="store", type=float, default=0.1,
             help='burn correction (in mm)(bigger values for tighter fit) [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#burn)')
+        defaultgroup.add_argument(
+            "--bolts", action="store", type=str, default=None,
+            help='Cut holes for bed bolts, such as M4x20 or #8x1/2.'
+            )
+        defaultgroup.add_argument(
+            "--nut_dist", action="store", type=float, default=None,
+            help='Nut placement distance on bed bolts (in mm).'
+            )
 
     @contextmanager
     def saved_context(self):
@@ -405,6 +413,20 @@ class Boxes:
             return
 
         self.bedBoltSettings = (3, 5.5, 2, 20, 15)  # d, d_nut, h_nut, l, l1
+        if self.bolts:
+            bolt_std, shaft_length = self.bolts.split('x')
+            if 'M' in bolt_std:
+                shaft_length = float(shaft_length)
+            else:
+                if '/' in shaft_length:
+                    shaft_length_num, shaft_length_den = shaft_length.split('/')
+                    shaft_length = 25.4 * float(shaft_length_num) / float(shaft_length_den)
+                else:
+                    shaft_length = 25.4 * float(shaft_length)
+            nut_width, nut_height, shaft_width = HexSizes[bolt_std]
+            self.bedBoltSettings = (shaft_width, nut_width, nut_height, shaft_length, shaft_length - nut_height*2)
+        if self.nut_dist:
+            self.bedBoltSettings = (*self.bedBoltSettings[:-1], self.nut_dist)
         self.surface, self.ctx = self.formats.getSurface(self.format, self.output)
 
         if self.format == 'svg_Ponoko':

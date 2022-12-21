@@ -2448,7 +2448,7 @@ class Boxes:
             self.cc(callback, i, x=-rl)
             if flanges[i]:
                 if edges[i] is self.edges["F"] or edges[i] is self.edges["h"]:
-                    self.fingerHolesAt(flanges[i-1]+t-rl, 0.5*t+flanges[i], l,
+                    self.fingerHolesAt(flanges[i-1]+edges[i-1].endwidth()-rl, 0.5*t+flanges[i], l,
                                        angle=0)
                 self.edge(l+flanges[i-1]+flanges[i+1]+edges[i-1].endwidth()+edges[i+1].startwidth()-rl-rr)
             else:

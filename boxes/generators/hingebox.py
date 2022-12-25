@@ -19,6 +19,13 @@ from boxes import *
 class HingeBox(Boxes):
     """Box with lid attached by cabinet hinges"""
 
+    description = """Needs (metal) pins as hinge axles. Pieces of nails will
+do fine. They need to be cut to length as they are caputured as soon as the
+hinges are assembled.
+
+Assemble the box and the lid separately. Then insert the axle into the hinges.
+Then attach the hinges on the inside of the box and then connect them to lid.
+"""
     ui_group = "Box"
 
     def __init__(self):

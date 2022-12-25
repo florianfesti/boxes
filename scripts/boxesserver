@@ -259,6 +259,7 @@ class BServer:
         result.append("""
 <p>
   <button name="render" value="1" formtarget="_blank">""" + _("Generate") + """</button>
+  <button name="render" value="2" formtarget="_self">""" + _("Download") + """</button>
   <button name="render" value="0" formtarget="_self">""" + _("Save to URL") + """</button>
 </p>
 </form>
@@ -472,6 +473,10 @@ class BServer:
         name = environ["PATH_INFO"][1:]
         args = [unquote_plus(arg) for arg in
                 environ.get('QUERY_STRING', '').split("&")]
+        render = "0"
+        for arg in args:
+            if arg.startswith("render="):
+                render = arg[len("render="):]
 
         lang = self.getLanguage(args, environ.get("HTTP_ACCEPT_LANGUAGE", ""))
         _ = lang.gettext
@@ -486,7 +491,7 @@ class BServer:
         else:
             box = box_cls()
 
-        if "render=1" not in args:
+        if render == "0":
             defaults = { }
             for a in args:
                 kv = a.split('=')
@@ -496,7 +501,7 @@ class BServer:
             start_response(status, headers)
             return self.args2html(name, box, lang, "./" + name, defaults=defaults)
         else:
-            args = ["--"+ arg for arg in args if arg != "render=1"]
+            args = ["--"+ arg for arg in args if not arg.startswith("render=")]
             try:
                 box.parseArgs(args)
             except (ArgumentParserError) as e:
@@ -534,7 +539,7 @@ class BServer:
                 box.format,
                 [('Content-type', 'application/unknown; charset=utf-8')])[:]
 
-            if box.format != "svg":
+            if box.format != "svg" or render == "2":
                 extension = box.format
                 if extension == "svg_Ponoko":
                     extension = "svg"

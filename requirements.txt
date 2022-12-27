@@ -1,5 +1,5 @@
-affine
+affine>=2.0
 markdown
 setuptools
 sphinx
-shapely
+shapely>=1.8.2

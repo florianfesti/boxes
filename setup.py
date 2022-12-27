@@ -80,7 +80,7 @@ setup(
     author_email='florian@festi.info',
     url='https://github.com/florianfesti/boxes',
     packages=find_packages(),
-    python_requires='>=3.6',
+    python_requires='>=3.7',
     install_requires=['affine>=2.0', 'markdown', 'shapely>=1.8.2'],
     scripts=['scripts/boxes', 'scripts/boxesserver'],
     cmdclass={

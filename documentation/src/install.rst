@@ -33,12 +33,12 @@ Setup.py uses the :code:`setuptools` library (package name may be
 :code:`python*-setuptools`). You only need it if you want to build the
 package.
 
-ps2edit
+pstoedit
 .......
 
-While not a hard requirement Boxes.py uses :code:`ps2edit` to offer formats
+While not a hard requirement Boxes.py uses :code:`pstoedit` (sometimes :code:`ps2edit`) to offer formats
 that are not supported by Cairo: DXF, gcode, PLT. Currently the location
-Boxes.py looks for :code:`ps2edit` is hard coded to :code:`/usr/bin/pstoedit`
+Boxes.py looks for :code:`pstoedit` is hard coded to :code:`/usr/bin/pstoedit`
 in the :code:`boxes.formats.Formats` class.
 
 Python

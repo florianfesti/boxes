@@ -196,7 +196,7 @@ class DiscRack(Boxes):
 
         max_slitlengthplush = offset_radius_in_square(
                 self.outer, self.angle, r * self.rear_factor + self.thickness)
-        slitlengthplush = self.rear_halfslit + self.thickness * ( 1 + \
+        slitlengthplush = self.rear_halfslit + self.thickness * ( 1 +
                 self.edgesettings['FingerJoint']['edge_width'])
 
         if slitlengthplush > max_slitlengthplush:

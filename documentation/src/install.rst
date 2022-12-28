@@ -58,7 +58,7 @@ Running from working dir
 ------------------------
 
 Due to lazy developer(s) Boxes.py can also run from the Git checkout.
-The scripts in :code:`scripts/` are all suppossed to just work right
+The scripts in :code:`scripts/` are all supposed to just work right
 after :code:`git clone`. The Inkscape needs a bit manual work to get
 running. See below.
 
@@ -76,7 +76,7 @@ binary package)
 **git repository easy way**
 
 After cloning it may be most convenient to generate the .inx files
-right in place by executing :code:`scripts/boxes2inkscape` with the taget
+right in place by executing :code:`scripts/boxes2inkscape` with the target
 path as only parameter.
 
 - global: :code:`scripts/boxes2inkscape /usr/share/inkscape/extensions/`

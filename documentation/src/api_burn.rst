@@ -4,7 +4,7 @@ Burn correction
 The burn correction -- aka kerf -- is done in two separate steps. The
 first mechanism is used during drawing. After rendering there is
 a post processing step that replaces the inverted arcs of the inner corners by
-Bezier loops that can be cut in a continous motion.
+Bezier loops that can be cut in a continuous motion.
 
 The first mechanism is integrated into the low level
 commands of Boxes.py. So for the most part developers do not need to

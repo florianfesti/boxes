@@ -37,6 +37,6 @@ It can be used with the following code pattern:
 
 Parts of the code still directly use the back end primitives **Boxes.ctx.save()**
 and **Boxes.ctx.restore()**. But this has several disadvantages and is
-discouraged. For one it requires matchiung calls. It also does not
+discouraged. For one it requires matching calls. It also does not
 reset the starting point of the next line. This is "healed" by a
 follow up **.moveTo()**. Use **.moveTo(0, 0)** if in doubt.

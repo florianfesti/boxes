@@ -29,7 +29,7 @@ These should probably be Edge classes. But right now they are still functions.
 Tab support
 ...........
 
-Tabs are small interuptions in the border of a part to keep it in
+Tabs are small interruptions in the border of a part to keep it in
 place. They are enabled with the **tabs** parameter. All
 **Edges** automatically create about two tabs. So parts like
 :py:meth:`boxes.Boxes.rectangularWall` will have 8 tabs holding them

@@ -28,7 +28,10 @@ jobs:
           pip install -r requirements.txt
       - name: Build documentation
         run: |
-          cd ./documentation/src/ && make html #linkchecker
+          cd ./documentation/src/
+          ./boxes2rst generators.inc
+          make html #linkcheck
+          cp index.html ../build/
           cd ../build/ && ls && ls html/
           rm -rf doctrees
           touch .nojekyll    

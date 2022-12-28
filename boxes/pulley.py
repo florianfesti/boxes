@@ -3,13 +3,13 @@
 // by droftarts January 2012
 
 // Based on pulleys by:
-// http://www.thingiverse.com/thing:11256 by me!
+// https://www.thingiverse.com/thing:11256 by me!
 // https://github.com/prusajr/PrusaMendel by Josef Prusa
-// http://www.thingiverse.com/thing:3104 by GilesBathgate
-// http://www.thingiverse.com/thing:2079 by nophead
+// https://www.thingiverse.com/thing:3104 by GilesBathgate
+// https://www.thingiverse.com/thing:2079 by nophead
 
 // dxf tooth data from http://oem.cadregister.com/asp/PPOW_Entry.asp?company=915217&elementID=07807803/METRIC/URETH/WV0025/F
-// pulley diameter checked and modelled from data at http://www.sdp-si.com/D265/HTML/D265T016.html
+// pulley diameter checked and modelled from data at https://www.sdp-si.com/D265/HTML/D265T016.html
 """
 from math import *
 

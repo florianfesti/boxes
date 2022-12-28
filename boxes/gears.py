@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Copyright (C) 2007 Aaron Spike  (aaron @ ekips.org)
 # Copyright (C) 2007 Tavmjong Bah (tavmjong @ free.fr)
-# Copyright (C) http://cnc-club.ru/forum/viewtopic.php?f=33&t=434&p=2594#p2500
+# Copyright (C) https://cnc-club.ru/forum/viewtopic.php?f=33&t=434&p=2594#p2500
 # Copyright (C) 2014 Jürgen Weigert (juewei@fabmail.org)
 #
 # This program is free software; you can redistribute it and/or modify
@@ -25,7 +25,7 @@
 # 2014-04-05 juewei    0.7a  Correctly positioned rack gear.
 #                        The geometry above the meshing line is wrong.
 # 2014-04-06 juewei    0.7b  Undercut detection added. Reference:
-#                http://nptel.ac.in/courses/IIT-MADRAS/Machine_Design_II/pdf/2_2.pdf
+#                https://web.archive.org/web/20140801105942/https://nptel.ac.in/courses/IIT-MADRAS/Machine_Design_II/pdf/2_2.pdf
 #                Manually merged https://github.com/jnweiger/inkscape-gears-dev/pull/15
 # 2014-04-07 juewei    0.7c  Manually merged https://github.com/jnweiger/inkscape-gears-dev/pull/17
 # 2014-04-09 juewei    0.8   Fixed https://github.com/jnweiger/inkscape-gears-dev/issues/19

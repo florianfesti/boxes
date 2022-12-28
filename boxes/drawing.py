@@ -3,11 +3,7 @@ import datetime
 from affine import Affine
 from boxes.extents import Extents
 from boxes.Color import Color as bColor
-
-try:
-    from xml.etree import cElementTree as ET
-except ImportError:
-    from xml.etree import ElementTree as ET
+from xml.etree import ElementTree as ET
 
 EPS = 1e-4
 PADDING = 10

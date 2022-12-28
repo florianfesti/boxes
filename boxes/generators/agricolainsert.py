@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 # Copyright (C) 2020 Guillaume Collic
 #
 #   This program is free software: you can redistribute it and/or modify

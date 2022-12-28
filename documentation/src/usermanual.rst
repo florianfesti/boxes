@@ -91,7 +91,7 @@ format
 ......
 
 Boxes.py is able to create multiple formats. For most of them it
-requires ``ps2edit``. Without ``ps2edit`` only ``SVG``
+requires ``pstoedit``. Without ``pstoedit`` only ``SVG``
 and ``postscript`` (ps) is supported. Otherwise you can also
 select
 
@@ -101,7 +101,7 @@ select
 * pdf
 * plt
 
-Other formats supported by ``ps2edit`` can be added easily. Please
+Other formats supported by ``pstoedit`` can be added easily. Please
 open a ticket on GitHub if you need one.
 
 tabs

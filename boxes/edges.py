@@ -1938,7 +1938,7 @@ class LidEdge(FingerJointEdge):
     description = "Edge for slide on lid (back)"
 
     def __call__(self, length, bedBolts=None, bedBoltSettings=None, **kw):
-        hole_width = self.settings.hole_width;
+        hole_width = self.settings.hole_width
         if hole_width > 0:
             super().__call__((length - hole_width) / 2)
             GroovedEdgeBase.groove_arc(self, hole_width)
@@ -1951,7 +1951,7 @@ class LidHoleEdge(FingerHoleEdge):
     description = "Edge for slide on lid (box back)"
 
     def __call__(self, length, bedBolts=None, bedBoltSettings=None, **kw):
-        hole_width = self.settings.hole_width;
+        hole_width = self.settings.hole_width
         if hole_width > 0:
             super().__call__((length - hole_width) / 2)
             self.edge(hole_width)

@@ -10,7 +10,7 @@ Edge instances have a Settings object associated with them that keeps
 the details about how the edge should look like. Edges that are
 supposed to work together share the same Settings object to ensure
 they fit together - assuming they have the same length. Most edges are
-symetrical to unsure they fit together even when drawn from different
+symmetrical to unsure they fit together even when drawn from different
 directions. Although there are a few exception - mainly edges that
 provide special features like hinges.
 
@@ -21,7 +21,7 @@ properly. When drawing an Edge there is a virtual straight line that
 is the border the shape of the part (e.g. an rectangle). But the
 actual Edge has often to be drawn elsewhere. Best example if probably
 the ``F`` Edge that matches the normal finger joints. It has to start
-one material thickness outside of the virual border of the part so the
+one material thickness outside of the virtual border of the part so the
 cutouts for the opposing fingers just touch the border. The Edge
 classes have a number of methods to deal with these kind of offsets.
 

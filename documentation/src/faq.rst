@@ -15,14 +15,14 @@ Why do my parts not fit together?
 
 Well, this could be a bug in Boxes.py but there are a few more likely causes to check for:
 
-* The material you use does not have the thickness you think. Measure it with at least a caliper. Even a few hundredth of a milimeter will make the difference between a loose fit, a light or a heavy pressfit or no fit at all.
+* The material you use does not have the thickness you think. Measure it with at least a caliper. Even a few hundredth of a millimeter will make the difference between a loose fit, a light or a heavy pressfit or no fit at all.
 
-* You might have choosen the "burn" value too big. As it compensates for the material cut away by the laser smaller values make a looser fit, bigger values make a tighter fit. The right value may be different for different materials and different thicknesses.
+* You might have chosen the "burn" value too big. As it compensates for the material cut away by the laser smaller values make a looser fit, bigger values make a tighter fit. The right value may be different for different materials and different thicknesses.
 
 Why is my box a bit too big?
 ----------------------------
 
-By default all sizes are inner sizes. So on the outside the box is bigger as the walls need to go somewhere. Some generators offer an "outside" param that includes the walls in the measurements. In general you should check the generated parts for plausability before hitting the start button on your laser cutter. 
+By default all sizes are inner sizes. So on the outside the box is bigger as the walls need to go somewhere. Some generators offer an "outside" param that includes the walls in the measurements. In general you should check the generated parts for plausibility before hitting the start button on your laser cutter.
 
 Why is my box a bit too small?
 ------------------------------

@@ -18,7 +18,7 @@ Currently there are the following parts:
 Parts Class
 ...........
 
-More parts are available in a separete class. An instance is available as
+More parts are available in a separate class. An instance is available as
 **Boxes.parts**
 
 .. automethod:: boxes.parts.Parts.disc

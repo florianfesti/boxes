@@ -16,7 +16,7 @@
 
 import re, datetime
 
-from xml.etree import cElementTree as ElementTree
+from xml.etree import ElementTree
 ElementTree.register_namespace("","http://www.w3.org/2000/svg")
 ElementTree.register_namespace("xlink", "http://www.w3.org/1999/xlink")
 

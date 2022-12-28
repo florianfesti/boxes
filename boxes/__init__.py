@@ -706,7 +706,7 @@ class Boxes:
 
         Flush canvas to disk and convert output to requested format if needed.
         Call after .render()"""
-        if self.ctx == None:
+        if self.ctx is None:
             return
 
         self.ctx.stroke()

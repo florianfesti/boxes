@@ -165,7 +165,7 @@ class Keyboard:
             grid_hole(3, -4, led_hole_size)
 
     def apply_callback_on_columns(self, cb, columns_definition, spacing=None, reverse=False):
-        if spacing == None:
+        if spacing is None:
             spacing = self.STANDARD_KEY_SPACING
         if reverse:
             columns_definition = list(reversed(columns_definition))

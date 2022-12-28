@@ -449,8 +449,8 @@ class SlotDescription:
     ):
         self.depth = depth
         self.width = width
-        self.start_radius = radius if start_radius == None else start_radius
-        self.end_radius = radius if end_radius == None else end_radius
+        self.start_radius = radius if start_radius is None else start_radius
+        self.end_radius = radius if end_radius is None else end_radius
         self.angle = angle
 
     def __repr__(self):

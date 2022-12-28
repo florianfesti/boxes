@@ -95,7 +95,7 @@ class OrganPipe(Boxes): # Change class name!
         air_density = 1.2
         air_speed = self.getAirSpeed(self.windpressure, air_density)
 
-        i = self.intonation;
+        i = self.intonation
         radius = self.getRadius(self.pitch, self.octave, i) * 1000
         cross_section = pi * radius**2
         circumference = pi * radius * 2.0
@@ -109,9 +109,9 @@ class OrganPipe(Boxes): # Change class name!
         sound_power = (0.001 * pi * (air_density / speed_of_sound) * f**2
                        * (1.7 * (jet_thickness * speed_of_sound * f * mouth_area * mouth_area**.5)**.5)**2)
 
-        air_consumption_rate = air_speed * mouth_width * jet_thickness * 1E6;
+        air_consumption_rate = air_speed * mouth_width * jet_thickness * 1E6
 
-        wavelength = speed_of_sound / f * 1000;
+        wavelength = speed_of_sound / f * 1000
 
         if self.stopped:
             theoretical_resonator_length = wavelength / 4.0

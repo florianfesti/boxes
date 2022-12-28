@@ -75,7 +75,7 @@ With lid:
 
         self.moveTo(0, dr)
         for l in (lx, ly, lx, ly):
-            self.edge(l);
+            self.edge(l)
             self.corner(90, r)
 
     def cb(self, nr):

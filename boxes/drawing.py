@@ -563,7 +563,7 @@ Creation date: {date}
                     t.set("stroke-width", f'{path.params["lw"]:.2f}')
                     t.tail = "\n  "
             t.tail = "\n"
-        tree.write(open(self._fname, "wb"), xml_declaration=True, method="xml")
+        tree.write(open(self._fname, "wb"), encoding="utf-8", xml_declaration=True, method="xml")
 
 class PSSurface(Surface):
 
@@ -965,7 +965,7 @@ class LBRN2Surface(Surface):
         pl.tail = "\n"
 
         if self.dbg: print ("5", num)
-        tree.write(open(self._fname, "wb"), xml_declaration=True, method="xml", encoding="UTF-8")
+        tree.write(open(self._fname, "wb"), encoding="utf-8", xml_declaration=True, method="xml")
 from random import random
 
 

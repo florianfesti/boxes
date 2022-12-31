@@ -1,0 +1,32 @@
+name: Static typing hint test
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch: # Allows you to run this workflow manually from the Actions tab
+
+jobs:
+  # Build job
+  typing:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+          cache: "pip" # caching pip dependencies
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install mypy
+          pip install types-Markdown
+
+      - name: Run typing test
+        run: |
+          mypy --ignore-missing-imports ./boxes/
+          mypy --ignore-missing-imports ./scripts/boxes
+          mypy --ignore-missing-imports ./scripts/boxes2inkscape
+          mypy --ignore-missing-imports ./scripts/boxes2pot
+          mypy --ignore-missing-imports ./scripts/boxesserver

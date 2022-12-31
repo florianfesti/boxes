@@ -15,7 +15,7 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
-import copy
+
 
 class SlotEdge(edges.Edge):
 

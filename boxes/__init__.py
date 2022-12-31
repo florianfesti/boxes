@@ -14,27 +14,29 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import math
-import sys
 import argparse
-from argparse import ArgumentParser
-import re
-from functools import wraps
-from xml.sax.saxutils import quoteattr
-from contextlib import contextmanager
 import copy
+import math
+import random
+import re
+import sys
+from argparse import ArgumentParser
+from contextlib import contextmanager
+from functools import wraps
 from shlex import quote
+from xml.sax.saxutils import quoteattr
+
 from shapely.geometry import *
 from shapely.ops import split
-import random
 
 from boxes import edges
 from boxes import formats
-from boxes import svgutil
 from boxes import gears
-from boxes import pulley
 from boxes import parts
-from boxes.Color  import *
+from boxes import pulley
+from boxes import svgutil
+from boxes.Color import *
+
 
 ### Helpers
 

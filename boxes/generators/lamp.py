@@ -15,7 +15,6 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
-import math
 
 """
 22x7.5x7cm

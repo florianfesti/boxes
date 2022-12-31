@@ -14,13 +14,14 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import math
-import inspect
-import argparse
-import re
 import abc
+import argparse
+import inspect
+import math
+import re
 
 from boxes import gears
+
 
 def argparseSections(s):
     """

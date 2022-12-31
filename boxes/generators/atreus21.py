@@ -1,9 +1,6 @@
 """Generator for a split atreus keyboard."""
 
-from copy import deepcopy
-
-from boxes import Boxes, Color, holeCol, restore, boolarg
-from boxes.edges import FingerJointSettings
+from boxes import Boxes, restore
 from .keyboard import Keyboard
 
 

@@ -16,7 +16,6 @@
 
 from boxes import *
 from boxes import pulley
-import math
 
 
 class Pulley(Boxes):

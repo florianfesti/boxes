@@ -15,7 +15,7 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
-import math
+
 
 class FlexBox2(Boxes):
     """Box with living hinge and top corners rounded"""

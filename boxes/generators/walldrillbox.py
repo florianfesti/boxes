@@ -15,8 +15,9 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
-from .drillstand import DrillStand
 from boxes.walledges import _WallMountedBox
+from .drillstand import DrillStand
+
 
 class WallDrillBox(DrillStand, _WallMountedBox):
     """Box for drills with each compartment with a different height"""

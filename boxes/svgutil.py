@@ -14,7 +14,7 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import re, datetime
+import re
 
 from xml.etree import ElementTree
 ElementTree.register_namespace("","http://www.w3.org/2000/svg")
@@ -76,7 +76,6 @@ def svgMerge(box, inkscape, output):
     off_y = (src_view[1]+src_view[3]) * -scale_y + dest_height * scale_y
 
     for el in src_tree.getroot():
-        import sys
         dest_root.append(el)
         if el.tag.endswith("g"):
             el.set("transform", "matrix(%f,0,0,%f, %f, %f)" % (

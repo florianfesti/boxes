@@ -14,10 +14,10 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from boxes import *
-from shapely.geometry import *
-import random
 import time
+
+from boxes import *
+
 
 class FillTest(Boxes): # Change class name!
     """Piece for testing different settings for hole filling"""

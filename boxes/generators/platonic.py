@@ -15,9 +15,8 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
-from boxes.edges import FingerJointBase, FingerJointEdge
+from boxes.edges import FingerJointEdge
 
-from math import sin, pi
 
 class UnevenFingerJointEdge(FingerJointEdge):
     """Uneven finger joint edge """

@@ -40,8 +40,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 			Fixed https://github.com/jnweiger/inkscape-gears-dev
 '''
 
-from os import devnull # for debugging
 from math import pi, cos, sin, tan, radians, degrees, ceil, asin, acos, sqrt
+from os import devnull  # for debugging
+
 two_pi = 2 * pi
 import argparse
 from boxes.vectors import kerf, vdiff, vlength

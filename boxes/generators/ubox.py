@@ -16,7 +16,7 @@
 
 from boxes import *
 from boxes.lids import _TopEdge, _ChestLid
-import math
+
 
 class UBox(_TopEdge, _ChestLid):
     """Box various options for different stypes and lids"""

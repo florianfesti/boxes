@@ -15,9 +15,7 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
-from shapely.geometry import *
-import random
-import time
+
 
 class HolePattern(Boxes):
     """Generate hole patterns in different simple shapes"""

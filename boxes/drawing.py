@@ -1,9 +1,10 @@
-import math
 import datetime
-from affine import Affine
-from boxes.extents import Extents
-from boxes.Color import Color as bColor
+import math
 from xml.etree import ElementTree as ET
+
+from affine import Affine
+
+from boxes.extents import Extents
 
 EPS = 1e-4
 PADDING = 10

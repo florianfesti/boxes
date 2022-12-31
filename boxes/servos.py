@@ -1,5 +1,7 @@
-import boxes.vectors
 import math
+
+import boxes.vectors
+
 
 class EyeEdge(boxes.edges.FingerHoleEdge):
 

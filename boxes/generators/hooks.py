@@ -15,7 +15,7 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
-import math
+
 
 class Hook(Boxes):
     """A hook wit a rectangular mouth to mount at the wall"""

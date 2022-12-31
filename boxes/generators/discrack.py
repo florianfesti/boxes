@@ -14,10 +14,10 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import division, unicode_literals
+from math import sqrt, pi, sin, cos
 
 from boxes import *
-from math import sqrt, pi, sin, cos
+
 
 def offset_radius_in_square(squareside, angle, outset):
     """From the centre of a square, rotate by an angle relative to the

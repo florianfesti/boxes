@@ -15,10 +15,8 @@ Options:
   --list        List available generators.
 """
 
-from __future__ import print_function
-import sys
 import os
-from pkg_resources import get_distribution
+import sys
 
 try:
     import boxes

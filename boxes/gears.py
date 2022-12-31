@@ -732,9 +732,3 @@ class Gears():
         if not teeth_only:
             self.boxes.move(width, height, move)
 
-if __name__ == '__main__':
-    e = Gears()
-    e.affect()
-
-# Notes
-

@@ -19,6 +19,7 @@ import argparse
 import inspect
 import math
 import re
+from typing import Optional, Dict, Any
 
 from boxes import gears
 
@@ -167,8 +168,8 @@ class Settings(object):
     the suported keys and default values. The values are available via
     attribute access.
     """
-    absolute_params = {}
-    relative_params = {}
+    absolute_params: Dict[str, Any] = {}  # TODO find better typing.
+    relative_params: Dict[str, Any] = {}  # TODO find better typing.
 
     @classmethod
     def parserArguments(cls, parser, prefix=None, **defaults):
@@ -299,7 +300,7 @@ class Settings(object):
 
 class BaseEdge(object):
     """Abstract base class for all Edges"""
-    char = None
+    char: Optional[str] = None
     description = "Abstract Edge Class"
 
     def __init__(self, boxes, settings):
@@ -1907,7 +1908,7 @@ Values:
 
 
     """
-    __doc__ += FingerJointSettings.__doc__
+    __doc__ += FingerJointSettings.__doc__ or ""
 
     absolute_params = FingerJointSettings.absolute_params.copy()
     relative_params = FingerJointSettings.relative_params.copy()

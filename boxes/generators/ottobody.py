@@ -17,7 +17,7 @@
 try:
     from gettext import gettext as _
 except ImportError:
-    def _(message):
+    def _(message: str) -> str:
         return message
 
 from boxes import *

@@ -24,6 +24,7 @@ from argparse import ArgumentParser
 from contextlib import contextmanager
 from functools import wraps
 from shlex import quote
+from typing import Optional, List
 from xml.sax.saxutils import quoteattr
 
 from shapely.geometry import *
@@ -181,9 +182,9 @@ class ArgparseEdgeType:
     """argparse type to select from a set of edge types"""
 
     names = edges.getDescriptions()
-    edges = []
+    edges: List[str] = []
 
-    def __init__(self, edges=None):
+    def __init__(self, edges: Optional[str] = None):
         if edges:
             self.edges = list(edges)
 

@@ -82,7 +82,8 @@ class ArgumentParserError(Exception): pass
 class ThrowingArgumentParser(argparse.ArgumentParser):
     def error(self, message):
         raise ArgumentParserError(message)
-boxes.ArgumentParser = ThrowingArgumentParser # Evil hack
+# Evil hack
+boxes.ArgumentParser = ThrowingArgumentParser  # type: ignore
 
 class BServer:
 

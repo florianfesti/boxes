@@ -15,8 +15,7 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
-import math
-import copy
+
 
 class AngledBox(Boxes):
     """Box with both ends cornered"""

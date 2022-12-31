@@ -1,6 +1,7 @@
-import pkgutil
-import inspect
 import importlib
+import inspect
+import pkgutil
+
 import boxes
 
 ui_groups_by_name = {}

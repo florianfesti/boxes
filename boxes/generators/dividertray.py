@@ -14,9 +14,10 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from functools import partial
-from boxes import Boxes, edges, boolarg
 import math
+from functools import partial
+
+from boxes import Boxes, edges, boolarg
 
 
 class NotchSettings(edges.Settings):

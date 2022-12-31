@@ -1,5 +1,7 @@
 from math import *
+
 from boxes import vectors
+
 
 def arcOnCircle(spanning_angle, outgoing_angle, r=1.0):
     angle = spanning_angle + 2 * outgoing_angle

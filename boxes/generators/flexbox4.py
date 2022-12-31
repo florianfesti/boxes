@@ -15,7 +15,6 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
-import math
 
 
 class FlexBox4(Boxes):

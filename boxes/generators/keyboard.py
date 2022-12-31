@@ -14,9 +14,11 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import re
 import argparse
-from boxes import Boxes, boolarg
+import re
+
+from boxes import boolarg
+
 
 class Keyboard:
     """

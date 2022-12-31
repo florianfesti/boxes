@@ -15,11 +15,13 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-import subprocess
-import tempfile
 import os
 import shutil
+import subprocess
+import tempfile
+
 from boxes.drawing import SVGSurface, PSSurface, LBRN2Surface, Context
+
 
 class Formats:
 

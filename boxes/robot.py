@@ -1,5 +1,3 @@
-import boxes
-
 __all__ = [
     "RobotArg",
     "RobotArmMM",

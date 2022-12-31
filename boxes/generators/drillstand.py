@@ -14,8 +14,9 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from boxes import *
 import boxes
+from boxes import *
+
 
 class DrillStand(Boxes):
     """Box for drills with each compartment of a different height"""

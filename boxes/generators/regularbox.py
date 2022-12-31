@@ -16,7 +16,7 @@
 
 from boxes import *
 from boxes.generators.bayonetbox import BayonetBox
-import copy
+
 
 class RegularBox(BayonetBox):
     """Box with regular polygon as base"""

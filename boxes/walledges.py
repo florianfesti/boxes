@@ -1,6 +1,8 @@
-from .edges import Settings, BaseEdge
-from boxes import Boxes, edges
 import math
+
+from boxes import Boxes, edges
+from .edges import Settings, BaseEdge
+
 
 class _WallMountedBox(Boxes):
     ui_group = "WallMounted"

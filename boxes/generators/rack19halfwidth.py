@@ -1,7 +1,7 @@
 """Half 19inch rack unit for musical equipment."""
 
 from boxes import Boxes
-from boxes.edges import Edge
+
 
 class Rack19HalfWidth(Boxes):
     """Half width 19inch rack unit for musical equipment."""

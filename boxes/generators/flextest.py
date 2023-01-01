@@ -18,7 +18,7 @@ from boxes import *
 
 
 class FlexTest(Boxes):
-    "Piece for testing different flex settings"
+    """Piece for testing different flex settings"""
 
     ui_group = "Part"
 

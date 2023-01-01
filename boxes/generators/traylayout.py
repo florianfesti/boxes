@@ -89,7 +89,7 @@ class TrayLayout2(TrayLayout):
 
     description = """Edit the layout text graphics to adjust your tray.
 Put in the sizes for each column and row. You can replace the hyphens and
-vertial bars representing the walls with a space character to remove the walls.
+vertical bars representing the walls with a space character to remove the walls.
 You can replace the space characters representing the floor by a "X" to remove the floor for this compartment.
 """
 
@@ -112,7 +112,7 @@ You can replace the space characters representing the floor by a "X" to remove t
     close = Boxes.close
 
     def vWalls(self, x, y):
-        "Number of vertical walls at a crossing"
+        """Number of vertical walls at a crossing"""
         result = 0
         if y > 0 and self.vwalls[y - 1][x]:
             result += 1
@@ -123,7 +123,7 @@ You can replace the space characters representing the floor by a "X" to remove t
         return result
 
     def hWalls(self, x, y):
-        "Number of horizontal walls at a crossing"
+        """Number of horizontal walls at a crossing"""
         result = 0
         if x > 0 and self.hwalls[y][x - 1]:
             result += 1
@@ -132,12 +132,12 @@ You can replace the space characters representing the floor by a "X" to remove t
         return result
 
     def vFloor(self, x, y):
-        "Is there floor under vertical wall"
+        """Is there floor under vertical wall"""
         return ((x > 0 and self.floors[y][x - 1]) or
                 (x < len(self.x) and self.floors[y][x]))
 
     def hFloor(self, x, y):
-        "Is there foor under horizontal wall"
+        """Is there foor under horizontal wall"""
         return ((y > 0 and self.floors[y - 1][x]) or
                 (y < len(self.y) and self.floors[y][x]))
 

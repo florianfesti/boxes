@@ -17,7 +17,7 @@
 from boxes import *
 
 class NemaMount(Boxes):
-    """Mounting braket for a Nema motor"""
+    """Mounting bracket for a Nema motor"""
 
     ui_group = "Part"
 

@@ -33,7 +33,7 @@ class GearBox(Boxes):
             help="number of teeth on outgoing shaft")
         self.argparser.add_argument(
             "--modulus", action="store", type=float, default=3,
-            help="modulus of the theeth in mm")
+            help="modulus of the teeth in mm")
         self.argparser.add_argument(
             "--shaft", action="store", type=float, default=6.,
             help="diameter of the shaft")

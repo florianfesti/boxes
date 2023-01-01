@@ -44,7 +44,7 @@ Draw Commands
 -------------
 
 These commands do not change the coordinate system but get the
-coordinates passed as parameters. All of them are either som sort of
+coordinates passed as parameters. All of them are either some sort of
 hole or text. These artifacts are placed somewhere independently of
 some continuous outline of the part their on.
 

@@ -36,7 +36,7 @@ class BirdHouse(Boxes):
         lengths = (x, h, t, roof, roof, t, h)
 
         edges = [self.edges.get(e, e) for e in edges]
-        edges.append(edges[0]) # wrap arround
+        edges.append(edges[0])  # wrap around
 
         tw = x + edges[1].spacing() + edges[-2].spacing()
         th = h + x/2 + t + edges[0].spacing() + max(edges[3].spacing(), edges[4].spacing())

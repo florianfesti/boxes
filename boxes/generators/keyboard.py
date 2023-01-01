@@ -117,7 +117,6 @@ class Keyboard:
         Spaces are not important.
         For example '3x2 / 4@11' means we want 3 columns, the two first with
         3 rows without offset, and the last with 4 rows starting at 11mm high
-
         """
         result = []
         try:
@@ -245,7 +244,7 @@ class Keyboard:
         A simple plate cutout, a 14mm rectangle, as specified in this reference sheet
         https://cdn.sparkfun.com/datasheets/Components/Switches/MX%20Series.pdf
 
-        With_notch shoul be used for a secondary lower plate, strengthening the first one.
+        With_notch should be used for a secondary lower plate, strengthening the first one.
         A notch is added to let the hooks grasp the main upper plate.
 
         Current position should be switch center.

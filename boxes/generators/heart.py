@@ -17,7 +17,7 @@
 from boxes import *
 
 class HeartBox(Boxes):
-    """Box in the form of an heart"""
+    """Box in the form of a heart"""
 
     ui_group = "FlexBox"
 

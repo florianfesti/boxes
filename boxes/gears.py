@@ -1,44 +1,40 @@
 #!/usr/bin/env python3
-""
-
-'''
-Copyright (C) 2007 Aaron Spike  (aaron @ ekips.org)
-Copyright (C) 2007 Tavmjong Bah (tavmjong @ free.fr)
-Copyright (C) http://cnc-club.ru/forum/viewtopic.php?f=33&t=434&p=2594#p2500
-Copyright (C) 2014 Jürgen Weigert (juewei@fabmail.org)
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-2014-03-20 jw@suse.de 0.2  Option --accuracy=0 for automatic added.
-2014-03-21                 sent upstream: https://bugs.launchpad.net/inkscape/+bug/1295641
-2014-03-21 jw@suse.de 0.3  Fixed center of rotation for gears with odd number of teeth.
-2014-04-04 juewei     0.7  Revamped calc_unit_factor(). 
-2014-04-05 juewei    0.7a  Correctly positioned rack gear.
-                       The geometry above the meshing line is wrong.
-2014-04-06 juewei    0.7b  Undercut detection added. Reference:
-               http://nptel.ac.in/courses/IIT-MADRAS/Machine_Design_II/pdf/2_2.pdf
-               Manually merged https://github.com/jnweiger/inkscape-gears-dev/pull/15
-2014-04-07 juewei    0.7c  Manually merged https://github.com/jnweiger/inkscape-gears-dev/pull/17
-2014-04-09 juewei    0.8   Fixed https://github.com/jnweiger/inkscape-gears-dev/issues/19
-			   Ring gears are ready for production now. Thanks neon22 for driving this.
-			   Profile shift implemented (Advanced Tab), fixing 
-			   https://github.com/jnweiger/inkscape-gears-dev/issues/9
-2015-05-29 juewei 0.9 	ported to inkscape 0.91
-			AttributeError: 'module' object inkex has no attribute 'uutounit
-			Fixed https://github.com/jnweiger/inkscape-gears-dev
-'''
+# Copyright (C) 2007 Aaron Spike  (aaron @ ekips.org)
+# Copyright (C) 2007 Tavmjong Bah (tavmjong @ free.fr)
+# Copyright (C) http://cnc-club.ru/forum/viewtopic.php?f=33&t=434&p=2594#p2500
+# Copyright (C) 2014 Jürgen Weigert (juewei@fabmail.org)
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#
+# 2014-03-20 jw@suse.de 0.2  Option --accuracy=0 for automatic added.
+# 2014-03-21                 sent upstream: https://bugs.launchpad.net/inkscape/+bug/1295641
+# 2014-03-21 jw@suse.de 0.3  Fixed center of rotation for gears with odd number of teeth.
+# 2014-04-04 juewei     0.7  Revamped calc_unit_factor().
+# 2014-04-05 juewei    0.7a  Correctly positioned rack gear.
+#                        The geometry above the meshing line is wrong.
+# 2014-04-06 juewei    0.7b  Undercut detection added. Reference:
+#                http://nptel.ac.in/courses/IIT-MADRAS/Machine_Design_II/pdf/2_2.pdf
+#                Manually merged https://github.com/jnweiger/inkscape-gears-dev/pull/15
+# 2014-04-07 juewei    0.7c  Manually merged https://github.com/jnweiger/inkscape-gears-dev/pull/17
+# 2014-04-09 juewei    0.8   Fixed https://github.com/jnweiger/inkscape-gears-dev/issues/19
+# 			   Ring gears are ready for production now. Thanks neon22 for driving this.
+# 			   Profile shift implemented (Advanced Tab), fixing
+# 			   https://github.com/jnweiger/inkscape-gears-dev/issues/9
+# 2015-05-29 juewei 0.9 	ported to inkscape 0.91
+# 			AttributeError: 'module' object inkex has no attribute 'uutounit
+# 			Fixed https://github.com/jnweiger/inkscape-gears-dev
 
 from math import pi, cos, sin, tan, radians, degrees, ceil, asin, acos, sqrt
 from os import devnull  # for debugging
@@ -57,12 +53,11 @@ def linspace(a,b,n):
     return [a+x*(b-a)/(n-1) for x in range(0,n)]
 
 def involute_intersect_angle(Rb, R):
-    " "
     Rb, R = float(Rb), float(R)
     return (sqrt(R**2 - Rb**2) / (Rb)) - (acos(Rb / R))
 
 def point_on_circle(radius, angle):
-    " return xy coord of the point at distance radius from origin at angle "
+    """ return xy coord of the point at distance radius from origin at angle """
     x = radius * cos(angle)
     y = radius * sin(angle)
     return (x, y)
@@ -308,7 +303,7 @@ class Gears():
         self.OptionParser.add_option("-A", "--accuracy",
                                      action="store", type="int",
                                      dest="accuracy", default=0,
-                                     help="Accuracy of involute: automatic: 5..20 (default), best: 20(default), medium 10, low: 5; good acuracy is important with a low tooth count")
+                                     help="Accuracy of involute: automatic: 5..20 (default), best: 20(default), medium 10, low: 5; good accuracy is important with a low tooth count")
         # Clearance: Radial distance between top of tooth on one gear to bottom of gap on another.
         self.OptionParser.add_option("", "--clearance",
                                      action="store", type="float",
@@ -409,8 +404,7 @@ class Gears():
         self.boxes.ctx.restore()
 
     def calc_circular_pitch(self):
-        """ We use math based on circular pitch.
-        """
+        """We use math based on circular pitch."""
         dimension = self.options.dimension
         if   self.options.system == 'CP': # circular pitch
             circular_pitch = dimension * 25.4

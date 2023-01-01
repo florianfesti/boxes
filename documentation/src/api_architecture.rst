@@ -19,8 +19,8 @@ form. The user interfaces are located in `scripts/`. Currently there is
 Generators
 ..........
 
-A (box) generator is an sub class of boxes.Boxes. It generates one
-drawing. The sub classes over load .__init__() to set their parameters
+A (box) generator is an subclass of boxes.Boxes. It generates one
+drawing. The subclasses over load .__init__() to set their parameters
 and implement .render() that does the actual drawing.
 
 Generators are found in ``boxes/generators/``. They are included into

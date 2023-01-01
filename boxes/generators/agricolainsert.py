@@ -654,7 +654,7 @@ protruding underneath.
 
     def render_upper_token_trays(self, tray_inner_height, box_width):
         """
-        Upper level : multiple trays for each ressource
+        Upper level : multiple trays for each resource
         (beside horses which are on the lower level)
         """
         tray_height = tray_inner_height + self.thickness

@@ -17,7 +17,7 @@
 from boxes import *
 
 class Edges(Boxes):
-    """Print all registerd Edge types"""
+    """Print all registered Edge types"""
     
     webinterface = False
 

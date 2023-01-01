@@ -18,7 +18,7 @@ from boxes import *
 
 
 class Display(Boxes):
-    """Diplay for flyers or leaflets"""
+    """Display for flyers or leaflets"""
 
     ui_group = "Misc"
 

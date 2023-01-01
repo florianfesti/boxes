@@ -2,11 +2,11 @@
 Generators
 ==========
 
-Generators are sub classes of 
+Generators are subclasses of
 
 .. autoclass:: boxes.Boxes
 
-Most code is directly in this class. Sub class are supposed to over
+Most code is directly in this class. Subclass are supposed to over
 write the ``.__init__()`` and ``.render()`` method.
 
 The Boxes class keeps a canvas object (self.ctx) that all
@@ -18,7 +18,7 @@ For implementing a new generator forking an existing one or using the
 ``boxes/generators/_template.py`` is probably easier than starting
 from scratch.
 
-Many methods and attributes are for use of the sub classes. These
+Many methods and attributes are for use of the subclasses. These
 methods are the interface for the user interfaces to interact with the
 generators:
 

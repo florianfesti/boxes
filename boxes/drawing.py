@@ -9,7 +9,7 @@ from boxes.extents import Extents
 EPS = 1e-4
 PADDING = 10
 
-RANDOMIZE_COLORS = False  # enable to ease check for continuity of pathes
+RANDOMIZE_COLORS = False  # enable to ease check for continuity of paths
 
 
 def points_equal(x1, y1, x2, y2):
@@ -989,7 +989,7 @@ def line_intersection(line1, line2):
 
     div = det(xdiff, ydiff)
     if div == 0:
-        # todo: deal with paralel line intersection / overlay
+        # todo: deal with parallel line intersection / overlay
         return False, None, None
 
     d = (det(*line1), det(*line2))

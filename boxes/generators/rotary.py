@@ -80,7 +80,6 @@ class RollerEdge2(edges.BaseEdge):
 
 
 class Rotary(Boxes):
-
     """Rotary Attachment for engraving cylindrical objects in a laser cutter"""
 
     ui_group = "Unstable"
@@ -101,7 +100,7 @@ class Rotary(Boxes):
             help="diameter of the axles")
         self.argparser.add_argument(
             "--knifethickness", action="store", type=float, default=8.,
-            help="thickness of the knifes in mm. Use 0 for use with honey comb table.")
+            help="thickness of the knives in mm. Use 0 for use with honey comb table.")
         self.argparser.add_argument(
             "--beamwidth",  action="store", type=float, default=32.,
             help="width of the (aluminium) profile connecting the parts")
@@ -252,7 +251,7 @@ class Rotary(Boxes):
         with self.saved_context():
             self.rectangularWall(hw - 2 * t - 2, 60, edges="efef", move="right")
             self.rectangularWall(hw - 4 * t - 4, 60, edges="efef", move="right")
-            # Spindel auxiliaries 
+            # Spindle auxiliaries
             self.parts.waivyKnob(50, callback=lambda: self.nutHole("M8"), move="right")
             self.parts.waivyKnob(50, callback=lambda: self.nutHole("M8"), move="right")
 

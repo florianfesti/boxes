@@ -207,6 +207,9 @@ Finger Joint Settings
    extra_length
       Make the outset part of the finger joint longer to allow grinding off burn marks. Note that this may not be great for non 90° joints where the corner is butted against the opposing cutout.
 
+   bottom_lip
+      Generate pieces to be glued on the inside of finger hole edges. This allows stacking boxes on top of each other. Note that finger hole edges that are used elsewhere may not have use of these pieces and you should probably just delete them before cutting.
+
 Stackable Edge Settings
 .......................
 

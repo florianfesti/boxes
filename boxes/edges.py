@@ -845,6 +845,7 @@ Values:
   * edge_width : 1.0 : space below holes of FingerHoleEdge (multiples of thickness)
   * play : 0.0 : extra space to allow finger move in and out (multiples of thickness)
   * extra_length : 0.0 : extra material to grind away burn marks (multiples of thickness)
+  * bottom_lip : 0.0 : height of the bottom lips sticking out  (multiples of thickness) FingerHoleEdge only!
 """
 
     absolute_params = {
@@ -860,6 +861,7 @@ Values:
         "edge_width": 1.0,
         "play" : 0.0,
         "extra_length" : 0.0,
+        "bottom_lip" : 0.0,
     }
 
     def checkValues(self):
@@ -1090,12 +1092,23 @@ class FingerHoleEdge(BaseEdge):
             self.fingerHoles(
                 0, self.burn + dist + self.settings.thickness / 2, length, 0,
                 bedBolts=bedBolts, bedBoltSettings=bedBoltSettings)
+            if self.settings.bottom_lip:
+                h = self.settings.bottom_lip + \
+                    self.fingerHoles.settings.edge_width
+                sp = self.boxes.spacing
+                self.moveTo(-sp/2, -h - sp)
+                self.rectangularWall(length - 1.05 * self.boxes.thickness, h)
         self.edge(length, tabs=2)
 
     def startwidth(self):
         """ """
         return self.fingerHoles.settings.edge_width + self.settings.thickness
 
+    def margin(self):
+        if self.settings.bottom_lip:
+            return self.settings.bottom_lip + self.fingerHoles.settings.edge_width + self.boxes.spacing
+        else:
+            return 0
 
 class CrossingFingerHoleEdge(Edge):
     """Edge with holes for finger joints 90° above"""

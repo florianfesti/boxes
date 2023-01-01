@@ -12,7 +12,7 @@ $BOXES flexbox2 --x=70 --y=100 --h=50 --radius=20 --output=flexbox2.svg
 $BOXES flexbox3 --x=70 --y=100 --z=50 --h=8 --radius=30 --output=flexbox3.svg
 $BOXES folder --x=165 --y=240 --h=20 --r=10 --output=folder.svg
 #$BOXES lamp --x=50 --y=50  --r=10 --output=lamp.svg
-$BOXES magazinfile --output=magazinefile.svg
+$BOXES magazinefile --output=magazinefile.svg
 #$BOXES printer --output=printer.svg
 #$BOXES Silverwaree --output=silverwarebox.svg
 #$BOXES traylayout --x=4 --y=4 --output=traylayout.txt

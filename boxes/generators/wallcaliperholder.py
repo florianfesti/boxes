@@ -29,13 +29,13 @@ class WallCaliper(_WallMountedBox):
             "--width",  action="store", type=float, default=18.0,
             help="width of the long end")
         self.argparser.add_argument(
-            "--heigth",  action="store", type=float, default=6.0,
+            "--height",  action="store", type=float, default=6.0,
             help="heigth of the body")
 
     def side(self, move=None):
         t = self.thickness
         h = self.h
-        hc = self.heigth
+        hc = self.height
 
         tw = self.edges["b"].spacing() + hc + 8*t
 

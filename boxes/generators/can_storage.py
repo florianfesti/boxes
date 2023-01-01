@@ -110,7 +110,7 @@ for canned tomatos:
             "--canDiameter",  action="store", type=float, default=75,
             help="outer diameter of the cans to be stored (in mm)")
         self.argparser.add_argument(
-            "--canHight",  action="store", type=float, default=110,
+            "--canHeight",  action="store", type=float, default=110,
             help="hight of the cans to be stored (in mm)")
         self.argparser.add_argument(
             "--canNum",  action="store", type=int, default=12,
@@ -322,7 +322,7 @@ for canned tomatos:
             self.bottom_chute_height = self.barrier_height + self.canDiameter * 0.1 + self.thickness - self.top_chute_depth
         
         self.height = self.thickness + self.canDiameter + self.bottom_chute_height + self.top_chute_height + 0.5 * self.thickness + self.canDiameter + 1.5 * self.thickness # measurements from bottom to top
-        self.width = 0.01 * self.canHight + self.canHight + 0.01 * self.canHight
+        self.width = 0.01 * self.canHeight + self.canHeight + 0.01 * self.canHeight
         edgs = self.bottom_edge + "h" + self.top_edge + "a"
         
         # render your parts here

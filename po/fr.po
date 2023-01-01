@@ -1627,15 +1627,15 @@ msgstr "Réglages du Dièdre en « L »"
 
 #. name of box generator
 #: boxes/generators/magazinefile.py
-msgid "MagazinFile"
+msgid "MagazineFile"
 msgstr "Porte-magazine"
 
-#. description of MagazinFile
+#. description of MagazineFile
 #: boxes/generators/magazinefile.py
 msgid "Open magazine file"
 msgstr "Support de magazines ouvert"
 
-msgid "MagazinFile Settings"
+msgid "MagazineFile Settings"
 msgstr "Réglages de Porte-magazine"
 
 #. name of box generator

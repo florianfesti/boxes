@@ -20,7 +20,7 @@ from boxes import *
 class ShadyEdge(edges.BaseEdge):
     char = "s"
 
-    def __call__(self, lenght, **kw):
+    def __call__(self, length, **kw):
         s = self.shades
         h = self.h
         a = math.atan(s/h)

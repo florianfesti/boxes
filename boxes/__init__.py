@@ -2747,7 +2747,7 @@ class Boxes:
             self.move(tw, th, move, label=label)
 
     @restore
-    def polygonWalls(self, borders, h, bottom="F", top="F", symetrical=True):
+    def polygonWalls(self, borders, h, bottom="F", top="F", symmetrical=True):
         bottom = self.edges.get(bottom, bottom)
         top = self.edges.get(top, top)
         t = self.thickness # XXX edge.margin()
@@ -2764,7 +2764,7 @@ class Boxes:
 
         self.moveTo(0, bottom.margin())
         while i < len(borders):
-            if symetrical:
+            if symmetrical:
                 if part_cnt % 2:
                     left, right = lf, rf
                 else:

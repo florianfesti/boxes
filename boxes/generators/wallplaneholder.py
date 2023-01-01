@@ -27,10 +27,10 @@ class WallPlaneHolder(_WallMountedBox):
             help="width of the plane")
         self.argparser.add_argument(
             "--length",  action="store", type=float, default=250,
-            help="legth of the plane")
+            help="length of the plane")
         self.argparser.add_argument(
             "--hold_length",  action="store", type=float, default=30,
-            help="legth of the part hiolding the plane over the front")
+            help="length of the part holding the plane over the front")
         self.argparser.add_argument(
             "--height",  action="store", type=float, default=80,
             help="height of the front of plane")

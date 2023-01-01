@@ -20,7 +20,7 @@ class HingeBox(Boxes):
     """Box with lid attached by cabinet hinges"""
 
     description = """Needs (metal) pins as hinge axles. Pieces of nails will
-do fine. They need to be cut to length as they are caputured as soon as the
+do fine. They need to be cut to length as they are captured as soon as the
 hinges are assembled.
 
 Assemble the box and the lid separately. Then insert the axle into the hinges.

@@ -34,7 +34,7 @@ Setup.py uses the :code:`setuptools` library (package name may be
 package.
 
 pstoedit
-.......
+........
 
 While not a hard requirement Boxes.py uses :code:`pstoedit` (sometimes :code:`ps2edit`) to offer formats
 that are not supported by Cairo: DXF, gcode, PLT. Currently the location

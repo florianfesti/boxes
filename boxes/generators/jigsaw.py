@@ -18,7 +18,7 @@ from boxes import *
 
 
 class JigsawPuzzle(Boxes):  # change class name here and below
-    """Fractal jigsaw puzzle. Still aplha"""
+    """Fractal jigsaw puzzle. Still alpha."""
 
     webinterface = False  # Change to make visible in web interface
 

@@ -54,7 +54,7 @@ A similar approach is necessary when moving to a feature drawn inside
 the part without the use of callbacks. Here you typically have to
 correct for the out-set at the outside of the part and again for in-set
 of the hole one is about to cut. This can be done in **x** or **y**
-direction depending on whether the cut ist started vertical or
+direction depending on whether the cut is started vertical or
 horizontally.
 
 Replacing the inverted arcs

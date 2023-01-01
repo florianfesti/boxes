@@ -23,7 +23,7 @@ class TwoPiece(Boxes):
     """
 
     description = """
-Set *hi* larger than *h* to leave gap between the inner and outer shell. This can be used to make opening the box easier. Set *hi* smaller to only have a small inner ridge that will allow the content to be momre visible after opening.
+Set *hi* larger than *h* to leave gap between the inner and outer shell. This can be used to make opening the box easier. Set *hi* smaller to only have a small inner ridge that will allow the content to be more visible after opening.
 
 ![Bottom view](static/samples/TwoPiece2.jpg)
 """
@@ -37,7 +37,7 @@ Set *hi* larger than *h* to leave gap between the inner and outer shell. This ca
 
         self.argparser.add_argument(
             "--play",  action="store", type=float, default=0.15,
-            help="play between the two parts as multipleof the wall thickness")
+            help="play between the two parts as multiple of the wall thickness")
 
     def render(self):
         # adjust to the variables you want in the local scope

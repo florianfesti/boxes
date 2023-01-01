@@ -48,7 +48,7 @@ class PaintStorage(Boxes):
             help="Create a stackable drawer instead")
 
     def paintholes(self):
-        "Place holes for the paintcans evenly"
+        """Place holes for the paintcans evenly"""
 
         if self.hexpattern:
             self.moveTo(self.minspace/2, self.minspace/2)

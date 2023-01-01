@@ -30,7 +30,7 @@ class WallCaliper(_WallMountedBox):
             help="width of the long end")
         self.argparser.add_argument(
             "--heigth",  action="store", type=float, default=6.0,
-            help="heigth of the body")
+            help="height of the body")
 
     def side(self, move=None):
         t = self.thickness

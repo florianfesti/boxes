@@ -25,7 +25,7 @@ class Console2(Boxes):
 This box is designed as a housing for electronic projects. It has hatches that can be re-opened with simple tools. It intentionally cannot be opened with bare hands - if build with thin enough material.
 
 #### Caution
-There is a chance that the latches of the back wall or the back wall itself interfere with the front panel or it's mounting frame/lips. The generator does not check for this. So depending on the variant choosen you might need to make the box deeper (increase y parameter) or the panel angle steeper (increase angle parameter) until there is enough room.
+There is a chance that the latches of the back wall or the back wall itself interfere with the front panel or it's mounting frame/lips. The generator does not check for this. So depending on the variant chosen you might need to make the box deeper (increase y parameter) or the panel angle steeper (increase angle parameter) until there is enough room.
 
 It's also possible that the frame of the panel interferes with the floor if the hi parameter is too small.
 
@@ -40,7 +40,7 @@ If the panel is removable you need to add the springs with the tabs to the side 
 
 ![Back wall details](static/samples/Console2-panel-detail.jpg)
 
-If space is tight you may consider not glueing the cross pieces in place and remove them after the glue-up. This may prevent the latches of the back wall and the panel from interfereing with each other.
+If space is tight you may consider not gluing the cross pieces in place and remove them after the glue-up. This may prevent the latches of the back wall and the panel from interfering with each other.
 
 The variant using finger joints only has the two side lips without the cross bars.
 

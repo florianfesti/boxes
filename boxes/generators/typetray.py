@@ -30,7 +30,7 @@ class TypeTray(_TopEdge):
                             "top_edge")
         self.argparser.add_argument(
             "--back_height",  action="store", type=float, default=0.0,
-            help="additional height of the back wall - e top egde only")
+            help="additional height of the back wall - e top edge only")
         self.argparser.add_argument(
             "--radius",  action="store", type=float, default=0.0,
             help="radius for strengthening side walls with back_height")

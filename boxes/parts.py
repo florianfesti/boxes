@@ -33,7 +33,8 @@ class Parts:
         :param diameter: diameter of the disc
         :param hole: (Default value = 0)
         :param callback: (Default value = None) called in the center
-        :param move: (Defaultvalue = None)
+        :param move: (Default value = "")
+        :param label: (Default value = "")
         """
         size = diameter
         r = diameter / 2.0
@@ -59,7 +60,7 @@ class Parts:
         :param angle: (Default value = 45) maximum angle of the wave
         :param hole: (Default value = 0)
         :param callback: (Default value = None) called in the center
-        :param move: (Defaultvalue = None)
+        :param move: (Default value = "")
         """
 
         if n < 2:
@@ -92,11 +93,11 @@ class Parts:
 
         :param diameter: diameter of the knob
         :param n: (Default value = 3) number of dents
-        :param rounded: (Default value = 0.2) proportion of circumferen remaining
+        :param rounded: (Default value = 0.2) proportion of circumference remaining
         :param angle: (Default value = 70) angle the dents meet the circumference
         :param hole: (Default value = 0)
         :param callback: (Default value = None) called in the center
-        :param move: (Defaultvalue = None)
+        :param move: (Default value = "")
         """
         size = diameter
 
@@ -132,9 +133,9 @@ class Parts:
 
         :param r_outside: outer radius
         :param r_inside: inner radius
-        :param angle: anlge the segment is spanning
+        :param angle: angle the segment is spanning
         :param n: (Default value = 1) number of segments
-        :param move: (Defaultvalue = None)
+        :param move: (Default value = "")
         """
         space = 360 * r_inside / self.spacing
         n = min(n, 360 / (angle+space))

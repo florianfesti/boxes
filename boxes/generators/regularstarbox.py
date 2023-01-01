@@ -24,7 +24,7 @@ class SlotEdge(edges.Edge):
         r, h = self.settings.radius, self.settings.h
         sh = self.settings.sh # distance side to center
 
-        li = 2 * sh * math.tan(math.radians(90/n)) # side inner 2x polygone
+        li = 2 * sh * math.tan(math.radians(90/n)) # side inner 2x polygon
         ls2 = t / math.tan(math.radians(180/n))
         ls1 = t / math.cos(math.radians(90-(180/n)))
 

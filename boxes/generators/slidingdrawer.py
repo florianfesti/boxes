@@ -13,7 +13,7 @@ class SlidingDrawer(Boxes):
 
         self.argparser.add_argument(
             "--play",  action="store", type=float, default=0.15,
-            help="play between the two parts as multipleof the wall thickness")
+            help="play between the two parts as multiple of the wall thickness")
 
     def render(self):
 

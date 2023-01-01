@@ -33,7 +33,7 @@ def offset_radius_in_square(squareside, angle, outset):
     10.0
     >>> offset_radius_in_square(20, 0, 5)
     10.0
-    >>> # Without offset, it's half squre length divided by cos(angle) -- at
+    >>> # Without offset, it's half square length divided by cos(angle) -- at
     >>> # least before it hits the next wall
     >>> offset_radius_in_square(20, 15, 0) # doctest:+ELLIPSIS
     10.35276...
@@ -206,8 +206,8 @@ class DiscRack(Boxes):
 
         # Can the discs be removed at all?
         # Does not need explicit checking, for Thales' theorem tells us that at
-        # the point wher there is barely support in the corner, three contact
-        # points on the circle form just a demicircle and the discs can be
+        # the point where there is barely support in the corner, three contact
+        # points on the circle form just a semicircle and the discs can be
         # inserted/removed. When we keep the other contact points and move the
         # slits away from the corner, the disc gets smaller and thus will fit
         # through the opening that is as wide as the diameter of the largest

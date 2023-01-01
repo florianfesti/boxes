@@ -18,7 +18,6 @@ from boxes import *
 
 
 class Planetary2(Boxes):
-
     """Balanced force Difference Planetary Gear (not yet working properly)"""
 
     ui_group = "Unstable"
@@ -46,7 +45,7 @@ class Planetary2(Boxes):
             help="enable secondary ring with given delta to the ring gear")
         self.argparser.add_argument(
             "--modulus", action="store", type=float, default=1.0,
-            help="modulus of the theeth in mm")
+            help="modulus of the teeth in mm")
         self.argparser.add_argument(
             "--shaft", action="store", type=float, default=6.,
             help="diameter of the shaft")
@@ -132,7 +131,7 @@ class Planetary2(Boxes):
         def planets():
             self.moveTo(size3/2, size3/2)
             for angle in planetpositions:
-                angle += 180 # compensate for 3 postion in callback
+                angle += 180 # compensate for 3 position in callback
                 self.moveTo(0, 0, angle)
                 self.hole((pitch1+pitch2), 0, size2/2)
                 self.moveTo(0, 0, -angle)

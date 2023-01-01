@@ -226,6 +226,9 @@ For boxes to actually stack they need to be the same width and depth and ``angle
    width
       width of the feet
 
+   bottom_stabilizers
+      generate pieces to be glued inside of the bottom edges to stack more securely. Use a value a bit less than ``height`` ( + ``holedistance`` ) to leave some of the feet sticking out.
+
 Colors
 ------
 The generated files uses the following color conventions:

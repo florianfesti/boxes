@@ -1132,6 +1132,7 @@ Values:
   * height : 2.0 : height of the feet (multiples of thickness)
   * width  : 4.0 : width of the feet (multiples of thickness)
   * holedistance : 1.0 : distance from finger holes to bottom edge (multiples of thickness)
+  * bottom_stabilizers : 0.0 : height of strips to be glued to the inside of bottom edges (multiples of thickness)
 
 """
 
@@ -1143,6 +1144,7 @@ Values:
         "height": 2.0,
         "width": 4.0,
         "holedistance": 1.0,
+        "bottom_stabilizers" : 0.0,
     }
 
     def checkValues(self):
@@ -1179,6 +1181,13 @@ class StackableBaseEdge(BaseEdge):
         l = r * math.sin(math.radians(s.angle))
         p = 1 if self.bottom else -1
 
+        if self.bottom and s.bottom_stabilizers:
+            with self.saved_context():
+                sp = self.boxes.spacing
+                self.moveTo(-sp/2, -s.height - sp)
+                self.rectangularWall(length - 1.05 * self.boxes.thickness,
+                                     s.bottom_stabilizers)
+
         self.boxes.edge(s.width, tabs=1)
         self.boxes.corner(p * s.angle, r)
         self.boxes.corner(-p * s.angle, r)
@@ -1194,7 +1203,13 @@ class StackableBaseEdge(BaseEdge):
         return self._height() if self.bottom else 0
 
     def margin(self):
-        return 0 if self.bottom else self.settings.height
+        if self.bottom:
+            if self.settings.bottom_stabilizers:
+                return self.settings.bottom_stabilizers + self.boxes.spacing
+            else:
+                return 0
+        else:
+            return self.settings.height
 
 class StackableEdge(StackableBaseEdge):
     """Edge for having stackable Boxes. The Edge creates feet on the bottom

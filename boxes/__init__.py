@@ -2638,7 +2638,7 @@ class Boxes:
 
     ### polygonWall and friends
 
-    def _polygonWallExtend(self, borders, edge, close=False):
+    def _polygonWallExtend(self, borders, edges, close=False):
         posx, posy = 0, 0
         ext = [ 0.0 ] * 4
         angle = 0
@@ -2686,10 +2686,12 @@ class Boxes:
                 posy += borders[i] * math.sin(math.radians(angle))
             checkpoint(ext, posx, posy)
 
-        ext[0] -= edge.margin()
-        ext[1] -= edge.margin()
-        ext[2] += edge.margin()
-        ext[3] += edge.margin()
+        margin = max((e.margin() for e in edges))
+
+        ext[0] -= margin
+        ext[1] -= margin
+        ext[2] += margin
+        ext[3] += margin
 
         return ext
 
@@ -2713,7 +2715,7 @@ class Boxes:
 
         t = self.thickness # XXX edge.margin()
 
-        minx, miny, maxx, maxy = self._polygonWallExtend(borders, edges[0])
+        minx, miny, maxx, maxy = self._polygonWallExtend(borders, edges)
 
         tw, th = maxx - minx, maxy - miny
 

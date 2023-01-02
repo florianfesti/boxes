@@ -33,6 +33,7 @@ jobs:
           make html #linkcheck
           cp index.html ../build/
           cd ../build/ && ls && ls html/
+          cp -r ../../static .
           rm -rf doctrees
           touch .nojekyll    
       - name: Upload artifact

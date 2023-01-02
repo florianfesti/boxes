@@ -211,23 +211,22 @@ class BServer:
         else:
             langparam = ""
 
-        result = ["""<!DOCTYPE html>
+        result = [f"""<!DOCTYPE html>
 <html>
 <head>
-    <title>""" + _("Boxes - %s") % _(name), """</title>
+    <title>{_("Boxes - %s") % _(name)}</title>
     <meta charset="utf-8">
     <link rel="icon" type="image/svg+xml" href="static/boxes-logo.svg" sizes="any">
     <link rel="icon" type="image/x-icon" href="static/favicon.ico">
     <link rel="stylesheet" href="static/self.css">
-""", self.scripts % (len(box.argparser._action_groups)-3), """
-   <meta name="flattr:id" content="456799">
+    {self.scripts % (len(box.argparser._action_groups)-3)}
+    <meta name="flattr:id" content="456799">
 </head>
 <body onload="hideargs()">
 
-
 <div class="container" style="background-color: #FFF8EA;">
 <div style="float: left;">
-<a href="./""" + langparam + '"><h1>' + _("Boxes.py") + """</h1></a>
+<a href="./{langparam}"><h1>{_("Boxes.py")}</h1></a>
 </div>
 <div style="width: 120px; float: right;">
 <img alt="self-Logo" src="static/boxes-logo.svg" width="120" >
@@ -235,10 +234,10 @@ class BServer:
 <div>
 <div class="clear"></div>
 <hr>
-<h2 style="margin: 0px 0px 0px 20px;" >""", _(name), """</h2>
-        <p>""", _(box.__doc__) if box.__doc__ else "", """</p>
-<form action="%s" method="GET">
-        """ % (action)]
+<h2 style="margin: 0px 0px 0px 20px;" >{_(name)}</h2>
+        <p>{_(box.__doc__) if box.__doc__ else ""}</p>
+<form action="{action}" method="GET">
+        """]
         groupid = 0
         for group in box.argparser._action_groups[3:] + box.argparser._action_groups[:3]:
             if not group._group_actions:
@@ -246,7 +245,7 @@ class BServer:
             if len(group._group_actions) == 1 and isinstance(group._group_actions[0], argparse._HelpAction):
                 continue
             prefix = getattr(group, "prefix", None)
-            result.append('''<h3 id="h-%s" role="button" aria-expanded="true" tabindex="0" class="open"  onclick="showHide(%s)" onkeypress="if(event.keyCode == 13) showHide(%s)">%s</h3>\n<table role="presentation" id="%s">\n''' % (groupid, groupid, groupid, _(group.title), groupid))
+            result.append(f'''<h3 id="h-{groupid}" role="button" aria-expanded="true" tabindex="0" class="open"  onclick="showHide({groupid})" onkeypress="if(event.keyCode == 13) showHide({groupid})">{_(group.title)}</h3>\n<table role="presentation" id="{groupid}">\n''')
 
             for a in group._group_actions:
                 if a.dest in ("input", "output"):
@@ -255,11 +254,11 @@ class BServer:
                 result.append(self.arg2html(a, prefix, defaults, _))
             result.append("</table>")
             groupid += 1
-        result.append("""
+        result.append(f"""
 <p>
-  <button name="render" value="1" formtarget="_blank">""" + _("Generate") + """</button>
-  <button name="render" value="2" formtarget="_self">""" + _("Download") + """</button>
-  <button name="render" value="0" formtarget="_self">""" + _("Save to URL") + """</button>
+ <button name="render" value="1" formtarget="_blank">{_("Generate")}</button>
+ <button name="render" value="2" formtarget="_self">{_("Download")}</button>
+ <button name="render" value="0" formtarget="_self">{_("Save to URL")}</button>
 </p>
 </form>
 
@@ -284,14 +283,11 @@ class BServer:
         result.append(f'''<div>
 <img src="static/samples/{box.__class__.__name__}.jpg" width="100%" onerror="this.parentElement.innerHTML = '{no_img_msg}';">
 </div>
-''')
-
-        result.append("""
 </div>
 </div>
-""" + self.footer(lang) + """</body>
+{self.footer(lang)}</body>
 </html>
-        """ )
+        ''' )
         return (s.encode("utf-8") for s in result)
 
     def menu(self, lang):
@@ -302,15 +298,16 @@ class BServer:
         else:
             langparam = ""
 
-        result = ["""<!DOCTYPE html>
+        result = [f"""<!DOCTYPE html>
 <html>
 <head>
-    <title>""" + _("Boxes.py") + """</title>
+    <title>{_("Boxes.py")}</title>
     <meta charset="utf-8">
     <link rel="icon" type="image/svg+xml" href="static/boxes-logo.svg" sizes="any">
     <link rel="icon" type="image/x-icon" href="static/favicon.ico">
     <link rel="stylesheet" href="static/self.css">
-    <script>
+""", 
+"""    <script>
 	function change(group, img_link){
 	  document.getElementById("sample-"+group).src = img_link;
 	  document.getElementById("sample-"+group).style.height = "auto";
@@ -320,23 +317,21 @@ class BServer:
 	  document.getElementById("sample-" + group).src= "static/nothing.png";
 	  document.getElementById("sample-" + group).style.height= "0px";
 	}
-        </script>""", self.scripts % len(self.groups), """
+""",
+f"""        </script>{self.scripts % len(self.groups)}
      <meta name="flattr:id" content="456799">
 </head>
 <body onload="hideargs()">
 <div class="container" style="background-color: #FFF8EA;">
 <div style="width: 75%; float: left;">
-<h1>""" + _("Boxes.py") + """</h1>
+<h1>{_("Boxes.py")}</h1>
+<p>{_("Create boxes and more with a laser cutter!")}</p>
 <p>
-""" + _("Create boxes and more with a laser cutter!") + """
+{_('''
+        <a href="https://hackaday.io/project/10649-boxespy">Boxes.py</a> is an <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">Open Source</a> box generator written in <a href="https://www.python.org/">Python</a>. It features both finished parametrized generators as well as a Python API for writing your own. It features finger and (flat) dovetail joints, flex cuts, holes and slots for screws, hinges, gears, pulleys and much more.''')}
 </p>
-<p>
-""" + _("""
-        <a href="https://hackaday.io/project/10649-boxespy">Boxes.py</a> is an <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">Open Source</a> box generator written in <a href="https://www.python.org/">Python</a>. It features both finished parametrized generators as well as a Python API for writing your own. It features finger and (flat) dovetail joints, flex cuts, holes and slots for screws, hinges, gears, pulleys and much more.""") + """
-</p>
-
-
 </div>
+
 <div style="width: 25%; float: left;">
 <img alt="self-Logo" src="static/boxes-logo.svg" width="250" >
 </div>
@@ -361,17 +356,16 @@ class BServer:
                     docs = " - " + _(box.__doc__)
                 result.append(f"""
       <li onmouseenter="change('{group.name}', 'static/samples/{name}-thumb.jpg')" onmouseleave="changeback('{group.name}')"><a href="{name}{langparam}">{_(name)}</a>{docs}</li>""")
-            result.append("""
-  </ul></div>
-""")
-        result.append("""
+            result.append("\n</ul></div>\n")
+        result.append(f"""
 </div>
 
 <div style="width: 5%; float: left;"></div>
 <div class="clear"></div>
 <hr>
 </div>
-</div>""" + self.footer(lang) + """
+</div>
+{self.footer(lang)}
 </body>
 </html>
 """)
@@ -399,15 +393,13 @@ class BServer:
 """
 
     def errorMessage(self, name, e, _):
-        return [
-            ("""<html>
+        return [(f"""<html>
 <head>
-  <title>""" +  _("Error generating %s") % _(name) +
-            """</title>
+  <title>{_("Error generating %s") % _(name)}</title>
   <meta name="flattr:id" content="456799">
 </head>
 <body>
-<h1>""" + _("An error occurred!") + "</h1>" +
+<h1>{_("An error occurred!")}</h1>""" +
 "".join(u"<p>%s</p>" % html.escape(s) for s in type(u"")(e).split(u"\n")) +
 """
 </body>

@@ -30,7 +30,7 @@ class PaperBox(Boxes):
 This box is made of paper.
 
 There is marks in the "outside leftover paper" to help see where to fold
-(cutting with tabs helps use them). The cut is very precise, and could be too tight if misaligned when glued. A plywood box (such as a simple TypeTray) of the same size is a great guide during folding and glueing. Just fold the box against it. Accurate quick and easy.
+(cutting with tabs helps use them). The cut is very precise, and could be too tight if misaligned when glued. A plywood box (such as a simple TypeTray) of the same size is a great guide during folding and gluing. Just fold the box against it. Accurate quick and easy.
 
 A paper creaser (or bone folder) is also useful.
 """

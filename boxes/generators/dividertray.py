@@ -78,7 +78,7 @@ Adding '0:' at the start of the sy parameter adds a slot at the very back. Addin
 
 There are 4 different sets of dividers rendered:
 
-* With asymetric tabs so the tabs fit on top of each other
+* With asymmetric tabs so the tabs fit on top of each other
 * With tabs of half wall thickness that can go side by side
 * With tabs of a full wall thickness
 * One single divider spanning across all columns
@@ -215,7 +215,7 @@ You will likely need to cut each of the dividers you want multiple times.
 
         # Dividers
         divider_height = (
-            # h, with angle adjustement
+            # h, with angle adjustment
             self.h / math.cos(math.radians(self.Slot_angle))
             # removing what exceeds in the width of the divider
             - self.thickness * math.tan(math.radians(self.Slot_angle))
@@ -495,14 +495,14 @@ class SlotDescription:
 
     def corrected_start_depth(self):
         """
-        Returns the depth of the straigth part of the slot starting side
+        Returns the depth of the straight part of the slot starting side
         """
         extra_depth = self._depth_angle_correction()
         return self.depth + max(0, extra_depth) - self.round_edge_start_correction()
 
     def corrected_end_depth(self):
         """
-        Returns the depth of the straigth part of the slot ending side
+        Returns the depth of the straight part of the slot ending side
         """
         extra_depth = self._depth_angle_correction()
         return self.depth + max(0, -extra_depth) - self.round_edge_end_correction()
@@ -555,7 +555,7 @@ class SlotDescriptionsGenerator:
             # Add this slot
             descriptions.add(slot)
 
-            # Add the straigth edge after this slot
+            # Add the straight edge after this slot
             descriptions.add(
                 StraightEdgeDescription(l, slot.round_edge_end_correction())
             )
@@ -634,7 +634,7 @@ class DividerSlotsEdge(edges.BaseEdge):
             elif isinstance(description, StraightEdgeDescription):
                 self.do_straight_edge(description)
 
-        # rounding errors might accumulates :
+        # rounding errors might accumulate :
         # restore context and redo the move straight
         self.ctx.restore()
         self.moveTo(length)
@@ -656,7 +656,7 @@ class DividerSlotsEdge(edges.BaseEdge):
             (90 + slot.angle, slot.end_radius),
         )
 
-        # rounding errors might accumulates :
+        # rounding errors might accumulate :
         # restore context and redo the move straight
         self.ctx.restore()
         self.moveTo(slot.tracing_length())

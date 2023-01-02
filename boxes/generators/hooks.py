@@ -18,7 +18,7 @@ from boxes import *
 
 
 class Hook(Boxes):
-    """A hook wit a rectangular mouth to mount at the wall"""
+    """A hook with a rectangular mouth to mount at the wall"""
 
     ui_group = "Misc"  # see ./__init__.py for names
 
@@ -40,7 +40,7 @@ class Hook(Boxes):
             help="width of the hook from the side")
         self.argparser.add_argument("--angle",  action="store",
             type=float, default=45.,
-            help="angle of the support underneeth")
+            help="angle of the support underneath")
 
     def render(self):
 

@@ -19,7 +19,7 @@ from boxes import *
 class BottleStack(Boxes):
     """Stack bottles in a fridge"""
 
-    description = """When rendered with the "double" option the parts with the double slots get connected the shorter beams in the asymetrical slots.
+    description = """When rendered with the "double" option the parts with the double slots get connected the shorter beams in the asymmetrical slots.
 
 Without the "double" option the stand is a bit more narrow.
 """

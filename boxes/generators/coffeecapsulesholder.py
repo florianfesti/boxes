@@ -27,7 +27,7 @@ class CoffeeCapsuleHolder(Boxes):
     ui_group = "Misc"
 
     description = """
-    You can store your coffee capsule near your expresso machine with this. It works both vertically, or upside down under a shelf.
+    You can store your coffee capsule near your espresso machine with this. It works both vertically, or upside down under a shelf.
 """
 
     def __init__(self):

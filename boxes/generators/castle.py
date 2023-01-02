@@ -18,7 +18,7 @@ from boxes import *
 
 
 class Castle(Boxes):
-    "Castle tower with two walls"
+    """Castle tower with two walls"""
 
     description = """This was done as a table decoration. May be at some point in the future someone will create a proper castle
 with towers and gates and walls that can be attached in multiple configurations."""

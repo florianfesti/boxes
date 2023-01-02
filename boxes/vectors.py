@@ -16,7 +16,7 @@ import math
 
 
 def normalize(v):
-    "set lenght of vector to one"
+    """set length of vector to one"""
     l = (v[0] ** 2 + v[1] ** 2) ** 0.5
     if l == 0.0:
         return (0.0, 0.0)
@@ -35,35 +35,34 @@ def vclip(v, length):
 
 
 def vdiff(p1, p2):
-    "vector from point1 to point2"
+    """vector from point1 to point2"""
     return (p2[0] - p1[0], p2[1] - p1[1])
 
 
 def vadd(v1, v2):
-    "Sum of two vectors"
+    """Sum of two vectors"""
     return (v1[0] + v2[0], v1[1] + v2[1])
 
 
 def vorthogonal(v):
-    "orthogonal vector"
-    "Orthogonal vector"
+    """Orthogonal vector"""
     return (-v[1], v[0])
 
 
 def vscalmul(v, a):
-    "scale vector by a"
+    """scale vector by a"""
     return (a * v[0], a * v[1])
 
 
 def dotproduct(v1, v2):
-    "Dot product"
+    """Dot product"""
     return v1[0] * v2[0] + v1[1] * v2[1]
 
 def circlepoint(r, a):
     return (r * math.cos(a), r * math.sin(a))
 
 def tangent(x, y, r):
-    "angle and length of a tangent to a circle at x,y with raduis r"
+    """angle and length of a tangent to a circle at x,y with radius r"""
     l1 = vlength((x, y))
     a1 = math.atan2(y, x)
     a2 = math.asin(r / l1)
@@ -72,7 +71,7 @@ def tangent(x, y, r):
     return (a1+a2, l2)
 
 def rotm(angle):
-    "Rotation matrix"
+    """Rotation matrix"""
     return [[math.cos(angle), -math.sin(angle), 0],
             [math.sin(angle), math.cos(angle), 0]]
 

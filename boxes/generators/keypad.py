@@ -109,7 +109,7 @@ class Keypad(Boxes, Keyboard):
         return [callback]
 
     def hotplug(self):
-        """Callback for the key stabelizers."""
+        """Callback for the key stabilizers."""
         self.pcb_holes(
             with_pcb_mount=self.pcb_mount_enable,
             with_diode=self.diode_enable,

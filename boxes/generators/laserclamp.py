@@ -20,7 +20,7 @@ class LaserClamp(Boxes):
     """A clamp to hold down material to a knife table"""
 
     description = """You need a tension spring of the proper length to make the clamp work.
-Increace extraheight to get more space for the spring and to make the
+Increase extraheight to get more space for the spring and to make the
 sliding mechanism less likely to bind. You may need to add some wax on the
 parts sliding on each other to reduce friction.
 """

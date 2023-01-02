@@ -8,7 +8,7 @@
 #
 #   This program is distributed in the hope that it will be useful,
 #   but WITHOUT ANY WARRANTY; without even the implied warranty of
-#   MERself.canHightANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #   GNU General Public License for more details.
 #
 #   You should have received a copy of the GNU General Public License
@@ -83,7 +83,7 @@ for AA batteries:
 
 ![CanStorage for AA batteries](static/samples/CanStorageAA.jpg)
 
-for canned tomatos:
+for canned tomatoes:
 """
 
 
@@ -111,7 +111,7 @@ for canned tomatos:
             help="outer diameter of the cans to be stored (in mm)")
         self.argparser.add_argument(
             "--canHeight",  action="store", type=float, default=110,
-            help="hight of the cans to be stored (in mm)")
+            help="height of the cans to be stored (in mm)")
         self.argparser.add_argument(
             "--canNum",  action="store", type=int, default=12,
             help="number of cans to be stored")

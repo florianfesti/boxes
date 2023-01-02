@@ -104,6 +104,7 @@ class BServer:
 
         self.staticdir = os.path.join(os.path.dirname(__file__), '../static/')
         self._languages = None
+        self._cache = {}
 
     def getLanguages(self, domain=None, localedir=None):
         if self._languages is not None:
@@ -205,6 +206,15 @@ class BServer:
     }
     </script>
 """
+
+    def args2html_cached(self, name, box, lang, action="", defaults={}):
+        if defaults == {}:
+            key = (name, lang.info().get('language', None), action)
+            if key not in self._cache:
+                self._cache[key] = list(self.args2html(name, box, lang, action, defaults))
+            return self._cache[key]
+
+        return self.args2html(name, box, lang, action, defaults)
 
     def args2html(self, name, box, lang, action="", defaults={}):
         _ = lang.gettext
@@ -478,7 +488,11 @@ f"""        </script>{self.scripts % len(self.groups)}
         box_cls = self.boxes.get(name, None)
         if not box_cls:
             start_response(status, headers)
-            return self.menu(lang)
+
+            lang_name = lang.info().get('language', None)
+            if lang_name not in self._cache:
+                self._cache[lang_name] = list(self.menu(lang))
+            return self._cache[lang_name]
 
         if name == "TrayLayout2":
             box = box_cls(self, webargs=True)
@@ -493,7 +507,7 @@ f"""        </script>{self.scripts % len(self.groups)}
                     k, v = kv
                     defaults[k] = html.escape(v, True)
             start_response(status, headers)
-            return self.args2html(name, box, lang, "./" + name, defaults=defaults)
+            return self.args2html_cached(name, box, lang, "./" + name, defaults=defaults)
         else:
             args = ["--"+ arg for arg in args if not arg.startswith("render=")]
             try:

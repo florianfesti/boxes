@@ -49,7 +49,7 @@ A paper creaser (or bone folder) is also useful.
         )
 
         self.argparser.add_argument(
-            "--lid_heigth",
+            "--lid_height",
             type=float,
             default=15,
             help="Height of the lid (part which goes inside the box)",
@@ -194,11 +194,11 @@ A paper creaser (or bone folder) is also useful.
 
     def lid(self, width):
         return [
-            self.lid_heigth - self.lid_radius,
+            self.lid_height - self.lid_radius,
             (90, self.lid_radius),
             width - 2 * self.lid_radius,
             (90, self.lid_radius),
-            self.lid_heigth - self.lid_radius,
+            self.lid_height - self.lid_radius,
         ]
 
     def mark(self, length):
@@ -254,7 +254,7 @@ A paper creaser (or bone folder) is also useful.
         ]
 
     def ear_description(self, length, lid_cut_length, reverse=False):
-        ear_depth = max(lid_cut_length, self.lid_heigth)
+        ear_depth = max(lid_cut_length, self.lid_height)
         radius = min(self.lid_radius, ear_depth - lid_cut_length)
         start_margin = self.thickness
         end_margin = 2 * self.burn

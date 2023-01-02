@@ -1634,16 +1634,16 @@ msgstr "LBeam Settings"
 
 #. name of box generator
 #: boxes/generators/magazinefile.py
-msgid "MagazinFile"
-msgstr "MagazinFile"
+msgid "MagazineFile"
+msgstr "MagazineFile"
 
-#. description of MagazinFile
+#. description of MagazineFile
 #: boxes/generators/magazinefile.py
 msgid "Open magazine file"
 msgstr "Open magazine file"
 
-msgid "MagazinFile Settings"
-msgstr "MagazinFile Settings"
+msgid "MagazineFile Settings"
+msgstr "MagazineFile Settings"
 
 #. name of box generator
 #: boxes/generators/makitapowersupply.py

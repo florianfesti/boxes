@@ -19,7 +19,7 @@ class _WallMountedBox(Boxes):
         self.addSettingsArgs(FrenchCleatSettings)
         self.argparser.add_argument(
             "--walltype",  action="store", type=str, default="plain",
-            choices=["plain", "plain reenforced", "slatwall", "dinrail",
+            choices=["plain", "plain reinforced", "slatwall", "dinrail",
                      "french cleat"],
             help="Type of wall system to attach to")
 
@@ -43,7 +43,7 @@ class _WallMountedBox(Boxes):
 
         s.edgeObjects(self)
         self.wallHolesAt = self.edges["|"]
-        if self.walltype.endswith("reenforced"):
+        if self.walltype.endswith("reinforced"):
             self.edges["c"] = self.edges["d"]
             self.edges["C"] = self.edges["D"]
 

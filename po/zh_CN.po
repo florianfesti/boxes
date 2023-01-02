@@ -615,10 +615,10 @@ msgstr "激光灯设置"
 msgid "MXL"
 msgstr "MXL"
 
-msgid "MagazinFile"
+msgid "MagazineFile"
 msgstr "杂志文件"
 
-msgid "MagazinFile Settings"
+msgid "MagazineFile Settings"
 msgstr "杂志文件设置"
 
 msgid "MakitaPowerSupply"

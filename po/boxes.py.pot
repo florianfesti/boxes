@@ -3947,15 +3947,15 @@ msgstr ""
 
 #. name of box generator
 #: boxes/generators/magazinefile.py
-msgid "MagazinFile"
+msgid "MagazineFile"
 msgstr ""
 
-#. description of MagazinFile
+#. description of MagazineFile
 #: boxes/generators/magazinefile.py
 msgid "Open magazine file"
 msgstr ""
 
-msgid "MagazinFile Settings"
+msgid "MagazineFile Settings"
 msgstr ""
 
 #. name of box generator
@@ -4602,10 +4602,10 @@ msgstr ""
 
 #. parameter name
 #: boxes/generators/paperbox.py
-msgid "lid_heigth"
+msgid "lid_height"
 msgstr ""
 
-#. help for parameter lid_heigth
+#. help for parameter lid_height
 #: boxes/generators/paperbox.py
 msgid "Height of the lid (part which goes inside the box)"
 msgstr ""

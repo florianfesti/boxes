@@ -85,6 +85,9 @@ class ThrowingArgumentParser(argparse.ArgumentParser):
 # Evil hack
 boxes.ArgumentParser = ThrowingArgumentParser  # type: ignore
 
+
+static_url = "static"
+
 class BServer:
 
     lang_re = re.compile(r"([a-z]{2,3}(-[-a-zA-Z0-9]*)?)\s*(;\s*q=(\d\.?\d*))?")
@@ -216,9 +219,9 @@ class BServer:
 <head>
     <title>{_("Boxes - %s") % _(name)}</title>
     <meta charset="utf-8">
-    <link rel="icon" type="image/svg+xml" href="static/boxes-logo.svg" sizes="any">
-    <link rel="icon" type="image/x-icon" href="static/favicon.ico">
-    <link rel="stylesheet" href="static/self.css">
+    <link rel="icon" type="image/svg+xml" href="{static_url}/boxes-logo.svg" sizes="any">
+    <link rel="icon" type="image/x-icon" href="{static_url}/favicon.ico">
+    <link rel="stylesheet" href="{static_url}/self.css">
     {self.scripts % (len(box.argparser._action_groups)-3)}
     <meta name="flattr:id" content="456799">
 </head>
@@ -229,7 +232,7 @@ class BServer:
 <a href="./{langparam}"><h1>{_("Boxes.py")}</h1></a>
 </div>
 <div style="width: 120px; float: right;">
-<img alt="self-Logo" src="static/boxes-logo.svg" width="120" >
+<img alt="self-Logo" src="{static_url}/boxes-logo.svg" width="120" >
 </div>
 <div>
 <div class="clear"></div>
@@ -281,7 +284,7 @@ class BServer:
                                             extensions=["extra"]))
 
         result.append(f'''<div>
-<img src="static/samples/{box.__class__.__name__}.jpg" width="100%" onerror="this.parentElement.innerHTML = '{no_img_msg}';">
+<img src="{static_url}/samples/{box.__class__.__name__}.jpg" width="100%" onerror="this.parentElement.innerHTML = '{no_img_msg}';">
 </div>
 </div>
 </div>
@@ -303,9 +306,9 @@ class BServer:
 <head>
     <title>{_("Boxes.py")}</title>
     <meta charset="utf-8">
-    <link rel="icon" type="image/svg+xml" href="static/boxes-logo.svg" sizes="any">
-    <link rel="icon" type="image/x-icon" href="static/favicon.ico">
-    <link rel="stylesheet" href="static/self.css">
+    <link rel="icon" type="image/svg+xml" href="{static_url}/boxes-logo.svg" sizes="any">
+    <link rel="icon" type="image/x-icon" href="{static_url}/favicon.ico">
+    <link rel="stylesheet" href="{static_url}/self.css">
 """, 
 """    <script>
 	function change(group, img_link){
@@ -314,10 +317,10 @@ class BServer:
 	}
 
 	function changeback(group){
-	  document.getElementById("sample-" + group).src= "static/nothing.png";
+	  document.getElementById("sample-" + group).src= "%s/nothing.png";
 	  document.getElementById("sample-" + group).style.height= "0px";
 	}
-""",
+""" % static_url,
 f"""        </script>{self.scripts % len(self.groups)}
      <meta name="flattr:id" content="456799">
 </head>
@@ -333,7 +336,7 @@ f"""        </script>{self.scripts % len(self.groups)}
 </div>
 
 <div style="width: 25%; float: left;">
-<img alt="self-Logo" src="static/boxes-logo.svg" width="250" >
+<img alt="self-Logo" src="{static_url}/boxes-logo.svg" width="250" >
 </div>
 <div>
 <div class="clear"></div>
@@ -343,9 +346,9 @@ f"""        </script>{self.scripts % len(self.groups)}
         for nr, group in enumerate(self.groups):
             result.append(f'''
 <h3 id="h-{nr}" role="button" aria-expanded="false" class="open" tabindex="0" onclick="showHide('{nr}')" onkeypress="if(event.keyCode == 13) showHide('{nr}')"
-     onmouseenter="change('{group.name}', 'static/samples/{group.thumbnail}')"
+     onmouseenter="change('{group.name}', '{static_url}/samples/{group.thumbnail}')"
      onmouseleave="changeback('{group.name}')">{_(group.title)}</h3>
-  <img style="width: 200px;" id="sample-{group.name}" src="static/nothing.png" alt="">
+  <img style="width: 200px;" id="sample-{group.name}" src="{static_url}/nothing.png" alt="">
   <div id="{nr}"><ul>''')
             for box in group.generators:
                 name = box.__name__
@@ -355,7 +358,7 @@ f"""        </script>{self.scripts % len(self.groups)}
                 if box.__doc__:
                     docs = " - " + _(box.__doc__)
                 result.append(f"""
-      <li onmouseenter="change('{group.name}', 'static/samples/{name}-thumb.jpg')" onmouseleave="changeback('{group.name}')"><a href="{name}{langparam}">{_(name)}</a>{docs}</li>""")
+      <li onmouseenter="change('{group.name}', '{static_url}/samples/{name}-thumb.jpg')" onmouseleave="changeback('{group.name}')"><a href="{name}{langparam}">{_(name)}</a>{docs}</li>""")
             result.append("\n</ul></div>\n")
         result.append(f"""
 </div>
@@ -541,7 +544,6 @@ f"""        </script>{self.scripts % len(self.groups)}
             os.remove(box.output)
             return (l for l in result)
 
-
 if __name__=="__main__":
     host = ''
     port = 8000
@@ -565,5 +567,4 @@ if __name__=="__main__":
     print("BoxesServer stops.")
 else:
     application = BServer().serve
-
-
+    static_url = "https://florianfesti.github.io/boxes/static"

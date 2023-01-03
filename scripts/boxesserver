@@ -274,15 +274,8 @@ class BServer:
  <button name="render" value="0" formtarget="_self">{_("Save to URL")}</button>
 </p>
 </form>
+</div>
 
-</div>
-<!--
-<div style="width: 5%; float: left;"></div>
-<div style="width: 35%; float: left;">
-<img alt="sample" src="examples/box.svg" width="300" >
-<span id="sicherheitshinweise">hier kommt dann der AJAX-Inhalt</span>
-</div>
--->
 <div class="clear"></div>
 <hr>
 <div class="description">

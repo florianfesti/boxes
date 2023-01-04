@@ -2612,6 +2612,24 @@ class Boxes:
             ext[2] = max(ext[2], x)
             ext[3] = max(ext[3], y)
 
+        # trace edge margins
+        nborders = []
+        for i, val  in enumerate(borders):
+            if i % 2:
+                nborders.append(val)
+            else:
+                edge = edges[(i//2)%len(edges)]
+                margin = edge.margin()
+                try:
+                    l = val[0]
+                except TypeError:
+                    l = val
+                if margin:
+                    nborders.extend([0.0, -90, margin, 90, l, 90, margin, -90, 0.0])
+                else:
+                    nborders.append(val)
+
+        borders = nborders
         for i in range(len(borders)):
             if i % 2:
                 try:
@@ -2648,13 +2666,6 @@ class Boxes:
                 posx += borders[i] * math.cos(math.radians(angle))
                 posy += borders[i] * math.sin(math.radians(angle))
             checkpoint(ext, posx, posy)
-
-        margin = max((e.margin() for e in edges))
-
-        ext[0] -= margin
-        ext[1] -= margin
-        ext[2] += margin
-        ext[3] += margin
 
         return ext
 

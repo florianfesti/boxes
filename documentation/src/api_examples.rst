@@ -40,8 +40,8 @@ DisplayShelf
 .. autoclass:: boxes.generators.displayshelf.DisplayShelf
 
 The DisplayShelf is completely made out of rectangularWalls(). It uses
-a callback to place all the fingerHolesAt() right places on the sides.
-While the use of the Boxes.py API is pretty straight forward the
+a callback to place all the fingerHolesAt() at the right places on the sides.
+While the use of the Boxes.py API is pretty straightforward the
 calculations needed are a bit more tricky. You can use the ``debug``
 default param to check if you got things right when attempting
 something like this yourself.

@@ -4,7 +4,7 @@ Parts
 
 
 
-There are a few parameter shared by many of those parts:
+There are a few parameters shared by many of the parts:
 
 The callback parameter
 ......................
@@ -78,9 +78,9 @@ denominate single edge (types) only.
 PartsMatrix
 ...........
 
-To place many of the same part partMatrix can used:
+To place a grid of identical parts, partMatrix can used:
 
 .. automethod:: boxes.Boxes.partsMatrix
 
-It creates one big block of parts. The move param treat this block like on big
+It creates one big block of parts. The move param treats this block like one big
 part.

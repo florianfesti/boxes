@@ -19,8 +19,8 @@ form. The user interfaces are located in `scripts/`. Currently there is
 Generators
 ..........
 
-A (box) generator is an subclass of boxes.Boxes. It generates one
-drawing. The subclasses over load .__init__() to set their parameters
+A (box) generator is a subclass of boxes.Boxes. It generates one
+drawing. The subclasses overload .__init__() to set their parameters
 and implement .render() that does the actual drawing.
 
 Generators are found in ``boxes/generators/``. They are included into
@@ -33,18 +33,19 @@ Parts
 .....
 
 Parts are a single call that draws something according to a set of parameters.
-There is a number of standard parts. Their typical params are
+There are a number of standard parts. Their typical params are
 explained in the API docs.
 
-Only real requirement for a part it supporting the move parameter for
-placement.
+The only real requirement for a part is that it must support the move
+parameter for placement.
 
 Part Callbacks
 ++++++++++++++
 
 Most parts support callbacks - either one in the middle for round
 parts or one for each edge. They allow placing holes or other features
-on the part.
+on the part, indepenent of edge type.  Without using callbacks, you
+will not have consistent placement of internal features.
 
 Navigation and Turtle Graphics
 ..............................

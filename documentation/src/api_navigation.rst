@@ -8,11 +8,11 @@ last line. Other drawing commands restore the current position after
 they are finished.
 
 Moving the origin like this allows ignoring the absolute coordinates
-and do all movement and drawing to be relative to the current
-position. The current positions does not only consist of a point on
+and for all movement and drawing to be relative to the current
+position. The current position not only consists of a point on
 the drawing canvas but also a direction.
 
-To move the origin to a different location there are these to methods:
+To move the origin to a different location there are these two methods:
 
 .. automethod:: boxes.Boxes.moveTo
 .. automethod:: boxes.Boxes.moveArc

@@ -7,11 +7,11 @@ of Boxes.py. This means they start at the current position and current
 direction and move the current position to the end of the edge.
 
 Edge instances have a Settings object associated with them that keeps
-the details about how the edge should look like. Edges that are
+the details about what the edge should look like. Edges that are
 supposed to work together share the same Settings object to ensure
 they fit together - assuming they have the same length. Most edges are
-symmetrical to unsure they fit together even when drawn from different
-directions. Although there are a few exception - mainly edges that
+symmetrical to ensure they fit together even when drawn from different
+directions. Although there are a few exceptions - mainly edges that
 provide special features like hinges.
 
 As edges started out as methods of the main Boxes class they still are
@@ -19,13 +19,13 @@ callables. It turned out that the edges need to provide a bit more
 information to allow the surrounding code to handle them
 properly. When drawing an Edge there is a virtual straight line that
 is the border the shape of the part (e.g. an rectangle). But the
-actual Edge has often to be drawn elsewhere. Best example if probably
+actual Edge often has to be drawn elsewhere. The best example is probably
 the ``F`` Edge that matches the normal finger joints. It has to start
 one material thickness outside of the virtual border of the part so the
 cutouts for the opposing fingers just touch the border. The Edge
-classes have a number of methods to deal with these kind of offsets.
+classes have a number of methods to deal with these kinds of offsets.
 
-A set of instances are kept the ``.edges`` attribute of the
+A set of instances are kept in the ``.edges`` attribute of the
 ``Boxes`` class. It is a dict with strings of length one as keys:
 
 * aAbB : reserved to be used in generators
@@ -140,7 +140,7 @@ Bed Bolts
 
 .. autoclass:: boxes.edges.Bolts
 
-Dove Tail Joints
+Dovetail Joints
 ----------------
 Dovetails joints can only be used to join two pieces flatly. This
 limits their use to closing some round form created with flex areas or
@@ -150,7 +150,7 @@ much stronger than simple finger joints and can also bare pulling forces.
 .. autoclass:: boxes.edges.DoveTailJoint
 .. autoclass:: boxes.edges.DoveTailJointCounterPart
 
-Dove Tail Settings
+Dovetail Settings
 ..................
 
 .. autoclass:: boxes.edges.DoveTailSettings

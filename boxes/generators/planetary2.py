@@ -24,7 +24,7 @@ class Planetary2(Boxes):
 
     description = """Still has issues. The middle planetary gears set must not have a mashing sun gear as it can't be a proper gear set."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
         self.buildArgParser("nema_mount")
         self.argparser.add_argument(

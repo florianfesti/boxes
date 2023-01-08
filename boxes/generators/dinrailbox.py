@@ -19,7 +19,7 @@ from boxes import *
 
 class DinRailEdge(edges.FingerHoleEdge):
 
-    def __init__(self, boxes, settings, width=35.0, offset=0.0):
+    def __init__(self, boxes, settings, width=35.0, offset=0.0) -> None:
         super().__init__(boxes, settings)
         self.width = width
         self.offset = offset
@@ -62,7 +62,7 @@ class DinRailBox(Boxes):
 
         self.move(tw, th, move)
         
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
 
         self.addSettingsArgs(edges.FingerJointSettings, surroundingspaces=.8)

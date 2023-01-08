@@ -5,7 +5,7 @@ class SlidingDrawer(Boxes):
 
     ui_group = "Box"
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
         self.buildArgParser(x=60, y=100, h=30, outside='true')
         self.addSettingsArgs(edges.FingerJointSettings, finger=2.0, space=2.0)

@@ -19,7 +19,7 @@ from boxes.walledges import _WallMountedBox
 class WallEdges(_WallMountedBox):
     """Shows the different edge types for wall systems"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.buildArgParser(h=120)
 

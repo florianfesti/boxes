@@ -21,7 +21,7 @@ from boxes.walledges import _WallMountedBox
 class WallTypeTray(_WallMountedBox, _TopEdge):
     """Type tray - allows only continuous walls"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.addSettingsArgs(edges.StackableSettings)
         self.buildArgParser("sx", "sy", "h", "hi", "outside", "bottom_edge")

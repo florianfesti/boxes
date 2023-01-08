@@ -21,7 +21,7 @@ class WaivyKnob(Boxes):
     
     ui_group = "Part"
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
 
         # Add non default cli params if needed (see argparse std lib)

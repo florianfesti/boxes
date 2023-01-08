@@ -21,7 +21,7 @@ class Gears(Boxes):
 
     ui_group = "Part"
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
         self.argparser.add_argument(
             "--teeth1",  action="store", type=int, default=12,

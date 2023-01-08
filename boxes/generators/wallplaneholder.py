@@ -19,7 +19,7 @@ from boxes.walledges import _WallMountedBox
 class WallPlaneHolder(_WallMountedBox):
     """Hold a plane to a wall"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.argparser.add_argument(

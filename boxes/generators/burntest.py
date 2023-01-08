@@ -34,7 +34,7 @@ See also LBeam that can serve as compact BurnTest and FlexTest for testing flex 
 
     ui_group = "Part"
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
 
         self.addSettingsArgs(edges.FingerJointSettings)

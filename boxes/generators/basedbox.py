@@ -30,7 +30,7 @@ plate. The width of the "brim" can also be adjusted with the **edge_width**
 See ClosedBox for variant without a base.
 """
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings)
         self.buildArgParser("x", "y", "h", "outside")

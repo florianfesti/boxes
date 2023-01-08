@@ -22,7 +22,7 @@ class Display(Boxes):
 
     ui_group = "Misc"
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
 
         self.buildArgParser(x=150., h=200.0)

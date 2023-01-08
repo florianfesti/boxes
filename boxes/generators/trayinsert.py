@@ -22,7 +22,7 @@ class TrayInsert(Boxes):
 
     ui_group = "Tray"
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
         self.buildArgParser("sx", "sy", "h", "outside")
 

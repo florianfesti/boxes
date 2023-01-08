@@ -50,7 +50,7 @@ class RegularStarBox(Boxes):
 
     description = """![Open box](static/samples/RegularStarBox-2.jpg)"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings)
         self.buildArgParser("h", "outside")

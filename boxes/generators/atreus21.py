@@ -11,7 +11,7 @@ class Atreus21(Boxes, Keyboard):
     half_btn = btn_size / 2
     border = 6
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.add_common_keyboard_parameters(
             # By default, columns from Atreus 21

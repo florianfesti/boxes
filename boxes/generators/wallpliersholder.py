@@ -20,7 +20,7 @@ from boxes.walledges import _WallMountedBox
 class WallPliersHolder(_WallMountedBox):
     """Bar to hang pliers on"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.buildArgParser(sx="100*3", y=50, h=50, outside=True)

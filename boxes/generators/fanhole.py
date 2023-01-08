@@ -21,7 +21,7 @@ class FanHole(Boxes):
 
     ui_group = "Holes"
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
 
         self.argparser.add_argument(

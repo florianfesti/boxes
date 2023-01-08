@@ -116,7 +116,7 @@ class BoltPolicy(object):
 class Bolts(BoltPolicy):
     """Distribute a fixed number of bolts evenly"""
 
-    def __init__(self, bolts=1):
+    def __init__(self, bolts=1) -> None:
         self.bolts = bolts
 
     def numFingers(self, numFingers):
@@ -211,7 +211,7 @@ class Settings(object):
                                choices=choices,
                                help=descriptions.get(name))
 
-    def __init__(self, thickness, relative=True, **kw):
+    def __init__(self, thickness, relative=True, **kw) -> None:
         self.values = {}
         for name, value in self.absolute_params.items():
             if isinstance(value, tuple):
@@ -294,7 +294,7 @@ class BaseEdge(object):
     char: Optional[str] = None
     description = "Abstract Edge Class"
 
-    def __init__(self, boxes, settings):
+    def __init__(self, boxes, settings) -> None:
         self.boxes = boxes
         self.ctx = boxes.ctx
         self.settings = settings
@@ -727,7 +727,7 @@ class CompoundEdge(BaseEdge):
     """Edge composed of multiple different Edges"""
     description = "Compound Edge"
 
-    def __init__(self, boxes, types, lengths):
+    def __init__(self, boxes, types, lengths) -> None:
         super(CompoundEdge, self).__init__(boxes, None)
 
         self.types = [self.edges.get(edge, edge) for edge in types]
@@ -763,7 +763,7 @@ class Slot(BaseEdge):
 
     description = "Slot"
 
-    def __init__(self, boxes, depth):
+    def __init__(self, boxes, depth) -> None:
         super(Slot, self).__init__(boxes, None)
 
         self.depth = depth
@@ -785,7 +785,7 @@ class SlottedEdge(BaseEdge):
     """Edge with multiple slots"""
     description = "Straight Edge with slots"
 
-    def __init__(self, boxes, sections, edge="e", slots=0):
+    def __init__(self, boxes, sections, edge="e", slots=0) -> None:
         super(SlottedEdge, self).__init__(boxes, Settings(boxes.thickness))
 
         self.edge = self.edges.get(edge, edge)
@@ -1019,7 +1019,7 @@ class FingerJointEdgeCounterPart(FingerJointEdge):
 class FingerHoles(FingerJointBase):
     """Hole matching a finger joint edge"""
 
-    def __init__(self, boxes, settings):
+    def __init__(self, boxes, settings) -> None:
         self.boxes = boxes
         self.ctx = boxes.ctx
         self.settings = settings
@@ -1067,7 +1067,7 @@ class FingerHoleEdge(BaseEdge):
     char = 'h'
     description = "Edge (parallel Finger Joint Holes)"
 
-    def __init__(self, boxes, fingerHoles=None, **kw):
+    def __init__(self, boxes, fingerHoles=None, **kw) -> None:
         settings = None
         if isinstance(fingerHoles, Settings):
             settings = fingerHoles
@@ -1106,7 +1106,7 @@ class CrossingFingerHoleEdge(Edge):
     description = "Edge (orthogonal Finger Joint Holes)"
     char = '|'
 
-    def __init__(self, boxes, height, fingerHoles=None, **kw):
+    def __init__(self, boxes, height, fingerHoles=None, **kw) -> None:
         super(CrossingFingerHoleEdge, self).__init__(boxes, None, **kw)
 
         self.fingerHoles = fingerHoles or boxes.fingerHolesAt
@@ -1173,7 +1173,7 @@ class StackableBaseEdge(BaseEdge):
     description = "Abstract Stackable class"
     bottom = True
 
-    def __init__(self, boxes, settings, fingerjointsettings):
+    def __init__(self, boxes, settings, fingerjointsettings) -> None:
         super().__init__(boxes, settings)
 
         self.fingerjointsettings = fingerjointsettings
@@ -1311,7 +1311,7 @@ class Hinge(BaseEdge):
     char = 'i'
     description = "Straight edge with hinge eye"
 
-    def __init__(self, boxes, settings=None, layout=1):
+    def __init__(self, boxes, settings=None, layout=1) -> None:
         super(Hinge, self).__init__(boxes, settings)
 
         if not (0 < layout <= 3):
@@ -1400,7 +1400,7 @@ class HingePin(BaseEdge):
     char = 'I'
     description = "Edge with hinge pin"
 
-    def __init__(self, boxes, settings=None, layout=1):
+    def __init__(self, boxes, settings=None, layout=1) -> None:
         super(HingePin, self).__init__(boxes, settings)
 
         if not (0 < layout <= 3):
@@ -1576,7 +1576,7 @@ class ChestHinge(BaseEdge):
 
     char = "o"
 
-    def __init__(self, boxes, settings=None, reversed=False):
+    def __init__(self, boxes, settings=None, reversed=False) -> None:
         super(ChestHinge, self).__init__(boxes, settings)
 
         self.reversed = reversed
@@ -1632,7 +1632,7 @@ class ChestHingeTop(ChestHinge):
 
     char = "p"
 
-    def __init__(self, boxes, settings=None, reversed=False):
+    def __init__(self, boxes, settings=None, reversed=False) -> None:
         super(ChestHingeTop, self).__init__(boxes, settings)
 
         self.reversed = reversed
@@ -1764,7 +1764,7 @@ class CabinetHingeEdge(BaseEdge):
     char = "u"
     description = "Edge with cabinet hinges"
 
-    def __init__(self, boxes, settings=None, top=False, angled=False):
+    def __init__(self, boxes, settings=None, top=False, angled=False) -> None:
         super(CabinetHingeEdge, self).__init__(boxes, settings)
         self.top = top
         self.angled = angled
@@ -2433,7 +2433,7 @@ class RackEdge(BaseEdge):
 
     description = "Rack (and pinion) Edge"
 
-    def __init__(self, boxes, settings):
+    def __init__(self, boxes, settings) -> None:
         super(RackEdge, self).__init__(boxes, settings)
         self.gear = gears.Gears(boxes)
 

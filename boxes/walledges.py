@@ -7,7 +7,7 @@ from .edges import Settings, BaseEdge
 class _WallMountedBox(Boxes):
     ui_group = "WallMounted"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.addWallSettingsArgs()
 
@@ -139,7 +139,7 @@ class WallHoleEdge(WallHoles):
     """Edge with holes for a parallel finger joint"""
     description = "Edge (parallel slot wall Holes)"
 
-    def __init__(self, boxes, wallHoles, **kw):
+    def __init__(self, boxes, wallHoles, **kw) -> None:
         super().__init__(boxes, wallHoles.settings, **kw)
         self.wallHoles = wallHoles
 

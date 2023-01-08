@@ -34,7 +34,7 @@ class Keyboard:
     SWITCH_CASE_SIZE = 15.6
     FRAME_CUTOUT = 14
 
-    def __init__(self):
+    def __init__(self) -> None:
         pass
 
     def add_common_keyboard_parameters(

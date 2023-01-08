@@ -19,7 +19,7 @@ from boxes.walledges import _WallMountedBox
 class WallConsole(_WallMountedBox):
     """Outset and angled plate to mount stuff to"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.buildArgParser(sx=100, h=100, outside=True)

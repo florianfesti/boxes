@@ -38,7 +38,7 @@ class TriangleLamp(Boxes):
 
     ui_group = "Misc"
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
 
         self.addSettingsArgs(edges.FingerJointSettings, finger=3.0,space=3.0,

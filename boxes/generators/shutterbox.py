@@ -137,7 +137,7 @@ class ShutterBox(Boxes):
         self.polyline(0, 90, h, 90, l, 90, h, 90)
         self.move(l, h, move)
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
 
         self.addSettingsArgs(edges.FingerJointSettings, surroundingspaces=0.5)

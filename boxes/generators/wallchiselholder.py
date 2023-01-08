@@ -36,7 +36,7 @@ class FrontEdge(edges.Edge):
 class WallChiselHolder(_WallMountedBox):
     """Wall tool holder for chisels, files and similar tools"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.buildArgParser(h=120)

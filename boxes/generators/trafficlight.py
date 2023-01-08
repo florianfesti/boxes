@@ -41,7 +41,7 @@ class TrafficLight(Boxes): # change class name here and below
 
 When turned by 90°, it can be also used to create a bottle holder."""
     
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
 
         self.addSettingsArgs(edges.FingerJointSettings)

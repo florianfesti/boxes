@@ -27,7 +27,7 @@ class Surface:
     scale = 1.0
     invert_y = False
 
-    def __init__(self, fname):
+    def __init__(self, fname) -> None:
         self._fname = fname
         self.parts = []
         self._p = self.new_part("default")
@@ -93,7 +93,7 @@ class Surface:
 
 
 class Part:
-    def __init__(self, name):
+    def __init__(self, name) -> None:
         self.pathes = []
         self.path = []
 
@@ -140,11 +140,11 @@ class Part:
 
 
 class Path:
-    def __init__(self, path, params):
+    def __init__(self, path, params) -> None:
         self.path = path
         self.params = params
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         l = len(self.path)
         # x1,y1 = self.path[0][1:3]
         if l>0:
@@ -211,7 +211,7 @@ class Path:
             self.path = [p for n, p in enumerate(self.path) if p != self.path[n-1]]
 
 class Context:
-    def __init__(self, surface, *al, **ad):
+    def __init__(self, surface, *al, **ad) -> None:
         self._renderer = self._dwg = surface
 
         self._bounds = Extents()

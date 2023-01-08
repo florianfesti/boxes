@@ -28,7 +28,7 @@ The lids needs to be glued. For the bayonet lid all outside rings attach to the 
  
     ui_group = "Box"
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings, surroundingspaces=1)
         self.buildArgParser("h", "outside")

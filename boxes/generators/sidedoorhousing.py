@@ -37,7 +37,7 @@ For the removable walls you need to add the lips and latches. The U-shaped clamp
 The latches lock in place when closed. To open them they need to be pressed in and can then be moved aside.
 """
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
 
         self.addSettingsArgs(edges.FingerJointSettings, surroundingspaces=.5)

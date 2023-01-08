@@ -22,7 +22,7 @@ class JigsawPuzzle(Boxes):  # change class name here and below
 
     webinterface = False  # Change to make visible in web interface
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
         self.count = 0
         self.argparser.add_argument(

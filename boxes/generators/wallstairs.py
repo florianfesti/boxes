@@ -23,7 +23,7 @@ class WallStairs(_WallMountedBox):
 
 sh gives height of the stairs from front to back. Note that the overall width and height is bigger than the nominal values as walls and the protrusions are not included in the measurements.
 """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.buildArgParser(sx="250/3", sy="40*3", sh="30:100:180")

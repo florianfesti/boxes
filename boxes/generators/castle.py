@@ -24,7 +24,7 @@ class Castle(Boxes):
 with towers and gates and walls that can be attached in multiple configurations."""
     ui_group = "Unstable"
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings)
 

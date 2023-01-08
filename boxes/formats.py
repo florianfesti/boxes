@@ -53,7 +53,7 @@ class Formats:
         # "" : [('Content-type', '')],
     }
 
-    def __init__(self):
+    def __init__(self) -> None:
         for cmd in self.pstoedit_candidates:
             self.pstoedit = shutil.which(cmd)
             if self.pstoedit:

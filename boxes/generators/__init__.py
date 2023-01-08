@@ -8,7 +8,7 @@ ui_groups_by_name = {}
 
 class UIGroup:
 
-    def __init__(self, name, title=None, description="", image=""):
+    def __init__(self, name, title=None, description="", image="") -> None:
         self.name = name
         self.title = title or name
         self.description = description

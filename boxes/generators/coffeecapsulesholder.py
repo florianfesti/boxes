@@ -30,7 +30,7 @@ class CoffeeCapsuleHolder(Boxes):
     You can store your coffee capsule near your espresso machine with this. It works both vertically, or upside down under a shelf.
 """
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
         self.argparser.add_argument(
             "--columns",

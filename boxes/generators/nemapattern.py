@@ -21,7 +21,7 @@ class NemaPattern(Boxes):
 
     ui_group = "Holes"
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings)
         self.argparser.add_argument(

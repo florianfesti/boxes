@@ -23,7 +23,7 @@ class StorageShelf(_TopEdge):
     ui_group = "Shelf"
     description = "This is a simple shelf box."
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
         self.addTopEdgeSettings(fingerjoint={"surroundingspaces": 0.5},
                                 roundedtriangle={"outset" : 1})

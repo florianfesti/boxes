@@ -46,7 +46,7 @@ class WallWrenchHolder(_WallMountedBox):
     """Hold a set of wrenches at a wall"""
 
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         # remove cli params you do not need

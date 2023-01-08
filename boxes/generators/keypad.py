@@ -18,7 +18,7 @@ class Keypad(Boxes, Keyboard):
     box_padding = 10
     triangle = 25.0
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.argparser.add_argument(
             '--h', action='store', type=int, default=30,

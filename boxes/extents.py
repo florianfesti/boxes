@@ -1,7 +1,7 @@
 class Extents:
     __slots__ = "xmin ymin xmax ymax".split()
 
-    def __init__(self,xmin=float('inf'),ymin=float('inf'),xmax=float('-inf'),ymax=float('-inf')):
+    def __init__(self,xmin=float('inf'),ymin=float('inf'),xmax=float('-inf'),ymax=float('-inf')) -> None:
         self.xmin = xmin
         self.ymin = ymin
         self.xmax = xmax
@@ -40,5 +40,5 @@ class Extents:
     width = property(get_width)
     height = property(get_height)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f'Extents ({self.xmin},{self.ymin})-({self.xmax},{self.ymax})'

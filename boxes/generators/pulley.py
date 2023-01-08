@@ -23,7 +23,7 @@ class Pulley(Boxes):
 
     ui_group = "Part"
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
         # remove cli params you do not need
         self.buildArgParser(h=6.)

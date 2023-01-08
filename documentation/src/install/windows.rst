@@ -9,17 +9,19 @@ instructions please open a ticket on GitHub.
 Native
 ------
 
-Following steps are known to work under Windows 10 (64-bit):
+Following steps are known to work under Windows 10/11 (64-bit):
 
 1.  Go to https://www.python.org/downloads/windows/
-    and download the "Windows x86-64 executable installer" for Python 3.7
+    and download the current stable "Windows x86-64 executable installer"
+    for Python 3.
+    When this guide was written, Python 3.7 was the current version.
 
     .. figure:: windows_browser_download_python.png
        :scale: 50%
        :alt: Screenshot of python.org with download of Python 3.7 (64-bit)
        :align: center
 
-2.  Install Python 3.7 and make sure to check "Add Python 3.7 to PATH"
+2.  Install Python 3 and make sure to check "Add Python 3.X to PATH"
     while doing so
 
     .. figure:: windows_install_python_path.png

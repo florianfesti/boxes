@@ -1,6 +1,9 @@
+from __future__ import annotations
+
 import importlib
 import inspect
 import pkgutil
+from typing import Any
 
 import boxes
 
@@ -13,7 +16,7 @@ class UIGroup:
         self.title = title or name
         self.description = description
         self._image = image
-        self.generators = []
+        self.generators: list[Any] = []
         # register
         ui_groups_by_name[name] = self
 

@@ -13,6 +13,7 @@
 #
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from __future__ import annotations
 
 import argparse
 import copy
@@ -24,7 +25,7 @@ from argparse import ArgumentParser
 from contextlib import contextmanager
 from functools import wraps
 from shlex import quote
-from typing import Optional, List
+from typing import Any
 from xml.sax.saxutils import quoteattr
 
 from shapely.geometry import *
@@ -179,9 +180,9 @@ class ArgparseEdgeType:
     """argparse type to select from a set of edge types"""
 
     names = edges.getDescriptions()
-    edges: List[str] = []
+    edges: list[str] = []
 
-    def __init__(self, edges: Optional[str] = None) -> None:
+    def __init__(self, edges: str | None = None) -> None:
         if edges:
             self.edges = list(edges)
 
@@ -282,16 +283,16 @@ class Boxes:
     webinterface = True
     ui_group = "Misc"
 
-    description = "" # Markdown syntax is supported
+    description: str = ""  # Markdown syntax is supported
 
     def __init__(self) -> None:
         self.formats = formats.Formats()
         self.ctx = None
-        description = self.__doc__
+        description: str = self.__doc__ or ""
         if self.description:
             description += "\n\n" + self.description
         self.argparser = ArgumentParser(description=description)
-        self.edgesettings = {}
+        self.edgesettings: dict[Any, Any] = {}
         self.inkscapefile = None
 
         self.metadata = {

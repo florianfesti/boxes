@@ -14,6 +14,8 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations
+
 import math
 from functools import partial
 
@@ -366,9 +368,9 @@ You will likely need to cut each of the dividers you want multiple times.
 
 class SlottedEdgeDescriptions:
     def __init__(self) -> None:
-        self.descriptions = []
+        self.descriptions: list[str] = []
 
-    def add(self, description):
+    def add(self, description: str) -> None:
         self.descriptions.append(description)
 
     def get_straigth_edges(self):

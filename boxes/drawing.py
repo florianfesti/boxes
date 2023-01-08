@@ -1,5 +1,8 @@
+from __future__ import annotations
+
 import datetime
 import math
+from typing import Any
 from xml.etree import ElementTree as ET
 
 from affine import Affine
@@ -29,7 +32,7 @@ class Surface:
 
     def __init__(self, fname) -> None:
         self._fname = fname
-        self.parts = []
+        self.parts: list[Any] = []
         self._p = self.new_part("default")
 
     def set_metadata(self, metadata):
@@ -94,8 +97,8 @@ class Surface:
 
 class Part:
     def __init__(self, name) -> None:
-        self.pathes = []
-        self.path = []
+        self.pathes: list[Any] = []
+        self.path: list[Any] = []
 
     def extents(self):
         if not self.pathes:
@@ -217,7 +220,7 @@ class Context:
         self._bounds = Extents()
         self._padding = PADDING
 
-        self._stack = []
+        self._stack: list[Any] = []
         self._m = Affine.translation(0, 0)
         self._xy = (0, 0)
         self._mxy = self._m * self._xy

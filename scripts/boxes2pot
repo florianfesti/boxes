@@ -13,10 +13,12 @@
 #
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from __future__ import annotations
 
 import argparse
 import os.path
 import sys
+from typing import Any
 
 try:
     import boxes.generators
@@ -40,8 +42,8 @@ class DefaultParams(boxes.Boxes):
 
 class Boxes2pot:
     def __init__(self) -> None:
-        self.messages = []
-        self.message_set = set()
+        self.messages: list[Any] = []
+        self.message_set: set[Any] = set()
         self.boxes = {b.__name__ : b() for b in boxes.generators.getAllBoxGenerators().values() if b.webinterface}
         self.groups = boxes.generators.ui_groups
         self.groups_by_name = boxes.generators.ui_groups_by_name

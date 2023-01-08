@@ -13,6 +13,7 @@
 #
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from __future__ import annotations
 
 import argparse
 import gettext
@@ -26,6 +27,7 @@ import tempfile
 import threading
 import time
 import traceback
+from typing import Any
 from urllib.parse import parse_qs
 from urllib.parse import unquote_plus, quote
 from wsgiref.simple_server import make_server
@@ -94,7 +96,7 @@ class BServer:
 
     def __init__(self) -> None:
         self.boxes = {b.__name__ : b for b in boxes.generators.getAllBoxGenerators().values() if b.webinterface}
-        self.boxes['TrayLayout2'] = boxes.generators.traylayout.TrayLayout2
+        self.boxes['TrayLayout2'] = boxes.generators.traylayout.TrayLayout2  # type: ignore  # no attribute "traylayout"
         self.groups = boxes.generators.ui_groups
         self.groups_by_name = boxes.generators.ui_groups_by_name
 
@@ -104,7 +106,7 @@ class BServer:
 
         self.staticdir = os.path.join(os.path.dirname(__file__), '../static/')
         self._languages = None
-        self._cache = {}
+        self._cache: dict[Any, Any] = {}
 
     def getLanguages(self, domain=None, localedir=None):
         if self._languages is not None:

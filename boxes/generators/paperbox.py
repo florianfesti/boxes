@@ -35,7 +35,7 @@ There is marks in the "outside leftover paper" to help see where to fold
 A paper creaser (or bone folder) is also useful.
 """
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
         self.buildArgParser("x", "y", "h")
 

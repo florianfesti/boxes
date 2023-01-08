@@ -8,7 +8,7 @@ class EyeEdge(boxes.edges.FingerHoleEdge):
     char = "m"
 
     def __init__(self, boxes, servo, fingerHoles=None, driven=False,
-                 outset=False, **kw):
+                 outset=False, **kw) -> None:
         self.servo = servo
         self.outset = outset
         self.driven = driven
@@ -49,7 +49,7 @@ def buildEdges(boxes, servo, chars="mMnN"):
 
 class ServoArg:
 
-    def __init__(self, includenone=False):
+    def __init__(self, includenone=False) -> None:
         self.servos = ["Servo9g"]
         if includenone:
             self.servos[0:0] = ["none"]
@@ -69,7 +69,7 @@ class ServoArg:
 
 
 class Servo:
-    def __init__(self, boxes, axle=3):
+    def __init__(self, boxes, axle=3) -> None:
         self.boxes = boxes
         self.axle = axle
         self._edges = buildEdges(boxes, self)

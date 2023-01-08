@@ -22,7 +22,7 @@ class BayonetBox(Boxes):
     description = """Glue together - all outside rings to the bottom, all inside rings to the top."""
     ui_group = "Box"
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
         
         self.argparser.add_argument(

@@ -23,7 +23,7 @@ class UBox(_TopEdge, _ChestLid):
 
     ui_group = "FlexBox"
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
         self.addTopEdgeSettings()
         self.addSettingsArgs(edges.FlexSettings)

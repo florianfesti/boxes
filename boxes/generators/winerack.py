@@ -21,7 +21,7 @@ class WineRack(Boxes):
     
     ui_group = "Shelf"
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
 
         # Uncomment the settings for the edge types you use

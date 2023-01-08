@@ -30,7 +30,7 @@ Set *hi* larger than *h* to leave gap between the inner and outer shell. This ca
 
     ui_group = "Box"
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
         self.buildArgParser("x", "y", "h", "hi", "outside")
         self.addSettingsArgs(edges.FingerJointSettings, finger=2.0, space=2.0)

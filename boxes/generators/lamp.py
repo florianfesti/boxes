@@ -60,7 +60,7 @@ class RoundedTriangle(edges.Edge):
 class Lamp(Boxes):
     webinterface = False
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings)
         self.buildArgParser(x=220, y=75, h=70)

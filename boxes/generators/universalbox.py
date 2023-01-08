@@ -23,7 +23,7 @@ class UniversalBox(_TopEdge, _ChestLid):
 
     ui_group = "Box"
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
         self.addTopEdgeSettings(roundedtriangle={"outset" : 1},
                                 hinge={"outset" : True})

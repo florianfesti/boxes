@@ -9,7 +9,7 @@ __all__ = [
 
 class RobotArg:
 
-    def __init__(self, includenone=False):
+    def __init__(self, includenone=False) -> None:
         self.robotarms = [
             (name, globals()[name].__doc__[23:]) for name in __all__
             if name.startswith("RobotArm")]
@@ -32,7 +32,7 @@ class RobotArg:
 
 class _RobotArm:
 
-    def __init__(self, boxes, servo, servo2=None):
+    def __init__(self, boxes, servo, servo2=None) -> None:
         self.boxes = boxes
         self.servo = servo
         self.servo2 = servo2 or servo

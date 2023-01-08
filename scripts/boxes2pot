@@ -27,7 +27,7 @@ from boxes import edges
 
 class DefaultParams(boxes.Boxes):
 
-    def __init__(self):
+    def __init__(self) -> None:
         boxes.Boxes.__init__(self)
         self.buildArgParser("x", "y", "h", "hi", "sx", "sy", "sh",
                             "bottom_edge", "top_edge", "outside", "nema_mount")
@@ -39,7 +39,7 @@ class DefaultParams(boxes.Boxes):
         self.addSettingsArgs(edges.FlexSettings)
 
 class Boxes2pot:
-    def __init__(self):
+    def __init__(self) -> None:
         self.messages = []
         self.message_set = set()
         self.boxes = {b.__name__ : b() for b in boxes.generators.getAllBoxGenerators().values() if b.webinterface}

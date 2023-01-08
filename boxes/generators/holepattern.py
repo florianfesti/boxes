@@ -22,7 +22,7 @@ class HolePattern(Boxes):
 
     ui_group = "Holes"
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
 
         self.addSettingsArgs(fillHolesSettings, fill_pattern="hex")

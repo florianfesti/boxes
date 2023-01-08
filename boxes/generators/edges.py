@@ -21,7 +21,7 @@ class Edges(Boxes):
     
     webinterface = False
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)        
 
     def render(self):

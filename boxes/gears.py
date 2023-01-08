@@ -258,7 +258,7 @@ class OptionParser(argparse.ArgumentParser):
 
 class Gears():
 
-    def __init__(self, boxes, **kw):
+    def __init__(self, boxes, **kw) -> None:
         # an alternate way to get debug info:
         # could use inkex.debug(string) instead...
         try:

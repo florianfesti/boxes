@@ -24,7 +24,7 @@ class FillTest(Boxes): # Change class name!
 
     ui_group = "Part"
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
 
         self.addSettingsArgs(fillHolesSettings, fill_pattern="hex")

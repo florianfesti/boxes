@@ -23,7 +23,7 @@ class WallDrillBox(DrillStand, _WallMountedBox):
     """Box for drills with each compartment with a different height"""
     ui_group = "WallMounted"
 
-    def __init__(self):
+    def __init__(self) -> None:
         _WallMountedBox.__init__(self) # don't call DrillStand.__init__
 
         self.addSettingsArgs(edges.StackableSettings, height=1.0, width=3)

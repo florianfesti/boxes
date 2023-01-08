@@ -22,7 +22,7 @@ class DrillBox(_TopEdge):
 
     ui_group = "Tray"
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
 
         self.addSettingsArgs(edges.FingerJointSettings,

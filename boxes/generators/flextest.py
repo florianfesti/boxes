@@ -22,7 +22,7 @@ class FlexTest(Boxes):
 
     ui_group = "Part"
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FlexSettings)
         self.buildArgParser("x", "y")

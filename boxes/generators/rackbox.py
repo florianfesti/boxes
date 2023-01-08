@@ -22,7 +22,7 @@ class RackBox(Boxes):
 
     ui_group = "Box"
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings, surroundingspaces=1.2)
         self.buildArgParser("x", "y", "h", "outside")

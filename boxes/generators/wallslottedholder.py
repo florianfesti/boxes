@@ -33,7 +33,7 @@ class FrontEdge(edges.Edge):
 class WallSlottedHolder(_WallMountedBox):
     """Wall tool holder with slots"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.buildArgParser(h=120)

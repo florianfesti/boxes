@@ -19,7 +19,7 @@ from boxes import *
 class PoleHook(Boxes): # change class name here and below
     """Hook for pole like things to be clamped to another pole"""
     
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
 
         # Uncomment the settings for the edge types you use

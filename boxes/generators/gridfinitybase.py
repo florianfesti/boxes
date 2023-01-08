@@ -25,7 +25,7 @@ class GridfinityBase(Boxes):
 
     ui_group = "Tray"
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings, space=4, finger=4)
         self.argparser.add_argument("--x", type=int, default=3, help="number of grids in X direction")

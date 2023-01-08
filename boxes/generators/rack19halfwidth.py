@@ -8,7 +8,7 @@ class Rack19HalfWidth(Boxes):
 
     ui_group = "Box"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.argparser.add_argument(
             '--ru_count', action='store', type=float, default=1,

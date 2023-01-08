@@ -21,7 +21,7 @@ class LBeam(Boxes):
 
     ui_group = "Part"
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
         self.buildArgParser("x", "y", "h", "outside")
         self.addSettingsArgs(edges.FingerJointSettings)

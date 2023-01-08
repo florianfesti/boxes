@@ -32,7 +32,7 @@ With lid:
 
     ui_group = "FlexBox"
 
-    def __init__(self):
+    def __init__(self) -> None:
         boxes.Boxes.__init__(self)
         self.addSettingsArgs(boxes.edges.FingerJointSettings)
         self.addSettingsArgs(boxes.edges.DoveTailSettings)

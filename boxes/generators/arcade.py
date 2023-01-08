@@ -19,7 +19,7 @@ from boxes import *
 class Arcade(Boxes):
     """Desktop Arcade Machine"""
     
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings)
         self.argparser.add_argument(

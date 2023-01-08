@@ -22,7 +22,7 @@ class Hook(Boxes):
 
     ui_group = "Misc"  # see ./__init__.py for names
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
 
         self.addSettingsArgs(edges.FingerJointSettings, surroundingspaces=0.5)

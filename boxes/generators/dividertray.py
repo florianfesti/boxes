@@ -88,7 +88,7 @@ You will likely need to cut each of the dividers you want multiple times.
 
     ui_group = "Tray"
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings)
         self.addSettingsArgs(edges.HandleEdgeSettings)
@@ -365,7 +365,7 @@ You will likely need to cut each of the dividers you want multiple times.
 
 
 class SlottedEdgeDescriptions:
-    def __init__(self):
+    def __init__(self) -> None:
         self.descriptions = []
 
     def add(self, description):
@@ -399,13 +399,13 @@ class StraightEdgeDescription:
         round_edge_compensation=0,
         outside_ratio=1,
         angle_compensation=0,
-    ):
+    ) -> None:
         self.asked_length = asked_length
         self.round_edge_compensation = round_edge_compensation
         self.outside_ratio = outside_ratio
         self.angle_compensation = angle_compensation
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return (
             "StraightEdgeDescription({0}, round_edge_compensation={1}, angle_compensation={2}, outside_ratio={3})"
         ).format(
@@ -433,7 +433,7 @@ class StraightEdgeDescription:
 
 
 class Memoizer(dict):
-    def __init__(self, computation):
+    def __init__(self, computation) -> None:
         self.computation = computation
 
     def __missing__(self, key):
@@ -447,14 +447,14 @@ class SlotDescription:
 
     def __init__(
         self, width, depth=20, angle=0, radius=0, start_radius=None, end_radius=None
-    ):
+    ) -> None:
         self.depth = depth
         self.width = width
         self.start_radius = radius if start_radius is None else start_radius
         self.end_radius = radius if end_radius is None else end_radius
         self.angle = angle
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return "SlotDescription({0}, depth={1}, angle={2}, start_radius={3}, end_radius={4})".format(
             self.width, self.depth, self.angle, self.start_radius, self.end_radius
         )
@@ -573,7 +573,7 @@ class DividerNotchesEdge(edges.BaseEdge):
 
     description = "Edge with multiple notches for easier access to dividers"
 
-    def __init__(self, boxes, sx):
+    def __init__(self, boxes, sx) -> None:
 
         super().__init__(boxes, None)
 
@@ -618,7 +618,7 @@ class DividerSlotsEdge(edges.BaseEdge):
 
     description = "Edge with multiple angled rounded slots for dividers"
 
-    def __init__(self, boxes, descriptions):
+    def __init__(self, boxes, descriptions) -> None:
 
         super().__init__(boxes, None)
 

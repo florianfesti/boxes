@@ -21,7 +21,7 @@ class SlatwallXXX(Boxes): # Change class name!
 
     ui_group = "SlatWall"
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
 
         self.addSettingsArgs(edges.FingerJointSettings)

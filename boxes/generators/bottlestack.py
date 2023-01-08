@@ -26,7 +26,7 @@ Without the "double" option the stand is a bit more narrow.
 
     ui_group = "Misc"
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
         
         self.argparser.add_argument(

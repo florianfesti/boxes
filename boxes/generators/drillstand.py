@@ -38,7 +38,7 @@ Start with putting the slots of the inner walls together. Be especially careful 
 
     ui_group = "Misc"
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
 
         self.addSettingsArgs(edges.StackableSettings, height=1.0, width=3)

@@ -35,7 +35,7 @@ class PhoneHolder(Boxes):
     Default values are currently based on Galaxy S7.
 """
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
         self.argparser.add_argument(
             "--phone_height",
@@ -213,7 +213,7 @@ class PhoneHolder(Boxes):
 
 
 class BottomEdge(edges.BaseEdge):
-    def __init__(self, boxes, support_start_height, support_spacing):
+    def __init__(self, boxes, support_start_height, support_spacing) -> None:
         super().__init__(boxes, None)
         self.support_start_height = support_start_height
         self.support_spacing = support_spacing
@@ -241,7 +241,7 @@ class BottomEdge(edges.BaseEdge):
 
 
 class SideEdge(edges.BaseEdge):
-    def __init__(self, boxes, tab_start, tab_length, reverse=False):
+    def __init__(self, boxes, tab_start, tab_length, reverse=False) -> None:
         super().__init__(boxes, None)
         self.tab_start = tab_start
         self.tab_length = tab_length
@@ -270,7 +270,7 @@ class SideEdge(edges.BaseEdge):
 
 
 class TabbedEdge(edges.BaseEdge):
-    def __init__(self, boxes, tab_start, tab_length, tab_depth, reverse=False):
+    def __init__(self, boxes, tab_start, tab_length, tab_depth, reverse=False) -> None:
         super().__init__(boxes, None)
         self.tab_start = tab_start
         self.tab_length = tab_length

@@ -20,7 +20,7 @@ from boxes import *
 class Folder(Boxes):
     """Book cover with flex for the spine"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FlexSettings)
         self.buildArgParser("x", "y", "h")

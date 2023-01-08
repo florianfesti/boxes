@@ -19,7 +19,7 @@ from boxes.walledges import _WallMountedBox
 class WallCaliper(_WallMountedBox):
     """Holds a single caliper to a wall"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         # remove cli params you do not need

@@ -10,7 +10,7 @@ def arcOnCircle(spanning_angle, outgoing_angle, r=1.0):
 
 
 class Parts:
-    def __init__(self, boxes):
+    def __init__(self, boxes) -> None:
         self.boxes = boxes
 
     """

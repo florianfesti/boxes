@@ -29,7 +29,7 @@ class OttoLegs(Boxes):
 
     ui_group = "Misc"
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
 
         self.addSettingsArgs(edges.FingerJointSettings, finger=1.0, space=1.0,

@@ -119,7 +119,7 @@ class NutHole:
         "M64": (95, 51),
     }
 
-    def __init__(self, boxes, settings):
+    def __init__(self, boxes, settings) -> None:
         self.boxes = boxes
         self.ctx = boxes.ctx
         self.settings = settings
@@ -181,7 +181,7 @@ class ArgparseEdgeType:
     names = edges.getDescriptions()
     edges: List[str] = []
 
-    def __init__(self, edges: Optional[str] = None):
+    def __init__(self, edges: Optional[str] = None) -> None:
         if edges:
             self.edges = list(edges)
 
@@ -284,7 +284,7 @@ class Boxes:
 
     description = "" # Markdown syntax is supported
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.formats = formats.Formats()
         self.ctx = None
         description = self.__doc__

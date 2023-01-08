@@ -45,7 +45,7 @@ class OrganPipe(Boxes): # Change class name!
     def getAirSpeed(self, wind_pressure, air_density=1.2):
         return (2.0 * (wind_pressure / air_density))**.5
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
 
         self.addSettingsArgs(edges.FingerJointSettings, finger=3.0, space=3.0,

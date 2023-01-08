@@ -84,7 +84,7 @@ class Rotary(Boxes):
 
     ui_group = "Unstable"
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
 
         self.addSettingsArgs(edges.FingerJointSettings)

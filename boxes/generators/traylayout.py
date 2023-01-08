@@ -30,7 +30,7 @@ of sizes in x and y direction. Choose how many distances you need in both direct
 
     ui_group = "Tray"
 
-    def __init__(self, input=None, webargs=False):
+    def __init__(self, input=None, webargs=False) -> None:
         Boxes.__init__(self)
         self.argparser = argparse.ArgumentParser()
         self.argparser.add_argument(
@@ -59,7 +59,7 @@ of sizes in x and y direction. Choose how many distances you need in both direct
         self.vwalls = [[True for i in range(x + 1)] for j in range(y)]
         self.floors = [[True for i in range(x)] for j in range(y)]
 
-    def __str__(self):
+    def __str__(self) -> str:
         r = []
 
         for i, x in enumerate(self.x):
@@ -93,7 +93,7 @@ vertical bars representing the walls with a space character to remove the walls.
 You can replace the space characters representing the floor by a "X" to remove the floor for this compartment.
 """
 
-    def __init__(self, input=None, webargs=False):
+    def __init__(self, input=None, webargs=False) -> None:
         Boxes.__init__(self)
         self.addSettingsArgs(boxes.edges.FingerJointSettings)
         self.buildArgParser("h", "hi", "outside")

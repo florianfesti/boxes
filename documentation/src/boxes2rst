@@ -51,6 +51,6 @@ class Boxes2rst:
 
 if __name__=="__main__":
     if len(sys.argv) != 2:
-        print("Usage: boxes2inksacpe TARGETPATH")
+        print("Usage: boxes2rst TARGETPATH")
     b = Boxes2rst()
     b.write(sys.argv[1])

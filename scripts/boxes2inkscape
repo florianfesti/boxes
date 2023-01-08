@@ -147,6 +147,6 @@ class Boxes2INX:
 
 if __name__=="__main__":
     if len(sys.argv) != 2:
-        print("Usage: boxes2inksacpe TARGETPATH")
+        print("Usage: boxes2inkscape TARGETPATH")
     b = Boxes2INX()
     b.writeAllINX(sys.argv[1])

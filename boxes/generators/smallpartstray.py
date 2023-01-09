@@ -29,7 +29,7 @@ class SmallPartsTray(Boxes):
         self.addSettingsArgs(edges.FingerJointSettings)
         # self.addSettingsArgs(edges.StackableSettings)
 
-        self.buildArgParser(sx="50*3", y=100, h=30)
+        self.buildArgParser(sx="50*3", y=100, h=30, outside=True)
         self.argparser.add_argument(
             "--angle",  action="store", type=float, default=45.,
             help="angle of the ramps")
@@ -185,6 +185,12 @@ class SmallPartsTray(Boxes):
         t = self.thickness
         a = self.angle
         b = "e"
+
+        if self.outside:
+            self.sx = sx = self.adjustSize(sx)
+            self.h = h = self.adjustSize(h, False)
+            dy = t if self.front_panel else t / 2**0.5
+            self.y = y = self.adjustSize(y, dy, dy)
 
         x = sum(sx) + (len(sx)-1) * t
 

@@ -23,7 +23,7 @@ class SmallPartsTray(Boxes):
     ui_group = "Tray"
     ui_group = "Unstable"
 
-    def __init__(self):
+    def __init__(self) -> None:
         Boxes.__init__(self)
 
         self.addSettingsArgs(edges.FingerJointSettings)
@@ -45,7 +45,7 @@ class SmallPartsTray(Boxes):
         
 
     def innerWall(self, h, y, ramp_h, ramp_y, two_ramps, front=True,
-                  edges="ffeff", move=None):
+                  move=None):
         a = math.degrees(math.atan(ramp_h/ramp_y))
         l = (ramp_h**2 + ramp_y**2)**.5
         if two_ramps:
@@ -59,7 +59,7 @@ class SmallPartsTray(Boxes):
                 "ffeff" if front else "ffeef", move=move)
 
     def outerWall(self, h, y, ramp_h, ramp_y, two_ramps, front=True,
-                  edges="ffeff", move=None):
+                  move=None):
         a = math.degrees(math.atan(ramp_h/ramp_y))
         l = (ramp_h**2 + ramp_y**2)**.5
         t = self.thickness

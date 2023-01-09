@@ -16,10 +16,27 @@
 
 from boxes import *
 
-class DisplayShelf(Boxes): # change class name here and below
+
+class DisplayShelf(Boxes):
     """Shelf with slanted floors"""
 
     ui_group = "Shelf"
+
+    # arguments/properties
+    num: int
+    x: float
+    y: float
+    h: float
+    angle: float
+    thickness: float
+    radians: float
+    sl: float
+    front_wall_height: float
+    include_back: bool
+    slope_top: bool
+    outside: bool
+    num_of_dividers: int
+    divider_wall_height: float
 
     def __init__(self) -> None:
         Boxes.__init__(self)
@@ -28,13 +45,13 @@ class DisplayShelf(Boxes): # change class name here and below
 
         self.buildArgParser(x=400, y=100, h=300, outside=True)
         self.argparser.add_argument(
-            "--num",  action="store", type=int, default=3,
+            "--num", action="store", type=int, default=3,
             help="number of shelves")
         self.argparser.add_argument(
-            "--front_wall_height",  action="store", type=float, default=20.0,
+            "--front_wall_height", action="store", type=float, default=20.0,
             help="height of front walls")
         self.argparser.add_argument(
-            "--angle",  action="store", type=float, default=30.0,
+            "--angle", action="store", type=float, default=30.0,
             help="angle of floors (negative values for slanting backwards)")
         self.argparser.add_argument(
             "--include_back", action="store", type=boolarg, default=False,
@@ -43,39 +60,46 @@ class DisplayShelf(Boxes): # change class name here and below
             "--slope_top", action="store", type=boolarg, default=False,
             help="Slope the sides and the top by front wall height")
 
+        self.argparser.add_argument(
+            "--num_of_dividers", action="store", type=int, default=0,
+            help="number of dividers")
+        self.argparser.add_argument(
+            "--divider_wall_height", action="store", type=float, default=20.0,
+            help="height of divider walls")
+
     def generate_finger_holes(self):
         t = self.thickness
         a = self.radians
-        hs = (self.sl+t) * math.sin(a) + math.cos(a) * t
+        hs = (self.sl + t) * math.sin(a) + math.cos(a) * t
         for i in range(self.num):
-            pos_x = abs(0.5*t*math.sin(a))
-            pos_y = hs - math.cos(a)*0.5*t + i * (self.h-abs(hs)) / (self.num - 0.5)
+            pos_x = abs(0.5 * t * math.sin(a))
+            pos_y = hs - math.cos(a) * 0.5 * t + i * (self.h - abs(hs)) / (self.num - 0.5)
             if a < 0:
                 pos_y += -math.sin(a) * self.sl
             self.fingerHolesAt(pos_x, pos_y, self.sl, -self.angle)
-            pos_x += math.cos(-a) * (self.sl+0.5*t) + math.sin(a)*0.5*t
-            pos_y += math.sin(-a) * (self.sl+0.5*t) + math.cos(a)*0.5*t
-            self.fingerHolesAt(pos_x, pos_y, self.front_wall_height, 90-self.angle)
+            pos_x += math.cos(-a) * (self.sl + 0.5 * t) + math.sin(a) * 0.5 * t
+            pos_y += math.sin(-a) * (self.sl + 0.5 * t) + math.cos(a) * 0.5 * t
+            self.fingerHolesAt(pos_x, pos_y, self.front_wall_height, 90 - self.angle)
 
     def generate_sloped_sides(self, width, height):
-        top_segment_height = height/self.num
+        top_segment_height = height / self.num
         a = self.radians
 
-        #Maximum size to cut out
+        # Maximum size to cut out
         vertical_cut = top_segment_height - self.front_wall_height
         hypotenuse = vertical_cut / math.sin(a)
         horizontal_cut = math.sqrt((hypotenuse ** 2) - (vertical_cut ** 2))
 
-        if (horizontal_cut > width):
-            #Shrink the cut to keep the full height
-            horizontal_cut = width - 1 #keep a 1mm edge on the top
-            vertical_cut =  horizontal_cut * math.tan(a)
+        if horizontal_cut > width:
+            # Shrink the cut to keep the full height
+            horizontal_cut = width - 1  # keep a 1mm edge on the top
+            vertical_cut = horizontal_cut * math.tan(a)
             hypotenuse = math.sqrt((horizontal_cut ** 2) + (vertical_cut ** 2))
 
         top = width - horizontal_cut
         front = height - vertical_cut
 
-        borders = [width, 90, front, 90-self.angle, hypotenuse, self.angle, top, 90, height, 90]
+        borders = [width, 90, front, 90 - self.angle, hypotenuse, self.angle, top, 90, height, 90]
         edges = 'eeeef' if self.include_back else 'e'
         self.polygonWall(borders, edge=edges, callback=[self.generate_finger_holes], move="up", label="left side")
         self.polygonWall(borders, edge=edges, callback=[self.generate_finger_holes], move="up", label="right side")
@@ -87,14 +111,68 @@ class DisplayShelf(Boxes): # change class name here and below
         self.rectangularWall(width, height, edges, callback=[self.generate_finger_holes], move="up", label="left side")
         self.rectangularWall(width, height, edges, callback=[self.generate_finger_holes], move="up", label="right side")
 
+    def generate_shelve_finger_holes(self):
+        if self.num_of_dividers <= 0:
+            return
+        trays = self.num_of_dividers + 1
+        for i in range(1, trays):
+            self.fingerHolesAt((self.x / trays) * i, 0, self.sl, 90)
+
+    def generate_front_lip_finger_holes(self):
+        if self.num_of_dividers <= 0:
+            return
+        trays = self.num_of_dividers + 1
+        height = self.front_wall_height
+        if self.divider_wall_height < height:
+            height = self.divider_wall_height
+        for i in range(1, trays):
+            self.fingerHolesAt((self.x / trays) * i, 0, height, 90)
+
     def generate_shelves(self):
         if self.front_wall_height:
             for i in range(self.num):
-                self.rectangularWall(self.x, self.sl, "ffef", move="up", label=f"shelf {i+1}")
-                self.rectangularWall(self.x, self.front_wall_height, "Ffef", move="up", label=f"front lip {i+1}")
+                self.rectangularWall(
+                    self.x,
+                    self.sl,
+                    "ffef",
+                    callback=[self.generate_shelve_finger_holes],
+                    move="up",
+                    label=f"shelf {i + 1}"
+                )
+                self.rectangularWall(
+                    self.x,
+                    self.front_wall_height,
+                    "Ffef",
+                    callback=[self.generate_front_lip_finger_holes],
+                    move="up",
+                    label=f"front lip {i + 1}"
+                )
         else:
             for i in range(self.num):
-                self.rectangularWall(self.x, self.sl, "Efef", move="up", label=f"shelf {i+1}")
+                self.rectangularWall(
+                    self.x,
+                    self.sl,
+                    "Efef",
+                    callback=[self.generate_shelve_finger_holes],
+                    move="up",
+                    label=f"shelf {i + 1}"
+                )
+
+    def generate_dividers(self):
+        edges_ = "feee"
+        if self.front_wall_height:
+            edges_ = "ffee"
+            if self.divider_wall_height > self.front_wall_height:
+                edges_ = [
+                    "f",
+                    edges.CompoundEdge(self, "fe", [self.front_wall_height, self.divider_wall_height - self.front_wall_height]),
+                    "e",
+                    "e"
+                ]
+
+        for i in range(self.num):
+            for j in range(self.num_of_dividers):
+                self.rectangularWall(self.sl, self.divider_wall_height, edges_, move="up", label=f"divider {j + 1} for shelf {i + 1}")
 
     def render(self):
         # adjust to the variables you want in the local scope
@@ -118,6 +196,8 @@ class DisplayShelf(Boxes): # change class name here and below
 
         self.generate_shelves()
 
+        if self.num_of_dividers > 0:
+            self.generate_dividers()
+
         if self.include_back:
             self.rectangularWall(x, h, "eFeF", label="back wall", move="up")
-

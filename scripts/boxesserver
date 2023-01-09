@@ -251,7 +251,7 @@ class BServer:
 <hr>
 <h2 style="margin: 0px 0px 0px 20px;" >{_(name)}</h2>
         <p>{_(box.__doc__) if box.__doc__ else ""}</p>
-<form action="{action}" method="GET">
+<form action="{action}" method="GET" rel="nofollow">
         """]
         groupid = 0
         for group in box.argparser._action_groups[3:] + box.argparser._action_groups[:3]:
@@ -542,6 +542,8 @@ f"""        </script>{self.scripts % len(self.groups)}
             http_headers = box.formats.http_headers.get(
                 box.format,
                 [('Content-type', 'application/unknown; charset=utf-8')])[:]
+            # Prevent crawlers.
+            http_headers.append(('X-Robots-Tag', 'noindex,nofollow'))
 
             if box.format != "svg" or render == "2":
                 extension = box.format

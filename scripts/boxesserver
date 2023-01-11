@@ -88,13 +88,11 @@ class ThrowingArgumentParser(argparse.ArgumentParser):
 boxes.ArgumentParser = ThrowingArgumentParser  # type: ignore
 
 
-static_url = "static"
-
 class BServer:
 
     lang_re = re.compile(r"([a-z]{2,3}(-[-a-zA-Z0-9]*)?)\s*(;\s*q=(\d\.?\d*))?")
 
-    def __init__(self) -> None:
+    def __init__(self, url_prefix="", static_url="static") -> None:
         self.boxes = {b.__name__ : b for b in boxes.generators.getAllBoxGenerators().values() if b.webinterface}
         self.boxes['TrayLayout2'] = boxes.generators.traylayout.TrayLayout2  # type: ignore  # no attribute "traylayout"
         self.groups = boxes.generators.ui_groups
@@ -107,6 +105,8 @@ class BServer:
         self.staticdir = os.path.join(os.path.dirname(__file__), '../static/')
         self._languages = None
         self._cache: dict[Any, Any] = {}
+        self.url_prefix = url_prefix
+        self.static_url = static_url
 
     def getLanguages(self, domain=None, localedir=None):
         if self._languages is not None:
@@ -231,9 +231,9 @@ class BServer:
 <head>
     <title>{_("Boxes - %s") % _(name)}</title>
     <meta charset="utf-8">
-    <link rel="icon" type="image/svg+xml" href="{static_url}/boxes-logo.svg" sizes="any">
-    <link rel="icon" type="image/x-icon" href="{static_url}/favicon.ico">
-    <link rel="stylesheet" href="{static_url}/self.css">
+    <link rel="icon" type="image/svg+xml" href="{self.static_url}/boxes-logo.svg" sizes="any">
+    <link rel="icon" type="image/x-icon" href="{self.static_url}/favicon.ico">
+    <link rel="stylesheet" href="{self.static_url}/self.css">
     {self.scripts % (len(box.argparser._action_groups)-3)}
     <meta name="flattr:id" content="456799">
 </head>
@@ -244,7 +244,7 @@ class BServer:
 <a href="./{langparam}"><h1>{_("Boxes.py")}</h1></a>
 </div>
 <div style="width: 120px; float: right;">
-<img alt="self-Logo" src="{static_url}/boxes-logo.svg" width="120" >
+<img alt="self-Logo" src="{self.static_url}/boxes-logo.svg" width="120" >
 </div>
 <div>
 <div class="clear"></div>
@@ -287,10 +287,10 @@ class BServer:
         if box.description:
             result.append(
                 markdown.markdown(_(box.description), extensions=["extra"])
-                .replace('src="static/', f'src="{static_url}/'))
+                .replace('src="static/', f'src="{self.static_url}/'))
 
         result.append(f'''<div>
-<img src="{static_url}/samples/{box.__class__.__name__}.jpg" width="100%" onerror="this.parentElement.innerHTML = '{no_img_msg}';">
+<img src="{self.static_url}/samples/{box.__class__.__name__}.jpg" width="100%" onerror="this.parentElement.innerHTML = '{no_img_msg}';">
 </div>
 </div>
 </div>
@@ -312,9 +312,9 @@ class BServer:
 <head>
     <title>{_("Boxes.py")}</title>
     <meta charset="utf-8">
-    <link rel="icon" type="image/svg+xml" href="{static_url}/boxes-logo.svg" sizes="any">
-    <link rel="icon" type="image/x-icon" href="{static_url}/favicon.ico">
-    <link rel="stylesheet" href="{static_url}/self.css">
+    <link rel="icon" type="image/svg+xml" href="{self.static_url}/boxes-logo.svg" sizes="any">
+    <link rel="icon" type="image/x-icon" href="{self.static_url}/favicon.ico">
+    <link rel="stylesheet" href="{self.static_url}/self.css">
 """, 
 """    <script>
 	function change(group, img_link){
@@ -326,7 +326,7 @@ class BServer:
 	  document.getElementById("sample-" + group).src= "%s/nothing.png";
 	  document.getElementById("sample-" + group).style.height= "0px";
 	}
-""" % static_url,
+""" % self.static_url,
 f"""        </script>{self.scripts % len(self.groups)}
      <meta name="flattr:id" content="456799">
 </head>
@@ -342,7 +342,7 @@ f"""        </script>{self.scripts % len(self.groups)}
 </div>
 
 <div style="width: 25%; float: left;">
-<img alt="self-Logo" src="{static_url}/boxes-logo.svg" width="250" >
+<img alt="self-Logo" src="{self.static_url}/boxes-logo.svg" width="250" >
 </div>
 <div>
 <div class="clear"></div>
@@ -352,9 +352,9 @@ f"""        </script>{self.scripts % len(self.groups)}
         for nr, group in enumerate(self.groups):
             result.append(f'''
 <h3 id="h-{nr}" role="button" aria-expanded="false" class="open" tabindex="0" onclick="showHide('{nr}')" onkeypress="if(event.keyCode == 13) showHide('{nr}')"
-     onmouseenter="change('{group.name}', '{static_url}/samples/{group.thumbnail}')"
+     onmouseenter="change('{group.name}', '{self.static_url}/samples/{group.thumbnail}')"
      onmouseleave="changeback('{group.name}')">{_(group.title)}</h3>
-  <img style="width: 200px;" id="sample-{group.name}" src="{static_url}/nothing.png" alt="">
+  <img style="width: 200px;" id="sample-{group.name}" src="{self.static_url}/nothing.png" alt="">
   <div id="{nr}"><ul>''')
             for box in group.generators:
                 name = box.__name__
@@ -364,7 +364,7 @@ f"""        </script>{self.scripts % len(self.groups)}
                 if box.__doc__:
                     docs = " - " + _(box.__doc__)
                 result.append(f"""
-      <li onmouseenter="change('{group.name}', '{static_url}/samples/{name}-thumb.jpg')" onmouseleave="changeback('{group.name}')"><a href="{name}{langparam}">{_(name)}</a>{docs}</li>""")
+      <li onmouseenter="change('{group.name}', '{self.static_url}/samples/{name}-thumb.jpg')" onmouseleave="changeback('{group.name}')"><a href="{name}{langparam}">{_(name)}</a>{docs}</li>""")
             result.append("\n</ul></div>\n")
         result.append(f"""
 </div>
@@ -455,6 +455,7 @@ f"""        </script>{self.scripts % len(self.groups)}
                 else:
                     if environ['SERVER_PORT'] != '80':
                         url += ':' + environ['SERVER_PORT']
+        url += quote(self.url_prefix)
         url += quote(environ.get('SCRIPT_NAME', ''))
         url += quote(environ.get('PATH_INFO', ''))
         if environ.get('QUERY_STRING'):
@@ -463,6 +464,9 @@ f"""        </script>{self.scripts % len(self.groups)}
         return url
 
     def serve(self, environ, start_response):
+        # serve favicon from static for generated SVGs
+        if environ["PATH_INFO"] == "favicon.ico":
+            environ["PATH_INFO"] = "/static/favicon.ico"
         if environ["PATH_INFO"].startswith("/static/"):
             return self.serveStatic(environ, start_response)
 
@@ -556,21 +560,26 @@ f"""        </script>{self.scripts % len(self.groups)}
             os.remove(box.output)
             return (l for l in result)
 
+
 if __name__=="__main__":
-    host = ''
-    port = 8000
-    if len(sys.argv) > 1:
-        tmp = sys.argv[1].split(':')
-        if len(tmp) == 2:
-            host = tmp[0]
-            port = int(tmp[1])
-        else:
-            port = int(tmp[0])
+
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument("--host", default="localhost")
+    parser.add_argument("--port", type=int, default=8000)
+    parser.add_argument("--url_prefix", default="",
+                        help="URL path to Boxes.py instance")
+    parser.add_argument("--static_url", default="static",
+                        help="URL of static content")
+    args = parser.parse_args()
+
+    boxserver = BServer(url_prefix=args.url_prefix, static_url=args.static_url)
+
     fc = FileChecker()
     fc.start()
-    boxserver = BServer()
-    httpd = make_server(host, port, boxserver.serve)
-    print("BoxesServer serving on host:port %s:%s..." % (host, port) )
+
+    httpd = make_server(args.host, args.port, boxserver.serve)
+    print(f"BoxesServer serving on {args.host}:{args.port}...")
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:
@@ -578,5 +587,5 @@ if __name__=="__main__":
     httpd.server_close()
     print("BoxesServer stops.")
 else:
-    application = BServer().serve
-    static_url = "https://florianfesti.github.io/boxes/static"
+    boxserver = BServer(url_prefix='/boxes.py', static_url="https://florianfesti.github.io/boxes/static")
+    application = boxserver.serve

@@ -137,20 +137,21 @@ class Parts:
         :param n: (Default value = 1) number of segments
         :param move: (Default value = "")
         """
-        space = 360 * r_inside / self.spacing
-        n = min(n, 360 / (angle+space))
+        space = 360 * self.spacing / r_inside / 2 / pi
+        nc = int(min(n, 360 / (angle+space)))
 
-        # XXX be smarter about space
-        if self.move(r_outside, r_outside, move, True):
-            return
-
-        self.moveTo(r_outside)
-        for i in range(n):
-            self.polyline(
-                0, (angle, r_outside), 0, 90, (r_outside-r_inside, 2),
-                90, (angle, r_inside), 0, 90, (r_outside-r_inside, 2),
-                90)
-            x, y = vectors.circlepoint(r_outside, math.radians(angle+space))
-            self.moveTo(y, r_outside-x, angle+space)
-        self.move(r_outside, r_outside)
-        return n
+        while n > 0:
+            if self.move(2*r_outside, 2*r_outside, move, True):
+                return
+            self.moveTo(0, r_outside, -90)
+            for i in range(nc):
+                self.polyline(
+                    0, (angle, r_outside), 0, 90, (r_outside-r_inside, 2),
+                    90, 0, (-angle, r_inside), 0, 90, (r_outside-r_inside, 2),
+                    90)
+                x, y = vectors.circlepoint(r_outside, radians(angle+space))
+                self.moveTo(y, r_outside-x, angle+space)
+                n -=1
+                if n == 0:
+                    break
+            self.move(2*r_outside, 2*r_outside, move)

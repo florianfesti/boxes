@@ -13,13 +13,14 @@
 #
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from __future__ import annotations
 
 import abc
 import argparse
 import inspect
 import math
 import re
-from typing import Optional, Dict, Any
+from typing import Any
 
 from boxes import gears
 
@@ -161,8 +162,8 @@ class Settings:
     the supported keys and default values. The values are available via
     attribute access.
     """
-    absolute_params: Dict[str, Any] = {}  # TODO find better typing.
-    relative_params: Dict[str, Any] = {}  # TODO find better typing.
+    absolute_params: dict[str, Any] = {}  # TODO find better typing.
+    relative_params: dict[str, Any] = {}  # TODO find better typing.
 
     @classmethod
     def parserArguments(cls, parser, prefix=None, **defaults):
@@ -291,7 +292,7 @@ class Settings:
 
 class BaseEdge:
     """Abstract base class for all Edges"""
-    char: Optional[str] = None
+    char: str | None = None
     description = "Abstract Edge Class"
 
     def __init__(self, boxes, settings) -> None:

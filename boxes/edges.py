@@ -67,8 +67,8 @@ def getDescriptions():
     d['O'] = d['o'] + ' (other end)'
     d['P'] = d['p'] + ' (other end)'
     d['U'] = d['u'] + ' top side'
-    d['v'] = d['u'] + u' for 90° lid'
-    d['V'] = d['u'] + u' 90° lid'
+    d['v'] = d['u'] + ' for 90° lid'
+    d['V'] = d['u'] + ' 90° lid'
     return d
 
 

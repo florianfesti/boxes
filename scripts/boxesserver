@@ -409,7 +409,7 @@ f"""        </script>{self.scripts % len(self.groups)}
 </head>
 <body>
 <h1>{_("An error occurred!")}</h1>""" +
-"".join(u"<p>%s</p>" % html.escape(s) for s in type(u"")(e).split(u"\n")) +
+"".join("<p>%s</p>" % html.escape(s) for s in str(e).split("\n")) +
 """
 </body>
 </html>

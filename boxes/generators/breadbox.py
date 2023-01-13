@@ -19,7 +19,7 @@ from boxes import *
 class BreadBox(Boxes):
     """A BreadBox with a gliding door"""
 
-    ui_group = "Unstable" # "FlexBox"
+    ui_group = "FlexBox"
 
     description = """Beware of the rolling shutter effect! Use wax on sliding surfaces.
 """

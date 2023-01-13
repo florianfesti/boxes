@@ -12,7 +12,7 @@ class EyeEdge(boxes.edges.FingerHoleEdge):
         self.servo = servo
         self.outset = outset
         self.driven = driven
-        super(EyeEdge, self).__init__(boxes, fingerHoles, **kw)
+        super().__init__(boxes, fingerHoles, **kw)
 
     def __call__(self, length, bedBolts=None, bedBoltSettings=None, **kw):
         t = self.fingerHoles.settings.thickness

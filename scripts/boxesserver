@@ -42,7 +42,7 @@ except ImportError:
 
 class FileChecker(threading.Thread):
     def __init__(self, files=[], checkmodules=True) -> None:
-        super(FileChecker, self).__init__()
+        super().__init__()
         self.checkmodules = checkmodules
         self.timestamps = {}
         self._stopped = False

@@ -43,7 +43,7 @@ class Boxes2rst:
                 for box in group.generators:
                     f.write(box.__class__.__name__)
                     f.write("\n..........................................\n\n")
-                    f.write("\n\n.. autoclass:: %s.%s" % (
+                    f.write("\n\n.. autoclass:: {}.{}".format(
                         box.__class__.__module__, box.__class__.__name__))
                     f.write("\n\n")
                     if os.path.exists("../../static/samples/"+ box.__class__.__name__+".jpg"):

@@ -79,7 +79,7 @@ class WallSlottedHolder(_WallMountedBox):
             return not (i % 3)
 
     def braces(self):
-        return sum((self.brace(i) for i in range(self.number+1)))
+        return sum(self.brace(i) for i in range(self.number+1))
 
     def backCB(self):
         n = self.number

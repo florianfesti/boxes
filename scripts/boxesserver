@@ -173,12 +173,12 @@ class BServer:
         elif a.dest == "layout":
             val = (default or a.default).split("\n")
             input = """<textarea name="%s" id="%s" aria-labeledby="%s %s" cols="%s" rows="%s">%s</textarea>""" % \
-                    (name, name, name+"_id", name+"_description", max((len(l) for l in val))+10, len(val)+1, default or a.default)
+                    (name, name, name+"_id", name+"_description", max(len(l) for l in val)+10, len(val)+1, default or a.default)
         elif a.choices:
             options = "\n".join(
-                ("""<option value="%s"%s>%s</option>""" %
+                """<option value="%s"%s>%s</option>""" %
                  (e, ' selected="selected"' if (e == (default or a.default)) or (str(e) == str(default or a.default)) else "",
-                  _(e)) for e in a.choices))
+                  _(e)) for e in a.choices)
             input = """<select name="%s" id="%s" aria-labeledby="%s %s" size="1" >\n%s</select>\n""" % (name, name, name+"_id", name+"_description", options)
         else:
             input =  """<input name="%s" id="%s" aria-labeledby="%s %s" type="text" value="%s" >""" % \
@@ -390,8 +390,8 @@ f"""        </script>{self.scripts % len(self.groups)}
   <li><form><select name="language" onchange='if(this.value != "%s") { this.form.submit(); }'>""" % language + \
       ("<option value='' selected></option>" if not language else "") + \
     "\n".join(
-      ("<option value='%s' %s>%s</option>" % (l, "selected" if l==language else "", l)
-       for l in self.getLanguages())) + """
+      "<option value='%s' %s>%s</option>" % (l, "selected" if l==language else "", l)
+       for l in self.getLanguages()) + """
   </select></form></li>
   <li><a href="https://florianfesti.github.io/boxes/html/usermanual.html">""" + _("Help") + """</a></li>
   <li><a href="https://hackaday.io/project/10649-boxespy">""" + _("Home Page") + """</a></li>

@@ -131,7 +131,7 @@ and many more...
                 self.move(x+x2+2*t + self.edges["f"].margin(), h+h1+2*t + self.edges["f"].margin(), "right", False, label="side " + str(i))
 
             if len(self.sy) > 1:
-                for i in range((len(self.sy) - 1)):
+                for i in range(len(self.sy) - 1):
                     self.move(x + self.edges["f"].margin(), h + self.edges["f"].margin(), "right", True, label="support " + str(i))
                     self.polygonWallExt(borders=[x, 90, 0, "f", h, 180-b, 0, "f", l, 180-c, 0, "e"])
                     if self.Clamping:
@@ -146,7 +146,7 @@ and many more...
             self.rectangularWall(h, width, "eGeF" if self.Mounting else "eeeF", callback=[None, None, None, self.hHoles], move="up", label="side")
             self.rectangularWall(x, width, "efee", callback=[None, self.xHoles, None, None], move="left only", label="invisible")
 
-            for i in range((len(self.sy) - 1)):
+            for i in range(len(self.sy) - 1):
                 self.move(x + self.edges["f"].margin(), h + self.edges["f"].margin(), "right", True, label="support " + str(i))
                 self.polygonWallExt(borders=[x, 90, 0, "f", h, 180-b, 0, "f", l, 180-c, 0, "e"])
                 if self.Clamping:

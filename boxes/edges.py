@@ -741,7 +741,7 @@ class CompoundEdge(BaseEdge):
         return self.types[-1].endwidth()
 
     def margin(self):
-        return max((e.margin() + e.startwidth() for e in self.types)) - self.types[0].startwidth()
+        return max(e.margin() + e.startwidth() for e in self.types) - self.types[0].startwidth()
 
     def __call__(self, length, **kw):
         if length and abs(length - self.length) > 1E-5:

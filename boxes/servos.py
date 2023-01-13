@@ -62,9 +62,9 @@ class ServoArg:
 
     def html(self, name, default, translate):
         options = "\n".join(
-            ("""<option value="%s"%s>%s</option>""" %
+            """<option value="%s"%s>%s</option>""" %
              (name, ' selected="selected"' if name == default else "",
-              name) for name in self.servos))
+              name) for name in self.servos)
         return """<select name="%s" size="1">\n%s</select>\n""" % (name, options)
 
 

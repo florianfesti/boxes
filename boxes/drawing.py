@@ -533,7 +533,7 @@ Creation date: {date}
                     elif C == "T":
                         m, text, params = c[3:]
                         m = m * Affine.translation(0, -params['fs'])
-                        tm = " ".join((f"{m[i]:.3f}" for i in (0, 3, 1, 4, 2, 5)))
+                        tm = " ".join(f"{m[i]:.3f}" for i in (0, 3, 1, 4, 2, 5))
                         font, bold, italic = params['ff']
                         fontweight = ("normal", "bold")[bool(bold)]
                         fontstyle = ("normal", "italic")[bool(italic)]
@@ -670,10 +670,9 @@ class PSSurface(Surface):
                         )
                     elif C == "T":
                         m, text, params = c[3:]
-                        tm = " ".join((f"{m[i]:.3f}" for i in (0, 3, 1, 4, 2, 5)))
+                        tm = " ".join(f"{m[i]:.3f}" for i in (0, 3, 1, 4, 2, 5))
                         text = text.replace("(", "r\(").replace(")", r"\)")
-                        color = " ".join((f"{c:.2f}"
-                                          for c in params["rgb"]))
+                        color = " ".join(f"{c:.2f}" for c in params["rgb"])
                         align = params.get('align', 'left')
                         f.write(f"/{self.fonts[params['ff']]}-Latin1 findfont\n")
                         f.write(f"{params['fs']} scalefont\n")
@@ -704,8 +703,7 @@ class PSSurface(Surface):
                     else rgb_to_svg_color(*path.params["rgb"])
                 )
                 if p:  # todo: might be empty since text is not implemented yet
-                    color = " ".join((f"{c:.2f}"
-                                      for c in path.params["rgb"]))
+                    color = " ".join(f"{c:.2f}" for c in path.params["rgb"])
                     f.write("newpath\n")
                     f.write("\n".join(p))
                     f.write("\n")
@@ -955,7 +953,7 @@ class LBRN2Surface(Surface):
                             sh.text = "\n  "
                             sh.tail = "\n"
                             xf = ET.SubElement(sh, "XForm")
-                            xf.text = " ".join((f"{m[i]:.3f}" for i in (0, 3, 1, 4, 2, 5)))
+                            xf.text = " ".join(f"{m[i]:.3f}" for i in (0, 3, 1, 4, 2, 5))
                             xf.tail = "\n"
                     else:
                         if self.dbg: print ("4", num)

@@ -196,17 +196,17 @@ class ArgparseEdgeType:
 
     def html(self, name, default, translate):
         options = "\n".join(
-            ("""<option value="%s"%s>%s</option>""" %
+            """<option value="%s"%s>%s</option>""" %
              (e, ' selected="selected"' if e == default else "",
-              translate("%s %s" % (e, self.names.get(e, "")))) for e in self.edges))
+              translate("%s %s" % (e, self.names.get(e, "")))) for e in self.edges)
         return """<select name="%s" id="%s" aria-labeledby="%s %s" size="1">\n%s</select>\n""" % (name,  name, name+"_id", name+"_description", options)
 
     def inx(self, name, viewname, arg):
         return ('        <param name="%s" type="optiongroup" appearance="combo" gui-text="%s" gui-description=%s>\n' %
                 (name, viewname, quoteattr(arg.help or "")) +
-                ''.join(('            <option value="%s">%s %s</option>\n' % (
+                ''.join('            <option value="%s">%s %s</option>\n' % (
                     e, e, self.names.get(e, ""))
-                         for e in self.edges)) +
+                         for e in self.edges) +
                 '      </param>\n')
 
 class BoolArg:
@@ -520,7 +520,7 @@ class Boxes:
             s = s.replace('\n', "\\n")
             return quote(s)
 
-        self.metadata["cli"] = "boxes " + self.__class__.__name__ + " " + " ".join((cliquote(arg) for arg in args))
+        self.metadata["cli"] = "boxes " + self.__class__.__name__ + " " + " ".join(cliquote(arg) for arg in args)
         for key, value in vars(self.argparser.parse_args(args=args)).items():
             # treat edge settings separately
             for setting in self.edgesettings:
@@ -2706,7 +2706,7 @@ class Boxes:
             next_angle = borders[i+1]
 
             if isinstance(next_angle, (int, float)) and next_angle < 0:
-                length_correction = t * math.tan(math.radians((-next_angle / 2)))
+                length_correction = t * math.tan(math.radians(-next_angle / 2))
             else:
                 length_correction = 0.0
             l -= length_correction
@@ -2772,7 +2772,7 @@ class Boxes:
 
             rightsettings.setValues(self.thickness, angle=angle)
             if angle < 0:
-                length_correction = t * math.tan(math.radians((-angle / 2)))
+                length_correction = t * math.tan(math.radians(-angle / 2))
             else:
                 length_correction = 0.0
             l -= length_correction

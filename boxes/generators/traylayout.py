@@ -67,10 +67,10 @@ of sizes in x and y direction. Choose how many distances you need in both direct
 
         for hwalls, vwalls, floors, y in zip(
                 self.hwalls, self.vwalls, self.floors, self.y):
-            r.append("".join(("+" + " -"[h] for h in hwalls)) + "+\n")
+            r.append("".join("+" + " -"[h] for h in hwalls) + "+\n")
             r.append("".join((" |"[v] + "X "[f] for v, f in zip(vwalls, floors)))
                      + " |"[vwalls[-1]] + " %.1fmm\n" % y)
-        r.append("".join(("+" + " -"[h] for h in self.hwalls[-1])) + "+\n")
+        r.append("".join("+" + " -"[h] for h in self.hwalls[-1]) + "+\n")
 
         return "".join(r)
 

@@ -147,7 +147,7 @@ class Pulley:
             m = [[tooth_width_scale, 0, 0],
                  [0, tooth_depth_scale, -tooth_distance_from_centre]]
             m = mmul(m, rotm(i * 2 * pi / teeth))
-            points.extend((vtransl(pt, m) for pt in self.teeth[profile][1:-1]))
+            points.extend(vtransl(pt, m) for pt in self.teeth[profile][1:-1])
 
         self.drawPoints(points, kerfdir=-1 if insideout else 1)
         self.boxes.move(total_width, total_width, move)

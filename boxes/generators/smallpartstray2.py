@@ -54,12 +54,12 @@ class SmallPartsTray2(_TopEdge):
                                 roundedtriangle={"outset" : 1})
         self.buildArgParser("sx", "sy", "h", "hi", "outside")
         # "bottom_edge", "top_edge")
-        #self.argparser.add_argument(
-        #    "--back_height",  action="store", type=float, default=0.0,
-        #    help="additional height of the back wall - e top edge only")
-        #self.argparser.add_argument(
-        #    "--radius",  action="store", type=float, default=0.0,
-        #    help="radius for strengthening side walls with back_height")
+        self.argparser.add_argument(
+            "--back_height",  action="store", type=float, default=0.0,
+            help="additional height of the back wall - e top edge only")
+        self.argparser.add_argument(
+            "--radius",  action="store", type=float, default=0.0,
+            help="radius for strengthening side walls with back_height")
         self.argparser.add_argument(
             "--handle", type=boolarg, default=False, help="add handle to the bottom (changes bottom edge in the front)",
         )
@@ -107,7 +107,6 @@ class SmallPartsTray2(_TopEdge):
         # tmp settings
         self.top_edge = "e"
         self.bottom_edge = "F"
-        self.back_height = 0
         
         if self.outside:
             self.sx = self.adjustSize(self.sx)
@@ -204,17 +203,15 @@ class SmallPartsTray2(_TopEdge):
 
         # outer walls - left/right
 
-        if bh:
-            self.trapezoidSideWall(
-                y, h, h+bh, [b, "h", "e", "h"],
-                radius=self.radius, callback=[self.yHoles, ],
-                move="up", label="left side")
-            self.trapezoidSideWall(
-                y, h+bh, h, [b, "h", "e", "h"], radius=self.radius,
-                callback=[self.mirrorX(self.yHoles, y), ],
-                move="up", label="right side")
-        else:
-            for move in ("up", "up mirror"):
+        for move in ("up", "up mirror"):
+            if bh:
+                self.trapezoidSideWall(
+                    y, h+bh, hi-t*2**.5,
+                    [edges.CompoundEdge(self, ("FE"*len(self.sy))+"F", floors),
+                     "h", "e", "h"],
+                    radius=self.radius, callback=[self.yHoles, ],
+                    move=move, label="side")
+            else:
                 self.rectangularWall(
                     y, h,
                     [edges.CompoundEdge(self, ("FE"*len(self.sy))+"F", floors),

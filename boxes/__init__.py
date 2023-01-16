@@ -2597,7 +2597,7 @@ class Boxes:
         edges[3](h0)
         self.edgeCorner(edges[-1], edges[0], 90)
 
-        self.move(overallwidth, overallheight, move, label)
+        self.move(overallwidth, overallheight, move, label=label)
 
     ### polygonWall and friends
 

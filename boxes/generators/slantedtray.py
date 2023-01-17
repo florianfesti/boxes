@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (C) 2013-2016 Florian Festi
+# Copyright (C) 2013-2023 Florian Festi
 #
 #   This program is free software: you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -21,7 +21,9 @@ class SlantedTray(Boxes):
     """One row tray with high back wall and low front wall"""
 
     ui_group = "Tray"
-    ui_group = "Unstable" # see ./__init__.py for names
+
+    description = """Can be used as a display or for cards or gaming tokens. Lay on the side to get piles to draw from.
+    ![Example Use](static/samples/SlantedTray-2.jpg)"""
 
     def __init__(self) -> None:
         Boxes.__init__(self)
@@ -80,5 +82,5 @@ class SlantedTray(Boxes):
             ],
         )
 
-        for _ in range(3):
+        for _ in range(len(sx) + 1):
             self.trapezoidWall(y, h, front_height, "ffef", move="right")

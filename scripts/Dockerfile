@@ -17,7 +17,10 @@ FROM fedora:latest
 RUN dnf install -y git-core python3-markdown python3-setuptools python3-affine python3-shapely pstoedit && dnf clean all
 
 # Get Boxes.py sources to /boxes
-RUN git clone --depth 1 -b master https://github.com/florianfesti/boxes.git
+ARG BUILD_BRANCH=master
+ARG BUILD_REPO=https://github.com/florianfesti/boxes.git
+RUN git clone ${BUILD_REPO} && cd boxes && git checkout ${BUILD_BRANCH}
+RUN chmod +x /boxes/scripts/boxesserver
 
 # Internal port used
 EXPOSE 8000

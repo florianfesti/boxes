@@ -21,7 +21,6 @@ class SmallPartsTray(Boxes):
     """Tray with slants to easier get out game tokens or screws"""
 
     ui_group = "Tray"
-    ui_group = "Unstable"
 
     def __init__(self) -> None:
         Boxes.__init__(self)
@@ -38,7 +37,7 @@ class SmallPartsTray(Boxes):
             help="height of the ramps relative to to total height")
         self.argparser.add_argument(
             "--two_sided",  action="store", type=boolarg, default=True,
-            help="have ramps on both sides")
+            help="have ramps on both sides. Enables sliding dividers")
         self.argparser.add_argument(
             "--front_panel",  action="store", type=boolarg, default=True,
             help="have a vertical wall at the ramp")

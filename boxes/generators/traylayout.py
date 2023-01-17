@@ -133,13 +133,20 @@ You can replace the space characters representing the floor by a "X" to remove t
 
     def vFloor(self, x, y):
         """Is there floor under vertical wall"""
-        return ((x > 0 and self.floors[y][x - 1]) or
-                (x < len(self.x) and self.floors[y][x]))
+        if y >= len(self.y):
+            return False
+
+        return (
+            (x > 0 and self.floors[y][x - 1]) or
+            (x < len(self.x) and self.floors[y][x]))
 
     def hFloor(self, x, y):
         """Is there foor under horizontal wall"""
-        return ((y > 0 and self.floors[y - 1][x]) or
-                (y < len(self.y) and self.floors[y][x]))
+        if x >= len(self.x):
+            return False
+        return (
+            (y > 0 and self.floors[y - 1][x]) or
+            (y < len(self.y) and self.floors[y][x]))
 
     @restore
     def edgeAt(self, edge, x, y, length, angle=0):
@@ -179,6 +186,7 @@ You can replace the space characters representing the floor by a "X" to remove t
 
         self.edges["s"] = boxes.edges.Slot(self, self.hi / 2.0)
         self.edges["C"] = boxes.edges.CrossingFingerHoleEdge(self, self.hi)
+        self.edges["D"] = boxes.edges.CrossingFingerHoleEdge(self, self.hi, outset=t)
 
         self.ctx.save()
 
@@ -208,10 +216,14 @@ You can replace the space characters representing the floor by a "X" to remove t
                     if self.hFloor(end, y):
                         edges.append("f")
                     else:
-                        edges.append("e")  # XXX E?
+                        edges.append("E")
 
                     lengths.append(self.x[end])
-                    edges.append("eCs"[self.vWalls(end + 1, y)])
+                    if (self.hFloor(end, y) == 0 and
+                        self.hFloor(end+1, y) == 0):
+                        edges.append("EDs"[self.vWalls(end + 1, y)])
+                    else:
+                        edges.append("eCs"[self.vWalls(end + 1, y)])
                     lengths.append(self.thickness)
                     end += 1
 
@@ -254,10 +266,14 @@ You can replace the space characters representing the floor by a "X" to remove t
                     if self.vFloor(x, end):
                         edges.append("f")
                     else:
-                        edges.append("e")  # XXX E?
+                        edges.append("E")
 
                     lengths.append(self.y[end])
-                    edges.append("eCs"[self.hWalls(x, end + 1)])
+                    if (self.vFloor(x, end) == 0 and
+                        self.vFloor(x, end + 1) == 0):
+                        edges.append("EDs"[self.hWalls(x, end + 1)])
+                    else:
+                        edges.append("eCs"[self.hWalls(x, end + 1)])
                     lengths.append(self.thickness)
                     end += 1
                 # remove last "slot"
@@ -265,11 +281,12 @@ You can replace the space characters representing the floor by a "X" to remove t
                 edges.pop()
 
                 upper = [{
-                             "f": "e",
-                             "s": "s",
-                             "e": "e",
-                             "E": "e",
-                             "C": "e"}[e] for e in reversed(edges)]
+                    "f": "e",
+                    "s": "s",
+                    "e": "e",
+                    "E": "e",
+                    "C": "e",
+                    "D": "e"}[e] for e in reversed(edges)]
                 edges = ["e" if e == "s" else e for e in edges]
                 self.rectangularWall(sum(lengths), h, [
                     boxes.edges.CompoundEdge(self, edges, lengths),

@@ -19,7 +19,7 @@ RUN dnf install -y git-core python3-markdown python3-setuptools python3-affine p
 # Get Boxes.py sources to /boxes
 ARG BUILD_BRANCH=master
 ARG BUILD_REPO=https://github.com/florianfesti/boxes.git
-RUN git clone ${BUILD_REPO} && cd boxes && git checkout ${BUILD_BRANCH}
+RUN git clone --depth 1 -b ${BUILD_BRANCH} ${BUILD_REPO}
 RUN chmod +x /boxes/scripts/boxesserver
 
 # Internal port used

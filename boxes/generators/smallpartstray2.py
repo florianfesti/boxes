@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright (C) 2013-2014 Florian Festi
+# Copyright (C) 2013-2023 Florian Festi
 #
 #   This program is free software: you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -43,10 +43,13 @@ class TopEdge(edges.BaseEdge):
         self.polyline(t2/2)
 
 class SmallPartsTray2(_TopEdge):
-    """A Type tray variant with slopes toward the front"""
+    """A Type Tray variant with slopes toward the front"""
+
+    description = """Assemble inside out. If there are inner front to back walls start with attaching the floor boards to them. Then add the vertical inner left to right walls. After sliding in the slopes attach the outer wall to fix everything in place.
+
+If there are no inner front to back walls just add everything to one side wall and then add the other one after that. Possibly saving the front and back as last step."""
 
     ui_group = "Tray"
-    ui_group = "Unstable"
 
     def __init__(self) -> None:
         Boxes.__init__(self)

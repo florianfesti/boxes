@@ -1107,16 +1107,19 @@ class CrossingFingerHoleEdge(Edge):
     description = "Edge (orthogonal Finger Joint Holes)"
     char = '|'
 
-    def __init__(self, boxes, height, fingerHoles=None, **kw) -> None:
+    def __init__(self, boxes, height, fingerHoles=None, outset=0.0, **kw) -> None:
         super().__init__(boxes, None, **kw)
 
         self.fingerHoles = fingerHoles or boxes.fingerHolesAt
         self.height = height
+        self.outset = outset
 
     def __call__(self, length, **kw):
-        self.fingerHoles(length / 2.0, self.burn, self.height)
+        self.fingerHoles(length / 2.0, self.outset+self.burn, self.height)
         super().__call__(length)
 
+    def startwidth(self):
+        return self.outset
 
 #############################################################################
 ####     Stackable Joints

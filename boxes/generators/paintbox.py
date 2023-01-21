@@ -21,7 +21,15 @@ class PaintStorage(Boxes):
     """Stackable storage for hobby paint or other things"""
 
     webinterface = True
-    ui_group = "Shelf" # see ./__init__.py for names
+    ui_group = "Shelf"  # see ./__init__.py for names
+
+    canheight: int
+    candiameter: int
+    minspace: int
+    additional_bottom: int
+    additional_top: int
+    hexpattern: bool
+    drawer: bool
 
     def __init__(self) -> None:
         Boxes.__init__(self)
@@ -41,6 +49,12 @@ class PaintStorage(Boxes):
             "--minspace", action="store", type=int, default=10,
             help="Minimum space between the paintcans")
         self.argparser.add_argument(
+            "--additional_bottom", action="store", type=boolarg, default=False,
+            help="Additional bottom/floor with holes the paintcans go through")
+        self.argparser.add_argument(
+            "--additional_top", action="store", type=boolarg, default=False,
+            help="Additional top/floor with holes the paintcans go through")
+        self.argparser.add_argument(
             "--hexpattern", action="store", type=boolarg, default=False,
             help="Use hexagonal arrangement for the holes instead of orthogonal")
         self.argparser.add_argument(
@@ -51,28 +65,49 @@ class PaintStorage(Boxes):
         """Place holes for the paintcans evenly"""
 
         if self.hexpattern:
-            self.moveTo(self.minspace/2, self.minspace/2)
+            self.moveTo(self.minspace / 2, self.minspace / 2)
             settings = self.hexHolesSettings
             settings.diameter = self.candiameter
             settings.distance = self.minspace
             settings.style = 'circle'
-            self.hexHolesRectangle(self.y - 1*self.minspace,
-                                   self.x - 1*self.minspace,
+            self.hexHolesRectangle(self.y - 1 * self.minspace,
+                                   self.x - 1 * self.minspace,
                                    settings)
             return
-        n_x = int(self.x / (self.candiameter+self.minspace))
-        n_y = int(self.y / (self.candiameter+self.minspace))
+        n_x = int(self.x / (self.candiameter + self.minspace))
+        n_y = int(self.y / (self.candiameter + self.minspace))
 
         if n_x <= 0 or n_y <= 0:
             return
 
-        spacing_x = (self.x - n_x*self.candiameter)/n_x
-        spacing_y = (self.y - n_y*self.candiameter)/n_y
+        spacing_x = (self.x - n_x * self.candiameter) / n_x
+        spacing_y = (self.y - n_y * self.candiameter) / n_y
         for i in range(n_y):
             for j in range(n_x):
-                self.hole(i * (self.candiameter+spacing_y) + (self.candiameter+spacing_y)/2,
-                          j * (self.candiameter+spacing_x) + (self.candiameter+spacing_x)/2,
-                          self.candiameter/2)
+                self.hole(i * (self.candiameter + spacing_y) + (self.candiameter + spacing_y) / 2,
+                          j * (self.candiameter + spacing_x) + (self.candiameter + spacing_x) / 2,
+                          self.candiameter / 2)
+
+    def sidesCb(self):
+        x, y = self.x, self.y
+        t = self.thickness
+
+        stack = self.edges['s'].settings
+        h = self.canheight - stack.height - stack.holedistance + t
+        hx = 1 / 2. * x
+        hh = h / 4.
+        hr = min(hx, hh) / 2
+
+        if not self.drawer:
+            self.rectangularHole(h / 3, (x / 2.0) - t, hh, hx, r=hr)
+            self.fingerHolesAt(((self.canheight/3)*2)-t*2, -t, x, 90)
+
+            if self.additional_bottom:
+                self.fingerHolesAt((self.canheight / 6) - (t / 2), -t, x, 90)
+            if self.additional_top:
+                self.fingerHolesAt(self.canheight - ((self.canheight / 6) + t), -t, x, 90)
+        else:
+            self.rectangularHole(h / 3, (x / 2.0) - t, hh, hx, r=hr)
 
     def render(self):
         # adjust to the variables you want in the local scope
@@ -82,24 +117,13 @@ class PaintStorage(Boxes):
         stack = self.edges['s'].settings
         h = self.canheight - stack.height - stack.holedistance + t
 
-        hx = 1/2.*x
-        hh = h/4.
-        hr = min(hx, hh) / 2
-
+        wall_callbacks = [self.sidesCb]
         if not self.drawer:
             wall_keys = "EsES"
-            wall_callbacks = [
-                lambda: self.rectangularHole(h / 3, (x / 2.0) - t, hh, hx, r=hr),
-                lambda: self.fingerHolesAt(0, self.canheight / 3, x, 0),
-            ]
             bottom_keys = "EfEf"
         else:
             wall_keys = "FsFS"
-            wall_callbacks = [
-                lambda: self.rectangularHole(h / 3, (x / 2.0) - t, hh, hx, r=hr)
-            ]
             bottom_keys = "FfFf"
-
 
         # Walls
         self.rectangularWall(
@@ -123,12 +147,16 @@ class PaintStorage(Boxes):
 
         # Bottom
         self.rectangularWall(
-            y, x-2*t, bottom_keys, ignore_widths=[1, 2, 5, 6], move="up"
+            y, x - 2 * t, bottom_keys, ignore_widths=[1, 2, 5, 6], move="up"
         )
 
         if not self.drawer:
             # Top
             self.rectangularWall(y, x, "efef", callback=[self.paintholes], move="up")
+            if self.additional_bottom:
+                self.rectangularWall(y, x, "efef", callback=[self.paintholes], move="up")
+            if self.additional_top:
+                self.rectangularWall(y, x, "efef", callback=[self.paintholes], move="up")
         else:
             # Sides
             self.rectangularWall(y, h, "efff", move="up")

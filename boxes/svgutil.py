@@ -13,21 +13,22 @@
 #
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from __future__ import annotations
 
 import re
-
 from xml.etree import ElementTree
 
 ElementTree.register_namespace("", "http://www.w3.org/2000/svg")
 ElementTree.register_namespace("xlink", "http://www.w3.org/1999/xlink")
 
-unit2mm = {"mm": 1.0,
-           "cm": 10.0,
-           "in": 25.4,
-           "px": 90.0 / 25.4,
-           "pt": 90.0 / 25.4 / 1.25,
-           "pc": 90.0 / 25.4 / 15,
-           }
+unit2mm: dict[str, float] = {
+    "mm": 1.0,
+    "cm": 10.0,
+    "in": 25.4,
+    "px": 90.0 / 25.4,
+    "pt": 90.0 / 25.4 / 1.25,
+    "pc": 90.0 / 25.4 / 15,
+}
 
 
 def getSizeInMM(tree):
@@ -53,14 +54,14 @@ def getViewBox(tree):
     return [float(m) for m in m.groups()]
 
 
-def ticksPerMM(tree):
+def ticksPerMM(tree) -> tuple[float, float]:
     width, height = getSizeInMM(tree)
     x1, y1, x2, y2 = getViewBox(tree)
 
     return x2 / width, y2 / height
 
 
-def svgMerge(box, inkscape, output):
+def svgMerge(box, inkscape, output) -> None:
     src_tree = ElementTree.parse(box)
     dest_tree = ElementTree.parse(inkscape)
     dest_root = dest_tree.getroot()

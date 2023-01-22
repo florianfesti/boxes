@@ -31,14 +31,13 @@ class Extents:
             return Extents(self.xmin,self.ymin,self.xmax,self.ymax)
         return self.__add__(extent)
 
-    def get_width(self):
-        return self.xmax-self.xmin
+    @property
+    def width(self) -> float:
+        return self.xmax - self.xmin
 
-    def get_height(self):
-        return self.ymax-self.ymin
-
-    width = property(get_width)
-    height = property(get_height)
+    @property
+    def height(self) -> float:
+        return self.ymax - self.ymin
 
     def __repr__(self) -> str:
         return f'Extents ({self.xmin},{self.ymin})-({self.xmax},{self.ymax})'

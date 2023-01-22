@@ -17,16 +17,18 @@
 import re
 
 from xml.etree import ElementTree
-ElementTree.register_namespace("","http://www.w3.org/2000/svg")
+
+ElementTree.register_namespace("", "http://www.w3.org/2000/svg")
 ElementTree.register_namespace("xlink", "http://www.w3.org/1999/xlink")
 
-unit2mm = {"mm" : 1.0,
-           "cm" : 10.0,
-           "in" : 25.4,
-           "px" : 90.0/25.4,
-           "pt" : 90.0/25.4/1.25,
-           "pc" : 90.0/25.4/15,
-}
+unit2mm = {"mm": 1.0,
+           "cm": 10.0,
+           "in": 25.4,
+           "px": 90.0 / 25.4,
+           "pt": 90.0 / 25.4 / 1.25,
+           "pc": 90.0 / 25.4 / 15,
+           }
+
 
 def getSizeInMM(tree):
     root = tree.getroot()
@@ -40,23 +42,25 @@ def getSizeInMM(tree):
 
     return width, height
 
+
 def getViewBox(tree):
     root = tree.getroot()
     m = re.match(r"\s*(-?\d+\.?\d*)\s+"
-                     "(-?\d+\.?\d*)\s+"
-                     "(-?\d+\.?\d*)\s+"
-                     "(-?\d+\.?\d)\s*", root.get("viewBox"))
+                 "(-?\d+\.?\d*)\s+"
+                 "(-?\d+\.?\d*)\s+"
+                 "(-?\d+\.?\d)\s*", root.get("viewBox"))
 
     return [float(m) for m in m.groups()]
+
 
 def ticksPerMM(tree):
     width, height = getSizeInMM(tree)
     x1, y1, x2, y2 = getViewBox(tree)
 
-    return x2/width, y2/height
+    return x2 / width, y2 / height
+
 
 def svgMerge(box, inkscape, output):
-
     src_tree = ElementTree.parse(box)
     dest_tree = ElementTree.parse(inkscape)
     dest_root = dest_tree.getroot()
@@ -73,7 +77,7 @@ def svgMerge(box, inkscape, output):
     src_view = getViewBox(src_tree)
 
     off_x = src_view[0] * -scale_x
-    off_y = (src_view[1]+src_view[3]) * -scale_y + dest_height * scale_y
+    off_y = (src_view[1] + src_view[3]) * -scale_y + dest_height * scale_y
 
     for el in src_tree.getroot():
         dest_root.append(el)

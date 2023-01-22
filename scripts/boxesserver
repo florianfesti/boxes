@@ -229,7 +229,7 @@ class BServer:
         result = [f"""<!DOCTYPE html>
 <html>
 <head>
-    <title>{_("Boxes - %s") % _(name)}</title>
+    <title>{_("%s - Boxes") % _(name)}</title>
     <meta charset="utf-8">
     <link rel="icon" type="image/svg+xml" href="{self.static_url}/boxes-logo.svg" sizes="any">
     <link rel="icon" type="image/x-icon" href="{self.static_url}/favicon.ico">

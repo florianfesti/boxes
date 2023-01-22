@@ -46,9 +46,9 @@ def getSizeInMM(tree):
 def getViewBox(tree):
     root = tree.getroot()
     m = re.match(r"\s*(-?\d+\.?\d*)\s+"
-                 "(-?\d+\.?\d*)\s+"
-                 "(-?\d+\.?\d*)\s+"
-                 "(-?\d+\.?\d)\s*", root.get("viewBox"))
+                 r"(-?\d+\.?\d*)\s+"
+                 r"(-?\d+\.?\d*)\s+"
+                 r"(-?\d+\.?\d)\s*", root.get("viewBox"))
 
     return [float(m) for m in m.groups()]
 

@@ -82,8 +82,7 @@ def svgMerge(box, inkscape, output):
     for el in src_tree.getroot():
         dest_root.append(el)
         if el.tag.endswith("g"):
-            el.set("transform", "matrix(%f,0,0,%f, %f, %f)" % (
-                scale_x, scale_y, off_x, off_y))
+            el.set("transform", f"matrix({scale_x:f},0,0,{scale_y:f}, {off_x:f}, {off_y:f})")
 
     # write the xml file
     ElementTree.ElementTree(dest_root).write(output, encoding='utf-8', xml_declaration=True)

@@ -15,11 +15,11 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from __future__ import annotations
 
-import abc
 import argparse
 import inspect
 import math
 import re
+from abc import ABC, abstractmethod
 from typing import Any
 
 from boxes import gears
@@ -74,7 +74,7 @@ def getDescriptions() -> dict:
     return d
 
 
-class BoltPolicy:
+class BoltPolicy(ABC):
     """Abstract class
 
     Distributes (bed) bolts on a number of segments
@@ -292,7 +292,7 @@ class Settings:
 #############################################################################
 
 
-class BaseEdge:
+class BaseEdge(ABC):
     """Abstract base class for all Edges"""
     char: str | None = None
     description: str = "Abstract Edge Class"
@@ -306,7 +306,7 @@ class BaseEdge:
         """Hack for using unalter code form Boxes class"""
         return getattr(self.boxes, name)
 
-    @abc.abstractmethod
+    @abstractmethod
     def __call__(self, length, **kw):
         pass
 
@@ -868,7 +868,8 @@ Values:
         return self._edgeObjects(edges, boxes, chars, add)
 
 
-class FingerJointBase:
+class FingerJointBase(ABC):
+    """Abstract base class for finger joint."""
 
     def calcFingers(self, length: float, bedBolts) -> tuple[int, float]:
         space, finger = self.settings.space, self.settings.finger  # type: ignore

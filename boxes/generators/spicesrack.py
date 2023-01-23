@@ -29,7 +29,7 @@ class FrontEdge(edges.Edge):
                 self.corner(-a)
         self.moveTo(length)
 
-    def margin(self):
+    def margin(self) -> float:
         return self.edge_width
                 
 class SpicesRack(Boxes):

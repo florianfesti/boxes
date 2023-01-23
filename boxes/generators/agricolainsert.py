@@ -799,11 +799,11 @@ class MoorBoxSideEdge(edges.BaseEdge):
         else:
             self.polyline(length)
 
-    def startwidth(self):
+    def startwidth(self) -> float:
         return self.corner_height
 
-    def endwidth(self):
-        return 0 if self.lower_corner else self.corner_height
+    def endwidth(self) -> float:
+        return 0.0 if self.lower_corner else self.corner_height
 
 
 class MoorBoxHoleEdge(edges.BaseEdge):
@@ -851,11 +851,11 @@ class MoorBoxHoleEdge(edges.BaseEdge):
         )
         self.polyline(*full_polyline)
 
-    def startwidth(self):
+    def startwidth(self) -> float:
         return self.corner_height
 
-    def endwidth(self):
-        return 0 if self.lower_corner else self.corner_height
+    def endwidth(self) -> float:
+        return 0.0 if self.lower_corner else self.corner_height
 
 
 class BedHeadEdge(edges.BaseEdge):

@@ -27,7 +27,7 @@ class USlotEdge(Edge):
         self.polyline(0, 90, 0, (-90, r), l-2*d-2*r, (-90, r), 0, 90)
         self.edges["f"](d)
 
-    def margin(self):
+    def margin(self) -> float:
         return self.edges["f"].margin()
 
 class HalfStackableEdge(edges.StackableEdge):
@@ -49,7 +49,7 @@ class HalfStackableEdge(edges.StackableEdge):
         self.boxes.corner(-p * s.angle, r)
         self.boxes.edge(length - 1 * s.width - 2 * l)
 
-    def endwidth(self):
+    def endwidth(self) -> float:
         return self.settings.holedistance + self.settings.thickness
 
 class NotesHolder(Boxes):

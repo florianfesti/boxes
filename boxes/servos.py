@@ -33,10 +33,10 @@ class EyeEdge(boxes.edges.FingerHoleEdge):
         angle = math.degrees(a)
         self.polyline(0, -angle, l, (2*angle, r), l, -angle, 0)
 
-    def startwidth(self):
+    def startwidth(self) -> float:
         return self.fingerHoles.settings.thickness
 
-    def margin(self):
+    def margin(self) -> float:
         return self.servo.hinge_depth() + self.fingerHoles.settings.thickness + self.servo.servo_axle * 2
 
 def buildEdges(boxes, servo, chars="mMnN"):

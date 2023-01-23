@@ -38,7 +38,7 @@ class SlotEdge(edges.Edge):
             poly = [lo-1, (90, 1), d+t-1, -90, ls1+ls2, -90, d-t, (90, t)]
         self.polyline(*(poly + [li-2*t] + list(reversed(poly))))
 
-    def startwidth(self):
+    def startwidth(self) -> float:
         return self.settings.thickness
 
 

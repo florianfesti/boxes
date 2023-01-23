@@ -34,7 +34,7 @@ class PinEdge(edges.BaseEdge):
             s+=inc
         self.polyline(*pin, s/2-w2-inc/4)
 
-    def margin(self):
+    def margin(self) -> float:
         return self.settings.thickness+self.settings.pinlength
 
 class WallPinRow(_WallMountedBox):

@@ -207,7 +207,7 @@ class Settings:
             else:
                 t = type(default)
 
-            group.add_argument("--%s_%s" % (prefix, name),
+            group.add_argument(f"--{prefix}_{name}",
                                type=t,
                                action="store", default=default,
                                choices=choices,
@@ -271,8 +271,7 @@ class Settings:
             elif name in self.relative_params:
                 self.values[name] = value * factor
             else:
-                raise ValueError("Unknown parameter for %s: %s" % (
-                    self.__class__.__name__, name))
+                raise ValueError(f"Unknown parameter for {self.__class__.__name__}: {name}")
         self.checkValues()
 
     def checkValues(self) -> None:

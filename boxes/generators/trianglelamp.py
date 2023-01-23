@@ -19,7 +19,7 @@ from boxes import *
 class CornerEdge(edges.Edge):
     char = "C"
     
-    def startwidth(self):
+    def startwidth(self) -> float:
         return self.boxes.thickness * math.tan(math.radians(90-22.5))
 
     def __call__(self, length, bedBolts=None, bedBoltSettings=None, **kw):

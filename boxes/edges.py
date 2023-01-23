@@ -25,19 +25,19 @@ from typing import Any
 from boxes import gears
 
 
-def argparseSections(s):
+def argparseSections(s: str) -> list[float]:
     """
     Parse sections parameter
 
     :param s: string to parse
     """
 
-    result = []
+    result: list[float] = []
 
-    s = re.split(r"\s|:", s)
+    parse = re.split(r"\s|:", s)
 
     try:
-        for part in s:
+        for part in parse:
             m = re.match(r"^(\d+(\.\d+)?)/(\d+)$", part)
             if m:
                 n = int(m.group(3))
@@ -58,7 +58,7 @@ def argparseSections(s):
     return result
 
 
-def getDescriptions():
+def getDescriptions() -> dict:
     d = {edge.char: edge.description for edge in globals().values()
          if inspect.isclass(edge) and issubclass(edge, BaseEdge)
          and edge.char}
@@ -81,21 +81,21 @@ class BoltPolicy:
     (fingers of a finger joint)
     """
 
-    def drawbolt(self, pos):
+    def drawbolt(self, pos) -> bool:
         """Add a bolt to this segment?
 
         :param pos: number of the finger
         """
         return False
 
-    def numFingers(self, numfingers):
+    def numFingers(self, numFingers: int) -> int:
         """Return next smaller, possible number of fingers
 
-        :param numfingers: number of fingers to aim for
+        :param numFingers: number of fingers to aim for
         """
-        return numfingers
+        return numFingers
 
-    def _even(self, numFingers):
+    def _even(self, numFingers: int) -> int:
         """
         Return same or next smaller even number
 
@@ -103,7 +103,7 @@ class BoltPolicy:
         """
         return (numFingers // 2) * 2
 
-    def _odd(self, numFingers):
+    def _odd(self, numFingers: int) -> int:
         """
         Return same or next smaller odd number
 
@@ -118,10 +118,10 @@ class BoltPolicy:
 class Bolts(BoltPolicy):
     """Distribute a fixed number of bolts evenly"""
 
-    def __init__(self, bolts=1) -> None:
+    def __init__(self, bolts: int = 1) -> None:
         self.bolts = bolts
 
-    def numFingers(self, numFingers):
+    def numFingers(self, numFingers: int) -> int:
         if self.bolts % 2:
             self.fingers = self._even(numFingers)
         else:
@@ -213,7 +213,7 @@ class Settings:
                                choices=choices,
                                help=descriptions.get(name))
 
-    def __init__(self, thickness, relative=True, **kw) -> None:
+    def __init__(self, thickness, relative: bool = True, **kw) -> None:
         self.values = {}
         for name, value in self.absolute_params.items():
             if isinstance(value, tuple):
@@ -230,7 +230,7 @@ class Settings:
             self.values[name] = value * factor
         self.setValues(thickness, relative, **kw)
 
-    def edgeObjects(self, boxes, chars="", add=True):
+    def edgeObjects(self, boxes, chars: str = "", add: bool = True):
         """
         Generate Edge objects using this kind of settings
 
@@ -238,10 +238,10 @@ class Settings:
         :param chars: sequence of chars to be used by Edge objects
         :param add: add the resulting Edge objects to the Boxes object's edges
         """
-        edges = []
+        edges: list[Any] = []
         return self._edgeObjects(edges, boxes, chars, add)
 
-    def _edgeObjects(self, edges, boxes, chars, add):
+    def _edgeObjects(self, edges, boxes, chars: str, add: bool):
         for i, edge in enumerate(edges):
             try:
                 char = chars[i]
@@ -254,7 +254,7 @@ class Settings:
             boxes.addParts(edges)
         return edges
 
-    def setValues(self, thickness, relative=True, **kw):
+    def setValues(self, thickness, relative: bool = True, **kw):
         """
         Set values
 
@@ -275,7 +275,7 @@ class Settings:
                     self.__class__.__name__, name))
         self.checkValues()
 
-    def checkValues(self):
+    def checkValues(self) -> None:
         """
         Check if all values are in the right range. Raise ValueError if needed
         """
@@ -295,7 +295,7 @@ class Settings:
 class BaseEdge:
     """Abstract base class for all Edges"""
     char: str | None = None
-    description = "Abstract Edge Class"
+    description: str = "Abstract Edge Class"
 
     def __init__(self, boxes, settings) -> None:
         self.boxes = boxes
@@ -310,26 +310,26 @@ class BaseEdge:
     def __call__(self, length, **kw):
         pass
 
-    def startwidth(self):
+    def startwidth(self) -> float:
         """Amount of space the beginning of the edge is set below the inner space of the part """
         return 0.0
 
-    def endwidth(self):
+    def endwidth(self) -> float:
         return self.startwidth()
 
-    def margin(self):
+    def margin(self) -> float:
         """Space needed right of the starting point"""
         return 0.0
 
-    def spacing(self):
+    def spacing(self) -> float:
         """Space the edge needs outside of the inner space of the part"""
         return self.startwidth() + self.margin()
 
-    def startAngle(self):
+    def startAngle(self) -> float:
         """Not yet supported"""
         return 0.0
 
-    def endAngle(self):
+    def endAngle(self) -> float:
         """Not yet supported"""
         return 0.0
 
@@ -366,7 +366,7 @@ class OutSetEdge(Edge):
     description = "Straight Edge (outset by thickness)"
     positive = True
 
-    def startwidth(self):
+    def startwidth(self) -> float:
         return self.boxes.thickness
 
 
@@ -405,7 +405,7 @@ Values:
         "d_head": 6.5
     }
 
-    def edgeObjects(self, boxes, chars="G", add=True):
+    def edgeObjects(self, boxes, chars: str = "G", add: bool = True):
         edges = [MountingEdge(boxes, self)]
         return self._edgeObjects(edges, boxes, chars, add)
 
@@ -414,13 +414,13 @@ class MountingEdge(BaseEdge):
     description = """Edge with pear shaped mounting holes"""  # for slide-on mounting using flat-head screws"""
     char = 'G'
 
-    def margin(self):
+    def margin(self) -> float:
         if self.settings.style == MountingSettings.PARAM_TAB:
             return 2.75 * self.boxes.thickness + self.settings.d_head
         else:
             return 0
 
-    def startwidth(self):
+    def startwidth(self) -> float:
         if self.settings.style == MountingSettings.PARAM_EXT:
             return 2.5 * self.boxes.thickness + self.settings.d_head
         else:
@@ -537,31 +537,31 @@ Values:
         "interleave": False,
     }
 
-    def edgeObjects(self, boxes, chars="zZ", add=True):
+    def edgeObjects(self, boxes, chars: str = "zZ", add: bool = True):
         edges = [GroovedEdge(boxes, self),
                  GroovedEdgeCounterPart(boxes, self)]
         return self._edgeObjects(edges, boxes, chars, add)
 
 
 class GroovedEdgeBase(BaseEdge):
-    def is_inverse(self):
+    def is_inverse(self) -> bool:
         return self.settings.inverse != self.inverse
 
-    def groove_arc(self, width, angle=90, inv=-1.0):
+    def groove_arc(self, width, angle: float = 90.0, inv: float = -1.0) -> None:
         side_length = width / math.sin(math.radians(angle)) / 2
         self.corner(inv * -angle)
         self.corner(inv * angle, side_length)
         self.corner(inv * angle, side_length)
         self.corner(inv * -angle)
 
-    def groove_soft_arc(self, width, angle=60, inv=-1.0):
+    def groove_soft_arc(self, width, angle: float = 60.0, inv: float = -1.0) -> None:
         side_length = width / math.sin(math.radians(angle)) / 4
         self.corner(inv * -angle, side_length)
         self.corner(inv * angle, side_length)
         self.corner(inv * angle, side_length)
         self.corner(inv * -angle, side_length)
 
-    def groove_triangle(self, width, angle=45, inv=-1.0):
+    def groove_triangle(self, width, angle: float = 45.0, inv: float = -1.0) -> None:
         side_length = width / math.cos(math.radians(angle)) / 2
         self.corner(inv * -angle)
         self.edge(side_length)
@@ -651,7 +651,7 @@ Values:
 
 * absolute_params
 
- * style : "wave : "wave" or "bumps"
+ * style : "wave" : "wave" or "bumps"
  * outset : True : extend outward the straight edge
 
 * relative (in multiples of thickness)
@@ -669,7 +669,7 @@ Values:
         "depth": 0.3,
     }
 
-    def edgeObjects(self, boxes, chars="g", add=True):
+    def edgeObjects(self, boxes, chars: str = "g", add: bool = True):
         edges = [GrippingEdge(boxes, self)]
         return self._edgeObjects(edges, boxes, chars, add)
 
@@ -678,7 +678,7 @@ class GrippingEdge(BaseEdge):
     description = """Corrugated edge useful as an gipping area"""
     char = 'g'
 
-    def wave(self, length):
+    def wave(self, length) -> None:
         depth = self.settings.depth
         grooves = int(length // (depth * 2.0)) + 1
         depth = length / grooves / 4.0
@@ -689,7 +689,7 @@ class GrippingEdge(BaseEdge):
             self.corner(o * 180, depth)
             self.corner(o * -90, depth)
 
-    def bumps(self, length):
+    def bumps(self, length) -> None:
         depth = self.settings.depth
         grooves = int(length // (depth * 2.0)) + 1
         depth = length / grooves / 2.0
@@ -712,7 +712,7 @@ class GrippingEdge(BaseEdge):
             self.edge(depth)
             self.corner(90)
 
-    def margin(self):
+    def margin(self) -> float:
         if self.settings.outset:
             return self.settings.depth
         else:
@@ -735,13 +735,13 @@ class CompoundEdge(BaseEdge):
         self.lengths = lengths
         self.length = sum(lengths)
 
-    def startwidth(self):
+    def startwidth(self) -> float:
         return self.types[0].startwidth()
 
-    def endwidth(self):
+    def endwidth(self) -> float:
         return self.types[-1].endwidth()
 
-    def margin(self):
+    def margin(self) -> float:
         return max(e.margin() + e.startwidth() for e in self.types) - self.types[0].startwidth()
 
     def __call__(self, length, **kw):
@@ -786,20 +786,20 @@ class SlottedEdge(BaseEdge):
     """Edge with multiple slots"""
     description = "Straight Edge with slots"
 
-    def __init__(self, boxes, sections, edge="e", slots=0) -> None:
+    def __init__(self, boxes, sections, edge: str = "e", slots: int = 0) -> None:
         super().__init__(boxes, Settings(boxes.thickness))
 
         self.edge = self.edges.get(edge, edge)
         self.sections = sections
         self.slots = slots
 
-    def startwidth(self):
+    def startwidth(self) -> float:
         return self.edge.startwidth()
 
-    def endwidth(self):
+    def endwidth(self) -> float:
         return self.edge.endwidth()
 
-    def margin(self):
+    def margin(self) -> float:
         return self.edge.margin()
 
     def __call__(self, length, **kw):
@@ -856,11 +856,11 @@ Values:
         "bottom_lip": 0.0,
     }
 
-    def checkValues(self):
+    def checkValues(self) -> None:
         if abs(self.space + self.finger) < 0.1:
             raise ValueError("FingerJointSettings: space + finger must not be close to zero")
 
-    def edgeObjects(self, boxes, chars="fFh", add=True):
+    def edgeObjects(self, boxes, chars: str = "fFh", add: bool = True):
         edges = [FingerJointEdge(boxes, self),
                  FingerJointEdgeCounterPart(boxes, self),
                  FingerHoleEdge(boxes, self),
@@ -870,12 +870,11 @@ Values:
 
 class FingerJointBase:
 
-    def calcFingers(self, length, bedBolts):
-        space, finger = self.settings.space, self.settings.finger
-        fingers = int((length - (self.settings.surroundingspaces - 1) * space) //
-                      (space + finger))
+    def calcFingers(self, length: float, bedBolts) -> tuple[int, float]:
+        space, finger = self.settings.space, self.settings.finger  # type: ignore
+        fingers = int((length - (self.settings.surroundingspaces - 1) * space) // (space + finger))  # type: ignore
         # shrink surrounding space up to half a thickness each side
-        if fingers == 0 and length > finger + 1.0 * self.settings.thickness:
+        if fingers == 0 and length > finger + 1.0 * self.settings.thickness:  # type: ignore
             fingers = 1
         if not finger:
             fingers = 0
@@ -889,22 +888,21 @@ class FingerJointBase:
 
         return fingers, leftover
 
-    def fingerLength(self, angle):
+    def fingerLength(self, angle: float) -> tuple[float, float]:
         # sharp corners
         if angle >= 90 or angle <= -90:
-            return self.settings.thickness + self.settings.extra_length, 0
+            return self.settings.thickness + self.settings.extra_length, 0.0  # type: ignore
 
         # inner blunt corners
         if angle < 0:
-            return (math.sin(math.radians(-angle)) * self.settings.thickness +
-                    self.settings.extra_length), 0
+            return (math.sin(math.radians(-angle)) * self.settings.thickness + self.settings.extra_length), 0  # type: ignore
 
         # 0 to 90 (blunt corners)
         a = 90 - (180 - angle) / 2.0
-        fingerlength = self.settings.thickness * math.tan(math.radians(a))
+        fingerlength = self.settings.thickness * math.tan(math.radians(a))  # type: ignore
         b = 90 - 2 * a
         spacerecess = -math.sin(math.radians(b)) * fingerlength
-        return fingerlength + self.settings.extra_length, spacerecess
+        return fingerlength + self.settings.extra_length, spacerecess  # type: ignore
 
 
 class FingerJointEdge(BaseEdge, FingerJointBase):
@@ -913,7 +911,7 @@ class FingerJointEdge(BaseEdge, FingerJointBase):
     description = "Finger Joint"
     positive = True
 
-    def draw_finger(self, f, h, style, positive=True, firsthalf=True):
+    def draw_finger(self, f, h, style, positive: bool = True, firsthalf: bool = True) -> None:
         t = self.settings.thickness
 
         if positive:
@@ -997,7 +995,7 @@ class FingerJointEdge(BaseEdge, FingerJointBase):
 
         self.edge(leftover / 2.0, tabs=1)
 
-    def margin(self):
+    def margin(self) -> float:
         """ """
         widths = self.fingerLength(self.settings.angle)
         if self.positive:
@@ -1007,7 +1005,7 @@ class FingerJointEdge(BaseEdge, FingerJointBase):
         else:
             return 0
 
-    def startwidth(self):
+    def startwidth(self) -> float:
         widths = self.fingerLength(self.settings.angle)
         return widths[self.positive]
 
@@ -1094,11 +1092,11 @@ class FingerHoleEdge(BaseEdge):
                 self.rectangularWall(length - 1.05 * self.boxes.thickness, h)
         self.edge(length, tabs=2)
 
-    def startwidth(self):
+    def startwidth(self) -> float:
         """ """
         return self.fingerHoles.settings.edge_width + self.settings.thickness
 
-    def margin(self):
+    def margin(self) -> float:
         if self.settings.bottom_lip:
             return self.settings.bottom_lip + self.fingerHoles.settings.edge_width + self.boxes.spacing
         else:
@@ -1111,7 +1109,7 @@ class CrossingFingerHoleEdge(Edge):
     description = "Edge (orthogonal Finger Joint Holes)"
     char = '|'
 
-    def __init__(self, boxes, height, fingerHoles=None, outset=0.0, **kw) -> None:
+    def __init__(self, boxes, height, fingerHoles=None, outset: float = 0.0, **kw) -> None:
         super().__init__(boxes, None, **kw)
 
         self.fingerHoles = fingerHoles or boxes.fingerHolesAt
@@ -1122,7 +1120,7 @@ class CrossingFingerHoleEdge(Edge):
         self.fingerHoles(length / 2.0, self.outset + self.burn, self.height)
         super().__call__(length)
 
-    def startwidth(self):
+    def startwidth(self) -> float:
         return self.outset
 
 
@@ -1159,13 +1157,13 @@ Values:
         "bottom_stabilizers": 0.0,
     }
 
-    def checkValues(self):
+    def checkValues(self) -> None:
         if self.angle < 20:
             raise ValueError("StackableSettings: 'angle' is too small. Use value >= 20")
         if self.angle > 260:
             raise ValueError("StackableSettings: 'angle' is too big. Use value < 260")
 
-    def edgeObjects(self, boxes, chars="sSšŠ", add=True, fingersettings=None):
+    def edgeObjects(self, boxes, chars: str = "sSšŠ", add: bool = True, fingersettings=None):
         fingersettings = fingersettings or boxes.edges["f"].settings
         edges = [StackableEdge(boxes, self, fingersettings),
                  StackableEdgeTop(boxes, self, fingersettings),
@@ -1212,10 +1210,10 @@ class StackableBaseEdge(BaseEdge):
     def _height(self):
         return self.settings.height + self.settings.holedistance + self.settings.thickness
 
-    def startwidth(self):
+    def startwidth(self) -> float:
         return self._height() if self.bottom else 0
 
-    def margin(self):
+    def margin(self) -> float:
         if self.bottom:
             if self.settings.bottom_stabilizers:
                 return self.settings.bottom_stabilizers + self.boxes.spacing
@@ -1260,7 +1258,7 @@ class StackableHoleEdgeTop(StackableBaseEdge):
     description = "Stackable edge with finger holes (top)"
     bottom = False
 
-    def startwidth(self):
+    def startwidth(self) -> float:
         return self.settings.thickness + self.settings.holedistance
 
     def __call__(self, length, **kw):
@@ -1307,11 +1305,11 @@ Values:
         "grip_length": 0,
     }
 
-    def checkValues(self):
+    def checkValues(self) -> None:
         if self.axle / self.thickness < 0.1:
             raise ValueError("HingeSettings: 'axle' need to be at least 0.1 strong")
 
-    def edgeObjects(self, boxes, chars="iIjJkK", add=True):
+    def edgeObjects(self, boxes, chars: str = "iIjJkK", add: bool = True):
         edges = [
             Hinge(boxes, self, 1),
             HingePin(boxes, self, 1),
@@ -1327,7 +1325,7 @@ class Hinge(BaseEdge):
     char = 'i'
     description = "Straight edge with hinge eye"
 
-    def __init__(self, boxes, settings=None, layout=1) -> None:
+    def __init__(self, boxes, settings=None, layout: int = 1) -> None:
         super().__init__(boxes, settings)
 
         if not (0 < layout <= 3):
@@ -1337,57 +1335,57 @@ class Hinge(BaseEdge):
         self.char = "eijk"[layout]
         self.description = self.description + ('', ' (start)', ' (end)', ' (both ends)')[layout]
 
-    def margin(self):
+    def margin(self) -> float:
         return 3 * self.settings.thickness
 
-    def outset(self, _reversed=False):
-        t = self.settings.thickness
+    def outset(self, _reversed: bool = False) -> None:
+        t: float = self.settings.thickness
         r = 0.5 * self.settings.axle
         alpha = math.degrees(math.asin(0.5 * t / r))
         pinl = (self.settings.axle ** 2 - self.settings.thickness ** 2) ** 0.5 * self.settings.pinwidth
         pos = math.cos(math.radians(alpha)) * r
         hinge = (
-            0,
-            90 - alpha, 0,
-            (-360, r), 0,
-            90 + alpha,
+            0.,
+            90. - alpha, 0.,
+            (-360., r), 0.,
+            90. + alpha,
             t,
-            90,
+            90.,
             0.5 * t,
-            (180, t + pos), 0,
-            (-90, 0.5 * t), 0
+            (180., t + pos), 0.,
+            (-90., 0.5 * t), 0.
         )
 
         if _reversed:
-            hinge = reversed(hinge)
+            hinge = reversed(hinge)  # type: ignore
             self.polyline(*hinge)
             self.boxes.rectangularHole(-pos, -0.5 * t, pinl, self.settings.thickness)
         else:
             self.boxes.rectangularHole(pos, -0.5 * t, pinl, self.settings.thickness)
             self.polyline(*hinge)
 
-    def outsetlen(self):
+    def outsetlen(self) -> float:
         t = self.settings.thickness
         r = 0.5 * self.settings.axle
         alpha = math.degrees(math.asin(0.5 * t / r))
         pos = math.cos(math.radians(alpha)) * r
 
-        return 2 * pos + 1.5 * t
+        return 2.0 * pos + 1.5 * t
 
-    def flush(self, _reversed=False):
+    def flush(self, _reversed: bool = False) -> None:
         t = self.settings.thickness
 
         hinge = (
-            0, -90,
+            0., -90.,
             0.5 * t,
-            (180, 0.5 * self.settings.axle + self.settings.hingestrength), 0,
-            (-90, 0.5 * t), 0
+            (180., 0.5 * self.settings.axle + self.settings.hingestrength), 0.,
+            (-90., 0.5 * t), 0.
         )
         pos = 0.5 * self.settings.axle + self.settings.hingestrength
         pinl = (self.settings.axle ** 2 - self.settings.thickness ** 2) ** 0.5 * self.settings.pinwidth
 
         if _reversed:
-            hinge = reversed(hinge)
+            hinge = reversed(hinge)  # type: ignore
             self.hole(0.5 * t + pos, -0.5 * t, 0.5 * self.settings.axle)
             self.boxes.rectangularHole(0.5 * t + pos, -0.5 * t, pinl, self.settings.thickness)
         else:
@@ -1396,8 +1394,8 @@ class Hinge(BaseEdge):
 
         self.polyline(*hinge)
 
-    def flushlen(self):
-        return self.settings.axle + 2 * self.settings.hingestrength + 0.5 * self.settings.thickness
+    def flushlen(self) -> float:
+        return self.settings.axle + 2.0 * self.settings.hingestrength + 0.5 * self.settings.thickness
 
     def __call__(self, l, **kw):
         hlen = getattr(self, self.settings.style + 'len', self.outsetlen)()
@@ -1416,7 +1414,7 @@ class HingePin(BaseEdge):
     char = 'I'
     description = "Edge with hinge pin"
 
-    def __init__(self, boxes, settings=None, layout=1) -> None:
+    def __init__(self, boxes, settings=None, layout: int = 1) -> None:
         super().__init__(boxes, settings)
 
         if not (0 < layout <= 3):
@@ -1426,47 +1424,47 @@ class HingePin(BaseEdge):
         self.char = "EIJK"[layout]
         self.description = self.description + ('', ' (start)', ' (end)', ' (both ends)')[layout]
 
-    def startwidth(self):
+    def startwidth(self) -> float:
         if self.layout & 1:
             return 0
         else:
             return self.settings.outset * self.boxes.thickness
 
-    def endwidth(self):
+    def endwidth(self) -> float:
         if self.layout & 2:
             return 0
         else:
             return self.settings.outset * self.boxes.thickness
 
-    def margin(self):
+    def margin(self) -> float:
         return self.settings.thickness
 
-    def outset(self, _reversed=False):
-        t = self.settings.thickness
+    def outset(self, _reversed: bool = False) -> None:
+        t: float = self.settings.thickness
         r = 0.5 * self.settings.axle
         alpha = math.degrees(math.asin(0.5 * t / r))
         pos = math.cos(math.radians(alpha)) * r
         pinl = (self.settings.axle ** 2 - self.settings.thickness ** 2) ** 0.5 * self.settings.pinwidth
-        pin = (pos - 0.5 * pinl, -90,
-               t, 90,
+        pin = (pos - 0.5 * pinl, -90.,
+               t, 90.,
                pinl,
-               90,
+               90.,
                t,
-               -90)
+               -90.)
 
         if self.settings.outset:
-            pin += (
+            pin += (  # type: ignore
                 pos - 0.5 * pinl + 1.5 * t,
-                -90,
+                -90.,
                 t,
-                90,
-                0,
+                90.,
+                0.,
             )
         else:
-            pin += (pos - 0.5 * pinl,)
+            pin += (pos - 0.5 * pinl,)  # type: ignore
 
         if _reversed:
-            pin = reversed(pin)
+            pin = reversed(pin)  # type: ignore
 
         self.polyline(*pin)
 
@@ -1481,29 +1479,29 @@ class HingePin(BaseEdge):
         else:
             return 2 * pos
 
-    def flush(self, _reversed=False):
-        t = self.settings.thickness
+    def flush(self, _reversed: bool = False) -> None:
+        t: float = self.settings.thickness
         pinl = (self.settings.axle ** 2 - t ** 2) ** 0.5 * self.settings.pinwidth
         d = (self.settings.axle - pinl) / 2.0
-        pin = (self.settings.hingestrength + d, -90,
-               t, 90,
+        pin = (self.settings.hingestrength + d, -90.,
+               t, 90.,
                pinl,
-               90,
+               90.,
                t,
-               -90, d)
+               -90., d)
 
         if self.settings.outset:
-            pin += (
-                0,
+            pin += (  # type: ignore
+                0.,
                 self.settings.hingestrength + 0.5 * t,
-                -90,
+                -90.,
                 t,
-                90,
-                0,
+                90.,
+                0.,
             )
 
         if _reversed:
-            pin = reversed(pin)
+            pin = reversed(pin)  # type: ignore
 
         self.polyline(*pin)
 
@@ -1569,19 +1567,19 @@ Values:
         "finger_joints_on_lid": False,
     }
 
-    def checkValues(self):
+    def checkValues(self) -> None:
         if self.pin_height / self.thickness < 1.2:
             raise ValueError("ChestHingeSettings: 'pin_height' must be >= 1.2")
 
     def pinheight(self):
         return ((0.9 * self.pin_height) ** 2 - self.thickness ** 2) ** 0.5
 
-    def edgeObjects(self, boxes, chars="oOpPqQ", add=True):
+    def edgeObjects(self, boxes, chars: str = "oOpPqQ", add: bool = True):
         edges = [
             ChestHinge(boxes, self),
-            ChestHinge(boxes, self, 1),
+            ChestHinge(boxes, self, True),
             ChestHingeTop(boxes, self),
-            ChestHingeTop(boxes, self, 1),
+            ChestHingeTop(boxes, self, True),
             ChestHingePin(boxes, self),
             ChestHingeFront(boxes, self),
         ]
@@ -1593,7 +1591,7 @@ class ChestHinge(BaseEdge):
 
     char = "o"
 
-    def __init__(self, boxes, settings=None, reversed=False) -> None:
+    def __init__(self, boxes, settings=None, reversed: bool = False) -> None:
         super().__init__(boxes, settings)
 
         self.reversed = reversed
@@ -1628,18 +1626,18 @@ class ChestHinge(BaseEdge):
             self.polyline(*poly)
             draw_rest_of_edge()
 
-    def margin(self):
+    def margin(self) -> float:
         if self.reversed:
             return 0 * (self.settings.pin_height + self.settings.hinge_strength)
         else:
             return 1 * (self.settings.pin_height + self.settings.hinge_strength)
 
-    def startwidth(self):
+    def startwidth(self) -> float:
         if self.reversed:
             return self.settings.pin_height + self.settings.hinge_strength
         return 0
 
-    def endwidth(self):
+    def endwidth(self) -> float:
         if self.reversed:
             return 0
         return self.settings.pin_height + self.settings.hinge_strength
@@ -1650,7 +1648,7 @@ class ChestHingeTop(ChestHinge):
 
     char = "p"
 
-    def __init__(self, boxes, settings=None, reversed=False) -> None:
+    def __init__(self, boxes, settings=None, reversed: bool = False) -> None:
         super().__init__(boxes, settings)
 
         self.reversed = reversed
@@ -1679,17 +1677,17 @@ class ChestHingeTop(ChestHinge):
             self.polyline(*poly)
             draw_rest_of_edge()
 
-    def startwidth(self):
+    def startwidth(self) -> float:
         if self.reversed:
             return self.settings.play + self.settings.pin_height + self.settings.hinge_strength
         return 0
 
-    def endwidth(self):
+    def endwidth(self) -> float:
         if self.reversed:
             return 0
         return self.settings.play + self.settings.pin_height + self.settings.hinge_strength
 
-    def margin(self):
+    def margin(self) -> float:
         if self.reversed:
             return 0.
         else:
@@ -1719,7 +1717,7 @@ class ChestHingePin(BaseEdge):
         draw_rest_of_edge()
         self.polyline(*(middle_segment + list(reversed(poly))))
 
-    def margin(self):
+    def margin(self) -> float:
         return (self.settings.pin_height + self.settings.hinge_strength)
 
 
@@ -1728,7 +1726,7 @@ class ChestHingeFront(Edge):
 
     char = "Q"
 
-    def startwidth(self):
+    def startwidth(self) -> float:
         return self.settings.pin_height + self.settings.hinge_strength
 
 
@@ -1766,7 +1764,7 @@ Values:
         "spacing": 2.0,
     }
 
-    def edgeObjects(self, boxes, chars="uUvV", add=True):
+    def edgeObjects(self, boxes, chars: str = "uUvV", add: bool = True):
         edges = [CabinetHingeEdge(boxes, self),
                  CabinetHingeEdge(boxes, self, top=True),
                  CabinetHingeEdge(boxes, self, angled=True),
@@ -1783,13 +1781,13 @@ class CabinetHingeEdge(BaseEdge):
     char = "u"
     description = "Edge with cabinet hinges"
 
-    def __init__(self, boxes, settings=None, top=False, angled=False) -> None:
+    def __init__(self, boxes, settings=None, top: bool = False, angled: bool = False) -> None:
         super().__init__(boxes, settings)
         self.top = top
         self.angled = angled
         self.char = "uUvV"[bool(top) + 2 * bool(angled)]
 
-    def startwidth(self):
+    def startwidth(self) -> float:
         return self.settings.thickness if self.top and self.angled else 0.0
 
     def __poly(self):
@@ -1864,7 +1862,7 @@ class CabinetHingeEdge(BaseEdge):
         if hn == 1:
             self.edge((l - width) / 2, tabs=2)
 
-    def parts(self, move=None):
+    def parts(self, move=None) -> None:
         e, b = self.settings.eye, self.settings.bore
         t = self.settings.thickness
 
@@ -1958,7 +1956,7 @@ Values:
         "hole_width": 0
     })
 
-    def edgeObjects(self, boxes, chars=None, add=True):
+    def edgeObjects(self, boxes, chars=None, add: bool = True):
         edges = [LidEdge(boxes, self),
                  LidHoleEdge(boxes, self),
                  LidRight(boxes, self),
@@ -1987,7 +1985,7 @@ class LidHoleEdge(FingerHoleEdge):
     char = "L"
     description = "Edge for slide on lid (box back)"
 
-    def __call__(self, length, bedBolts=None, bedBoltSettings=None, **kw):
+    def __call__(self, length, bedBolts=None, bedBoltSettings=None, **kw) -> None:
         hole_width = self.settings.hole_width
         if hole_width > 0:
             super().__call__((length - hole_width) / 2)
@@ -2029,19 +2027,19 @@ class LidRight(BaseEdge):
             p = list(reversed(p))
         self.polyline(*p)
 
-    def startwidth(self):
+    def startwidth(self) -> float:
         if self.rightside:  # or self.settings.second_pin:
             return self.boxes.thickness
         else:
             return 0.0
 
-    def endwidth(self):
+    def endwidth(self) -> float:
         if not self.rightside:  # or self.settings.second_pin:
             return self.boxes.thickness
         else:
             return 0.0
 
-    def margin(self):
+    def margin(self) -> float:
         if not self.rightside:  # and not self.settings.second_pin:
             return self.boxes.thickness
         else:
@@ -2093,13 +2091,13 @@ class LidSideRight(BaseEdge):
             self.rectangularHole(holex, holey, 0.4 * t, t + 2 * s)
         self.polyline(*p)
 
-    def startwidth(self):
+    def startwidth(self) -> float:
         return self.boxes.thickness + self.settings.edge_width if self.rightside else -self.settings.play / 2
 
-    def endwidth(self):
+    def endwidth(self) -> float:
         return self.boxes.thickness + self.settings.edge_width if not self.rightside else -self.settings.play / 2
 
-    def margin(self):
+    def margin(self) -> float:
         return self.boxes.thickness + self.settings.edge_width + self.settings.play / 2 if not self.rightside else 0.0
 
 
@@ -2136,7 +2134,7 @@ Values:
         "bottom_radius": 0.1,
     }
 
-    def edgeObjects(self, boxes, chars="cC", add=True):
+    def edgeObjects(self, boxes, chars: str = "cC", add: bool = True):
         edges = [ClickConnector(boxes, self),
                  ClickEdge(boxes, self)]
         return self._edgeObjects(edges, boxes, chars, add)
@@ -2146,7 +2144,7 @@ class ClickConnector(BaseEdge):
     char = "c"
     description = "Click on (bottom side)"
 
-    def hook(self, reverse=False):
+    def hook(self, reverse: bool = False) -> None:
         t = self.settings.thickness
         a = self.settings.angle
         d = self.settings.depth
@@ -2197,7 +2195,7 @@ class ClickConnector(BaseEdge):
 
         return s * d * c + 2 * r
 
-    def finger(self, length):
+    def finger(self, length) -> None:
         t = self.settings.thickness
         self.polyline(
             2 * t,
@@ -2221,7 +2219,7 @@ class ClickConnector(BaseEdge):
         self.hook(reverse=True)
         self.edge(4 * t)
 
-    def margin(self):
+    def margin(self) -> float:
         return 2 * self.settings.thickness
 
 
@@ -2229,10 +2227,10 @@ class ClickEdge(ClickConnector):
     char = "C"
     description = "Click on (top)"
 
-    def startwidth(self):
+    def startwidth(self) -> float:
         return self.boxes.thickness
 
-    def margin(self):
+    def margin(self) -> float:
         return 0.0
 
     def __call__(self, length, **kw):
@@ -2284,7 +2282,7 @@ Values:
         "radius": 0.2,
     }
 
-    def edgeObjects(self, boxes, chars="dD", add=True):
+    def edgeObjects(self, boxes, chars: str = "dD", add: bool = True):
         edges = [DoveTailJoint(boxes, self),
                  DoveTailJointCounterPart(boxes, self)]
         return self._edgeObjects(edges, boxes, chars, add)
@@ -2333,7 +2331,7 @@ class DoveTailJoint(BaseEdge):
 
         self.edge((s.size + leftover) / 2.0 + diffx - l1, tabs=1)
 
-    def margin(self):
+    def margin(self) -> float:
         """ """
         return self.settings.depth
 
@@ -2345,7 +2343,7 @@ class DoveTailJointCounterPart(DoveTailJoint):
 
     positive = False
 
-    def margin(self):
+    def margin(self) -> float:
         return 0.0
 
 
@@ -2375,7 +2373,7 @@ Values:
         "stretch": 1.05,
     }
 
-    def checkValues(self):
+    def checkValues(self) -> None:
         if self.distance < 0.01:
             raise ValueError("Flex Settings: distance parameter must be > 0.01mm")
         if self.width < 0.1:
@@ -2480,7 +2478,7 @@ class RackEdge(BaseEdge):
         self.moveTo(0, 0, 180)
         self.boxes.spacing = s_tmp
 
-    def margin(self):
+    def margin(self) -> float:
         return self.settings.dimension * 1.1
 
 
@@ -2510,7 +2508,7 @@ Values:
         "outset": 0.,
     }
 
-    def edgeObjects(self, boxes, chars="t", add=True):
+    def edgeObjects(self, boxes, chars: str = "t", add: bool = True):
         edges = [RoundedTriangleEdge(boxes, self),
                  RoundedTriangleFingerHolesEdge(boxes, self)]
         return self._edgeObjects(edges, boxes, chars, add)
@@ -2551,14 +2549,14 @@ class RoundedTriangleEdge(Edge):
         else:
             self.corner(-90)
 
-    def margin(self):
+    def margin(self) -> float:
         return self.settings.height + self.settings.radius
 
 
 class RoundedTriangleFingerHolesEdge(RoundedTriangleEdge):
     char = "T"
 
-    def startwidth(self):
+    def startwidth(self) -> float:
         return self.settings.thickness
 
     def __call__(self, length, **kw):
@@ -2596,7 +2594,7 @@ Values:
         "outset": 1.,
     }
 
-    def edgeObjects(self, boxes, chars="yY", add=True):
+    def edgeObjects(self, boxes, chars: str = "yY", add: bool = True):
         edges = [HandleEdge(boxes, self),
                  HandleHoleEdge(boxes, self)]
         return self._edgeObjects(edges, boxes, chars, add)
@@ -2658,7 +2656,7 @@ class HandleEdge(Edge):
         else:
             self.corner(-90)
 
-    def margin(self):
+    def margin(self) -> float:
         return self.settings.height
 
 
@@ -2672,5 +2670,5 @@ class HandleHoleEdge(HandleEdge):
         self.fingerHolesAt(0, -0.5 * self.settings.thickness, length, 0)
         super().__call__(length, **kw)
 
-    def margin(self):
+    def margin(self) -> float:
         return self.settings.height + self.extra_height * self.settings.thickness

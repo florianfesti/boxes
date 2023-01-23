@@ -18,8 +18,8 @@ from boxes import *
 
 
 class MotorEdge(edges.BaseEdge):
-    # def margin(self):
-    #    return 30
+    # def margin(self) -> float:
+    #    return 30.0
     def __call__(self, l, **kw):
         self.polyline(
             l - 165, 45,
@@ -30,15 +30,15 @@ class MotorEdge(edges.BaseEdge):
 
 
 class OutsetEdge(edges.OutSetEdge):
-    def startwidth(self):
-        return 20
+    def startwidth(self) -> float:
+        return 20.0
 
 
 class HangerEdge(edges.BaseEdge):
     char = "H"
 
-    def margin(self):
-        return 40
+    def margin(self) -> float:
+        return 40.0
 
     def __call__(self, l, **kw):
         self.fingerHolesAt(0, -0.5 * self.thickness, l, angle=0)
@@ -55,8 +55,8 @@ class HangerEdge(edges.BaseEdge):
 
 
 class RollerEdge(edges.BaseEdge):
-    def margin(self):
-        return 20
+    def margin(self) -> float:
+        return 20.0
 
     def __call__(self, l, **kw):
         m = 40 + 100
@@ -68,7 +68,7 @@ class RollerEdge(edges.BaseEdge):
 
 
 class RollerEdge2(edges.BaseEdge):
-    def margin(self):
+    def margin(self) -> float:
         return self.thickness
 
     def __call__(self, l, **kw):

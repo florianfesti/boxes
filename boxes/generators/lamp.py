@@ -50,11 +50,11 @@ class RoundedTriangle(edges.Edge):
         self.edge(l)
         self.corner(90 - angle, r)
 
-    def startAngle(self):
-        return 90
+    def startAngle(self) -> float:
+        return 90.0
 
-    def endAngle(self):
-        return 90
+    def endAngle(self) -> float:
+        return 90.0
 
 
 class Lamp(Boxes):

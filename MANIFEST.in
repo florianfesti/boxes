@@ -3,4 +3,4 @@ include examples/*.svg
 include documentation/presentation.odp
 include inkex/*.txt
 include po/*
-include scripts/boxes2pot scripts/boxes2inkscape
+include scripts/boxes2pot scripts/boxes2inkscape scripts/boxes_proxy.py

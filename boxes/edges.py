@@ -111,8 +111,7 @@ class BoltPolicy(ABC):
         """
         if numFingers % 2:
             return numFingers
-        else:
-            return numFingers - 1
+        return numFingers - 1
 
 
 class Bolts(BoltPolicy):
@@ -276,9 +275,9 @@ class Settings:
 
     def checkValues(self) -> None:
         """
-        Check if all values are in the right range. Raise ValueError if needed
+        Check if all values are in the right range. Raise ValueError if needed.
         """
-        return
+        pass
 
     def __getattr__(self, name):
         if "values" in self.__dict__ and name in self.values:
@@ -416,14 +415,12 @@ class MountingEdge(BaseEdge):
     def margin(self) -> float:
         if self.settings.style == MountingSettings.PARAM_TAB:
             return 2.75 * self.boxes.thickness + self.settings.d_head
-        else:
-            return 0
+        return 0.0
 
     def startwidth(self) -> float:
         if self.settings.style == MountingSettings.PARAM_EXT:
             return 2.5 * self.boxes.thickness + self.settings.d_head
-        else:
-            return 0
+        return 0.0
 
     def __call__(self, length, **kw):
         if length == 0.0:
@@ -714,8 +711,7 @@ class GrippingEdge(BaseEdge):
     def margin(self) -> float:
         if self.settings.outset:
             return self.settings.depth
-        else:
-            return 0.0
+        return 0.0
 
     def __call__(self, length, **kw):
         if length == 0.0:
@@ -1002,8 +998,7 @@ class FingerJointEdge(BaseEdge, FingerJointBase):
             if self.settings.style == "snap":
                 return widths[0] - widths[1] + self.settings.thickness
             return widths[0] - widths[1]
-        else:
-            return 0
+        return 0.0
 
     def startwidth(self) -> float:
         widths = self.fingerLength(self.settings.angle)
@@ -1099,8 +1094,7 @@ class FingerHoleEdge(BaseEdge):
     def margin(self) -> float:
         if self.settings.bottom_lip:
             return self.settings.bottom_lip + self.fingerHoles.settings.edge_width + self.boxes.spacing
-        else:
-            return 0
+        return 0.0
 
 
 class CrossingFingerHoleEdge(Edge):
@@ -1426,15 +1420,13 @@ class HingePin(BaseEdge):
 
     def startwidth(self) -> float:
         if self.layout & 1:
-            return 0
-        else:
-            return self.settings.outset * self.boxes.thickness
+            return 0.0
+        return self.settings.outset * self.boxes.thickness
 
     def endwidth(self) -> float:
         if self.layout & 2:
-            return 0
-        else:
-            return self.settings.outset * self.boxes.thickness
+            return 0.0
+        return self.settings.outset * self.boxes.thickness
 
     def margin(self) -> float:
         return self.settings.thickness
@@ -1476,8 +1468,7 @@ class HingePin(BaseEdge):
 
         if self.settings.outset:
             return 2 * pos + 1.5 * self.settings.thickness
-        else:
-            return 2 * pos
+        return 2 * pos
 
     def flush(self, _reversed: bool = False) -> None:
         t: float = self.settings.thickness
@@ -1628,18 +1619,17 @@ class ChestHinge(BaseEdge):
 
     def margin(self) -> float:
         if self.reversed:
-            return 0 * (self.settings.pin_height + self.settings.hinge_strength)
-        else:
-            return 1 * (self.settings.pin_height + self.settings.hinge_strength)
+            return 0.0
+        return 1 * (self.settings.pin_height + self.settings.hinge_strength)
 
     def startwidth(self) -> float:
         if self.reversed:
             return self.settings.pin_height + self.settings.hinge_strength
-        return 0
+        return 0.0
 
     def endwidth(self) -> float:
         if self.reversed:
-            return 0
+            return 0.0
         return self.settings.pin_height + self.settings.hinge_strength
 
 
@@ -1680,18 +1670,17 @@ class ChestHingeTop(ChestHinge):
     def startwidth(self) -> float:
         if self.reversed:
             return self.settings.play + self.settings.pin_height + self.settings.hinge_strength
-        return 0
+        return 0.0
 
     def endwidth(self) -> float:
         if self.reversed:
-            return 0
+            return 0.0
         return self.settings.play + self.settings.pin_height + self.settings.hinge_strength
 
     def margin(self) -> float:
         if self.reversed:
-            return 0.
-        else:
-            return 1 * (self.settings.play + self.settings.pin_height + self.settings.hinge_strength)
+            return 0.0
+        return 1 * (self.settings.play + self.settings.pin_height + self.settings.hinge_strength)
 
 
 class ChestHingePin(BaseEdge):
@@ -2030,20 +2019,17 @@ class LidRight(BaseEdge):
     def startwidth(self) -> float:
         if self.rightside:  # or self.settings.second_pin:
             return self.boxes.thickness
-        else:
-            return 0.0
+        return 0.0
 
     def endwidth(self) -> float:
         if not self.rightside:  # or self.settings.second_pin:
             return self.boxes.thickness
-        else:
-            return 0.0
+        return 0.0
 
     def margin(self) -> float:
         if not self.rightside:  # and not self.settings.second_pin:
             return self.boxes.thickness
-        else:
-            return 0.0
+        return 0.0
 
 
 class LidLeft(LidRight):

@@ -123,8 +123,8 @@ msgid ""
 "inner height of inner walls in mm (unless outside selected)(leave to zero "
 "for same as outer walls)"
 msgstr ""
- "Innere Höhe der Innenwände in mm (außer wenn Außenmaß markiert ist) (bleibt"
- "bei Null wenn Außenwände gleich hoch sind)"
+"Innere Höhe der Innenwände in mm (außer wenn Außenmaß markiert ist) (bleibt"
+"bei Null wenn Außenwände gleich hoch sind)"
 
 #. parameter name
 msgid "sx"
@@ -296,8 +296,8 @@ msgstr "Laschen"
 msgid ""
 "width of tabs holding the parts in place in mm (not supported everywhere)"
 msgstr ""
- "Breite der Laschen, die  die Teile an Ort und Stelle halten, in mm "
- "(wird nicht überall unterstützt)"
+"Breite der Laschen, die  die Teile an Ort und Stelle halten, in mm "
+"(wird nicht überall unterstützt)"
 
 #. parameter name
 msgid "debug"

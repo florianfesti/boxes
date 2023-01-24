@@ -221,18 +221,21 @@ class BServer:
     def args2html(self, name, box, lang, action="", defaults={}):
         _ = lang.gettext
         lang_name = lang.info().get('language', None)
+
+        langparam = ""
+        lang_attr = ""
         if lang_name:
             langparam = "?language=" + lang_name
-        else:
-            langparam = ""
+            lang_attr = f" lang=\"{lang_name}\""
 
         result = [f"""<!DOCTYPE html>
-<html>
+<html{lang_attr}>
 <head>
     <title>{_("%s - Boxes") % _(name)}</title>
     <meta charset="utf-8">
     <link rel="icon" type="image/svg+xml" href="{self.static_url}/boxes-logo.svg" sizes="any">
     <link rel="icon" type="image/x-icon" href="{self.static_url}/favicon.ico">
+    {self.genHTMLMetaLanguageLink()}
     <link rel="stylesheet" href="{self.static_url}/self.css">
     {self.scripts % (len(box.argparser._action_groups)-3)}
     <meta name="flattr:id" content="456799">
@@ -302,20 +305,23 @@ class BServer:
     def menu(self, lang):
         _ = lang.gettext
         lang_name = lang.info().get('language', None)
+
+        langparam = ""
+        lang_attr = ""
         if lang_name:
             langparam = "?language=" + lang_name
-        else:
-            langparam = ""
+            lang_attr = f" lang=\"{lang_name}\""
 
         result = [f"""<!DOCTYPE html>
-<html>
+<html{lang_attr}>
 <head>
     <title>{_("Boxes.py")}</title>
     <meta charset="utf-8">
     <link rel="icon" type="image/svg+xml" href="{self.static_url}/boxes-logo.svg" sizes="any">
     <link rel="icon" type="image/x-icon" href="{self.static_url}/favicon.ico">
+    {self.genHTMLMetaLanguageLink()}
     <link rel="stylesheet" href="{self.static_url}/self.css">
-""", 
+""",
 """    <script>
 	function change(group, img_link){
 	  document.getElementById("sample-"+group).src = img_link;
@@ -380,19 +386,42 @@ f"""        </script>{self.scripts % len(self.groups)}
 """)
         return (s.encode("utf-8") for s in result)
 
+    def genHTMLMetaLanguageLink(self) -> str:
+        """Generates meta language list for search engines."""
+        languages = self.getLanguages()
 
-    def footer(self, lang):
+        s = ""
+        for language in languages:
+            s += f"<link rel='alternate' hreflang='{language}' href='https://www.festi.info/boxes.py/?language={language}'>\n"
+        return s
+
+    def genHTMLLanguageSelection(self, lang) -> str:
+        """Generates a dropdown selection for the language change."""
+        current_language = lang.info().get('language', '')
+        languages = self.getLanguages()
+
+        if len(languages) < 2:
+            return "<!-- No other languages to select found. -->"
+
+        html_option = ""
+        for language in languages:
+            html_option += f"<option value='{language}'{' selected' if language == current_language else ''}>{language}</option>\n"
+
+        return """
+        <form>
+            <select name="language" onchange='if(this.value != \"""" + current_language + """\") { this.form.submit(); }'>
+            """ + html_option + """
+            </select>
+        </form>
+        """
+
+    def footer(self, lang) -> str:
         _ = lang.gettext
-        language = lang.info().get('language', '')
+
         return """
 <div class="footer container">
 <ul>
-  <li><form><select name="language" onchange='if(this.value != "%s") { this.form.submit(); }'>""" % language + \
-      ("<option value='' selected></option>" if not language else "") + \
-    "\n".join(
-      "<option value='%s' %s>%s</option>" % (l, "selected" if l==language else "", l)
-       for l in self.getLanguages()) + """
-  </select></form></li>
+  <li>""" + self.genHTMLLanguageSelection(lang) + """</li>
   <li><a href="https://florianfesti.github.io/boxes/html/usermanual.html">""" + _("Help") + """</a></li>
   <li><a href="https://hackaday.io/project/10649-boxespy">""" + _("Home Page") + """</a></li>
   <li><a href="https://florianfesti.github.io/boxes/html/index.html">""" + _("Documentation") + """</a></li>

@@ -33,7 +33,7 @@ class CoinHolderSideEdge(edges.BaseEdge):
 
         self.polyline(0, 90+a, a_l2, -90)
 
-    def margin(self):
+    def margin(self) -> float:
         return self.settings.coin_plate_x
 
 class CoinDisplay(Boxes):

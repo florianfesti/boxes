@@ -13,20 +13,23 @@
 #
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from __future__ import annotations
 
 import re
-
 from xml.etree import ElementTree
-ElementTree.register_namespace("","http://www.w3.org/2000/svg")
+
+ElementTree.register_namespace("", "http://www.w3.org/2000/svg")
 ElementTree.register_namespace("xlink", "http://www.w3.org/1999/xlink")
 
-unit2mm = {"mm" : 1.0,
-           "cm" : 10.0,
-           "in" : 25.4,
-           "px" : 90.0/25.4,
-           "pt" : 90.0/25.4/1.25,
-           "pc" : 90.0/25.4/15,
+unit2mm: dict[str, float] = {
+    "mm": 1.0,
+    "cm": 10.0,
+    "in": 25.4,
+    "px": 90.0 / 25.4,
+    "pt": 90.0 / 25.4 / 1.25,
+    "pc": 90.0 / 25.4 / 15,
 }
+
 
 def getSizeInMM(tree):
     root = tree.getroot()
@@ -40,23 +43,25 @@ def getSizeInMM(tree):
 
     return width, height
 
+
 def getViewBox(tree):
     root = tree.getroot()
     m = re.match(r"\s*(-?\d+\.?\d*)\s+"
-                     "(-?\d+\.?\d*)\s+"
-                     "(-?\d+\.?\d*)\s+"
-                     "(-?\d+\.?\d)\s*", root.get("viewBox"))
+                 r"(-?\d+\.?\d*)\s+"
+                 r"(-?\d+\.?\d*)\s+"
+                 r"(-?\d+\.?\d)\s*", root.get("viewBox"))
 
     return [float(m) for m in m.groups()]
 
-def ticksPerMM(tree):
+
+def ticksPerMM(tree) -> tuple[float, float]:
     width, height = getSizeInMM(tree)
     x1, y1, x2, y2 = getViewBox(tree)
 
-    return x2/width, y2/height
+    return x2 / width, y2 / height
 
-def svgMerge(box, inkscape, output):
 
+def svgMerge(box, inkscape, output) -> None:
     src_tree = ElementTree.parse(box)
     dest_tree = ElementTree.parse(inkscape)
     dest_root = dest_tree.getroot()
@@ -73,13 +78,12 @@ def svgMerge(box, inkscape, output):
     src_view = getViewBox(src_tree)
 
     off_x = src_view[0] * -scale_x
-    off_y = (src_view[1]+src_view[3]) * -scale_y + dest_height * scale_y
+    off_y = (src_view[1] + src_view[3]) * -scale_y + dest_height * scale_y
 
     for el in src_tree.getroot():
         dest_root.append(el)
         if el.tag.endswith("g"):
-            el.set("transform", "matrix(%f,0,0,%f, %f, %f)" % (
-                scale_x, scale_y, off_x, off_y))
+            el.set("transform", f"matrix({scale_x:f},0,0,{scale_y:f}, {off_x:f}, {off_y:f})")
 
     # write the xml file
     ElementTree.ElementTree(dest_root).write(output, encoding='utf-8', xml_declaration=True)

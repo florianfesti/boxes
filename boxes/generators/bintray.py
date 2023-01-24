@@ -37,7 +37,7 @@ class BinFrontEdge(edges.BaseEdge):
             else:
                 self.corner(-45)
 
-    def margin(self):
+    def margin(self) -> float:
         return max(self.settings.sy) * self.settings.front
 
 class BinFrontSideEdge(BinFrontEdge):

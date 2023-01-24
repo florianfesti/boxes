@@ -32,7 +32,7 @@ class ShadyEdge(edges.BaseEdge):
             if i < self.n-1:
                 self.edge(self.thickness)
 
-    def margin(self):
+    def margin(self) -> float:
         return self.shades
 
 class TrafficLight(Boxes): # change class name here and below

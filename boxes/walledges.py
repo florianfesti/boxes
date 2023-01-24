@@ -86,7 +86,7 @@ class WallJoinedEdge(WallEdge):
         self.edges["f"](length)
         self.step(t)
 
-    def startwidth(self):
+    def startwidth(self) -> float:
         return self.settings.thickness
 
 class WallBackEdge(WallEdge):
@@ -100,7 +100,7 @@ class WallBackEdge(WallEdge):
         self.edges["F"](length)
         self.step(-t)
 
-    def margin(self):
+    def margin(self) -> float:
         return self.settings.thickness
 
 class WallHoles(WallEdge):
@@ -151,11 +151,11 @@ class WallHoleEdge(WallHoles):
                 px, dist, length, angle)
         self.edge(length, tabs=2)
 
-    def startwidth(self):
+    def startwidth(self) -> float:
         """ """
         return self.wallHoles.settings.edge_width + self.settings.thickness
 
-    def margin(self):
+    def margin(self) -> float:
         return 0.0
 
 class WallSettings(Settings):
@@ -257,7 +257,7 @@ class SlatWallEdge(WallEdge):
             poly = reversed(poly)
         self.polyline(*poly)
 
-    def margin(self):
+    def margin(self) -> float:
         return self.settings.hook_depth + self.settings.hook_distance
 
 class SlatWallSettings(WallSettings):
@@ -332,7 +332,7 @@ class DinRailEdge(WallEdge):
             poly = reversed(poly)
         self.polyline(*poly)
 
-    def margin(self):
+    def margin(self) -> float:
         return self.settings.depth
 
 class DinRailSettings(WallSettings):
@@ -409,7 +409,7 @@ class FrenchCleatEdge(WallEdge):
             poly = reversed(poly)
         self.polyline(*poly)
 
-    def margin(self):
+    def margin(self) -> float:
         return self.settings.depth
 
 class FrenchCleatSettings(WallSettings):

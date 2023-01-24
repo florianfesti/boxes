@@ -66,7 +66,7 @@ class CustomBuildExtCommand(build_py):
                 self.distribution.data_files.append(
                     (path,
                      [i for i in glob.glob(os.path.join("inkex", "*.inx"))]))
-                self.distribution.data_files.append((path, ['scripts/boxes']))
+                self.distribution.data_files.append((path, ['scripts/boxes_proxy.py']))
             except CalledProcessError:
                 pass # Inkscape is not installed
 
@@ -86,7 +86,7 @@ setup(
     cmdclass={
         'build_py': CustomBuildExtCommand,
     },
-    classifiers=[
+    classifiers=[ # https://pypi.python.org/pypi?%3Aaction=list_classifiers
         "Development Status :: 5 - Production/Stable",
         "Environment :: Console",
         "Environment :: Web Environment",
@@ -95,6 +95,5 @@ setup(
         "Programming Language :: Python :: 3",
         "Topic :: Multimedia :: Graphics :: Editors :: Vector-Based",
         "Topic :: Scientific/Engineering",
-        "Topic :: Scientific/Engineering :: Computer Aided Design",
     ],
     keywords=["boxes", "box", "generator", "svg", "laser cutter"], )

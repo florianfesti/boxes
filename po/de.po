@@ -133,7 +133,7 @@ msgstr "sx"
 
 #. help for parameter sx
 msgid "sections left to right in mm. See --sy for format"
-msgstr "\'Links nach Rechts\'-Abschnitt in mm. Für Format mit --sy nachsehen"
+msgstr "'Links nach Rechts'-Abschnitt in mm. Für Format mit --sy nachsehen"
 
 #. parameter name
 msgid "sy"
@@ -145,7 +145,7 @@ msgid ""
 "sections e.g. \"250/5\"; sectionwidth*numberofsections e.g. \"50*5\"; "
 "section widths separated by \":\" e.g. \"30:25.5:70"
 msgstr ""
-"\'Rüch- zu Vorderseite\'-Abschnitt in mm. Mögliche Formate: overallwidth/numberof"
+"'Rüch- zu Vorderseite'-Abschnitt in mm. Mögliche Formate: overallwidth/numberof"
 "Auswahl z. B. \"250/5\"; sectionwidth*numberofsections z. B. \"50*5\"; "
 "Abschnittsbreite getrennt durch \":\" z. B. \"30:25.5:70"
 
@@ -155,7 +155,7 @@ msgstr "sh" ""
 
 #. help for parameter sh
 msgid "sections bottom to top in mm. See --sy for format"
-msgstr "\'Boden zu Oberseiten\'-Abschnitt in mm. Für Format mit --sy nachsehen"
+msgstr "'Boden zu Oberseiten'-Abschnitt in mm. Für Format mit --sy nachsehen"
 
 #. parameter name
 msgid "bottom_edge"
@@ -332,7 +332,7 @@ msgstr "Winkel"
 
 #. parameter name for FingerJoint
 msgid "surroundingspaces"
-msgstr "umliegende Fläche" #<= ?!?
+msgstr "umliegende Fläche"
 
 #. help for parameter surroundingspaces
 msgid "maximum space at the start and end in multiple of normal spaces"
@@ -344,11 +344,11 @@ msgstr "Kantenbreite"
 
 #. help for parameter edge_width
 msgid "space below holes of FingerHoleEdge"
-msgstr "Fläche unterhalb der Löcher der Fingerzinkenkante" #<= ?!?
+msgstr "Fläche unterhalb der Löcher der Fingerzinkenkante"
 
 #. parameter name for FingerJoint
 msgid "finger"
-msgstr "Zapfen" #<= ?!?
+msgstr "Zapfen"
 
 #. help for parameter finger
 msgid "width of the fingers"
@@ -356,11 +356,11 @@ msgstr "Breite der Zapfen"
 
 #. parameter name for FingerJoint
 msgid "play"
-msgstr "Bewegungsfreiraum" #<= ?!?
+msgstr "Bewegungsfreiraum"
 
 #. help for parameter play
 msgid "extra space to allow movement"
-msgstr "Zusätzlicher Abstand um Bewegung zu erlauben" #<= ?!?
+msgstr "Zusätzlicher Abstand um Bewegung zu erlauben"
 
 #. parameter name for FingerJoint
 msgid "space"
@@ -410,7 +410,7 @@ msgstr "Einstellungen der Schaniere und Schanierbolzen"
 
 #. parameter name for Hinge
 msgid "grip_percentage"
-msgstr "Handgriff-Prozentsatz" #<= ?!?
+msgstr "Handgriff-Prozentsatz"
 
 #. parameter name for Hinge
 msgid "outset"
@@ -453,7 +453,7 @@ msgid "grip_length"
 msgstr "Grifflänge"
 
 #. help for parameter grip_length
-msgid "fixed length of the grips on he lids" #<= Fehler 'he' / 'the'
+msgid "fixed length of the grips on he lids"
 msgstr "feste Länge der Griffe an dem Deckeln"
 
 #. parameter name for Hinge
@@ -477,7 +477,7 @@ msgstr "Feder"
 
 #. possible choice for spring
 msgid "both"
-msgstr "Beidseitig" #<= ?!?
+msgstr "Beidseitig"
 
 #. possible choice for spring
 msgid "none"
@@ -503,7 +503,7 @@ msgid "depth"
 msgstr "Tiefe"
 
 msgid "Settings for Flex"
-msgstr "Einstellung für die Krümmung" #<= ?!?
+msgstr "Einstellung für die Krümmung"
 
 #. parameter name for Flex
 msgid "stretch"
@@ -648,7 +648,7 @@ msgstr "Forderseite"
 #. help for parameter front
 #: boxes/generators/bintray.py
 msgid "fraction of bin height covert with slope"
-msgstr "Anteil der Höhe der Abschrägung" #<= ?!?
+msgstr "Anteil der Höhe der Abschrägung"
 
 #. name of box generator
 #: boxes/generators/cardbox.py
@@ -901,7 +901,7 @@ msgstr "Positive Zahl für längere Oberkante"
 
 #. name of box generator
 #: boxes/generators/displaycase.py
-msgid "DisplayCase" #<= showcase
+msgid "DisplayCase"
 msgstr "Schaukasten"
 
 
@@ -1300,7 +1300,7 @@ msgstr "Teilkreis D in Prozent der Achse 2 (0 für die gleiche Größe wie Achse
 #. parameter name
 #: boxes/generators/gear.py
 msgid "modulus"
-msgstr "Betrag" #<= ?!?
+msgstr "Betrag"
 
 #. help for parameter modulus
 #: boxes/generators/gear.py
@@ -1598,7 +1598,7 @@ msgstr ""
 "Damit die Klemme funktioniert, brauchst man noch eine passende Feder.\n"
 "Vergrößere die Zusatzhöhe um mehr Spiel für die Feder zu bekommen und um\n"
 "den Gleitmechanismus lockerer zu gestalten. Eventuell musst du etwas Wachs an\n"
-"die Gleitteile anbringen, um Reibung zu minimieren."
+"die Gleitteile anbringen, um Reibung zu minimieren.\n"
 
 msgid "LaserClamp Settings"
 msgstr "Einstellungen Laserklemme"
@@ -1642,7 +1642,7 @@ msgstr "L-Winkel"
 #: boxes/generators/lbeam.py
 msgid "Simple L-Beam: two pieces joined with a right angle"
 msgstr "einfach L-Winkel: Zwei Seitenteile, die im rechten Winkel zueinander"
-f"verbunden sind"
+"verbunden sind"
 
 msgid "LBeam Settings"
 msgstr "Einstellungen L-Winkel"
@@ -2126,7 +2126,7 @@ msgstr "Deltazahn"
 
 #. help for parameter deltateeth
 #: boxes/generators/planetary.py
-msgid "enable secondary ring with given delta to the ring gear" #<= ?!?
+msgid "enable secondary ring with given delta to the ring gear"
 msgstr "Freigabe eines zweiten Rings mit gegeben Delta zum Holrad"
 
 #. name of box generator
@@ -2544,7 +2544,7 @@ msgid "from one middle of a dove tail to another"
 msgstr "Von einer Zinkenmitte zur andern"
 
 msgid "Settings for rack (and pinion) edge"
-msgstr "Einstellungen für Rack- und Ritzelkanten" # <=???
+msgstr "Einstellungen für Rack- und Ritzelkanten"
 
 #. help for parameter angle
 #: boxes/generators/rectangularWall.py
@@ -2564,7 +2564,7 @@ msgstr "Maße"
 #. help for parameter dimension
 #: boxes/generators/rectangularWall.py
 msgid "modulus of the gear (in mm)"
-msgstr "Zahnradbetrag (in mm)" # <=???
+msgstr "Zahnradbetrag (in mm)"
 
 #. help for parameter profile_shift
 #: boxes/generators/rectangularWall.py
@@ -2572,7 +2572,7 @@ msgid "Profile shift"
 msgstr "Profilverschiebung"
 
 msgid "Settings for GrippingEdge"
-msgstr "Einstellung Greifkante" # <= ??? evtl Flankenlinie
+msgstr "Einstellung Greifkante"
 
 #. help for parameter outset
 #: boxes/generators/rectangularWall.py
@@ -2698,8 +2698,8 @@ msgstr "servo1b"
 #. help for parameter servo1b
 #: boxes/generators/robotarm.py
 msgid "type of servo to use on second side (if different is supported)"
-msgstr "Art des zu verwendenden Servos an der zweiten Seite (falls"u
-"nterschiedliche Typen unterstützt werden)"
+msgstr "Art des zu verwendenden Servos an der zweiten Seite (falls"
+"unterschiedliche Typen unterstützt werden)"
 
 #. parameter name
 #: boxes/generators/robotarm.py
@@ -2817,7 +2817,7 @@ msgstr "Gummidicke"
 #. help for parameter rubberthickness
 #: boxes/generators/rotary.py
 msgid "diameter of the strings of the O rings"
-msgstr "Durchmesser der Fäden der O-Ringe" # <= ??? Fäden
+msgstr "Durchmesser der Fäden der O-Ringe"
 
 #. help for parameter axle
 #: boxes/generators/rotary.py
@@ -3064,7 +3064,7 @@ msgstr "Höhe des Körpers"
 #. name of box generator
 #: boxes/generators/slatwallconsole.py
 msgid "SlatwallConsole"
-msgstr "Sperrholz-Armaturenbrett" # <= Slatwall/Sperrholz
+msgstr "Sperrholz-Armaturenbrett"
 
 #. description of SlatwallConsole
 #: boxes/generators/slatwallconsole.py
@@ -3147,7 +3147,7 @@ msgstr "Halterlänge"
 
 #. help for parameter hold_length
 #: boxes/generators/slatwallplaneholder.py
-msgid "legth of the part hiolding the plane over the front" # <= Fehler hiolding
+msgid "legth of the part hiolding the plane over the front"
 msgstr "Länge des Teils, das die Fläche über der Vorderseite hält"
 
 #. help for parameter height
@@ -3630,7 +3630,7 @@ msgstr "Einstellungen Kiste"
 
 #. help for parameter play
 #: boxes/generators/two_piece.py
-msgid "play between the two parts as multipleof the wall thickness" # <= Fehler???
+msgid "play between the two parts as multipleof the wall thickness"
 msgstr "Spiel zwischen den beiden Teilen als Vielfaches der Wandstärke"
 
 #. name of box generator

@@ -55,7 +55,7 @@ If there are no inner front to back walls just add everything to one side wall a
         Boxes.__init__(self)
         self.addTopEdgeSettings(fingerjoint={"surroundingspaces": 1.0},
                                 roundedtriangle={"outset" : 1})
-        self.buildArgParser("sx", "sy", "h", "hi", "outside")
+        self.buildArgParser("sx", "sy", "hi", "outside", h=30)
         # "bottom_edge", "top_edge")
         self.argparser.add_argument(
             "--back_height",  action="store", type=float, default=0.0,

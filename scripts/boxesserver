@@ -180,7 +180,7 @@ class BServer:
                 """<option value="%s"%s>%s</option>""" %
                 (e, ' selected="selected"' if (e == (default or a.default)) or (str(e) == str(default or a.default)) else "",
                  _(e)) for e in a.choices)
-            input = """<select name="%s" id="%s" aria-labeledby="%s %s" size="1" >\n%s</select>\n""" % (name, name, name + "_id", name + "_description", options)
+            input = """<select name="{}" id="{}" aria-labeledby="{} {}" size="1" >\n{}</select>\n""".format(name, name, name + "_id", name + "_description", options)
         else:
             input = """<input name="%s" id="%s" aria-labeledby="%s %s" type="text" value="%s" >""" % \
                     (name, name, name + "_id", name + "_description", default or a.default)
@@ -464,7 +464,7 @@ f"""        </script>{self.scripts % len(self.groups)}
         if type_ is not None and "image" in type_ and type_ != "image/svg+xml":
             start_response("200 OK", [('Content-type', "%s" % type_)])
         else:
-            start_response("200 OK", [('Content-type', "%s; charset=%s" % (type_, encoding))])
+            start_response("200 OK", [('Content-type', f"{type_}; charset={encoding}")])
 
         f = open(path, 'rb')
         return environ['wsgi.file_wrapper'](f, 512 * 1024)
@@ -580,7 +580,7 @@ f"""        </script>{self.scripts % len(self.groups)}
                 extension = box.format
                 if extension == "svg_Ponoko":
                     extension = "svg"
-                http_headers.append(('Content-Disposition', 'attachment; filename="%s.%s"' % (box.__class__.__name__, extension)))
+                http_headers.append(('Content-Disposition', f'attachment; filename="{box.__class__.__name__}.{extension}"'))
             start_response(status, http_headers)
             result = open(box.output, 'rb').readlines()
             os.close(fd)

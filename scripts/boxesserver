@@ -27,7 +27,7 @@ import tempfile
 import threading
 import time
 import traceback
-from typing import Any
+from typing import Any, NoReturn
 from urllib.parse import parse_qs
 from urllib.parse import unquote_plus, quote
 from wsgiref.simple_server import make_server
@@ -42,7 +42,7 @@ except ImportError:
 
 
 class FileChecker(threading.Thread):
-    def __init__(self, files=[], checkmodules=True) -> None:
+    def __init__(self, files=[], checkmodules: bool = True) -> None:
         super().__init__()
         self.checkmodules = checkmodules
         self.timestamps = {}
@@ -52,7 +52,7 @@ class FileChecker(threading.Thread):
         if checkmodules:
             self._addModules()
 
-    def _addModules(self):
+    def _addModules(self) -> None:
         for name, module in sys.modules.items():
             path = getattr(module, "__file__", None)
             if not path:
@@ -60,7 +60,7 @@ class FileChecker(threading.Thread):
             if path not in self.timestamps:
                 self.timestamps[path] = os.stat(path).st_mtime
 
-    def filesOK(self):
+    def filesOK(self) -> bool:
         if self.checkmodules:
             self._addModules()
         for path, timestamp in self.timestamps.items():
@@ -71,13 +71,13 @@ class FileChecker(threading.Thread):
                 return False
         return True
 
-    def run(self):
+    def run(self) -> None:
         while not self._stopped:
             if not self.filesOK():
                 os.execv(__file__, sys.argv)
             time.sleep(1)
 
-    def stop(self):
+    def stop(self) -> None:
         self._stopped = True
 
 
@@ -85,7 +85,7 @@ class ArgumentParserError(Exception): pass
 
 
 class ThrowingArgumentParser(argparse.ArgumentParser):
-    def error(self, message):
+    def error(self, message) -> NoReturn:
         raise ArgumentParserError(message)
 
 
@@ -469,7 +469,7 @@ f"""        </script>{self.scripts % len(self.groups)}
         f = open(path, 'rb')
         return environ['wsgi.file_wrapper'](f, 512 * 1024)
 
-    def getURL(self, environ):
+    def getURL(self, environ) -> str:
         url = environ['wsgi.url_scheme'] + '://'
 
         if environ.get('HTTP_HOST'):

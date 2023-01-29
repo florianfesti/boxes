@@ -40,6 +40,7 @@ except ImportError:
     sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
     import boxes.generators
 
+
 class FileChecker(threading.Thread):
     def __init__(self, files=[], checkmodules=True) -> None:
         super().__init__()
@@ -57,7 +58,7 @@ class FileChecker(threading.Thread):
             if not path:
                 continue
             if path not in self.timestamps:
-                 self.timestamps[path] = os.stat(path).st_mtime
+                self.timestamps[path] = os.stat(path).st_mtime
 
     def filesOK(self):
         if self.checkmodules:
@@ -79,21 +80,24 @@ class FileChecker(threading.Thread):
     def stop(self):
         self._stopped = True
 
+
 class ArgumentParserError(Exception): pass
+
 
 class ThrowingArgumentParser(argparse.ArgumentParser):
     def error(self, message):
         raise ArgumentParserError(message)
+
+
 # Evil hack
 boxes.ArgumentParser = ThrowingArgumentParser  # type: ignore
 
 
 class BServer:
-
     lang_re = re.compile(r"([a-z]{2,3}(-[-a-zA-Z0-9]*)?)\s*(;\s*q=(\d\.?\d*))?")
 
     def __init__(self, url_prefix="", static_url="static") -> None:
-        self.boxes = {b.__name__ : b for b in boxes.generators.getAllBoxGenerators().values() if b.webinterface}
+        self.boxes = {b.__name__: b for b in boxes.generators.getAllBoxGenerators().values() if b.webinterface}
         self.boxes['TrayLayout2'] = boxes.generators.traylayout.TrayLayout2  # type: ignore  # no attribute "traylayout"
         self.groups = boxes.generators.ui_groups
         self.groups_by_name = boxes.generators.ui_groups_by_name
@@ -120,7 +124,6 @@ class BServer:
         return self._languages
 
     def getLanguage(self, args, accept_language):
-
         lang = None
         langs = []
 
@@ -131,8 +134,7 @@ class BServer:
                 break
         if lang:
             try:
-                return gettext.translation('boxes.py', localedir='locale',
-                                           languages=[lang])
+                return gettext.translation('boxes.py', localedir='locale', languages=[lang])
             except OSError:
                 pass
             try:
@@ -151,38 +153,37 @@ class BServer:
         langs = [l[1].replace("-", "_") for l in langs]
 
         try:
-            return gettext.translation('boxes.py', localedir='locale',
-                                       languages=langs)
+            return gettext.translation('boxes.py', localedir='locale', languages=langs)
         except OSError:
             return gettext.translation('boxes.py', languages=langs, fallback=True)
 
-    def arg2html(self, a, prefix, defaults={}, _=lambda s:s):
+    def arg2html(self, a, prefix, defaults={}, _=lambda s: s):
         name = a.option_strings[0].replace("-", "")
         if isinstance(a, argparse._HelpAction):
             return ""
         viewname = name
         if prefix and name.startswith(prefix + '_'):
-            viewname = name[len(prefix)+1:]
+            viewname = name[len(prefix) + 1:]
 
         default = defaults.get(name, None)
         row = """<tr><td id="%s"><label for="%s">%s</label></td><td>%%s</td><td id="%s">%s</td></tr>\n""" % \
-              (name+"_id", name, _(viewname), name+"_description","" if not a.help else markdown.markdown(_(a.help)))
+              (name + "_id", name, _(viewname), name + "_description", "" if not a.help else markdown.markdown(_(a.help)))
         if (isinstance(a, argparse._StoreAction) and
-            hasattr(a.type, "html")):
+                hasattr(a.type, "html")):
             input = a.type.html(name, default or a.default, _)
         elif a.dest == "layout":
             val = (default or a.default).split("\n")
             input = """<textarea name="%s" id="%s" aria-labeledby="%s %s" cols="%s" rows="%s">%s</textarea>""" % \
-                    (name, name, name+"_id", name+"_description", max(len(l) for l in val)+10, len(val)+1, default or a.default)
+                    (name, name, name + "_id", name + "_description", max(len(l) for l in val) + 10, len(val) + 1, default or a.default)
         elif a.choices:
             options = "\n".join(
                 """<option value="%s"%s>%s</option>""" %
-                 (e, ' selected="selected"' if (e == (default or a.default)) or (str(e) == str(default or a.default)) else "",
-                  _(e)) for e in a.choices)
-            input = """<select name="%s" id="%s" aria-labeledby="%s %s" size="1" >\n%s</select>\n""" % (name, name, name+"_id", name+"_description", options)
+                (e, ' selected="selected"' if (e == (default or a.default)) or (str(e) == str(default or a.default)) else "",
+                 _(e)) for e in a.choices)
+            input = """<select name="%s" id="%s" aria-labeledby="%s %s" size="1" >\n%s</select>\n""" % (name, name, name + "_id", name + "_description", options)
         else:
-            input =  """<input name="%s" id="%s" aria-labeledby="%s %s" type="text" value="%s" >""" % \
-            (name, name, name+"_id", name+"_description", default or a.default)
+            input = """<input name="%s" id="%s" aria-labeledby="%s %s" type="text" value="%s" >""" % \
+                    (name, name, name + "_id", name + "_description", default or a.default)
 
         return row % input
 
@@ -237,7 +238,7 @@ class BServer:
     <link rel="icon" type="image/x-icon" href="{self.static_url}/favicon.ico">
     {self.genHTMLMetaLanguageLink()}
     <link rel="stylesheet" href="{self.static_url}/self.css">
-    {self.scripts % (len(box.argparser._action_groups)-3)}
+    {self.scripts % (len(box.argparser._action_groups) - 3)}
     <meta name="flattr:id" content="456799">
 </head>
 <body onload="hideargs()">
@@ -267,7 +268,6 @@ class BServer:
 
             for a in group._group_actions:
                 if a.dest in ("input", "output"):
-
                     continue
                 result.append(self.arg2html(a, prefix, defaults, _))
             result.append("</table>")
@@ -299,7 +299,7 @@ class BServer:
 </div>
 {self.footer(lang)}</body>
 </html>
-        ''' )
+        ''')
         return (s.encode("utf-8") for s in result)
 
     def menu(self, lang):
@@ -354,7 +354,7 @@ f"""        </script>{self.scripts % len(self.groups)}
 <div class="clear"></div>
 <hr>
 <div class="menu" style="width: 100%">
-""" ]
+"""]
         for nr, group in enumerate(self.groups):
             result.append(f'''
 <h3 id="h-{nr}" role="button" aria-expanded="false" class="open" tabindex="0" onclick="showHide('{nr}')" onkeypress="if(event.keyCode == 13) showHide('{nr}')"
@@ -364,7 +364,7 @@ f"""        </script>{self.scripts % len(self.groups)}
   <div id="{nr}"><ul>''')
             for box in group.generators:
                 name = box.__name__
-                if name in ("TrayLayout2", ):
+                if name in ("TrayLayout2",):
                     continue
                 docs = ""
                 if box.__doc__:
@@ -448,12 +448,11 @@ f"""        </script>{self.scripts % len(self.groups)}
         filename = environ["PATH_INFO"][len("/static/"):]
         path = os.path.join(self.staticdir, filename)
         if (not re.match(r"[a-zA-Z0-9_/-]+\.[a-zA-Z0-9]+", filename) or
-            not os.path.exists(path)):
+                not os.path.exists(path)):
             if re.match(r"samples/.*-thumb.jpg", filename):
                 path = os.path.join(self.staticdir, "nothing.png")
             else:
-                start_response("404 Not Found",
-                               [('Content-type', 'text/plain')])
+                start_response("404 Not Found", [('Content-type', 'text/plain')])
                 return [b"Not found"]
 
         type_, encoding = mimetypes.guess_type(filename)
@@ -468,10 +467,10 @@ f"""        </script>{self.scripts % len(self.groups)}
             start_response("200 OK", [('Content-type', "%s; charset=%s" % (type_, encoding))])
 
         f = open(path, 'rb')
-        return environ['wsgi.file_wrapper'](f, 512*1024)
+        return environ['wsgi.file_wrapper'](f, 512 * 1024)
 
     def getURL(self, environ):
-        url = environ['wsgi.url_scheme']+'://'
+        url = environ['wsgi.url_scheme'] + '://'
 
         if environ.get('HTTP_HOST'):
             url += environ['HTTP_HOST']
@@ -529,7 +528,7 @@ f"""        </script>{self.scripts % len(self.groups)}
             box = box_cls()
 
         if render == "0":
-            defaults = { }
+            defaults = {}
             for a in args:
                 kv = a.split('=')
                 if len(kv) == 2:
@@ -538,7 +537,7 @@ f"""        </script>{self.scripts % len(self.groups)}
             start_response(status, headers)
             return self.args2html_cached(name, box, lang, "./" + name, defaults=defaults)
         else:
-            args = ["--"+ arg for arg in args if not arg.startswith("render=")]
+            args = ["--" + arg for arg in args if not arg.startswith("render=")]
             try:
                 box.parseArgs(args)
             except (ArgumentParserError) as e:
@@ -549,8 +548,7 @@ f"""        </script>{self.scripts % len(self.groups)}
                 box.fillDefault(box.x, box.y)
                 layout2 = boxes.generators.traylayout.TrayLayout2(self, webargs=True)
                 layout2.argparser.set_defaults(layout=str(box))
-                return self.args2html(
-                    name, layout2, lang, action="TrayLayout2")
+                return self.args2html(name, layout2, lang, action="TrayLayout2")
             if name == "TrayLayout2":
                 try:
                     box.parse(box.layout.split("\n"))
@@ -590,8 +588,7 @@ f"""        </script>{self.scripts % len(self.groups)}
             return (l for l in result)
 
 
-if __name__=="__main__":
-
+if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     parser.add_argument("--host", default="")

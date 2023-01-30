@@ -368,7 +368,6 @@ You can replace the space characters representing the floor by a "X" to remove t
             if x < lx:
                 posx += self.x[x] + self.thickness
 
-
     def parse(self, input):
         x = []
         y = []

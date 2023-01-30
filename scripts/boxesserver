@@ -28,7 +28,6 @@ import threading
 import time
 import traceback
 from typing import Any, NoReturn
-from urllib.parse import parse_qs
 from urllib.parse import unquote_plus, quote
 from wsgiref.simple_server import make_server
 
@@ -180,35 +179,12 @@ class BServer:
                 """<option value="%s"%s>%s</option>""" %
                 (e, ' selected="selected"' if (e == (default or a.default)) or (str(e) == str(default or a.default)) else "",
                  _(e)) for e in a.choices)
-            input = """<select name="{}" id="{}" aria-labeledby="{} {}" size="1" >\n{}</select>\n""".format(name, name, name + "_id", name + "_description", options)
+            input = """<select name="{}" id="{}" aria-labeledby="{} {}" size="1">\n{}</select>\n""".format(name, name, name + "_id", name + "_description", options)
         else:
-            input = """<input name="%s" id="%s" aria-labeledby="%s %s" type="text" value="%s" >""" % \
+            input = """<input name="%s" id="%s" aria-labeledby="%s %s" type="text" value="%s">""" % \
                     (name, name, name + "_id", name + "_description", default or a.default)
 
         return row % input
-
-    scripts = """
-    <script>
-    function showHide(id) {
-       var e = document.getElementById(id);
-       var h = document.getElementById("h-" + id);
-       if(e.style.display == null || e.style.display == "none") {
-         e.style.display = "block";
-         h.classList.add("open");
-         h.setAttribute("aria-expanded","true");
-       } else {
-         e.style.display = "none";
-         h.classList.remove("open");
-         h.setAttribute("aria-expanded","false");
-      }
-    }
-    function hideargs() {
-     for ( i=0; i<%i; i++) {
-       showHide(i);
-     }
-    }
-    </script>
-"""
 
     def args2html_cached(self, name, box, lang, action="", defaults={}):
         if defaults == {}:
@@ -224,36 +200,30 @@ class BServer:
         lang_name = lang.info().get('language', None)
 
         langparam = ""
-        lang_attr = ""
         if lang_name:
             langparam = "?language=" + lang_name
-            lang_attr = f" lang=\"{lang_name}\""
 
-        result = [f"""<!DOCTYPE html>
-<html{lang_attr}>
+        result = [f"""{self.genHTMLStart(lang)}
 <head>
     <title>{_("%s - Boxes") % _(name)}</title>
-    <meta charset="utf-8">
-    <link rel="icon" type="image/svg+xml" href="{self.static_url}/boxes-logo.svg" sizes="any">
-    <link rel="icon" type="image/x-icon" href="{self.static_url}/favicon.ico">
+    {self.genHTMLMeta()}
     {self.genHTMLMetaLanguageLink()}
-    <link rel="stylesheet" href="{self.static_url}/self.css">
-    {self.scripts % (len(box.argparser._action_groups) - 3)}
-    <meta name="flattr:id" content="456799">
+    {self.genHTMLCSS()}
+    {self.genHTMLJS()}
 </head>
-<body onload="hideargs()">
+<body onload="initPage({len(box.argparser._action_groups) - 3})">
 
 <div class="container" style="background-color: #FFF8EA;">
 <div style="float: left;">
 <a href="./{langparam}"><h1>{_("Boxes.py")}</h1></a>
 </div>
 <div style="width: 120px; float: right;">
-<img alt="self-Logo" src="{self.static_url}/boxes-logo.svg" width="120" >
+<img alt="self-Logo" src="{self.static_url}/boxes-logo.svg" width="120">
 </div>
 <div>
 <div class="clear"></div>
 <hr>
-<h2 style="margin: 0px 0px 0px 20px;" >{_(name)}</h2>
+<h2 style="margin: 0px 0px 0px 20px;">{_(name)}</h2>
         <p>{_(box.__doc__) if box.__doc__ else ""}</p>
 <form action="{action}" method="GET" rel="nofollow">
         """]
@@ -264,7 +234,7 @@ class BServer:
             if len(group._group_actions) == 1 and isinstance(group._group_actions[0], argparse._HelpAction):
                 continue
             prefix = getattr(group, "prefix", None)
-            result.append(f'''<h3 id="h-{groupid}" role="button" aria-expanded="true" tabindex="0" class="open"  onclick="showHide({groupid})" onkeypress="if(event.keyCode == 13) showHide({groupid})">{_(group.title)}</h3>\n<table role="presentation" id="{groupid}">\n''')
+            result.append(f'''<h3 id="h-{groupid}" data-id="{groupid}" role="button" aria-expanded="true" tabindex="0" class="toggle open">{_(group.title)}</h3>\n<table role="presentation" id="{groupid}">\n''')
 
             for a in group._group_actions:
                 if a.dest in ("input", "output"):
@@ -293,50 +263,33 @@ class BServer:
                 .replace('src="static/', f'src="{self.static_url}/'))
 
         result.append(f'''<div>
-<img src="{self.static_url}/samples/{box.__class__.__name__}.jpg" width="100%" onerror="this.parentElement.innerHTML = '{no_img_msg}';">
+<img style="width:100%;" src="{self.static_url}/samples/{box.__class__.__name__}.jpg" onerror="this.parentElement.innerHTML = '{no_img_msg}';" alt="Picture of box.">
 </div>
 </div>
 </div>
-{self.footer(lang)}</body>
+{self.genPagePartFooter(lang)}
+</body>
 </html>
         ''')
         return (s.encode("utf-8") for s in result)
 
-    def menu(self, lang):
+    def genPageMenu(self, lang):
         _ = lang.gettext
         lang_name = lang.info().get('language', None)
 
         langparam = ""
-        lang_attr = ""
         if lang_name:
             langparam = "?language=" + lang_name
-            lang_attr = f" lang=\"{lang_name}\""
 
-        result = [f"""<!DOCTYPE html>
-<html{lang_attr}>
+        result = [f"""{self.genHTMLStart(lang)}
 <head>
     <title>{_("Boxes.py")}</title>
-    <meta charset="utf-8">
-    <link rel="icon" type="image/svg+xml" href="{self.static_url}/boxes-logo.svg" sizes="any">
-    <link rel="icon" type="image/x-icon" href="{self.static_url}/favicon.ico">
+    {self.genHTMLMeta()}
     {self.genHTMLMetaLanguageLink()}
-    <link rel="stylesheet" href="{self.static_url}/self.css">
-""",
-"""    <script>
-	function change(group, img_link){
-	  document.getElementById("sample-"+group).src = img_link;
-	  document.getElementById("sample-"+group).style.height = "auto";
-	}
-
-	function changeback(group){
-	  document.getElementById("sample-" + group).src= "%s/nothing.png";
-	  document.getElementById("sample-" + group).style.height= "0px";
-	}
-""" % self.static_url,
-f"""        </script>{self.scripts % len(self.groups)}
-     <meta name="flattr:id" content="456799">
+    {self.genHTMLCSS()}
+    {self.genHTMLJS()}
 </head>
-<body onload="hideargs()">
+<body onload="initPage()">
 <div class="container" style="background-color: #FFF8EA;">
 <div style="width: 75%; float: left;">
 <h1>{_("Boxes.py")}</h1>
@@ -348,19 +301,26 @@ f"""        </script>{self.scripts % len(self.groups)}
 </div>
 
 <div style="width: 25%; float: left;">
-<img alt="self-Logo" src="{self.static_url}/boxes-logo.svg" width="250" >
+<img alt="self-Logo" src="{self.static_url}/boxes-logo.svg" width="250">
 </div>
 <div>
 <div class="clear"></div>
 <hr>
 <div class="menu" style="width: 100%">
+<img style="width: 200px;" id="sample-preview" src="{self.static_url}/nothing.png" alt="">
 """]
         for nr, group in enumerate(self.groups):
             result.append(f'''
-<h3 id="h-{nr}" role="button" aria-expanded="false" class="open" tabindex="0" onclick="showHide('{nr}')" onkeypress="if(event.keyCode == 13) showHide('{nr}')"
-     onmouseenter="change('{group.name}', '{self.static_url}/samples/{group.thumbnail}')"
-     onmouseleave="changeback('{group.name}')">{_(group.title)}</h3>
-  <img style="width: 200px;" id="sample-{group.name}" src="{self.static_url}/nothing.png" alt="">
+<h3 id="h-{nr}"
+    data-id="{nr}"
+    data-thumbnail="{self.static_url}/samples/{group.thumbnail}"
+    role="button" 
+    aria-expanded="false" 
+    class="toggle thumbnail open" 
+    tabindex="0" 
+>
+    {_(group.title)}
+</h3>
   <div id="{nr}"><ul>''')
             for box in group.generators:
                 name = box.__name__
@@ -369,8 +329,7 @@ f"""        </script>{self.scripts % len(self.groups)}
                 docs = ""
                 if box.__doc__:
                     docs = " - " + _(box.__doc__)
-                result.append(f"""
-      <li onmouseenter="change('{group.name}', '{self.static_url}/samples/{name}-thumb.jpg')" onmouseleave="changeback('{group.name}')"><a href="{name}{langparam}">{_(name)}</a>{docs}</li>""")
+                result.append(f"""<li class="thumbnail" data-thumbnail="{self.static_url}/samples/{name}-thumb.jpg"><a href="{name}{langparam}">{_(name)}</a>{docs}</li>""")
             result.append("\n</ul></div>\n")
         result.append(f"""
 </div>
@@ -380,11 +339,28 @@ f"""        </script>{self.scripts % len(self.groups)}
 <hr>
 </div>
 </div>
-{self.footer(lang)}
+{self.genPagePartFooter(lang)}
 </body>
 </html>
 """)
         return (s.encode("utf-8") for s in result)
+
+    def genHTMLStart(self, lang) -> str:
+        lang_attr = lang.info().get("language", "")
+
+        if lang_attr != "":
+            return f"""<!DOCTYPE html><html lang="{lang_attr.replace('_', '-')}">"""
+
+        return "<!DOCTYPE html><html>"
+
+    def genHTMLMeta(self) -> str:
+        return f'''
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <meta name="flattr:id" content="456799">
+            <link rel="icon" type="image/svg+xml" href="{self.static_url}/boxes-logo.svg" sizes="any">
+            <link rel="icon" type="image/x-icon" href="{self.static_url}/favicon.ico">
+        '''
 
     def genHTMLMetaLanguageLink(self) -> str:
         """Generates meta language list for search engines."""
@@ -392,8 +368,14 @@ f"""        </script>{self.scripts % len(self.groups)}
 
         s = ""
         for language in languages:
-            s += f"<link rel='alternate' hreflang='{language}' href='https://www.festi.info/boxes.py/?language={language}'>\n"
+            s += f'<link rel="alternate" hreflang="{language.replace("_", "-")}" href="https://www.festi.info/boxes.py/?language={language}">\n'
         return s
+
+    def genHTMLCSS(self) -> str:
+        return f'<link rel="stylesheet" href="{self.static_url}/self.css">'
+
+    def genHTMLJS(self) -> str:
+        return f'<script src="{self.static_url}/self.js"></script>'
 
     def genHTMLLanguageSelection(self, lang) -> str:
         """Generates a dropdown selection for the language change."""
@@ -415,7 +397,7 @@ f"""        </script>{self.scripts % len(self.groups)}
         </form>
         """
 
-    def footer(self, lang) -> str:
+    def genPagePartFooter(self, lang) -> str:
         _ = lang.gettext
 
         return """
@@ -430,19 +412,23 @@ f"""        </script>{self.scripts % len(self.groups)}
 </div>
 """
 
-    def errorMessage(self, name, e, _):
-        return [(f"""<html>
+    def genPageError(self, name, e, lang) -> list[bytes]:
+        """Generates a error page."""
+        _ = lang.gettext
+
+        h = f"""{self.genHTMLStart(lang)}
 <head>
   <title>{_("Error generating %s") % _(name)}</title>
-  <meta name="flattr:id" content="456799">
+  {self.genHTMLMeta()}
+  <meta name="robots" content="noindex">
 </head>
 <body>
-<h1>{_("An error occurred!")}</h1>""" +
-"".join("<p>%s</p>" % html.escape(s) for s in str(e).split("\n")) +
+<h1>{_("An error occurred!")}</h1>
 """
-</body>
-</html>
-""").encode("utf-8") ]
+        for s in str(e).split("\n"):
+            h += f"<p>{html.escape(s)}</p>\n"
+        h += "</body></html>"
+        return [h.encode("utf-8")]
 
     def serveStatic(self, environ, start_response):
         filename = environ["PATH_INFO"][len("/static/"):]
@@ -501,10 +487,8 @@ f"""        </script>{self.scripts % len(self.groups)}
         status = '200 OK'
         headers = [('Content-type', 'text/html; charset=utf-8'), ('X-XSS-Protection', '1; mode=block'), ('X-Content-Type-Options', 'nosniff'), ('x-frame-options', 'SAMEORIGIN'), ('Referrer-Policy', 'no-referrer')]
 
-        d = parse_qs(environ.get('QUERY_STRING', ''))
         name = environ["PATH_INFO"][1:]
-        args = [unquote_plus(arg) for arg in
-                environ.get('QUERY_STRING', '').split("&")]
+        args = [unquote_plus(arg) for arg in environ.get('QUERY_STRING', '').split("&")]
         render = "0"
         for arg in args:
             if arg.startswith("render="):
@@ -519,7 +503,7 @@ f"""        </script>{self.scripts % len(self.groups)}
 
             lang_name = lang.info().get('language', None)
             if lang_name not in self._cache:
-                self._cache[lang_name] = list(self.menu(lang))
+                self._cache[lang_name] = list(self.genPageMenu(lang))
             return self._cache[lang_name]
 
         if name == "TrayLayout2":
@@ -536,56 +520,53 @@ f"""        </script>{self.scripts % len(self.groups)}
                     defaults[k] = html.escape(v, True)
             start_response(status, headers)
             return self.args2html_cached(name, box, lang, "./" + name, defaults=defaults)
-        else:
-            args = ["--" + arg for arg in args if not arg.startswith("render=")]
-            try:
-                box.parseArgs(args)
-            except (ArgumentParserError) as e:
-                start_response(status, headers)
-                return self.errorMessage(name, e, _)
-            if name == "TrayLayout":
-                start_response(status, headers)
-                box.fillDefault(box.x, box.y)
-                layout2 = boxes.generators.traylayout.TrayLayout2(self, webargs=True)
-                layout2.argparser.set_defaults(layout=str(box))
-                return self.args2html(name, layout2, lang, action="TrayLayout2")
-            if name == "TrayLayout2":
-                try:
-                    box.parse(box.layout.split("\n"))
-                except Exception as e:
-                    start_response(status, headers)
-                    return self.errorMessage(name, e, _)
 
+        args = ["--" + arg for arg in args if not arg.startswith("render=")]
+        try:
+            box.parseArgs(args)
+        except ArgumentParserError as e:
+            start_response(status, headers)
+            return self.genPageError(name, e, lang)
+        if name == "TrayLayout":
+            start_response(status, headers)
+            box.fillDefault(box.x, box.y)
+            layout2 = boxes.generators.traylayout.TrayLayout2(self, webargs=True)
+            layout2.argparser.set_defaults(layout=str(box))
+            return self.args2html(name, layout2, lang, action="TrayLayout2")
+        if name == "TrayLayout2":
             try:
-                fd, box.output = tempfile.mkstemp()
-                box.metadata["url"] = self.getURL(environ)
-                box.open()
-                box.render()
-                box.close()
+                box.parse(box.layout.split("\n"))
             except Exception as e:
-                if not isinstance(e, ValueError):
-                    print("Exception during rendering:")
-                    traceback.print_exc()
-                start_response("500 Internal Server Error",
-                               headers)
-                return self.errorMessage(name, e, _)
+                start_response(status, headers)
+                return self.genPageError(name, e, lang)
 
-            http_headers = box.formats.http_headers.get(
-                box.format,
-                [('Content-type', 'application/unknown; charset=utf-8')])[:]
-            # Prevent crawlers.
-            http_headers.append(('X-Robots-Tag', 'noindex,nofollow'))
+        try:
+            fd, box.output = tempfile.mkstemp()
+            box.metadata["url"] = self.getURL(environ)
+            box.open()
+            box.render()
+            box.close()
+        except Exception as e:
+            if not isinstance(e, ValueError):
+                print("Exception during rendering:")
+                traceback.print_exc()
+            start_response("500 Internal Server Error", headers)
+            return self.genPageError(name, e, lang)
 
-            if box.format != "svg" or render == "2":
-                extension = box.format
-                if extension == "svg_Ponoko":
-                    extension = "svg"
-                http_headers.append(('Content-Disposition', f'attachment; filename="{box.__class__.__name__}.{extension}"'))
-            start_response(status, http_headers)
-            result = open(box.output, 'rb').readlines()
-            os.close(fd)
-            os.remove(box.output)
-            return (l for l in result)
+        http_headers = box.formats.http_headers.get(box.format, [('Content-type', 'application/unknown; charset=utf-8')])[:]
+        # Prevent crawlers.
+        http_headers.append(('X-Robots-Tag', 'noindex,nofollow'))
+
+        if box.format != "svg" or render == "2":
+            extension = box.format
+            if extension == "svg_Ponoko":
+                extension = "svg"
+            http_headers.append(('Content-Disposition', f'attachment; filename="{box.__class__.__name__}.{extension}"'))
+        start_response(status, http_headers)
+        result = open(box.output, 'rb').readlines()
+        os.close(fd)
+        os.remove(box.output)
+        return (l for l in result)
 
 
 if __name__ == "__main__":

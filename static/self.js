@@ -77,3 +77,84 @@ function initPage(num_hide = null) {
     const t = document.getElementsByClassName("thumbnail");
     for (let el of t) initThumbnail(el);
 }
+
+function GridfinityTrayLayout_GenerateLayout(x, y, nx, ny, countx, county) {
+    // x = width in mm
+    // y = height in mm
+    // nx # of gridfinity grids in X
+    // ny # of gridfinity grids in Y
+    // countx split x into this many
+    // county split y into this many
+    layout = '';
+    if (countx == 0) 
+        countx = nx;
+    if (county == 0)
+        county = ny
+    stepx = x / countx;
+    stepy = y / county;
+    for (i = 0; i < countx; i++) {
+        line = ' |'.repeat(i) + ` ,> ${stepx}mm\n`;
+        layout += line;
+    }
+    for (i = 0; i < county; i++) {
+        layout += "+-".repeat(countx) + "+\n";
+        layout += "| ".repeat(countx) + `|${stepy}mm\n`;
+    }
+    layout += "+-".repeat(countx) + "+\n";
+    return layout
+}
+
+function GridfinityTrayUpdateLayout(event) {
+    console.log("update");
+    if (window.layoutUpdated == true) {
+        // Don't do the update if the layout has been manually touched.
+        if (confirm("You have manually updated the Layout.  Do you wish to regenerate it?")) {
+            window.layoutUpdated = false;
+        } else {
+            return;
+        }
+    }
+    console.log("updating");
+    nx = document.getElementById('nx').value;
+    ny = document.getElementById('ny').value;
+    countx = document.getElementById('countx').value;
+    county = document.getElementById('county').value;
+    margin = document.getElementById('margin').value;
+    x = nx*42 - margin
+    y = ny*42 - margin
+    layout_id = document.getElementById('layout');
+    layout_id.value = GridfinityTrayLayout_GenerateLayout(x, y, nx, ny, countx, county);
+}
+
+function setUpdated() {
+    console.log("this was updated");
+    window.layoutUpdated=true;
+}
+function GridfinityTrayLayoutInit() {
+    console.log("update init");
+    ids = ['nx', 'ny', 'countx', 'county', 'margin'];
+    window.layoutUpdated=false;
+    for (id_string of ids) {
+        id = document.getElementById(id_string);
+        id.addEventListener('input', GridfinityTrayUpdateLayout);
+    }
+    layout_id = document.getElementById('layout');
+    layout_id.addEventListener('change', setUpdated);
+    layout_id.addEventListener('input', setUpdated);
+    
+    GridfinityTrayUpdateLayout();
+    layout_id = document.getElementById('layout');
+    layout_id.rows = 20;
+    layout_id.cols = 24;
+}
+function addCallbacks() {
+    if (window.location.href.includes("/GridfinityTrayLayout"))
+        GridfinityTrayLayoutInit();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    addCallbacks();
+}, false);
+
+
+

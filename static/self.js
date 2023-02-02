@@ -15,18 +15,28 @@ function hideThumbnail() {
     img.style.display = "none";
 }
 
-
+function expandId(id) {
+    const e = document.getElementById(id);
+    const h = document.getElementById("h-" + id);
+    e.style.display = "block";
+    h.classList.add("open");
+    h.setAttribute("aria-expanded", "true");
+}
+function collapseId(id) {
+    const e = document.getElementById(id);
+    const h = document.getElementById("h-" + id);
+    e.style.display = "none";
+    h.classList.remove("open");
+    h.setAttribute("aria-expanded", "false");
+}
+    
 function toggleId(id) {
     const e = document.getElementById(id);
     const h = document.getElementById("h-" + id);
     if (e.style.display == null || e.style.display === "none") {
-        e.style.display = "block";
-        h.classList.add("open");
-        h.setAttribute("aria-expanded", "true");
+        expandId(id);
     } else {
-        e.style.display = "none";
-        h.classList.remove("open");
-        h.setAttribute("aria-expanded", "false");
+        collapseId(id);
     }
 }
 
@@ -157,4 +167,48 @@ document.addEventListener('DOMContentLoaded', function() {
 }, false);
 
 
+function collapseAll() {
+    const h = document.getElementsByClassName("toggle");
+    for (let el of h) {
+        id = el.getAttribute("data-id")
+        collapseId(id);
+    }
+}
 
+function expandAll() {
+    const h = document.getElementsByClassName("toggle");
+    for (let el of h) {
+        id = el.getAttribute("data-id")
+        expandId(id);
+    }
+}
+
+function showAll(str) {
+    let matching_ids = document.querySelectorAll('[id^="search_id_"]')
+    for (let id of matching_ids) {
+        id.hidden = false;
+    }
+}
+
+function showOnly(str) {
+    str = str.toLowerCase();
+    let matching_ids = document.querySelectorAll('[id^="search_id_"]')
+    for (let id of matching_ids) {
+        name = id.id.replace("search_id_", "").toLowerCase();
+        if (name.includes(str) || id.textContent.toLowerCase().includes(str))
+            id.hidden = false;
+        else
+            id.hidden = true;
+    }
+}
+
+function filterSearchItems() {
+    const search = document.getElementById("search")
+    if (search.value.length == 0) {
+        collapseAll();
+        showAll()
+    } else {
+        expandAll();
+        showOnly(search.value)
+    }
+}

@@ -49,6 +49,7 @@ h3 {
     padding: 5px;
     padding-left: 15px;
     margin: 0px;
+    width: 75%
 }
 
 h3::before {
@@ -136,6 +137,10 @@ video {
     list-style-type: circle;
     display: inline-block;
     font-size: 0.9em;
+}
+
+.search {
+    float : right;
 }
 
 .footer ul li a {

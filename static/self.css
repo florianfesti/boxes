@@ -186,3 +186,18 @@ img[id|=sample] {
 textarea {
     font-family: monospace;
 }
+
+.gallery_missing {
+    display : inline-block;
+    text-align : center;
+    vertical-align: middle;
+    width : 200px;
+    margin : 5px;
+    font-weight: bold;
+}
+
+.gallery img {
+    max-height : 200px;
+    max-width : 200px;
+    margin : 5px;
+}

@@ -17,7 +17,7 @@
 from boxes import *
 
 class GridfinityBase(Boxes):
-    """A parameterized <a href="https://www.youtube.com/watch?app=desktop&v=ra_9zU-mnl8">Gridfinity</a> base"""
+    """A parameterized Gridfinity base"""
 
     description = """This is a configurable gridfinity base.  This
     design is based on 

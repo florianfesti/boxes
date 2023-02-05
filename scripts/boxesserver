@@ -481,11 +481,16 @@ class BServer:
     def serveGallery(self, environ, start_response, lang):
         _ = lang.gettext
         lang_name = lang.info().get('language', None)
+
+        start_response("200 OK", [('Content-type', "text/html; charset=utf-8")])
+
+        if ("Gallery", lang_name) in self._cache:
+            return self._cache[("Gallery", lang_name)]
+
         langparam = ""
         if lang_name:
             langparam = "?language=" + lang_name
 
-        start_response("200 OK", [('Content-type', "text/html; charset=utf-8")])
         result = [f"""
 {self.genHTMLStart(lang)}
 <head>
@@ -528,8 +533,9 @@ class BServer:
 </html>
 """
         )
-        return (s.encode("utf-8") for s in result)
-        
+        self._cache[("Gallery", lang_name)] = [s.encode("utf-8") for s in result]
+        return self._cache[("Gallery", lang_name)]
+
     def serve(self, environ, start_response):
         # serve favicon from static for generated SVGs
         if environ["PATH_INFO"] == "favicon.ico":

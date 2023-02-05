@@ -509,6 +509,7 @@ class BServer:
 
 """]
         for nr, group in enumerate(self.groups):
+            result.append(f"<h2>{_(group.title)}</h2>\n")
             for box in group.generators:
                 name = box.__name__
                 fn = f"samples/{name}-thumb.jpg"

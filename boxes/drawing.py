@@ -34,6 +34,7 @@ class Surface:
         self._fname = fname
         self.parts: list[Any] = []
         self._p = self.new_part("default")
+        self.count = 0
 
     def set_metadata(self, metadata):
         self.metadata = metadata
@@ -81,6 +82,9 @@ class Surface:
         return p
 
     def append(self, *path):
+        self.count += 1
+        if self.count > 100000:
+            raise ValueError("Too many lines")
         self._p.append(*path)
 
     def stroke(self, **params):

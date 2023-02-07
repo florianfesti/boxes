@@ -229,7 +229,7 @@ You will likely need to cut each of the dividers you want multiple times.
             first_tab_width=self.thickness if self.left_wall else 0,
             second_tab_width=self.thickness if self.right_wall else 0
         )
-        for tabs, asymetric_tabs in [(self.thickness, None),
+        for tabs, asymmetric_tabs in [(self.thickness, None),
                                      (self.thickness / 2, None),
                                      (self.thickness, 0.5),]:
             with self.saved_context():
@@ -240,9 +240,9 @@ You will likely need to cut each of the dividers you want multiple times.
                         "right",
                         first_tab_width=tabs if self.left_wall or i>0 else 0,
                         second_tab_width=tabs if self.right_wall or i<(len(self.sx) - 1) else 0,
-                        asymetric_tabs=asymetric_tabs,
+                        asymmetric_tabs=asymmetric_tabs,
                     )
-                    if asymetric_tabs:
+                    if asymmetric_tabs:
                         self.moveTo(-tabs, self.spacing)
             self.generate_divider(self.sx, divider_height, "up only")
 
@@ -258,8 +258,8 @@ You will likely need to cut each of the dividers you want multiple times.
                     str.join(
                         "|",
                         [
-                            "{0:.2f}".format(e.usefull_length())
-                            for e in slot_descriptions.get_straigth_edges()
+                            "{0:.2f}".format(e.useful_length())
+                            for e in slot_descriptions.get_straight_edges()
                         ],
                     )
                 )
@@ -292,7 +292,7 @@ You will likely need to cut each of the dividers you want multiple times.
     def generate_divider(
             self, widths, height, move,
             first_tab_width=0, second_tab_width=0,
-            asymetric_tabs=None):
+            asymmetric_tabs=None):
         total_width = sum(widths) + (len(widths)-1) * self.thickness + first_tab_width + second_tab_width
 
         if self.move(total_width, height, move, True):
@@ -300,12 +300,12 @@ You will likely need to cut each of the dividers you want multiple times.
 
         play = self.Divider_play
         left_tab_height = right_tab_height = self.Slot_depth
-        if asymetric_tabs:
-            left_tab_height = left_tab_height * asymetric_tabs - play
-            right_tab_height = right_tab_height * (1-asymetric_tabs)
+        if asymmetric_tabs:
+            left_tab_height = left_tab_height * asymmetric_tabs - play
+            right_tab_height = right_tab_height * (1 - asymmetric_tabs)
 
         # Upper: first tab width
-        if asymetric_tabs:
+        if asymmetric_tabs:
             self.moveTo(first_tab_width - play)
         else:
             self.edge(first_tab_width - play)
@@ -354,7 +354,7 @@ You will likely need to cut each of the dividers you want multiple times.
             right_tab_height,
             90
         )
-        if asymetric_tabs:
+        if asymmetric_tabs:
             self.polyline(
                 first_tab_width - play,
                 -90,
@@ -373,7 +373,7 @@ class SlottedEdgeDescriptions:
     def add(self, description: str) -> None:
         self.descriptions.append(description)
 
-    def get_straigth_edges(self):
+    def get_straight_edges(self):
         return [x for x in self.descriptions if isinstance(x, StraightEdgeDescription)]
 
     def get_last_edge(self):
@@ -384,10 +384,10 @@ class SlottedEdgeDescriptions:
         compensation = actual_length - target_length
 
         compensation_ratio = compensation / sum(
-            [d.asked_length for d in self.get_straigth_edges()]
+            [d.asked_length for d in self.get_straight_edges()]
         )
 
-        for edge in self.get_straigth_edges():
+        for edge in self.get_straight_edges():
             edge.outside_ratio = 1 - compensation_ratio
 
     def total_length(self):
@@ -427,7 +427,7 @@ class StraightEdgeDescription:
             + self.angle_compensation
         )
 
-    def usefull_length(self):
+    def useful_length(self):
         """
         Part of the length which might be used by the content of the tray
         """

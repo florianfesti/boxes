@@ -17,6 +17,7 @@ import sys
 import os
 from lxml import etree
 import tempfile
+from shlex import quote
 
 class boxesPyWrapper(inkex.GenerateExtension):
 
@@ -36,16 +37,15 @@ class boxesPyWrapper(inkex.GenerateExtension):
 
         cmd = "boxes" #boxes.exe in this local dir (or if present in %PATH%), or boxes from $PATH in linux        
         for arg in vars(self.options):
-            if arg != "output" and arg != "ids" and arg != "selected_nodes":
-                #inkex.utils.debug(str(arg) + " = " + str(getattr(self.options, arg)))
-                #fix behaviour of "original" arg which does not correctly gets interpreted if set to false
-                if arg == "original" and str(getattr(self.options, arg)) == "false":
-                    continue
-                if arg in ("input_file", "tab"):
-                    continue
-                else:
-                    cmd += " --" + arg + " " + str(getattr(self.options, arg))
-        cmd += " --output " + box_file + " " + box_file #we need to add box_file string twice in a row. Otherwise program executable throws an error
+            if arg in (
+                    "output", "ids", "selected_nodes", "input_file", "tab"):
+                continue
+            #fix behaviour of "original" arg which does not correctly gets
+            # interpreted if set to false
+            if arg == "original" and str(getattr(self.options, arg)) == "false":
+                continue
+            cmd += f" --{arg} {quote(str(getattr(self.options, arg)))}"
+        cmd += f" --output {box_file} {box_file}"  #we need to add box_file string twice in a row. Otherwise program executable throws an error
         cmd = cmd.replace("boxes --generator", "boxes")
         
         # run boxes with the parameters provided

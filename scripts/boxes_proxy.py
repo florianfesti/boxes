@@ -16,6 +16,7 @@ import inkex
 import sys
 import os
 from lxml import etree
+import tempfile
 
 class boxesPyWrapper(inkex.GenerateExtension):
 
@@ -31,9 +32,7 @@ class boxesPyWrapper(inkex.GenerateExtension):
                     pass #ignore duplicate id arg
 
     def generate(self):
-        box_file = "box.svg"
-        if os.path.exists(box_file):
-            os.remove(box_file) #remove previously generated box file at the beginning
+        f, box_file = tempfile.mkstemp(".svg", "boxes.py-inkscape")
 
         cmd = "boxes" #boxes.exe in this local dir (or if present in %PATH%), or boxes from $PATH in linux        
         for arg in vars(self.options):

@@ -54,6 +54,7 @@ class CustomBuildExtCommand(build_py):
                 (path,
                  [i for i in glob.glob(os.path.join("inkex", "*.inx"))]))
             self.distribution.data_files.append((path, ['scripts/boxes']))
+            self.distribution.data_files.append((path, ['scripts/boxes_proxy.py']))
         else:
             # we are surely not building a Debian package
             # then here is the default behavior:
@@ -66,6 +67,7 @@ class CustomBuildExtCommand(build_py):
                 self.distribution.data_files.append(
                     (path,
                      [i for i in glob.glob(os.path.join("inkex", "*.inx"))]))
+                self.distribution.data_files.append((path, ['scripts/boxes']))
                 self.distribution.data_files.append((path, ['scripts/boxes_proxy.py']))
             except CalledProcessError:
                 pass # Inkscape is not installed

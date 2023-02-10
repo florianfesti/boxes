@@ -25,12 +25,11 @@ class boxesPyWrapper(inkex.GenerateExtension):
         args = sys.argv[1:] 
         for arg in args:
             key=arg.split("=")[0]
+            if key == "--id":
+                continue
             if len(arg.split("=")) == 2:
                 value=arg.split("=")[1]
-                try:
-                    pars.add_argument(key, default=key)
-                except:
-                    pass #ignore duplicate id arg
+                pars.add_argument(key, default=key)
 
     def generate(self):
         f, box_file = tempfile.mkstemp(".svg", "boxes.py-inkscape")
@@ -38,7 +37,8 @@ class boxesPyWrapper(inkex.GenerateExtension):
         cmd = "boxes" #boxes.exe in this local dir (or if present in %PATH%), or boxes from $PATH in linux        
         for arg in vars(self.options):
             if arg in (
-                    "output", "ids", "selected_nodes", "input_file", "tab"):
+                    "output", "id", "ids", "selected_nodes",
+                    "input_file", "tab"):
                 continue
             #fix behaviour of "original" arg which does not correctly gets
             # interpreted if set to false

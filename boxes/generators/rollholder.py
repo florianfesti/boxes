@@ -21,7 +21,7 @@ class RollHolder(Boxes):
 
     description = """Needs a dowel or pipe as axle."""
     
-    ui_group = "Misc"
+    ui_group = "WallMounted"
 
     def __init__(self) -> None:
         Boxes.__init__(self)

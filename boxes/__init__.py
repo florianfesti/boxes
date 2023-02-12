@@ -2720,6 +2720,9 @@ class Boxes:
 
     @restore
     def polygonWalls(self, borders, h, bottom="F", top="F", symmetrical=True):
+        if not borders:
+            return
+
         bottom = self.edges.get(bottom, bottom)
         top = self.edges.get(top, top)
         t = self.thickness # XXX edge.margin()

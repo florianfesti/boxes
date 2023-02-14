@@ -64,7 +64,6 @@ class HeartBox(Boxes):
         self.polygonWalls(borders, h)
         self.rectangularWall(0, h, "FFFF", move="up only")
         self.polygonWall(borders, callback=[self.CB], move="right")
-        self.moveTo(-2*t)
         self.polygonWall(borders, move="mirror right")
         if self.top == "lid":
             self.polygonWall([l+t, (180, r+t), 0, -90, 0, (180, r+t), l+t, 90], 'e')

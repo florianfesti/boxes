@@ -2700,7 +2700,7 @@ class Boxes:
 
         length_correction = 0.
         for i in range(0, len(borders), 2):
-            self.cc(callback, i / 2)
+            self.cc(callback, i // 2)
             self.edge(length_correction)
             l = borders[i] - length_correction
             next_angle = borders[i+1]

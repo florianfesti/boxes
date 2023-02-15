@@ -657,7 +657,7 @@ class Boxes:
         raise NotImplementedError
         self.close()
 
-    def cc(self, callback, number, x=0.0, y=None):
+    def cc(self, callback, number, x=0.0, y=None, a=0.0):
         """Call callback from edge of a part
 
         :param callback: callback (callable or list of callables)
@@ -677,7 +677,7 @@ class Boxes:
 
         if callback and callable(callback):
             with self.saved_context():
-                self.moveTo(x, y)
+                self.moveTo(x, y, a)
                 if number is None:
                     callback()
                 else:

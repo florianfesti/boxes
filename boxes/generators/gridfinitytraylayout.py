@@ -81,8 +81,8 @@ this compartment.
             self.edge(d - 2 * r)
 
     def baseplate_etching(self):
-        x = 0
-        y = 0
+        x = -self.thickness - self.margin / 2
+        y = -self.thickness - self.margin / 2
         o = self.opening
         p = self.pitch
         m = self.opening_margin
@@ -100,14 +100,12 @@ this compartment.
         self.y = self.pitch * self.ny - self.margin
         self.outer_x = self.x
         self.outer_y = self.y
-        super().render()
-        # relies on still being at the place of the base plate
-        self.baseplate_etching()
+
+        self.prepare()
+        self.walls()
+        self.base_plate(callback=[self.baseplate_etching],
+                        move="mirror right")
         foot = self.opening - self.opening_margin
-        self.move(self.outer_x, self.outer_y, "right", before=False)
-        n_grids = self.nx * self.ny
-        if n_grids > 4:
-            n_grids = 4
-        for i in range(n_grids):
+        for i in range(min(self.nx * self.ny, 4)):
             self.rectangularWall(foot, foot, move="right")
 

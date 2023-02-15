@@ -154,8 +154,7 @@ You can replace the space characters representing the floor by a "X" to remove t
         edge = self.edges.get(edge, edge)
         edge(length)
 
-    def render(self):
-
+    def prepare(self):
         if self.layout:
             self.parse(self.layout.split('\n'))
         else:
@@ -170,23 +169,17 @@ You can replace the space characters representing the floor by a "X" to remove t
                 self.hi = self.adjustSize(self.hi, e2=False)
 
         self.hi = hi = self.hi or self.h
+        self.edges["s"] = boxes.edges.Slot(self, self.hi / 2.0)
+        self.edges["C"] = boxes.edges.CrossingFingerHoleEdge(self, self.hi)
+        self.edges["D"] = boxes.edges.CrossingFingerHoleEdge(self, self.hi, outset=self.thickness)
 
+    def walls(self, move=None):
         lx = len(self.x)
         ly = len(self.y)
         t = self.thickness
         b = self.burn
         t2 = self.thickness / 2.0
 
-        hasfloor = False
-
-        for line in self.floors:
-            for f in line:
-                hasfloor |= f
-
-
-        self.edges["s"] = boxes.edges.Slot(self, self.hi / 2.0)
-        self.edges["C"] = boxes.edges.CrossingFingerHoleEdge(self, self.hi)
-        self.edges["D"] = boxes.edges.CrossingFingerHoleEdge(self, self.hi, outset=t)
 
         self.ctx.save()
 
@@ -241,6 +234,7 @@ You can replace the space characters representing the floor by a "X" to remove t
         self.ctx.restore()
         self.rectangularWall(10, h, "ffef", move="up only")
         self.ctx.save()
+
 
         # Vertical Walls
         for x in range(lx + 1):
@@ -298,12 +292,25 @@ You can replace the space characters representing the floor by a "X" to remove t
 
         self.ctx.restore()
         self.rectangularWall(10, h, "ffef", move="up only")
-        self.moveTo(2 * self.thickness, 2 * self.thickness)
-        self.ctx.save()
 
-        ##########################################################
-        ###  Baseplate
-        ##########################################################
+    def base_plate(self, callback=None, move=None):
+        lx = len(self.x)
+        ly = len(self.y)
+        t = self.thickness
+        b = self.burn
+        t2 = self.thickness / 2.0
+
+        tw, th = sum(self.x) + (lx+1) * t, sum(self.y) + (ly + 1) * t
+
+        if self.move(tw, th, move, True):
+            return
+
+        for i, (x, y, a) in enumerate((
+                (t, t + b, 0),
+                (tw - t, t + b, 90),
+                (tw - t, th - t + b, 180),
+                (t, th - t + b, 270))):
+            self.cc(callback, i, x, y, a)
 
         # Horizontal lines
         posy = 0
@@ -367,6 +374,8 @@ You can replace the space characters representing the floor by a "X" to remove t
                 posy += self.y[y] + self.thickness
             if x < lx:
                 posx += self.x[x] + self.thickness
+
+        self.move(tw, th, move)
 
     def parse(self, input):
         x = []
@@ -450,3 +459,8 @@ You can replace the space characters representing the floor by a "X" to remove t
         self.hwalls = hwalls
         self.vwalls = vwalls
         self.floors = floors
+
+    def render(self):
+        self.prepare()
+        self.walls()
+        self.base_plate()

@@ -21,6 +21,17 @@ class Console(Boxes):
 
     ui_group = "Box"
 
+    description = """
+
+Console Arcade Stick
+
+![Front](static/samples/ConsoleArcadeStickFront.jpg)
+![Back](static/samples/ConsoleArcadeStickBack.jpg)
+![Inside](static/samples/ConsoleArcadeStickInside.jpg)
+
+Keyboard enclosure:
+"""
+
     def __init__(self) -> None:
         Boxes.__init__(self)
 

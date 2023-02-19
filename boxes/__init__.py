@@ -652,10 +652,8 @@ class Boxes:
 
         You will typically need to call .parseArgs() before calling this one
         """
-        self.open()
         # Change settings and create new Edges and part classes here
         raise NotImplementedError
-        self.close()
 
     def cc(self, callback, number, x=0.0, y=None, a=0.0):
         """Call callback from edge of a part

@@ -434,6 +434,7 @@ class SVGSurface(Surface):
 
         if "url" in md and md["url"]:
             self._addTag(w, 'dc:source', md["url"])
+            self._addTag(w, 'dc:source', md["url_short"])
         else:
             self._addTag(w, 'dc:source', md["cli"])
 
@@ -442,9 +443,12 @@ class SVGSurface(Surface):
             desc += "\n\n" + md["description"]
         desc += "\n\nCreated with Boxes.py (https://festi.info/boxes.py)\n"
         desc += "Command line: %s\n" % md["cli"]
+        desc += "Command line short: %s\n" % md["cli_short"]
         if md["url"]:
             desc += "Url: %s\n" % md["url"]
+            desc += "Url short: %s\n" % md["url_short"]
             desc += "SettingsUrl: %s\n" % md["url"].replace("&render=1", "")
+            desc += "SettingsUrl short: %s\n" % md["url_short"].replace("&render=1", "")
         self._addTag(w, 'dc:description', desc)
 
         # title
@@ -465,11 +469,13 @@ Created with Boxes.py (https://festi.info/boxes.py)
 Creation date: {date}
 """.format(date=date, **md)
 
-        txt += "Command line (remove spaces between dashes): %s\n" % md["cli"]
+        txt += "Command line (remove spaces between dashes): %s\n" % md["cli_short"]
 
         if md["url"]:
             txt += "Url: %s\n" % md["url"]
+            txt += "Url short: %s\n" % md["url_short"]
             txt += "SettingsUrl: %s\n" % md["url"].replace("&render=1", "")
+            txt += "SettingsUrl short: %s\n" % md["url_short"].replace("&render=1", "")
         m = ET.Comment(txt.replace("--", "- -").replace("--", "- -")) # ----
         m.tail = '\n'
         root.insert(0, m)
@@ -611,9 +617,12 @@ class PSSurface(Surface):
             desc += "%\n"
 
         desc += "%% Command line: %s\n" % md["cli"]
+        desc += "%% Command line short: %s\n" % md["cli_short"]
         if md["url"]:
             desc += f'%%Url: {md["url"]}\n'
+            desc += f'%%Url short: {md["url_short"]}\n'
             desc += f'%%SettingsUrl: {md["url"].replace("&render=1", "")}\n'
+            desc += f'%%SettingsUrl short: {md["url_short"].replace("&render=1", "")}\n'
         return desc
 
     def finish(self, inner_corners="loop"):

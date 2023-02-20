@@ -39,6 +39,8 @@ from boxes import pulley
 from boxes import svgutil
 from boxes.Color import *
 
+import qrcode
+from boxes.qrcode_factory import BoxesQrCodeFactory
 
 ### Helpers
 
@@ -1532,6 +1534,20 @@ class Boxes:
                 self.hole(x * 0.5 * holedistance,
                           y * 0.5 * holedistance,
                           0.5 * diameter)
+
+    def qrcode(self, content, box_size=1.0, color=Color.ETCHING, move=None):
+        q = qrcode.QRCode(image_factory=BoxesQrCodeFactory, box_size=box_size*10)
+        q.add_data(content)
+        m = q.get_matrix()
+        tw, th = len(m) * box_size, len(m[0]) * box_size
+        print(tw, th)
+        if self.move(tw, th, move, True):
+            return
+
+        self.set_source_color(color)
+        q.make_image(ctx=self.ctx)
+
+        self.move(tw, th, move)
 
     @restore
     def showBorderPoly(self,border,color=Color.ANNOTATIONS):

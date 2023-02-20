@@ -14,7 +14,7 @@
 FROM fedora:latest
 
 # Install requirements
-RUN dnf install -y git-core python3-markdown python3-setuptools python3-affine python3-shapely pstoedit && dnf clean all
+RUN dnf install -y git-core python3-markdown python3-setuptools python3-affine python3-shapely python3-pillow python3-qrcode pstoedit && dnf clean all
 
 # Get Boxes.py sources to /boxes
 ARG BUILD_BRANCH=master

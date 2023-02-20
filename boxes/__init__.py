@@ -294,6 +294,7 @@ class Boxes:
         self.argparser = ArgumentParser(description=description)
         self.edgesettings: dict[Any, Any] = {}
         self.inkscapefile = None
+        self.non_default_args: dict[Any, Any] = {}
 
         self.metadata = {
             "name" : self.__class__.__name__,
@@ -301,7 +302,9 @@ class Boxes:
             "description" : self.description,
             "group" : self.ui_group,
             "url" : "",
-            "command_line" : ""
+            "url_short" : "",
+            "cli" : "",
+            "cli_short" : "",
         }
 
         self.argparser._action_groups[1].title = self.__class__.__name__ + " Settings"
@@ -521,18 +524,25 @@ class Boxes:
             return quote(s)
 
         self.metadata["cli"] = "boxes " + self.__class__.__name__ + " " + " ".join(cliquote(arg) for arg in args)
+
         for key, value in vars(self.argparser.parse_args(args=args)).items():
+            default = self.argparser.get_default(key)
+
             # treat edge settings separately
             for setting in self.edgesettings:
                 if key.startswith(setting + '_'):
                     self.edgesettings[setting][key[len(setting)+1:]] = value
                     continue
             setattr(self, key, value)
+            if (value != default):
+                self.non_default_args[key] = value
 
         # Change file ending to format if not given explicitly
         format = getattr(self, "format", "svg")
         if getattr(self, 'output', None) == 'box.svg':
             self.output = 'box.' + format.split("_")[0]
+
+        self.metadata["cli_short"] = "boxes " + self.__class__.__name__ + " " + " ".join(cliquote(arg) for arg in args if (arg.split("=")[0][2:] in self.non_default_args))
 
     def addPart(self, part, name=None):
         """

@@ -326,6 +326,9 @@ class Boxes:
             "--tabs", action="store", type=float, default=0.0,
             help="width of tabs holding the parts in place (in mm)(not supported everywhere) [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#tabs)")
         defaultgroup.add_argument(
+            "--qr_code", action="store", type=boolarg, default=False,
+            help="Add a QR Code with link or command line to the generated output")
+        defaultgroup.add_argument(
             "--debug", action="store", type=boolarg, default=False,
             help="print surrounding boxes for some structures [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#debug)")
         defaultgroup.add_argument(
@@ -402,7 +405,18 @@ class Boxes:
                 self.text("%.fmm, burn:%.2fmm" % (self.reference , self.burn), self.reference / 2.0, 5,
                           fontsize=8, align="middle center", color=Color.ANNOTATIONS)
             self.move(self.reference, 10, "up")
+            if self.qr_code:
+                self.renderQrCode()
             self.ctx.stroke()
+            
+    def renderQrCode(self):
+        content = self.metadata['url_short'] or self.metadata["cli_short"]
+        size = 1.5
+        if content:
+            with self.saved_context():
+                self.qrcode(content, box_size=size, move="right")
+                self.text(text=content, y=6, color=Color.ANNOTATIONS, fontsize=6)
+            self.qrcode(content, box_size=size, move="up only")
 
     def buildArgParser(self, *l, **kw):
         """
@@ -1540,7 +1554,6 @@ class Boxes:
         q.add_data(content)
         m = q.get_matrix()
         tw, th = len(m) * box_size, len(m[0]) * box_size
-        print(tw, th)
         if self.move(tw, th, move, True):
             return
 

@@ -79,6 +79,20 @@ class FileChecker(threading.Thread):
     def stop(self) -> None:
         self._stopped = True
 
+def filter_url(url, non_default_args):
+    if len(url) == 0:
+        return ''
+    try:
+        base, args = url.split('?')
+    except ValueError:
+        return ''
+    args = args.split('&')
+    new_args = []
+    for arg in args:
+        a, b = arg.split('=')
+        if a in non_default_args:
+            new_args.append(arg)
+    return f"{base}?{'&'.join(new_args)}"
 
 class ArgumentParserError(Exception): pass
 
@@ -612,6 +626,8 @@ class BServer:
         try:
             fd, box.output = tempfile.mkstemp()
             box.metadata["url"] = self.getURL(environ)
+            box.metadata["url_short"] = filter_url(box.metadata["url"],
+                                                   box.non_default_args)
             box.open()
             box.render()
             box.close()

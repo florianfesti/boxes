@@ -32,6 +32,8 @@ from urllib.parse import unquote_plus, quote
 from wsgiref.simple_server import make_server
 
 import markdown
+import qrcode
+import io
 
 try:
     import boxes.generators
@@ -256,11 +258,13 @@ class BServer:
                 result.append(self.arg2html(a, prefix, defaults, _))
             result.append("</table>")
             groupid += 1
+
         result.append(f"""
 <p>
  <button name="render" value="1" formtarget="_blank">{_("Generate")}</button>
  <button name="render" value="2" formtarget="_self">{_("Download")}</button>
  <button name="render" value="0" formtarget="_self">{_("Save to URL")}</button>
+<button name="render" value="3" formtarget="_blank">{_("QR Code")}</button>
 </p>
 </form>
 </div>
@@ -642,6 +646,15 @@ class BServer:
         # Prevent crawlers.
         http_headers.append(('X-Robots-Tag', 'noindex,nofollow'))
 
+        if render == "3":
+            http_headers = [('Content-type', 'image/png')]
+            http_headers.append(('X-Robots-Tag', 'noindex,nofollow'))
+            qr_format="png"
+            fn = (box.__class__.__name__)
+            start_response(status, http_headers)
+            qrcode = get_qrcode(self.getURL(environ), qr_format)
+            return (qrcode,)
+
         if box.format != "svg" or render == "2":
             extension = box.format
             if extension == "svg_Ponoko":
@@ -653,6 +666,13 @@ class BServer:
         os.remove(box.output)
         return (l for l in result)
 
+def get_qrcode(url, format):
+    if url is None:
+        url = "no url"
+    img = qrcode.make(url)
+    image_bytes = io.BytesIO()
+    img.save(image_bytes, format=format)
+    return image_bytes.getvalue()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

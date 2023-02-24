@@ -26,6 +26,7 @@ from boxes.drawing import SVGSurface, PSSurface, LBRN2Surface, Context
 class Formats:
 
     pstoedit_candidates = ["/usr/bin/pstoedit", "pstoedit", "pstoedit.exe"]
+    ps2pdf_candidates = ["/usr/bin/ps2pdf", "ps2pdf", "ps2pdf.exe"]
 
     _BASE_FORMATS = ['svg', 'svg_Ponoko', 'ps', 'lbrn2']
 
@@ -34,11 +35,11 @@ class Formats:
         "svg_Ponoko": None,
         "ps": None,
         "lbrn2": None,
-        "dxf": "-flat 0.1 -f dxf:-mm".split(),
-        "gcode": "-f gcode".split(),
-        "plt": "-f plot-hpgl".split(),
-        "ai": "-f ps2ai".split(),
-        "pdf": "-f pdf".split(),
+        "dxf": "{pstoedit} -flat 0.1 -f dxf:-mm {input} {output}",
+        "gcode": "{pstoedit} -f gcode {input} {output}",
+        "plt": "{pstoedit} -f plot-hpgl {input} {output}",
+        "ai": "{pstoedit} -f ps2ai {input} {output}",
+        "pdf": "{ps2pdf} -dEPSCrop {input} {output}",
     }
 
     http_headers = {
@@ -57,6 +58,10 @@ class Formats:
         for cmd in self.pstoedit_candidates:
             self.pstoedit = shutil.which(cmd)
             if self.pstoedit:
+                break
+        for cmd in self.ps2pdf_candidates:
+            self.ps2pdf = shutil.which(cmd)
+            if self.ps2pdf:
                 break
 
     def getFormats(self):
@@ -79,7 +84,12 @@ class Formats:
 
         if fmt not in self._BASE_FORMATS:
             fd, tmpfile = tempfile.mkstemp(dir=os.path.dirname(filename))
-            cmd = [self.pstoedit] + self.formats[fmt] + [filename, tmpfile]
+            cmd = self.formats[fmt].format(
+                pstoedit=self.pstoedit,
+                ps2pdf=self.ps2pdf,
+                input=filename,
+                output=tmpfile).split()
+
             err = subprocess.call(cmd)
 
             if err:

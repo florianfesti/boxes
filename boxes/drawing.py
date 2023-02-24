@@ -624,10 +624,11 @@ class PSSurface(Surface):
 
         f = open(self._fname, "w", encoding="latin1", errors="replace")
 
-        f.write("%!PS-Adobe-2.0\n")
-        f.write(f"%%BoundingBox: 0 0 {w:.0f} {h:.0f}\n")
-        f.write(self._metadata())
-        f.write("""
+        f.write(f"""%!PS-Adobe-2.0 EPSF-2.0
+%%BoundingBox: 0 0 {w:.0f} {h:.0f}
+{self._metadata()}
+%%EndComments
+
 1 setlinecap
 1 setlinejoin
 0.0 0.0 0.0 setrgbcolor

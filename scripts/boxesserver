@@ -309,9 +309,9 @@ class BServer:
 <div class="clear"></div>
 <hr>
 
-<div class="search"><form onkeydown="return event.key != 'Enter';" onkeyup=filterSearchItems(); return event.key;">
-\U0001f50d <input autocomplete="off" type="search" onsearch="filterSearchItems();" name="search" id="search"></input>
-</form></div>
+<div class="search">
+\U0001f50d <input autocomplete="off" type="search" oninput="filterSearchItems();" name="search" id="search" placeholder="Search">
+</div>
 
 <div class="menu" style="width: 100%">
 <img style="width: 200px;" id="sample-preview" src="{self.static_url}/nothing.png" alt="">

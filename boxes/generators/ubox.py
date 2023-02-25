@@ -93,13 +93,13 @@ class UBox(_TopEdge, _ChestLid):
 
         self.radius = r = min(r, x/2.0, y)
 
-
+        _ = self.translations.gettext
         t1, t2, t3, t4 = self.topEdges(self.top_edge)
 
-        self.U(x, y, r, t1, move="right", label="left")
-        self.U(x, y, r, t3, move="up", label="right")
-        self.U(x, y, r, t3, move="left only", label="invisible")
-        self.Uwall(x, y, h, r, [t2, t4], move="up", label="wall")
+        self.U(x, y, r, t1, move="right", label=_("left"))
+        self.U(x, y, r, t3, move="up", label=_("right"))
+        self.U(x, y, r, t3, move="left only")
+        self.Uwall(x, y, h, r, [t2, t4], move="up", label=_("wall"))
 
         self.drawLid(x, h, self.top_edge)
         self.drawAddOnLid(x, h, self.lid)

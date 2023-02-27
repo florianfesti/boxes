@@ -620,7 +620,7 @@ class BServer:
             return self.genPageError(name, e, lang)
         if name == "TrayLayout":
             start_response(status, headers)
-            box.fillDefault(box.x, box.y)
+            box.fillDefault(box.sx, box.sy)
             layout2 = boxes.generators.traylayout.TrayLayout2(self, webargs=True)
             layout2.argparser.set_defaults(layout=str(box))
             return self.args2html(name, layout2, lang, action="TrayLayout2")

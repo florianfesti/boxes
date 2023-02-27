@@ -13,81 +13,86 @@
 #
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from __future__ import annotations
 
 import boxes
 from boxes import *
 
 
 class TrayLayout(Boxes):
-    """Generate a typetray from a layout file"""
+    """Generate a layout file for a typetray."""
     # This class generates the skeleton text file that can then be edited
     # to describe the actual box
 
-    description = """This is a two step process. The layout is based on a grid
-of sizes in x and y direction. Choose how many distances you need in both directions. The actual sizes and all other settings can be entered in the second step."""
+    description = """This is a two step process. This is step 1.
+The layout is based on a grid of sizes in x and y direction.
+Choose how many distances you need in both directions.
+The actual sizes and all other settings can be entered in the second step."""
 
     webinterface = True
 
     ui_group = "Tray"
 
+    sx: list[float] = []  # arg input
+    sy: list[float] = []  # arg input
+    hwalls: list[list[bool]] = []
+    vwalls: list[list[bool]] = []
+    floors: list[list[bool]] = []
+
     def __init__(self, input=None, webargs=False) -> None:
         Boxes.__init__(self)
         self.argparser = argparse.ArgumentParser()
-        self.argparser.add_argument(
-            "--x", action="store", type=int, default=2,
-            help="number of compartments side by side")
-        self.argparser.add_argument(
-            "--y", action="store", type=int, default=2,
-            help="number of compartments back to front")
+        self.buildArgParser("sx", "sy")
         self.argparser.add_argument(
             "--output", action="store", type=str, default="traylayout.txt",
-            help="name of the layout text file")
+            help="Name of the layout text file.")
 
-    # Use empty open and close methods to avoid initializing the whole
-    # drawing infrastructure
-
-    def open(self):
+    def open(self) -> None:
+        # Use empty open and close methods to avoid initializing the whole drawing infrastructure.
         pass
 
-    def close(self):
+    def close(self) -> None:
+        # Use empty open and close methods to avoid initializing the whole drawing infrastructure.
         pass
 
-    def fillDefault(self, x, y):
-        self.x = [0.0] * x
-        self.y = [0.0] * y
-        self.hwalls = [[True for i in range(x)] for j in range(y + 1)]
-        self.vwalls = [[True for i in range(x + 1)] for j in range(y)]
-        self.floors = [[True for i in range(x)] for j in range(y)]
+    def fillDefault(self, sx: list[float], sy: list[float]) -> None:
+        self.sx = sx
+        self.sy = sy
+        x = len(sx)
+        y = len(sy)
+        self.hwalls = [[True for _ in range(x)] for _ in range(y + 1)]
+        self.vwalls = [[True for _ in range(x + 1)] for _ in range(y)]
+        self.floors = [[True for _ in range(x)] for _ in range(y)]
 
     def __str__(self) -> str:
         r = []
 
-        for i, x in enumerate(self.x):
-            r.append(" |" * (i) + " ,> %.1fmm\n" % x)
+        for i, x in enumerate(self.sx):
+            r.append(" |" * i + " ,> %.1fmm\n" % x)
 
-        for hwalls, vwalls, floors, y in zip(
-                self.hwalls, self.vwalls, self.floors, self.y):
+        for hwalls, vwalls, floors, y in zip(self.hwalls, self.vwalls, self.floors, self.sy):
             r.append("".join("+" + " -"[h] for h in hwalls) + "+\n")
-            r.append("".join((" |"[v] + "X "[f] for v, f in zip(vwalls, floors)))
-                     + " |"[vwalls[-1]] + " %.1fmm\n" % y)
+            r.append("".join((" |"[v] + "X "[f] for v, f in zip(vwalls, floors))) + " |"[vwalls[-1]] + " %.1fmm\n" % y)
         r.append("".join("+" + " -"[h] for h in self.hwalls[-1]) + "+\n")
 
         return "".join(r)
 
-    def render(self):
-        self.fillDefault(self.x, self.y)
+    def render(self) -> None:
+        self.fillDefault(self.sx, self.sy)
         with open(self.output, 'w') as f:
             f.write(str(self))
 
-class TrayLayout2(TrayLayout):
-    """Generate a typetray from a layout file"""
+
+class TrayLayout2(Boxes):
+    """Generate a typetray from a layout file."""
 
     # This class reads in the layout either from a file (with --input) or
     # as string (with --layout) and turns it into a drawing for a box.
 
     webinterface = True
 
-    description = """Edit the layout text graphics to adjust your tray.
+    description = """This is a two step process. This is step 2.
+Edit the layout text graphics to adjust your tray.
 Put in the sizes for each column and row. You can replace the hyphens and
 vertical bars representing the walls with a space character to remove the walls.
 You can replace the space characters representing the floor by a "X" to remove the floor for this compartment.
@@ -100,30 +105,24 @@ You can replace the space characters representing the floor by a "X" to remove t
         if not webargs:
             self.argparser.add_argument(
                 "--input", action="store", type=argparse.FileType('r'),
-                default='traylayout.txt',
+                default="traylayout.txt",
                 help="layout file")
             self.layout = None
         else:
             self.argparser.add_argument(
                 "--layout", action="store", type=str, default="")
 
-    # Use normal open and close
-    open = Boxes.open
-    close = Boxes.close
-
-    def vWalls(self, x, y):
-        """Number of vertical walls at a crossing"""
+    def vWalls(self, x: int, y: int) -> int:
+        """Number of vertical walls at a crossing."""
         result = 0
         if y > 0 and self.vwalls[y - 1][x]:
             result += 1
-
         if y < len(self.y) and self.vwalls[y][x]:
             result += 1
-
         return result
 
-    def hWalls(self, x, y):
-        """Number of horizontal walls at a crossing"""
+    def hWalls(self, x: int, y: int) -> int:
+        """Number of horizontal walls at a crossing."""
         result = 0
         if x > 0 and self.hwalls[y][x - 1]:
             result += 1
@@ -131,22 +130,18 @@ You can replace the space characters representing the floor by a "X" to remove t
             result += 1
         return result
 
-    def vFloor(self, x, y):
-        """Is there floor under vertical wall"""
+    def vFloor(self, x: int, y: int) -> bool:
+        """Is there floor under vertical wall."""
         if y >= len(self.y):
             return False
 
-        return (
-            (x > 0 and self.floors[y][x - 1]) or
-            (x < len(self.x) and self.floors[y][x]))
+        return (x > 0 and self.floors[y][x - 1]) or (x < len(self.x) and self.floors[y][x])
 
-    def hFloor(self, x, y):
-        """Is there foor under horizontal wall"""
+    def hFloor(self, x: int, y: int) -> bool:
+        """Is there floor under horizontal wall."""
         if x >= len(self.x):
             return False
-        return (
-            (y > 0 and self.floors[y - 1][x]) or
-            (y < len(self.y) and self.floors[y][x]))
+        return (y > 0 and self.floors[y - 1][x]) or (y < len(self.y) and self.floors[y][x])
 
     @restore
     def edgeAt(self, edge, x, y, length, angle=0):
@@ -168,7 +163,7 @@ You can replace the space characters representing the floor by a "X" to remove t
             if self.hi:
                 self.hi = self.adjustSize(self.hi, e2=False)
 
-        self.hi = hi = self.hi or self.h
+        self.hi = self.hi or self.h
         self.edges["s"] = boxes.edges.Slot(self, self.hi / 2.0)
         self.edges["C"] = boxes.edges.CrossingFingerHoleEdge(self, self.hi)
         self.edges["D"] = boxes.edges.CrossingFingerHoleEdge(self, self.hi, outset=self.thickness)
@@ -176,10 +171,9 @@ You can replace the space characters representing the floor by a "X" to remove t
     def walls(self, move=None):
         lx = len(self.x)
         ly = len(self.y)
-        t = self.thickness
-        b = self.burn
-        t2 = self.thickness / 2.0
-
+        # t = self.thickness
+        # b = self.burn
+        # t2 = self.thickness / 2.0
 
         self.ctx.save()
 
@@ -212,8 +206,7 @@ You can replace the space characters representing the floor by a "X" to remove t
                         edges.append("E")
 
                     lengths.append(self.x[end])
-                    if (self.hFloor(end, y) == 0 and
-                        self.hFloor(end+1, y) == 0):
+                    if self.hFloor(end, y) == 0 and self.hFloor(end + 1, y) == 0:
                         edges.append("EDs"[self.vWalls(end + 1, y)])
                     else:
                         edges.append("eCs"[self.vWalls(end + 1, y)])
@@ -234,7 +227,6 @@ You can replace the space characters representing the floor by a "X" to remove t
         self.ctx.restore()
         self.rectangularWall(10, h, "ffef", move="up only")
         self.ctx.save()
-
 
         # Vertical Walls
         for x in range(lx + 1):
@@ -263,8 +255,7 @@ You can replace the space characters representing the floor by a "X" to remove t
                         edges.append("E")
 
                     lengths.append(self.y[end])
-                    if (self.vFloor(x, end) == 0 and
-                        self.vFloor(x, end + 1) == 0):
+                    if self.vFloor(x, end) == 0 and self.vFloor(x, end + 1) == 0:
                         edges.append("EDs"[self.hWalls(x, end + 1)])
                     else:
                         edges.append("eCs"[self.hWalls(x, end + 1)])
@@ -274,13 +265,12 @@ You can replace the space characters representing the floor by a "X" to remove t
                 lengths.pop()
                 edges.pop()
 
-                upper = [{
-                    "f": "e",
-                    "s": "s",
-                    "e": "e",
-                    "E": "e",
-                    "C": "e",
-                    "D": "e"}[e] for e in reversed(edges)]
+                upper = [{"f": "e",
+                          "s": "s",
+                          "e": "e",
+                          "E": "e",
+                          "C": "e",
+                          "D": "e"}[e] for e in reversed(edges)]
                 edges = ["e" if e == "s" else e for e in edges]
                 self.rectangularWall(sum(lengths), h, [
                     boxes.edges.CompoundEdge(self, edges, lengths),
@@ -300,7 +290,7 @@ You can replace the space characters representing the floor by a "X" to remove t
         b = self.burn
         t2 = self.thickness / 2.0
 
-        tw, th = sum(self.x) + (lx+1) * t, sum(self.y) + (ly + 1) * t
+        tw, th = sum(self.x) + (lx + 1) * t, sum(self.y) + (ly + 1) * t
 
         if self.move(tw, th, move, True):
             return
@@ -370,7 +360,7 @@ You can replace the space characters representing the floor by a "X" to remove t
                     if x == 0 or y == 0 or not self.floors[y - 1][x - 1]:
                         self.edgeAt("e", posx - b, posy + self.y[y] + t, t, -90)
                     if x == 0 or y == ly - 1 or not self.floors[y + 1][x - 1]:
-                        self.edgeAt("e", posx -b, posy, t, -90)
+                        self.edgeAt("e", posx - b, posy, t, -90)
                 posy += self.y[y] + self.thickness
             if x < lx:
                 posx += self.x[x] + self.thickness
@@ -392,7 +382,7 @@ You can replace the space characters representing the floor by a "X" to remove t
                 continue
             if line[0] == '+':
                 w = []
-                for n, c in enumerate(line[:len(x)*2 + 1]):
+                for n, c in enumerate(line[:len(x) * 2 + 1]):
                     if n % 2:
                         if c == ' ':
                             w.append(False)
@@ -417,20 +407,20 @@ You can replace the space characters representing the floor by a "X" to remove t
                         elif c == ' ':
                             f.append(True)
                         else:
-                            raise ValueError('''Can't parse line %i in layout: expected " ", "x" or "X" for char #%i''' % (nr+1, n+1))
+                            raise ValueError("""Can't parse line %i in layout: expected " ", "x" or "X" for char #%i""" % (nr + 1, n + 1))
                     else:
                         if c == ' ':
                             w.append(False)
                         elif c == '|':
                             w.append(True)
                         else:
-                            raise ValueError('''Can't parse line %i in layout: expected " ", or "|" for char #%i''' % (nr+1, n+1))
+                            raise ValueError("""Can't parse line %i in layout: expected " ", or "|" for char #%i""" % (nr + 1, n + 1))
 
                 floors.append(f)
                 vwalls.append(w)
                 m = re.match(r"([ |][ xX])+[ |]\s*(\d*\.?\d+)\s*mm\s*", line)
                 if not m:
-                    raise ValueError('''Can't parse line %i in layout: Can read height of the row''' % (nr+1))
+                    raise ValueError("""Can't parse line %i in layout: Can read height of the row""" % (nr + 1))
                 else:
                     y.append(float(m.group(2)))
 
@@ -451,8 +441,7 @@ You can replace the space characters representing the floor by a "X" to remove t
             raise ValueError("Wrong number of vertical wall lines: %i (%i expected)" % (len(vwalls), ly))
         for nr, walls in enumerate(vwalls):
             if len(walls) != lx + 1:
-                raise ValueError(
-                    "Wrong number of vertical walls in line %i: %i (%i expected)" % (nr, len(walls), lx + 1))
+                raise ValueError("Wrong number of vertical walls in line %i: %i (%i expected)" % (nr, len(walls), lx + 1))
 
         self.x = x
         self.y = y
@@ -460,7 +449,7 @@ You can replace the space characters representing the floor by a "X" to remove t
         self.vwalls = vwalls
         self.floors = floors
 
-    def render(self):
+    def render(self) -> None:
         self.prepare()
         self.walls()
         self.base_plate()

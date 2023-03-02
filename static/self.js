@@ -108,7 +108,7 @@ function GridfinityTrayLayout_GenerateLayout(x, y, nx, ny, countx, county) {
     }
     for (i = 0; i < county; i++) {
         layout += "+-".repeat(countx) + "+\n";
-        layout += "| ".repeat(countx) + `|${stepy}mm\n`;
+        layout += "| ".repeat(countx) + `|  ${stepy}mm\n`;
     }
     layout += "+-".repeat(countx) + "+\n";
     return layout
@@ -157,15 +157,103 @@ function GridfinityTrayLayoutInit() {
     layout_id.rows = 20;
     layout_id.cols = 24;
 }
+
+function ParseSections(s) {
+    var sections = [];
+    for (var section of s.split(":")) {
+	var operands = section.split("/");
+	if (operands.length > 2) return sections;
+	if (operands.length == 2) {
+	    for (var i=0; i<operands[1]; i++) {
+		sections.push(Number(operands[0])/Number(operands[1]));
+	    }
+	    continue;
+	}
+	operands = section.split("*");
+	if (operands.length > 2) return sections;
+	if (operands.length == 2) {
+	    for (var i=0; i<operands[1]; i++) {
+		sections.push(Number(operands[0]));
+	    }
+	    continue;
+	}
+	sections.push(Number(section));
+    }
+    return sections;
+}
+
+function TrayLayout_GenerateLayout(sx, sy) {
+
+    sx = ParseSections(sx);
+    sy = ParseSections(sy);
+    nx = sx.length
+    ny = sy.length
+    layout = '';
+    if (nx <= 0)
+        nx = 1;
+    if (ny <= 0)
+        ny = 1;
+    
+    for (i = 0; i < nx; i++) {
+        line = ' |'.repeat(i) + ` ,> ${sx[i].toFixed(2)}mm\n`;
+        layout += line;
+    }
+    for (i = 0; i < ny; i++) {
+        layout += "+-".repeat(nx) + "+\n";
+        layout += "| ".repeat(nx) + `|  ${sy[i].toFixed(2)}mm\n`;
+    }
+    layout += "+-".repeat(nx) + "+\n";
+    return layout
+}
+
+function TrayUpdateLayout(event) {
+    if (window.layoutUpdated == true) {
+        // Don't do the update if the layout has been manually touched.
+        if (confirm("You have manually updated the Layout.  Do you wish to regenerate it?")) {
+            window.layoutUpdated = false;
+        } else {
+            return;
+        }
+    }
+    sx = document.getElementById('sx').value;
+    sy = document.getElementById('sy').value;
+    layout_id = document.getElementById('layout');
+    layout_id.value = TrayLayout_GenerateLayout(sx, sy);
+}
+
+
+function TrayLayoutInit() {
+    ids = ['sx', 'sy'];
+    window.layoutUpdated=false;
+    for (id_string of ids) {
+        id = document.getElementById(id_string);
+        id.addEventListener('input', TrayUpdateLayout);
+    }
+    TrayUpdateLayout();
+    layout_id = document.getElementById('layout');
+    layout_id.addEventListener('change', setUpdated);
+    layout_id.addEventListener('input', setUpdated);
+    layout_id.rows = 20;
+    layout_id.cols = 24;
+}
+
 function addCallbacks() {
-    if (window.location.href.includes("/GridfinityTrayLayout"))
-        GridfinityTrayLayoutInit();
+    page_callbacks = {
+        "TrayLayout": TrayLayoutInit,
+	"GridfinityTrayLayout": GridfinityTrayLayoutInit,
+    };
+    loc = new URL(window.location.href);
+    pathname = loc.pathname;
+    page = pathname.substr(pathname.lastIndexOf('/')+1);
+    if (page in page_callbacks) {
+        callback = page_callbacks[page];
+        callback();
+    }
 }
 
 document.addEventListener('DOMContentLoaded', function() {
     addCallbacks();
 }, false);
-
 
 function collapseAll() {
     const h = document.getElementsByClassName("toggle");

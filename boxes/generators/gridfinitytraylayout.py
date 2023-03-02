@@ -1,10 +1,10 @@
 import boxes
 from boxes import Boxes
-from boxes.generators.traylayout import TrayLayout, TrayLayout2
+from boxes.generators.traylayout import TrayLayout
 from boxes.Color import Color
 from boxes import restore
 
-class GridfinityTrayLayout(TrayLayout2):
+class GridfinityTrayLayout(TrayLayout):
     """A Gridfinity Tray Generator based on TrayLayout"""
 
     description = """

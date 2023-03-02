@@ -19,7 +19,7 @@ import boxes
 from boxes import *
 
 
-class TrayLayout(Boxes):
+class TrayLayoutFile(Boxes):
     """Generate a layout file for a typetray."""
     # This class generates the skeleton text file that can then be edited
     # to describe the actual box
@@ -29,7 +29,7 @@ The layout is based on a grid of sizes in x and y direction.
 Choose how many distances you need in both directions.
 The actual sizes and all other settings can be entered in the second step."""
 
-    webinterface = True
+    webinterface = False
 
     ui_group = "Tray"
 
@@ -83,13 +83,13 @@ The actual sizes and all other settings can be entered in the second step."""
             f.write(str(self))
 
 
-class TrayLayout2(Boxes):
+class TrayLayout(Boxes):
     """Generate a typetray from a layout file."""
 
     # This class reads in the layout either from a file (with --input) or
     # as string (with --layout) and turns it into a drawing for a box.
 
-    webinterface = True
+    ui_group = "Tray"
 
     description = """This is a two step process. This is step 2.
 Edit the layout text graphics to adjust your tray.
@@ -98,19 +98,19 @@ vertical bars representing the walls with a space character to remove the walls.
 You can replace the space characters representing the floor by a "X" to remove the floor for this compartment.
 """
 
-    def __init__(self, input=None, webargs=False) -> None:
-        Boxes.__init__(self)
+    def __init__(self) -> None:
+        super().__init__()
         self.addSettingsArgs(boxes.edges.FingerJointSettings)
-        self.buildArgParser("h", "hi", "outside")
-        if not webargs:
+        self.buildArgParser("h", "hi", "outside", "sx", "sy")
+        if self.UI == "web":
+            self.argparser.add_argument(
+                "--layout", action="store", type=str, default="")
+        else:
             self.argparser.add_argument(
                 "--input", action="store", type=argparse.FileType('r'),
                 default="traylayout.txt",
                 help="layout file")
             self.layout = None
-        else:
-            self.argparser.add_argument(
-                "--layout", action="store", type=str, default="")
 
     def vWalls(self, x: int, y: int) -> int:
         """Number of vertical walls at a crossing."""

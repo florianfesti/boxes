@@ -285,6 +285,7 @@ class Boxes:
 
     webinterface = True
     ui_group = "Misc"
+    UI = ""
 
     description: str = ""  # Markdown syntax is supported
 

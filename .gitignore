@@ -16,3 +16,4 @@ documentation/src/generators.inc
 *.ipynb_checkpoints
 venv/
 .vscode/
+test_data/

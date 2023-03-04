@@ -2708,6 +2708,50 @@ class Boxes:
 
         return ext
 
+    def _closePolygon(self, borders):
+        posx, posy = 0, 0
+        angle = 0.0
+
+        if borders and borders[-1] is not None:
+            return borders
+
+        borders = borders[:-1]
+
+        for i in range(len(borders)):
+            if i % 2:
+                try:
+                    a, r = borders[i]
+                except TypeError:
+                    angle = (angle + borders[i]) % 360
+                    continue
+                if a > 0:
+                    centerx = posx + r * math.cos(math.radians(angle+90))
+                    centery = posy + r * math.sin(math.radians(angle+90))
+                else:
+                    centerx = posx + r * math.cos(math.radians(angle-90))
+                    centery = posy + r * math.sin(math.radians(angle-90))
+
+                angle = (angle + a) % 360
+                if a > 0:
+                    posx = centerx + r * math.cos(math.radians(angle-90))
+                    posy = centery + r * math.sin(math.radians(angle-90))
+                else:
+                    posx = centerx + r * math.cos(math.radians(angle+90))
+                    posy = centery + r * math.sin(math.radians(angle+90))
+            else:
+                posx += borders[i] * math.cos(math.radians(angle))
+                posy += borders[i] * math.sin(math.radians(angle))
+        if len(borders) % 2 == 0:
+            borders.append(0.0)
+
+        a = math.degrees(math.atan2(-posy, -posx))
+        #print(a, angle, a - angle)
+        borders.append((a - angle + 360) % 360)
+        borders.append((posx**2 + posy**2)**.5)
+        borders.append(-a)
+        #print(borders)
+        return borders
+
     def polygonWall(self, borders, edge="f", turtle=False,
                     callback=None, move=None, label=""):
         """
@@ -2719,6 +2763,8 @@ class Boxes:
         :param callback:  (Default value = None)
         :param move:  (Default value = None)
         :param label: rendered to identify parts, it is not ment to be cut or etched (Default value = "")
+
+        borders is alternating between length of the edge and angle of the corner. For now neither tabs nor radii are supported. None at the end closes the polygon.
         """
         try:
             edges = [self.edges.get(e, e) for e in edge]
@@ -2726,6 +2772,8 @@ class Boxes:
             edges = [self.edges.get(edge, edge)]
 
         t = self.thickness # XXX edge.margin()
+
+        borders = self._closePolygon(borders)
 
         minx, miny, maxx, maxy = self._polygonWallExtend(borders, edges)
 
@@ -2762,6 +2810,7 @@ class Boxes:
         if not borders:
             return
 
+        borders = self._closePolygon(borders)
         bottom = self.edges.get(bottom, bottom)
         top = self.edges.get(top, top)
         t = self.thickness # XXX edge.margin()

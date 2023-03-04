@@ -17,3 +17,4 @@ documentation/src/generators.inc
 venv/
 .vscode/
 test_data/
+!examples/*

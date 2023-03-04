@@ -1,0 +1,30 @@
+name: Smoke test
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch: # Allows you to run this workflow manually from the Actions tab
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ '3.7', '3.8', '3.9', '3.10', '3.11' ]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: "pip" # caching pip dependencies
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run smoke test
+        run: |
+          bash ./scripts/run_smoke_test.sh examples test_data

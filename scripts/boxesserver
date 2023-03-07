@@ -656,7 +656,8 @@ class BServer:
             qr_format="png"
             fn = (box.__class__.__name__)
             start_response(status, http_headers)
-            qrcode = get_qrcode(self.getURL(environ), qr_format)
+            url = re.sub(r"&render=[^&]*", "" ,self.getURL(environ))
+            qrcode = get_qrcode(url, qr_format)
             return (qrcode,)
 
         if box.format != "svg" or render == "2":

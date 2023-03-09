@@ -90,11 +90,17 @@ def filter_url(url, non_default_args):
         return ''
     args = args.split('&')
     new_args = []
+    args_to_ignore = ["qr_code", "format"]
     for arg in args:
         a, b = arg.split('=')
+        if a.strip() in args_to_ignore:
+            continue
         if a in non_default_args:
             new_args.append(arg)
-    return f"{base}?{'&'.join(new_args)}"
+    if len(new_args):
+        return f"{base}?{'&'.join(new_args)}"
+    else:
+        return f"{base}"
 
 class ArgumentParserError(Exception): pass
 
@@ -639,8 +645,7 @@ class BServer:
             qr_format="png"
             fn = (box.__class__.__name__)
             start_response(status, http_headers)
-            url = re.sub(r"&render=[^&]*", "" ,self.getURL(environ))
-            qrcode = get_qrcode(url, qr_format)
+            qrcode = get_qrcode(box.metadata["url_short"], qr_format)
             return (qrcode,)
 
         if box.format != "svg" or render == "2":

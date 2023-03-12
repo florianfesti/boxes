@@ -38,7 +38,7 @@ class Formats:
         "dxf": "{pstoedit} -flat 0.1 -f dxf:-mm {input} {output}",
         "gcode": "{pstoedit} -f gcode {input} {output}",
         "plt": "{pstoedit} -f plot-hpgl {input} {output}",
-        "ai": "{pstoedit} -f ps2ai {input} {output}",
+        # "ai": "{pstoedit} -f ps2ai {input} {output}",
         "pdf": "{ps2pdf} -dEPSCrop {input} {output}",
     }
 

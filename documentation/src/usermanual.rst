@@ -95,7 +95,6 @@ requires ``pstoedit``. Without ``pstoedit`` only ``SVG``
 and ``postscript`` (ps) is supported. Otherwise you can also
 select
 
-* ai
 * dxf
 * gcode
 * pdf

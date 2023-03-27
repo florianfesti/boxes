@@ -2455,8 +2455,8 @@ class RackEdge(BaseEdge):
         params = self.settings.values.copy()
         params["draw_rack"] = True
         params["rack_base_height"] = -1E-36
-        params["rack_teeth_length"] = int(length // params["dimension"])
-        params["rack_base_tab"] = (length - (params["rack_teeth_length"]) * params["dimension"]) / 2.0
+        params["rack_teeth_length"] = int(length // (params["dimension"] * math.pi))
+        params["rack_base_tab"] = (length - (params["rack_teeth_length"]) * params["dimension"] * math.pi) / 2.0
         s_tmp = self.boxes.spacing
         self.boxes.spacing = 0
         self.moveTo(length, 0, 180)

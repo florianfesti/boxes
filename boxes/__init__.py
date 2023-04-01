@@ -2754,6 +2754,7 @@ class Boxes:
         return borders
 
     def polygonWall(self, borders, edge="f", turtle=False,
+                    correct_corners=True,
                     callback=None, move=None, label=""):
         """
         Polygon wall for all kind of multi-edged objects
@@ -2761,6 +2762,7 @@ class Boxes:
         :param borders: array of distance and angles to draw
         :param edge:  (Default value = "f") Edges to apply. If the array of borders contains more segments that edges, the edge will wrap. Only edge types without start and end width supported for now.
         :param turtle: (Default value = False)
+        :param correct_corners: (Default value = True)
         :param callback:  (Default value = None)
         :param move:  (Default value = None)
         :param label: rendered to identify parts, it is not ment to be cut or etched (Default value = "")
@@ -2793,7 +2795,8 @@ class Boxes:
             l = borders[i] - length_correction
             next_angle = borders[i+1]
 
-            if isinstance(next_angle, (int, float)) and next_angle < 0:
+            if (correct_corners and
+                isinstance(next_angle, (int, float)) and next_angle < 0):
                 length_correction = t * math.tan(math.radians(-next_angle / 2))
             else:
                 length_correction = 0.0

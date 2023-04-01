@@ -111,17 +111,17 @@ class _TopEdge(Boxes):
 
         if tl.char == "i":
             tb = tf = "e"
-            tr = "j"
+            tl = "j"
         elif tl.char == "k":
-            tb = tf = "e"
+            tl = tr = "e"
         elif tl.char == "L":
             tl = "M"
-            tb = "e"
+            tf = "e"
             tr = "N"
         elif tl.char == "v":
-            tb = tr = tf = "e"
+            tl = tr = tf = "e"
         elif tl.char == "t":
-            tl = tr = "e"
+            tf = tb = "e"
         elif tl.char == "G":
             tl = tb = tr = tf = "e"
             if self.edges["G"].settings.side == edges.MountingSettings.PARAM_LEFT:
@@ -155,16 +155,16 @@ class _TopEdge(Boxes):
         elif top_edge in "FhŠY":
             self.rectangularWall(x, y, "ffff", move="up", label="top")
         elif top_edge == "L":
-            self.rectangularWall(x, y, "nlmE", move="up", label="lid top")
+            self.rectangularWall(x, y, "Enlm", move="up", label="lid top")
         elif top_edge == "i":
-            self.rectangularWall(x, y, "IEJe", move="up", label="lid top")
+            self.rectangularWall(x, y, "EJeI", move="up", label="lid top")
         elif top_edge == "k":
             outset =  self.edges["k"].settings.outset
             self.edges["k"].settings.setValues(self.thickness, outset=True)
             lx = x/2.0-0.1*self.thickness
             self.edges['k'].settings.setValues(self.thickness, grip_length=5)
             self.rectangularWall(lx, y, "IeJe", move="right", label="lid top left")
-            self.rectangularWall(lx, y, "IeJe", move="up", label="lid top right")
+            self.rectangularWall(lx, y, "IeJe", move="mirror up", label="lid top right")
             self.rectangularWall(lx, y, "IeJe", move="left only", label="invisible")
             self.edges["k"].settings.setValues(self.thickness, outset=outset)
         elif top_edge == "S":

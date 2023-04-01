@@ -62,7 +62,7 @@ class UniversalBox(_TopEdge, _ChestLid):
         x, y, h = self.x, self.y, self.h
         t = self.thickness
 
-        t1, t2, t3, t4 = self.topEdges(self.top_edge)
+        tl, tb, tr, tf = self.topEdges(self.top_edge)
         b = self.edges.get(self.bottom_edge, self.edges["F"])
 
         d2 = Bolts(2)
@@ -78,12 +78,12 @@ class UniversalBox(_TopEdge, _ChestLid):
             self.h = h = self.adjustSize(h, b, self.top_edge)
 
         with self.saved_context():
-            self.rectangularWall(x, h, [b, sideedge, t1, sideedge],
+            self.rectangularWall(x, h, [b, sideedge, tf, sideedge],
                                  ignore_widths=[1, 6],
-                                 bedBolts=[d2], move="up", label="left")
-            self.rectangularWall(x, h, [b, sideedge, t3, sideedge],
+                                 bedBolts=[d2], move="up", label="front")
+            self.rectangularWall(x, h, [b, sideedge, tb, sideedge],
                                  ignore_widths=[1, 6],
-                                 bedBolts=[d2], move="up", label="right")
+                                 bedBolts=[d2], move="up", label="back")
 
             if self.bottom_edge != "e":
                 self.rectangularWall(x, y, "ffff", bedBolts=[d2, d3, d2, d3], move="up", label="bottom")
@@ -95,14 +95,14 @@ class UniversalBox(_TopEdge, _ChestLid):
             self.drawLid(x, y, self.top_edge, [d2, d3])
             self.drawAddOnLid(x, y, self.lid)
 
-        self.rectangularWall(x, h, [b, sideedge, t3, sideedge],
+        self.rectangularWall(x, h, [b, sideedge, tf, sideedge],
                              ignore_widths=[1, 6],
                              bedBolts=[d2], move="right only", label="invisible")
-        self.rectangularWall(y, h, [b, "f", t2, "f"],
+        self.rectangularWall(y, h, [b, "f", tl, "f"],
                              ignore_widths=[1, 6],
-                             bedBolts=[d3], move="up", label="back")
-        self.rectangularWall(y, h, [b, "f", t4, "f"],
+                             bedBolts=[d3], move="up", label="left")
+        self.rectangularWall(y, h, [b, "f", tr, "f"],
                              ignore_widths=[1, 6],
-                             bedBolts=[d3], move="up", label="front")
+                             bedBolts=[d3], move="up", label="right")
 
 

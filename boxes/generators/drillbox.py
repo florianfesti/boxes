@@ -20,6 +20,8 @@ from boxes.lids import _TopEdge
 class DrillBox(_TopEdge):
     """A parametrized box for drills"""
 
+    description = """![Multiple DrillBoxes](static/samples/DrillBoxes.jpg) """
+
     ui_group = "Tray"
 
     def __init__(self) -> None:

@@ -1,4 +1,4 @@
-# English translations for PACKAGE package.
+# German translations for PACKAGE package.
 # Copyright (C) 2019 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Florian Festi <florian@festi.info>, 2019.
@@ -30,7 +30,7 @@ msgstr "Kisten"
 #. name of generator group
 #: boxes/generators/__init__.py
 msgid "FlexBox"
-msgstr "abgerundeten Kiste"
+msgstr "Abgerundete Kiste"
 
 #. title of group FlexBox
 #: boxes/generators/__init__.py
@@ -123,7 +123,7 @@ msgid ""
 "inner height of inner walls in mm (unless outside selected)(leave to zero "
 "for same as outer walls)"
 msgstr ""
-"Innere Höhe der Innenwände in mm (außer wenn Außenmaß markiert ist) (bleibt"
+"Innere Höhe der Innenwände in mm (außer wenn Außenmaß markiert ist) (bleibt "
 "bei Null wenn Außenwände gleich hoch sind)"
 
 #. parameter name
@@ -227,7 +227,7 @@ msgstr "Außenmaß"
 
 #. help for parameter outside
 msgid "treat sizes as outside measurements that include the walls"
-msgstr "Behandle Abmessungen als Außenmaße die die Materialstärke mit einbeziehen"
+msgstr "Behandle Abmessungen als Außenmaße, die die Materialstärke mit einbeziehen"
 
 #. parameter name
 msgid "nema_mount"
@@ -238,7 +238,7 @@ msgid "nema size of motor"
 msgstr "NEMA Motorrahmengröße"
 
 msgid "Default Settings"
-msgstr "Standarteinstellungen"
+msgstr "Standardeinstellungen"
 
 #. parameter name
 msgid "thickness"
@@ -254,7 +254,7 @@ msgstr "Format"
 
 #. help for parameter format
 msgid "format of resulting file"
-msgstr "Fermat der konvertierten Datei"
+msgstr "Format der konvertierten Datei"
 
 #. possible choice for format
 msgid "ai"
@@ -296,7 +296,7 @@ msgstr "Laschen"
 msgid ""
 "width of tabs holding the parts in place in mm (not supported everywhere)"
 msgstr ""
-"Breite der Laschen, die  die Teile an Ort und Stelle halten, in mm "
+"Breite der Laschen, die die Teile an Ort und Stelle halten, in mm "
 "(wird nicht überall unterstützt)"
 
 #. parameter name
@@ -305,7 +305,7 @@ msgstr "debug"
 
 #. help for parameter debug
 msgid "print surrounding boxes for some structures"
-msgstr "Drucke umgebende Box für etwas struktur"
+msgstr "Drucke umgebende Box für etwas Struktur"
 
 #. parameter name
 msgid "reference"
@@ -321,7 +321,7 @@ msgstr "burn"
 
 #. help for parameter burn
 msgid "burn correction in mm (bigger values for tighter fit)"
-msgstr "Brennpunktkorrektur in mm (höherer Wert für engere Passung )"
+msgstr "Brennpunktkorrektur in mm (höherer Wert für engere Passung)"
 
 msgid "Settings for Finger Joints"
 msgstr "Einstellung für Fingerzinken"
@@ -372,7 +372,7 @@ msgstr "Abstand zwischen den Zapfen"
 
 #. parameter name for FingerJoint
 msgid "width"
-msgstr  "Breite"
+msgstr "Breite"
 
 #. help for parameter width
 msgid "width of finger holes"
@@ -406,7 +406,7 @@ msgid "width of the feet"
 msgstr "Breite der Standfüße"
 
 msgid "Settings for Hinges and HingePins"
-msgstr "Einstellungen der Schaniere und Schanierbolzen"
+msgstr "Einstellungen der Scharniere und Scharnierbolzen"
 
 #. parameter name for Hinge
 msgid "grip_percentage"
@@ -426,7 +426,7 @@ msgstr "Bolzenbreite"
 
 #. help for parameter pinwidth
 msgid "set to lower value to get disks surrounding the pins"
-msgstr "kleiner Wert einstellen, um Bolzen umgebende Scheiben zu erhalten"
+msgstr "kleinen Wert einstellen, um Bolzen-umgebende Scheiben zu erhalten"
 
 #. parameter name for Hinge
 msgid "style"
@@ -454,11 +454,11 @@ msgstr "Grifflänge"
 
 #. help for parameter grip_length
 msgid "fixed length of the grips on he lids"
-msgstr "feste Länge der Griffe an dem Deckeln"
+msgstr "feste Länge der Griffe an den Deckeln"
 
 #. parameter name for Hinge
 msgid "hingestrength"
-msgstr "Schanierfestigkeit"
+msgstr "Scharnierfestigkeit"
 
 #. help for parameter hingestrength
 msgid "thickness of the arc holding the pin in place"
@@ -523,7 +523,7 @@ msgstr "Spaltbreite der Einschnitte"
 
 #. parameter name for Flex
 msgid "distance"
-msgstr "Entfärnung"
+msgstr "Entfernung"
 
 #. help for parameter distance
 msgid "width of the pattern perpendicular to the cuts"
@@ -619,7 +619,7 @@ msgid "Desktop Arcade Maschine"
 msgstr "Schreibtisch-Arcade-Automat"
 
 msgid "Arcade Settings"
-msgstr "Einstellungen für den Arcade-Automat"
+msgstr "Einstellungen für den Arcade-Automaten"
 
 #. help for parameter width
 #: boxes/generators/arcade.py
@@ -658,7 +658,7 @@ msgstr "Spielkartenaufbewahrung"
 #. description of CardBox
 #: boxes/generators/cardbox.py
 msgid "Box for storage of playingcards"
-msgstr "Aufbewahrungsbehälter für Spielkarten und ähnlichem"
+msgstr "Aufbewahrungsbehälter für Spielkarten und ähnliches"
 
 msgid "CardBox Settings"
 msgstr "Einstellung der Spielkartenaufbewahrung"
@@ -722,12 +722,12 @@ msgstr "Einstellungen der geschlossenen Kiste"
 #. name of box generator
 #: boxes/generators/concaveknob.py
 msgid "ConcaveKnob"
-msgstr "Gezahnte Drehknopf"
+msgstr "Gezahnter Drehknopf"
 
 #. description of ConcaveKnob
 #: boxes/generators/concaveknob.py
 msgid "Round knob serrated outside for better gripping"
-msgstr "Runder Drehknopf mit gezahnter Außenkontur für besseren halt."
+msgstr "Runder Drehknopf mit gezahnter Außenkontur für besseren Halt"
 
 msgid "ConcaveKnob Settings"
 msgstr "Einstellungen für den Drehknopf"
@@ -786,7 +786,7 @@ msgstr "dhole"
 #. help for parameter dhole
 #: boxes/generators/concaveknob.py
 msgid "D-Flat in fraction of the diameter"
-msgstr "D-Flat am Angeil des Durchmessers"
+msgstr "D-Flat am Anteil des Durchmessers"
 
 #. parameter name
 #: boxes/generators/concaveknob.py
@@ -861,7 +861,7 @@ msgstr "Außenkantenabstand"
 #. help for parameter disc_outset
 #: boxes/generators/discrack.py
 msgid "Additional space kept between the disks and the outbox of the rack"
-msgstr "Zusätzlicher Abstand zwischen dem Regalraster und den Außenkanten "
+msgstr "Zusätzlicher Abstand zwischen dem Regalraster und den Außenkanten"
 
 
 #. help for parameter angle
@@ -972,7 +972,7 @@ msgid ""
 "in 0.5mm steps, 3 holes each size"
 msgstr ""
 "Noch nicht parametrisierte Kiste für Bohrer von 1 bis 12,5 mm\n"
-"in 0,5 mm Abständen, 3 Löcher pro  Bohrerdurchmesser"
+"in 0,5-mm-Abständen, 3 Löcher pro Bohrerdurchmesser"
 
 msgid "DrillBox Settings"
 msgstr "Einstellungen für Bohrerhalterung"
@@ -1122,7 +1122,7 @@ msgstr "Höhe des Deckels"
 #. help for parameter radius
 #: boxes/generators/flexbox3.py
 msgid "radius of the lids living hinge"
-msgstr "Radius des Biegeschanierdeckels"
+msgstr "Radius des Biegescharnierdeckels"
 
 #. help for parameter c
 #: boxes/generators/flexbox3.py
@@ -1191,10 +1191,10 @@ msgstr "FlexTest2"
 #. description of FlexTest2
 #: boxes/generators/flextest2.py
 msgid "Piece for testing 2D flex settings"
-msgstr "Teil, um 2D Flex-Einstellungen zu testen"
+msgstr "Teil, um 2D-Flex-Einstellungen zu testen"
 
 msgid "FlexTest2 Settings"
-msgstr "Einstellungen für EFlexTest2"
+msgstr "Einstellungen für FlexTest2"
 
 #. parameter name
 #: boxes/generators/flextest2.py
@@ -1214,7 +1214,7 @@ msgstr "Mappe"
 #. description of Folder
 #: boxes/generators/folder.py
 msgid "Book cover with flex for the spine"
-msgstr "Bucheinband with flexiblem Rücken"
+msgstr "Bucheinband mit flexiblem Rücken"
 
 msgid "Folder Settings"
 msgstr "Einstellungen Mappe"
@@ -1227,7 +1227,7 @@ msgstr "r"
 #. help for parameter r
 #: boxes/generators/folder.py
 msgid "radius of the corners"
-msgstr "Kantenradius"
+msgstr "Eckenradius"
 
 #. name of box generator
 #: boxes/generators/gear.py
@@ -1413,7 +1413,7 @@ msgid "Box with lid attached by cabinet hinges"
 msgstr "Kiste mit an Scharnieren befestigter Deckel"
 
 msgid "HingeBox Settings"
-msgstr "Einstellung Schanierkiste"
+msgstr "Einstellung Scharnierkiste"
 
 #. parameter name
 #: boxes/generators/hingebox.py
@@ -1585,7 +1585,7 @@ msgstr "Laserklemme"
 #. description of LaserClamp
 #: boxes/generators/laserclamp.py
 msgid "A clamp to hold down material to a knife table"
-msgstr "Eine Klemme um Material auf einem Messertisch"
+msgstr "Eine Klemme um Material auf einem Messertisch zu halten"
 
 #. long description of LaserClamp in markdown
 #: boxes/generators/laserclamp.py
@@ -1595,7 +1595,7 @@ msgid ""
 "sliding mechanism less likely to bind. You may need to add some wax on the\n"
 "parts sliding on each other to reduce friction.\n"
 msgstr ""
-"Damit die Klemme funktioniert, brauchst man noch eine passende Feder.\n"
+"Damit die Klemme funktioniert, braucht man noch eine passende Feder.\n"
 "Vergrößere die Zusatzhöhe um mehr Spiel für die Feder zu bekommen und um\n"
 "den Gleitmechanismus lockerer zu gestalten. Eventuell musst du etwas Wachs an\n"
 "die Gleitteile anbringen, um Reibung zu minimieren.\n"
@@ -1641,7 +1641,7 @@ msgstr "L-Winkel"
 #. description of LBeam
 #: boxes/generators/lbeam.py
 msgid "Simple L-Beam: two pieces joined with a right angle"
-msgstr "einfach L-Winkel: Zwei Seitenteile, die im rechten Winkel zueinander"
+msgstr "einfach L-Winkel: Zwei Seitenteile, die im rechten Winkel zueinander "
 "verbunden sind"
 
 msgid "LBeam Settings"
@@ -1670,7 +1670,7 @@ msgstr "Makita-Netzteil"
 msgid ""
 "Bench power supply powered with Maktia 18V battery or laptop power supply"
 msgstr ""
-"Labornetzeil aus einem 18V Makita- oder Laptop-Akku"
+"Labornetzeil aus einem 18V-Makita- oder Laptop-Akku"
 
 
 #. long description of MakitaPowerSupply in markdown
@@ -1684,7 +1684,7 @@ msgid ""
 "(or adjust right  hole for different socket)\n"
 msgstr ""
 "\n"
-"Vitamins: DSP5005 (oder ähnliches) Netzteil, zwei Bananenstecker, zwei 4.8mm "
+"Vitamins: DSP5005 (oder ähnliches) Netzteil, zwei Bananenstecker, zwei 4,8-mm-"
 "Flachanschlüsse mit flacher Lötfahne\n"
 "\n"
 "Um die Stromversorgung per Laptop-Netzteil zu ermöglichen: Kippschalter umlegen,"
@@ -1724,7 +1724,7 @@ msgstr "Notizbox"
 #. description of NotesHolder
 #: boxes/generators/notesholder.py
 msgid "Box for holding a stack of paper, coasters etc"
-msgstr "Box um darin Notizzettel und ähnliche darin auzubewhren"
+msgstr "Box um darin Notizzettel und ähnliches darin auzubewahren"
 
 msgid "NotesHolder Settings"
 msgstr "Einstellung Notizbox"
@@ -1737,7 +1737,7 @@ msgstr "Schlitz"
 #. help for parameter slots
 #: boxes/generators/notesholder.py
 msgid "slots for grabbing the notes"
-msgstr "Schlitz um die Zettel besser greifen zu können"
+msgstr "Schlitz, um die Zettel besser greifen zu können"
 
 #. possible choice for slots
 #: boxes/generators/notesholder.py
@@ -1752,7 +1752,7 @@ msgstr "zwei"
 #. possible choice for slots
 #: boxes/generators/notesholder.py
 msgid "four"
-msgstr "drei"
+msgstr "vier"
 
 #. name of box generator
 #: boxes/generators/openbox.py
@@ -1861,7 +1861,7 @@ msgid ""
 "mouth to circumference ratio (0.1 to 0.45). Determines the width to depth "
 "ratio"
 msgstr ""
-"Mündungs-Umfangs-Verhältnis (0,1 bis 0,45). Bestimmt das Verhältnis"
+"Mündungs-Umfangs-Verhältnis (0,1 bis 0,45). Bestimmt das Verhältnis "
 "von Breite zu Tiefe"
 
 #. parameter name
@@ -1882,7 +1882,7 @@ msgstr "Mensur"
 #. help for parameter mensur
 #: boxes/generators/organpipe.py
 msgid "Distance in halftones in the Normalmensur by Töpfer"
-msgstr "Abstand der Halbtäne in der Normalmensur durch Töpfer"
+msgstr "Abstand der Halbtöne in der Normalmensur durch Töpfer"
 
 #. parameter name
 #: boxes/generators/organpipe.py
@@ -2021,7 +2021,7 @@ msgstr "Abschrägung an den Ecken"
 #. help for parameter num
 #: boxes/generators/ottosoles.py
 msgid "number of soles"
-msgstr "Zohlenzahl"
+msgstr "Sohlenzahl"
 
 #. name of box generator
 #: boxes/generators/paintbox.py
@@ -2034,7 +2034,7 @@ msgid "Stackable paint storage"
 msgstr "Stapelbares Farbenregal"
 
 msgid "PaintStorage Settings"
-msgstr "Einstellungen Farbregal"
+msgstr "Einstellungen Farbenregal"
 
 #. parameter name
 #: boxes/generators/paintbox.py
@@ -2127,7 +2127,7 @@ msgstr "Deltazahn"
 #. help for parameter deltateeth
 #: boxes/generators/planetary.py
 msgid "enable secondary ring with given delta to the ring gear"
-msgstr "Freigabe eines zweiten Rings mit gegeben Delta zum Holrad"
+msgstr "Freigabe eines zweiten Rings mit gegebenem Delta zum Holrad"
 
 #. name of box generator
 #: boxes/generators/planetary2.py
@@ -2369,7 +2369,7 @@ msgstr "Innentiefe in mm"
 #. help for parameter height
 #: boxes/generators/rack19box.py
 msgid "height in rack units"
-msgstr "Höhe in  Rack-Einheiten"
+msgstr "Höhe in Rack-Einheiten"
 
 #. name of box generator
 #: boxes/generators/rack10box.py
@@ -2536,12 +2536,12 @@ msgstr "Wie weit sollen die Schwalbenschanzzinken aus/in den Rand ragen"
 #. help for parameter radius
 #: boxes/generators/rectangularWall.py
 msgid "radius used on all four corners"
-msgstr "Kantenradius an allen vier Ecken"
+msgstr "Radius an allen vier Ecken"
 
 #. help for parameter size
 #: boxes/generators/rectangularWall.py
 msgid "from one middle of a dove tail to another"
-msgstr "Von einer Zinkenmitte zur andern"
+msgstr "Von einer Zinkenmitte zur nächsten"
 
 msgid "Settings for rack (and pinion) edge"
 msgstr "Einstellungen für Rack- und Ritzelkanten"
@@ -2635,7 +2635,7 @@ msgstr "RobotArm"
 #. description of RobotArm
 #: boxes/generators/robotarm.py
 msgid "Segments of servo powered robot arm"
-msgstr "Segmente eines, von Servomotoren betriebenen Roboterarms "
+msgstr "Segmente eines von Servomotoren betriebenen Roboterarms "
 
 msgid "RobotArm Settings"
 msgstr "Einstellungen RobotArm"
@@ -2807,7 +2807,7 @@ msgstr "Einstellungen Rotary"
 #. help for parameter diameter
 #: boxes/generators/rotary.py
 msgid "outer diameter of the wheels (including O rings)"
-msgstr "Radaußendurchmesser (einschließlich 0-Ringe)"
+msgstr "Radaußendurchmesser (einschließlich O-Ringe)"
 
 #. parameter name
 #: boxes/generators/rotary.py
@@ -2906,12 +2906,12 @@ msgstr "Einstellungen Königliches Spiel"
 #. name of box generator
 #: boxes/generators/shutterbox.py
 msgid "ShutterBox"
-msgstr "Rolladenkiste"
+msgstr "Rollladenkiste"
 
 #. description of ShutterBox
 #: boxes/generators/shutterbox.py
 msgid "Box with a rolling shutter made of flex"
-msgstr "Kiste mit eine Rolladenverschluss aus flexiblen Material"
+msgstr "Kiste mit einem Rollladenverschluss aus flexiblem Material"
 
 #. long description of ShutterBox in markdown
 #: boxes/generators/shutterbox.py
@@ -2919,7 +2919,7 @@ msgid "Beware of the rolling shutter effect! Use wax on sliding surfaces."
 msgstr "Beachte den Rollladen-Effekt! Verwende Wachs an den Gleitflächen"
 
 msgid "ShutterBox Settings"
-msgstr "Einstellunge Rolladenkiste"
+msgstr "Einstellungen Rollladenkiste"
 
 #. help for parameter style
 #: boxes/generators/shutterbox.py
@@ -3044,7 +3044,7 @@ msgid "Holds a single caliper to a slat wall"
 msgstr "Halterung für einen Messschieber an einer Holzwand"
 
 msgid "SlatwallCaliper Settings"
-msgstr "Einstellungen Messchieberhalterung"
+msgstr "Einstellungen Messschieberhalterung"
 
 #. help for parameter width
 #: boxes/generators/slatwallcaliperholder.py
@@ -3069,7 +3069,7 @@ msgstr "Sperrholz-Armaturenbrett"
 #. description of SlatwallConsole
 #: boxes/generators/slatwallconsole.py
 msgid "Outset and angled plate to mount stuff to"
-msgstr "Abgewinkelts Armaturenbrett um darauf Zeugs zu montieren"
+msgstr "Abgewinkeltes Armaturenbrett, um darauf Zeug zu montieren"
 
 msgid "SlatwallConsole Settings"
 msgstr "Einstellungen Armaturenbrett"
@@ -3077,7 +3077,7 @@ msgstr "Einstellungen Armaturenbrett"
 #. parameter name
 #: boxes/generators/slatwallconsole.py
 msgid "top_depth"
-msgstr "Oberteiltief"
+msgstr "Oberteiltiefe"
 
 #. help for parameter top_depth
 #: boxes/generators/slatwallconsole.py
@@ -3171,7 +3171,7 @@ msgstr "Einstellungen Zangenhalter"
 #. help for parameter angle
 #: boxes/generators/slatwallpliersholder.py
 msgid "bracing angle - less for more bracing"
-msgstr "Stützwinkel - weniger für mehr unterstützung"
+msgstr "Stützwinkel - weniger für mehr Unterstützung"
 
 #. name of box generator
 #: boxes/generators/slatwallslottedholder.py
@@ -3204,12 +3204,12 @@ msgstr "zusätzliche Tiefe"
 #. help for parameter additional_depth
 #: boxes/generators/slatwallslottedholder.py
 msgid "depth behind the lots"
-msgstr "Tiefe hinter den Schlitze"
+msgstr "Tiefe hinter den Schlitzen"
 
 #. parameter name
 #: boxes/generators/slatwallslottedholder.py
 msgid "slot_width"
-msgstr "Schlitzbreites"
+msgstr "Schlitzbreite"
 
 #. help for parameter slot_width
 #: boxes/generators/slatwallslottedholder.py
@@ -3446,7 +3446,7 @@ msgstr "Ablagegestell"
 #. description of StorageRack
 #: boxes/generators/storagerack.py
 msgid "StorageRack to store boxes and trays which have their own floor"
-msgstr "Ablagegestell zur Lagerung von Kisten und ähnlichem mit eigenen Boden"
+msgstr "Ablagegestell zur Lagerung von Kisten und ähnlichem mit eigenem Boden"
 
 msgid "StorageRack Settings"
 msgstr "Einstellung Ablagegestell"
@@ -3525,10 +3525,10 @@ msgid ""
 "\n"
 "When turned by 90°, it can be also used to create a bottle holder."
 msgstr ""
-"„Die Ampel wurde geschaffen, um den Status eines von Icinga überwachten "
+"„Die Ampel wurde entworfen, um den Status eines von Icinga überwachten "
 "„Systems“ zu visualisieren.\n"
 "\n"
-"Um 90° Grad gedreht, kann sie auch als Flaschenhalter benutzt werden."
+"Um 90° gedreht, kann sie auch als Flaschenhalter benutzt werden."
 
 msgid "TrafficLight Settings"
 msgstr "Einstellungen Ampel"
@@ -3617,11 +3617,11 @@ msgstr "Zweiteilige Kiste"
 #. description of TwoPiece
 #: boxes/generators/two_piece.py
 msgid ""
-"Eine zweiteilige Schachtel, bei der die Oberseite über die untere Hälfte \n"
+"A two piece box where top slips over the bottom half to form \n"
 "       the enclosure.\n"
 "    "
 msgstr ""
-"A two piece box where top slips over the bottom half to form \n"
+"Eine zweiteilige Schachtel, bei der die Oberseite über die untere Hälfte \n"
 "gleitet, um das Gehäuse zu bilden.\n"
 "    "
 
@@ -3711,7 +3711,7 @@ msgid "Box with different height in each corner"
 msgstr "Kiste mit unterschiedlichen Kantenhöhen"
 
 msgid "UnevenHeightBox Settings"
-msgstr "Einsellungen Kiste"
+msgstr "Einstellungen Kiste"
 
 #. parameter name
 #: boxes/generators/unevenheightbox.py
@@ -3774,7 +3774,7 @@ msgstr "Einstellungen Universalkiste"
 #. help for parameter lid
 #: boxes/generators/universalbox.py
 msgid "additional lid (for straight top_edge only)"
-msgstr "Zusätzlicher Dekcel (nur für gerade Oberkanten)"
+msgstr "Zusätzlicher Deckel (nur für gerade Oberkanten)"
 
 #. name of box generator
 #: boxes/generators/waivyknob.py
@@ -3847,7 +3847,7 @@ msgstr "Boxes.py"
 
 #: scripts/boxesserver:310
 msgid "Create boxes and more with a laser cutter!"
-msgstr "Entwerfe Kisten and mehr mit einem Laser-Cutter!"
+msgstr "Entwirf Kisten und mehr mit einem Laser-Cutter!"
 
 #: scripts/boxesserver:313
 msgid ""
@@ -3877,12 +3877,12 @@ msgstr "Dokumentation und API-Beschreibung"
 
 #: scripts/boxesserver:368
 msgid "Hackaday.io Project Page"
-msgstr "Hackaday.io Projekt Seite"
+msgstr "Hackaday.io Projekt-Seite"
 
 #: scripts/boxesserver:377
 #, python-format
 msgid "Error generating %s"
-msgstr "Fehler bei Generieren %s"
+msgstr "Fehler beim Generieren von %s"
 
 #: scripts/boxesserver:382
 msgid "An error occurred!"

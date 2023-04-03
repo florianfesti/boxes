@@ -1641,7 +1641,7 @@ msgstr "L-Winkel"
 #. description of LBeam
 #: boxes/generators/lbeam.py
 msgid "Simple L-Beam: two pieces joined with a right angle"
-msgstr "einfach L-Winkel: Zwei Seitenteile, die im rechten Winkel zueinander "
+msgstr "Einfacher L-Winkel: Zwei Seitenteile, die im rechten Winkel zueinander "
 "verbunden sind"
 
 msgid "LBeam Settings"
@@ -1724,7 +1724,7 @@ msgstr "Notizbox"
 #. description of NotesHolder
 #: boxes/generators/notesholder.py
 msgid "Box for holding a stack of paper, coasters etc"
-msgstr "Box um darin Notizzettel und ähnliches darin auzubewahren"
+msgstr "Kiste, um Notizzettel und ähnliches darin aufzubewahren"
 
 msgid "NotesHolder Settings"
 msgstr "Einstellung Notizbox"

@@ -29,7 +29,7 @@ class BOX(Boxes): # Change class name!
         # self.addSettingsArgs(edges.FingerJointSettings, finger=1.0,space=1.0)
         # self.addSettingsArgs(edges.StackableSettings)
         # self.addSettingsArgs(edges.HingeSettings)
-        # self.addSettingsArgs(edges.LidSettings)
+        # self.addSettingsArgs(edges.SlideOnLidSettings)
         # self.addSettingsArgs(edges.ClickSettings)
         # self.addSettingsArgs(edges.FlexSettings)
 

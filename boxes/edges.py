@@ -1915,7 +1915,7 @@ class CabinetHingeEdge(BaseEdge):
 ####     Slide-on lid
 #############################################################################
 
-class LidSettings(FingerJointSettings):
+class SlideOnLidSettings(FingerJointSettings):
     """Settings for Slide-on Lids
 
 Note that edge_width below also determines how much the sides extend above the lid.

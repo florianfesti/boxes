@@ -617,8 +617,8 @@ class Boxes:
         edges.CabinetHingeSettings(self.thickness, True,
                 **self.edgesettings.get("CabinetHinge", {})).edgeObjects(self)
         # Sliding Lid
-        edges.LidSettings(self.thickness, True,
-                **self.edgesettings.get("Lid", {})).edgeObjects(self)
+        edges.SlideOnLidSettings(self.thickness, True,
+                **self.edgesettings.get("SlideOnLid", {})).edgeObjects(self)
         # Rounded Triangle Edge
         edges.RoundedTriangleEdgeSettings(self.thickness, True,
                 **self.edgesettings.get("RoundedTriangleEdge", {})).edgeObjects(self)

@@ -32,7 +32,7 @@ class RectangularWall(Boxes):
         self.addSettingsArgs(edges.GripSettings)
         self.addSettingsArgs(edges.HingeSettings)
         self.addSettingsArgs(edges.ChestHingeSettings)
-        self.addSettingsArgs(edges.LidSettings)
+        self.addSettingsArgs(edges.SlideOnLidSettings)
         self.addSettingsArgs(edges.StackableSettings)
 
         self.buildArgParser(x=100, h=100)

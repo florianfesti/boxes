@@ -91,13 +91,13 @@ class _ChestLid(Boxes):
 class _TopEdge(Boxes):
 
     def addTopEdgeSettings(self, fingerjoint={}, stackable={}, hinge={},
-                           cabinethinge={}, lid={}, click={},
+                           cabinethinge={}, slideonlid={}, click={},
                            roundedtriangle={}, mounting={}, handle={}):
         self.addSettingsArgs(edges.FingerJointSettings, **fingerjoint)
         self.addSettingsArgs(edges.StackableSettings, **stackable)
         self.addSettingsArgs(edges.HingeSettings, **hinge)
         self.addSettingsArgs(edges.CabinetHingeSettings, **cabinethinge)
-        self.addSettingsArgs(edges.LidSettings, **lid)
+        self.addSettingsArgs(edges.SlideOnLidSettings, **slideonlid)
         self.addSettingsArgs(edges.ClickSettings, **click)
         self.addSettingsArgs(edges.RoundedTriangleEdgeSettings, **roundedtriangle)
         self.addSettingsArgs(edges.MountingSettings, **mounting)

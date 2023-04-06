@@ -27,7 +27,7 @@ class AllEdges(Boxes):
         self.addSettingsArgs(edges.FingerJointSettings)
         self.addSettingsArgs(edges.StackableSettings)
         self.addSettingsArgs(edges.HingeSettings)
-        self.addSettingsArgs(edges.LidSettings)
+        self.addSettingsArgs(edges.SlideOnLidSettings)
         self.addSettingsArgs(edges.ClickSettings)
         self.addSettingsArgs(edges.FlexSettings)
         self.addSettingsArgs(edges.HandleEdgeSettings)

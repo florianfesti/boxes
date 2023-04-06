@@ -16,9 +16,9 @@
 
 from boxes import *
 from boxes.edges import Bolts
-from boxes.lids import _TopEdge, _ChestLid
+from boxes.lids import _TopEdge
 
-class UniversalBox(_TopEdge, _ChestLid):
+class UniversalBox(_TopEdge):
     """Box with various options for different styles and lids"""
 
     ui_group = "Box"
@@ -28,6 +28,7 @@ class UniversalBox(_TopEdge, _ChestLid):
         self.addTopEdgeSettings(roundedtriangle={"outset" : 1},
                                 hinge={"outset" : True})
         self.addSettingsArgs(edges.FlexSettings)
+        self.addSettingsArgs(lids.LidSettings)
         self.buildArgParser("top_edge", "bottom_edge",
                             "x", "y", "h", "outside")
         self.argparser.add_argument(
@@ -35,10 +36,6 @@ class UniversalBox(_TopEdge, _ChestLid):
             default="finger joints",
             choices=("finger joints", "finger holes"),
             help="connections used for the vertical edges")
-        self.argparser.add_argument(
-            "--lid",  action="store", type=str, default="default (none)",
-            choices=("default (none)", "chest", "flat"),
-            help="additional lid (for straight top_edge only)")
 
     def top_hole(self, x, y, top_edge):
         t = self.thickness
@@ -93,7 +90,7 @@ class UniversalBox(_TopEdge, _ChestLid):
                     lambda:self.top_hole(x, y, self.top_edge)], move="up", label="top hole")
                 self.set_source_color(Color.BLACK)
             self.drawLid(x, y, self.top_edge, [d2, d3])
-            self.drawAddOnLid(x, y, self.lid)
+            self.lid(x, y, self.top_edge)
 
         self.rectangularWall(x, h, [b, sideedge, tf, sideedge],
                              ignore_widths=[1, 6],

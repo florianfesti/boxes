@@ -15,6 +15,7 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
+from boxes.lids import LidSettings
 
 class ABox(Boxes):
     """A simple Box"""
@@ -26,11 +27,8 @@ class ABox(Boxes):
     def __init__(self) -> None:
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings)
+        self.addSettingsArgs(LidSettings)
         self.buildArgParser("x", "y", "h", "outside", "bottom_edge")
-        #self.argparser.add_argument(
-        #    "--lid",  action="store", type=str, default="default (none)",
-        #    choices=("default (none)", "chest", "flat"),
-        #    help="additional lid (for straight top_edge only)")
 
     def render(self):
         x, y, h = self.x, self.y, self.h
@@ -53,7 +51,7 @@ class ABox(Boxes):
 
             if self.bottom_edge != "e":
                 self.rectangularWall(x, y, "ffff", move="up")
-            #self.drawAddOnLid(x, y, self.lid)
+            self.lid(x, y)
 
         self.rectangularWall(x, h, [b, sideedge, t3, sideedge],
                              ignore_widths=[1, 6], move="right only")

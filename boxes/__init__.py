@@ -634,6 +634,10 @@ class Boxes:
         # HexHoles
         self.hexHolesSettings = HexHolesSettings(self.thickness, True,
                 **self.edgesettings.get("HexHoles", {}))
+        # Lids
+        self.lidSettings = lids.LidSettings(self.thickness, True,
+                                       **self.edgesettings.get("Lid", {}))
+        self.lid = lids.Lid(self, self.lidSettings)
 
         # Nuts
         self.addPart(NutHole(self, None))

@@ -13,25 +13,101 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from boxes import *
+from boxes import edges, Boxes
 
-class _ChestLid(Boxes):
+class LidSettings(edges.Settings):
 
-    def getR(self, x, angle=0):
+    """Settings for the Lid
+Values:
+*absolute
+
+ * style : "none" : type of lid to create
+
+* relative (in multiples of thickness)
+
+  * height : 4.0 : height of the brim (if any)
+  * play : 0.1 : play when sliding the lid on (if applicable)
+    """
+
+    absolute_params = {
+        "style" : ("none", "flat", "chest", "overthetop", "ontop"),
+    }
+
+    relative_params = {
+        "height" : 4.0,
+        "play" : 0.1,
+    }
+
+
+class Lid:
+
+    def __init__(self, boxes, settings):
+        self.boxes = boxes
+        self.settings = settings
+
+    def __getattr__(self, name):
+        """Hack for using unalter code form Boxes class"""
+        if hasattr(self.settings, name):
+            return getattr(self.settings, name)
+        return getattr(self.boxes, name)
+
+    def handleCB(self, x, y):
+        def cb():
+            pass
+
+        return cb
+
+    def __call__(self, x, y, edge=None):
+        t = self.thickness
+        style = self.settings.style
+        height = self.height
+        if style == "flat":
+            self.rectangularWall(x, y, "eeee", move="right", label="lid bottom")
+            self.rectangularWall(x, y, "EEEE", move="up", label="lid top")
+        elif style == "chest":
+            self.chestSide(x, move="right", label="lid right")
+            self.chestSide(x, move="up", label="lid left")
+            self.chestSide(x, move="left only", label="invisible")
+            self.chestTop(x, y, move="up", label="lid top")
+        elif style in ("overthetop", "ontop"):
+            x2 = x
+            y2 = y
+            if style == "overthetop":
+                x2 += 2*t + self.play
+                y2 += 2*t + self.play
+            self.rectangularWall(x2, y2, "ffff", move="up")
+            self.rectangularWall(x2, self.height, "eFFF",
+                                 ignore_widths=[1, 2, 5, 6], move="up")
+            self.rectangularWall(x2, self.height, "eFFF",
+                                 ignore_widths=[1, 2, 5, 6], move="up")
+            self.rectangularWall(y2, self.height, "efFf",
+                                 ignore_widths=[1, 2, 5, 6], move="up")
+            self.rectangularWall(y2, self.height, "efFf",
+                                 ignore_widths=[1, 2, 5, 6], move="up")
+            if style ==	"ontop":
+                self.rectangularWall(y - self.play, height + 2*t, "eeee",
+                                     move="up")
+                self.rectangularWall(y - self.play, height + 2*t, "eeee",
+                                     move="up")
+        else:
+            return False
+        return True
+
+    def getChestR(self, x, angle=0):
         t = self.thickness
         d = x - 2*math.sin(math.radians(angle)) * (3*t)
 
         r = d / 2.0 / math.cos(math.radians(angle))
         return r
 
-    def side(self, x, angle=0, move="", label=""):
+    def chestSide(self, x, angle=0, move="", label=""):
         if "a" not in self.edges:
             s = edges.FingerJointSettings(self.thickness, True,
                                           finger=1.0, space=1.0)
             s.edgeObjects(self, "aA.")
 
         t = self.thickness
-        r = self.getR(x, angle)
+        r = self.getChestR(x, angle)
         if self.move(x+2*t, 0.5*x+3*t, move, True, label=label):
             return
 
@@ -45,14 +121,14 @@ class _ChestLid(Boxes):
 
         self.move(x+2*t, 0.5*x+3*t, move, False, label=label)
 
-    def top(self, x, y, angle=0, move=None, label=""):
+    def chestTop(self, x, y, angle=0, move=None, label=""):
         if "a" not in self.edges:
             s = edges.FingerJointSettings(self.thickness, True,
                                           finger=1.0, space=1.0)
             s.edgeObjects(self, "aA.")
 
         t = self.thickness
-        l = math.radians(180-2*angle) * self.getR(x, angle)
+        l = math.radians(180-2*angle) * self.getChestR(x, angle)
 
         tw = l + 6*t
         th = y+2*t
@@ -74,19 +150,6 @@ class _ChestLid(Boxes):
         self.corner(90)
 
         self.move(tw, th, move, label=label)
-
-    def drawAddOnLid(self, x, y, style):
-        if style == "flat":
-            self.rectangularWall(x, y, "eeee", move="right", label="lid bottom")
-            self.rectangularWall(x, y, "EEEE", move="up", label="lid top")
-        elif style == "chest":
-            self.side(x, move="right", label="lid right")
-            self.side(x, move="up", label="lid left")
-            self.side(x, move="left only", label="invisible")
-            self.top(x, y, move="up", label="lid top")
-        else:
-            return False
-        return True
 
 class _TopEdge(Boxes):
 

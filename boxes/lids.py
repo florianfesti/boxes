@@ -72,17 +72,21 @@ class Lid:
         elif style in ("overthetop", "ontop"):
             x2 = x
             y2 = y
+            b = {
+                "Š" : "š",
+                "S" : "š",
+            }.get(edge, "e")
             if style == "overthetop":
                 x2 += 2*t + self.play
                 y2 += 2*t + self.play
             self.rectangularWall(x2, y2, "ffff", move="up")
-            self.rectangularWall(x2, self.height, "eFFF",
+            self.rectangularWall(x2, self.height, b +"FFF",
                                  ignore_widths=[1, 2, 5, 6], move="up")
-            self.rectangularWall(x2, self.height, "eFFF",
+            self.rectangularWall(x2, self.height, b + "FFF",
                                  ignore_widths=[1, 2, 5, 6], move="up")
-            self.rectangularWall(y2, self.height, "efFf",
+            self.rectangularWall(y2, self.height, b + "fFf",
                                  ignore_widths=[1, 2, 5, 6], move="up")
-            self.rectangularWall(y2, self.height, "efFf",
+            self.rectangularWall(y2, self.height, b + "fFf",
                                  ignore_widths=[1, 2, 5, 6], move="up")
             if style ==	"ontop":
                 self.rectangularWall(y - self.play, height + 2*t, "eeee",
@@ -230,12 +234,6 @@ class _TopEdge(Boxes):
             self.rectangularWall(lx, y, "IeJe", move="mirror up", label="lid top right")
             self.rectangularWall(lx, y, "IeJe", move="left only", label="invisible")
             self.edges["k"].settings.setValues(self.thickness, outset=outset)
-        elif top_edge == "S":
-            self.rectangularWall(x, y, "ffff", move="up", label="lid top")
-            self.rectangularWall(x, 0, "sFeF", move="up", label="lid top left")
-            self.rectangularWall(x, 0, "sFeF", move="up", label="lid top right")
-            self.rectangularWall(y, 0, "sfef", move="up", label="lid top front")
-            self.rectangularWall(y, 0, "sfef", move="up", label="lid top back")
         elif top_edge == "v":
             self.rectangularWall(x, y, "VEEE", move="up", label="lid top")
             self.edges["v"].parts(move="up")

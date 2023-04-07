@@ -23,20 +23,24 @@ Values:
 *absolute
 
  * style : "none" : type of lid to create
+ * handle : "none" : type of handle
 
 * relative (in multiples of thickness)
 
   * height : 4.0 : height of the brim (if any)
   * play : 0.1 : play when sliding the lid on (if applicable)
+  * handle_height : 8.0 : height of the handle (if applicable)
     """
 
     absolute_params = {
         "style" : ("none", "flat", "chest", "overthetop", "ontop"),
+        "handle" : ("none", "long"),
     }
 
     relative_params = {
         "height" : 4.0,
         "play" : 0.1,
+        "handle_height" : 8.0,
     }
 
 
@@ -52,24 +56,24 @@ class Lid:
             return getattr(self.settings, name)
         return getattr(self.boxes, name)
 
-    def handleCB(self, x, y):
-        def cb():
-            pass
-
-        return cb
-
     def __call__(self, x, y, edge=None):
         t = self.thickness
         style = self.settings.style
         height = self.height
         if style == "flat":
-            self.rectangularWall(x, y, "eeee", move="right", label="lid bottom")
-            self.rectangularWall(x, y, "EEEE", move="up", label="lid top")
+            self.rectangularWall(x, y, "eeee",
+                                 callback=[self.handleCB(x, y)],
+                                 move="right", label="lid bottom")
+            self.rectangularWall(x, y, "EEEE",
+                                 callback=[self.handleCB(x, y)],
+                                 move="up", label="lid top")
         elif style == "chest":
             self.chestSide(x, move="right", label="lid right")
             self.chestSide(x, move="up", label="lid left")
             self.chestSide(x, move="left only", label="invisible")
-            self.chestTop(x, y, move="up", label="lid top")
+            self.chestTop(x, y,
+                          callback=[None, self.handleCB(x, 3*t)],
+                           move="up", label="lid top")
         elif style in ("overthetop", "ontop"):
             x2 = x
             y2 = y
@@ -80,7 +84,9 @@ class Lid:
             if style == "overthetop":
                 x2 += 2*t + self.play
                 y2 += 2*t + self.play
-            self.rectangularWall(x2, y2, "ffff", move="up")
+            self.rectangularWall(x2, y2, "ffff",
+                                 callback=[self.handleCB(x2, y2)],
+                                 move="up")
             self.rectangularWall(x2, self.height, b +"FFF",
                                  ignore_widths=[1, 2, 5, 6], move="up")
             self.rectangularWall(x2, self.height, b + "FFF",
@@ -96,7 +102,48 @@ class Lid:
                                      move="up")
         else:
             return False
+
+        self.handleParts(x, y)
         return True
+
+    ######################################################################
+    ### Handles
+    ######################################################################
+
+    def handleCB(self, x, y):
+        t = self.thickness
+        def cb():
+            if self.handle == "long":
+                self.rectangularHole(x/2, y/2, x/2, t)
+
+        return cb
+
+    def longHandle(self, x, y, move=None):
+        t = self.settings.thickness
+        hh = self.handle_height
+        tw, th = x/2 + 2*t, self.handle_height + 2*t
+
+        r = min(hh/2, x/4)
+
+        if self.move(tw, th, move, True):
+            return
+
+        self.moveTo(0.5*t)
+
+        poly = [(90, t/2), t/2, 90, t, -90, t + hh - r, (90, r)]
+
+        poly = [x/2+t] + poly + [x/2 - 2*r] + list(reversed(poly))
+        self.polyline(*poly)
+
+        self.move(tw, th, move)
+
+    def handleParts(self, x, y):
+        if self.handle == "long":
+            self.longHandle(x, y, "up")
+
+    ######################################################################
+    ### Chest Lid
+    ######################################################################
 
     def getChestR(self, x, angle=0):
         t = self.thickness
@@ -126,7 +173,7 @@ class Lid:
 
         self.move(x+2*t, 0.5*x+3*t, move, False, label=label)
 
-    def chestTop(self, x, y, angle=0, move=None, label=""):
+    def chestTop(self, x, y, angle=0, callback=None, move=None, label=""):
         if "a" not in self.edges:
             s = edges.FingerJointSettings(self.thickness, True,
                                           finger=1.0, space=1.0)
@@ -141,16 +188,20 @@ class Lid:
         if self.move(tw, th, move, True, label=label):
             return
 
+        self.cc(callback, 0, self.edges["A"].startwidth()+self.burn)
         self.edges["A"](3*t)
         self.edges["X"](l, y+2*t)
         self.edges["A"](3*t)
         self.corner(90)
+        self.cc(callback, 1)
         self.edge(y+2*t)
         self.corner(90)
+        self.cc(callback, 2, self.edges["A"].startwidth()+self.burn)
         self.edges["A"](3*t)
         self.edge(l)
         self.edges["A"](3*t)
         self.corner(90)
+        self.cc(callback, 3)
         self.edge(y+2*t)
         self.corner(90)
 

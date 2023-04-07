@@ -35,7 +35,6 @@ class DisplayShelf(Boxes):
     include_back: bool
     slope_top: bool
     outside: bool
-    num_of_dividers: int
     divider_wall_height: float
 
     def __init__(self) -> None:
@@ -43,7 +42,7 @@ class DisplayShelf(Boxes):
 
         self.addSettingsArgs(edges.FingerJointSettings)
 
-        self.buildArgParser(x=400, y=100, h=300, outside=True)
+        self.buildArgParser(sx="400", y=100, h=300, outside=True)
         self.argparser.add_argument(
             "--num", action="store", type=int, default=3,
             help="number of shelves")
@@ -59,10 +58,6 @@ class DisplayShelf(Boxes):
         self.argparser.add_argument(
             "--slope_top", action="store", type=boolarg, default=False,
             help="Slope the sides and the top by front wall height")
-
-        self.argparser.add_argument(
-            "--num_of_dividers", action="store", type=int, default=0,
-            help="number of dividers")
         self.argparser.add_argument(
             "--divider_wall_height", action="store", type=float, default=20.0,
             help="height of divider walls")
@@ -112,21 +107,21 @@ class DisplayShelf(Boxes):
         self.rectangularWall(width, height, edges, callback=[self.generate_finger_holes], move="up", label="right side")
 
     def generate_shelve_finger_holes(self):
-        if self.num_of_dividers <= 0:
-            return
-        trays = self.num_of_dividers + 1
-        for i in range(1, trays):
-            self.fingerHolesAt((self.x / trays) * i, 0, self.sl, 90)
+        t = self.thickness
+        pos_x = -0.5 * t
+        for x in self.sx[:-1]:
+            pos_x += x + t
+            self.fingerHolesAt(pos_x, 0, self.sl, 90)
 
     def generate_front_lip_finger_holes(self):
-        if self.num_of_dividers <= 0:
-            return
-        trays = self.num_of_dividers + 1
+        t = self.thickness
         height = self.front_wall_height
         if self.divider_wall_height < height:
             height = self.divider_wall_height
-        for i in range(1, trays):
-            self.fingerHolesAt((self.x / trays) * i, 0, height, 90)
+        pos_x = -0.5 * t
+        for x in self.sx[:-1]:
+            pos_x += x + t
+            self.fingerHolesAt(pos_x, 0, height, 90)
 
     def generate_shelves(self):
         if self.front_wall_height:
@@ -171,20 +166,21 @@ class DisplayShelf(Boxes):
                 ]
 
         for i in range(self.num):
-            for j in range(self.num_of_dividers):
+            for j in range(len(self.sx) -1):
                 self.rectangularWall(self.sl, self.divider_wall_height, edges_, move="up", label=f"divider {j + 1} for shelf {i + 1}")
 
     def render(self):
         # adjust to the variables you want in the local scope
-        x, y, h = self.x, self.y, self.h
+        sx, y, h = self.sx, self.y, self.h
         front = self.front_wall_height
         thickness = self.thickness
 
         if self.outside:
-            self.x = x = self.adjustSize(x)
+            self.sx = sx = self.adjustSize(sx)
             if self.include_back:
                 self.y = y = self.adjustSize(y, False)
 
+        self.x = x = sum(sx) + thickness * (len(sx) - 1)
         self.radians = a = math.radians(self.angle)
         self.sl = (y - (thickness * (math.cos(a) + abs(math.sin(a)))) - max(0, math.sin(a) * front)) / math.cos(a)
 
@@ -195,9 +191,7 @@ class DisplayShelf(Boxes):
             self.generate_rectangular_sides(y, h)
 
         self.generate_shelves()
-
-        if self.num_of_dividers > 0:
-            self.generate_dividers()
+        self.generate_dividers()
 
         if self.include_back:
             self.rectangularWall(x, h, "eFeF", label="back wall", move="up")

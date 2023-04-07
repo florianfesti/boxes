@@ -635,6 +635,7 @@ class Boxes:
         self.hexHolesSettings = HexHolesSettings(self.thickness, True,
                 **self.edgesettings.get("HexHoles", {}))
         # Lids
+        from . import lids
         self.lidSettings = lids.LidSettings(self.thickness, True,
                                        **self.edgesettings.get("Lid", {}))
         self.lid = lids.Lid(self, self.lidSettings)

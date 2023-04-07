@@ -14,6 +14,7 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import edges, Boxes
+import math
 
 class LidSettings(edges.Settings):
 

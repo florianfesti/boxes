@@ -17,7 +17,7 @@ from __future__ import annotations
 
 import boxes
 from boxes import *
-
+from boxes import lids
 
 class TrayLayoutFile(Boxes):
     """Generate a layout file for a typetray."""
@@ -101,6 +101,7 @@ You can replace the space characters representing the floor by a "X" to remove t
     def __init__(self) -> None:
         super().__init__()
         self.addSettingsArgs(boxes.edges.FingerJointSettings)
+        self.addSettingsArgs(lids.LidSettings)
         self.buildArgParser("h", "hi", "outside", "sx", "sy")
         if self.UI == "web":
             self.argparser.add_argument(
@@ -452,4 +453,6 @@ You can replace the space characters representing the floor by a "X" to remove t
     def render(self) -> None:
         self.prepare()
         self.walls()
-        self.base_plate()
+        self.base_plate(move="up")
+        self.lid(sum(self.x) + (len(self.x)-1) * self.thickness,
+                 sum(self.y) + (len(self.y)-1) * self.thickness)

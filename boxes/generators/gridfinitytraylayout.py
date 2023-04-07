@@ -2,7 +2,7 @@ import boxes
 from boxes import Boxes
 from boxes.generators.traylayout import TrayLayout
 from boxes.Color import Color
-from boxes import restore
+from boxes import restore, lids
 
 class GridfinityTrayLayout(TrayLayout):
     """A Gridfinity Tray Generator based on TrayLayout"""
@@ -25,6 +25,7 @@ this compartment.
     def __init__(self) -> None:
         Boxes.__init__(self)
         self.addSettingsArgs(boxes.edges.FingerJointSettings)
+        self.addSettingsArgs(lids.LidSettings)
         self.buildArgParser(h=50)
         self.outside = True # We're *always* outside for gridfinity
         self.pitch = 42.0 # gridfinity pitch is defined as 42.
@@ -103,9 +104,13 @@ this compartment.
 
         self.prepare()
         self.walls()
+        with self.saved_context():
+            self.base_plate(callback=[self.baseplate_etching],
+                            move="mirror right")
+            foot = self.opening - self.opening_margin
+            for i in range(min(self.nx * self.ny, 4)):
+                self.rectangularWall(foot, foot, move="right")
         self.base_plate(callback=[self.baseplate_etching],
-                        move="mirror right")
-        foot = self.opening - self.opening_margin
-        for i in range(min(self.nx * self.ny, 4)):
-            self.rectangularWall(foot, foot, move="right")
-
+                        move="up only")
+        self.lid(sum(self.x) + (len(self.x)-1) * self.thickness,
+                 sum(self.y) + (len(self.y)-1) * self.thickness)

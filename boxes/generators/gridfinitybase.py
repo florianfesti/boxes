@@ -15,6 +15,7 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
+from boxes import lids
 
 class GridfinityBase(Boxes):
     """A parameterized Gridfinity base"""
@@ -28,6 +29,7 @@ class GridfinityBase(Boxes):
     def __init__(self) -> None:
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings, space=4, finger=4)
+        self.addSettingsArgs(lids.LidSettings)
         self.argparser.add_argument("--x", type=int, default=3, help="number of grids in X direction")
         self.argparser.add_argument("--y", type=int, default=2, help="number of grids in Y direction")
         self.argparser.add_argument("--h", type=float, default=7*3, help="height of sidewalls of the tray (mm)")
@@ -69,23 +71,22 @@ class GridfinityBase(Boxes):
         b = self.edges.get(self.bottom_edge, self.edges["F"])
         sideedge = "F" # if self.vertical_edges == "finger joints" else "h"
 
-        with self.saved_context():
-            self.rectangularWall(x, h, [b, sideedge, t1, sideedge],
-                                 ignore_widths=[1, 6], move="up")
-            self.rectangularWall(x, h, [b, sideedge, t3, sideedge],
-                                 ignore_widths=[1, 6], move="up")
-
-            if self.bottom_edge != "e":
-                self.rectangularWall(x, y, "ffff", move="up")
-
-        self.rectangularWall(x, h, [b, sideedge, t3, sideedge],
-                             ignore_widths=[1, 6], move="right only")
+        self.rectangularWall(x, h, [b, sideedge, t1, sideedge],
+                             ignore_widths=[1, 6], move="right")
         self.rectangularWall(y, h, [b, "f", t2, "f"],
                              ignore_widths=[1, 6], move="up")
         self.rectangularWall(y, h, [b, "f", t4, "f"],
-                             ignore_widths=[1, 6], move="up")
+                             ignore_widths=[1, 6], move="")
+        self.rectangularWall(x, h, [b, sideedge, t3, sideedge],
+                             ignore_widths=[1, 6], move="left up")
+
+        if self.bottom_edge != "e":
+            self.rectangularWall(x, y, "ffff", move="up")
+
         return
 
     def render(self):
         self.create_base_plate()
         self.create_tray()
+        self.lid(self.x*self.pitch + 2*self.m,
+                 self.y*self.pitch + 2*self.m)

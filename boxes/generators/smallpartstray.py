@@ -15,6 +15,7 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
+from boxes import lids
 from boxes.edges import CompoundEdge
 
 class SmallPartsTray(Boxes):
@@ -27,6 +28,7 @@ class SmallPartsTray(Boxes):
 
         self.addSettingsArgs(edges.FingerJointSettings)
         # self.addSettingsArgs(edges.StackableSettings)
+        self.addSettingsArgs(lids.LidSettings)
 
         self.buildArgParser(sx="50*3", y=100, h=30, outside=True)
         self.argparser.add_argument(
@@ -243,7 +245,11 @@ class SmallPartsTray(Boxes):
             
 
         if self.two_sided:
-            for l in self.sx:
-                self.render_simple_tray_divider(l, h, move="right")
+            with self.saved_context():
+                for l in self.sx:
+                    self.render_simple_tray_divider(l, h, move="right")
 
-            self.partsMatrix(len(self.sx), 0, "right", self.render_simple_tray_divider_feet)
+                self.partsMatrix(len(self.sx), 0, "right", self.render_simple_tray_divider_feet)
+            self.render_simple_tray_divider(l, h, move="up only")
+
+            self.lid(x, y)

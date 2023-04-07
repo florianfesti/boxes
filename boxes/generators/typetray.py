@@ -15,7 +15,7 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
-from boxes.lids import _TopEdge
+from boxes.lids import _TopEdge, LidSettings
 
 class TypeTray(_TopEdge):
     """Type tray - allows only continuous walls"""
@@ -26,6 +26,7 @@ class TypeTray(_TopEdge):
         Boxes.__init__(self)
         self.addTopEdgeSettings(fingerjoint={"surroundingspaces": 0.5},
                                 roundedtriangle={"outset" : 1})
+        self.addSettingsArgs(lids.LidSettings)
         self.buildArgParser("sx", "sy", "h", "hi", "outside", "bottom_edge",
                             "top_edge")
         self.argparser.add_argument(
@@ -156,6 +157,7 @@ class TypeTray(_TopEdge):
                 self.xSlots, self.ySlots], move="up", label="top")
         else:
             self.drawLid(x, y, self.top_edge)
+        self.lid(x, y, self.top_edge)
 
         self.ctx.restore()
         self.rectangularWall(x, hi, "ffff", move="right only")

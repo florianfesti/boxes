@@ -63,7 +63,7 @@ class Lid:
         if style == "flat":
             self.rectangularWall(x, y, "eeee",
                                  callback=[self.handleCB(x, y)],
-                                 move="right", label="lid bottom")
+                                 move="up", label="lid bottom")
             self.rectangularWall(x, y, "EEEE",
                                  callback=[self.handleCB(x, y)],
                                  move="up", label="lid top")

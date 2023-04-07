@@ -15,7 +15,7 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import Boxes, edges, Color, ArgparseEdgeType
-from boxes.lids import _TopEdge
+from boxes.lids import _TopEdge, LidSettings
 
 class DrillBox(_TopEdge):
     """A parametrized box for drills"""
@@ -32,6 +32,7 @@ class DrillBox(_TopEdge):
         self.addSettingsArgs(edges.RoundedTriangleEdgeSettings, outset=1)
         self.addSettingsArgs(edges.StackableSettings)
         self.addSettingsArgs(edges.MountingSettings)
+        self.addSettingsArgs(LidSettings)
         self.argparser.add_argument(
             "--top_edge", action="store",
             type=ArgparseEdgeType("eStG"), choices=list("eStG"),
@@ -125,3 +126,4 @@ class DrillBox(_TopEdge):
             x, y, "ffff",
             callback=[lambda: self.drillholes(description=True)],
             move="right")
+        self.lid(x, y, self.top_edge)

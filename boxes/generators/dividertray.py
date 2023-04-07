@@ -19,7 +19,7 @@ from __future__ import annotations
 import math
 from functools import partial
 
-from boxes import Boxes, edges, boolarg
+from boxes import Boxes, edges, boolarg, lids
 
 
 class NotchSettings(edges.Settings):
@@ -94,6 +94,7 @@ You will likely need to cut each of the dividers you want multiple times.
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings)
         self.addSettingsArgs(edges.HandleEdgeSettings)
+        self.addSettingsArgs(lids.LidSettings)
         self.buildArgParser("sx", "sy", "h", "outside")
         self.addSettingsArgs(SlotSettings)
         self.addSettingsArgs(NotchSettings)
@@ -193,6 +194,8 @@ You will likely need to cut each of the dividers you want multiple times.
             self.rectangularWall(
                 side_wall_length, self.h, [be, "f", se, "f"], move="up", label="Sidepiece " + str(_ + 1)
             )
+
+        self.lid(facing_wall_length, side_wall_length)
 
         # Switch to right side of the file
         self.ctx.restore()

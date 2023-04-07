@@ -15,7 +15,7 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
-from boxes.lids import _TopEdge
+from boxes.lids import _TopEdge, LidSettings
 
 class TopEdge(edges.BaseEdge):
 
@@ -55,6 +55,7 @@ If there are no inner front to back walls just add everything to one side wall a
         Boxes.__init__(self)
         self.addTopEdgeSettings(fingerjoint={"surroundingspaces": 1.0},
                                 roundedtriangle={"outset" : 1})
+        self.addSettingsArgs(LidSettings)
         self.buildArgParser("sx", "sy", "hi", "outside", h=30)
         # "bottom_edge", "top_edge")
         self.argparser.add_argument(
@@ -178,7 +179,6 @@ If there are no inner front to back walls just add everything to one side wall a
             callback=[self.fingerHolesCB(self.sx, hi-t2)],
             move="up", label="floor front side")
         floors.append(hi-t2)
-        print(y, sum(floors), floors)
                 
         # Inner walls
 
@@ -198,6 +198,7 @@ If there are no inner front to back walls just add everything to one side wall a
 
         # top / lid
         self.drawLid(x, y, self.top_edge) # XXX deal with front
+        self.lid(x, y, self.top_edge)
 
         self.ctx.restore()
         self.rectangularWall(x, hi, "ffff", move="right only")

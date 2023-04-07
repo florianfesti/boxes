@@ -181,9 +181,9 @@ class DisplayShelf(Boxes):
         thickness = self.thickness
 
         if self.outside:
-            x = self.adjustSize(x)
+            self.x = x = self.adjustSize(x)
             if self.include_back:
-                y = self.adjustSize(y)
+                self.y = y = self.adjustSize(y, False)
 
         self.radians = a = math.radians(self.angle)
         self.sl = (y - (thickness * (math.cos(a) + abs(math.sin(a)))) - max(0, math.sin(a) * front)) / math.cos(a)

@@ -17,6 +17,7 @@
 from boxes import *
 from boxes.edges import Bolts
 from boxes.lids import _TopEdge
+from boxes import lids
 
 class UniversalBox(_TopEdge):
     """Box with various options for different styles and lids"""

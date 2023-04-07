@@ -1,4 +1,5 @@
 import math
+from typing import Any
 
 from boxes import Boxes, edges
 from .edges import Settings, BaseEdge
@@ -168,7 +169,7 @@ Values:
 
 """
 
-    absolute_params = {
+    absolute_params: dict[str, Any] = {
     }
 
     relative_params = {

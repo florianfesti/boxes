@@ -246,7 +246,7 @@ Values:
         'style' : ('circle', ),
     }
 
-    relative_params = {}
+    relative_params: dict[str, Any] = {}
 
 class fillHolesSettings(edges.Settings):
     """Settings for Hole filling

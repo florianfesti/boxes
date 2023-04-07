@@ -2439,7 +2439,7 @@ Values:
         "clearance": 0.0,
     }
 
-    relative_params = {}
+    relative_params: dict[str, Any] = {}
 
 
 class RackEdge(BaseEdge):

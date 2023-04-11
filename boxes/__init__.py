@@ -312,6 +312,9 @@ class Boxes:
             "cli_short" : "",
         }
 
+        # Dummy attribute for static analytic tools. Will be overwritten by `argparser` at runtime.
+        self.thickness: float = 0.0
+
         self.argparser._action_groups[1].title = self.__class__.__name__ + " Settings"
         defaultgroup = self.argparser.add_argument_group(
                         "Default Settings")

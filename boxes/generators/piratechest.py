@@ -16,31 +16,23 @@
 
 from boxes import *
 
-class Piratechest(Boxes): # Change class name!
+class Piratechest(Boxes):
     """Box with polygon lid with chest hinges."""
 
     description = """Do not assemble sides before attaching the lid! 
     Hinge of the lid has to be placed first because it is impossible 
     to get it in position without removing the side wall. The lid can 
-    be a bit tricky to assemble. Keep track of how the parts fit together."""
+    be a bit tricky to assemble. Keep track of how the parts fit together. 
+    Part with label "lid back" is placed in the hinges"""
 
-    ui_group = "Box" # see ./__init__.py for names
+    ui_group = "Box"
 
     def __init__(self) -> None:
         Boxes.__init__(self)
-
-        # Uncomment the settings for the edge types you use
-        # use keyword args to set default values
         self.addSettingsArgs(edges.FingerJointSettings, finger=1.0,space=1.0)
-        # self.addSettingsArgs(edges.StackableSettings)
         self.addSettingsArgs(edges.HingeSettings)
-        # self.addSettingsArgs(edges.LidSettings)
-        # self.addSettingsArgs(edges.ClickSettings)
-        # self.addSettingsArgs(edges.FlexSettings)
 
-        # remove cli params you do not need
-        self.buildArgParser(x=100, y=100, h=100)
-        # Add non default cli params if needed (see argparse std lib)
+        self.buildArgParser("x", "y", "h", "outside")
         self.argparser.add_argument(
             "--n",  action="store", type=int, default=5,
             help="number of sides on the lid")
@@ -49,22 +41,27 @@ class Piratechest(Boxes): # Change class name!
     def render(self):
         # adjust to the variables you want in the local scope
         x, y, h = self.x, self.y, self.h
+        if self.outside:
+            x = self.adjustSize(x)
+            y = self.adjustSize(y)
+            h = self.adjustSize(h, "f", False)
         t = self.thickness
         n = self.n
 
-        # Create new Edges here if needed E.g.:
-        s = edges.FingerJointSettings(self.thickness, relative=False,
-                                      space = 10, finger=10,
-                                      width=self.thickness)
-        p = edges.FingerJointEdge(self, s)
-        p.char = "a" # 'a', 'A', 'b' and 'B' is reserved for beeing used within generators
-        self.addPart(p)
-        # code from regularbox
+        if (n < 3):
+            raise ValueError("number of sides on the lid must be greater or equal to 3 (got %i)" % n)
+        
+        hy = self.edges["O"].startwidth()
+        h -= hy
+        if (h < 0):
+            raise ValueError("box to low to allow for hinge (%i)" % h)
+
+        # create edge for non 90 degree joints in the lid
         fingerJointSettings = copy.deepcopy(self.edges["f"].settings)
         fingerJointSettings.setValues(self.thickness, angle=180./(n-1))
         fingerJointSettings.edgeObjects(self, chars="gGH")
-        # render your parts here
 
+        # render all parts
         self.ctx.save()
 
         self.rectangularWall(x, y, "FFFF", move="up", label="Bottom")
@@ -85,42 +82,30 @@ class Piratechest(Boxes): # Change class name!
         self.rectangularWall(x, h, "fFoF", move="up only")
         self.rectangularWall(x, 0, "Peee", move="up only")
 
-        hy = self.edges["O"].startwidth()
-        hy2 = self.edges["P"].startwidth()
         e1 = edges.CompoundEdge(self, "Fe", (h, hy))
         e2 = edges.CompoundEdge(self, "eF", (hy, h))
         e_back = ("f", e1, "e", e2)
 
         with self.saved_context():
-            #self.rectangularWall(x, h, "fFeF", ignore_widths=[2, 5], move="right", label="back")
             self.rectangularWall(x, h+hy, e_back, move="right", label="back") # extend back to correct height
             self.rectangularWall(0, h, "ePee", move="right only")
             self.rectangularWall(y, h, "ffOf", ignore_widths=[2], move="right", label="left")
         self.rectangularWall(x, h, "fFOF", move="up only")
         self.rectangularWall(x, 0, "peee", move="up only")
 
-
         self.topside(y, n = n, move="right", bottem='p', label="lid left")
         self.topside(y, n = n, move="right", bottem='P', label="lid right")
 
 
- 
-
-    def topside(self, y, n, bottem='e', move=None, label=""):
+    def topside(self, y, n, bottem, move=None, label=""):
         radius, hp, side  = self.regularPolygon((n - 1) * 2, h=y/2.0)
-        t = self.thickness
-        
-        #edge = self.edges.get('f')
 
         tx = y + 2 * self.edges.get('f').spacing()
         lidheight = hp if n % 2 else radius
         ty = lidheight + self.edges.get('f').spacing() + self.edges.get(bottem).spacing()
         
         if self.move(tx, ty, move, before=True):
-            if bottem in "pP":
-                return side/2 + self.edges.get(bottem).spacing(), side, side/2
-            else:
-                return side/2, side, side/2
+            return side/2 + self.edges.get(bottem).spacing(), side, side/2
 
         self.moveTo(self.edges.get('f').margin(), self.edges.get(bottem).margin())
 
@@ -132,11 +117,9 @@ class Piratechest(Boxes): # Change class name!
         else:
             self.edges.get('f')(side/2)
         
-        #self.edgeCorner(self.edges.get('f'), self.edges.get('f'), 180 / (n - 1))
         self.corner(180 / (n - 1))
-        for i in range(n-2):
+        for _ in range(n-2):
             self.edges.get('f')(side)
-            #self.edgeCorner(self.edges.get('f'), self.edges.get('f'), 180 / (n - 1))
             self.corner(180 / (n - 1))
 
         if bottem == 'P':
@@ -148,7 +131,4 @@ class Piratechest(Boxes): # Change class name!
 
         self.move(tx, ty, move, label=label)
 
-        if bottem in "pP":
-            return side/2 + self.edges.get(bottem).spacing(), side, side/2
-        else:
-            return side/2, side, side/2
+        return side/2 + self.edges.get(bottem).spacing(), side, side/2

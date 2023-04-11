@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <svg height="185.20mm" viewBox="0.0 0.0 329.00 185.20" width="329.00mm" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <!--
-TrayLayout2 - Generate a typetray from a layout file.
+TrayLayout - Generate a typetray from a layout file.
 
 
 This is a two step process. This is step 2.
@@ -14,10 +14,10 @@ You can replace the space characters representing the floor by a "X" to remove t
 
 Created with Boxes.py (https://festi.info/boxes.py)
 -->
-<title>TrayLayout2</title>
+<title>TrayLayout</title>
 <metadata>
 <rdf:RDF><cc:Work>
-<dc:title>Misc - TrayLayout2</dc:title>
+<dc:title>Tray - TrayLayout</dc:title>
 <dc:description>Generate a typetray from a layout file.
 
 This is a two step process. This is step 2.

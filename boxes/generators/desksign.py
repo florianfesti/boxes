@@ -29,7 +29,7 @@ class Desksign(Boxes):
     def __init__(self) -> None:
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings)
-        #self.buildArgParser("x", "y", "h", "outside", "bottom_edge")
+        self.addSettingsArgs(edges.StackableSettings, width=2.0) # used for feet
 
         self.argparser.add_argument(
             "--width",  action="store", type=float, default=150,
@@ -46,11 +46,19 @@ class Desksign(Boxes):
         self.argparser.add_argument(
             "--fontsize", action="store", type=float, default=20,
             help="height of text")
+        self.argparser.add_argument(
+            "--feet", action="store", type=boolarg, default=False,
+            help="add raised feet")
+        self.argparser.add_argument(
+            "--mirror", action="store", type=boolarg, default=True,
+            help="mirrors one of the stand so the same side of the material can be placed on the outside")
 
     def render(self):
         width = self.width
         height = self.height
         angle = self.angle
+        feet = self.feet
+        mirror = self.mirror
         t = self.thickness
 
         if not (0 < angle and angle < 90):
@@ -68,5 +76,11 @@ class Desksign(Boxes):
                     fontsize = fontsize, align="center", color=Color.ETCHING)]) # add text
         else:
             self.rectangularWall(width, height, "eheh", move="right") # front
-
-        self.rectangularTriangle(base, h, "eef", num=2, move="right") # stands at back/side
+        
+        # stands at back/side
+        edge = "šef" if feet else "eef"
+        if mirror:
+            self.rectangularTriangle(base, h, edge, num=1, move="right")
+            self.rectangularTriangle(base, h, edge, num=1, move="mirror right")
+        else:
+            self.rectangularTriangle(base, h, edge, num=2, move="right")

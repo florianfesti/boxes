@@ -16,31 +16,32 @@
 
 from boxes import *
 
-class Shoe(Boxes): # Change class name!
+class Shoe(Boxes):
     """Shoe shaped box"""
 
     description = """Shoe shaped box with flat sides and rounded top. 
     Works best if flex if under slight compression. 
-    Also make sure that the following condition is met, 
-    y > tophole + r + fronttop."""
+    Make sure that the following conditions are met: 
+    y > tophole + r + fronttop; 
+    height > frontheight."""
 
-    ui_group = "Misc" # see ./__init__.py for names
+    ui_group = "Misc"
 
     def __init__(self) -> None:
         Boxes.__init__(self)
 
-        # Uncomment the settings for the edge types you use
-        # use keyword args to set default values
         self.addSettingsArgs(edges.FingerJointSettings)
-        # self.addSettingsArgs(edges.StackableSettings)
-        # self.addSettingsArgs(edges.HingeSettings)
-        # self.addSettingsArgs(edges.LidSettings)
-        # self.addSettingsArgs(edges.ClickSettings)
         self.addSettingsArgs(edges.FlexSettings)
-
-        # remove cli params you do not need
-        self.buildArgParser(x=65, y=175, h=100)
-        # Add non default cli params if needed (see argparse std lib)
+ 
+        self.argparser.add_argument(
+            "--width",  action="store", type=float, default=65,
+            help="width of the shoe")
+        self.argparser.add_argument(
+            "--length",  action="store", type=float, default=175,
+            help="length front to back")
+        self.argparser.add_argument(
+            "--height",  action="store", type=float, default=100,
+            help="height at the back of the shoe")
         self.argparser.add_argument(
             "--frontheight",  action="store", type=float, default=35,
             help="height at the front of the shoe")
@@ -56,14 +57,17 @@ class Shoe(Boxes): # Change class name!
 
 
     def render(self):
-        # adjust to the variables you want in the local scope
-        x, y, h = self.x, self.y, self.h
+        x, y, h = self.width, self.length, self.height
         t = self.thickness
 
         hf = self.frontheight
         yg = self.tophole
         tf = self.fronttop
         r=self.radius
+
+        if (hf > h):
+            # Give an error because the result will be wrong with possible unconnected paths
+            raise ValueError("Height at front of shoe must be less than height at back of shoe.")
 
         stretch = (self.edges["X"].settings.stretch)
 
@@ -79,7 +83,6 @@ class Shoe(Boxes): # Change class name!
         self.shoelip(x, tf, dr, lf, label="top")
 
         
-
     def shoelip(self, x, tf, dr, lf, move=None, label=""):
 
         w = self.edges["F"].spacing()

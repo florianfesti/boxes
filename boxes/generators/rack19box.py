@@ -80,7 +80,7 @@ class Rack19Box(Boxes):
         self.rectangularWall(y, h, "ffef", callback=[self.wallyCB], move="right")
         self.rectangularWall(x, h, "fFeF", callback=[self.wallxCB],
                              move="up")
-        self.flangedWall(x, h, "FFeF", callback=[self.wallxfCB], r=t,
+        self.flangedWall(x, h, "FFEF", callback=[self.wallxfCB], r=t,
                          flanges=[0., 17., -t, 17.])
         self.rectangularWall(y, h, "ffef", callback=[self.wallyCB],
                              move="left up")

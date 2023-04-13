@@ -312,6 +312,9 @@ class Boxes:
             "cli_short" : "",
         }
 
+        # Dummy attribute for static analytic tools. Will be overwritten by `argparser` at runtime.
+        self.thickness: float = 0.0
+
         self.argparser._action_groups[1].title = self.__class__.__name__ + " Settings"
         defaultgroup = self.argparser.add_argument_group(
                         "Default Settings")
@@ -2505,7 +2508,7 @@ class Boxes:
         if num > 1:
             width = 2*width - x + r - self.spacing
         dx = width - x - edges[1].spacing() - self.spacing / 2
-        dy = edges[0].spacing() + self.spacing / 2
+        dy = edges[0].margin() + self.spacing / 2
 
         overallwidth = width * (num // 2 + num % 2) - self.spacing
         overallheight = height - self.spacing
@@ -2534,6 +2537,7 @@ class Boxes:
             edges[2](((x-r)**2+(y-r)**2)**0.5)
             self.step(-edges[2].endwidth())
             self.corner(90-alpha, r)
+            self.edge(edges[0].startwidth())
             self.corner(90)
             self.ctx.stroke()
 

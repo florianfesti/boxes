@@ -16,7 +16,7 @@
 
 from boxes import *
 
-class Piratechest(Boxes):
+class PirateChest(Boxes):
     """Box with polygon lid with chest hinges."""
 
     description = """Do not assemble sides before attaching the lid! 
@@ -35,7 +35,7 @@ class Piratechest(Boxes):
         self.buildArgParser("x", "y", "h", "outside")
         self.argparser.add_argument(
             "--n",  action="store", type=int, default=5,
-            help="number of sides on the lid")
+            help="number of sides on the lid. n ≥ 3")
 
 
     def render(self):

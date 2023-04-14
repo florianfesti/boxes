@@ -27,23 +27,6 @@ except ImportError:
 
 import boxes.generators
 
-#__version__ = get_distribution('boxes').version
-
-
-def main():
-    #version = 'boxes.py v{}'.format(__version__)
-
-    if len(sys.argv) > 1 and sys.argv[1].startswith("--id="):
-        del sys.argv[1]
-    if len(sys.argv) == 1:
-        print_usage()
-    elif sys.argv[1] == '--list':
-        list_grouped_generators()
-    else:
-        name = sys.argv[1].lower()
-        if name.startswith("--generator="):
-            name = name[12:]
-        run_generator(name, sys.argv[2:])
 
 def print_usage():
     print(__doc__)
@@ -106,6 +89,20 @@ def generators_by_name():
         name.split('.')[-1].lower(): generator
         for name, generator in all_generators.items()
     }
+
+
+def main() -> None:
+    if len(sys.argv) > 1 and sys.argv[1].startswith("--id="):
+        del sys.argv[1]
+    if len(sys.argv) == 1:
+        print_usage()
+    elif sys.argv[1] == '--list':
+        list_grouped_generators()
+    else:
+        name = sys.argv[1].lower()
+        if name.startswith("--generator="):
+            name = name[12:]
+        run_generator(name, sys.argv[2:])
 
 
 if __name__ == '__main__':

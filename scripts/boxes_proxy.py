@@ -71,6 +71,11 @@ class boxesPyWrapper(inkex.GenerateExtension):
         for element in doc.getroot():
             group.append(element)
         return group
-        
-if __name__ == '__main__':
+
+
+def main() -> None:
     boxesPyWrapper().run()
+
+
+if __name__ == '__main__':
+    main()

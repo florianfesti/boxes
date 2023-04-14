@@ -669,7 +669,8 @@ def get_qrcode(url, format):
     img.save(image_bytes, format=format)
     return image_bytes.getvalue()
 
-if __name__ == "__main__":
+
+def main() -> None:
     parser = argparse.ArgumentParser()
 
     parser.add_argument("--host", default="")
@@ -693,6 +694,10 @@ if __name__ == "__main__":
         fc.stop()
     httpd.server_close()
     print("BoxesServer stops.")
+
+
+if __name__ == "__main__":
+    main()
 else:
     boxserver = BServer(url_prefix='/boxes.py', static_url="https://florianfesti.github.io/boxes/static")
     application = boxserver.serve

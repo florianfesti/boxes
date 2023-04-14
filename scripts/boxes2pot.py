@@ -137,9 +137,14 @@ msgstr ""
                     f.write(' "%s"\n' % m.replace('"', '\\"'))
                 f.write('msgstr ""\n')
 
-if __name__=="__main__":
+
+def main() -> None:
     if len(sys.argv) != 2:
         print("Usage: boxes2pot TARGETPATH")
     b = Boxes2pot()
     b.readBoxes()
     b.writePOT(sys.argv[1])
+
+
+if __name__ == "__main__":
+    main()

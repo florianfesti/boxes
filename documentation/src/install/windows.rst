@@ -51,7 +51,7 @@ Following steps are known to work under Windows 10/11 (64-bit):
 6. Change into the folder for Boxes.py,
     e.g. with the command :code:`cd \Users\[USERNAME]\Downloads\boxes-master`
 7. Run the development server with the command
-    :code:`python scripts\boxesserver`
+    :code:`python scripts\boxesserver.py`
     Note: You likely will be notified by your firewall that it blocked network
     access. If you want to use boxesserver you need to allow connections.
 
@@ -85,7 +85,7 @@ Once wsl is installed, run it and enter the following commands:
 - :code:`git clone https://github.com/florianfesti/boxes.git`
 - :code:`cd ~/boxes`
 - :code:`python3 -m pip install -r ~/boxes/requirements.txt`
-- :code:`python3 ~/boxes/scripts/boxesserver`
+- :code:`python3 ~/boxes/scripts/boxesserver.py`
 
 .. figure:: win11-wsl-boxesserver-localhost.png
        :scale: 50%

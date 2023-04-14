@@ -13,17 +13,17 @@ class CustomBuildExtCommand(build_py):
 
     def buildInkscapeExt(self):
         os.system("%s %s %s" % (sys.executable,
-                                os.path.join("scripts", "boxes2inkscape"),
+                                os.path.join("scripts", "boxes2inkscape.py"),
                                 "inkex"))
 
     def updatePOT(self):
         os.system("%s %s %s" % (
             sys.executable,
-            os.path.join("scripts", "boxes2pot"),
+            os.path.join("scripts", "boxes2pot.py"),
             "po/boxes.py.pot"))
         os.system("%s %s" % (
             "xgettext -L Python -j --from-code=utf-8 -o po/boxes.py.pot",
-            "boxes/*.py scripts/boxesserver scripts/boxes"))
+            "boxes/*.py scripts/boxesserver.py scripts/boxes.py"))
 
     def generate_mo_files(self):
         pos = glob.glob("po/*.po")
@@ -53,7 +53,7 @@ class CustomBuildExtCommand(build_py):
             self.distribution.data_files.append(
                 (path,
                  [i for i in glob.glob(os.path.join("inkex", "*.inx"))]))
-            self.distribution.data_files.append((path, ['scripts/boxes']))
+            self.distribution.data_files.append((path, ['scripts/boxes.py']))
             self.distribution.data_files.append((path, ['scripts/boxes_proxy.py']))
         else:
             # we are surely not building a Debian package
@@ -67,7 +67,7 @@ class CustomBuildExtCommand(build_py):
                 self.distribution.data_files.append(
                     (path,
                      [i for i in glob.glob(os.path.join("inkex", "*.inx"))]))
-                self.distribution.data_files.append((path, ['scripts/boxes']))
+                self.distribution.data_files.append((path, ['scripts/boxes.py']))
                 self.distribution.data_files.append((path, ['scripts/boxes_proxy.py']))
             except CalledProcessError:
                 pass # Inkscape is not installed

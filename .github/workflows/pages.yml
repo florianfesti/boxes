@@ -29,7 +29,8 @@ jobs:
       - name: Build documentation
         run: |
           cd ./documentation/src/
-          ./boxes2rst generators.inc
+          chmod +x ./boxes2rst.py
+          ./boxes2rst.py generators.inc
           make html #linkcheck
           cp index.html ../build/
           cd ../build/ && ls && ls html/

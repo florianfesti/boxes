@@ -115,7 +115,7 @@ also create a proper pull request instead:
   from square (3:4 is fine).
 * Place the file in *static/samples/*
 * Check if the picture shows up at the bottom of the settings page of
-  the generator when running *scripts/boxesserver*
+  the generator when running *scripts/boxesserver.py*
 * Change dir to *./scripts* and there execute *./gen_thumbnails.sh*
 * Check if the thumbnail is seen in the main page when hovering over
   the generator entry
@@ -142,7 +142,7 @@ perfect. We can work on it together.
 Running the Code
 ----------------------------
 
-To serve website, run `scripts/boxesserver` script
+To serve website, run `scripts/boxesserver.py` script.
 
 Reporting bugs
 --------------

@@ -27,12 +27,12 @@ jobs:
           pip install mypy
           pip install types-Markdown
 
+      - name: mypy version
+        run: mypy --version
+
       - name: Run typing test
         run: |
           mypy --ignore-missing-imports ./boxes/
-          mypy --ignore-missing-imports ./scripts/boxes
-          mypy --ignore-missing-imports ./scripts/boxes2inkscape
-          mypy --ignore-missing-imports ./scripts/boxes2pot
-          mypy --ignore-missing-imports ./scripts/boxesserver
-          mypy --ignore-missing-imports ./documentation/src/boxes2rst
+          mypy --ignore-missing-imports ./scripts/
+          mypy --ignore-missing-imports ./documentation/src/boxes2rst.py
           mypy --ignore-missing-imports ./setup.py

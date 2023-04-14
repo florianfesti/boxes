@@ -45,13 +45,13 @@ General
 
    .. code::
 
-      ./scripts/boxesserver
+      ./scripts/boxesserver.py
 
    Command line variant (CLI):
 
    .. code::
 
-      ./scripts/boxes
+      ./scripts/boxes.py
 
 
 System-wide with Inkscape extension

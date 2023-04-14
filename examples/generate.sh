@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-BOXES=../scripts/boxes
+BOXES=../scripts/boxes.py
 
 set -x
 $BOXES closedbox --x=50 --y=50 --h=70 --output=closedbox.svg

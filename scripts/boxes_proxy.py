@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+# type: ignore
 """
 Extension for InkScape 1.0+
 

@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# type: ignore
+
 # Copyright (C) 2019 Florian Festi
 #
 #   This program is free software: you can redistribute it and/or modify

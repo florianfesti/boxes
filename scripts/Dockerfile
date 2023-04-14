@@ -20,10 +20,10 @@ RUN dnf install -y git-core python3-markdown python3-setuptools python3-affine p
 ARG BUILD_BRANCH=master
 ARG BUILD_REPO=https://github.com/florianfesti/boxes.git
 RUN git clone --depth 1 -b ${BUILD_BRANCH} ${BUILD_REPO}
-RUN chmod +x /boxes/scripts/boxesserver
+RUN chmod +x /boxes/scripts/boxesserver.py
 
 # Internal port used
 EXPOSE 8000
 
 # Start the boxes web server on container start up
-CMD ["/boxes/scripts/boxesserver"]
+CMD ["/boxes/scripts/boxesserver.py"]

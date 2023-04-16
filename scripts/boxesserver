@@ -235,7 +235,7 @@ class BServer:
 </head>
 <body onload="initPage({len(box.argparser._action_groups) - 3})">
 
-<div class="container" style="background-color: #FFF8EA;">
+<div class="container">
 <div style="float: left;">
 <a href="./{langparam}"><h1>{_("Boxes.py")}</h1></a>
 </div>
@@ -316,10 +316,15 @@ class BServer:
     {self.genHTMLJS()}
 </head>
 <body onload="initPage()">
-<div class="container" style="background-color: #FFF8EA;">
+<div class="container">
 <div style="width: 75%; float: left;">
 {self.genPagePartHeader(lang)}
 
+<div class="modenav">
+<span class="modebutton"><a href="Gallery">{_("Gallery")}</a></span>
+<span class="modebutton modeactive">{_("Menu")}</span>
+</div>
+<br>
 <div class="menu" style="width: 100%">
 <img style="width: 200px;" id="sample-preview" src="{self.static_url}/nothing.png" alt="">
 """]
@@ -433,7 +438,6 @@ class BServer:
 <div>
 
 <div class="clear"></div>
-<hr>
 
 <div class="search">
 \U0001f50d <input autocomplete="off" type="search" oninput="filterSearchItems();" name="search" id="search" placeholder="Search">
@@ -443,14 +447,13 @@ class BServer:
         _ = lang.gettext
 
         return """
-<div class="footer container">
+<div class="footer">
 <ul>
   <li>""" + self.genHTMLLanguageSelection(lang) + """</li>
   <li><a href="https://florianfesti.github.io/boxes/html/usermanual.html" target="_blank" rel="noopener">""" + _("Help") + """</a></li>
   <li><a href="https://hackaday.io/project/10649-boxespy" target="_blank" rel="noopener">""" + _("Home Page") + """</a></li>
   <li><a href="https://florianfesti.github.io/boxes/html/index.html" target="_blank" rel="noopener">""" + _("Documentation") + """</a></li>
   <li><a href="https://github.com/florianfesti/boxes" target="_blank" rel="noopener">""" + _("Sources") + """</a></li>
-  <li><a href="Gallery">""" + _("Gallery") + """</a></li>
 </ul>
 </div>
 """
@@ -543,9 +546,13 @@ class BServer:
     {self.genHTMLJS()}
 </head>
 <body onload="initPage()">
-<div class="container" style="background-color: #FFF8EA;">
+<div class="container">
 <div style="width: 75%; float: left;">
 {self.genPagePartHeader(lang)}
+<div class="modenav">
+<span class="modebutton modeactive">{_("Gallery")}</span>
+<span class="modebutton"><a href="Menu">{_("Menu")}</a></span>
+</div>
 """]
         for nr, group in enumerate(self.groups):
             result.append(f"<h2>{_(group.title)}</h2>\n")
@@ -562,6 +569,8 @@ class BServer:
                     result.append(f"""  <span class="gallery" id="search_id_{name}"><a title="{_(name)} - {_(box.__doc__)}" href="{href}"><img alt="{alt}" src="{thumbnail}"/></a></span>\n""")
 
         result.append(f"""
+</div><div style="width: 5%; float: left;"></div>
+        <div class="clear"></div><hr></div>
 {self.genPagePartFooter(lang)}
 </body>
 </html>
@@ -590,7 +599,7 @@ class BServer:
         lang = self.getLanguage(args, environ.get("HTTP_ACCEPT_LANGUAGE", ""))
         _ = lang.gettext
 
-        if name == "Gallery":
+        if not name or name == "Gallery":
             return self.serveGallery(environ, start_response, lang)
 
         box_cls = self.boxes.get(name, None)

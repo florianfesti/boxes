@@ -318,26 +318,7 @@ class BServer:
 <body onload="initPage()">
 <div class="container" style="background-color: #FFF8EA;">
 <div style="width: 75%; float: left;">
-<h1>{_("Boxes.py")}</h1>
-<p>{_("Create boxes and more with a laser cutter!")}</p>
-<p>
-{_('''
-        <a href="https://hackaday.io/project/10649-boxespy">Boxes.py</a> is an <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">Open Source</a> box generator written in <a href="https://www.python.org/">Python</a>. It features both finished parametrized generators as well as a Python API for writing your own. It features finger and (flat) dovetail joints, flex cuts, holes and slots for screws, hinges, gears, pulleys and much more.''')}
-</p>
-</div>
-
-<div style="width: 25%; float: left;">
-<img alt="self-Logo" src="{self.static_url}/boxes-logo.svg" width="250">
-</div>
-
-<div>
-
-<div class="clear"></div>
-<hr>
-
-<div class="search">
-\U0001f50d <input autocomplete="off" type="search" oninput="filterSearchItems();" name="search" id="search" placeholder="Search">
-</div>
+{self.genPagePartHeader(lang)}
 
 <div class="menu" style="width: 100%">
 <img style="width: 200px;" id="sample-preview" src="{self.static_url}/nothing.png" alt="">
@@ -427,6 +408,36 @@ class BServer:
             </select>
         </form>
         """
+
+    def genPagePartHeader(self, lang) -> str:
+        _ = lang.gettext
+        lang_name = lang.info().get('language', None)
+
+        langparam = ""
+        if lang_name:
+            langparam = "?language=" + lang_name
+
+        return f"""
+<h1><a href="./{langparam}">{_("Boxes.py")}</a></h1>
+<p>{_("Create boxes and more with a laser cutter!")}</p>
+<p>
+{_('''
+        <a href="https://hackaday.io/project/10649-boxespy">Boxes.py</a> is an <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">Open Source</a> box generator written in <a href="https://www.python.org/">Python</a>. It features both finished parametrized generators as well as a Python API for writing your own. It features finger and (flat) dovetail joints, flex cuts, holes and slots for screws, hinges, gears, pulleys and much more.''')}
+</p>
+</div>
+
+<div style="width: 25%; float: left;">
+<img alt="self-Logo" src="{self.static_url}/boxes-logo.svg" width="250">
+</div>
+
+<div>
+
+<div class="clear"></div>
+<hr>
+
+<div class="search">
+\U0001f50d <input autocomplete="off" type="search" oninput="filterSearchItems();" name="search" id="search" placeholder="Search">
+</div>"""
 
     def genPagePartFooter(self, lang) -> str:
         _ = lang.gettext
@@ -534,15 +545,7 @@ class BServer:
 <body onload="initPage()">
 <div class="container" style="background-color: #FFF8EA;">
 <div style="width: 75%; float: left;">
-<h1><a href="/">{_("Boxes.py")}</a></h1>
-<h2>{_("Gallery")}</h2>
-</div>
-
-<div style="width: 25%; float: left;">
-<img alt="self-Logo" src="{self.static_url}/boxes-logo.svg" width="250">
-</div>
-<div class="clear"></div>
-
+{self.genPagePartHeader(lang)}
 """]
         for nr, group in enumerate(self.groups):
             result.append(f"<h2>{_(group.title)}</h2>\n")
@@ -554,9 +557,9 @@ class BServer:
                 alt = f"{_(name)}"
                 href = f"{name}{langparam}"
                 if not os.path.exists(static_filename):
-                    result.append(f"""  <span class="gallery_missing"><a href="{href}">{_(name)}<br><br>{_(box.__doc__)}</a></span>\n""")
+                    result.append(f"""  <span class="gallery_missing" id="search_id_{name}"><a href="{href}">{_(name)}<br><br>{_(box.__doc__)}</a></span>\n""")
                 else:
-                    result.append(f"""  <span class="gallery"><a title="{_(name)} - {_(box.__doc__)}" href="{href}"><img alt="{alt}" src="{thumbnail}"/></a></span>\n""")
+                    result.append(f"""  <span class="gallery" id="search_id_{name}"><a title="{_(name)} - {_(box.__doc__)}" href="{href}"><img alt="{alt}" src="{thumbnail}"/></a></span>\n""")
 
         result.append(f"""
 {self.genPagePartFooter(lang)}

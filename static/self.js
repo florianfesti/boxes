@@ -274,7 +274,7 @@ function expandAll() {
 function showAll(str) {
     let matching_ids = document.querySelectorAll('[id^="search_id_"]')
     for (let id of matching_ids) {
-        id.hidden = false;
+        id.style.display = "inline-block";
     }
 }
 
@@ -283,10 +283,11 @@ function showOnly(str) {
     let matching_ids = document.querySelectorAll('[id^="search_id_"]')
     for (let id of matching_ids) {
         name = id.id.replace("search_id_", "").toLowerCase();
-        if (name.includes(str) || id.textContent.toLowerCase().includes(str))
-            id.hidden = false;
-        else
-            id.hidden = true;
+        if (name.includes(str) || id.textContent.toLowerCase().includes(str)) {
+            id.style.display = "inline-block";
+        } else {
+            id.style.display = "none";
+	}
     }
 }
 

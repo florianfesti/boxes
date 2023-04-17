@@ -25,6 +25,7 @@ class CardHolder(Boxes):
     def __init__(self) -> None:
         Boxes.__init__(self)
 
+        self.addSettingsArgs(edges.StackableSettings)
         self.addSettingsArgs(edges.GroovedSettings)
         self.addSettingsArgs(edges.FingerJointSettings, surroundingspaces=1.0)
 

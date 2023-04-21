@@ -48,29 +48,26 @@ class CompartmentBox(TypeTray):
             self.sy = self.adjustSize(self.sy)
             self.hi = self.h = self.adjustSize(self.h) - 2 * t
 
-
         x = sum(self.sx) + self.thickness * (len(self.sx) - 1)
         y = sum(self.sy) + self.thickness * (len(self.sy) - 1)
         h = self.h
-
-        # outer walls
         b = self.bottom_edge
-        tl, tb, tr, tf = "FEFe"
-        tl, tb, tr, tf = "ŠSŠe" if b == "s" else "FEFe"
 
+        stackable = b == "s"
 
-        # x sides
+        tside, tback = ["Š","S"] if stackable else ["F","E"] # top edges
 
+        # x walls
         self.ctx.save()
 
         # outer walls - front/back
-        hb = h+t * (3 if tb == "S" else 1)
-        self.rectangularWall(x, hb, [b, "F", tb, "F"],
+        hb = h+t * (3 if stackable else 1)
+        self.rectangularWall(x, hb, [b, "F", tback, "F"],
                                 callback=[self.xHoles],
                                 ignore_widths=[1,2,5,6],
                                 move="up", label="back")
 
-        self.rectangularWall(x, h, [b, "F", tf, "F"],
+        self.rectangularWall(x, h, [b, "F", "e", "F"],
                                 callback=[self.mirrorX(self.xHoles, x)],
                                 ignore_widths=[1,6],
                                 move="up", label="front")
@@ -79,10 +76,8 @@ class CompartmentBox(TypeTray):
         if b != "e":
             self.rectangularWall(x, y, "ffff", callback=[self.xSlots, self.ySlots], move="up", label="bottom")
 
-        # Inner walls
-
+        # Inner x walls
         be = "f" if b != "e" else "e"
-
         for i in range(len(self.sy) - 1):
             e = [edges.SlottedEdge(self, self.sx, be), "f",
                  edges.SlottedEdge(self, self.sx[::-1], "e", slots=0.5 * h), "f"]
@@ -99,22 +94,20 @@ class CompartmentBox(TypeTray):
             self.rectangularWall(x, y + t, move="up", label="lid")
 
 
-
         self.ctx.restore()
         self.rectangularWall(x, h, "ffff", move="right only")
-
         # y walls
 
         # outer walls - left/right
         f = edges.CompoundEdge(self, "fE", [h+self.edges[b].startwidth(), t])
-        self.rectangularWall(y, h+t, [b, f, tl, "f"], callback=[self.yHoles, ],
+        self.rectangularWall(y, h+t, [b, f, tside, "f"], callback=[self.yHoles, ],
                              ignore_widths=[1,5,6],
                              move="up", label="left side")
-        self.rectangularWall(y, h+t, [b, f, tl, "f"], callback=[self.yHoles, ],
+        self.rectangularWall(y, h+t, [b, f, tside, "f"], callback=[self.yHoles, ],
                              ignore_widths=[1,5,6],
                              move="mirror up", label="right side")
 
-        # inner walls
+        # inner y walls
         for i in range(len(self.sx) - 1):
             e = [edges.SlottedEdge(self, self.sy, be, slots=0.5 * h),
                  "f", "e", "f"]
@@ -124,7 +117,8 @@ class CompartmentBox(TypeTray):
             lip_edges = "eefe"
         else:
             lip_edges = "eefE"
-            
+        
+        # lip that holds the lid in place
         self.rectangularWall(y, t, lip_edges, move="up", label="Lip Left")
         self.rectangularWall(y, t, lip_edges, move="mirror up", label="Lip Right")
 

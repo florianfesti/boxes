@@ -15,8 +15,9 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
+from boxes.generators.typetray import TypeTray
 
-class CompartmentBox(Boxes):
+class CompartmentBox(TypeTray):
     """Type tray variation with sliding lid"""
 
     description = """Sliding lid rests on inner walls, 
@@ -26,7 +27,7 @@ class CompartmentBox(Boxes):
     ui_group = "Unstable"
 
     def __init__(self) -> None:
-        Boxes.__init__(self)
+        Boxes.__init__(self) # avoid TypeTray.__init__
         self.buildArgParser("sx", "sy", "h", "outside", "bottom_edge")
         self.argparser.add_argument(
             "--handle", action="store", type=str, default="lip",
@@ -40,58 +41,17 @@ class CompartmentBox(Boxes):
             default="70",
             help="width of hole(s) in percentage of maximum hole width")
 
-        
-        
-
-    def xSlots(self):
-        posx = -0.5 * self.thickness
-        for x in self.sx[:-1]:
-            posx += x + self.thickness
-            posy = 0
-            for y in self.sy:
-                self.fingerHolesAt(posx, posy, y)
-                posy += y + self.thickness
-
-    def ySlots(self):
-        posy = -0.5 * self.thickness
-        for y in self.sy[:-1]:
-            posy += y + self.thickness
-            posx = 0
-            for x in reversed(self.sx):
-                self.fingerHolesAt(posy, posx, x)
-                posx += x + self.thickness
-
-    def xHoles(self):
-        posx = -0.5 * self.thickness
-        for x in self.sx[:-1]:
-            posx += x + self.thickness
-            self.fingerHolesAt(posx, 0, self.h)
-
-    def yHoles(self):
-        posy = -0.5 * self.thickness
-        for y in self.sy[:-1]:
-            posy += y + self.thickness
-            self.fingerHolesAt(posy, 0, self.h)
-
     def render(self):
         t = self.thickness
         if self.outside:
             self.sx = self.adjustSize(self.sx)
             self.sy = self.adjustSize(self.sy)
-            self.h = self.adjustSize(self.h) - 2 * t
+            self.hi = self.h = self.adjustSize(self.h) - 2 * t
 
 
         x = sum(self.sx) + self.thickness * (len(self.sx) - 1)
         y = sum(self.sy) + self.thickness * (len(self.sy) - 1)
         h = self.h
-
-
-        # Create new Edges here if needed E.g.:
-        s = edges.FingerJointSettings(self.thickness, relative=False,
-                                      style = "rectangular")
-        p = edges.FingerJointEdge(self, s)
-        p.char = "a" # 'a', 'A', 'b' and 'B' is reserved for beeing used within generators
-        self.addPart(p)
 
         # outer walls
         b = self.bottom_edge
@@ -146,14 +106,13 @@ class CompartmentBox(Boxes):
         # y walls
 
         # outer walls - left/right
-        self.sideWall(
-            y, h+t, "left", [b, "f", tl, "f"], callback=[self.yHoles, ],
-            move="up", label="left side")
-            
-        self.sideWall(
-            y, h+t, "right", [b, "f", tr, "f"],
-            callback=[self.mirrorX(self.yHoles, y), ],
-            move="up", label="right side")
+        f = edges.CompoundEdge(self, "fE", [h+self.edges[b].startwidth(), t])
+        self.rectangularWall(y, h+t, [b, f, tl, "f"], callback=[self.yHoles, ],
+                             ignore_widths=[1,5,6],
+                             move="up", label="left side")
+        self.rectangularWall(y, h+t, [b, f, tl, "f"], callback=[self.yHoles, ],
+                             ignore_widths=[1,5,6],
+                             move="mirror up", label="right side")
 
         # inner walls
         for i in range(len(self.sx) - 1):
@@ -161,98 +120,13 @@ class CompartmentBox(Boxes):
                  "f", "e", "f"]
             self.rectangularWall(y, h, e, move="up", label=f"inner y {i+1}")
 
-        lipy = y-t if self.handle == "lip" else y
-        self.rectangularWall(lipy, t, "eefe", move="up", label="Lip Left")
-        self.rectangularWall(lipy, t, "feee", move="up", label="Lip Right")
-
-    def sideWall(self, x, y, side, edges="eeee",
-                        holesMargin=None, holesSettings=None,
-                        bedBolts=None, bedBoltSettings=None,
-                        callback=None,
-                        move=None,
-                        label=""):
-
-        if len(edges) != 4:
-            raise ValueError("four edges required")
-        if side not in {"left", "right"}:
-            raise ValueError("side must be left or right")
-        b = edges[0]
-        edges = [self.edges.get(e, e) for e in edges]
-        edges += edges  # append for wrapping around
-        overallwidth = x + edges[-1].spacing() + edges[1].spacing()
-        overallheight = y + edges[0].spacing() + edges[2].spacing()
-        t = self.thickness
-
-        if self.move(overallwidth, overallheight, move, before=True):
-            return
-
-        self.moveTo(edges[-1].spacing(), edges[0].margin())
-
-        for i, l in enumerate((x, y, x, y)):
-            self.cc(callback, i, y=edges[i].startwidth() + self.burn)
-            e1, e2 = edges[i], edges[i + 1]
-
-            if i == 3 and side == "right":
-                l -= t
-                self.edges.get('e')(t)
-                l += edges[i+1].startwidth()
-                e2 = self.edges["e"]
-                edges[i](l,
-                     bedBolts=self.getEntry(bedBolts, i),
-                     bedBoltSettings=self.getEntry(bedBoltSettings, i))
-            elif i == 1 and side == "left":
-                l -= t
-                l += edges[i-1].startwidth()
-                edges[i](l,
-                     bedBolts=self.getEntry(bedBolts, i),
-                     bedBoltSettings=self.getEntry(bedBoltSettings, i))
-                self.edges.get('e')(t)
-            else:
-                if i == 3 and side == "left":
-                    l += edges[i+1].startwidth() + edges[i-1].startwidth()
-                    e2 = self.edges["e"]
-                if i == 1 and side == "right":
-                    l += edges[i+1].startwidth() + edges[i-1].startwidth()
-                    e2 = self.edges["e"]
-
-                if i == 2 and self.handle == "lip":
-                    if b != "s":
-                        l -= t
-                        print(b)
-                        if side == "left":
-                            self.edges.get('e')(t)
-                            edges[i](l,
-                                bedBolts=self.getEntry(bedBolts, i),
-                                bedBoltSettings=self.getEntry(bedBoltSettings, i))
-                        elif side == "right":
-                            edges[i](l,
-                                bedBolts=self.getEntry(bedBolts, i),
-                                bedBoltSettings=self.getEntry(bedBoltSettings, i))
-                            self.edges.get('e')(t)
-                    else:
-                        self.edges.get('S')(l)
-                        self.fingerHolesAt(0 if side == "left" else -t, 1.5*t, l-t, angle=180)
-                else:
-                    edges[i](l,
-                        bedBolts=self.getEntry(bedBolts, i),
-                        bedBoltSettings=self.getEntry(bedBoltSettings, i))
-
-                if i == 2 and side == "left":
-                    e1 = self.edges["e"]
-                if i == 0 and side == "right":
-                    e1 = self.edges["e"]
-                if i == 0 and side == "left":
-                    e1 = self.edges["e"]
-
+        if self.handle == "lip":
+            lip_edges = "eefe"
+        else:
+            lip_edges = "eefE"
             
-            self.edgeCorner(e1, e2, 90)
-
-        if holesMargin is not None:
-            self.moveTo(holesMargin,
-                        holesMargin + edges[0].startwidth())
-            self.hexHolesRectangle(x - 2 * holesMargin, y - 2 * holesMargin, settings=holesSettings)
-
-        self.move(overallwidth, overallheight, move, label=label)
+        self.rectangularWall(y, t, lip_edges, move="up", label="Lip Left")
+        self.rectangularWall(y, t, lip_edges, move="mirror up", label="Lip Right")
 
     def gripHole(self):
         if not self.radius:
@@ -283,6 +157,3 @@ class CompartmentBox(Boxes):
                     #self.moveTo(20, slot_x, 0)
                     self.rectangularHole(slot_x,radius+t,slotwidth,slot_height,radius,True,True)
                 slot_x += slotwidth / 2 + slot_offset + self.thickness + slot_offset
-
-
-#todo stackable top/bottom

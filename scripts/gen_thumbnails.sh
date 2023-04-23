@@ -15,7 +15,7 @@ thumbnail() {
 
 find "$STATIC_DIR" -name '*.jpg' ! -name '*-thumb.jpg' -type f | while read -r f
 do
-	f_=$(echo "$f" | sed -E -e 's@([/.])@\\\1@g')
+	f_=$(echo "$f" | sed -E -e 's@([.])@\\\1@g')
 	checksum=$(grep "$f_" "$STATIC_DIR"samples.sha256 || /bin/true)
 	if [ -n "$checksum" ]
 	then

@@ -33,8 +33,7 @@ class Boxes2INX:
         self.groups_by_name = boxes.generators.ui_groups_by_name
 
         for name, box in self.boxes.items():
-            self.groups_by_name.get(box.ui_group,
-                                    self.groups_by_name["Misc"]).add(box)
+            self.groups_by_name.get(box.ui_group, self.groups_by_name["Misc"]).add(box)
 
     def arg2inx(self, a, prefix):
         name = a.option_strings[0].replace("-", "")
@@ -50,17 +49,15 @@ class Boxes2INX:
             return a.type.inx(name, viewname, a)  # see boxes.__init__.py
         elif a.dest == "layout":
             return ""
-            val = a.default.split("\n")
-            input = """<textarea name="%s" cols="%s" rows="%s">%s</textarea>""" % \
-                    (name, max(len(l) for l in val) + 10, len(val) + 1, a.default)
+            # val = a.default.split("\n")
+            # input = f"""<textarea name="{name}" cols="{max(len(l) for l in val) + 10}" rows="{len(val) + 1}">{a.default}</textarea>"""
         elif a.choices:
             uniqueChoices = []
             for e in a.choices:
                 if e not in uniqueChoices:
                     uniqueChoices.append(e)
-            return ('''        <param name="%s" type="optiongroup" appearance="combo" gui-text="%s" gui-description=%s>\n'''
-                    % (name, viewname, quoteattr(a.help or viewname)) +
-                    "".join('            <option value="%s">%s</option>\n' % (e, e) for e in uniqueChoices) + '    </param>\n')
+            return (f'''<param name="{name}" type="optiongroup" appearance="combo" gui-text="{viewname}" gui-description={quoteattr(a.help or viewname)}>\n''' +
+                    "".join(f'<option value="{e}">{e}</option>\n' for e in uniqueChoices) + '    </param>\n')
         else:
             default = a.default
             if isinstance(a.type, boxes.BoolArg):
@@ -77,18 +74,18 @@ class Boxes2INX:
                      }.get(a.type, '"string"')
 
             if t == '"int"' or t == '"float" precision="2"':
-                return '''        <param name="%s" type=%s max="9999" gui-text="%s" gui-description=%s>%s</param>\n''' % (name, t, viewname, quoteattr(a.help or viewname), default)
+                return f'''<param name="{name}" type={t} max="9999" gui-text="{viewname}" gui-description={quoteattr(a.help or viewname)}>{default}</param>\n'''
 
             else:
-                return '''        <param name="%s" type=%s gui-text="%s" gui-description=%s>%s</param>\n''' % (name, t, viewname, quoteattr(a.help or viewname), default)
+                return f'''<param name="{name}" type={t} gui-text="{viewname}" gui-description={quoteattr(a.help or viewname)}>{default}</param>\n'''
 
     def generator2inx(self, name, box):
-        result = ["""<?xml version="1.0" encoding="UTF-8"?>
+        result = [f"""<?xml version="1.0" encoding="UTF-8"?>
 <inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
-<name>%s</name>
-<id>info.festi.boxes.py.%s</id>
-<param name="generator" type="string" gui-hidden="true">%s</param>
-<param name="tab" type="notebook">""" % (name, name, name.lower())]
+<name>{name}</name>
+<id>info.festi.boxes.py.{name}</id>
+<param name="generator" type="string" gui-hidden="true">{name.lower()}</param>
+<param name="tab" type="notebook">"""]
         groupid = 0
         for group in box.argparser._action_groups:
             if not group._group_actions:
@@ -107,32 +104,28 @@ class Boxes2INX:
                 if self.arg2inx(a, prefix) != "":
                     pageParams.append(self.arg2inx(a, prefix))
             if len(pageParams) > 0:
-                result.append("""
-    <page name="tab_%s" gui-text="%s">
-""" % (groupid, title))
+                result.append(f"""<page name="tab_{groupid}" gui-text="{title}">""")
                 result.extend(pageParams)
-                result.append("    </page>")
+                result.append("</page>\n")
 
             groupid += 1
-        result.append("""
-    <page name="tab_%s" gui-text="Example">
-""" % (groupid))
-        result.append("        <image>./" + name + "-thumb.jpg</image>\n")
-        result.append("    </page>\n")
-        result.append("""</param>
-<label appearance="url">https://www.festi.info/boxes.py/""" + name + """</label>
+        result.append(f"""<page name="tab_{groupid}" gui-text="Example">\n""")
+        result.append(f"""<image>./{name}-thumb.jpg</image>\n""")
+        result.append("</page>\n")
+        result.append(f"""</param>
+<label appearance="url">https://www.festi.info/boxes.py/{name}</label>
 <effect>
     <object-type>all</object-type>
     <effects-menu>
         <submenu name="Boxes.py">
-            <submenu name="%s"/>
+            <submenu name="{self.groups_by_name[box.ui_group].title}"/>
         </submenu>
     </effects-menu>
 </effect>
 <script>
     <command location="inx" interpreter="python">boxes_proxy.py</command>
 </script>
-</inkscape-extension>""" % self.groups_by_name[box.ui_group].title)
+</inkscape-extension>""")
         return b''.join(s.encode("utf-8") for s in result)
 
     def writeINX(self, name, box, path):

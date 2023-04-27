@@ -65,8 +65,7 @@ class Boxes2pot:
     def _readEdgeDescriptions(self):
         for char, descr in edges.getDescriptions().items():
             self.add(descr, f"{char} edge description", "boxes/edges.py")
-            self.add(f"{char} {descr}", f"{char} edge description",
-                     "boxes/edges.py")
+            self.add(f"{char} {descr}", f"{char} edge description", "boxes/edges.py")
 
     def addBoxParams(self, name, box, location=None):
         for group in box.argparser._action_groups:

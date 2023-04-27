@@ -657,7 +657,7 @@ class BServer:
             http_headers = [('Content-type', 'image/png')]
             http_headers.append(('X-Robots-Tag', 'noindex,nofollow'))
             qr_format = "png"
-            fn = (box.__class__.__name__)
+            fn = box.__class__.__name__
             start_response(status, http_headers)
             qrcode = get_qrcode(box.metadata["url_short"], qr_format)
             return (qrcode,)

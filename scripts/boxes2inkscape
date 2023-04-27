@@ -25,9 +25,10 @@ except ImportError:
     sys.path.append(os.path.dirname(__file__) + "/..")
     import boxes.generators
 
+
 class Boxes2INX:
     def __init__(self) -> None:
-        self.boxes = {b.__name__ : b() for b in boxes.generators.getAllBoxGenerators().values() if b.webinterface}
+        self.boxes = {b.__name__: b() for b in boxes.generators.getAllBoxGenerators().values() if b.webinterface}
         self.groups = boxes.generators.ui_groups
         self.groups_by_name = boxes.generators.ui_groups_by_name
 
@@ -37,44 +38,44 @@ class Boxes2INX:
 
     def arg2inx(self, a, prefix):
         name = a.option_strings[0].replace("-", "")
-        
+
         if isinstance(a, argparse._HelpAction):
             return ""
-        
+
         viewname = name
         if prefix and name.startswith(prefix + '_'):
-            viewname = name[len(prefix)+1:]
+            viewname = name[len(prefix) + 1:]
 
         if (isinstance(a, argparse._StoreAction) and hasattr(a.type, "inx")):
-            return a.type.inx(name, viewname, a) #see boxes.__init__.py
+            return a.type.inx(name, viewname, a)  # see boxes.__init__.py
         elif a.dest == "layout":
             return ""
             val = a.default.split("\n")
             input = """<textarea name="%s" cols="%s" rows="%s">%s</textarea>""" % \
-                    (name, max(len(l) for l in val)+10, len(val)+1, a.default)
+                    (name, max(len(l) for l in val) + 10, len(val) + 1, a.default)
         elif a.choices:
             uniqueChoices = []
             for e in a.choices:
                 if e not in uniqueChoices:
                     uniqueChoices.append(e)
             return ('''        <param name="%s" type="optiongroup" appearance="combo" gui-text="%s" gui-description=%s>\n'''
-                      % (name, viewname, quoteattr(a.help or viewname)) +
-        "".join('            <option value="%s">%s</option>\n' % (e, e) for e in uniqueChoices) + '    </param>\n')
+                    % (name, viewname, quoteattr(a.help or viewname)) +
+                    "".join('            <option value="%s">%s</option>\n' % (e, e) for e in uniqueChoices) + '    </param>\n')
         else:
             default = a.default
             if isinstance(a.type, boxes.BoolArg):
                 t = '"bool"'
                 default = str(a.default).lower()
-                
+
             elif a.type is boxes.argparseSections:
                 t = '"string"'
-                
+
             else:
-                t = { int : '"int"',
-                      float : '"float" precision="2"',
-                      str : '"string"',
-                      }.get(a.type, '"string"')
-                      
+                t = {int: '"int"',
+                     float: '"float" precision="2"',
+                     str: '"string"',
+                     }.get(a.type, '"string"')
+
             if t == '"int"' or t == '"float" precision="2"':
                 return '''        <param name="%s" type=%s max="9999" gui-text="%s" gui-description=%s>%s</param>\n''' % (name, t, viewname, quoteattr(a.help or viewname), default)
 
@@ -82,7 +83,7 @@ class Boxes2INX:
                 return '''        <param name="%s" type=%s gui-text="%s" gui-description=%s>%s</param>\n''' % (name, t, viewname, quoteattr(a.help or viewname), default)
 
     def generator2inx(self, name, box):
-        result = [ """<?xml version="1.0" encoding="UTF-8"?>
+        result = ["""<?xml version="1.0" encoding="UTF-8"?>
 <inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
 <name>%s</name>
 <id>info.festi.boxes.py.%s</id>
@@ -97,12 +98,12 @@ class Boxes2INX:
             if title.startswith("Settings for "):
                 title = title[len("Settings for "):]
             if title.endswith(" Settings"):
-                title =	title[:-len(" Settings")]
-         
+                title = title[:-len(" Settings")]
+
             pageParams = []
             for a in group._group_actions:
                 if a.dest in ("input", "output", "format"):
-                    continue         
+                    continue
                 if self.arg2inx(a, prefix) != "":
                     pageParams.append(self.arg2inx(a, prefix))
             if len(pageParams) > 0:
@@ -111,7 +112,7 @@ class Boxes2INX:
 """ % (groupid, title))
                 result.extend(pageParams)
                 result.append("    </page>")
-            
+
             groupid += 1
         result.append("""
     <page name="tab_%s" gui-text="Example">
@@ -145,7 +146,8 @@ class Boxes2INX:
                 continue
             self.writeINX(name, box, path)
 
-if __name__=="__main__":
+
+if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: boxes2inkscape TARGETPATH")
     b = Boxes2INX()

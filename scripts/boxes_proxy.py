@@ -74,5 +74,9 @@ class boxesPyWrapper(inkex.GenerateExtension):
         return group
 
 
-if __name__ == '__main__':
+def main() -> None:
     boxesPyWrapper().run()
+
+
+if __name__ == '__main__':
+    main()

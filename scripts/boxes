@@ -63,8 +63,7 @@ def run_generator(name, args):
         box.render()
         box.close()
     else:
-        msg = ('Unknown generator \'{}\'. Use boxes --list to get a list of '
-               'available commands.\n').format(name)
+        msg = f'Unknown generator \'{name}\'. Use boxes --list to get a list of available commands.\n'
         sys.stderr.write(msg)
 
 

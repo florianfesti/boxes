@@ -288,30 +288,33 @@ You can replace the space characters representing the floor by a "X" to remove t
         lx = len(self.x)
         ly = len(self.y)
         t = self.thickness
+        w = self.edges["F"].startwidth()
         b = self.burn
         t2 = self.thickness / 2.0
 
-        tw, th = sum(self.x) + (lx + 1) * t, sum(self.y) + (ly + 1) * t
+        tw = sum(self.x) + (lx - 1) * t + 2 * w
+        th = sum(self.y) + (ly - 1) * t + 2 * w
 
         if self.move(tw, th, move, True):
             return
 
         for i, (x, y, a) in enumerate((
-                (t, t + b, 0),
-                (tw - t, t + b, 90),
-                (tw - t, th - t + b, 180),
-                (t, th - t + b, 270))):
+                (w, w + b, 0),
+                (tw - w, w + b, 90),
+                (tw - w, th - w + b, 180),
+                (w, th - w + b, 270))):
             self.cc(callback, i, x, y, a)
 
         # Horizontal lines
-        posy = 0
+        posy = w - t
         for y in range(ly, -1, -1):
-            posx = self.thickness
+            posx = w
             for x in range(lx):
                 if self.hwalls[y][x]:
                     e = "F"
                 else:
                     e = "e"
+
                 if y < ly and self.floors[y][x]:
                     if y > 0 and self.floors[y - 1][x]:
                         # Inside Wall
@@ -319,25 +322,30 @@ You can replace the space characters representing the floor by a "X" to remove t
                             self.fingerHolesAt(posx, posy + t2, self.x[x], angle=0)
                     else:
                         # Top edge
-                        self.edgeAt(e, posx + self.x[x], posy + t + b, self.x[x],
+                        self.edgeAt(e, posx + self.x[x],
+                                    posy + w + b, self.x[x],
                                     -180)
-                        if x == 0 or y == 0 or not self.floors[y - 1][x - 1]:
-                            self.edgeAt("e", posx, posy + t + b, t, -180)
-                        if x == lx - 1 or y == 0 or not self.floors[y - 1][x + 1]:
-                            self.edgeAt("e", posx + self.x[x] + t, posy + t + b, t, -180)
+                        if x == 0 or not self.floors[y][x - 1]:
+                            self.edgeAt("e", posx - w, posy + w + b, w, 0)
+                        elif y == 0 or not self.floors[y - 1][x - 1]:
+                            self.edgeAt("e", posx - t, posy + w + b, t, 0)
+                        if x == lx - 1 or not self.floors[y][x + 1]:
+                            self.edgeAt("e", posx + self.x[x], posy + w + b, w, 0)
                 elif y > 0 and self.floors[y - 1][x]:
                     # Bottom Edge
-                    self.edgeAt(e, posx, posy - b, self.x[x])
-                    if x == 0 or y == ly or not self.floors[y][x - 1]:
-                        self.edgeAt("e", posx - t, posy - b, t)
-                    if x == lx - 1 or y == ly or not self.floors[y][x + 1]:
-                        self.edgeAt("e", posx + self.x[x], posy - b, t)
+                    self.edgeAt(e, posx, posy - b + t - w, self.x[x])
+                    if x == 0 or not self.floors[y-1][x - 1]:
+                        self.edgeAt("e", posx - w, posy + t - w - b, w)
+                    elif x == 0 or y == ly or not self.floors[y][x - 1]:
+                        self.edgeAt("e", posx - t, posy + t - w - b, t)
+                    if x == lx - 1 or y == 0 or not self.floors[y-1][x + 1]:
+                        self.edgeAt("e", posx + self.x[x], posy + t -w - b, w)
                 posx += self.x[x] + self.thickness
             posy += self.y[y - 1] + self.thickness
 
-        posx = 0
+        posx = w - t
         for x in range(lx + 1):
-            posy = self.thickness
+            posy = w
             for y in range(ly - 1, -1, -1):
                 if self.vwalls[y][x]:
                     e = "F"
@@ -350,18 +358,24 @@ You can replace the space characters representing the floor by a "X" to remove t
                             self.fingerHolesAt(posx + t2, posy, self.y[y])
                     else:
                         # Right edge
-                        self.edgeAt(e, posx + t + b, posy, self.y[y], 90)
-                        if x == lx or y == 0 or not self.floors[y - 1][x]:
-                            self.edgeAt("e", posx + t + b, posy + self.y[y], t, 90)
-                        if x == lx or y == ly - 1 or not self.floors[y + 1][x]:
-                            self.edgeAt("e", posx + t + b, posy - t, t, 90)
+                        self.edgeAt(e, posx + w + b, posy, self.y[y], 90)
+                        if y == 0 or not self.floors[y-1][x-1]:
+                            self.edgeAt("e", posx + w + b, posy + self.y[y], w, 90)
+                        elif x == lx or y == 0 or not self.floors[y - 1][x]:
+                            self.edgeAt("e", posx + w + b, posy + self.y[y], t, 90)
+                        if y == ly - 1 or not self.floors[y+1][x-1]:
+                            self.edgeAt("e", posx + w + b, posy - w, w, 90)
                 elif x < lx and self.floors[y][x]:
                     # Left edge
-                    self.edgeAt(e, posx - b, posy + self.y[y], self.y[y], -90)
-                    if x == 0 or y == 0 or not self.floors[y - 1][x - 1]:
-                        self.edgeAt("e", posx - b, posy + self.y[y] + t, t, -90)
-                    if x == 0 or y == ly - 1 or not self.floors[y + 1][x - 1]:
-                        self.edgeAt("e", posx - b, posy, t, -90)
+                    self.edgeAt(e, posx + t - w - b, posy + self.y[y], self.y[y], -90)
+                    if y == 0 or not self.floors[y - 1][x]:
+                        self.edgeAt("e", posx + t - w - b,
+                                    posy + self.y[y] + w, w, -90)
+                    elif x == 0 or y == 0 or not self.floors[y - 1][x - 1]:
+                        self.edgeAt("e", posx + t - w - b,
+                                    posy + self.y[y] + t, t, -90)
+                    if y == ly - 1 or not self.floors[y + 1][x]:
+                        self.edgeAt("e", posx + t - w - b, posy, w, -90)
                 posy += self.y[y] + self.thickness
             if x < lx:
                 posx += self.x[x] + self.thickness

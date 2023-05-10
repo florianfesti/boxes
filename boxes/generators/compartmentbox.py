@@ -24,7 +24,7 @@ class CompartmentBox(TypeTray):
     so will not work if no inner walls are present. 
     Suggested to place walls close to both sides for maximum stability."""
 
-    ui_group = "Unstable"
+    ui_group = "Tray"
 
     def __init__(self) -> None:
         Boxes.__init__(self) # avoid TypeTray.__init__

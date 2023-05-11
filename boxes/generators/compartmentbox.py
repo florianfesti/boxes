@@ -22,12 +22,15 @@ class CompartmentBox(TypeTray):
 
     description = """Sliding lid rests on inner walls, 
     so will not work if no inner walls are present. 
-    Suggested to place walls close to both sides for maximum stability."""
+    Suggested to place walls close to both sides for maximum stability.
+    Margin helps to prevent the lid from getting stuck.
+    Vertical margin is added to height."""
 
     ui_group = "Tray"
 
     def __init__(self) -> None:
         Boxes.__init__(self) # avoid TypeTray.__init__
+        self.addSettingsArgs(edges.StackableSettings)
         self.buildArgParser("sx", "sy", "h", "outside", "bottom_edge")
         self.argparser.add_argument(
             "--handle", action="store", type=str, default="lip",
@@ -40,6 +43,12 @@ class CompartmentBox(TypeTray):
             "--holes", action="store", type=str,
             default="70",
             help="width of hole(s) in percentage of maximum hole width")
+        self.argparser.add_argument(
+            "--margin_t", action="store", type=float, default=0.1,
+            dest="margin_vertical", help="vertical margin for sliding lid (multiples of thickness)")
+        self.argparser.add_argument(
+            "--margin_s", action="store", type=float, default=0.05,
+            dest="margin_side", help="margin to add at both sides of sliding lid (multiples of thickness)")
 
     def render(self):
         t = self.thickness
@@ -53,15 +62,24 @@ class CompartmentBox(TypeTray):
         h = self.h
         b = self.bottom_edge
 
-        stackable = b == "s"
+        margin_vertical = self.margin_vertical * t
+        margin_side = self.margin_side
 
+        stackable = b == "s"
         tside, tback = ["Š","S"] if stackable else ["F","E"] # top edges
+
+        if (margin_vertical < 0):
+            raise ValueError("vertical margin can not be negative")
+        if (margin_side < 0):
+            raise ValueError("side margin can not be negative")
 
         # x walls
         self.ctx.save()
 
         # outer walls - front/back
-        hb = h+t * (3 if stackable else 1)
+        hb = h + t + margin_vertical
+        if stackable:
+            hb += t + self.edges["S"].settings.holedistance
         self.rectangularWall(x, hb, [b, "F", tback, "F"],
                                 callback=[self.xHoles],
                                 ignore_widths=[1,2,5,6],
@@ -85,13 +103,24 @@ class CompartmentBox(TypeTray):
 
         # top / lid
         handle = self.handle
+        x_compensated = x - 2*margin_side*t # margin at both sides (left, right)
         if handle == "lip":
-            self.rectangularWall(x, y, "feee", move="up", label="lid")
-            self.rectangularWall(x, t * (2 if b == "s" else 1), "fe" + ("S" if b == "s" else "e") + "e", move="up", label="lid lip")
+            #compensate for the lid being a bit lower due to the margin, goal is to keep top at same height
+            lip_height = (0 if stackable else t) + margin_vertical/2
+            if (stackable):
+                #compensate for the stackable edge extra height
+                lip_height += self.edges["S"].settings.holedistance #get this value from the settings
+                # correct the stackable edge for the length lost at the ends
+                s = copy.deepcopy(self.edges["S"].settings)
+                # get value from settings and make change
+                s.setValues(self.thickness, width = self.edges["S"].settings.width/self.thickness - margin_side)
+                s.edgeObjects(self, chars="aA") # this seems to be correct
+            self.rectangularWall(x_compensated, y, "feee", move="up", label="lid")
+            self.rectangularWall(x_compensated, lip_height, "fe" + ("A" if stackable else "e") + "e", move="up", label="lid lip")
         if handle == "hole":
-            self.rectangularWall(x, y + t, move="up", label="lid", callback=[self.gripHole])
+            self.rectangularWall(x_compensated, y + t, move="up", label="lid", callback=[self.gripHole])
         if handle == "none":
-            self.rectangularWall(x, y + t, move="up", label="lid")
+            self.rectangularWall(x_compensated, y + t, move="up", label="lid")
 
 
         self.ctx.restore()
@@ -99,11 +128,11 @@ class CompartmentBox(TypeTray):
         # y walls
 
         # outer walls - left/right
-        f = edges.CompoundEdge(self, "fE", [h+self.edges[b].startwidth(), t])
-        self.rectangularWall(y, h+t, [b, f, tside, "f"], callback=[self.yHoles, ],
+        f = edges.CompoundEdge(self, "fE", [h+self.edges[b].startwidth(), t+margin_vertical])
+        self.rectangularWall(y, h+t+margin_vertical, [b, f, tside, "f"], callback=[self.yHoles, ],
                              ignore_widths=[1,5,6],
                              move="up", label="left side")
-        self.rectangularWall(y, h+t, [b, f, tside, "f"], callback=[self.yHoles, ],
+        self.rectangularWall(y, h+t+margin_vertical, [b, f, tside, "f"], callback=[self.yHoles, ],
                              ignore_widths=[1,5,6],
                              move="mirror up", label="right side")
 

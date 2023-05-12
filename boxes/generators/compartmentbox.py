@@ -22,9 +22,11 @@ class CompartmentBox(TypeTray):
 
     description = """Sliding lid rests on inner walls, 
     so will not work if no inner walls are present. 
-    Suggested to place walls close to both sides for maximum stability.
-    Margin helps to prevent the lid from getting stuck.
-    Vertical margin is added to height."""
+    Suggested to place walls close to both sides for maximum stability. 
+    Margin helps to prevent the lid from getting stuck. 
+    Vertical margin increases the overall height. 
+    The lip holding the lid in place can be generated as two separate 
+    pieces or as a single piece that continues at the back."""
 
     ui_group = "Tray"
 
@@ -49,9 +51,13 @@ class CompartmentBox(TypeTray):
         self.argparser.add_argument(
             "--margin_s", action="store", type=float, default=0.05,
             dest="margin_side", help="margin to add at both sides of sliding lid (multiples of thickness)")
+        self.argparser.add_argument(
+            "--split_lip",  action="store", type=boolarg, default=True,
+            help="create two strips to reduce waste material")
 
     def render(self):
         t = self.thickness
+        k = self.burn
         if self.outside:
             self.sx = self.adjustSize(self.sx)
             self.sy = self.adjustSize(self.sy)
@@ -61,12 +67,15 @@ class CompartmentBox(TypeTray):
         y = sum(self.sy) + self.thickness * (len(self.sy) - 1)
         h = self.h
         b = self.bottom_edge
+        split_lip = self.split_lip
 
         margin_vertical = self.margin_vertical * t
         margin_side = self.margin_side
 
         stackable = b == "s"
         tside, tback = ["Š","S"] if stackable else ["F","E"] # top edges
+        if not split_lip:
+            tback = tside
 
         if (margin_vertical < 0):
             raise ValueError("vertical margin can not be negative")
@@ -79,7 +88,7 @@ class CompartmentBox(TypeTray):
         # outer walls - front/back
         hb = h + t + margin_vertical
         if stackable:
-            hb += t + self.edges["S"].settings.holedistance
+            hb += -t + self.edges["S"].settings.holedistance
         self.rectangularWall(x, hb, [b, "F", tback, "F"],
                                 callback=[self.xHoles],
                                 ignore_widths=[1,2,5,6],
@@ -142,14 +151,37 @@ class CompartmentBox(TypeTray):
                  "f", "e", "f"]
             self.rectangularWall(y, h, e, move="up", label=f"inner y {i+1}")
 
-        if self.handle == "lip":
-            lip_edges = "eefe"
-        else:
-            lip_edges = "eefE"
-        
+
         # lip that holds the lid in place
-        self.rectangularWall(y, t, lip_edges, move="up", label="Lip Left")
-        self.rectangularWall(y, t, lip_edges, move="mirror up", label="Lip Right")
+        lip_front_edge = "e" if self.handle == "lip" else "E"  
+        if split_lip:
+            self.rectangularWall(y, t, "eef" + lip_front_edge, move="up", label="Lip Left")
+            self.rectangularWall(y, t, "eef" + lip_front_edge, move="mirror up", label="Lip Right")
+        else:
+            tx = y + self.edges.get('f').spacing() + self.edges.get(lip_front_edge).spacing()
+            ty = x + 2 * self.edges.get('f').spacing()
+            r=k # as sharp as possible without removing additional material from the part
+            self.move(tx, ty, "up", before=True)
+
+            self.moveTo(self.edges.get("f").margin(), self.edges.get("f").margin())
+            self.edges.get("f")(y)
+            self.edgeCorner("f", lip_front_edge)
+            self.edges.get(lip_front_edge)(t)
+            self.edgeCorner(lip_front_edge, "e")
+            self.edge(y-t-r)
+            self.corner(-90, radius=r)
+            self.edge(x-(t+r)*2)
+            self.corner(-90, radius=r)
+            self.edge(y-t-r)
+            self.edgeCorner("e", lip_front_edge)
+            self.edges.get(lip_front_edge)(t)
+            self.edgeCorner(lip_front_edge, "f")
+            self.edges.get('f')(x)
+            self.corner(90)
+            self.edges.get('f')(y)
+            self.corner(90)
+
+            self.move(tx, ty, "up", label="Lip")
 
     def gripHole(self):
         if not self.radius:
@@ -166,7 +198,7 @@ class CompartmentBox(TypeTray):
             else:
                 slot_offset = 0
 
-            slot_height = 2* radius # (self.settings.height - 2 * self.thickness) * self.settings.hole_height / 100
+            slot_height = 2* radius
             slot_x = self.thickness + slot_offset
 
             for w in widths:
@@ -177,6 +209,5 @@ class CompartmentBox(TypeTray):
                 slot_x += slotwidth / 2
 
                 with self.saved_context():
-                    #self.moveTo(20, slot_x, 0)
                     self.rectangularHole(slot_x,radius+t,slotwidth,slot_height,radius,True,True)
                 slot_x += slotwidth / 2 + slot_offset + self.thickness + slot_offset

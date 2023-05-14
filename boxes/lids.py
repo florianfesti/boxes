@@ -14,6 +14,7 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import edges, Boxes
+import boxes
 import math
 
 class LidSettings(edges.Settings):
@@ -34,7 +35,8 @@ Values:
 
     absolute_params = {
         "style" : ("none", "flat", "chest", "overthetop", "ontop"),
-        "handle" : ("none", "long"),
+        "handle" : ("none", "long_rounded", "long_trapezoid", "long_doublerounded",
+                    "knob"),
     }
 
     relative_params = {
@@ -113,33 +115,74 @@ class Lid:
     def handleCB(self, x, y):
         t = self.thickness
         def cb():
-            if self.handle == "long":
+            if self.handle.startswith("long"):
                 self.rectangularHole(x/2, y/2, x/2, t)
+            elif self.handle.startswith("knob"):
+                h = v = 3 * t # adjust for different styles
+                self.moveTo((x - t) / 2 + self.burn, (y - t) / 2 + self.burn, 180)
+                self.ctx.stroke()
+                with self.saved_context():
+                    self.set_source_color(boxes.Color.INNER_CUT)
+                    for l in (h, v, h, v):
+                        self.polyline(l, -90, t, -90, l, 90)
+                self.ctx.stroke()
 
         return cb
 
-    def longHandle(self, x, y, move=None):
+    def longHandle(self, x, y, style="long_rounded", move=None):
         t = self.settings.thickness
         hh = self.handle_height
         tw, th = x/2 + 2*t, self.handle_height + 2*t
-
-        r = min(hh/2, x/4)
 
         if self.move(tw, th, move, True):
             return
 
         self.moveTo(0.5*t)
 
-        poly = [(90, t/2), t/2, 90, t, -90, t + hh - r, (90, r)]
+        poly = [(90, t/2), t/2, 90, t, -90]
 
-        poly = [x/2+t] + poly + [x/2 - 2*r] + list(reversed(poly))
+        if style == "long_rounded":
+            r = min(hh/2, x/4)
+            poly += [t + hh - r, (90, r)]
+            l = x/2 - 2*r
+        elif  style == "long_trapezoid":
+            poly += [t, (45, t), (hh - t) * 2**.5, (45, t)]
+            l = x/2 - 2 * hh
+        elif style == "long_doublerounded":
+            poly += [t, 90, 0, (-90, hh /2), 0, (90, hh/2)]
+            l = x/2 - 2*hh
+
+        poly = [x/2+t] + poly + [l] + list(reversed(poly))
         self.polyline(*poly)
 
         self.move(tw, th, move)
 
+    def knobHandle(self, x, y, style, move=None):
+        t = self.settings.thickness
+        hh = self.handle_height
+        tw, th = 2 * 7 * t + self.spacing, self.handle_height + 2*t
+
+        if self.move(tw, th, move, True):
+            return
+
+        poly = [(90, t/2), t/2, 90, t/2, -90]
+
+        poly += [hh - 2*t, (90, 3*t)]
+        
+        for bottom, top  in (([3*t, 90, 2*t + hh/2, -90, t, -90, hh/2 + 2*t, 90, 3*t], [t]),
+                             ([7*t], [0, 90, hh/2, -90, t, -90, hh/2, 90, 0])) :
+            self.moveTo(0.5*t)
+            p = bottom + poly + top + list(reversed(poly))
+            self.polyline(*p)
+            self.moveTo(tw/2 + self.spacing)
+
+        self.move(tw, th, move)
+
     def handleParts(self, x, y):
-        if self.handle == "long":
-            self.longHandle(x, y, "up")
+        if self.handle.startswith("long"):
+            self.longHandle(x, y, self.handle, move="up")
+        elif self.handle.startswith("knob"):
+            self.knobHandle(x, y, self.handle, move="up")
 
     ######################################################################
     ### Chest Lid

@@ -120,7 +120,7 @@ A paper creaser (or bone folder) is also useful.
                 0,
             ]
             + self.lid_cut(lid_cut_length)
-            + self.lid(width - 2 * self.thickness)
+            + self.lid_tab(width - 2 * self.thickness)
             + [0]
             + self.lid_cut(lid_cut_length, reverse=True)
             + [
@@ -188,11 +188,11 @@ A paper creaser (or bone folder) is also useful.
         return (
             self.side_with_finger_hole(width, self.finger_hole_diameter)
             + half_side
-            + self.lid(width)
+            + self.lid_tab(width)
             + list(reversed(half_side))
         )
 
-    def lid(self, width):
+    def lid_tab(self, width):
         return [
             self.lid_height - self.lid_radius,
             (90, self.lid_radius),

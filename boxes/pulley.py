@@ -86,18 +86,6 @@ class Pulley:
     def getProfiles(cls):
         return list(sorted(cls.teeth.keys()))
 
-    def drawPoints(self, lines, kerfdir=1):
-        if kerfdir != 0:
-            lines = kerf(lines, self.boxes.burn * kerfdir)
-        self.boxes.ctx.save()
-        self.boxes.ctx.move_to(*lines[0])
-
-        for x, y in lines[1:]:
-            self.boxes.ctx.line_to(x, y)
-
-        self.boxes.ctx.line_to(*lines[0])
-        self.boxes.ctx.restore()
-
     def diameter(self, teeth, profile):
         if self.spacing[profile][0]:
             return tooth_spaceing_curvefit(teeth, *self.spacing[profile][1:])
@@ -149,5 +137,5 @@ class Pulley:
             m = mmul(m, rotm(i * 2 * pi / teeth))
             points.extend(vtransl(pt, m) for pt in self.teeth[profile][1:-1])
 
-        self.drawPoints(points, kerfdir=-1 if insideout else 1)
+        self.boxes.drawPoints(points, kerfdir=-1 if insideout else 1)
         self.boxes.move(total_width, total_width, move)

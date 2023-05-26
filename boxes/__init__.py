@@ -39,6 +39,7 @@ from boxes import parts
 from boxes import pulley
 from boxes import svgutil
 from boxes.Color import *
+from boxes.vectors import kerf
 
 import qrcode
 from boxes.qrcode_factory import BoxesQrCodeFactory
@@ -1559,6 +1560,24 @@ class Boxes:
                 self.hole(x * 0.5 * holedistance,
                           y * 0.5 * holedistance,
                           0.5 * diameter)
+
+    def drawPoints(self, lines, kerfdir=1, close=True):
+
+        if not lines:
+            return
+
+        if kerfdir != 0:
+            lines = kerf(lines, self.burn*kerfdir, closed=close)
+
+        self.ctx.save()
+        self.ctx.move_to(*lines[0])
+
+        for x, y in lines[1:]:
+            self.ctx.line_to(x, y)
+
+        if close:
+            self.ctx.line_to(*lines[0])
+        self.ctx.restore()
 
     def qrcode(self, content, box_size=1.0, color=Color.ETCHING, move=None):
         q = qrcode.QRCode(image_factory=BoxesQrCodeFactory, box_size=box_size*10)

@@ -58,37 +58,39 @@ class CompartmentBox(TypeTray):
     def render(self):
         t = self.thickness
         k = self.burn
-        if self.outside:
-            self.sx = self.adjustSize(self.sx)
-            self.sy = self.adjustSize(self.sy)
-            self.hi = self.h = self.adjustSize(self.h) - 2 * t
 
-        x = sum(self.sx) + self.thickness * (len(self.sx) - 1)
-        y = sum(self.sy) + self.thickness * (len(self.sy) - 1)
-        h = self.h
         b = self.bottom_edge
-        split_lip = self.split_lip
-
-        margin_vertical = self.margin_vertical * t
-        margin_side = self.margin_side
-
         stackable = b == "s"
         tside, tback = ["Š","S"] if stackable else ["F","E"] # top edges
-        if not split_lip:
-            tback = tside
 
+        margin_side = self.margin_side
+        margin_vertical = self.margin_vertical * t
         if (margin_vertical < 0):
             raise ValueError("vertical margin can not be negative")
         if (margin_side < 0):
             raise ValueError("side margin can not be negative")
+        
+        split_lip = self.split_lip 
+        if not split_lip:
+            tback = tside
 
+        if self.outside:
+            self.sx = self.adjustSize(self.sx)
+            self.sy = self.adjustSize(self.sy)
+            self.h = self.adjustSize(self.h, b, tside) - 1 * t - margin_vertical
+        self.hi = self.h
+
+        x = sum(self.sx) + self.thickness * (len(self.sx) - 1)
+        y = sum(self.sy) + self.thickness * (len(self.sy) - 1)
+        h = self.h
+           
         # x walls
         self.ctx.save()
 
         # outer walls - front/back
         hb = h + t + margin_vertical
         if stackable:
-            hb += -t + self.edges["S"].settings.holedistance
+            hb += self.edges["S"].settings.holedistance + (t if split_lip else -t)
         self.rectangularWall(x, hb, [b, "F", tback, "F"],
                                 callback=[self.xHoles],
                                 ignore_widths=[1,2,5,6],

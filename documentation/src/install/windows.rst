@@ -49,9 +49,9 @@ Following steps are known to work under Windows 10/11 (64-bit):
        :align: center
 
 6. Change into the folder for Boxes.py,
-    e.g. with the command :code:`cd \Users\[USERNAME]\Downloads\boxes-master`
+    e.g. with the command :code:`cd \\Users\\[USERNAME]\\Downloads\\boxes-master`
 7. Run the development server with the command
-    :code:`python scripts\boxesserver`
+    :code:`python scripts\\boxesserver`
     Note: You likely will be notified by your firewall that it blocked network
     access. If you want to use boxesserver you need to allow connections.
 
@@ -69,7 +69,7 @@ Following steps are known to work under Windows 10/11 (64-bit):
 
 
 Additionally the command line version of Boxes.py can be used with
-the command :code:`python scripts\boxes`.
+the command :code:`python scripts\\boxes`.
 
 Windows Subsystem for Linux
 ---------------------------

@@ -29,7 +29,7 @@ Following steps are known to work under Windows 10/11 (64-bit):
        :alt: Screenshot of Python 3.7 (64-bit) installer with PATH checked
        :align: center
 
-3.  Run the command :code:`pip install Markdown affine shapely`
+3.  Run the command :code:`pip install Markdown affine shapely qrcode`
     (Note: If the command pip is not found, you probably forgot to add the
     Python installation to the PATH environment variable in step 2)
 	       

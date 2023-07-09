@@ -1696,7 +1696,7 @@ class ChestHingePin(BaseEdge):
 
         if self.settings.finger_joints_on_lid:
             middle_segment = [0]
-            draw_rest_of_edge = lambda: self.edges["F"](l + 2 * t)
+            draw_rest_of_edge = lambda: (self.edge(t), self.edges["F"](l), self.edge(t))
         else:
             middle_segment = [l + 2 * t, ]
             draw_rest_of_edge = lambda: None

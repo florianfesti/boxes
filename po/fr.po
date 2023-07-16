@@ -2923,7 +2923,7 @@ msgstr ""
 "utilisant des coins arrondi en flex"
 
 msgid "Silverware Settings"
-msgstr "Rglages de l'Argenterie"
+msgstr "Réglages de l'Argenterie"
 
 #. parameter name
 #: boxes/generators/silverwarebox.py
@@ -3237,7 +3237,7 @@ msgstr "un sur trois"
 #. name of box generator
 #: boxes/generators/slatwalltypetray.py
 msgid "SlatwallTypeTray"
-msgstr "Tiroir à compatiments"
+msgstr "Tiroir à compartiments"
 
 #. description of SlatwallTypeTray
 #: boxes/generators/slatwalltypetray.py
@@ -3245,7 +3245,7 @@ msgid "Type tray - allows only continuous walls"
 msgstr "Tiroir à compartiments pour présentoir mural - autorise seulement des parois continues"
 
 msgid "SlatwallTypeTray Settings"
-msgstr "Rglages du Tiroir à compatiments"
+msgstr "Réglages du Tiroir à compartiments"
 
 #. parameter name
 #: boxes/generators/slatwalltypetray.py

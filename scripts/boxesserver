@@ -668,7 +668,8 @@ class BServer:
                 extension = "svg"
             http_headers.append(('Content-Disposition', f'attachment; filename="{box.__class__.__name__}.{extension}"'))
         start_response(status, http_headers)
-        result = open(box.output, 'rb').readlines()
+        with open(box.output, 'rb') as f:
+            result = f.readlines()
         os.close(fd)
         os.remove(box.output)
         return (l for l in result)

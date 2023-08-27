@@ -261,11 +261,11 @@ class Gears():
     def __init__(self, boxes, **kw) -> None:
         # an alternate way to get debug info:
         # could use inkex.debug(string) instead...
-        try:
-            self.tty = open("/dev/tty", 'w')
-        except:
-            self.tty = open(devnull, 'w')  # '/dev/null' for POSIX, 'nul' for Windows.
-            # print >>self.tty, "gears-dev " + __version__
+        #try:
+        #    self.tty = open("/dev/tty", 'w')
+        #except:
+        #    self.tty = open(devnull, 'w')  # '/dev/null' for POSIX, 'nul' for Windows.
+        #    # print >>self.tty, "gears-dev " + __version__
 
         self.boxes = boxes
         self.OptionParser = OptionParser()

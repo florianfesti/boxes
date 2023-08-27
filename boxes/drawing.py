@@ -577,7 +577,8 @@ Creation date: {date}
                     t.set("stroke-width", f'{path.params["lw"]:.2f}')
                     t.tail = "\n  "
             t.tail = "\n"
-        tree.write(open(self._fname, "wb"), encoding="utf-8", xml_declaration=True, method="xml")
+        with open(self._fname, "wb") as f:
+            tree.write(f, encoding="utf-8", xml_declaration=True, method="xml")
 
 class PSSurface(Surface):
 

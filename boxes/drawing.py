@@ -982,7 +982,9 @@ class LBRN2Surface(Surface):
         pl.tail = "\n"
 
         if self.dbg: print ("5", num)
-        tree.write(open(self._fname, "wb"), encoding="utf-8", xml_declaration=True, method="xml")
+        with open(self._fname, "wb") as f:
+            tree.write(f, encoding="utf-8", xml_declaration=True, method="xml")
+
 from random import random
 
 

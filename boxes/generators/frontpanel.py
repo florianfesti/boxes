@@ -147,7 +147,7 @@ nema 20 20 17
         return (x+self.offset[0], y+self.offset[1])
     
     def drawRect(self, x, y, w, h, r=0, center_x="True", center_y="True"):
-        x, y, w, h, r = [float(i) for i in [x, y, w, h, r]]
+        x, y, w, h, r = (float(i) for i in [x, y, w, h, r])
         x, y = self.applyOffset(x, y)
         center_x = str_to_bool(center_x)
         center_y = str_to_bool(center_y)
@@ -155,19 +155,19 @@ nema 20 20 17
         return
 
     def drawCircle(self, x, y, r):
-        x, y, r = [float(i) for i in [x, y, r]]
+        x, y, r = (float(i) for i in [x, y, r])
         x, y = self.applyOffset(x, y)
         self.hole(x, y, r)
         return
 
     def drawMountingHole(self, x, y, d_shaft, d_head=0.0, angle=0):
-        x, y, d_shaft, d_head, angle = [float(i) for i in [x, y, d_shaft, d_head, angle]]
+        x, y, d_shaft, d_head, angle = (float(i) for i in [x, y, d_shaft, d_head, angle])
         x, y = self.applyOffset(x, y)
         self.mountingHole(x, y, d_shaft, d_head, angle)
         return
 
     def drawOutline(self, w, h):
-        w, h = [float(i) for i in [w, h]]
+        w, h = (float(i) for i in [w, h])
         if self.outline is not None:
             self.offset = self.applyOffset(self.outline[0]+10, 0)
         self.outline = (w, h) # store away for next time
@@ -179,13 +179,13 @@ nema 20 20 17
         return
 
     def drawText(self, x, y, size, text, angle=0, align='bottom|left'):
-        x, y, size, angle = [float(i) for i in [x, y, size, angle]]
+        x, y, size, angle = (float(i) for i in [x, y, size, angle])
         x, y = self.applyOffset(x, y)
         align = align.replace("|", " ")
         self.text(text=text, x=x, y=y, fontsize=size, angle=angle, align=align)
         
     def drawNema(self, x, y, size, screwhole_size=0):
-        x, y, size, screwhole_size = [float(i) for i in [x, y, size, screwhole_size]]
+        x, y, size, screwhole_size = (float(i) for i in [x, y, size, screwhole_size])
         if size in self.nema_sizes:
             x, y = self.applyOffset(x, y)
             self.NEMA(size, x, y, screwholes=screwhole_size)

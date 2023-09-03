@@ -4122,7 +4122,7 @@ msgstr ""
 
 #. help for parameter profile_shift
 #: boxes/generators/gear.py
-msgid "in precent of the modulus"
+msgid "in percent of the modulus"
 msgstr ""
 
 #. name of box generator

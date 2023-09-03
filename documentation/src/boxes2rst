@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # Copyright (C) 2017 Florian Festi
 #
 #   This program is free software: you can redistribute it and/or modify
@@ -23,34 +23,36 @@ except ImportError:
     sys.path.append(os.path.dirname(__file__) + "/../..")
     import boxes.generators
 
+
 class Boxes2rst:
-    def __init__(self):
-        self.boxes = {b.__name__ : b() for b in boxes.generators.getAllBoxGenerators().values() if b.webinterface}
+    def __init__(self) -> None:
+        self.boxes = {b.__name__: b() for b in boxes.generators.getAllBoxGenerators().values() if b.webinterface}
         self.groups = boxes.generators.ui_groups
         self.groups_by_name = boxes.generators.ui_groups_by_name
 
         for name, box in self.boxes.items():
-            self.groups_by_name.get(box.ui_group,
-                                    self.groups_by_name["Misc"]).add(box)
+            self.groups_by_name.get(box.ui_group, self.groups_by_name["Misc"]).add(box)
 
-    def write(self, path):
-        with open(path, "w") as f:
+    def write(self, targetFile: str) -> None:
+        with open(targetFile, "w") as f:
             for name, group in self.groups_by_name.items():
-                f.write(name + """
-----------------
-
-""")
+                f.write(f"{name}\n----------------\n\n")
                 for box in group.generators:
                     f.write(box.__class__.__name__)
                     f.write("\n..........................................\n\n")
-                    f.write("\n\n.. autoclass:: {}.{}".format(
-                        box.__class__.__module__, box.__class__.__name__))
+                    f.write(f"\n\n.. autoclass:: {box.__class__.__module__}.{box.__class__.__name__}")
                     f.write("\n\n")
-                    if os.path.exists("../../static/samples/"+ box.__class__.__name__+".jpg"):
-                        f.write(".. image:: ../../static/samples/" + box.__class__.__name__+".jpg\n\n")
+                    if os.path.exists(f"../../static/samples/{box.__class__.__name__}.jpg"):
+                        f.write(f".. image:: ../../static/samples/{box.__class__.__name__}.jpg\n\n")
 
-if __name__=="__main__":
+
+def main() -> None:
     if len(sys.argv) != 2:
-        print("Usage: boxes2rst TARGETPATH")
+        print("Usage: boxes2rst TARGETFILE")
+        return
     b = Boxes2rst()
     b.write(sys.argv[1])
+
+
+if __name__ == "__main__":
+    main()

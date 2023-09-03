@@ -1301,7 +1301,7 @@ msgstr "glissement de profil"
 
 #. help for parameter profile_shift
 #: boxes/generators/gear.py
-msgid "in precent of the modulus"
+msgid "in percent of the modulus"
 msgstr "en pourcentage du module"
 
 #. name of box generator

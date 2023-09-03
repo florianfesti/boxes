@@ -1840,7 +1840,7 @@ msgstr "树莓派有多少个插槽"
 msgid "how much should fingers widen (-80 to 80)"
 msgstr "凹槽应该加宽多少（-80到80）"
 
-msgid "in precent of the modulus"
+msgid "in percent of the modulus"
 msgstr "以模量的百分比表示"
 
 msgid "in_place_supports"

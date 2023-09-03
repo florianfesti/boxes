@@ -51,7 +51,7 @@ class Gears(Boxes):
             help="angle of the teeth touching (in degrees)")
         self.argparser.add_argument(
             "--profile_shift",  action="store", type=float, default=20,
-            help="in precent of the modulus")
+            help="in percent of the modulus")
 
     def render(self):
         # adjust to the variables you want in the local scope

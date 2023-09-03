@@ -34,5 +34,5 @@ jobs:
           mypy --ignore-missing-imports ./scripts/boxes2inkscape
           mypy --ignore-missing-imports ./scripts/boxes2pot
           mypy --ignore-missing-imports ./scripts/boxesserver
-          mypy --ignore-missing-imports ./documentation/src/boxes2rst
+          mypy --ignore-missing-imports ./documentation/src/boxes2rst.py
           mypy --ignore-missing-imports ./setup.py

@@ -12,18 +12,11 @@ class CustomBuildExtCommand(build_py):
     """Customized setuptools install command - prints a friendly greeting."""
 
     def buildInkscapeExt(self):
-        os.system("%s %s %s" % (sys.executable,
-                                os.path.join("scripts", "boxes2inkscape"),
-                                "inkex"))
+        os.system("{} {} {}".format(sys.executable, os.path.join("scripts", "boxes2inkscape"), "inkex"))
 
     def updatePOT(self):
-        os.system("%s %s %s" % (
-            sys.executable,
-            os.path.join("scripts", "boxes2pot"),
-            "po/boxes.py.pot"))
-        os.system("%s %s" % (
-            "xgettext -L Python -j --from-code=utf-8 -o po/boxes.py.pot",
-            "boxes/*.py scripts/boxesserver scripts/boxes"))
+        os.system("{} {} {}".format(sys.executable, os.path.join("scripts", "boxes2pot"), "po/boxes.py.pot"))
+        os.system("{} {}".format("xgettext -L Python -j --from-code=utf-8 -o po/boxes.py.pot", "boxes/*.py scripts/boxesserver scripts/boxes"))
 
     def generate_mo_files(self):
         pos = glob.glob("po/*.po")
@@ -34,7 +27,7 @@ class CustomBuildExtCommand(build_py):
                 os.makedirs(os.path.join("locale", lang, "LC_MESSAGES"))
             except FileExistsError:
                 pass
-            os.system("msgfmt %s -o locale/%s/LC_MESSAGES/boxes.py.mo" % (po, lang))
+            os.system(f"msgfmt {po} -o locale/{lang}/LC_MESSAGES/boxes.py.mo")
             self.distribution.data_files.append(
                 (os.path.join("share", "locale", lang, "LC_MESSAGES"),
                  [os.path.join("locale", lang, "LC_MESSAGES", "boxes.py.mo")]))
@@ -50,9 +43,7 @@ class CustomBuildExtCommand(build_py):
             # we are most probably building a Debian package
             # let us define a simple path!
             path="/usr/share/inkscape/extensions"
-            self.distribution.data_files.append(
-                (path,
-                 [i for i in glob.glob(os.path.join("inkex", "*.inx"))]))
+            self.distribution.data_files.append((path, [i for i in glob.glob(os.path.join("inkex", "*.inx"))]))
             self.distribution.data_files.append((path, ['scripts/boxes']))
             self.distribution.data_files.append((path, ['scripts/boxes_proxy.py']))
         else:
@@ -64,9 +55,7 @@ class CustomBuildExtCommand(build_py):
                 if not os.access(path, os.W_OK): # Can we install globally
                     # Not tested on Windows and Mac
                     path = os.path.expanduser("~/.config/inkscape/extensions")
-                self.distribution.data_files.append(
-                    (path,
-                     [i for i in glob.glob(os.path.join("inkex", "*.inx"))]))
+                self.distribution.data_files.append((path, [i for i in glob.glob(os.path.join("inkex", "*.inx"))]))
                 self.distribution.data_files.append((path, ['scripts/boxes']))
                 self.distribution.data_files.append((path, ['scripts/boxes_proxy.py']))
             except CalledProcessError:

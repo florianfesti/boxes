@@ -437,7 +437,7 @@ class Gears():
                 collision = True
             else:
                 mount_radius = mount_hole/2 + adj_factor # small fix
-                messages.append("Mount support too small. Auto increased to %2.2f%s." % (mount_radius/unit_factor*2, unit_label))
+                messages.append(f"Mount support too small. Auto increased to {mount_radius/unit_factor*2:2.2f}{unit_label}.")
 
         # then check to see if cross-over on spoke width
         for i in range(spoke_count):
@@ -446,7 +446,7 @@ class Gears():
             if spoke_width >= angle * mount_radius:
                 adj_factor = 1.2 # wrong value. its probably one of the points distances calculated below
                 mount_radius += adj_factor
-                messages.append("Too many spokes. Increased Mount support by %2.3f%s" % (adj_factor/unit_factor, unit_label))
+                messages.append(f"Too many spokes. Increased Mount support by {adj_factor/unit_factor:2.3f}{unit_label}")
 
         # check for collision with outer rim
         if r_outer <= mount_radius:
@@ -488,7 +488,7 @@ class Gears():
         return messages
 
     def sizes(self, **kw):
-        self.options = self.OptionParser.parse_args(["--%s=%s" % (name,value) for name, value in kw.items()])
+        self.options = self.OptionParser.parse_args([f"--{name}={value}" for name, value in kw.items()])
         # Pitch (circular pitch): Length of the arc from one tooth to the next)
         # Pitch diameter: Diameter of pitch circle.
         pitch = self.calc_circular_pitch()
@@ -550,7 +550,7 @@ class Gears():
               iterate through them
             - Turn on other visual features e.g. cross, rack, annotations, etc
         """
-        self.options = self.OptionParser.parse_args(["--%s=%s" % (name,value) for name, value in kw.items()])
+        self.options = self.OptionParser.parse_args([f"--{name}={value}" for name, value in kw.items()])
 
         warnings = [] # list of extra messages to be shown in annotations
         # calculate unit factor for units defined in dialog. 
@@ -687,11 +687,11 @@ class Gears():
             notes.extend(warnings)
             #notes.append('Document (%s) scale conversion = %2.4f' % (self.document.getroot().find(inkex.addNS('namedview', 'sodipodi')).get(inkex.addNS('document-units', 'inkscape')), unit_factor))
             notes.extend(['Teeth: %d   CP: %2.4f(%s) ' % (teeth, pitch / unit_factor, self.options.units),
-                          'DP: %2.3f Module: %2.4f(mm)' % (25.4 * pi / pitch, pitch),
+                          f'DP: {25.4 * pi / pitch:2.3f} Module: {pitch:2.4f}(mm)',
                           'Pressure Angle: %2.2f degrees' % (angle),
-                          'Pitch diameter: %2.3f %s' % (pitch_radius * 2 / unit_factor, self.options.units),
-                          'Outer diameter: %2.3f %s' % (outer_dia / unit_factor, self.options.units),
-                          'Base diameter:  %2.3f %s' % (base_radius * 2 / unit_factor, self.options.units)#,
+                          f'Pitch diameter: {pitch_radius * 2 / unit_factor:2.3f} {self.options.units}',
+                          f'Outer diameter: {outer_dia / unit_factor:2.3f} {self.options.units}',
+                          f'Base diameter:  {base_radius * 2 / unit_factor:2.3f} {self.options.units}'#,
                           #'Addendum:      %2.4f %s'  % (addendum / unit_factor, self.options.units),
                           #'Dedendum:      %2.4f %s'  % (dedendum / unit_factor, self.options.units)
                           ])

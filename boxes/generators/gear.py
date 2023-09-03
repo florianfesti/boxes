@@ -87,10 +87,9 @@ class Gears(Boxes):
         self.hole(t+r+r1+r2, t+r, self.shaft2/2)
         self.moveTo(0, 2*r+t)
 
-        self.text("""Pitch radius 1: %.1fmm
-Outer diameter 1: %.1fmm
-Pitch radius 2: %.1fmm
-Outer diameter 2: %.1fmm
-Axis distance: %.1fmm
-        """ % (r1, d1, r2, d2, r1+r2), align="bottom left")
-        
+        self.text(f"Pitch radius 1: {r1:.1f}mm\n"
+                  f"Outer diameter 1: {d1:.1f}mm\n"
+                  f"Pitch radius 2: {r2:.1f}mm\n"
+                  f"Outer diameter 2: {d2:.1f}mm\n"
+                  f"Axis distance: {r1 + r2:.1f}mm\n",
+                  align="bottom left")

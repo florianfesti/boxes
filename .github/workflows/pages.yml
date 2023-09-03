@@ -21,7 +21,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.10"
+          python-version: "3.11"
           cache: "pip" # caching pip dependencies
       - name: Install dependencies
         run: |
@@ -29,7 +29,7 @@ jobs:
       - name: Build documentation
         run: |
           cd ./documentation/src/
-          ./boxes2rst generators.inc
+          ./boxes2rst.py generators.inc
           make html #linkcheck
           cp index.html ../build/
           cd ../build/ && ls && ls html/

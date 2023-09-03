@@ -48,7 +48,7 @@ class Boxes2rst:
 
 def main() -> None:
     if len(sys.argv) != 2:
-        print("Usage: boxes2rst TARGETFILE")
+        print("Usage: boxes2rst.py TARGETFILE")
         return
     b = Boxes2rst()
     b.write(sys.argv[1])

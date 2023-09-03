@@ -55,7 +55,7 @@ class boxesPyWrapper(inkex.GenerateExtension):
 
         # check output existence
         try:
-            stream = open(box_file, 'r')
+            stream = open(box_file)
         except FileNotFoundError as e:
             inkex.utils.debug("There was no " + box_file + " output generated. Cannot continue. Command was:")
             inkex.utils.debug(str(cmd))

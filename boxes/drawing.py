@@ -686,7 +686,7 @@ class PSSurface(Surface):
                     elif C == "T":
                         m, text, params = c[3:]
                         tm = " ".join(f"{m[i]:.3f}" for i in (0, 3, 1, 4, 2, 5))
-                        text = text.replace("(", "r\(").replace(")", r"\)")
+                        text = text.replace("(", r"\(").replace(")", r"\)")
                         color = " ".join(f"{c:.2f}" for c in params["rgb"])
                         align = params.get('align', 'left')
                         f.write(f"/{self.fonts[params['ff']]}-Latin1 findfont\n")

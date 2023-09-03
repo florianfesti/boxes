@@ -65,7 +65,7 @@ class ServoArg:
             """<option value="%s"%s>%s</option>""" %
              (name, ' selected="selected"' if name == default else "",
               name) for name in self.servos)
-        return """<select name="%s" size="1">\n%s</select>\n""" % (name, options)
+        return f"""<select name="{name}" size="1">\n{options}</select>\n"""
 
 
 class Servo:

@@ -15,7 +15,7 @@ class Atreus21(Boxes, Keyboard):
         super().__init__()
         self.add_common_keyboard_parameters(
             # By default, columns from Atreus 21
-            default_columns_definition='4@3/4@6/4@11/4@5/4@0/1@{}'.format(self.btn_size * 0.5)
+            default_columns_definition=f'4@3/4@6/4@11/4@5/4@0/1@{self.btn_size * 0.5}'
         )
 
     def render(self):

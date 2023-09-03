@@ -56,6 +56,6 @@ class AllEdges(Boxes):
                 self.move(0, 0, "")
 
             self.moveTo(0, 3*t + self.edges[c].spacing())
-            self.text("%s - %s" % (c, self.edges[c].description))
+            self.text(f"{c} - {self.edges[c].description}")
             self.moveTo(0, 12*t)
 

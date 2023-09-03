@@ -125,21 +125,21 @@ class AngledBox(Boxes):
             if j == 0 or n % 2:
                 self.rectangularWall(lx, h, move="right",
                                  edges=b+"GfG" if fingers else b+"GeG",
-                                 label="wall {}".format(cnt))
+                                 label=f"wall {cnt}")
             else:
                 self.rectangularWall(lx, h, move="right",
                                  edges=b+"gfg" if fingers else b+"geg",
-                                 label="wall {}".format(cnt))
+                                 label=f"wall {cnt}")
             for i in range(n):
                 cnt += 1
                 if (i+j*((n+1)%2)) % 2: # reverse for second half if even n
                     self.rectangularWall(side, h, move="right",
                                          edges=b+"GfG" if fingers else b+"GeG",
-                                         label="wall {}".format(cnt))
+                                         label=f"wall {cnt}")
                 else:
                     self.rectangularWall(side, h, move="right",
                                          edges=b+"gfg" if fingers else b+"geg",
-                                         label="wall {}".format(cnt))
+                                         label=f"wall {cnt}")
 
 
 

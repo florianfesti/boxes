@@ -251,39 +251,22 @@ You will likely need to cut each of the dividers you want multiple times.
 
         if self.debug:
             debug_info = ["Debug"]
+            debug_info.append(f"Slot_edge_outer_length:{slot_descriptions.total_length() + 2 * self.thickness:.2f}")
             debug_info.append(
-                "Slot_edge_outer_length:{0:.2f}".format(
-                    slot_descriptions.total_length() + 2 * self.thickness
-                )
-            )
-            debug_info.append(
-                "Slot_edge_inner_lengths:{0}".format(
+                "Slot_edge_inner_lengths:{}".format(
                     str.join(
                         "|",
                         [
-                            "{0:.2f}".format(e.useful_length())
+                            f"{e.useful_length():.2f}"
                             for e in slot_descriptions.get_straight_edges()
                         ],
                     )
                 )
             )
-            debug_info.append(
-                "Face_edge_outer_length:{0:.2f}".format(
-                    facing_wall_length
-                    + self.thickness * sum([self.left_wall, self.right_wall])
-                )
-            )
-            debug_info.append(
-                "Face_edge_inner_lengths:{0}".format(
-                    str.join("|", ["{0:.2f}".format(e) for e in self.sx])
-                )
-            )
-            debug_info.append("Tray_height:{0:.2f}".format(self.h))
-            debug_info.append(
-                "Content_height:{0:.2f}".format(
-                    self.h / math.cos(math.radians(self.Slot_angle))
-                )
-            )
+            debug_info.append(f"Face_edge_outer_length:{facing_wall_length + self.thickness * sum([self.left_wall, self.right_wall]):.2f}")
+            debug_info.append("Face_edge_inner_lengths:{}".format(str.join("|", [f"{e:.2f}" for e in self.sx])))
+            debug_info.append(f"Tray_height:{self.h:.2f}")
+            debug_info.append(f"Content_height:{self.h / math.cos(math.radians(self.Slot_angle)):.2f}")
             self.text(str.join("\n", debug_info), x=5, y=5, align="bottom left")
 
     def generate_finger_holes(self, length):
@@ -411,14 +394,7 @@ class StraightEdgeDescription:
         self.angle_compensation = angle_compensation
 
     def __repr__(self) -> str:
-        return (
-            "StraightEdgeDescription({0}, round_edge_compensation={1}, angle_compensation={2}, outside_ratio={3})"
-        ).format(
-            self.asked_length,
-            self.round_edge_compensation,
-            self.angle_compensation,
-            self.outside_ratio,
-        )
+        return f"StraightEdgeDescription({self.asked_length}, round_edge_compensation={self.round_edge_compensation}, angle_compensation={self.angle_compensation}, outside_ratio={self.outside_ratio})"
 
     def tracing_length(self):
         """
@@ -460,9 +436,7 @@ class SlotDescription:
         self.angle = angle
 
     def __repr__(self) -> str:
-        return "SlotDescription({0}, depth={1}, angle={2}, start_radius={3}, end_radius={4})".format(
-            self.width, self.depth, self.angle, self.start_radius, self.end_radius
-        )
+        return f"SlotDescription({self.width}, depth={self.depth}, angle={self.angle}, start_radius={self.start_radius}, end_radius={self.end_radius})"
 
     def _div_by_cos(self):
         return SlotDescription._div_by_cos_cache[self.angle]

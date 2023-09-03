@@ -165,21 +165,15 @@ class DiscRack(Boxes):
 
         def word_thickness(length):
             if length > 0:
-                return "very thin (%.2g mm at a thickness of %.2g mm)" % (
-                        length, self.thickness)
+                return f"very thin ({length:.2g} mm at a thickness of {self.thickness:.2g} mm)"
             if length < 0:
                 return "absent"
 
         if self.rear_outset < self.thickness:
-            warnings.append("Rear upper constraint is %s. Consider increasing"
-                    " the disc outset parameter, or move the angle away from 45°."
-                    % word_thickness(self.rear_outset)
-                    )
+            warnings.append("Rear upper constraint is %s. Consider increasing the disc outset parameter, or move the angle away from 45°." % word_thickness(self.rear_outset))
 
         if self.lower_outset < self.thickness:
-            warnings.append("Lower front constraint is %s. Consider increasing"
-                    " the disc outset parameter, or move the angle away from 45°."
-                    % word_thickness(self.lower_outset))
+            warnings.append("Lower front constraint is %s. Consider increasing the disc outset parameter, or move the angle away from 45°." % word_thickness(self.lower_outset))
 
         # Are the discs supported where the grids meet?
 
@@ -188,8 +182,7 @@ class DiscRack(Boxes):
         inner_reardistance = r * self.lower_factor - self.rear_halfslit
 
         if inner_lowerdistance < 0 or inner_reardistance < 0:
-            warnings.append("Corner is inside the disc radios, discs would not"
-                    " be supported. Consider increasing the factor parameters.")
+            warnings.append("Corner is inside the disc radios, discs would not be supported. Consider increasing the factor parameters.")
 
         # Won't the type-H edge on the rear side make the whole contraption
         # wiggle?
@@ -200,9 +193,7 @@ class DiscRack(Boxes):
                 self.edgesettings['FingerJoint']['edge_width'])
 
         if slitlengthplush > max_slitlengthplush:
-            warnings.append("Joint would protrude from lower box edge. Consider"
-                    " increasing the the disc outset parameter, or move the"
-                    " angle away from 45°.")
+            warnings.append("Joint would protrude from lower box edge. Consider increasing the the disc outset parameter, or move the angle away from 45°.")
 
         # Can the discs be removed at all?
         # Does not need explicit checking, for Thales' theorem tells us that at

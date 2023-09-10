@@ -15,6 +15,19 @@ PADDING = 10
 RANDOMIZE_COLORS = False  # enable to ease check for continuity of paths
 
 
+def reorder_attributes(root) -> None:
+    """
+    Source: https://docs.python.org/3/library/xml.etree.elementtree.html#xml.etree.ElementTree.Element.remove
+    """
+    for el in root.iter():
+        attrib = el.attrib
+        if len(attrib) > 1:
+            # adjust attribute order, e.g. by sorting
+            attribs = sorted(attrib.items())
+            attrib.clear()
+            attrib.update(attribs)
+
+
 def points_equal(x1, y1, x2, y2):
     return abs(x1 - x2) < EPS and abs(y1 - y2) < EPS
 
@@ -577,6 +590,7 @@ Creation date: {date}
                     t.set("stroke-width", f'{path.params["lw"]:.2f}')
                     t.tail = "\n  "
             t.tail = "\n"
+        reorder_attributes(tree)
         with open(self._fname, "wb") as f:
             tree.write(f, encoding="utf-8", xml_declaration=True, method="xml")
 

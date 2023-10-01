@@ -406,10 +406,10 @@ class Boxes:
             self.move(self.reference, 10, "up", before=True)
             self.ctx.rectangle(0, 0, self.reference, 10)
             if self.reference < 80:
-                self.text(f"{self.reference:.f}mm, burn:{self.burn:.2f}mm", self.reference + 5, 5,
+                self.text(f"{self.reference:.2f}mm, burn:{self.burn:.2f}mm", self.reference + 5, 5,
                           fontsize=8, align="middle left", color=Color.ANNOTATIONS)
             else:
-                self.text(f"{self.reference:.f}mm, burn:{self.burn:.2f}mm", self.reference / 2.0, 5,
+                self.text(f"{self.reference:.2f}mm, burn:{self.burn:.2f}mm", self.reference / 2.0, 5,
                           fontsize=8, align="middle center", color=Color.ANNOTATIONS)
             self.move(self.reference, 10, "up")
             if self.qr_code:

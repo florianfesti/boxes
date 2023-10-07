@@ -73,7 +73,16 @@ class HangerEdge(edges.BaseEdge):
 
 
 class KeyHolder(Boxes):
-    """Wall organizer with hooks for keys or similar items"""
+    """Wall organizer with hooks for keys or similar small items"""
+
+    description = """Example for a KeyHolder with a slightly larger backplate and 8 hooks. This uses 6mm plywood for extra stability.
+
+Closeup:
+
+![KeyHolder-2](static/samples/KeyHolder-2.jpg)
+
+Full picture:
+"""
 
     ui_group = "WallMounted"
 

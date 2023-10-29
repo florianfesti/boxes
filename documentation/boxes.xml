@@ -103,7 +103,7 @@ man(1), man(7), http://www.tldp.org/HOWTO/Man-Page/
     <title>DESCRIPTION</title>
     <para>
       <command>&dhpackage;</command> is a program that generates
-      SVG images that can be viewed directly in a web brower but also
+      SVG images that can be viewed directly in a web browser but also
       postscript and - with pstoedit as external helper -
       other vector formats including dxf, plt (aka hpgl) and gcode.
     </para>

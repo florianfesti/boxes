@@ -44,7 +44,7 @@ Part Callbacks
 
 Most parts support callbacks - either one in the middle for round
 parts or one for each edge. They allow placing holes or other features
-on the part, indepenent of edge type.  Without using callbacks, you
+on the part, independent of edge type.  Without using callbacks, you
 will not have consistent placement of internal features.
 
 Navigation and Turtle Graphics

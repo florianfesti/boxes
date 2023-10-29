@@ -66,7 +66,7 @@ class CardBox(Boxes):
 
     description = """
 ### Description
-Versatile Box for Storage of playing cards. Multiple different styles of storage are supportet, e.g. a flat storage or a trading card deck box style storage. See images for ideas.
+Versatile Box for Storage of playing cards. Multiple different styles of storage are supported, e.g. a flat storage or a trading card deck box style storage. See images for ideas.
 
 #### Building instructions
 Place inner walls on floor first (if any). Then add the outer walls. Glue the two walls without finger joins to the inside of the side walls. Make sure there is no squeeze out on top, as this is going to form the rail for the lid.

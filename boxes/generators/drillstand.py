@@ -21,7 +21,7 @@ from boxes import *
 class DrillStand(Boxes):
     """Box for drills with each compartment of a different height"""
 
-    description = """Note: `sh` gives the hight of the rows front to back. It though should have the same number of entries as `sy`. These heights are the one on the left side and increase throughout the row. To have each compartment a bit higher than the previous one the steps in `sh` should be a bit bigger than `extra_height`.
+    description = """Note: `sh` gives the height of the rows front to back. It though should have the same number of entries as `sy`. These heights are the one on the left side and increase throughout the row. To have each compartment a bit higher than the previous one the steps in `sh` should be a bit bigger than `extra_height`.
 
 Assembly:
 

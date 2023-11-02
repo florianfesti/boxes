@@ -141,7 +141,7 @@ perfect. We can work on it together.
 Running the Code
 ----------------------------
 
-To serve website, run `scripts/boxesserver` script
+To serve website, run :code:`scripts/boxesserver` script.
 
 Reporting bugs
 --------------

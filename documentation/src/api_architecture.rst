@@ -8,7 +8,7 @@ User Interfaces
 
 User interfaces allow users to render the different generators. They
 handle the parameters of Generators and convert them to a readable
-form. The user interfaces are located in `scripts/`. Currently there is
+form. The user interfaces are located in :code:`scripts/`. Currently there is
 
 * scripts/boxes -- the command line interface
 * scripts/boxesserver -- the web interface

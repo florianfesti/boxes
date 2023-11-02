@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # Copyright (C) 2007 Aaron Spike  (aaron @ ekips.org)
 # Copyright (C) 2007 Tavmjong Bah (tavmjong @ free.fr)
 # Copyright (C) https://cnc-club.ru/forum/viewtopic.php?f=33&t=434&p=2594#p2500

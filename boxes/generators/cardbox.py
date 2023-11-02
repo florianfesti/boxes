@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # Copyright (C) 2013-2014 Florian Festi
 # Copyright (C) 2018 jens persson <jens@persson.cx>
 # Copyright (C) 2023 Manuel Lohoff

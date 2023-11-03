@@ -12,16 +12,19 @@ Last patch: 27.04.2021
 License: GNU GPL v3
 
 """
-import inkex
-import sys
 import os
 import subprocess
-from lxml import etree
+import sys
+import tempfile
 from shlex import quote
 
+from inkex.extensions import GenerateExtension
+from lxml import etree
 
-class boxesPyWrapper(inkex.GenerateExtension):
+import inkex
 
+
+class boxesPyWrapper(GenerateExtension):
     def add_arguments(self, pars):
         args = sys.argv[1:]
         for arg in args:

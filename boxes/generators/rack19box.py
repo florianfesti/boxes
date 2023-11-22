@@ -76,17 +76,18 @@ class Rack19Box(Boxes):
         tr = self.triangle
         trh = tr / 3.
 
-        self.rectangularWall(y, h, "ffef", callback=[self.wallyCB], move="right")
-        self.rectangularWall(x, h, "fFeF", callback=[self.wallxCB],
-                             move="up")
-        self.flangedWall(x, h, "FFEF", callback=[self.wallxfCB], r=t,
-                         flanges=[0., 17., -t, 17.])
         self.rectangularWall(y, h, "ffef", callback=[self.wallyCB],
-                             move="left up")
+                             move="right", label="right")
+        self.rectangularWall(x, h, "fFeF", callback=[self.wallxCB],
+                             move="up", label="back")
+        self.flangedWall(x, h, "FFEF", callback=[self.wallxfCB], r=t,
+                         flanges=[0., 17., -t, 17.], label="front")
+        self.rectangularWall(y, h, "ffef", callback=[self.wallyCB],
+                             move="left up", label="left")
 
-        self.rectangularWall(x, y, "fFFF", move="right")
+        self.rectangularWall(x, y, "fFFF", move="right", label="bottom")
         self.rectangularWall(x, y, callback=[
-            lambda:self.hole(trh, trh, d=d2)] * 4, move='up')
+            lambda:self.hole(trh, trh, d=d2)] * 4, move='up', label="lid")
 
         self.rectangularTriangle(tr, tr, "ffe", num=4,
             callback=[None, lambda: self.hole(trh, trh, d=d1)])

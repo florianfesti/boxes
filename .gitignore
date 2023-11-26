@@ -18,3 +18,4 @@ venv/
 .vscode/
 tracker.log
 *.isorted
+.DS_Store

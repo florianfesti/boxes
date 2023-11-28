@@ -71,12 +71,11 @@ Adding new Dependencies
 .......................
 
 Adding new dependencies should be considered thoroughly. If a new
-depencendcy is added it needs to be added in all these places:
+dependency is added it needs to be added in all these places:
 
 * *documentation/src/install.rst*
 * RST files in *documentation/src/install/*
 * *scripts/Dockerfile*
-* *.travis.yml*
 
 If it is a Python module it also needs to be added:
 * *requirements.txt*
@@ -96,8 +95,8 @@ To check your changes docs need to be build with *make html* in
 *documentation/build/html*. You need to have *sphinx* installed for
 this to work.
 
-The online documentation gets build and updated automatically by the Travis CI
-as soon as the changes makes it into the GitHub master branch.
+The online documentation gets build and updated automatically by the Github Actions
+as soon as the changes makes it into the GitHub *master* branch.
 
 Provide photos for generators
 -----------------------------
@@ -142,7 +141,7 @@ perfect. We can work on it together.
 Running the Code
 ----------------------------
 
-To serve website, run `scripts/boxesserver` script
+To serve website, run :code:`scripts/boxesserver` script.
 
 Reporting bugs
 --------------

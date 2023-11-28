@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # Copyright (C) 2013-2016 Florian Festi
 #
 #   This program is free software: you can redistribute it and/or modify
@@ -15,28 +16,29 @@
 
 from boxes import *
 
-class LaserHoldfast(Boxes):
-    """A holdfast for honey comb tables of laser cutters"""
+class SkadisBoard(Boxes):
+    """Customizable Ikea like pegboard"""
 
-    ui_group = "Part"
+    ui_group = "Misc"
 
     def __init__(self) -> None:
         Boxes.__init__(self)
 
-        self.buildArgParser(x=25, h=40)
         self.argparser.add_argument(
-            "--hookheight",  action="store", type=float, default=5.0,
-            help="height of the top hook")
+            "--columns",  action="store", type=int, default=17,
+            help="Number of holes left to right counting both even and odd rows")
         self.argparser.add_argument(
-            "--shaftwidth",  action="store", type=float, default=5.0,
-            help="width of the shaft")
+            "--rows",  action="store", type=int, default=27,
+            help="Number of rows of holes top to bottom")
 
+
+    def CB(self):
+        for r in range(self.rows):
+            for c in range(self.columns):
+                if (r+c) % 2 == 0:
+                    continue
+                self.rectangularHole((c+1)*20 - 8, (r+1)*20, 5, 15, r=2.5)
+        
     def render(self):
-        # adjust to the variables you want in the local scope
-        x, hh, h, sw = self.x, self.hookheight, self.h, self.shaftwidth 
-        t = self.thickness
-
-        a = 30
-        r = x/math.radians(a)
-
-        self.polyline(hh+h, (180, sw/2), h, -90+a/2, 0, (-a, r), 0, (180, hh/2), 0, (a, r+hh), 0 , -a/2, sw-math.sin(math.radians(a/2))*hh , 90)
+        self.roundedPlate((self.columns+1) * 20, (self.rows+1)*20, edge="e", r=8,
+                          extend_corners=False, callback=[self.CB])

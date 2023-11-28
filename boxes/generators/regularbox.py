@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # Copyright (C) 2013-2014 Florian Festi
 #
 #   This program is free software: you can redistribute it and/or modify
@@ -78,7 +77,7 @@ The lids needs to be glued. For the bayonet lid all outside rings attach to the 
         # length of side edges
         #l = (((side0-side1)/2)**2 + (sh0-sh1)**2 + h**2)**0.5
         l = ((r0-r1)**2 + h**2)**.5
-        # angles of sides -90° aka half of top angle of the full pyramide sides
+        # angles of sides -90° aka half of top angle of the full pyramid sides
         a = math.degrees(math.asin((side1-side0)/2/l))
         # angle between sides (in boxes style change of travel)
         phi = 180 - 2 * math.degrees(

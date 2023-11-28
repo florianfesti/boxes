@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # Copyright (C) 2013-2014 Florian Festi
 #
 #   This program is free software: you can redistribute it and/or modify
@@ -54,8 +53,8 @@ class BinTray(Boxes):
         self.addSettingsArgs(edges.FingerJointSettings, surroundingspaces=0.5)
         self.argparser.add_argument(
             "--front", action="store", type=float, default=0.4,
-            help="fraction of bin height covert with slope")
-        
+            help="fraction of bin height covered with slope")
+
     def xSlots(self):
         posx = -0.5 * self.thickness
         for x in self.sx[:-1]:

@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # Copyright (C) 2013-2020 Florian Festi
 #
 #   This program is free software: you can redistribute it and/or modify
@@ -49,7 +48,7 @@ Without the "double" option the stand is a bit more narrow.
         a = 60
         nr = self.number
         r1 = self.diameter / 2.0 # bottle
-        r2 = r1 / math.cos(math.radians(90-a)) - r1 # inbetween
+        r2 = r1 / math.cos(math.radians(90-a)) - r1  # in between
         if self.double:
             r3 = 1.5*t # upper corners
         else:

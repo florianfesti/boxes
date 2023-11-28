@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # Copyright (C) 2013-2016 Florian Festi
 #
 #   This program is free software: you can redistribute it and/or modify
@@ -65,7 +64,7 @@ class PirateChest(Boxes):
         self.ctx.save()
 
         self.rectangularWall(x, y, "FFFF", move="up", label="Bottom")
-        frontlid, toplids, backlid = self.topside(y, n = n, move="only", bottem='P')
+        frontlid, toplids, backlid = self.topside(y, n = n, move="only", bottom='P')
 
         self.rectangularWall(x, backlid, "qFgF", move="up", label="lid back")
         for _ in range(n-2):
@@ -93,27 +92,27 @@ class PirateChest(Boxes):
         self.rectangularWall(x, h, "fFOF", move="up only")
         self.rectangularWall(x, 0, "peee", move="up only")
 
-        self.topside(y, n = n, move="right", bottem='p', label="lid left")
-        self.topside(y, n = n, move="right", bottem='P', label="lid right")
+        self.topside(y, n = n, move="right", bottom='p', label="lid left")
+        self.topside(y, n = n, move="right", bottom='P', label="lid right")
 
 
-    def topside(self, y, n, bottem, move=None, label=""):
+    def topside(self, y, n, bottom, move=None, label=""):
         radius, hp, side  = self.regularPolygon((n - 1) * 2, h=y/2.0)
 
         tx = y + 2 * self.edges.get('f').spacing()
         lidheight = hp if n % 2 else radius
-        ty = lidheight + self.edges.get('f').spacing() + self.edges.get(bottem).spacing()
+        ty = lidheight + self.edges.get('f').spacing() + self.edges.get(bottom).spacing()
         
         if self.move(tx, ty, move, before=True):
-            return side/2 + self.edges.get(bottem).spacing(), side, side/2
+            return side/2 + self.edges.get(bottom).spacing(), side, side/2
 
-        self.moveTo(self.edges.get('f').margin(), self.edges.get(bottem).margin())
+        self.moveTo(self.edges.get('f').margin(), self.edges.get(bottom).margin())
 
-        self.edges.get(bottem)(y)
+        self.edges.get(bottom)(y)
 
         self.corner(90)
-        if bottem == 'p':
-            self.edges.get('f')(side/2 + self.edges.get(bottem).spacing())
+        if bottom == 'p':
+            self.edges.get('f')(side/2 + self.edges.get(bottom).spacing())
         else:
             self.edges.get('f')(side/2)
         
@@ -122,8 +121,8 @@ class PirateChest(Boxes):
             self.edges.get('f')(side)
             self.corner(180 / (n - 1))
 
-        if bottem == 'P':
-            self.edges.get('f')(side/2 + self.edges.get(bottem).spacing())
+        if bottom == 'P':
+            self.edges.get('f')(side/2 + self.edges.get(bottom).spacing())
         else:
             self.edges.get('f')(side/2)
         
@@ -131,4 +130,4 @@ class PirateChest(Boxes):
 
         self.move(tx, ty, move, label=label)
 
-        return side/2 + self.edges.get(bottem).spacing(), side, side/2
+        return side/2 + self.edges.get(bottom).spacing(), side, side/2

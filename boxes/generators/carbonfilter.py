@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # Copyright (C) 2013-2023 Florian Festi
 #
 #   This program is free software: you can redistribute it and/or modify
@@ -232,7 +231,7 @@ The last two types of ribs do not have finger joints on the outside but still ne
             self.rectangularWall(
                 y, w, "efef",
                 callback=[self.bottomCB, None, self.bottomCB],
-                label="botton plate", move="up")
+                label="bottom plate", move="up")
 
         self.innerRibs(self.pockets * self.ribs * 2, move="up")
         self.outerRibs(self.pockets * self.ribs * 2, self.ribs * 2, move="up")

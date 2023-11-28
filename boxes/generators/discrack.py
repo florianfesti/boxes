@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # Copyright (C) 2019 chrysn <chrysn@fsfe.org>
 #
 #   This program is free software: you can redistribute it and/or modify

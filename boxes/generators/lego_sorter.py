@@ -151,7 +151,7 @@ class LegoSorter(Boxes):
             self._outer_height_after_nesting,
         )
 
-        t1, t2, t3, t4 = "eeee"
+        t1, t2, t3, t4 = "SSSS"
         b = self.edges.get(self.bottom_edge, self.edges["F"])
         sideedge = "F"
 

@@ -17,11 +17,11 @@ from boxes import *
 from collections import OrderedDict
 
 
-class LegoSorter(Boxes):
-    """Stackable nestable sorting sieve for Lego bricks"""
+class BrickSorter(Boxes):
+    """Stackable nestable sorting sieve for bricks"""
 
-    description = """# Stackable nestable sorting sieve for Lego bricks
-    A stackable sorting sieve for Lego bricks, nestable for storage.
+    description = """# Stackable nestable sorting sieve for bricks
+    A stackable sorting sieve for bricks, nestable for storage.
     You will need to export all 5 levels, to get a full sieve. If you feel you do not need the upper levels, just do not export them.
     x,y,h are the dimensions for the largest sieve, they will be the outer dimensions of the box, the smaller sieves will be nested inside, therefor smaller.
     Of course 256mm or 384mm (base plate size) are recommended values for x and y, but you can use any value you like."""

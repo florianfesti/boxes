@@ -38,7 +38,7 @@ class LegoSorter(Boxes):
         )
     )
 
-    bottom_edge: str = "s"
+    bottom_edge: str = "h"
     level: str
     radius: int
 
@@ -75,10 +75,10 @@ class LegoSorter(Boxes):
 
     @property
     def _outer_height_after_nesting(self) -> float:
-        return self.h - ((3 * self.thickness + 2) * self._sieve_level_index)
+        return self.h - ((2 * self.thickness + 2) * self._sieve_level_index)
 
     def _xy_after_nesting(self, a: float) -> float:
-        return a - ((2 * self.thickness + 2) * self._sieve_level_index)
+        return a - ((2 * self.thickness) * self._sieve_level_index)
 
     @property
     def _outer_x_after_nesting(self) -> float:
@@ -151,7 +151,7 @@ class LegoSorter(Boxes):
             self._outer_height_after_nesting,
         )
 
-        t1, t2, t3, t4 = "SSSS"
+        t1, t2, t3, t4 = "eeee"
         b = self.edges.get(self.bottom_edge, self.edges["F"])
         sideedge = "F"
 

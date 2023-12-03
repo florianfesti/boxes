@@ -12,6 +12,7 @@
 #
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from typing import Tuple
 
 from boxes import *
 from collections import OrderedDict
@@ -100,7 +101,7 @@ class BrickSorter(Boxes):
 
     def _calc_grid_size_width_offset(
         self, inner_mm_after_nesting: float
-    ) -> (float, float, int):
+    ) -> Tuple[int, float]:
         """Return the size of the grid and the offset from the outer top right corner"""
         hole_count = self._calc_hole_count(inner_mm_after_nesting)
         grid_size = (

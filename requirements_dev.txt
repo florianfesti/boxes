@@ -1,0 +1,4 @@
+inkex
+mypy
+pre-commit
+types-Markdown

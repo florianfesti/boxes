@@ -54,6 +54,19 @@ If you want feed back on you code feel free to open a PR. State that
 this is work in progress in the PR message. It's OK if it does not
 follow the guidelines (yet).
 
+Check Code
+..........
+
+The `pre-commit <https://pre-commit.com/>`_ tool is used to verify the code style.
+When installed, it automatically checks and corrects the code before each commit.
+
+* Install *pre-commit*, e.g. :code:`pip install pre-commit`
+* Install githook :code:`pre-commit install`
+
+For manual check use :code:`pre-commit run --all-files`.
+
+To remove githook use :code:`pre-commit uninstall`.
+
 Writing new Generators
 ......................
 

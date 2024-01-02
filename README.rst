@@ -9,6 +9,7 @@ About Boxes.py
 
   * https://www.festi.info/boxes.py/index.html
 
+* Boxes.py is an Blender add-on
 * Boxes.py is an Inkscape plug-in
 * Boxes.py is library to write your own
 * Boxes.py is free software licensed under GPL v3+

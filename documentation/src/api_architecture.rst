@@ -14,6 +14,7 @@ form. The user interfaces are located in :code:`scripts/`. Currently there is
 * scripts/boxesserver -- the web interface
 * scripts/boxes2inx -- generates Inkscape extensions
 * scripts/boxes_example.ipynb -- Jupyter notebook
+* blenderboxes -- Blender add-on
 
 
 Generators

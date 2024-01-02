@@ -1,6 +1,19 @@
 import bpy
-import boxes  # in blender scripts/startup
-import boxes.generators
+import sys
+import os
+
+parentFolder = os.path.join(os.path.dirname(os.path.realpath(__file__)), "..")
+
+try:
+    import boxes
+except ImportError:
+    sys.path.append(parentFolder)
+    try:
+        import boxes
+        import boxes.generators
+    except ImportError:
+        print("ERROR IMPORTING BOXES")
+        print(parentFolder)
 
 import argparse
 

@@ -10,7 +10,7 @@ try:
 except ImportError:
     sys.path.append(parentFolder)
     import boxes
-
+ 
 import boxes.generators
 
 import bpy, os
@@ -21,10 +21,6 @@ from bpy.types import (
 
 import bpy.utils.previews
 from bpy.types import WindowManager
-
-import addon_utils
-
-dirname = os.path.dirname
 
 
 def enum_previews_from_directory_items(self, context):

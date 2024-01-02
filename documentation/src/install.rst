@@ -101,6 +101,12 @@ the Inkscape preferences *Edit -> Preferences... -> System*.
 As an alternative you can create a symlink to the :code:`inkex/` directory
 within the desired inkscape extension directory.
 
+Blender Add-on
+--------
+
+**As a standard add-on zip file for Blender**
+
+Compress the folder blenderboxes to a zip file and then install it on Blender Preferences Add-on.
 
 Platform specific instructions
 ------------------------------

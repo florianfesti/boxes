@@ -2,6 +2,7 @@ from bpy.types import Panel, Operator
 import bpy
 import sys
 import os
+import webbrowser
 
 parentFolder = os.path.join(os.path.dirname(os.path.realpath(__file__)), "..")
 
@@ -41,6 +42,16 @@ def enum_previews_from_directory_items(self, context):
     if directory and os.path.exists(directory):
         # Scan the directory for png files
         image_paths = []
+
+        generators = context.scene.generators
+        
+
+        #Looking for a way to display enum preview with generators list and ui_groups
+        """ for boxName in dir(generators):
+            box = getattr(generators, boxName)
+            print(box.type) """
+
+
         for fn in os.listdir(directory):
             if fn.lower().endswith("-thumb.jpg"):
                 image_paths.append(fn)
@@ -58,7 +69,7 @@ def enum_previews_from_directory_items(self, context):
     enum_items.sort()  # Alphabetically
     pcoll.my_previews = enum_items
     pcoll.my_previews_dir = directory
-
+    print(enum_items)
     return pcoll.my_previews
 
 
@@ -67,6 +78,7 @@ class Object_OT_AddButton(Operator):
     bl_label = "Add Object"
 
     def execute(self, context):
+        scene = context.scene
         selectedBox = context.window_manager.my_previews.replace("-thumb.jpg", "")
         args = context.scene.args
 
@@ -85,8 +97,28 @@ class Object_OT_AddButton(Operator):
         box.render()
         box.close()
 
-        bpy.ops.import_curve.svg(filepath=directory)
 
+        previouscollection = bpy.data.collections.get(selectedBox)
+
+        if scene.replace and previouscollection is not None :
+            bpy.data.collections.remove(previouscollection)
+
+
+        bpy.ops.import_curve.svg(filepath=directory)
+        collection = bpy.data.collections.get("boxe.svg")
+        collection.name = selectedBox
+
+        return {"FINISHED"}
+    
+class Object_OT_OnlineButton(Operator):
+    bl_idname = "online.documentation"
+    bl_label = "Online Box"
+
+    def execute(self, context):
+        selectedBox = context.window_manager.my_previews.replace("-thumb.jpg", "")
+
+        webbrowser.open(f'https://www.festi.info/boxes.py/{selectedBox}?language=en')
+        
         return {"FINISHED"}
 
 
@@ -112,12 +144,16 @@ class Diffuseur_SideBar(Panel):
         row.alignment = "CENTER"
         row.label(text=selectedBox)
 
-        row = layout.row()
+        row = layout.column()
+        row.prop(scene, "category")
         row.template_icon_view(wm, "my_previews", show_labels=True)
 
-        row = layout.row(align=True)
-        row.operator("add.object", icon="RESTRICT_RENDER_OFF", text=("Add"))
-
+        col = layout.column(align=True)
+        col.operator("add.object", icon="RESTRICT_RENDER_OFF", text=("Add"))
+        col.separator()
+        col.operator("online.documentation", icon="URL", text=("Online"))
+        col.separator()
+        col.prop(scene, "replace")
         args = []
 
         boxe = getattr(generators, selectedBox)
@@ -149,7 +185,7 @@ class Diffuseur_SideBar(Panel):
         bpy.types.Scene.args = args
 
 
-ui_classes = [Diffuseur_SideBar, Object_OT_AddButton]
+ui_classes = [Diffuseur_SideBar, Object_OT_AddButton, Object_OT_OnlineButton]
 
 preview_collections = {}
 

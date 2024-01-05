@@ -30,7 +30,11 @@ allGen = {
 
 listboxes = list(allGen.values())
 
+ui_groups = [("All", "All", "")]
+
 for box in listboxes:
+    if (box.ui_group, box.ui_group, "") not in ui_groups:
+        ui_groups.append((box.ui_group,box.ui_group, ""))
 
     class MyBox(bpy.types.PropertyGroup):
         pass
@@ -50,6 +54,7 @@ for box in listboxes:
         for param in group._group_actions:
             dest = param.dest
             type = param.type
+            help = str(param.help) or "No Description"
             default = param.default
             if not (
                 isinstance(param, argparse._HelpAction)
@@ -63,7 +68,7 @@ for box in listboxes:
                             setattr(
                                 MyGroup,
                                 dest,
-                                bpy.props.FloatProperty(default=float(default)),
+                                bpy.props.FloatProperty(default=float(default), description=help),
                             )
                         if type is int:
                             setattr(
@@ -104,7 +109,8 @@ for box in listboxes:
         )
     setattr(Generators, box.__name__, bpy.props.PointerProperty(type=MyBox))
 setattr(bpy.types.Scene, "generators", bpy.props.PointerProperty(type=Generators))
-
+setattr(bpy.types.Scene, "replace", bpy.props.BoolProperty(name="Replace same previous box"))
+setattr(bpy.types.Scene, "category", bpy.props.EnumProperty(items=ui_groups, name=""))
 
 
 

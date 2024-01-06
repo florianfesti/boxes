@@ -4,16 +4,13 @@ import os
 
 parentFolder = os.path.join(os.path.dirname(os.path.realpath(__file__)), "..")
 
-try:
-    import boxes
-except ImportError:
-    sys.path.append(parentFolder)
-    try:
-        import boxes
-        import boxes.generators
-    except ImportError:
-        print("ERROR IMPORTING BOXES")
-        print(parentFolder)
+print(os.path.realpath(__file__))
+
+sys.path.append(os.path.dirname(os.path.realpath(__file__)))
+
+import boxes
+import boxes.generators
+
 
 import argparse
 

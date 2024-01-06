@@ -7,17 +7,18 @@ import bpy.utils.previews
 
 parentFolder = os.path.join(os.path.dirname(os.path.realpath(__file__)), "..")
 
-try:
-    import boxes
-except ImportError:
-    sys.path.append(parentFolder)
-    import boxes
- 
+
+print(os.path.realpath(__file__))
+
+sys.path.append(os.path.dirname(os.path.realpath(__file__)))
+
+import boxes
 import boxes.generators
+
 
 def boxes_pictures_items(self, context):
     # Icons Directory
-    directory = os.path.join(parentFolder, "static/samples")
+    directory = os.path.join(os.path.dirname(os.path.realpath(__file__)), "samples")
 
     pcoll = preview_collections["main"]
 

@@ -31,10 +31,18 @@ allGen = {
 listboxes = list(allGen.values())
 
 ui_groups = [("All", "All", "")]
+uigroup = {}
 
 for box in listboxes:
     if (box.ui_group, box.ui_group, "") not in ui_groups:
         ui_groups.append((box.ui_group,box.ui_group, ""))
+    
+    if box.ui_group not in uigroup:
+        uigroup[box.ui_group] = []
+    
+    uigroup[box.ui_group].append(box.__name__)
+
+
 
     class MyBox(bpy.types.PropertyGroup):
         pass
@@ -111,6 +119,7 @@ for box in listboxes:
 setattr(bpy.types.Scene, "generators", bpy.props.PointerProperty(type=Generators))
 setattr(bpy.types.Scene, "replace", bpy.props.BoolProperty(name="Replace same previous box"))
 setattr(bpy.types.Scene, "category", bpy.props.EnumProperty(items=ui_groups, name=""))
+bpy.types.Scene.categ = uigroup
 
 
 

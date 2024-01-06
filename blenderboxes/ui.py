@@ -1,8 +1,9 @@
-from bpy.types import Panel, Operator
+from bpy.types import Panel, Operator, WindowManager
 import bpy
 import sys
 import os
 import webbrowser
+import bpy.utils.previews
 
 parentFolder = os.path.join(os.path.dirname(os.path.realpath(__file__)), "..")
 
@@ -14,62 +15,54 @@ except ImportError:
  
 import boxes.generators
 
-import bpy, os
-from bpy.types import (
-    Operator,
-    Panel,
-)
-
-import bpy.utils.previews
-from bpy.types import WindowManager
-
-
-def enum_previews_from_directory_items(self, context):
+def boxes_pictures_items(self, context):
     # Icons Directory
-
     directory = os.path.join(parentFolder, "static/samples")
-
-    enum_items = []
-
-    if context is None:
-        return enum_items
 
     pcoll = preview_collections["main"]
 
-    if directory == pcoll.my_previews_dir:
-        return pcoll.my_previews
-
     if directory and os.path.exists(directory):
-        # Scan the directory for png files
-        image_paths = []
-
-        generators = context.scene.generators
-        
-
-        #Looking for a way to display enum preview with generators list and ui_groups
-        """ for boxName in dir(generators):
-            box = getattr(generators, boxName)
-            print(box.type) """
-
+    # Scan the directory for png files
+        image_paths = []   
 
         for fn in os.listdir(directory):
             if fn.lower().endswith("-thumb.jpg"):
                 image_paths.append(fn)
 
-        for i, name in enumerate(image_paths):
-            # generates a thumbnail preview for a file.
-            filepath = os.path.join(directory, name)
-            icon = pcoll.get(name)
-            if filepath in pcoll:
-                enum_items.append((name, name, "", pcoll[filepath].icon_id, i))
-            else:
-                thumb = pcoll.load(filepath, filepath, "IMAGE")
-                enum_items.append((name, name, "", thumb.icon_id, i))
+        boxes = []
 
-    enum_items.sort()  # Alphabetically
-    pcoll.my_previews = enum_items
+        selectedGroup = context.scene.category
+        categ = context.scene.categ
+
+
+        if selectedGroup == "All":
+            for box in categ.values():
+                for box2 in box:
+                    boxes.append(box2)
+        else :
+            for box in categ[selectedGroup]:
+                boxes.append(box)
+
+
+        boxes_items = []
+
+        for box in boxes:
+                filename = f"{box}-thumb.jpg"
+                if filename in image_paths:
+                    filepath = os.path.join(directory, filename)
+
+                    if filepath in pcoll:
+                        boxes_items.append((box, box, "", pcoll[filepath].icon_id, len(boxes_items)))
+                    else:
+                        thumb = pcoll.load(filepath, filepath, "IMAGE")
+                        boxes_items.append((box, box, "", thumb.icon_id, len(boxes_items))) 
+
+    if context is None:
+        return boxes_items
+
+    boxes_items.sort()  # Alphabetically
+    pcoll.my_previews = boxes_items
     pcoll.my_previews_dir = directory
-    print(enum_items)
     return pcoll.my_previews
 
 
@@ -199,7 +192,7 @@ def register():
     )
 
     WindowManager.my_previews = bpy.props.EnumProperty(
-        items=enum_previews_from_directory_items,
+        items=boxes_pictures_items,
     )
 
     pcoll = bpy.utils.previews.new()

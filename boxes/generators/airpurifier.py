@@ -22,10 +22,18 @@ class AirPurifier(Boxes):
     ui_group = "Unstable" # see ./__init__.py for names
 
     description = """Still untested"""
+
+    fan_holes = {
+        40: 32.5,
+        60: 50,
+        80: 71.5,
+        92: 82.5,
+        120: 105,
+        140: 125,
+        }
     
     def __init__(self) -> None:
         Boxes.__init__(self)
-
 
         self.addSettingsArgs(edges.FingerJointSettings)
         
@@ -38,30 +46,62 @@ class AirPurifier(Boxes):
             "--rim",  action="store", type=float, default=40.,
             help="rim around the filter holing it in place (in mm)")
         self.argparser.add_argument(
-            "--fan_diameter",  action="store", type=float, default=120.,
+            "--fan_diameter",  action="store", type=float, default=140.,
+            choices=list(self.fan_holes.keys()),
             help="diameter of the fans (in mm)")
         self.argparser.add_argument(
             "--filters",  action="store", type=int, default=2,
             choices=(1, 2),
             help="")
         self.argparser.add_argument(
+            "--fans_left",  action="store", type=int, default=-1,
+            help="number of fans on the left side (-1 for maximal number)")
+        self.argparser.add_argument(
+            "--fans_right",  action="store", type=int, default=-1,
+            help="number of fans on the right side (-1 for maximal number)")
+        self.argparser.add_argument(
+            "--fans_top",  action="store", type=int, default=0,
+            help="number of fans on the top side (-1 for maximal number)")
+        self.argparser.add_argument(
+            "--fans_bottom",  action="store", type=int, default=0,
+            help="number of fans on the bottom side (-1 for maximal number)")
+        self.argparser.add_argument(
             "--sides_with_fans",  action="store", type=int, default=1,
             choices=(0, 1, 2, 3, 4),
             help="how many side should have fan holes")
+        self.argparser.add_argument(
+            "--screw_holes",  action="store", type=float, default=2.,
+            help="diameter of the holes for screwing in the fans (in mm)")
 
     def fanCB(self, n, h, l, fingerHoles=True):
         fh = self.filter_height
         t = self.thickness
+
         def cb():
             if fingerHoles:
                 self.fingerHolesAt(0, fh + t/2, l, 0)
                 if self.filters > 1:
                     self.fingerHolesAt(0, h- fh - t/2, l, 0)
-            if n > self.sides_with_fans:
+
+            max_n = int((l-30) // (self.fan_diameter + 30))
+            if n == -1:
+                n_ = max_n
+            else:
+                n_ = min(max_n, n)
+
+            if n_ == 0:
                 return
-            x = self.fan_diameter/2 + (l % self.fan_diameter) / 2 
-            for i in range(int(l // self.fan_diameter)):
-                self.hole(x+i*self.fan_diameter, h/2, d=self.fan_diameter)
+            w = (l-30) / n_
+            x = 15 + w / 2
+            delta = self.fan_holes[self.fan_diameter] / 2
+            posy = h / 2
+
+            for i in range(n_):
+                posx = x+i*w
+                self.hole(posx, posy, d=self.fan_diameter-4)
+                for dx in [-delta, delta]:
+                    for dy in [-delta, delta]:
+                        self.hole(posx + dx, posy + dy, d=self.screw_holes)
 
         return cb
 
@@ -70,20 +110,20 @@ class AirPurifier(Boxes):
         t = self.thickness
 
         fh = self.filter_height
-        h = d + self.filters * (fh + t)
+        h = d + 2 + self.filters * (fh + t)
 
-        edge = edges.CompoundEdge(self, "eFe", (fh + t, d, fh + t))
+        edge = edges.CompoundEdge(self, "eFe", (fh + t, d+2, fh + t))
         
         self.rectangularWall(x, d, "ffff", callback=[
-            self.fanCB(4, d, x, False)], move="up")
+            self.fanCB(self.fans_top, d, x, False)], label="top", move="up")
         self.rectangularWall(x, h, "ffff", callback=[
-            self.fanCB(3, h, x)], move="up")
+            self.fanCB(self.fans_bottom, h, x)], label="bottom", move="up")
 
-        for _ in range(2):
+        for fans in (self.fans_left, self.fans_right):
             self.rectangularWall(y, h, ["f", "h", "f", edge],
-                                 callback=[self.fanCB(_+1, h, y)], move="up")
+                                 callback=[self.fanCB(fans, h, y)], move="up")
 
-        r = 40.0
+        r = self.rim
         self.rectangularWall(x, y, "ehhh", callback=[
             lambda:self.rectangularHole(x/2, y/2, x - r, y - r, r=10)], move="up")
         self.rectangularWall(x, y, "Ffff", callback=[

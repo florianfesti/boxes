@@ -66,10 +66,6 @@ class AirPurifier(Boxes):
             "--fans_bottom",  action="store", type=int, default=0,
             help="number of fans on the bottom side (-1 for maximal number)")
         self.argparser.add_argument(
-            "--sides_with_fans",  action="store", type=int, default=1,
-            choices=(0, 1, 2, 3, 4),
-            help="how many side should have fan holes")
-        self.argparser.add_argument(
             "--screw_holes",  action="store", type=float, default=2.,
             help="diameter of the holes for screwing in the fans (in mm)")
 
@@ -94,7 +90,10 @@ class AirPurifier(Boxes):
             w = (l-30) / n_
             x = 15 + w / 2
             delta = self.fan_holes[self.fan_diameter] / 2
-            posy = h / 2
+            if self.filters==2:
+                posy = h / 2
+            else:
+                posy = (h + t + fh)  / 2
 
             for i in range(n_):
                 posx = x+i*w
@@ -112,7 +111,10 @@ class AirPurifier(Boxes):
         fh = self.filter_height
         h = d + 2 + self.filters * (fh + t)
 
-        edge = edges.CompoundEdge(self, "eFe", (fh + t, d+2, fh + t))
+        if self.filters==2:
+            edge = edges.CompoundEdge(self, "eFe", (fh + t, d+2, fh + t))
+        else:
+            edge = edges.CompoundEdge(self, "Fe", (d+2, fh + t))
         
         self.rectangularWall(x, d, "ffff", callback=[
             self.fanCB(self.fans_top, d, x, False)], label="top", move="up")
@@ -134,4 +136,4 @@ class AirPurifier(Boxes):
             self.rectangularWall(x, y, "ehhh", callback=[
                 lambda:self.rectangularHole(x/2, y/2, x - r, y - r, r=10)], move="up")
         else:
-            self.rectangularWall(x, y, "hhhh", move="up")
+            self.rectangularWall(x, y, "ehhh", move="up")

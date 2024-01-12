@@ -37,13 +37,13 @@ class AirPurifier(Boxes):
 
         self.addSettingsArgs(edges.FingerJointSettings)
         
-        self.buildArgParser(x=500., y=500.)
+        self.buildArgParser(x=498., y=496.)
 
         self.argparser.add_argument(
-            "--filter_height",  action="store", type=float, default=45.,
+            "--filter_height",  action="store", type=float, default=46.77,
             help="height of the filter along the flow direction (in mm)")
         self.argparser.add_argument(
-            "--rim",  action="store", type=float, default=40.,
+            "--rim",  action="store", type=float, default=30.,
             help="rim around the filter holing it in place (in mm)")
         self.argparser.add_argument(
             "--fan_diameter",  action="store", type=float, default=140.,
@@ -66,7 +66,7 @@ class AirPurifier(Boxes):
             "--fans_bottom",  action="store", type=int, default=0,
             help="number of fans on the bottom side (-1 for maximal number)")
         self.argparser.add_argument(
-            "--screw_holes",  action="store", type=float, default=2.,
+            "--screw_holes",  action="store", type=float, default=5.,
             help="diameter of the holes for screwing in the fans (in mm)")
 
     def fanCB(self, n, h, l, fingerHoles=True):

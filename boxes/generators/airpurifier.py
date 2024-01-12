@@ -108,13 +108,15 @@ class AirPurifier(Boxes):
         x, y, d = self.x, self.y, self.fan_diameter
         t = self.thickness
 
+        y = self.y = y - t # shorten by one thickness as we use the wall space
+
         fh = self.filter_height
         h = d + 2 + self.filters * (fh + t)
 
         if self.filters==2:
-            edge = edges.CompoundEdge(self, "eFe", (fh + t, d+2, fh + t))
+            edge = edges.CompoundEdge(self, "EFE", (fh + t, d+2, fh + t))
         else:
-            edge = edges.CompoundEdge(self, "Fe", (d+2, fh + t))
+            edge = edges.CompoundEdge(self, "FE", (d+2, fh + t))
         
         self.rectangularWall(x, d, "ffff", callback=[
             self.fanCB(self.fans_top, d, x, False)], label="top", move="up")
@@ -126,14 +128,14 @@ class AirPurifier(Boxes):
                                  callback=[self.fanCB(fans, h, y)], move="up")
 
         r = self.rim
-        self.rectangularWall(x, y, "ehhh", callback=[
+        self.rectangularWall(x, y, "Ehhh", callback=[
             lambda:self.rectangularHole(x/2, y/2, x - r, y - r, r=10)], move="up")
         self.rectangularWall(x, y, "Ffff", callback=[
             lambda:self.rectangularHole(x/2, y/2, x - r, y - r, r=10)], move="up")
         if self.filters==2:
             self.rectangularWall(x, y, "Ffff", callback=[
                 lambda:self.rectangularHole(x/2, y/2, x - r, y - r, r=10)], move="up")
-            self.rectangularWall(x, y, "ehhh", callback=[
+            self.rectangularWall(x, y, "Ehhh", callback=[
                 lambda:self.rectangularHole(x/2, y/2, x - r, y - r, r=10)], move="up")
         else:
-            self.rectangularWall(x, y, "ehhh", move="up")
+            self.rectangularWall(x, y, "Ehhh", move="up")

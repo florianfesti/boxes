@@ -79,7 +79,7 @@ class AirPurifier(Boxes):
                 if self.filters > 1:
                     self.fingerHolesAt(0, h- fh - t/2, l, 0)
 
-            max_n = int((l-30) // (self.fan_diameter + 30))
+            max_n = int((l-20) // (self.fan_diameter + 10))
             if n == -1:
                 n_ = max_n
             else:
@@ -87,8 +87,8 @@ class AirPurifier(Boxes):
 
             if n_ == 0:
                 return
-            w = (l-30) / n_
-            x = 15 + w / 2
+            w = (l-20) / n_
+            x = 10 + w / 2
             delta = self.fan_holes[self.fan_diameter] / 2
             if self.filters==2:
                 posy = h / 2

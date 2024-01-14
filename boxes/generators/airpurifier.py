@@ -73,7 +73,7 @@ class AirPurifier(Boxes):
             "--screw_holes",  action="store", type=float, default=5.,
             help="diameter of the holes for screwing in the fans (in mm)")
 
-    def fanCB(self, n, h, l, fingerHoles=True):
+    def fanCB(self, n, h, l, fingerHoles=True, split_frames=False):
         fh = self.filter_height
         t = self.thickness
         r = self.rim
@@ -84,7 +84,7 @@ class AirPurifier(Boxes):
                 if self.filters > 1:
                     heights.append(h - fh - t/2)
                 for h_ in heights:
-                    if self.split_frames:
+                    if split_frames:
                         self.fingerHolesAt(0, h_, r, 0)
                         self.fingerHolesAt(r, h_, l-2*r, 0)
                         self.fingerHolesAt(l-r, h_, r, 0)
@@ -142,8 +142,10 @@ class AirPurifier(Boxes):
             te = "f"
 
         for fans in (self.fans_left, self.fans_right):
-            self.rectangularWall(y, h, [be, "h", te, le],
-                                 callback=[self.fanCB(fans, h, y)], move="up")
+            self.rectangularWall(
+                y, h, [be, "h", te, le],
+                callback=[self.fanCB(fans, h, y, split_frames=self.split_frames)],
+                move="up")
 
 
         if self.split_frames:

@@ -25,7 +25,16 @@ bl_info = {
 modulesNames = ['importBoxes','ui']
 
 import sys
+import subprocess
 import importlib
+
+try:
+    import affine
+except ImportError:
+    # pip install required python stuff
+    subprocess.check_call([sys.executable, "-m", "ensurepip"])
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "--upgrade", " pip"])
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "affine","qrcode", "shapely", "markdown"])
  
 modulesFullNames = {}
 for currentModuleName in modulesNames:

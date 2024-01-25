@@ -19,9 +19,10 @@ from boxes import *
 class AirPurifier(Boxes):
     """Housing for the Nukit Open Air Purifier"""
 
-    ui_group = "Unstable" # see ./__init__.py for names
+    ui_group = "Misc"
 
-    description = """Still untested"""
+    description = """See [Nukit Open Air Purifier](https://github.com/opennukit/Nukit-Open-Air-Purifier/)
+"""
 
     fan_holes = {
         40.: 32.5,

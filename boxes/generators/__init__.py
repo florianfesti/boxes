@@ -3,6 +3,7 @@ from __future__ import annotations
 import importlib
 import inspect
 import pkgutil
+import os
 from types import ModuleType
 from typing import Any
 
@@ -50,7 +51,10 @@ ui_groups: list[UIGroup] = [
 
 def getAllBoxGenerators() -> dict[str, type[boxes.Boxes]]:
     generators = {}
-    for importer, modname, ispkg in pkgutil.walk_packages(path=__path__, prefix=__name__ + '.'):
+    path = __path__
+    if "BOXES_GENERATOR_PATH" in os.environ:
+        path.extend(os.environ.get("BOXES_GENERATOR_PATH", "").split(":"))
+    for importer, modname, ispkg in pkgutil.walk_packages(path=path, prefix=__name__ + '.'):
         module = importlib.import_module(modname)
         if module.__name__.split('.')[-1].startswith("_"):
             continue
@@ -64,8 +68,11 @@ def getAllBoxGenerators() -> dict[str, type[boxes.Boxes]]:
 
 def getAllGeneratorModules() -> dict[str, ModuleType]:
     generators = {}
+    path = __path__
+    if "BOXES_GENERATOR_PATH" in os.environ:
+        path.extend(os.environ.get("BOXES_GENERATOR_PATH", "").split(":"))
     for importer, modname, ispkg in pkgutil.walk_packages(
-            path=__path__,
+            path=path,
             prefix=__name__ + '.',
             onerror=lambda x: None):
         module = importlib.import_module(modname)

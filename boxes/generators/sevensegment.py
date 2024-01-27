@@ -18,13 +18,10 @@ from boxes import *
 class SevenSegmentPattern(Boxes):
     """Holepatterns and walls for a seven segment digit"""
 
-    description = """This pattern is indented to be used with a LED stripe that is wound through all segments in an S pattern while the stripe being upright on its side. It can probably also be used for small pieces of LED stripes connected with short wires for large enough sizes.
-
-Both is currently untested.
+    description = """This pattern is indented to be used with a LED stripe that is wound through all segments in an S pattern while the stripe being upright on its side. It can also be used with small pieces of LED stripes connected with short wires for large enough sizes.
 """
 
-    ui_group = "Misc"
-    ui_group = "Unstable"
+    ui_group = "Holes"
 
     def __init__(self):
         Boxes.__init__(self)

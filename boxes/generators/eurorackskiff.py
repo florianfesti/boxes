@@ -35,7 +35,7 @@ class EuroRackSkiff(Boxes):
         
     def wallyCB(self, y):
         t = self.thickness
-        self.fingerHolesAt(6, self.h-1.5*t, y, 0)
+        self.fingerHolesAt(0, self.h-1.5*t, y, 0)
 
     def railHoles(self):
         for i in range(0, self.hp):
@@ -51,11 +51,11 @@ class EuroRackSkiff(Boxes):
         
         self.rectangularWall(y, 6, "feee", callback=[self.railHoles] , move="up")
         self.rectangularWall(y, 6, "feee", callback=[self.railHoles] , move="up")
-        self.rectangularWall(x, h, "fFeF", callback=[self.wallxCB(x)],
+        self.rectangularWall(x, h, "fFeF", callback=[lambda: self.wallxCB(x)],
                              move="right")
-        self.rectangularWall(y, h, "ffef", callback=[self.wallyCB(y)], move="up")
-        self.rectangularWall(y, h, "ffef", callback=[self.wallyCB(y)])
-        self.rectangularWall(x, h, "fFeF", callback=[self.wallxCB(x)],
+        self.rectangularWall(y, h, "ffef", callback=[lambda: self.wallyCB(y)], move="up")
+        self.rectangularWall(y, h, "ffef", callback=[lambda: self.wallyCB(y)])
+        self.rectangularWall(x, h, "fFeF", callback=[lambda: self.wallxCB(x)],
                              move="left up")
         self.rectangularWall(x, y, "FFFF", callback=[], move="right")
         

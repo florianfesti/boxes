@@ -157,7 +157,7 @@ Running the Code
 To serve website, run :code:`scripts/boxesserver` script.
 
 You can set the BOXES_GENERATOR_PATH environment variable to add
-custom generators if you cannnot easily copy them in the sources /
+custom generators if you cannot easily copy them in the sources /
 system installation.
 
 Reporting bugs

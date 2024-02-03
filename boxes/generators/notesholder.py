@@ -18,17 +18,26 @@ from boxes.edges import Edge, CompoundEdge
 
 class USlotEdge(Edge):
 
+    def __init__(self, boxes, settings, edge="f"):
+        super().__init__(boxes, settings)
+        self.e = edge
+
     def __call__(self, length, bedBolts=None, bedBoltSettings=None, **kw):
         l = length
         o = self.settings
         d = length * (1-o/100) / 2
         r = min(3*self.thickness, (l-2*d)/2)
-        self.edges["f"](d)
+        self.edges[self.e](d)
+        self.step(-self.edges[self.e].endwidth())
         self.polyline(0, 90, 0, (-90, r), l-2*d-2*r, (-90, r), 0, 90)
-        self.edges["f"](d)
+        self.step(self.edges[self.e].startwidth())
+        self.edges[self.e](d)
 
     def margin(self) -> float:
-        return self.edges["f"].margin()
+        return self.edges[self.e].margin()
+
+    def startwidth(self):
+        return self.edges[self.e].startwidth()
 
 class HalfStackableEdge(edges.StackableEdge):
 
@@ -61,7 +70,12 @@ class NotesHolder(Boxes):
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings, surroundingspaces=1)
         self.addSettingsArgs(edges.StackableSettings)
-        self.buildArgParser(sx="78", y=78, h=35, bottom_edge="s")
+        self.buildArgParser(sx="78*1", y=78, h=35)
+        self.argparser.add_argument(
+            "--bottom_edge", action="store",
+            type=ArgparseEdgeType("Fhsfe"), choices=list("Fhsfe"),
+            default="s",
+            help="edge type for bottom edge")
         self.argparser.add_argument(
             "--opening",  action="store", type=float, default=40,
             help="percent of front that's open")
@@ -134,16 +148,18 @@ class NotesHolder(Boxes):
         self.rectangularWall(y, h, [b, "F", "e", "F"], move="up only")
 
         if self.bottom_edge != "e":
+            outer_edge = "h" if self.bottom_edge == "f" else "f"
             if self.opening == 0.0:
-                self.rectangularWall(x, y, ["f", "f", "f", "f"], move="up")
+                self.rectangularWall(x, y, [outer_edge] * 4, move="up")
             else:
-                u_edge = USlotEdge(self, o)
+                u_edge = USlotEdge(self, o, outer_edge)
                 print([l for x in sx for l in (x, t)])
                 front = CompoundEdge(
                     self,
-                    ([u_edge, "e"]*len(sx))[:-1],
+                    ([u_edge, edges.OutSetEdge(self, self.edges[outer_edge].startwidth())]*len(sx))[:-1],
                     ([l for x in sx for l in (x, t)])[:-1])
-                self.rectangularWall(x, y, [front, "f", "f", "f"],
+                self.rectangularWall(x, y,
+                                     [front, outer_edge, outer_edge, outer_edge],
                                      callback=[self.fingerHoleCB(sx, y)],
                                      move="up")
         # innner walls

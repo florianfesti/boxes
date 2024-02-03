@@ -364,7 +364,7 @@ class OutSetEdge(Edge):
     positive = True
 
     def startwidth(self) -> float:
-        return self.boxes.thickness
+        return self.settings if self.settings is not None else self.boxes.thickness
 
 
 #############################################################################

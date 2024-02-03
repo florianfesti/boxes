@@ -78,7 +78,10 @@ class NotesHolder(Boxes):
             help="edge type for bottom edge")
         self.argparser.add_argument(
             "--opening",  action="store", type=float, default=40,
-            help="percent of front that's open")
+            help="percent of front (or back) that's open")
+        self.argparser.add_argument(
+            "--back_openings",  action="store", type=boolarg, default=False,
+            help="have openings on the back side, too")
 
     def fingerHoleCB(self, lengths, height, posy=0.0):
         def CB():
@@ -110,58 +113,63 @@ class NotesHolder(Boxes):
         b4 = Edge(self, None)
         b4.startwidth = lambda: b3.startwidth()
 
-        with self.saved_context():
-            self.rectangularWall(y, h, [b, "F", "e", "F"],
-                                 ignore_widths=[1, 6], move="right")
-            # front walls
-            if self.opening == 0.0:
-                self.rectangularWall(x, h, [b, "f", "e", "f"],
+
+        for side in range(2):
+            with self.saved_context():
+                self.rectangularWall(y, h, [b, "F", "e", "F"],
                                      ignore_widths=[1, 6], move="right")
-            else:
-                self.rectangularWall(sx[0] * (1-o/100) / 2, h,
-                                     [b2, "e", "e", "f"],
-                                     ignore_widths=[1, 6], move="right")
-                for ix in range(len(sx)-1):
-                    left = sx[ix] * (1-o/100) / 2
-                    right = sx[ix+1] * (1-o/100) / 2
-                    h_e = t
-                    bottom_edge = CompoundEdge(
-                        self, [b3, b4, b3], [left, t, right])
-                    self.rectangularWall(
-                        left+right+t, h,
-                        [bottom_edge, "e", "e", "e"],
-                        callback=[lambda: self.fingerHolesAt(left+t/2, 0, h, 90)],
-                        move="right")
+                # front walls
+                if self.opening == 0.0 or (side and not self.back_openings):
+                    self.rectangularWall(x, h, [b, "f", "e", "f"],
+                                         ignore_widths=[1, 6], move="right")
+                else:
+                    self.rectangularWall(sx[0] * (1-o/100) / 2, h,
+                                         [b2, "e", "e", "f"],
+                                         ignore_widths=[1, 6], move="right")
+                    for ix in range(len(sx)-1):
+                        left = sx[ix] * (1-o/100) / 2
+                        right = sx[ix+1] * (1-o/100) / 2
+                        h_e = t
+                        bottom_edge = CompoundEdge(
+                            self, [b3, b4, b3], [left, t, right])
+                        self.rectangularWall(
+                            left+right+t, h,
+                            [bottom_edge, "e", "e", "e"],
+                            callback=[lambda: self.fingerHolesAt(left+t/2, 0, h, 90)],
+                            move="right")
 
-                self.rectangularWall(sx[-1] * (1-o/100) / 2, h,
-                                     [b2, "e", "e", "f"],
-                                     ignore_widths=[1, 6], move="right mirror")
+                    self.rectangularWall(sx[-1] * (1-o/100) / 2, h,
+                                         [b2, "e", "e", "f"],
+                                         ignore_widths=[1, 6],
+                                         move="right mirror")
 
-        self.rectangularWall(x, h, [b, "F", "e", "F"],
-                             ignore_widths=[1, 6], move="up only")
+            self.rectangularWall(x, h, [b, "F", "e", "F"],
+                                 ignore_widths=[1, 6], move="up only")
+            # hack to have it reversed in second go and then back to normal
+            sx = list(reversed(sx))
 
-        with self.saved_context():
-            self.rectangularWall(y, h, [b, "F", "e", "F"], ignore_widths=[1, 6], move="right")
-            self.rectangularWall(x, h, [b, "f", "e", "f"],
-                                 callback=[self.fingerHoleCB(sx, h)],
-                                 ignore_widths=[1, 6], move="right")
-        self.rectangularWall(y, h, [b, "F", "e", "F"], move="up only")
-
+        # bottom
         if self.bottom_edge != "e":
             outer_edge = "h" if self.bottom_edge == "f" else "f"
-            if self.opening == 0.0:
-                self.rectangularWall(x, y, [outer_edge] * 4, move="up")
-            else:
-                u_edge = USlotEdge(self, o, outer_edge)
-                print([l for x in sx for l in (x, t)])
-                front = CompoundEdge(
+            font_edge = back_edge = outer_edge
+            u_edge = USlotEdge(self, o, outer_edge)
+            outer_width = self.edges[outer_edge].startwidth()
+            if self.opening > 0.0:
+                front_edge = CompoundEdge(
                     self,
-                    ([u_edge, edges.OutSetEdge(self, self.edges[outer_edge].startwidth())]*len(sx))[:-1],
+                    ([u_edge, edges.OutSetEdge(self, outer_width)]*len(sx))[:-1],
                     ([l for x in sx for l in (x, t)])[:-1])
-                self.rectangularWall(x, y,
-                                     [front, outer_edge, outer_edge, outer_edge],
-                                     callback=[self.fingerHoleCB(sx, y)],
-                                     move="up")
+            if self.opening > 0.0 and self.back_openings:
+                back_edge = CompoundEdge(
+                    self,
+                    ([u_edge, edges.OutSetEdge(self, outer_width)]*len(sx))[:-1],
+                    ([l for x in reversed(sx) for l in (x, t)])[:-1])
+
+            self.rectangularWall(
+                x, y,
+                [front_edge, outer_edge, back_edge, outer_edge],
+                callback=[self.fingerHoleCB(sx, y)],
+                move="up")
         # innner walls
         for i in range(len(sx)-1):
             self.rectangularWall(

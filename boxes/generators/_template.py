@@ -26,11 +26,15 @@ class BOX(Boxes): # Change class name!
         # Uncomment the settings for the edge types you use
         # use keyword args to set default values
         # self.addSettingsArgs(edges.FingerJointSettings, finger=1.0,space=1.0)
+        # self.addSettingsArgs(edges.DoveTailSettings)
         # self.addSettingsArgs(edges.StackableSettings)
         # self.addSettingsArgs(edges.HingeSettings)
         # self.addSettingsArgs(edges.SlideOnLidSettings)
         # self.addSettingsArgs(edges.ClickSettings)
         # self.addSettingsArgs(edges.FlexSettings)
+        # self.addSettingsArgs(edges.HandleEdgeSettings)
+        # self.addSettingsArgs(edges.RoundedTriangleEdgeSettings)
+        # self.addSettingsArgs(edges.MountingSettings)
 
         # remove cli params you do not need
         self.buildArgParser(x=100, sx="3*50", y=100, sy="3*50", h=100, hi=0)

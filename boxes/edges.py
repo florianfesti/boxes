@@ -2657,3 +2657,29 @@ class HandleHoleEdge(HandleEdge):
 
     def margin(self) -> float:
         return self.settings.height + self.extra_height * self.settings.thickness
+
+
+class BedBoltSettings(Settings):
+    """Settings for bed bolts
+Values:
+
+* absolute_params
+
+ * d     :  : Bore and slit diameter [mm] (eg. 4.0 for M4)
+ * d_nut :  : Width of the nut [mm] (eg. 7.0 for M4)
+ * h_nut :  : Height of the nut [mm] (not standardized, roughly 2.4 for M4)
+ * l     :  : Total slit length of the nut [mm] (eg. 17.0 for an M? x 20, accounting for 4mm thickness and giving 1mm tolerance)
+ * l1    :  : Distance from the cut edge to the close edge of the nut [mm]
+"""
+
+    absolute_params = {
+        "d": 3.0,
+        "d_nut": 5.5,
+        "h_nut": 2.0,
+        "l": 20.0,
+        "l1": 15.0,
+    }
+
+    @classmethod
+    def convert_settings_to_tuple(cls, args):
+        return (args['d'], args['d_nut'], args['h_nut'], args['l'], args['l1'])

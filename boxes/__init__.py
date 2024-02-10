@@ -389,7 +389,6 @@ class Boxes:
         if self.ctx is not None:
             return
 
-        self.bedBoltSettings = (3, 5.5, 2, 20, 15)  # d, d_nut, h_nut, l, l1
         self.surface, self.ctx = self.formats.getSurface(self.format, self.output)
 
         if self.format == 'svg_Ponoko':
@@ -643,6 +642,10 @@ class Boxes:
         self.lidSettings = lids.LidSettings(self.thickness, True,
                                        **self.edgesettings.get("Lid", {}))
         self.lid = lids.Lid(self, self.lidSettings)
+
+        # Bed Bolts
+        bedbolt_settings = self.edgesettings.get("BedBolt") or edges.BedBoltSettings.absolute_params
+        self.bedBoltSettings = edges.BedBoltSettings.convert_settings_to_tuple(bedbolt_settings)
 
         # Nuts
         self.addPart(NutHole(self, None))

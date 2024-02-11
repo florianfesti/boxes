@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import datetime
 import math
+import io
+import codecs
 from typing import Any
 from xml.etree import ElementTree as ET
 
@@ -43,8 +45,7 @@ class Surface:
     scale = 1.0
     invert_y = False
 
-    def __init__(self, fname) -> None:
-        self._fname = fname
+    def __init__(self) -> None:
         self.parts: list[Any] = []
         self._p = self.new_part("default")
         self.count = 0
@@ -591,8 +592,10 @@ Creation date: {date}
                     t.tail = "\n  "
             t.tail = "\n"
         reorder_attributes(tree)
-        with open(self._fname, "wb") as f:
-            tree.write(f, encoding="utf-8", xml_declaration=True, method="xml")
+        f = io.BytesIO()
+        tree.write(f, encoding="utf-8", xml_declaration=True, method="xml")
+        f.seek(0)
+        return f
 
 class PSSurface(Surface):
 
@@ -646,7 +649,8 @@ class PSSurface(Surface):
         w = extents.width
         h = extents.height
 
-        f = open(self._fname, "w", encoding="latin1", errors="replace")
+        data = io.BytesIO()
+        f = codecs.getwriter('utf-8')(data)
 
         f.write(f"""%!PS-Adobe-2.0 EPSF-2.0
 %%BoundingBox: 0 0 {w:.0f} {h:.0f}
@@ -746,7 +750,8 @@ showpage
 %%EOF
 """
         )
-        f.close()
+        data.seek(0)
+        return data
 
 class LBRN2Surface(Surface):
 
@@ -998,8 +1003,10 @@ class LBRN2Surface(Surface):
         pl.tail = "\n"
 
         if self.dbg: print ("5", num)
-        with open(self._fname, "wb") as f:
-            tree.write(f, encoding="utf-8", xml_declaration=True, method="xml")
+        f = io.BytesIO()
+        tree.write(f, encoding="utf-8", xml_declaration=True, method="xml")
+        f.seek(0)
+        return f
 
 from random import random
 

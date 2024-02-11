@@ -390,7 +390,7 @@ class Boxes:
             return
 
         self.bedBoltSettings = (3, 5.5, 2, 20, 15)  # d, d_nut, h_nut, l, l1
-        self.surface, self.ctx = self.formats.getSurface(self.format, self.output)
+        self.surface, self.ctx = self.formats.getSurface(self.format)
 
         if self.format == 'svg_Ponoko':
             self.ctx.set_line_width(0.01)
@@ -749,15 +749,10 @@ class Boxes:
         self.surface.set_metadata(self.metadata)
 
         self.surface.flush()
-        self.surface.finish(self.inner_corners)
+        data = self.surface.finish(self.inner_corners)
 
-        self.formats.convert(self.output, self.format, self.metadata)
-        if self.inkscapefile:
-            try:
-                out = sys.stdout.buffer
-            except AttributeError:
-                out= sys.stdout
-            svgutil.svgMerge(self.output, self.inkscapefile, out)
+        data = self.formats.convert(data, self.format)
+        return data
 
     ############################################################
     ### Turtle graphics commands

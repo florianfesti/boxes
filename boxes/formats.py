@@ -17,7 +17,7 @@
 import os
 import shutil
 import subprocess
-import tempfile
+import io
 
 from boxes.drawing import SVGSurface, PSSurface, LBRN2Surface, Context
 
@@ -34,11 +34,11 @@ class Formats:
         "svg_Ponoko": None,
         "ps": None,
         "lbrn2": None,
-        "dxf": "{pstoedit} -flat 0.1 -f dxf:-mm {input} {output}",
-        "gcode": "{pstoedit} -f gcode {input} {output}",
-        "plt": "{pstoedit} -f plot-hpgl {input} {output}",
-        # "ai": "{pstoedit} -f ps2ai {input} {output}",
-        "pdf": "{ps2pdf} -dEPSCrop {input} {output}",
+        "dxf": "{pstoedit} -flat 0.1 -f dxf:-mm",
+        "gcode": "{pstoedit} -f gcode",
+        "plt": "{pstoedit} -f hpgl",
+        # "ai": "{pstoedit} -f ps2ai",
+        "pdf": "{ps2pdf} -dEPSCrop - -",
     }
 
     http_headers = {
@@ -68,35 +68,28 @@ class Formats:
             return sorted(self.formats.keys())
         return self._BASE_FORMATS
 
-    def getSurface(self, fmt, filename):
+    def getSurface(self, fmt):
         if fmt in ("svg", "svg_Ponoko"):
-            surface = SVGSurface(filename)
+            surface = SVGSurface()
         elif fmt == "lbrn2":
-            surface = LBRN2Surface(filename)
+            surface = LBRN2Surface()
         else:
-            surface = PSSurface(filename)
+            surface = PSSurface()
 
         ctx = Context(surface)
         return surface, ctx
 
-    def convert(self, filename, fmt, metadata=None):
+    def convert(self, data, fmt):
 
         if fmt not in self._BASE_FORMATS:
-            fd, tmpfile = tempfile.mkstemp(dir=os.path.dirname(filename))
             cmd = self.formats[fmt].format(
                 pstoedit=self.pstoedit,
-                ps2pdf=self.ps2pdf,
-                input=filename,
-                output=tmpfile).split()
+                ps2pdf=self.ps2pdf).split()
 
-            err = subprocess.call(cmd)
-
-            if err:
+            result = subprocess.run(cmd, input=data.getvalue(), capture_output=True)
+            if result.returncode:
                 # XXX show stderr output
-                try:
-                    os.unlink(tmpfile)
-                except:
-                    pass
-                raise ValueError("Conversion failed. pstoedit returned %i" % err)
+                raise ValueError("Conversion failed. pstoedit returned %i\n\n %s" % (result.returncode, result.stderr))
+            data = io.BytesIO(result.stdout)
 
-            os.rename(tmpfile, filename)
+        return data

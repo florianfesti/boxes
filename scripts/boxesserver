@@ -23,7 +23,6 @@ import mimetypes
 import os.path
 import re
 import sys
-import tempfile
 import threading
 import time
 import traceback
@@ -635,13 +634,12 @@ class BServer:
             return self.genPageError(name, e, lang)
 
         try:
-            fd, box.output = tempfile.mkstemp()
             box.metadata["url"] = self.getURL(environ)
             box.metadata["url_short"] = filter_url(box.metadata["url"],
                                                    box.non_default_args)
             box.open()
             box.render()
-            box.close()
+            data = box.close()
         except Exception as e:
             if not isinstance(e, ValueError):
                 print("Exception during rendering:")
@@ -668,11 +666,7 @@ class BServer:
                 extension = "svg"
             http_headers.append(('Content-Disposition', f'attachment; filename="{box.__class__.__name__}.{extension}"'))
         start_response(status, http_headers)
-        with open(box.output, 'rb') as f:
-            result = f.readlines()
-        os.close(fd)
-        os.remove(box.output)
-        return (l for l in result)
+        return environ['wsgi.file_wrapper'](data, 512 * 1024)
 
 
 def get_qrcode(url, format):

@@ -116,8 +116,8 @@ Provide photos for generators
 
 Many generators still come without an example photo. If you are
 creating such an item consider donating a good picture. You can
-simply attach it to `ticket #140
-<https://github.com/florianfesti/boxes/issues/140>`_. If you want you can
+simply attach it to `ticket #628
+<https://github.com/florianfesti/boxes/issues/628>`_. If you want you can
 also create a proper pull request instead:
 
 * Make sure you have sh, convert (ImageMagick), sed and sha256sum installed

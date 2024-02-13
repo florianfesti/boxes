@@ -8647,7 +8647,7 @@ msgstr ""
 #: scripts/boxesserver:286
 msgid ""
 "There is no image yet. Please donate an image of your project on <a "
-"href=&quot;https://github.com/florianfesti/boxes/issues/140&quot; "
+"href=&quot;https://github.com/florianfesti/boxes/issues/628&quot; "
 "target=&quot;_blank&quot; rel=&quot;noopener&quot;>GitHub</a>!"
 msgstr ""
 

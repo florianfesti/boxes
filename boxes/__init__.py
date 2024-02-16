@@ -99,30 +99,61 @@ def holeCol(func):
 ### Building blocks
 #############################################################################
 
+HexSizes = { # (nut width, nut height, shaft width)
+    "M1.6" : (3.2,  1.3,  1.6),
+    "M2"   : (4,    1.6,  2),
+    "M2.5" : (5,    2.0,  2.5),
+    "M3"   : (5.5,  2.4,  3),
+    "M4"   : (7,    3.2,  4),
+    "M5"   : (8,    4.7,  5),
+    "M6"   : (10,   5.2,  6),
+    "M8"   : (13.7, 6.8,  8),
+    "M10"  : (16,   8.4,  10),
+    "M12"  : (18,   10.8, 12),
+    "M14"  : (21,   12.8, 14),
+    "M16"  : (24,   14.8, 16),
+    "M20"  : (30,   18.0, 20),
+    "M24"  : (36,   21.5, 24),
+    "M30"  : (46,   25.6, 30),
+    "M36"  : (55,   31,   36),
+    "M42"  : (65,   34,   42),
+    "M48"  : (75,   38,   48),
+    "M56"  : (85,   45,   56),
+    "M64"  : (95,   51,   64),
+    "#0"   : (0.156*25.4, 0.050*25.4, 0.060*25.4),
+    "#1"   : (0.156*25.4, 0.050*25.4, 0.073*25.4),
+    "#2"   : (0.188*25.4, 0.066*25.4, 0.086*25.4),
+    "#3"   : (0.188*25.4, 0.066*25.4, 0.099*25.4),
+    "#4"   : (0.250*25.4, 0.098*25.4, 0.112*25.4),
+    "#5"   : (0.312*25.4, 0.114*25.4, 0.125*25.4),
+    "#6"   : (0.312*25.4, 0.114*25.4, 0.138*25.4),
+    "#8"   : (0.344*25.4, 0.130*25.4, 0.164*25.4),
+    "#10"  : (0.375*25.4, 0.130*25.4, 0.190*25.4),
+    "#12"  : (0.438*25.4, 0.161*25.4, 0.216*25.4),
+    "1/4"  : (0.438*25.4, 0.226*25.4, 0.250*25.4),
+    "5/16" : (0.562*25.4, 0.273*25.4, (5/16 )*25.4),
+    "3/8"  : (0.625*25.4, 0.337*25.4, (3/8  )*25.4),
+    "7/16" : (0.688*25.4, 0.385*25.4, (7/16 )*25.4),
+    "1/2"  : (0.750*25.4, 0.448*25.4, (1/2  )*25.4),
+    "9/16" : (0.875*25.4, 0.496*25.4, (9/16 )*25.4),
+    "5/8"  : (0.938*25.4, 0.559*25.4, (5/8  )*25.4),
+    "3/4"  : (1.125*25.4, 0.665*25.4, (3/4  )*25.4),
+    "7/8"  : (1.312*25.4, 0.776*25.4, (7/8  )*25.4),
+    "1"    : (1.500*25.4, 0.887*25.4, (1    )*25.4),
+    "1-1/8": (1.688*25.4, 0.999*25.4, (1+1/8)*25.4),
+    "1-1/4": (1.875*25.4, 1.094*25.4, (1+1/4)*25.4),
+    "1-3/8": (2.062*25.4, 1.206*25.4, (1+3/8)*25.4),
+    "1-1/2": (2.250*25.4, 1.317*25.4, (1+1/2)*25.4),
+    "1-5/8": (2.438*25.4, 1.429*25.4, (1+5/8)*25.4),
+    "1-3/4": (2.625*25.4, 1.540*25.4, (1+3/4)*25.4),
+    "1-7/8": (2.813*25.4, 1.651*25.4, (1+7/8)*25.4),
+    "2"    : (3.000*25.4, 1.763*25.4, (2    )*25.4),
+    "2-1/4": (3.375*25.4, 1.986*25.4, (2+1/4)*25.4),
+    "2-1/2": (3.750*25.4, 2.209*25.4, (2+1/2)*25.4),
+}
+
 class NutHole:
     """Draw a hex nut"""
-    sizes = {
-        "M1.6": (3.2, 1.3),
-        "M2": (4, 1.6),
-        "M2.5": (5, 2.0),
-        "M3": (5.5, 2.4),
-        "M4": (7, 3.2),
-        "M5": (8, 4.7),
-        "M6": (10, 5.2),
-        "M8": (13.7, 6.8),
-        "M10": (16, 8.4),
-        "M12": (18, 10.8),
-        "M14": (21, 12.8),
-        "M16": (24, 14.8),
-        "M20": (30, 18.0),
-        "M24": (36, 21.5),
-        "M30": (46, 25.6),
-        "M36": (55, 31),
-        "M42": (65, 34),
-        "M48": (75, 38),
-        "M56": (85, 45),
-        "M64": (95, 51),
-    }
 
     def __init__(self, boxes, settings) -> None:
         self.boxes = boxes
@@ -135,7 +166,7 @@ class NutHole:
     @restore
     @holeCol
     def __call__(self, size, x=0, y=0, angle=0):
-        size = self.sizes.get(size, (size,))[0]
+        size = HexSizes.get(size, (size,))[0]
         side = size / 3 ** 0.5
         self.boxes.moveTo(x, y, angle)
         self.boxes.moveTo(-0.5 * side, 0.5 * size, angle)
@@ -351,6 +382,14 @@ class Boxes:
         defaultgroup.add_argument(
             "--burn", action="store", type=float, default=0.1,
             help='burn correction (in mm)(bigger values for tighter fit) [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#burn)')
+        defaultgroup.add_argument(
+            "--bolts", action="store", type=str, default=None,
+            help='Cut holes for bed bolts, such as M4x20 or #8x1/2.'
+            )
+        defaultgroup.add_argument(
+            "--nut_dist", action="store", type=float, default=None,
+            help='Nut placement distance on bed bolts (in mm).'
+            )
 
     @contextmanager
     def saved_context(self):
@@ -390,6 +429,20 @@ class Boxes:
             return
 
         self.bedBoltSettings = (3, 5.5, 2, 20, 15)  # d, d_nut, h_nut, l, l1
+        if self.bolts:
+            bolt_std, shaft_length = self.bolts.split('x')
+            if 'M' in bolt_std:
+                shaft_length = float(shaft_length)
+            else:
+                if '/' in shaft_length:
+                    shaft_length_num, shaft_length_den = shaft_length.split('/')
+                    shaft_length = 25.4 * float(shaft_length_num) / float(shaft_length_den)
+                else:
+                    shaft_length = 25.4 * float(shaft_length)
+            nut_width, nut_height, shaft_width = HexSizes[bolt_std]
+            self.bedBoltSettings = (shaft_width, nut_width, nut_height, shaft_length - self.thickness, shaft_length - self.thickness - nut_height*2)
+        if self.nut_dist:
+            self.bedBoltSettings = (*self.bedBoltSettings[:-1], self.nut_dist)
         self.surface, self.ctx = self.formats.getSurface(self.format, self.output)
 
         if self.format == 'svg_Ponoko':

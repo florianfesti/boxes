@@ -62,10 +62,11 @@ class UniversalBox(_TopEdge):
         tl, tb, tr, tf = self.topEdges(self.top_edge)
         b = self.edges.get(self.bottom_edge, self.edges["F"])
 
-        d2 = Bolts(2)
-        d3 = Bolts(3)
-
-        d2 = d3 = None
+        if self.bolts:
+            d2 = Bolts(2)
+            d3 = Bolts(3)
+        else:
+            d2 = d3 = None
 
         sideedge = "F" if self.vertical_edges == "finger joints" else "h"
 

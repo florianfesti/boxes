@@ -72,7 +72,7 @@ setup(
     url='https://github.com/florianfesti/boxes',
     packages=find_packages(),
     python_requires='>=3.8',
-    install_requires=['affine>=2.0', 'markdown', 'shapely>=1.8.2', 'qrcode==7.3.1'],
+    install_requires=['affine>=2.0', 'markdown', 'shapely>=1.8.2', 'qrcode>=7.3.1'],
     scripts=['scripts/boxes', 'scripts/boxesserver'],
     cmdclass={
         'build_py': CustomBuildExtCommand,

@@ -30,7 +30,12 @@ See BasedBox for variant with a base."""
     def __init__(self) -> None:
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings)
+        self.addSettingsArgs(edges.BedBoltSettings)
         self.buildArgParser("x", "y", "h", "outside")
+
+        self.argparser.add_argument(
+            "--bedbolts",  action="store", type=boolarg, default=False,
+            help="Use bed bolts")
 
     def render(self):
 
@@ -43,10 +48,11 @@ See BasedBox for variant with a base."""
 
         t = self.thickness
 
-        d2 = edges.Bolts(2)
-        d3 = edges.Bolts(3)
-
-        d2 = d3 = None
+        if self.bedbolts:
+            d2 = edges.Bolts(2)
+            d3 = edges.Bolts(3)
+        else:
+            d2 = d3 = None
 
         self.rectangularWall(x, h, "FFFF", bedBolts=[d2] * 4, move="right", label="Wall 1")
         self.rectangularWall(y, h, "FfFf", bedBolts=[d3, d2, d3, d2], move="up", label="Wall 2")

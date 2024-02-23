@@ -37,7 +37,6 @@ from boxes import formats
 from boxes import gears
 from boxes import parts
 from boxes import pulley
-from boxes import svgutil
 from boxes.Color import *
 from boxes.vectors import kerf
 
@@ -298,7 +297,6 @@ class Boxes:
             description += "\n\n" + self.description
         self.argparser = ArgumentParser(description=description)
         self.edgesettings: dict[Any, Any] = {}
-        self.inkscapefile = None
         self.non_default_args: dict[Any, Any] = {}
         self.translations = gettext.NullTranslations()
 
@@ -536,10 +534,6 @@ class Boxes:
         """
         if args is None:
             args = sys.argv[1:]
-        if len(args) > 1 and args[-1][0] != "-":
-            self.inkscapefile = args[-1]
-            del args[-1]
-        args = [a for a in args if not a.startswith('--tab=')]
 
         def cliquote(s):
             s = s.replace('\r', '')

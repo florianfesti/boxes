@@ -15,8 +15,8 @@ License: GNU GPL v3
 import inkex
 import sys
 import os
+import subprocess
 from lxml import etree
-import tempfile
 from shlex import quote
 
 
@@ -33,8 +33,6 @@ class boxesPyWrapper(inkex.GenerateExtension):
                 pars.add_argument(key, default=key)
 
     def generate(self):
-        f, box_file = tempfile.mkstemp(".svg", "boxes.py-inkscape")
-
         cmd = "boxes"  # boxes.exe in this local dir (or if present in %PATH%), or boxes from $PATH in linux
         for arg in vars(self.options):
             if arg in (
@@ -46,30 +44,23 @@ class boxesPyWrapper(inkex.GenerateExtension):
             if arg == "original" and str(getattr(self.options, arg)) == "false":
                 continue
             cmd += f" --{arg} {quote(str(getattr(self.options, arg)))}"
-        cmd += f" --output {box_file} {box_file}"  # we need to add box_file string twice in a row. Otherwise program executable throws an error
+        cmd += f" --output -"
         cmd = cmd.replace("boxes --generator", "boxes")
 
         # run boxes with the parameters provided
-        with os.popen(cmd, "r") as boxes:
-            result = boxes.read()
+        result = subprocess.run(cmd.split(), capture_output=True)
 
-        # check output existence
-        try:
-            stream = open(box_file)
-        except FileNotFoundError as e:
-            inkex.utils.debug("There was no " + box_file + " output generated. Cannot continue. Command was:")
+        if result.returncode:
+            inkex.utils.debug("Generating box svg failed.  Cannot continue. Command was:")
             inkex.utils.debug(str(cmd))
+            inkex.utils.debug(str(result.stderr))
             exit(1)
 
         # write the generated SVG into Inkscape's canvas
         p = etree.XMLParser(huge_tree=True)
-        doc = etree.parse(stream, parser=etree.XMLParser(huge_tree=True))
-        stream.close()
-        if os.path.exists(box_file):
-            os.remove(box_file)  # remove previously generated box file at the end too
-
+        doc = etree.fromstring(result.stdout, parser=etree.XMLParser(huge_tree=True))
         group = inkex.Group(id="boxes.py")
-        for element in doc.getroot():
+        for element in doc:
             group.append(element)
         return group
 

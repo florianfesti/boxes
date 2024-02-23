@@ -67,13 +67,6 @@ def run_generator(name, args):
     else:
         msg = f'Unknown generator \'{name}\'. Use boxes --list to get a list of available commands.\n'
         sys.stderr.write(msg)
-        if box.inkscapefile:
-            try:
-                out = sys.stdout.buffer
-            except AttributeError:
-                out= sys.stdout
-            svgutil.svgMerge(box.output, box.inkscapefile, out)
-
 
 def generator_groups():
     generators = generators_by_name()

@@ -108,33 +108,26 @@ class TypeTray(_TopEdge):
 
         self.ctx.save()
 
-        # outer walls - front/back
-        if bh:
-            self.rectangularWall(x, h+bh, [b, "f", tb, "f"],
-                                 callback=[self.xHoles],
-                                 ignore_widths=[],
-                                 move="up", label="back")
-            self.rectangularWall(x, h, ["f" if self.handle else b, "f", tf, "f"],
-                                 callback=[self.mirrorX(self.xHoles, x),
-                                           None, self.gripHole],
-                                 move="up", label="front")
-        else:
-            self.rectangularWall(x, h, [b, "F", tb, "F"],
-                                 callback=[self.xHoles],
-                                 ignore_widths=[1, 6],
-                                 move="up", label="back")
-            self.rectangularWall(x, h, ["f" if self.handle else b, "F", tf, "F"],
-                                 callback=[self.mirrorX(self.xHoles, x),
-                                           None, self.gripHole],
-                                 ignore_widths=[] if self.handle else [1, 6],
-                                 move="up", label="front")
-
         # floor
         if b != "e":
             if self.handle:
                 self.rectangularWall(x, y, "ffYf", callback=[self.xSlots, self.ySlots], move="up", label="bottom")
             else:
                 self.rectangularWall(x, y, "ffff", callback=[self.xSlots, self.ySlots], move="up", label="bottom")
+
+        # front
+        if bh:
+            self.rectangularWall(x, h, ["f" if self.handle else b, "f", tf, "f"],
+                                 callback=[self.mirrorX(self.xHoles, x),
+                                           None, self.gripHole],
+                                 move="up", label="front")
+        else:
+            self.rectangularWall(x, h, ["f" if self.handle else b, "F", tf, "F"],
+                                 callback=[self.mirrorX(self.xHoles, x),
+                                           None, self.gripHole],
+                                 ignore_widths=[] if self.handle else [1, 6],
+                                 move="up", label="front")
+
 
         # Inner walls
 
@@ -148,6 +141,18 @@ class TypeTray(_TopEdge):
                      edges.SlottedEdge(self, self.sx[::-1], "f", slots=0.5 * hi), "f"]
 
             self.rectangularWall(x, hi, e, move="up", label=f"inner x {i+1}")
+
+        # back
+        if bh:
+            self.rectangularWall(x, h+bh, [b, "f", tb, "f"],
+                                 callback=[self.xHoles],
+                                 ignore_widths=[],
+                                 move="up", label="back")
+        else:
+            self.rectangularWall(x, h, [b, "F", tb, "F"],
+                                 callback=[self.xHoles],
+                                 ignore_widths=[1, 6],
+                                 move="up", label="back")
 
         # top / lid
         if self.closedtop and sameh:

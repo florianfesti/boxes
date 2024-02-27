@@ -193,7 +193,7 @@ class BServer:
         if (isinstance(a, argparse._StoreAction) and
                 hasattr(a.type, "html")):
             input = a.type.html(name, default or a.default, _)
-        elif a.dest == "layout":
+        elif a.type == str and "\n" in a.default:
             val = (default or a.default).split("\n")
             input = """<textarea name="%s" id="%s" aria-labeledby="%s %s" cols="%s" rows="%s">%s</textarea>""" % \
                     (name, name, name + "_id", name + "_description", max(len(l) for l in val) + 10, len(val) + 1, default or a.default)

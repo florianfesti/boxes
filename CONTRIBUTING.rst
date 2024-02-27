@@ -125,6 +125,7 @@ also create a proper pull request instead:
   (This is case sensitive. Use CamelCase.)
 * The picture should be 1200 pixels wide and square or not too far
   from square (3:4 is fine).
+* Minimize the file size by running it through `Tiny Png<https://tinypng.com/>`_
 * Place the file in *static/samples/*
 * Check if the picture shows up at the bottom of the settings page of
   the generator when running *scripts/boxesserver*

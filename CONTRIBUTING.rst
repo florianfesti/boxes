@@ -120,7 +120,7 @@ simply attach it to `ticket #628
 <https://github.com/florianfesti/boxes/issues/628>`_. If you want you can
 also create a proper pull request instead:
 
-* Make sure you have sh, convert (ImageMagick), sed and sha256sum installed
+* Make sure you have sh, ImageMagick (You will need to install legacy utilities for convert), sed and sha256sum installed
 * The picture needs to be an jpg file with the name of the generator
   (This is case sensitive. Use CamelCase.)
 * The picture should be 1200 pixels wide and square or not too far

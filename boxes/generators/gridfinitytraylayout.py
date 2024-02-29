@@ -37,7 +37,7 @@ this compartment.
         self.argparser.add_argument("--countx", type=int, default=5, help="split x into this many grid sections.  0 means same as --nx")
         self.argparser.add_argument("--county", type=int, default=3, help="split y into this many grid sections.  0 means same as --ny")
         self.argparser.add_argument("--margin", type=float, default=0.75, help="Leave this much total margin on the outside, in mm")
-        self.argparser.add_argument("--layout", type=str, help="You can hand edit this before generating", default="");
+        self.argparser.add_argument("--layout", type=str, help="You can hand edit this before generating", default="\n");
         
     def generate_layout(self):
         layout = ''

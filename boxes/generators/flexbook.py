@@ -66,11 +66,11 @@ class FlexBook(Boxes):
             return
         
         # TODO: figure out math for gentler angles
+        cutout_radius = min(h/4, y/8)
         cutout_angle = 90
         cutout_predist = y * 0.2
-        cutout_radius = h/4
-        cutout_angle_dist = 0
-        cutout_base_dist = y - (y * .4) - h
+        cutout_angle_dist = h/2 - 2 * cutout_radius
+        cutout_base_dist = y - (y * .4) - 4 * cutout_radius
 
         self.moveTo(0, t)
 

@@ -21,7 +21,6 @@ class FlexBook(Boxes):
     ui_group = "FlexBox"
 
     description = """X is the bottom edge of the book, Y is the book's height, H is its thickness.
-    You most likely want to ensure "outside" is disabled.
 
 ![Open](static/samples/FlexBook-2.jpg)"""
 
@@ -29,13 +28,13 @@ class FlexBook(Boxes):
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings)
         self.addSettingsArgs(edges.FlexSettings)
-        self.buildArgParser("x", "y", "h", "outside")
-        self.argparser.add_argument(
-            "--recess_wall", action="store", type=boolarg, default=True,
-            help="Whether to recess the inner wall for easier object removal")
+        self.buildArgParser(x=80.0, y=130.0, h=40.0)
         self.argparser.add_argument(
             "--latchsize", action="store", type=float, default=8,
             help="size of latch in multiples of thickness")
+        self.argparser.add_argument(
+            "--recess_wall", action="store", type=boolarg, default=True,
+            help="Whether to recess the inner wall for easier object removal")
 
 
     def flexBookSide(self, h, x, r, callback=None, move=None):

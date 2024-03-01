@@ -65,7 +65,12 @@ class FlexBook(Boxes):
         if self.move(tw, th, move, True):
             return
         
+        # TODO: figure out math for gentler angles
         cutout_angle = 90
+        cutout_predist = y * 0.2
+        cutout_radius = h/4
+        cutout_angle_dist = 0
+        cutout_base_dist = y - (y * .4) - h
 
         self.moveTo(0, t)
 
@@ -76,17 +81,16 @@ class FlexBook(Boxes):
         self.edges["f"](h)
         self.corner(90)
         if include_recess:
-            # TODO: figure out math for gentler angles
             self.polyline(
-                y * .2,
-                (cutout_angle, h/4),
-                0,
-                (-cutout_angle, h/4),
-                y - (y * .4) - h,
-                (-cutout_angle, h/4),
-                0,
-                (cutout_angle, h/4),
-                y * .2)
+                cutout_predist,
+                (cutout_angle, cutout_radius),
+                cutout_angle_dist,
+                (-cutout_angle, cutout_radius),
+                cutout_base_dist,
+                (-cutout_angle, cutout_radius),
+                cutout_angle_dist,
+                (cutout_angle, cutout_radius),
+                cutout_predist)
         else :
             self.edges["e"](y)
         self.corner(90)

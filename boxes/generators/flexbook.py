@@ -44,7 +44,7 @@ class FlexBook(Boxes):
         if self.move(tw, th, move, True):
             return
 
-        self.fingerHolesAt(0, x+t, h, 0)
+        self.fingerHolesAt(0, x+1.5*t, h, 0)
 
         self.edges["F"](h)
         self.corner(90, 0)

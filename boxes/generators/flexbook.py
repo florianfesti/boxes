@@ -142,6 +142,7 @@ class FlexBook(Boxes):
         latchSize = self.latchsize
         c4 = self.c4
         t = self.thickness
+        overhang = t * 2
 
         tw = 2*x + 6*t + 2*c4
         th = y + 4*t
@@ -169,7 +170,8 @@ class FlexBook(Boxes):
         self.edges["h"](y)
         self.corner(90, 2*t)
 
-        if True:
+        if False:
+            # debug lines
             self.moveTo(0, 2*t)
             self.edges["e"](x+t + 2*c4 + x+t)
             self.corner(90)

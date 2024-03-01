@@ -16,10 +16,14 @@
 from boxes import *
 
 class FlexBook(Boxes):
-    """Box with living hinge styled after a book. As such, X is the bottom
-    edge of the book, Y is the book's height, and H is the book's thickness."""
+    """Box with living hinge styled after a book."""
 
     ui_group = "FlexBox"
+
+    description = """X is the bottom edge of the book, Y is the book's height, H is its thickness.
+    You most likely want to ensure "outside" is disabled.
+
+![Open](static/samples/FlexBook-2.jpg)"""
 
     def __init__(self) -> None:
         Boxes.__init__(self)
@@ -162,7 +166,7 @@ class FlexBook(Boxes):
         
         self.moveTo(0, -2*t)
         self.edges["h"](x+t)
-        self.edges["X"](2*c4, y + 4*t)
+        self.edges["X"](2*c4, y + 4*t + t) # extra t to avoid stretch when closed
         self.edges["e"](x+t)
         self.corner(90, 2*t)
         self.edges["e"](y/2)
@@ -173,7 +177,7 @@ class FlexBook(Boxes):
 
         self.edges["e"](y/2)
         self.corner(90, 2*t)
-        self.edges["e"](x+t + 2*c4)
+        self.edges["e"](x+t + 2*c4 + t)
         self.edges["h"](x+t)
         self.corner(90, 2*t)
         self.edges["h"](y)

@@ -28,7 +28,7 @@ class FlexBook(Boxes):
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings)
         self.addSettingsArgs(edges.FlexSettings)
-        self.buildArgParser(x=80.0, y=130.0, h=40.0)
+        self.buildArgParser(x=75.0, y=125.0, h=35.0)
         self.argparser.add_argument(
             "--latchsize", action="store", type=float, default=8,
             help="size of latch in multiples of thickness")
@@ -39,10 +39,10 @@ class FlexBook(Boxes):
 
     def flexBookSide(self, h, x, r, callback=None, move=None):
         t = self.thickness
-        if self.move(h+2*t, x+t, move, True):
-            return
 
-        self.moveTo(t, t)
+        tw, th = h+t, x+2*t+r
+        if self.move(tw, th, move, True):
+            return
 
         self.fingerHolesAt(0, x+t, h, 0)
 
@@ -54,18 +54,20 @@ class FlexBook(Boxes):
         self.edges["e"](x + 2*t)
         self.corner(90)
 
-        self.move(h+2*t, x+t, move)
+        self.move(tw, th, move)
 
 
     def flexBookRecessedWall(self, h, y, include_recess, callback=None, move=None):
         t = self.thickness
 
-        if self.move(h+2*t, y+t, move, True):
+        tw, th = h, y+2*t
+
+        if self.move(tw, th, move, True):
             return
         
         cutout_angle = 90
 
-        self.moveTo(t, t)
+        self.moveTo(0, t)
 
         self.edges["f"](h)
         self.corner(90,)
@@ -89,18 +91,20 @@ class FlexBook(Boxes):
             self.edges["e"](y)
         self.corner(90)
         
-        self.move(h+2*t, y+t, move)
+        self.move(tw, th, move)
     
 
     def flexBookLatchWall(self, h, y, latchSize, callback=None, move=None):
         t = self.thickness
 
         if self.recess_wall:
-            x_adjust = -t
+            x_adjust = 0
         else:
-            x_adjust = 2 * t
+            x_adjust = 3 * t
 
-        if self.move(h+2*t + x_adjust, y+t, move, True):
+        tw, th = h+t+x_adjust, y+2*t
+
+        if self.move(tw, th, move, True):
             return
 
         self.moveTo(x_adjust, t)
@@ -127,45 +131,24 @@ class FlexBook(Boxes):
     
         self.corner(90)
 
-        self.move(h+2*t + x_adjust, y+t, move)
+        self.move(tw, th, move)
 
     def flexBookCover(self, move=None):
-        x, y, h, r = self.x, self.y, self.h, self.radius
+        x, y = self.x, self.y
         latchSize = self.latchsize
         c4 = self.c4
-
         t = self.thickness
 
-        tw, th = 2*x + 4*t + math.pi * r, y + 4*t
+        tw = 2*x + 6*t + 2*c4
+        th = y + 4*t
 
         if self.move(tw, th, move, True):
             return
-
-        self.moveTo(t, 0.25*t)
-
-        if False:
-            self.edges["e"](x+t + 2*c4 + x+t)
-            self.corner(90)
-            self.edges["e"](y)
-            self.corner(90)
-            self.edges["e"](x+t + 2*c4 + x+t)
-            self.corner(90)
-            self.edges["e"](y)
-            self.corner(90)
         
-        if False:
-            self.edges["e"](x)
-            self.corner(90)
-            self.edges["e"](y)
-            self.corner(90)
-            self.edges["e"](x)
-            self.corner(90)
-            self.edges["e"](y)
-            self.corner(90)
-        
-        self.moveTo(0, -2*t)
+        self.moveTo(2*t, 0)
+
         self.edges["h"](x+t)
-        self.edges["X"](2*c4, y + 4*t + t) # extra t to avoid stretch when closed
+        self.edges["X"](2*c4, y + 4*t)
         self.edges["e"](x+t)
         self.corner(90, 2*t)
         self.edges["e"](y/2)
@@ -176,17 +159,37 @@ class FlexBook(Boxes):
 
         self.edges["e"](y/2)
         self.corner(90, 2*t)
-        self.edges["e"](x+t + 2*c4 + t)
+        self.edges["e"](x+t + 2*c4)
         self.edges["h"](x+t)
         self.corner(90, 2*t)
         self.edges["h"](y)
         self.corner(90, 2*t)
 
+        if True:
+            self.moveTo(0, 2*t)
+            self.edges["e"](x+t + 2*c4 + x+t)
+            self.corner(90)
+            self.edges["e"](y)
+            self.corner(90)
+            self.edges["e"](x+t + 2*c4 + x+t)
+            self.corner(90)
+            self.edges["e"](y)
+            self.corner(90)
+        
+            self.edges["e"](x)
+            self.corner(90)
+            self.edges["e"](y)
+            self.corner(90)
+            self.edges["e"](x)
+            self.corner(90)
+            self.edges["e"](y)
+            self.corner(90)
+
         self.move(tw, th, move)
     
-    def flexBookLatchPins(self, move=None):
+    def flexBookLatchAnchor(self, move=None):
         t = self.thickness
-        if self.move(3*t, t, move, True):
+        if self.move(2*t, t, move, True):
             return
         self.edges["e"](2*t)
         self.corner(90)
@@ -198,14 +201,15 @@ class FlexBook(Boxes):
         self.corner(90)
 
         #self.rectangularWall(t, 3*t, move="right")
-        self.move(3*t, t, move)
+        self.move(2*t, t, move)
 
 
     def flexBookLatchBracket(self, isCover, move=None):
         t = self.thickness
         round = t/3
 
-        if self.move(6*t, 6*t, move, True):
+        tw, th = 5*t, 5.5*t
+        if self.move(tw, th, move, True):
             return
         
         if isCover:
@@ -228,7 +232,7 @@ class FlexBook(Boxes):
         self.corner(180, 2.5 * t)
         self.edge(3*t)
 
-        self.move(6*t, 6*t, move)
+        self.move(tw, th, move)
     
     def flexBookLatchGrip(self, move=None):
         l = self.latchsize
@@ -254,13 +258,14 @@ class FlexBook(Boxes):
         t = self.thickness
         l = self.latchsize
 
-        dx = l + 4*t
-        dy = 5*t
+        tw, th = l + 4*t, 5*t
 
-        if self.move(dx, dy, move, True):
+        if self.move(tw, th, move, True):
             return
     
         round = t/3
+
+        self.moveTo(2*t, 0)
 
         self.polyline(
             l,
@@ -287,16 +292,12 @@ class FlexBook(Boxes):
             -90,
             2*t,
             90)
-        self.move(dx, dy, move)
+        self.move(tw, th, move)
 
     
 
 
     def render(self):
-        if self.outside:
-            self.x = self.adjustSize(self.x)
-            self.y = self.adjustSize(self.y)
-            self.h = self.adjustSize(self.h)
         
         self.radius = self.h / 2
         self.c4 = c4 = math.pi * self.radius * 0.5
@@ -309,11 +310,11 @@ class FlexBook(Boxes):
         self.flexBookSide(self.h, self.x, self.radius, move="right")
         self.flexBookSide(self.h, self.x, self.radius, move="mirror right")
 
-        self.flexBookLatchPins(move="up")
-        self.flexBookLatchPins(move="up")
-        self.flexBookLatchBracket(False, move="up")
-        self.flexBookLatchBracket(False, move="up")
-        self.flexBookLatchBracket(True, move="up")
-        self.flexBookLatchBracket(True, move="up")
         self.flexBookLatchPin(move="up")
         self.flexBookLatchGrip(move="up")
+        self.flexBookLatchBracket(False, move="up")
+        self.flexBookLatchBracket(False, move="up")
+        self.flexBookLatchBracket(True, move="up")
+        self.flexBookLatchBracket(True, move="up")
+        self.flexBookLatchAnchor(move="right")
+        self.flexBookLatchAnchor(move="up")

@@ -142,7 +142,6 @@ class FlexBook(Boxes):
         latchSize = self.latchsize
         c4 = self.c4
         t = self.thickness
-        overhang = t * 2
 
         tw = 2*x + 6*t + 2*c4
         th = y + 4*t

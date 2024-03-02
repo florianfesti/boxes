@@ -49,7 +49,7 @@ class FingerHoleEdge(edges.BaseEdge):
         width = min(self.settings.absolute_width + length * self.settings.relative_width, length)
         depth = min(self.settings.absolute_depth + self.settings.wallheight * self.settings.relative_depth, self.settings.wallheight)
 
-        r = min(width/2, depth)
+        r = min(width/2, depth, self.settings.radius)
 
         if depth < 1e-9 or width < 1e-9:
             self.boxes.edge(length, tabs=2)

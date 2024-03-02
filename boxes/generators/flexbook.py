@@ -132,7 +132,7 @@ class FlexBook(Boxes):
             2.5*t,
             -90,
             (y-latchSize) / 2)
-    
+
         self.corner(90)
 
         self.move(tw, th, move)
@@ -191,23 +191,6 @@ class FlexBook(Boxes):
             self.corner(90)
 
         self.move(tw, th, move)
-    
-    def flexBookLatchAnchor(self, move=None):
-        t = self.thickness
-        if self.move(2*t, t, move, True):
-            return
-        self.edges["e"](2*t)
-        self.corner(90)
-        self.edges["e"](t)
-        self.corner(90)
-        self.edges["e"](2*t)
-        self.corner(90)
-        self.edges["e"](t)
-        self.corner(90)
-
-        #self.rectangularWall(t, 3*t, move="right")
-        self.move(2*t, t, move)
-
 
     def flexBookLatchBracket(self, isCover, move=None):
         t = self.thickness
@@ -237,25 +220,38 @@ class FlexBook(Boxes):
         self.corner(180, 2.5 * t)
         self.edge(3*t)
 
+        if not isCover:
+            # anchor pin
+            self.moveTo(-1.25*t, 1.5*t)
+            self.edges["e"](t)
+            self.corner(90)
+            self.edges["e"](2*t)
+            self.corner(90)
+            self.edges["e"](t)
+            self.corner(90)
+            self.edges["e"](2*t)
+            self.corner(90)
+
         self.move(tw, th, move)
     
     def flexBookLatchGrip(self, move=None):
+        t = self.thickness
         l = self.latchsize
 
-        if self.move(l, l/2, move, True):
+        if self.move(l, 4*t, move, True):
             return
 
         self.edge(l)
         self.corner(90)
-        self.edge(l/2)
+        self.edge(4*t)
         self.corner(90)
         self.edge(l)
         self.corner(90)
-        self.edge(l/2)
+        self.edge(4*t)
         self.corner(90)
 
         #self.hole(l/2,l/4, l/6)
-        self.regularPolygonHole(l/2,l/4, l/6)
+        self.regularPolygonHole(l/2, 2*t, 1.5*t)
 
         self.move(l, l/2, move)
     
@@ -312,14 +308,21 @@ class FlexBook(Boxes):
         self.flexBookCover(move="up")
         self.flexBookRecessedWall(self.h, self.y, self.recess_wall, move="mirror right")
         self.flexBookLatchWall(self.h, self.y, self.latchsize, move="right")
-        self.flexBookSide(self.h, self.x, self.radius, move="right")
-        self.flexBookSide(self.h, self.x, self.radius, move="mirror right")
+
+        with self.saved_context():
+            self.flexBookSide(self.h, self.x, self.radius, move="right")
+            self.flexBookSide(self.h, self.x, self.radius, move="mirror right")
+        self.flexBookSide(self.h, self.x, self.radius, move="up only")
+
+        with self.saved_context():
+            self.flexBookLatchBracket(False, move="up rotated")
+            self.flexBookLatchBracket(False, move="up rotated")
+        self.flexBookLatchBracket(False, move="right rotated only")
+
+        with self.saved_context():
+            self.flexBookLatchBracket(True, move="up rotated")
+            self.flexBookLatchBracket(True, move="up rotated")
+        self.flexBookLatchBracket(False, move="right rotated only")
 
         self.flexBookLatchPin(move="up")
-        self.flexBookLatchGrip(move="up")
-        self.flexBookLatchBracket(False, move="up")
-        self.flexBookLatchBracket(False, move="up")
-        self.flexBookLatchBracket(True, move="up")
-        self.flexBookLatchBracket(True, move="up")
-        self.flexBookLatchAnchor(move="right")
-        self.flexBookLatchAnchor(move="up")
+        self.flexBookLatchGrip(move="right")

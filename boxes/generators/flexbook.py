@@ -152,7 +152,7 @@ class FlexBook(Boxes):
         self.moveTo(2*t, 0)
 
         self.edges["h"](x+t)
-        self.edges["X"](2*c4, y + 4*t)
+        self.edges["X"](2*c4 + t, y + 4*t) # extra thickness here to make it fit
         self.edges["e"](x+t)
         self.corner(90, 2*t)
         self.edges["e"](y/2)
@@ -163,7 +163,7 @@ class FlexBook(Boxes):
 
         self.edges["e"](y/2)
         self.corner(90, 2*t)
-        self.edges["e"](x+t + 2*c4)
+        self.edges["e"](x+t + 2*c4 + t) # corresponding extra thickness
         self.edges["h"](x+t)
         self.corner(90, 2*t)
         self.edges["h"](y)
@@ -172,11 +172,11 @@ class FlexBook(Boxes):
         if False:
             # debug lines
             self.moveTo(0, 2*t)
-            self.edges["e"](x+t + 2*c4 + x+t)
+            self.edges["e"](x+t + 2*c4 + x+t + t)
             self.corner(90)
             self.edges["e"](y)
             self.corner(90)
-            self.edges["e"](x+t + 2*c4 + x+t)
+            self.edges["e"](x+t + 2*c4 + x+t + t)
             self.corner(90)
             self.edges["e"](y)
             self.corner(90)

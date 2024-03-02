@@ -18,7 +18,7 @@ from functools import partial
 
 
 class WallRack(Boxes):
-    """Rack spices or other things to be mounted on a wall"""
+    """Wall mountable rack for spices or other items"""
 
     ui_group = "WallMounted"
 

@@ -16,7 +16,7 @@
 from boxes import *
 
 class RectangularWall(Boxes):
-    """Simple wall"""
+    """Simple wall with options for different edges"""
 
     ui_group = "Part" # see ./__init__.py for names
 

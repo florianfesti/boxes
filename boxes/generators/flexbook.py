@@ -143,7 +143,7 @@ class FlexBook(Boxes):
         c4 = self.c4
         t = self.thickness
 
-        tw = 2*x + 6*t + 2*c4
+        tw = 2*x + 6*t + 2*c4 + t
         th = y + 4*t
 
         if self.move(tw, th, move, True):

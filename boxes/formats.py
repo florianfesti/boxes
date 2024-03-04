@@ -18,6 +18,7 @@ import os
 import shutil
 import subprocess
 import io
+import tempfile
 
 from boxes.drawing import SVGSurface, PSSurface, LBRN2Surface, Context
 
@@ -34,9 +35,9 @@ class Formats:
         "svg_Ponoko": None,
         "ps": None,
         "lbrn2": None,
-        "dxf": "{pstoedit} -flat 0.1 -f dxf:-mm",
-        "gcode": "{pstoedit} -f gcode",
-        "plt": "{pstoedit} -f hpgl",
+        "dxf": "{pstoedit} -flat 0.1 -f dxf:-mm {input} -",
+        "gcode": "{pstoedit} -f gcode {input} -",
+        "plt": "{pstoedit} -f hpgl {input} -",
         # "ai": "{pstoedit} -f ps2ai",
         "pdf": "{ps2pdf} -dEPSCrop - -",
     }
@@ -82,11 +83,20 @@ class Formats:
     def convert(self, data, fmt):
 
         if fmt not in self._BASE_FORMATS:
+            tmpfile = ""
+            if fmt in ("dxf", "gcode", "plt"):
+                fd, tmpfile = tempfile.mkstemp()
+                os.write(fd, data.getvalue())
+                input_ = None
+            else:
+                input_ = data.getvalue()
+
             cmd = self.formats[fmt].format(
                 pstoedit=self.pstoedit,
-                ps2pdf=self.ps2pdf).split()
+                ps2pdf=self.ps2pdf,
+                input=tmpfile).split()
 
-            result = subprocess.run(cmd, input=data.getvalue(), capture_output=True)
+            result = subprocess.run(cmd, input=input_, capture_output=True)
             if result.returncode:
                 # XXX show stderr output
                 raise ValueError("Conversion failed. pstoedit returned %i\n\n %s" % (result.returncode, result.stderr))

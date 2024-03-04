@@ -47,10 +47,11 @@ class BrickSorter(Boxes):
     level: str
     radius: int
     wiggle: float
+    edge_width: int = 3
 
     def __init__(self) -> None:
         Boxes.__init__(self)
-        self.addSettingsArgs(edges.FingerJointSettings)
+        self.addSettingsArgs(edges.FingerJointSettings, edge_width=self.edge_width)
         self.buildArgParser(x=256, y=256, h=120)
         self.level_desc = list(self.sieve_sizes.keys()) + ["bottom"]
         self.argparser.add_argument(
@@ -77,6 +78,9 @@ class BrickSorter(Boxes):
             default=4,
             help="Wiggle room, that the layers can slide in each other."
         )
+        for action in self.argparser._actions:
+            if action.dest in ["x", "y"]:
+                action.help = "outer width of the most outer layer"
 
     @property
     def _sieve_grid_thickness(self) -> int:
@@ -89,7 +93,8 @@ class BrickSorter(Boxes):
 
     @property
     def _outer_height_after_nesting(self) -> float:
-        return self.h - ((2 * self.thickness + 2) * self._sieve_level_index)
+        top_margin_for_inaccuracies = 2
+        return self.h - ((self.edge_width * self.thickness + top_margin_for_inaccuracies) * self._sieve_level_index)
 
     def _xy_after_nesting(self, a: float) -> float:
         return a - ((2 * self.thickness + self.wiggle) * self._sieve_level_index)

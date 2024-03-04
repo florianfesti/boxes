@@ -1017,18 +1017,30 @@ class Boxes:
 
         self.move(tw, th, move)
 
-    def grip(self, length, depth):
+    def grip(self, length, depth, degrees=0):
         """Corrugated edge useful as a gipping area
 
         :param length: length
         :param depth: depth of the grooves
+        :param degrees: angle of an arc
         """
         grooves = max(int(length // (depth * 2.0)) + 1, 1)
+        degrees_per_groove = degrees
         depth = length / grooves / 4.0
         for groove in range(grooves):
             self.corner(90, depth)
-            self.corner(-180, depth)
+            self.corner(-180 + degrees_per_groove, depth)
             self.corner(90, depth)
+
+    def gripCorner(self, degrees, radius, depth):
+        """Corrugated edge useful as a gipping area around a corner, or for making grippy circles.
+
+        :param degrees: angle
+        :param radius: radius
+        :param depth: depth of the grooves
+        """
+        length = degrees / 360 * 2 * math.pi * radius
+        self.grip(length, depth, degrees)
 
     def _latchHole(self, length):
         """

@@ -23,9 +23,13 @@ class BrickSorter(Boxes):
 
     description = """# Stackable nestable sorting sieve for bricks
     A stackable sorting sieve for bricks, nestable for storage.
-    You will need to export all 5 levels, to get a full sieve. If you feel you do not need the upper levels, just do not export them.
-    x,y,h are the dimensions for the largest sieve, they will be the outer dimensions of the box, the smaller sieves will be nested inside, therefor smaller.
-    Of course 256mm or 384mm (base plate size) are recommended values for x and y, but you can use any value you like."""
+    You will need to export all 5 levels, to get a full sieve.
+    If you feel you do not need the upper levels, just do not export them.
+    x,y,h are the dimensions for the largest sieve,
+    they will be the outer dimensions of the box,
+    the smaller sieves will be nested inside, therefor smaller.
+    Of course 256mm or 384mm (base plate size) are recommended values for x and y,
+    but you can use any value you like."""
 
     ui_group = "Box"
 
@@ -42,6 +46,7 @@ class BrickSorter(Boxes):
     bottom_edge: str = "h"
     level: str
     radius: int
+    wiggle: float
 
     def __init__(self) -> None:
         Boxes.__init__(self)
@@ -65,6 +70,14 @@ class BrickSorter(Boxes):
             help="Radius of the corners of the sieve pattern in mm. Enter 30 for circular holes.",
         )
 
+        self.argparser.add_argument(
+            "--wiggle",
+            action="store",
+            type=float,
+            default=4,
+            help="Wiggle room, that the layers can slide in each other."
+        )
+
     @property
     def _sieve_grid_thickness(self) -> int:
         return self.sieve_sizes[self.level][1]
@@ -79,7 +92,7 @@ class BrickSorter(Boxes):
         return self.h - ((2 * self.thickness + 2) * self._sieve_level_index)
 
     def _xy_after_nesting(self, a: float) -> float:
-        return a - ((2 * self.thickness) * self._sieve_level_index)
+        return a - ((2 * self.thickness + self.wiggle) * self._sieve_level_index)
 
     @property
     def _outer_x_after_nesting(self) -> float:

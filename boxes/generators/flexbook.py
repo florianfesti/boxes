@@ -20,7 +20,11 @@ class FlexBook(Boxes):
 
     ui_group = "FlexBox"
 
-    description = """X is the bottom edge of the book, Y is the book's height, H is its thickness.
+    description = """
+The latch works better if you can get your thumb in the hole, so I recommend swapping out the hexagon
+for an oval (I don't know how to make an oval in this generator).
+
+If you have an enclosure, arrange the living hinge to be as close to your extractor fan as possible.
 
 ![Open](static/samples/FlexBook-2.jpg)"""
 
@@ -28,12 +32,12 @@ class FlexBook(Boxes):
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings)
         self.addSettingsArgs(edges.FlexSettings)
-        self.buildArgParser(x=75.0, y=125.0, h=35.0)
+        self.buildArgParser(x=75.0, y=35.0, h=125.0)
         self.argparser.add_argument(
             "--latchsize", action="store", type=float, default=8,
             help="size of latch in multiples of thickness")
         self.argparser.add_argument(
-            "--recess_wall", action="store", type=boolarg, default=True,
+            "--recess_wall", action="store", type=boolarg, default=False,
             help="Whether to recess the inner wall for easier object removal")
 
 
@@ -299,6 +303,11 @@ class FlexBook(Boxes):
 
 
     def render(self):
+
+        # I found it easier to conceptualize swapping y and h
+        y = self.h
+        self.h = self.y
+        self.y = y
         
         self.radius = self.h / 2
         self.c4 = c4 = math.pi * self.radius * 0.5
@@ -315,14 +324,15 @@ class FlexBook(Boxes):
         self.flexBookSide(self.h, self.x, self.radius, move="up only")
 
         with self.saved_context():
-            self.flexBookLatchBracket(False, move="up rotated")
-            self.flexBookLatchBracket(False, move="up rotated")
-        self.flexBookLatchBracket(False, move="right rotated only")
+            self.flexBookLatchBracket(False, move="up")
+            self.flexBookLatchBracket(False, move="up")
+        self.flexBookLatchBracket(False, move="right only")
 
         with self.saved_context():
-            self.flexBookLatchBracket(True, move="up rotated")
-            self.flexBookLatchBracket(True, move="up rotated")
-        self.flexBookLatchBracket(False, move="right rotated only")
+            self.flexBookLatchBracket(True, move="up")
+            self.flexBookLatchBracket(True, move="up")
+        self.flexBookLatchBracket(False, move="right only")
 
-        self.flexBookLatchPin(move="up")
-        self.flexBookLatchGrip(move="right")
+        self.flexBookLatchGrip(move="right rotated")
+        self.flexBookLatchPin(move="right")
+

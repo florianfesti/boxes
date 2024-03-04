@@ -21,7 +21,7 @@ from collections import OrderedDict
 class BrickSorter(Boxes):
     """Stackable nestable sorting sieve for bricks"""
 
-    description = """# Stackable nestable sorting sieve for bricks
+    description = """## Stackable nestable sorting sieve for bricks
     A stackable sorting sieve for bricks, nestable for storage.
     You will need to export all 5 levels, to get a full sieve.
     If you feel you do not need the upper levels, just do not export them.

@@ -536,6 +536,8 @@ Creation date: {date}
                 continue
             g = ET.SubElement(svg, "g", id=f"p-{i}",
                               style="fill:none;stroke-linecap:round;stroke-linejoin:round;")
+            if part.name:
+                ET.SubElement(g, "title").text = part.name
             g.text = "\n  "
             g.tail = "\n"
             for j, path in enumerate(part.pathes):

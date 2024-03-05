@@ -1217,7 +1217,7 @@ class Boxes:
                     self.moveTo(x, 0)
                     self.ctx.scale(-1, 1)
                 self.moveTo(self.spacing / 2.0, self.spacing / 2.0)
-        self.ctx.new_part()
+        self.ctx.new_part(previous_part_name=label)
 
         return dontdraw
 

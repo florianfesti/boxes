@@ -87,7 +87,17 @@ class Surface:
         for p in self.parts:
             p.transform(f, m, invert_y)
 
-    def new_part(self, name="part"):
+    def new_part(self, name="part", previous_part_name=None):
+        """Insert a new part into the surface; any subsequent drawing commands
+        will be grouped into this part, and the previously active part is
+        closed.
+
+        previous_part_name allows naming the part that is being closed. This
+        allows parts created by the Boxes.move mechanism to obtain their
+        names."""
+        if previous_part_name is not None:
+            assert self.parts, "previous_part_name can not be set for the first part on a surface"
+            self.parts[-1].name = previous_part_name
         if self.parts and len(self.parts[-1].pathes) == 0:
             return self._p
         p = Part(name)
@@ -115,6 +125,7 @@ class Surface:
 
 class Part:
     def __init__(self, name) -> None:
+        self.name: str = name
         self.pathes: list[Any] = []
         self.path: list[Any] = []
 
@@ -402,8 +413,8 @@ class Context:
         # self.stroke()
 
     ## additional methods
-    def new_part(self):
-        self._dwg.new_part()
+    def new_part(self, *args, **kwargs):
+        self._dwg.new_part(*args, **kwargs)
 
 
 class SVGSurface(Surface):

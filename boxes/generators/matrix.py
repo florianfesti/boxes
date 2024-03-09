@@ -12,10 +12,8 @@
 #
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-from typing import Tuple
 
 from boxes import *
-from collections import OrderedDict
 
 
 class Matrix(Boxes):
@@ -28,9 +26,11 @@ class Matrix(Boxes):
     There are several parts to this design:
     - The inner frame to hold the pcb in place
     - The front frame to hold a sandwich of plexiglass, spacer and the pcb
-    - The plexiglass to protect and diffuse the leds. You may add car tint foil to the plexiglass to achieve a black look
+    - The plexiglass to protect and diffuse the leds.
+        You may add car tint foil to the plexiglass to achieve a black look
     - The spacer to keep the plexiglass from touching the leds
-    - The back box with an optional mounting hole. Please add a hole for the power supply and the cables with your favorite svg editor.
+    - The back box with an optional mounting hole. Please add a hole for the power supply
+        and the cables with your favorite svg editor.
     - The side panels with finger joints to hold everything together
 
     Assembly:
@@ -38,9 +38,16 @@ class Matrix(Boxes):
     2. Assemble the frame (side panels and inner frame)
     3. Insert the pcb, the spacers and the plexiglass
     4. Close the front frame
-    5. Insert electronics in the back box (for example a USB C port on the side panel, a esp32 with wled firmware)
+    5. Insert electronics in the back box
+        (for example a USB C port on the side panel, a esp32 with wled firmware)
     6. Close the back box
 
+    The inner frame and spacer should keep everything in place without the need for glue.
+    If you are using multiple modules,
+    you can add the layout parameters, so that the inner frame adjusts accordingly.
+
+    Please Note: if you are creating a large matrix build of multiple individual modules,
+    you need to enter absolut values across all modules for all parameters.
     Please cut the plane labeled "Plexiglass" out of plexiglass :)
     You can use a different thickness for the plexiglass, but make sure to adjust the settings accordingly.
     """
@@ -65,6 +72,9 @@ class Matrix(Boxes):
 
     mounting_holes: bool
     mounting_hole_diameter: float
+
+    matrix_count_x: int
+    matrix_count_y: int
 
     def __init__(self) -> None:
         Boxes.__init__(self)
@@ -166,6 +176,22 @@ class Matrix(Boxes):
             help="Diameter of the mounting holes in mm",
         )
 
+        self.argparser.add_argument(
+            "--matrix_count_x",
+            action="store",
+            type=int,
+            default=1,
+            help="Number of modules in x direction",
+        )
+
+        self.argparser.add_argument(
+            "--matrix_count_y",
+            action="store",
+            type=int,
+            default=1,
+            help="Number of modules in y direction",
+        )
+
         self.buildArgParser()
 
     def draw_frame(self, sizex: int, sizey: int, posx: int, posy: int):
@@ -178,6 +204,22 @@ class Matrix(Boxes):
             center_x=False,
             center_y=False,
         )
+
+    def draw_mount_frame(self):
+        dist_x = self.pysical_led_x + 2 * self.matrix_front_frame_border_offset
+        dist_y = self.pysical_led_y + 2 * self.matrix_front_frame_border_offset
+
+        one_x = dist_x / self.matrix_count_x - 2 * self.matrix_back_frame_border
+        one_y = dist_y / self.matrix_count_y - 2 * self.matrix_back_frame_border
+
+        for i in range(self.matrix_count_x):
+            for j in range(self.matrix_count_y):
+                self.draw_frame(
+                    sizex=one_x,
+                    sizey=one_y,
+                    posx=i * one_x + (2 * i + 1) * self.matrix_back_frame_border,
+                    posy=j * one_y + (2 * j + 1) * self.matrix_back_frame_border,
+                )
 
     def matrix_back_sideholes(self, length: int):
         sandwich_height = (
@@ -323,18 +365,7 @@ class Matrix(Boxes):
             bedBolts=[d2, d3, d2, d3],
             move="right",
             label="matrix mount frame",
-            callback=[
-                lambda: self.draw_frame(
-                    sizex=self.pysical_led_x
-                    + 2 * self.matrix_front_frame_border_offset
-                    - 2 * self.matrix_back_frame_border,
-                    sizey=self.pysical_led_y
-                    + 2 * self.matrix_front_frame_border_offset
-                    - 2 * self.matrix_back_frame_border,
-                    posx=self.matrix_back_frame_border,
-                    posy=self.matrix_back_frame_border,
-                )
-            ],
+            callback=[self.draw_mount_frame],
         )
 
         self.rectangularWall(

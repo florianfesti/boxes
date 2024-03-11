@@ -35,11 +35,11 @@ class Formats:
         "svg_Ponoko": None,
         "ps": None,
         "lbrn2": None,
-        "dxf": "{pstoedit} -flat 0.1 -f dxf:-mm {input} -",
-        "gcode": "{pstoedit} -f gcode {input} -",
-        "plt": "{pstoedit} -f hpgl {input} -",
+        "dxf": "{pstoedit} -flat 0.1 -f dxf:-mm {input} {output}",
+        "gcode": "{pstoedit} -f gcode {input} {output}",
+        "plt": "{pstoedit} -f hpgl {input} {output}",
         # "ai": "{pstoedit} -f ps2ai",
-        "pdf": "{ps2pdf} -dEPSCrop - -",
+        "pdf": "{ps2pdf} -dEPSCrop {input} {output}",
     }
 
     http_headers = {
@@ -83,23 +83,24 @@ class Formats:
     def convert(self, data, fmt):
 
         if fmt not in self._BASE_FORMATS:
-            tmpfile = ""
-            if fmt in ("dxf", "gcode", "plt"):
-                fd, tmpfile = tempfile.mkstemp()
-                os.write(fd, data.getvalue())
-                input_ = None
-            else:
-                input_ = data.getvalue()
+            fd, tmpfile = tempfile.mkstemp()
+            os.write(fd, data.getvalue())
+            os.close(fd)
+            fd2, outfile = tempfile.mkstemp()
 
             cmd = self.formats[fmt].format(
                 pstoedit=self.pstoedit,
                 ps2pdf=self.ps2pdf,
-                input=tmpfile).split()
+                input=tmpfile,
+                output=outfile).split()
 
-            result = subprocess.run(cmd, input=input_, capture_output=True)
+            result = subprocess.run(cmd)
+            os.unlink(tmpfile)
             if result.returncode:
                 # XXX show stderr output
                 raise ValueError("Conversion failed. pstoedit returned %i\n\n %s" % (result.returncode, result.stderr))
-            data = io.BytesIO(result.stdout)
+            data = open(outfile, 'rb')
+            os.unlink(outfile)
+            os.close(fd2)
 
         return data

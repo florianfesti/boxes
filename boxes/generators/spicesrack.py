@@ -15,6 +15,7 @@
 
 from boxes import *
 
+
 class FrontEdge(edges.Edge):
 
     def __call__(self, length, **kw):
@@ -30,7 +31,7 @@ class FrontEdge(edges.Edge):
 
     def margin(self) -> float:
         return self.edge_width
-                
+
 class SpicesRack(Boxes):
     """Rack for cans of spices"""
 
@@ -44,7 +45,7 @@ class SpicesRack(Boxes):
         self.argparser.add_argument(
             "--diameter",  action="store", type=float, default=55.,
             help="diameter of spice cans")
-        
+
         self.argparser.add_argument(
             "--height",  action="store", type=float, default=60.,
             help="height of the cans that needs to be supported")
@@ -99,7 +100,7 @@ class SpicesRack(Boxes):
         a = self.base_angle
         l = self.hole_length
         self.moveTo(0, self.hole_distance)
-        
+
         with self.saved_context():
             self.ctx.scale(1, l/self.base_h)
             self.moveTo(self.space/2, 0, 90)
@@ -148,9 +149,9 @@ class SpicesRack(Boxes):
 
         width = self.hole_distance + self.hole_length + self.space/2
         inner_width = self.hole_distance + self.hole_length/3
-        
+
         self.edge_width = width - inner_width
-        
+
         for i in range(self.numy):
             self.rectangularWall(x, inner_width,[
                 "f", "e", FrontEdge(self, self), "e"],
@@ -170,4 +171,3 @@ class SpicesRack(Boxes):
         if self.feet:
             self.partsMatrix(self.numx-1, self.numx-1, "up",
                              self.foot, width, (self.h-t)/2)
-            

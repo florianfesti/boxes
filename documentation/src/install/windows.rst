@@ -32,7 +32,7 @@ Following steps are known to work under Windows 10/11 (64-bit):
 3.  Run the command :code:`pip install Markdown affine shapely qrcode`
     (Note: If the command pip is not found, you probably forgot to add the
     Python installation to the PATH environment variable in step 2)
-	       
+
 4.  Download Boxes.py as ZIP archive from GitHub
 
     .. figure:: windows_browser_download_boxespy.png

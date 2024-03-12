@@ -15,6 +15,7 @@
 
 from boxes import *
 
+
 class Console2(Boxes):
     """Console with slanted panel and service hatches"""
 
@@ -98,7 +99,7 @@ To remove the panel you have to press in the four tabs at the side. It is easies
 
         if self.move(tw, th, move, True):
             return
-        
+
         self.moveTo(0, 1.2*t)
         self.polyline(t, -90, .2*t, 90, 2*t, -90, t, 90, t, 90, t, -90, 3*t,
                       90, t, -90, t, 90, t, 90, 2*t, 90, 0.5*t,
@@ -193,7 +194,7 @@ To remove the panel you have to press in the four tabs at the side. It is easies
 
         t = self.thickness
         bottom = self.edges.get(bottom, bottom)
-        
+
         tw =  borders[0] + 2* self.edges["f"].spacing()
         th = borders[-2] + bottom.spacing() + self.edges["f"].spacing()
         if self.move(tw, th, move, True):
@@ -201,7 +202,7 @@ To remove the panel you have to press in the four tabs at the side. It is easies
 
         d1 = t * math.cos(math.radians(self.angle))
         d2 = t * math.sin(math.radians(self.angle))
-        
+
         self.moveTo(t, 0)
         bottom(borders[0])
         self.corner(90)
@@ -228,9 +229,9 @@ To remove the panel you have to press in the four tabs at the side. It is easies
         else:
             self.edges["f"](borders[-2]+bottom.startwidth())
         self.corner(borders[-1])
-        
+
         self.move(tw, th, move, label=label)
-        
+
     def render(self):
         x, y, h = self.x, self.y, self.h
         t = self.thickness

@@ -20,7 +20,7 @@ class Parts:
             return
         self.moveTo(size/2, size/2)
         self.cc(callback, None, 0, 0)
-        
+
         self.move(size, size, move)
     """
 

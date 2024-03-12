@@ -78,11 +78,11 @@ class Hook(Boxes):
         self.hole(x_h, y1, d=3)
         self.hole(x_h, y2, d=3)
         self.hole(x_h, y3, d=3)
-        
+
 
     @property
     def height_back(self):
-        
+
         return self.strength + self.height + self.h_a
 
     @property

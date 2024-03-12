@@ -1,9 +1,11 @@
 from __future__ import annotations
+
 import math
 from typing import Any
 
 from boxes import Boxes, edges
-from .edges import Settings, BaseEdge
+
+from .edges import BaseEdge, Settings
 
 
 class _WallMountedBox(Boxes):

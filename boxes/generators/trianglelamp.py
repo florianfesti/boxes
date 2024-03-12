@@ -15,9 +15,10 @@
 
 from boxes import *
 
+
 class CornerEdge(edges.Edge):
     char = "C"
-    
+
     def startwidth(self) -> float:
         return self.boxes.thickness * math.tan(math.radians(90-22.5))
 
@@ -30,7 +31,7 @@ class CornerEdge(edges.Edge):
             self.ctx.stroke()
             self.set_source_color(Color.BLACK)
         super().__call__(length, bedBolts=None, bedBoltSettings=None, **kw)
-    
+
 
 class TriangleLamp(Boxes):
     """Triangle LED Lamp"""
@@ -104,7 +105,7 @@ class TriangleLamp(Boxes):
         self.rectangularWall(l, h, "F"+C+"e" + C,
                              callback=[self.CB(l, c*2**.5)], move="up")
 
-        
+
         self.rectangularTriangle(c, c, "ffe", num=2, move="right", callback=[
             lambda:self.hole(2/3.*c,1/3.*c, r1)])
         self.rectangularTriangle(c, c, "fef", num=4, move="up", callback=[

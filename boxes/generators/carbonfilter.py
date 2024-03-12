@@ -15,6 +15,7 @@
 
 from boxes import *
 
+
 class CarbonFilter(Boxes):
     """Compact filter for activated char coal pellets"""
 
@@ -63,15 +64,15 @@ The last two types of ribs do not have finger joints on the outside but still ne
 
         self.fingerHolesAt(t/2, h, 50, -90)
         self.fingerHolesAt(x-t/2, h, 50, -90)
-        
+
         for i in range(p):
             self.fingerHolesAt(posx + t/2, h, 50, -90+a)
             self.fingerHolesAt(posx + 40 + t/2, h, 50, -90+a)
-            self.fingerHolesAt(posx + w - t/2, h, 50, -90-a)            
+            self.fingerHolesAt(posx + w - t/2, h, 50, -90-a)
             self.fingerHolesAt(posx + w - 40 - t/2, h, 50, -90-a)
 
             self.fingerHolesAt(posx + w/2 -50 + t, 3.5*t, 100 - 2*t, 0)
-            
+
             posx += w
 
     def bottomCB(self):
@@ -87,7 +88,7 @@ The last two types of ribs do not have finger joints on the outside but still ne
         for i in range(self.ribs):
             self.fingerHolesAt((i+1) * self.y / (self.ribs + 1) - 1.5 * t,
                                0, 30, 90)
-            
+
     def innerRibs(self, n, move=None):
 
         x, y, h = self.x, self.y, self.h
@@ -102,7 +103,7 @@ The last two types of ribs do not have finger joints on the outside but still ne
 
         if self.move(tw, th, move, True):
             return
-        
+
         self.moveTo(0, t)
 
         for i in range(n):
@@ -114,7 +115,7 @@ The last two types of ribs do not have finger joints on the outside but still ne
 
             self.moveTo(20 + self.spacing)
             self.ctx.stroke()
-        
+
         self.move(tw, th, move, label="Inner ribs")
 
     def sideHolders(self, n, move=None):
@@ -181,7 +182,7 @@ The last two types of ribs do not have finger joints on the outside but still ne
             return
 
         self.moveTo(2*t)
-        
+
         for i in range(n):
             self.polyline(0*t + 20, (90, 2*t), 2*t, -a)
             if i < n_edge:
@@ -201,15 +202,15 @@ The last two types of ribs do not have finger joints on the outside but still ne
             self.ctx.stroke()
 
         self.move(tw, th, move, label="Outer ribs")
-        
+
     def render(self):
         # adjust to the variables you want in the local scope
         x, y, h = self.x, self.y, self.h
 
         self.y = y = self.adjustSize(y)
-        
+
         t = self.thickness
-        
+
         self.w = (x - 2*t) / self.pockets
         self.a = math.degrees(math.atan((self.w - 100) / 2 / (h - 4*t)))
 

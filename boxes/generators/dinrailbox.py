@@ -39,7 +39,7 @@ class DinRailEdge(edges.FingerHoleEdge):
                       w+0.25,
                       -90, 1, 30, 5*2*3**-.5, 60, (l-w)/2+o-3.25)
 
-        
+
 class DinRailBox(Boxes):
     """Box for DIN rail used in electrical junction boxes"""
 
@@ -60,7 +60,7 @@ class DinRailBox(Boxes):
                       4+1.25, 90, 4.5, -90, t+4, -90, 2, 90, l-.8*t-9, 90, 2, -90, 5+t, 90, 4, 90)
 
         self.move(tw, th, move)
-        
+
     def __init__(self) -> None:
         Boxes.__init__(self)
 
@@ -113,7 +113,7 @@ class DinRailBox(Boxes):
             lambda:self.fingerHolesAt(.55*t, .05*t, y-.1*t, 90), None,
             lambda:self.fingerHolesAt(.55*t, .05*t, y-.1*t, 90), None],
             move="right", label="Lid")
-        
+
         self.lid_lip(y-.1*t, move="rotated right")
         self.lid_lip(y-.1*t, move="rotated right")
 

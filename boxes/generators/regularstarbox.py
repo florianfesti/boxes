@@ -30,9 +30,9 @@ class SlotEdge(edges.Edge):
         lo = (length-li-2*ls1)/2
 
         li = li - 2*ls2 # correct for overlap of wall
-        
+
         d = h/2
-        
+
         if li > 0:
             poly = [lo-1, (90, 1), d+t-1, -90, ls1+ls2, -90, d-t, (90, t)]
         self.polyline(*(poly + [li-2*t] + list(reversed(poly))))

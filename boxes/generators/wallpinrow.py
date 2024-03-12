@@ -16,6 +16,7 @@
 from boxes import *
 from boxes.walledges import _WallMountedBox
 
+
 class PinEdge(edges.BaseEdge):
     def __call__(self, length, **kw):
         w2 = self.settings.pinwidth/2
@@ -23,7 +24,7 @@ class PinEdge(edges.BaseEdge):
         s = self.settings.pinspacing
         inc = self.settings.pinspacing_increment
         t = self.settings.thickness
-        
+
         pin = [0, -90, l+t-w2, (180, w2), l+t-w2, -90]
 
         self.edge(s/2-w2)
@@ -67,7 +68,7 @@ class WallPinRow(_WallMountedBox):
         self.argparser.add_argument(
             "--h",  action="store", type=float, default=50.0,
             help="height of the front plate (in mm) - needs to be at least 7 time the thickness")
-        
+
     def frontCB(self):
         s = self.pinspacing
         inc = self.pinspacing_increment
@@ -83,7 +84,7 @@ class WallPinRow(_WallMountedBox):
         for i in range(1, self.hooks-1):
             self.fingerHolesAt(i*self.x/(self.hooks-1), self.h/2, self.h/2)
 
-            
+
     def backCB(self):
         t = self.thickness
         self.fingerHolesAt(0, 2*t, self.x, 0)
@@ -99,14 +100,14 @@ class WallPinRow(_WallMountedBox):
         t = self.thickness
 
         sh = math.sin(ar)*6*t + math.cos(ar)*h
-        
+
         tw = self.edges["a"].margin() + math.sin(ar)*h + math.cos(ar)*6*t
         th = sh + 6
         if self.move(tw, th, move, True):
             return
 
         self.moveTo(self.edges["a"].margin())
-        
+
         self.polyline(math.sin(ar)*h, a, 4*t)
         self.fingerHolesAt(-3.5*t, 0, h/2, 90)
         self.edgeCorner("e", "h")
@@ -114,10 +115,10 @@ class WallPinRow(_WallMountedBox):
         self.polyline(0, 90-a, math.cos(ar)*6*t, 90)
         self.edges["a"](sh)
         self.corner(90)
-        
+
         self.move(tw, th, move)
 
-        
+
     def supportWall(self, move=None):
         a = self.angle
         ar = math.radians(a)
@@ -125,7 +126,7 @@ class WallPinRow(_WallMountedBox):
         t = self.thickness
 
         sh = math.sin(ar)*6*t + math.cos(ar)*h
-        
+
         tw = self.edges["a"].margin() + max(
             math.sin(ar)*h/2 + math.cos(ar)*5*t,
             math.sin(ar)*h)
@@ -148,10 +149,10 @@ class WallPinRow(_WallMountedBox):
         else:
             self.edges["a"](h/2)
         self.corner(90)
-        
+
         self.move(tw, th, move)
-        
-            
+
+
     def render(self):
         self.generateWallEdges()
 

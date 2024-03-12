@@ -48,7 +48,7 @@ A set of instances are kept in the ``.edges`` attribute of the
 * m : LidLeft
 * N : LidSideRight
 * n : LidRight
-* Oo : ChestHinge 
+* Oo : ChestHinge
 * Pp : ChestHingeTop
 * Q : ChestHingeFront
 * q : ChestHingePin
@@ -155,7 +155,7 @@ Dovetail Settings
 
 .. autoclass:: boxes.edges.DoveTailSettings
 	                      :members:
-				 
+
 Flex
 ----
 .. autoclass:: boxes.edges.FlexEdge
@@ -173,7 +173,7 @@ Slots
 CompoundEdge
 ------------
 .. autoclass:: boxes.edges.CompoundEdge
-	       
+
 Hinges
 ------
 

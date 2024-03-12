@@ -15,9 +15,10 @@
 
 from boxes import *
 
+
 class WaivyKnob(Boxes):
     """Round knob serrated outside for better gripping"""
-    
+
     ui_group = "Part"
 
     def __init__(self) -> None:
@@ -54,5 +55,3 @@ class WaivyKnob(Boxes):
                              callback=lambda: self.nutHole(self.hexhead),
                              move="right")
         self.parts.waivyKnob(self.diameter, self.serrations, angle)
-
-

@@ -15,11 +15,12 @@
 
 from boxes import *
 
+
 class RollHolder(Boxes):
     """Holder for kitchen rolls or other rolls"""
 
     description = """Needs a dowel or pipe as axle."""
-    
+
     ui_group = "WallMounted"
 
     def __init__(self) -> None:
@@ -69,7 +70,7 @@ class RollHolder(Boxes):
         self.edge(((h-2*r)**2+(d/2)**2)**0.5)
         self.corner(90-alpha, r)
         self.corner(90)
-        
+
         self.move(tw, th, move)
 
     def backCB(self):
@@ -79,7 +80,7 @@ class RollHolder(Boxes):
         w = self.width
 
         plate = w + 2*t + h/2 if self.one_piece else h/2 + t
-        
+
         self.fingerHolesAt(h/4+t/2-3*t, 0, h, 90)
         self.fingerHolesAt(h/4-3*t, h-3*t-a/2, h/4, 180)
 
@@ -95,14 +96,14 @@ class RollHolder(Boxes):
         a = self.axle
         r = a/2
         t = self.thickness
-        
+
         self.moveTo(0, a+1.5*t, -90)
         for i in range(2):
             self.polyline(r-1.5*t, (180, r+3*t), 0, (180, 1.5*t), 0,
                           (-180, r), r-1.5*t, (180, 1.5*t))
             self.moveTo(a-t, a+12*t, 180)
-                          
-                      
+
+
     def render(self):
         t = self.thickness
         w = self.width

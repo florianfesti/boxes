@@ -84,7 +84,7 @@ class Servo9g(Servo):
     width = 12.0
     axle_pos = 6.0
     servo_axle = 4.6 # 6.9 for servo arm
-    
+
     def top(self, x=0.0, y=0.0, angle=90.0):
         self.boxes.moveTo(x, y, angle)
         self.boxes.hole(6, 0, 6)

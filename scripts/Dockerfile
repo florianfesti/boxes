@@ -5,7 +5,7 @@
 
 # Build with
 #  docker build -t boxes.py .
-# Run with 
+# Run with
 #  docker run -ti -p 4000:8000 boxes.py
 # to get the web interface at localhost:4000
 # First access may take a while as the Python files need to be complied

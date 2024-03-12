@@ -15,6 +15,7 @@
 
 from boxes import *
 
+
 class AllEdges(Boxes):
     """Showing all edge types"""
 
@@ -42,7 +43,7 @@ class AllEdges(Boxes):
         chars.reverse()
 
         self.moveTo(0, 10*t)
-        
+
         for c in chars:
             with self.saved_context():
                 self.move(0, 0, "", True)
@@ -57,4 +58,3 @@ class AllEdges(Boxes):
             self.moveTo(0, 3*t + self.edges[c].spacing())
             self.text(f"{c} - {self.edges[c].description}")
             self.moveTo(0, 12*t)
-

@@ -15,6 +15,7 @@
 
 from boxes import *
 
+
 class NemaMount(Boxes):
     """Mounting bracket for a Nema motor"""
 
@@ -51,4 +52,3 @@ class NemaMount(Boxes):
         self.fingerHolesAt(0.5*t, t, x, 90)
         self.fingerHolesAt(1.5*t+x, t, x, 90)
         self.fingerHolesAt(t, 0.5*t, x, 0)
-

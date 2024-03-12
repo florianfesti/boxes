@@ -15,6 +15,7 @@
 
 from boxes.walledges import _WallMountedBox
 
+
 class WallEdges(_WallMountedBox):
     """Shows the different edge types for wall systems"""
 

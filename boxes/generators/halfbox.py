@@ -15,6 +15,7 @@
 
 from boxes import *
 
+
 class HalfBox(Boxes):
     """Configurable half of a box which can be: a bookend, a hanging shelf, an angle clamping jig, ..."""
 
@@ -45,16 +46,16 @@ and many more...
         self.argparser.add_argument("--ClampingSize",   action="store", type=float, default=25.0, help="diameter of clamping holes")
         self.argparser.add_argument("--Mounting",  action="store", type=boolarg, default=False, help="add mounting holes")
         self.argparser.add_argument("--Sturdy",  action="store", type=boolarg, default=False, help="create sturdy construction (e.g. shelf, clamping jig, ...)")
-            
+
     def polygonWallExt(self, borders, edge="f", turtle=False, callback=None, move=None):
-        # extended polygon wall. 
+        # extended polygon wall.
         # same as polygonWall, but with extended border parameters
         # each border dataset consists of
         #   length
         #   turn angle
         #   radius of turn (without radius correction)
         #   edge type
-        
+
         for i in range(0, len(borders), 4):
             self.cc(callback, i)
             length = borders[i]
@@ -81,19 +82,19 @@ and many more...
         for y in reversed(self.sy[1:]):
             posy += y + self.thickness
             self.fingerHolesAt(posy, 0, self.h)
-        
+
     def render(self):
         # adjust to the variables you want in the local scope
-            
+
         x, h = self.x, self.h
         d = self.ClampingSize
         t = self.thickness
-        
+
         # triangle with sides: x (horizontal), h (upwards) and l
         # angles: 90° between x & h
         #           b between h & l
         #           c between l & x
-                
+
         l = math.sqrt(x * x + h * h)
         b = math.degrees(math.asin(x / l))
         c = math.degrees(math.asin(h / l))
@@ -104,22 +105,22 @@ and many more...
             if 90 + b + c < 179:
                 c = 180 - c
 
-        # small triangle top: 2*t, h1, l1        
+        # small triangle top: 2*t, h1, l1
         h1 = (2*t)/x*h
         l1 = (2*t)/x*l
 
-        # small triangle left: x2, 2*t, l2        
+        # small triangle left: x2, 2*t, l2
         x2 = (2*t)/h*x
         l2 = (2*t)/h*l
-        
+
         # render your parts here
-    
+
         if self.Sturdy:
             width = sum(self.sy) + (len(self.sy) - 1) * t
             self.rectangularWall(x, width, "fffe", callback=[None, self.xHoles, None, None], move="right", label="bottom")
             self.rectangularWall(h, width, "fGfF" if self.Mounting else "fefF", callback=[None, None, None, self.hHoles], move="up", label="back")
             self.rectangularWall(x, width, "fffe", callback=[None, self.xHoles, None, None], move="left only", label="invisible")
-            
+
             for i in range(2):
                 self.move(x+x2+2*t + self.edges["f"].margin(), h+h1+2*t + self.edges["f"].margin(), "right", True, label="side " + str(i))
                 self.polygonWallExt(borders=[x2, 0, 0, "e", x, 0, 0, "h",2*t, 90, 0, "e", 2*t, 0, 0, "e", h, 0, 0, "h",h1, 180-b, 0, "e", l+l1+l2, 180-c, 0, "e"])

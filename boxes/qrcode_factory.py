@@ -1,6 +1,8 @@
 from decimal import Decimal
+
 import qrcode.image.base
 import qrcode.image.svg
+
 
 class BoxesQrCodeFactory(qrcode.image.base.BaseImage):
     """

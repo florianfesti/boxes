@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import importlib
 import inspect
-import pkgutil
 import os
+import pkgutil
 from types import ModuleType
 from typing import Any
 

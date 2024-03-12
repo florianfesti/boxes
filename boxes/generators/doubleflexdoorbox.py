@@ -54,7 +54,7 @@ class DoubleFlexDoorBox(boxes.Boxes):
         self.latch(self.latchsize)
         self.latch(self.latchsize, reverse=True)
         self.edge(ll)
-        
+
         self.corner(90, r)
         self.cc(callback, 3)
         self.edges["f"](y - 2 * r)

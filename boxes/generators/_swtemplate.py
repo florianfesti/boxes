@@ -17,6 +17,7 @@
 
 from boxes import *
 
+
 class SlatwallXXX(Boxes): # Change class name!
     """DESCRIPTION"""
 

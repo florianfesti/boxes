@@ -1,6 +1,7 @@
 """Generator for a split atreus keyboard."""
 
 from boxes import Boxes, restore
+
 from .keyboard import Keyboard
 
 

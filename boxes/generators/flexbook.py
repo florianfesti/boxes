@@ -15,6 +15,7 @@
 
 from boxes import *
 
+
 class FlexBook(Boxes):
     """Box with living hinge styled after a book."""
 
@@ -65,7 +66,7 @@ If you have an enclosure, arrange the living hinge to be as close to your extrac
 
         if self.move(tw, th, move, True):
             return
-        
+
         # TODO: figure out math for gentler angles
         cutout_radius = min(h/4, y/8)
         cutout_angle = 90
@@ -95,9 +96,9 @@ If you have an enclosure, arrange the living hinge to be as close to your extrac
         else :
             self.edges["e"](y)
         self.corner(90)
-        
+
         self.move(tw, th, move)
-    
+
 
     def flexBookLatchWall(self, h, y, latchSize, callback=None, move=None):
         t = self.thickness
@@ -122,7 +123,7 @@ If you have an enclosure, arrange the living hinge to be as close to your extrac
         self.corner(90)
 
         self.rectangularHole(y/2, -1.5*t, latchSize - 2*t, t)
-        
+
         self.polyline(
             (y-latchSize) / 2,
             -90,
@@ -149,7 +150,7 @@ If you have an enclosure, arrange the living hinge to be as close to your extrac
 
         if self.move(tw, th, move, True):
             return
-        
+
         self.moveTo(2*t, 0)
 
         self.edges["h"](x+t)
@@ -181,7 +182,7 @@ If you have an enclosure, arrange the living hinge to be as close to your extrac
             self.corner(90)
             self.edges["e"](y)
             self.corner(90)
-        
+
             self.edges["e"](x)
             self.corner(90)
             self.edges["e"](y)
@@ -200,7 +201,7 @@ If you have an enclosure, arrange the living hinge to be as close to your extrac
         tw, th = 5*t, 5.5*t
         if self.move(tw, th, move, True):
             return
-        
+
         if isCover:
             self.edge(5*t)
         else:
@@ -215,7 +216,7 @@ If you have an enclosure, arrange the living hinge to be as close to your extrac
             self.edge(2*t - round)
             self.corner(90)
             self.edge(t)
-        
+
         self.corner(90)
         self.edge(3*t)
         self.corner(180, 2.5 * t)
@@ -228,7 +229,7 @@ If you have an enclosure, arrange the living hinge to be as close to your extrac
             self.rectangularWall(t, 2*t)
 
         self.move(tw, th, move)
-    
+
     def flexBookLatchPin(self, move=None):
         t = self.thickness
         l = self.latchsize
@@ -237,7 +238,7 @@ If you have an enclosure, arrange the living hinge to be as close to your extrac
 
         if self.move(tw, th, move, True):
             return
-    
+
         round = t/3
 
         self.moveTo(2*t, 0)
@@ -269,7 +270,7 @@ If you have an enclosure, arrange the living hinge to be as close to your extrac
             90)
         self.move(tw, th, move)
 
-    
+
 
 
     def render(self):
@@ -279,7 +280,7 @@ If you have an enclosure, arrange the living hinge to be as close to your extrac
         self.h = self.y
         self.y = y
         t = self.thickness
-        
+
         self.radius = self.h / 2
         self.c4 = c4 = math.pi * self.radius * 0.5
 
@@ -310,4 +311,3 @@ If you have an enclosure, arrange the living hinge to be as close to your extrac
             callback=[lambda: self.rectangularHole(2*t, l/2, 2.5*t, .8*l, r=2*t)],
             move="right")
         self.flexBookLatchPin(move="right")
-

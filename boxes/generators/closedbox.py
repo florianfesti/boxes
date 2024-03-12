@@ -55,6 +55,3 @@ See BasedBox for variant with a base."""
 
         self.rectangularWall(x, y, "ffff", bedBolts=[d2, d3, d2, d3], move="right", label="Top")
         self.rectangularWall(x, y, "ffff", bedBolts=[d2, d3, d2, d3], label="Bottom")
-
-
-

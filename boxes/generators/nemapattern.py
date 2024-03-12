@@ -15,6 +15,7 @@
 
 from boxes import *
 
+
 class NemaPattern(Boxes):
     """Mounting holes for a Nema motor"""
 

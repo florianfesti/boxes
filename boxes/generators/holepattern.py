@@ -60,7 +60,7 @@ class HolePattern(Boxes):
                       (d2*x, y), (d*x, y), (0, d2*y), (0, d*y)]
         else: # "rectangle"
             border = [(0, 0), (x, 0), (x, y), (0, y)]
-    
+
         self.fillHoles(
             pattern=self.fillHoles_fill_pattern,
             border=border,

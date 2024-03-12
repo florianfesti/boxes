@@ -40,7 +40,7 @@ class OrganPipe(Boxes): # Change class name!
     def getRadius(self, pitch, octave, intonation):
         steps = pitches.index(pitch) + (octave-2)*12 + intonation
         return 0.5 * 0.15555 * 0.957458**steps
-    
+
     def getAirSpeed(self, wind_pressure, air_density=1.2):
         return (2.0 * (wind_pressure / air_density))**.5
 
@@ -49,7 +49,7 @@ class OrganPipe(Boxes): # Change class name!
 
         self.addSettingsArgs(edges.FingerJointSettings, finger=3.0, space=3.0,
                              surroundingspaces=1.0)
-        
+
         """
     air_temperature: f64,
 """
@@ -90,7 +90,7 @@ class OrganPipe(Boxes): # Change class name!
         f = self.getFrequency(self.pitch, self.octave, 440)
 
         self.windpressure *= pressure_units.get(self.windpressure_units, 1.0)
-        
+
         speed_of_sound = 343.6 # XXX util::speed_of_sound(self.air_temperature); // in m/s
         air_density = 1.2
         air_speed = self.getAirSpeed(self.windpressure, air_density)
@@ -124,11 +124,11 @@ class OrganPipe(Boxes): # Change class name!
         air_hole_diameter = 2.0 * ((mouth_width * jet_thickness * 10.0)**.5 / pi)
 
         total_length = resonator_length + base_length
-        
+
 
         e = ["f", "e",
              edges.CompoundEdge(self, "fef", (resonator_length - mouth_height - 10*t, mouth_height + 10*t, base_length)), "f"]
-        
+
         self.rectangularWall(total_length, pipe_depth, e, callback=[
             lambda: self.fingerHolesAt(base_length-0.5*t, 0, pipe_depth-jet_thickness)],
                              move="up")
@@ -145,4 +145,3 @@ class OrganPipe(Boxes): # Change class name!
         self.rectangularWall(mouth_width, pipe_depth, "fFfF", callback=[
             lambda:self.hole(mouth_width/2, pipe_depth/2, d=air_hole_diameter)], move="right")
         self.rectangularWall(mouth_width, pipe_depth - jet_thickness, "ffef", move="right")
-

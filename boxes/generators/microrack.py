@@ -13,7 +13,7 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from boxes import Boxes, edges, boolarg
+from boxes import Boxes, boolarg, edges
 
 
 class SBCMicroRack(Boxes):
@@ -137,7 +137,7 @@ class SBCMicroRack(Boxes):
         t = self.thickness
         x = self.x
         w = x + self.hole_dist_edge * 2
-        height_per = self.clearance_z + t 
+        height_per = self.clearance_z + t
         usb_height = self.netusb_z
         usb_width = self.netusb_x
         for i in range(self.sbcs):
@@ -197,4 +197,3 @@ class SBCMicroRack(Boxes):
                                  "efef",
                                  callback=[self.paint_mounting_holes],
                                  move="up")
-

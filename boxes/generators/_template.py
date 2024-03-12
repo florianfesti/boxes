@@ -15,6 +15,7 @@
 
 from boxes import *
 
+
 class BOX(Boxes): # Change class name!
     """DESCRIPTION"""
 
@@ -58,4 +59,3 @@ class BOX(Boxes): # Change class name!
         self.addPart(p)
 
         # render your parts here
-

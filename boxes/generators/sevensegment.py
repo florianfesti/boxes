@@ -15,6 +15,7 @@
 
 from boxes import *
 
+
 class SevenSegmentPattern(Boxes):
     """Holepatterns and walls for a seven segment digit"""
 
@@ -50,7 +51,7 @@ class SevenSegmentPattern(Boxes):
         width = l + 2*w + d # 0.55 * x
 
         #self.rectangularHole(width/2, x/2, width, x)
-        
+
         for px in [w/2 + d/2 , w/2 + l + 1.5*d]:
             for py in [w + d/2, w + l + 1.5*d]:
                 with self.saved_context():

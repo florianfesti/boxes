@@ -45,22 +45,22 @@ class Rack19Box(Boxes):
         t = self.thickness
         self.fingerHolesAt(0, self.h-1.5*t, self.triangle, 0)
         self.fingerHolesAt(self.x, self.h-1.5*t, self.triangle, 180)
-        
+
     def wallxfCB(self): # front
         t = self.thickness
         for x in (8.5, self.x+2*17.+2*t-8.5):
             for y in (6., self.h-6.+t):
                 self.rectangularHole(x, y, 10, 6.5, r=3.25)
-        
+
         self.moveTo(t+17., t)
         self.wallxCB()
-        
+
     def wallyCB(self):
         t = self.thickness
         self.fingerHolesAt(0, self.h-1.5*t, self.triangle, 0)
         self.fingerHolesAt(self.y, self.h-1.5*t, self.triangle, 180)
-        
-        
+
+
     def _render(self, type):
 
         t = self.thickness

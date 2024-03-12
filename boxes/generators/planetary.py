@@ -99,6 +99,3 @@ class Planetary(Boxes):
             self.gears(teeth=self.planetteeth, dimension=self.modulus,
                        angle=pressure_angle,
                        mount_hole=self.shaft, profile_shift=profile_shift, move="up")
-
-
-

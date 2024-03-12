@@ -1,5 +1,6 @@
 from boxes import *
 
+
 class SlidingDrawer(Boxes):
     """Sliding drawer box"""
 
@@ -47,4 +48,3 @@ class SlidingDrawer(Boxes):
         self.rectangularWall(y, h, "fffe", label="out box wall", move="up left")
 
         self.rectangularWall(x, h, "fFfF", label="out box wall")
-

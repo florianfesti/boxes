@@ -15,6 +15,7 @@
 
 from boxes import *
 
+
 class LaserClamp(Boxes):
     """A clamp to hold down material to a knife table"""
 
@@ -74,7 +75,7 @@ parts sliding on each other to reduce friction.
         else:
             self.polyline(6*t)
         self.polyline(4*t, (90, 2*t), 3*t, 135, 2*ls, 45, 1*t, -90, 6*t, -90)
-        
+
         self.polyline(h_min, (90, t), 2*t, (90, t),
                       h_min+h_extra-0*t, (-90, t), t, (180, t),
                       0, 90, 0, (-180, 0.5*t), 0 , 90)
@@ -87,7 +88,7 @@ parts sliding on each other to reduce friction.
 
         if h_extra and h_extra < 2*t:
             h_extra = 2*t
-        
+
         self.topPart(h_max+h_extra, move="right")
         self.bottomPart(h_min, h_extra, move="right")
         self.roundedPlate(4*t, h_min+h_extra+4*t, edge="e", r=t,

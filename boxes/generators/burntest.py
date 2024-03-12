@@ -15,6 +15,7 @@
 
 from boxes import *
 
+
 class BurnTest(Boxes):
     """Test different burn values"""
     description = """This generator will make shapes that you can use to select
@@ -49,19 +50,19 @@ See also LBeam that can serve as compact BurnTest and FlexTest for testing flex 
     def render(self):
         x, s = self.x, self.step
         t = self.thickness
-        
+
         fsize = 12.5 * self.x / 100 if self.x < 81 else 10
 
         self.moveTo(t, t)
 
         for cnt in range(self.pairs):
-            
+
             for i in range(4):
                 self.text("%.3fmm" % self.burn, x/2, t, fontsize = fsize, align="center", color=Color.ETCHING)
                 self.edges["f"](x)
                 self.corner(90)
                 self.burn += s
-                
+
             self.burn -= 4*s
 
             self.moveTo(x+2*t+self.spacing, -t)

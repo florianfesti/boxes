@@ -14,7 +14,7 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
-from boxes.lids import _TopEdge, LidSettings
+from boxes.lids import LidSettings, _TopEdge
 
 
 class UBox(_TopEdge):
@@ -81,7 +81,7 @@ class UBox(_TopEdge):
             self.edgeCorner("F", e[nr])
             e[nr](h)
             self.edgeCorner(e[nr], "F")
-        
+
         self.move(tw, th, move, label=label)
 
     def render(self):
@@ -99,5 +99,3 @@ class UBox(_TopEdge):
 
         self.drawLid(x, h, self.top_edge)
         self.lid(x, h, self.top_edge)
-
-

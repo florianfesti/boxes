@@ -15,9 +15,9 @@ Options:
   --list        List available generators.
 """
 
+import gettext
 import os
 import sys
-import gettext
 
 try:
     import boxes

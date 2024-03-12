@@ -17,6 +17,7 @@ from boxes import *
 from boxes import lids
 from boxes.edges import CompoundEdge
 
+
 class SmallPartsTray(Boxes):
     """Tray with slants to easier get out game tokens or screws"""
 
@@ -42,7 +43,7 @@ class SmallPartsTray(Boxes):
         self.argparser.add_argument(
             "--front_panel",  action="store", type=boolarg, default=True,
             help="have a vertical wall at the ramp")
-        
+
 
     def innerWall(self, h, y, ramp_h, ramp_y, two_ramps, front=True,
                   move=None):
@@ -71,7 +72,7 @@ class SmallPartsTray(Boxes):
             if two_ramps:
                 self.moveTo(y-ramp_y, 0, a)
                 self.fingerHolesAt(0, -0.5*t, l, 0)
-        
+
         if two_ramps:
             self.rectangularWall(
                 y, h,
@@ -88,7 +89,7 @@ class SmallPartsTray(Boxes):
                     "e",
                     CompoundEdge(self, "FE", (h-ramp_h, ramp_h))],
                     callback=[cb], move=move)
-            
+
 
     def holeCB(self, sections, height):
         def CB():
@@ -97,7 +98,7 @@ class SmallPartsTray(Boxes):
                 pos += l + self.thickness
                 self.fingerHolesAt(pos, 0, height)
         return CB
-            
+
     def render_simple_tray_divider(self, width, height, move):
         """
         Simple movable divider. A wall with small feet for a little more stability.
@@ -241,7 +242,7 @@ class SmallPartsTray(Boxes):
             self.rectangularWall(
                 x, h, "Ffef",
                 callback=[self.holeCB(sx, h)], move="up")
-            
+
 
         if self.two_sided:
             with self.saved_context():

@@ -114,7 +114,7 @@ support this features but there may be some that don't.
 
 For plywood values of 0.2 to 0.3mm still allow getting the parts out
 by hand (Depending on you laser cutter and the exact material). With
-little more you will need a knife to cut them loose. 
+little more you will need a knife to cut them loose.
 
 inner_corners
 .............
@@ -237,7 +237,7 @@ The generated files uses the following color conventions:
 
 .. glossary::
 
-     Black 
+     Black
         The outer edges of a part
 
      Blue
@@ -249,5 +249,5 @@ The generated files uses the following color conventions:
      Green
         Etchings
 
-Normally you will cut things in the order: Green, Blue, Black. If other 
+Normally you will cut things in the order: Green, Blue, Black. If other
 colors are present, the meaning should hopefully be obvious.

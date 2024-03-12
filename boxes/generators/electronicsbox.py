@@ -48,12 +48,12 @@ class ElectronicsBox(Boxes):
         t = self.thickness
         self.fingerHolesAt(0, self.h-1.5*t, self.triangle, 0)
         self.fingerHolesAt(self.x, self.h-1.5*t, self.triangle, 180)
-        
+
     def wallyCB(self):
         t = self.thickness
         self.fingerHolesAt(0, self.h-1.5*t, self.triangle, 0)
         self.fingerHolesAt(self.y, self.h-1.5*t, self.triangle, 180)
-        
+
     def render(self):
 
         t = self.thickness
@@ -63,7 +63,7 @@ class ElectronicsBox(Boxes):
         hd = self.holedist
         tr = self.triangle
         trh = tr / 3.
-        
+
         if self.outside:
             self.x = x = self.adjustSize(x)
             self.y = y = self.adjustSize(y)
@@ -73,7 +73,7 @@ class ElectronicsBox(Boxes):
                              move="right", label="Wall 1")
         self.rectangularWall(y, h, "ffef", callback=[self.wallyCB],
                              move="up", label="Wall 2")
-        self.rectangularWall(y, h, "ffef", callback=[self.wallyCB], 
+        self.rectangularWall(y, h, "ffef", callback=[self.wallyCB],
                              label="Wall 4")
         self.rectangularWall(x, h, "fFeF", callback=[self.wallxCB],
                              move="left up", label="Wall 3")
@@ -93,6 +93,3 @@ class ElectronicsBox(Boxes):
 
         self.rectangularTriangle(tr, tr, "ffe", num=4,
             callback=[None, lambda: self.hole(trh, trh, d=d1)])
-
-
-

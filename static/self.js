@@ -29,7 +29,7 @@ function collapseId(id) {
     h.classList.remove("open");
     h.setAttribute("aria-expanded", "false");
 }
-    
+
 function toggleId(id) {
     const e = document.getElementById(id);
     const h = document.getElementById("h-" + id);
@@ -96,7 +96,7 @@ function GridfinityTrayLayout_GenerateLayout(x, y, nx, ny, countx, county) {
     // countx split x into this many
     // county split y into this many
     layout = '';
-    if (countx == 0) 
+    if (countx == 0)
         countx = nx;
     if (county == 0)
         county = ny
@@ -151,7 +151,7 @@ function GridfinityTrayLayoutInit() {
     layout_id = document.getElementById('layout');
     layout_id.addEventListener('change', setUpdated);
     layout_id.addEventListener('input', setUpdated);
-    
+
     GridfinityTrayUpdateLayout();
     layout_id = document.getElementById('layout');
     layout_id.rows = 20;
@@ -193,7 +193,7 @@ function TrayLayout_GenerateLayout(sx, sy) {
         nx = 1;
     if (ny <= 0)
         ny = 1;
-    
+
     for (i = 0; i < nx; i++) {
         line = ' |'.repeat(i) + ` ,> ${sx[i].toFixed(2)}mm\n`;
         layout += line;

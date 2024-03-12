@@ -21,9 +21,6 @@ class FlexBook(Boxes):
     ui_group = "FlexBox"
 
     description = """
-The latch works better if you can get your thumb in the hole, so I recommend swapping out the hexagon
-for an oval (I don't know how to make an oval in this generator).
-
 If you have an enclosure, arrange the living hinge to be as close to your extractor fan as possible.
 
 ![Open](static/samples/FlexBook-2.jpg)"""
@@ -254,10 +251,9 @@ If you have an enclosure, arrange the living hinge to be as close to your extrac
         self.edge(4*t)
         self.corner(90)
 
-        #self.hole(l/2,l/4, l/6)
-        self.regularPolygonHole(l/2, 2*t, 1.5*t)
+        self.rectangularHole(l/2, 2*t, .8*l, 2.5*t, r=1.25*t)
 
-        self.move(l, l/2, move)
+        self.move(l, 4*t, move)
     
     def flexBookLatchPin(self, move=None):
         t = self.thickness

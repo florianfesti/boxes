@@ -16,32 +16,33 @@
 from boxes import *
 from boxes.generators.console2 import Console2
 
+
 class SideDoorHousing(Console2):
     """Box with service hatches on either one or both of the sides that are locked with latches"""
 
     ui_group = "Box"
 
     description = """
-This box is designed as a housing for electronic projects but could be used for other purposes. It has hatches that can be re-opened with simple tools. If built from thin enough material, it intentionally cannot be opened with bare hands.  
+This box is designed as a housing for electronic projects but could be used for other purposes. It has hatches that can be re-opened with simple tools. If built from thin enough material, it intentionally cannot be opened with bare hands.
 
-The hatches are on the x sides.  
+The hatches are on the x sides.
 
 #### Assembly instructions
-The main body is easy to assemble:  
-1. Starting with the floor and then add the four walls (for any removable sides, the wall will just be a small part on the base )  
+The main body is easy to assemble:
+1. Starting with the floor and then add the four walls (for any removable sides, the wall will just be a small part on the base )
 2. Add the top piece
 
-For the removable walls:  
-1. Add the lips to the removable walls  
-2. Sit the latches in place (it is importand to make sure the springs on the latches point inwards and the angled ends point to the side walls. See image below)  
-3. Glue the U-shaped clamps in place (it is important **not** to glue the latches)  
+For the removable walls:
+1. Add the lips to the removable walls
+2. Sit the latches in place (it is importand to make sure the springs on the latches point inwards and the angled ends point to the side walls. See image below)
+3. Glue the U-shaped clamps in place (it is important **not** to glue the latches)
 
 ![Wall details](static/samples/SideDoorHousing.jpg)
 
 
 #### Re-Opening
 
-The latches lock in place when closed. To open them they need to be pressed in and can then be moved aside.  
+The latches lock in place when closed. To open them they need to be pressed in and can then be moved aside.
 
 ![Closed Box](static/samples/SideDoorHousing-2.jpg)
 
@@ -58,7 +59,7 @@ The latches lock in place when closed. To open them they need to be pressed in a
             "--double_door",  action="store", type=boolarg, default=True,
             help="allow removing the backwall, too")
 
-        
+
     def render(self):
         x, y, h = self.x, self.y, self.h
         t = self.thickness
@@ -90,7 +91,7 @@ The latches lock in place when closed. To open them they need to be pressed in a
                      self.rectangularHole(y-1.55*t, latchpos, 1.1*t, 1.1*t))],
                 move=move)
 
-            
+
         for i in range(2 if self.double_door else 1):
             self.rectangularWall(x, t, (bottom, "F", "e", "F"),
                                  ignore_widths=[1, 6], move="up")

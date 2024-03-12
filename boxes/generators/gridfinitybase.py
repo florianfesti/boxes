@@ -16,11 +16,12 @@
 from boxes import *
 from boxes import lids
 
+
 class GridfinityBase(Boxes):
     """A parameterized Gridfinity base"""
 
     description = """This is a configurable gridfinity base.  This
-    design is based on 
+    design is based on
     <a href="https://www.youtube.com/watch?app=desktop&v=ra_9zU-mnl8">Zach Freedman's Gridfinity system</a>"""
 
     ui_group = "Tray"
@@ -50,7 +51,7 @@ class GridfinityBase(Boxes):
                 lx = col*pitch+pitch/2
                 ly = row*pitch+pitch/2
                 self.rectangularHole(lx, ly, opening, opening)
-        
+
     def create_base_plate(self):
         pitch = self.pitch
         nx, ny = self.x, self.y

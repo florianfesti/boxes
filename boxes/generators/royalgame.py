@@ -15,6 +15,7 @@
 
 from boxes import *
 
+
 class RoyalGame(Boxes):
     """The Royal Game of Ur"""
 
@@ -72,7 +73,7 @@ class RoyalGame(Boxes):
         l = s/7*2**0.5
         self.moveTo(x-s/2 + s/14, y-s/2, 45)
         self.polyline(*([l, -90, l, 90]*3 + [l/2, 90])*4)
-        
+
     def castle(self, x, y, s):
         self._castle(x, y, 0.9*s)
         self._castle(x, y, 0.5*s)
@@ -159,7 +160,7 @@ class RoyalGame(Boxes):
         for dx in (-1, 1):
             for dy in (-1, 1):
                 self.hole(x+dx*.2*s, y+dy*.2*s, 0.07*s)
-                      
+
     def render(self):
 
         x = self.x
@@ -177,10 +178,9 @@ class RoyalGame(Boxes):
         self.rectangularWall(x, y, "fMff", move="up")
         self.rectangularWall(x, y, "fNff", callback=[self.top,], move="up")
 
-        
+
         self.partsMatrix(7, 7, "up", self.parts.disc, 0.8*size, callback=self.player1)
         self.partsMatrix(7, 7, "up", self.parts.disc, 0.8*size, callback=self.player2)
 
         self.dice(size, 4, move="up")
         self.dice(size, 4, move="up")
-        

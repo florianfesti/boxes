@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import argparse
 import copy
+import gettext
 import math
 import random
 import re
@@ -28,20 +29,14 @@ from shlex import quote
 from typing import Any
 from xml.sax.saxutils import quoteattr
 
+import qrcode
 from shapely.geometry import *
 from shapely.ops import split
-import gettext
 
-from boxes import edges
-from boxes import formats
-from boxes import gears
-from boxes import parts
-from boxes import pulley
+from boxes import edges, formats, gears, parts, pulley
 from boxes.Color import *
-from boxes.vectors import kerf
-
-import qrcode
 from boxes.qrcode_factory import BoxesQrCodeFactory
+from boxes.vectors import kerf
 
 ### Helpers
 
@@ -413,7 +408,7 @@ class Boxes:
             if self.qr_code:
                 self.renderQrCode()
             self.ctx.stroke()
-            
+
     def renderQrCode(self):
         content = self.metadata['url_short'] or self.metadata["cli_short"]
         size = 1.5

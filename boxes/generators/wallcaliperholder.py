@@ -15,6 +15,7 @@
 
 from boxes.walledges import _WallMountedBox
 
+
 class WallCaliper(_WallMountedBox):
     """Holds a single caliper to a wall"""
 
@@ -40,7 +41,7 @@ class WallCaliper(_WallMountedBox):
 
         if self.move(tw, h, move, True):
             return
-        
+
         self.moveTo(self.edges["b"].startwidth())
         self.polyline(5*t+hc, (90, 2*t), h/2-2*t, (180, 1.5*t), 0.25*h,
                       -90, hc, -90, 0.75*h-2*t, (90, 2*t), 2*t, 90)
@@ -54,7 +55,7 @@ class WallCaliper(_WallMountedBox):
 
         t = self.thickness
         h = self.h
-        
+
         self.side(move="right")
         self.side(move="right")
         w = self.width

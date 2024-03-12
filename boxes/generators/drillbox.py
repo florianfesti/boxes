@@ -13,8 +13,9 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from boxes import Boxes, edges, Color, ArgparseEdgeType
-from boxes.lids import _TopEdge, LidSettings
+from boxes import ArgparseEdgeType, Boxes, Color, edges
+from boxes.lids import LidSettings, _TopEdge
+
 
 class DrillBox(_TopEdge):
     """A parametrized box for drills"""

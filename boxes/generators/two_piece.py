@@ -17,7 +17,7 @@ from boxes import *
 
 
 class TwoPiece(Boxes):
-    """A two piece box where top slips over the bottom half to form 
+    """A two piece box where top slips over the bottom half to form
        the enclosure.
     """
 
@@ -66,4 +66,3 @@ Set *hi* larger than *h* to leave gap between the inner and outer shell. This ca
 
         self.rectangularWall(x, y, "hhhh", bedBolts=None, move="right")
         self.rectangularWall(x+d, y+d, "FFFF", bedBolts=None, move="right")
-        

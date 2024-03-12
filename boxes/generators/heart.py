@@ -15,6 +15,7 @@
 
 from boxes import *
 
+
 class HeartBox(Boxes):
     """Box in the form of a heart"""
 
@@ -41,7 +42,7 @@ class HeartBox(Boxes):
 
         if self.top == "closed":
             return
-        
+
         for i in range(2):
             self.moveTo(t, t)
             self.polyline((l, 2), (180, r), (d, 1), -90,
@@ -58,7 +59,7 @@ class HeartBox(Boxes):
 
         l = 2/3. * x
         r = l/2. - 0.5*t
-        
+
         borders = [l, (180, r), t, -90, t, (180, r), l, 90]
         self.polygonWalls(borders, h)
         self.rectangularWall(0, h, "FFFF", move="up only")

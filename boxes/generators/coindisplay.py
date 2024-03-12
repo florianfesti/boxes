@@ -15,6 +15,7 @@
 
 from boxes import *
 
+
 class CoinHolderSideEdge(edges.BaseEdge):
     char = "B"
     def __call__(self, length, **kw):
@@ -111,4 +112,3 @@ class CoinDisplay(Boxes):
         self.rectangularWall(self.coin_plate, self.coin_plate, "efef", move="down", label="Coin Plate", callback=[self.coinCutout])
 
         self.rectangularWall(self.coin_plate, self.coin_showcase_h, "fFeF", move="down", label="CoinSide3")
-

@@ -15,13 +15,14 @@
 
 from boxes import *
 
+
 class PizzaShovel(Boxes):
     """Pizza shovel with conveyor belt action"""
 
     description = """
 You need (permanent) baking paper to create the conveyor. With that you can pick up and put down the pizza by moving the handle attached to the belt.
     """
-    
+
     ui_group = "Misc"
 
     def __init__(self) -> None:
@@ -71,7 +72,7 @@ You need (permanent) baking paper to create the conveyor. With that you can pick
 
         ce = edges.CompoundEdge(self, "fe", [y/2, y/2])
         ec = edges.CompoundEdge(self, "ef", [y/2, y/2])
-        
+
         self.rectangularWall(x, y, ["e", ce, "e", ec], move="up")
         self.rectangularWall(x, 40, "efef", callback=[self.gripCB(top=True)], move="up")
         self.rectangularWall(x, 80, "efef", callback=[self.gripCB(top=False)], move="up")

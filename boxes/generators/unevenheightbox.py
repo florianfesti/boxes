@@ -98,6 +98,3 @@ class UnevenHeightBox(Boxes):
                       (" only" if h2 == h1 == 0.0 else ""))
             self.trapezoidWall(x, h1, h0, "FF" + edge_types[0] + "F", move="right" +
                       (" only" if h1 == h0 == 0.0 else ""))
-
-
-

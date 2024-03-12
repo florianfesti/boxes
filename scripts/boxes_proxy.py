@@ -12,10 +12,11 @@ Last patch: 27.04.2021
 License: GNU GPL v3
 
 """
-import os
+pass
 import subprocess
 import sys
-import tempfile
+
+pass
 from shlex import quote
 
 from inkex.extensions import GenerateExtension

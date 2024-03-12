@@ -15,6 +15,7 @@
 
 from boxes import *
 
+
 class SkadisBoard(Boxes):
     """Customizable Ikea like pegboard"""
 
@@ -37,7 +38,7 @@ class SkadisBoard(Boxes):
                 if (r+c) % 2 == 0:
                     continue
                 self.rectangularHole((c+1)*20 - 8, (r+1)*20, 5, 15, r=2.5)
-        
+
     def render(self):
         self.roundedPlate((self.columns+1) * 20, (self.rows+1)*20, edge="e", r=8,
                           extend_corners=False, callback=[self.CB])

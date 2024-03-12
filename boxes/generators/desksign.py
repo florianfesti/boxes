@@ -15,6 +15,7 @@
 
 from boxes import *
 
+
 class Desksign(Boxes):
     """Simple diagonal plate with stands to show name or message."""
 
@@ -75,7 +76,7 @@ class Desksign(Boxes):
                     fontsize = fontsize, align="center", color=Color.ETCHING)]) # add text
         else:
             self.rectangularWall(width, height, "eheh", move="right") # front
-        
+
         # stands at back/side
         edge = "šef" if feet else "eef"
         if mirror:

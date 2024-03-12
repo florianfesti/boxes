@@ -36,17 +36,17 @@ class AngledBox(Boxes):
     def floor(self, x, y, n, edge='e', hole=None, move=None, callback=None, label=""):
         r, h, side  = self.regularPolygon(2*n+2, h=y/2.0)
         t = self.thickness
-        
+
         if n % 2:
             lx = x - 2 * h + side
         else:
             lx = x - 2 * r + side
-        
+
         edge = self.edges.get(edge, edge)
 
         tx = x + 2 * edge.spacing()
         ty = y + 2 * edge.spacing()
-        
+
         if self.move(tx, ty, move, before=True):
             return
 
@@ -57,7 +57,7 @@ class AngledBox(Boxes):
                 hr, hh, hside  = self.regularPolygon(2*n+2, h=y/2.0-t)
                 dx = side - hside
                 hlx = lx - dx
-            
+
                 self.moveTo(dx/2.0, t+edge.spacing())
                 for i, l in enumerate(([hlx] + ([hside] * n))* 2):
                     self.edge(l)
@@ -94,12 +94,12 @@ class AngledBox(Boxes):
         t = self.thickness
 
         r, hp, side  = self.regularPolygon(2*n+2, h=y/2.0)
-        
+
         if n % 2:
             lx = x - 2 * hp + side
         else:
             lx = x - 2 * r + side
-        
+
         fingerJointSettings = copy.deepcopy(self.edges["f"].settings)
         fingerJointSettings.setValues(self.thickness, angle=360./(2 * (n+1)))
         fingerJointSettings.edgeObjects(self, chars="gGH")
@@ -139,7 +139,3 @@ class AngledBox(Boxes):
                     self.rectangularWall(side, h, move="right",
                                          edges=b+"gfg" if fingers else b+"geg",
                                          label=f"wall {cnt}")
-
-
-
-

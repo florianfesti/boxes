@@ -1,8 +1,8 @@
 import boxes
-from boxes import Boxes
-from boxes.generators.traylayout import TrayLayout
+from boxes import Boxes, lids, restore
 from boxes.Color import Color
-from boxes import restore, lids
+from boxes.generators.traylayout import TrayLayout
+
 
 class GridfinityTrayLayout(TrayLayout):
     """A Gridfinity Tray Generator based on TrayLayout"""
@@ -10,7 +10,7 @@ class GridfinityTrayLayout(TrayLayout):
     description = """
 This is a general purpose gridfinity tray generator.  You can create
 somewhat arbitrarily shaped trays, or just do nothing for simple grid
-shaped trays. 
+shaped trays.
 
 The dimensions are automatically calculated to fit perfectly into a
 gridfinity grid (like the GridfinityBase, or any other Gridfinity
@@ -20,7 +20,7 @@ Edit the layout text graphics to adjust your tray.
 You can replace the hyphens and vertical bars representing the walls
 with a space character to remove the walls.  You can replace the space
 characters representing the floor by a "X" to remove the floor for
-this compartment. 
+this compartment.
 """
     def __init__(self) -> None:
         Boxes.__init__(self)
@@ -38,7 +38,7 @@ this compartment.
         self.argparser.add_argument("--county", type=int, default=3, help="split y into this many grid sections.  0 means same as --ny")
         self.argparser.add_argument("--margin", type=float, default=0.75, help="Leave this much total margin on the outside, in mm")
         self.argparser.add_argument("--layout", type=str, help="You can hand edit this before generating", default="\n");
-        
+
     def generate_layout(self):
         layout = ''
         countx = self.countx
@@ -47,7 +47,7 @@ this compartment.
             countx = self.nx
         if county == 0:
             county = self.ny
-            
+
         stepx = self.x / countx
         stepy = self.y / county
         for i in range(countx):
@@ -58,7 +58,7 @@ this compartment.
             layout += "| " * countx + f"|{stepy}mm\n"
         layout += "+-" * countx + "+\n"
         return layout
-        
+
     @restore
     def rectangularEtching(self, x, y, dx, dy, r=0, center_x=True, center_y=True):
         """
@@ -94,7 +94,7 @@ this compartment.
                     self.set_source_color(Color.ETCHING)
                     self.rectangularEtching(x+p/2+xx*p, y+p/2+yy*p, o-m, o-m)
             self.ctx.stroke()
-    
+
     def render(self):
         # Create a layout
         self.x = self.pitch * self.nx - self.margin

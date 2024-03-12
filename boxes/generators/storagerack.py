@@ -15,6 +15,7 @@
 
 from boxes import *
 
+
 class StorageRack(Boxes):
     """StorageRack to store boxes and trays which have their own floor"""
 
@@ -33,7 +34,7 @@ Drawers are not included:
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings)
         self.addSettingsArgs(edges.StackableSettings)
-        
+
         self.argparser.add_argument(
             "--depth",  action="store", type=float, default=200,
             help="depth of the rack")
@@ -58,7 +59,7 @@ Drawers are not included:
         for nr, h in enumerate(self.sh[:-1]):
             posh += h + self.thickness
             if ((self.bottom_edge == "e" and nr == 0) or
-                (self.top_edge == "e" and nr == len(self.sh) - 2)): 
+                (self.top_edge == "e" and nr == len(self.sh) - 2)):
                 self.fingerHolesAt(0, posh, self.x, 0)
             else:
                 self.fingerHolesAt(0, posh, self.rail, 0)
@@ -98,7 +99,7 @@ Drawers are not included:
             num -= 1
         if t == "e":
             num -= 1
-            
+
         for i in range(num):
             self.rectangularWall(d, self.rail, "ffee", move="up")
             self.rectangularWall(d, self.rail, "feef", move="up")

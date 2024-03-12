@@ -50,4 +50,3 @@ class Display(Boxes):
         self.polyline(x-2*r, (90-a, r), oh, (90+a, r),
                       x-2*r+2*math.sin(math.radians(a))*oh,
                       (90+a, r), oh, (90-a, r))
-

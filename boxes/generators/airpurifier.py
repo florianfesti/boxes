@@ -15,6 +15,7 @@
 
 from boxes import *
 
+
 class AirPurifier(Boxes):
     """Housing for the Nukit Open Air Purifier"""
 
@@ -31,13 +32,13 @@ class AirPurifier(Boxes):
         120.: 105,
         140.: 125,
         }
-    
+
     def __init__(self) -> None:
         Boxes.__init__(self)
 
         self.addSettingsArgs(edges.FingerJointSettings)
         self.addSettingsArgs(edges.DoveTailSettings, size=2.0, depth=1)
-        
+
         self.buildArgParser(x=498., y=496.)
 
         self.argparser.add_argument(
@@ -126,7 +127,7 @@ class AirPurifier(Boxes):
         fh = self.filter_height
         h = d + 2 + self.filters * (fh + t)
 
-        
+
         self.rectangularWall(x, d, "ffff", callback=[
             self.fanCB(self.fans_top, d, x, False)], label="top", move="up")
         self.rectangularWall(x, h, "ffff", callback=[

@@ -105,4 +105,3 @@ class Silverware(Boxes):
 
         self.moveTo(-3.0 * (l + 2 * t + 8 * b), h - 10 + 2 * t + 8 * b)
         self.basePlate(x, y, r)
-

@@ -17,6 +17,7 @@ from boxes import *
 from boxes.lids import _TopEdge
 from boxes.walledges import _WallMountedBox
 
+
 class WallTypeTray(_WallMountedBox, _TopEdge):
     """Type tray - allows only continuous walls"""
 
@@ -30,7 +31,7 @@ class WallTypeTray(_WallMountedBox, _TopEdge):
         self.argparser.add_argument(
             "--radius",  action="store", type=float, default=0.0,
             help="radius for strengthening walls with the hooks")
-        
+
 
     def xSlots(self):
         posx = -0.5 * self.thickness
@@ -66,7 +67,7 @@ class WallTypeTray(_WallMountedBox, _TopEdge):
 
         self.generateWallEdges()
         b = self.bottom_edge
-        
+
         if self.outside:
             self.sx = self.adjustSize(self.sx)
             self.sy = self.adjustSize(self.sy)
@@ -120,7 +121,3 @@ class WallTypeTray(_WallMountedBox, _TopEdge):
             e = [edges.SlottedEdge(self, self.sy, be, slots=0.5 * hi),
                  "f", "e", "f"]
             self.rectangularWall(y, hi, e, move="up")
-
-
-
-

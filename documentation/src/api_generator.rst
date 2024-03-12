@@ -12,7 +12,7 @@ write the ``.__init__()`` and ``.render()`` method.
 The Boxes class keeps a canvas object (self.ctx) that all
 drawing is made on. In addition it keeps a couple of global settings
 used for various drawing operations. See the ``.__init__()`` method
-for the details. 
+for the details.
 
 For implementing a new generator forking an existing one or using the
 ``boxes/generators/_template.py`` is probably easier than starting
@@ -23,7 +23,7 @@ methods are the interface for the user interfaces to interact with the
 generators:
 
 .. automethod:: boxes.Boxes.__init__
-		
+
 .. automethod:: boxes.Boxes.parseArgs
 .. automethod:: boxes.Boxes.render
 
@@ -32,7 +32,7 @@ generators:
 
 Handling Generators
 -------------------
-		
+
 To handle the generators there is code in the ``boxes.generators``
 package.
 

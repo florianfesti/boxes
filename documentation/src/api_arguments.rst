@@ -73,4 +73,3 @@ the Boxes instance before ``.render()`` is called. This is done by
 ``Boxes.parseArgs``. But most people won't need to care as this is
 handled by the framework.  Be careful to **not overwrite important
 methods or attributes by using conflicting argument names**.
-

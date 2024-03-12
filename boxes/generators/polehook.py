@@ -15,9 +15,10 @@
 
 from boxes import *
 
+
 class PoleHook(Boxes): # change class name here and below
     """Hook for pole like things to be clamped to another pole"""
-    
+
     def __init__(self) -> None:
         Boxes.__init__(self)
 
@@ -50,7 +51,7 @@ class PoleHook(Boxes): # change class name here and below
 
         e = self.edges.get(edge, edge)
 
-        
+
         self.moveTo(0, e.margin())
 
         if e is self.edges["e"]:
@@ -64,7 +65,7 @@ class PoleHook(Boxes): # change class name here and below
         else:
             self.polyline(0, 90, d, 90, w, 90, 0, (-180, d/2),
                           0.5*d, (180, w/2), 1.5 * d, 90)
-            
+
         self.move(tw, th, move)
 
     def lock(self, l1, l2, w, move=None):
@@ -124,5 +125,3 @@ class PoleHook(Boxes): # change class name here and below
 
         for i in range(2):
             self.parts.disc(ww, move="up")
-            
-

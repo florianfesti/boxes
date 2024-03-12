@@ -15,6 +15,7 @@
 
 from boxes import *
 
+
 class Console(Boxes):
     """Console with slanted panel"""
 

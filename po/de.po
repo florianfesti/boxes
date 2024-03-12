@@ -1335,7 +1335,7 @@ msgstr "Getriebe"
 #. description of GearBox
 #: boxes/generators/gearbox.py
 msgid "Gearbox with multiple identical stages"
-msgstr "Getriebe mit mehreren gleichen Zahnradpaaren" 
+msgstr "Getriebe mit mehreren gleichen Zahnradpaaren"
 
 msgid "GearBox Settings"
 msgstr "Einstellung Getriebe"

@@ -56,7 +56,7 @@ class OttoBody(Boxes):
         self.hole(6, self.y/2+9, 0.9)
         self.rectangularHole(6, self.y/2-5.5, 12, 23)
         self.hole(6, self.y/2-20, 0.9)
-    
+
     def rightBottomCB(self):
         self.hole(7, self.y-5, 2)
 
@@ -95,7 +95,7 @@ class OttoBody(Boxes):
     def PCB_Clamp(self, w, s, h, move=None):
         t = self. thickness
         f = 2**0.5
-        
+
         if self.move(w+4, h+8+t, move, True):
             return
         self.polyline(w, 90, s, -90, 1, (90, 1), (h-s-1, 2), 90, w-2, 90,
@@ -109,7 +109,7 @@ class OttoBody(Boxes):
         self.y = y = 60.
         self.h = h = 35.
         self.hl = hl = 30.
-        
+
         t = self.thickness
 
         hx = self.edges["O"].startwidth()
@@ -123,7 +123,7 @@ class OttoBody(Boxes):
         self.moveTo(hx)
         self.rectangularWall(x, h-hx, "FfOf", ignore_widths=[2], move="up", label=_("Left bottom side"))
         self.rectangularWall(x, hl-hx2, "pfFf", ignore_widths=[1], move="up", label=_("Left top side"))
-        self.moveTo(-hx)        
+        self.moveTo(-hx)
         self.rectangularWall(x, h-hx, "Ffof", ignore_widths=[5], callback=[
             lambda: self.rectangularHole(y-7.5, h-4-7.5, 6.2, 7.)],
                              move="up", label=_("Right bottom side"))
@@ -161,6 +161,3 @@ class OttoBody(Boxes):
         self.rectangularWall(y-5.6, 14, callback=[
             None, None, None, self.rightBottomCB], move="up",
             label=_("Servo mount"))
-
-
-

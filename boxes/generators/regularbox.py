@@ -24,7 +24,7 @@ class RegularBox(BayonetBox):
 
 The lids needs to be glued. For the bayonet lid all outside rings attach to the bottom, all inside rings to the top.
 """
- 
+
     ui_group = "Box"
 
     def __init__(self) -> None:

@@ -110,4 +110,3 @@ Platform specific instructions
    :glob:
 
    install/*
-

@@ -4,6 +4,7 @@ from copy import deepcopy
 
 from boxes import Boxes, boolarg
 from boxes.edges import FingerJointSettings
+
 from .keyboard import Keyboard
 
 

@@ -3,8 +3,9 @@
 import glob
 import os
 import sys
-from subprocess import check_output, CalledProcessError
-from setuptools import setup, find_packages
+from subprocess import CalledProcessError, check_output
+
+from setuptools import find_packages, setup
 from setuptools.command.build_py import build_py
 
 

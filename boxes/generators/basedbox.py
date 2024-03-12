@@ -25,7 +25,7 @@ class BasedBox(Boxes):
 Use a vector graphics program (like Inkscape) to add holes or adjust the base
 plate. The width of the "brim" can also be adjusted with the **edge_width**
  parameter in the **Finger Joints Settings**.
- 
+
 See ClosedBox for variant without a base.
 """
 
@@ -52,6 +52,3 @@ See ClosedBox for variant without a base.
 
         self.rectangularWall(x, y, "ffff", move="right", label="Top")
         self.rectangularWall(x, y, "hhhh", label="Base")
-
-
-

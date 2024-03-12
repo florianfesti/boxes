@@ -41,7 +41,7 @@ class UnevenFingerJointEdge(FingerJointEdge):
             leftover -= play
 
         shift = (f + s) / 2 # we shift all fingers to make them un even
-        if (leftover < shift): 
+        if (leftover < shift):
             leftover = shift
 
         self.edge((leftover + shift)/2, tabs=1)  # Whole point of this class
@@ -75,7 +75,7 @@ class UnevenFingerJointEdge(FingerJointEdge):
         self.edge((leftover - shift)/2, tabs=1)  # Whole point of this class
 
 # Unstable
-class UnevenFingerJointEdgeCounterPart(UnevenFingerJointEdge): 
+class UnevenFingerJointEdgeCounterPart(UnevenFingerJointEdge):
     """Uneven finger joint edge - other side"""
     char = 'U'
     description = "Uneven Finger Joint (opposing side)"
@@ -122,5 +122,3 @@ class Platonic(Boxes):
 
         for _ in range(faces):
             self.regularPolygonWall(corners, side=e, edges="u", move="right")
-
-

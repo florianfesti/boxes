@@ -16,11 +16,12 @@
 from boxes import *
 from boxes import robot, servos
 
+
 class RobotArm(Boxes): # change class name here and below
     """Segments of servo powered robot arm"""
 
     ui_group = "Part"
-    
+
     def __init__(self) -> None:
         Boxes.__init__(self)
 
@@ -55,4 +56,3 @@ class RobotArm(Boxes): # change class name here and below
             servoClsA = getattr(servos, servoA)
             servoClsB = getattr(servos, servoB)
             armcls(self, servoClsA(self), servoClsB(self))(length, move="up")
-

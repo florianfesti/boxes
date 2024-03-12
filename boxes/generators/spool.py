@@ -15,6 +15,7 @@
 
 from boxes import *
 
+
 class Spool(Boxes):
     """A simple spool"""
 
@@ -67,8 +68,8 @@ class Spool(Boxes):
                 self.axle_diameter / 2, 0,
                 (self.inner_diameter - self.axle_diameter) / 2 + self.thickness, 0)
             self.moveTo(0, 0, 360 / self.reinforcements)
-        
-        
+
+
     def render(self):
         t = self.thickness
         r, h, side = self.regularPolygon(self.sides, radius=self.inner_diameter/2)

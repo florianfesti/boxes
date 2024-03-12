@@ -15,6 +15,7 @@
 
 from boxes import *
 
+
 class FrontEdge(edges.BaseEdge):
     """An edge with room to get your fingers around cards"""
     def __call__(self, length, **kw):
@@ -37,7 +38,7 @@ class Dispenser(Boxes):
 
     description = """Set *bottomheight* to 0 for a wall mounting variant.
 Please add mounting holes yourself."""
-    
+
     ui_group = "Misc"
 
     def __init__(self) -> None:
@@ -80,7 +81,7 @@ Please add mounting holes yourself."""
 
 
         self.rectangularWall(x, y, "ffff", move="up only")
-            
+
         if hb:
             frontedge = edges.CompoundEdge(self, "Ef", (hb+t+hs, h-hs))
             self.rectangularWall(
@@ -112,4 +113,3 @@ Please add mounting holes yourself."""
                              label="Left front", move="right")
         self.rectangularWall(x/3, h-hs, "eee" + se,
                              label="Right front", move="mirror right")
-

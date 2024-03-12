@@ -15,6 +15,7 @@
 
 from boxes import *
 
+
 class AngledCutJig(Boxes): # Change class name!
     """Jig for making angled cuts in a laser cutter"""
 
@@ -58,7 +59,6 @@ class AngledCutJig(Boxes): # Change class name!
             lambda:self.fingerHolesAt(0, 4.5*t, l2, 0), None,
             lambda:self.fingerHolesAt(0, 4.5*t, l2, 0), None],
                              move="right")
-        
+
         self.rectangularTriangle(x, th, "fef", num=2, move="up")
         self.rectangularTriangle(20, th2, "fef", num=2, move="up")
-        

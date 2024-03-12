@@ -13,7 +13,7 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from boxes import Boxes, edges, boolarg
+from boxes import Boxes, boolarg, edges
 
 
 class PaintStorage(Boxes):

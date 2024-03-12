@@ -15,6 +15,7 @@
 
 from boxes import *
 
+
 class ShutterBox(Boxes):
     """Box with a rolling shutter made of flex"""
 
@@ -29,7 +30,7 @@ class ShutterBox(Boxes):
 
     def side(self, l, h, r, style, move=None):
         t = self.thickness
-        
+
         if self.move(l+2*t, h+2*t, move, True):
             return
 
@@ -75,7 +76,7 @@ class ShutterBox(Boxes):
         else:
             self.polyline(l-2*r, (90, r+t), 0, 90, t, -90)
             self.edges["f"](h-r)
-        
+
         self.move(l+2*t, h+2*t, move)
 
     def cornerRadius(self, r, two=False, move=None):
@@ -103,7 +104,7 @@ class ShutterBox(Boxes):
         self.polyline(l-r, (90, r-1.5*t), 0, 90, t, 90, 0, (-90, r-2.5*t), l-r, 90, t, 90)
         self.moveTo(-t-s, t+s)
         self.polyline(l-r, (90, r-1.5*t), 0, 90, t, 90, 0, (-90, r-2.5*t), l-r, 90, t, 90)
-            
+
         self.move(tw, th, move)
 
     def rails2(self, l, r, move=None):
@@ -157,7 +158,7 @@ class ShutterBox(Boxes):
         style = self.style
 
         self.n = n = 3
-        
+
         if not r:
             self.radius = r = h / 2
         self.radius = r = min(r, h/2)
@@ -185,14 +186,14 @@ class ShutterBox(Boxes):
         self.side(x, h, r, style, move="up only")
 
         self.rectangularWall(x, y, "FFFF", move="right")
-        
+
         if style == "single":
             self.door(x-r+0.5*math.pi*r + 3*t, y-0.2*t, move="right")
         else:
             self.door(x-2*r+math.pi*r + 3*t, y-0.2*t, move="right")
 
         self.rectangularWall(2*t, y-2.2*t, edges="eeef", move="right")
-        
+
 
         a = 90. / n
         ls = 2*math.sin(math.radians(a/2)) * (r-2.5*t)
@@ -216,16 +217,15 @@ class ShutterBox(Boxes):
             self.rectangularWall(x-2*r, y, "fbfb", move="right")
         else:
             self.rectangularWall(x-r, y, "fbfe", move="right")
-        
+
         self.rectangularWall(ls, y, "fafB", move="right")
-        
+
         for i in range(n-2):
             self.rectangularWall(ls, y, "fafA", move="right")
 
-            
+
         if h - 2*r > 2*t:
             self.rectangularWall(ls, y, "fbfA", move="right")
             self.rectangularWall(h - 2*r, y, "fefB", move="right")
         else:
             self.rectangularWall(ls, y, "fefA", move="right")
-

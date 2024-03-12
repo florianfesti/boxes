@@ -10,7 +10,7 @@ Contents:
 
 .. toctree::
    :maxdepth: 1
-	
+
    README
    faq
    install

@@ -16,17 +16,18 @@
 from boxes import *
 from boxes.walledges import _WallMountedBox
 
+
 class SlottedEdge(edges.Edge):
 
     def __call__(self, length, **kw):
 
         n = self.number
         t = self.thickness
-        
+
         self.polyline(t, 45)
 
         l = t
-        
+
         for i in range(n):
             w = self.min_width * ((n-i)/n) + self.max_width * (i / n)
             s = self.min_strength * ((n-i)/n) + self.max_strength * (i / n)
@@ -82,7 +83,7 @@ class WallWrenchHolder(_WallMountedBox):
              + self.max_width)
         t = self.thickness
         x = self.x-2*t
-        
+
         self.rectangularWall(self.depth, h,
                              ["e", "B", "e", SlottedEdge(self, None)],
                              move="right")

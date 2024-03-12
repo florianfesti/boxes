@@ -14,7 +14,8 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
-from boxes.lids import _TopEdge, LidSettings
+from boxes.lids import LidSettings, _TopEdge
+
 
 class TopEdge(edges.BaseEdge):
 
@@ -22,7 +23,7 @@ class TopEdge(edges.BaseEdge):
         super().__init__(boxes, None)
         self.lengths = lengths
         self.h = h
-    
+
     def __call__(self, length, **kw):
         h = self.h
         t = self.boxes.thickness
@@ -84,7 +85,7 @@ If there are no inner front to back walls just add everything to one side wall a
                 self.fingerHolesAt(0, 0, l, 0)
                 self.moveTo(l+self.thickness)
         return CB
-    
+
 
     def xHoles(self):
         posx = -0.5 * self.thickness
@@ -103,14 +104,14 @@ If there are no inner front to back walls just add everything to one side wall a
                 self.fingerHolesAt(-0.5*t, 0, self.hi*2**.5+t/2)
 
         self.moveTo(posy+self.sy[-1]+0.5*t, self.hi, 135)
-        self.fingerHolesAt(-0.5*t, 0, self.hi*2**.5+t/2)                
+        self.fingerHolesAt(-0.5*t, 0, self.hi*2**.5+t/2)
 
     def render(self):
 
         # tmp settings
         self.top_edge = "e"
         self.bottom_edge = "F"
-        
+
         if self.outside:
             self.sx = self.adjustSize(self.sx)
             self.sy = self.adjustSize(self.sy)
@@ -166,7 +167,7 @@ If there are no inner front to back walls just add everything to one side wall a
             x, floors[0], "ffef",
             callback=[self.fingerHolesCB(self.sx, self.sy[0]-dy)],
             move="up", label="floor back side")
-        for y_ in self.sy[1:]: 
+        for y_ in self.sy[1:]:
             self.rectangularWall(
                 x, y_ - slot + t, "efef",
                 callback=[self.fingerHolesCB(self.sx, y_ - slot + t),
@@ -178,7 +179,7 @@ If there are no inner front to back walls just add everything to one side wall a
             callback=[self.fingerHolesCB(self.sx, hi-t2)],
             move="up", label="floor front side")
         floors.append(hi-t2)
-                
+
         # Inner walls
 
         be = "f" if b != "e" else "e"
@@ -230,7 +231,3 @@ If there are no inner front to back walls just add everything to one side wall a
                  edges.CompoundEdge(self, "fe", (hi-t*2**.5, t*2**.5)),
                  TopEdge(self, self.sy[::-1], hi), "f"]
             self.rectangularWall(y, hi, e, move="up", label=f"inner y {i+1}")
-
-
-
-

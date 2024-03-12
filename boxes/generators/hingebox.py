@@ -15,6 +15,7 @@
 
 from boxes import *
 
+
 class HingeBox(Boxes):
     """Box with lid attached by cabinet hinges"""
 
@@ -43,7 +44,7 @@ Then attach the hinges on the inside of the box and then connect them to lid.
 
         x, y, h, hl = self.x, self.y, self.h, self.lidheight
         s = self.splitlid
-        
+
         if self.outside:
             x = self.adjustSize(x)
             y = self.adjustSize(y)
@@ -85,6 +86,3 @@ Then attach the hinges on the inside of the box and then connect them to lid.
         self.edges['u'].parts(move="up")
         if s:
             self.edges['u'].parts(move="up")
-
-
-

@@ -16,6 +16,7 @@
 from boxes import *
 from boxes import edges
 
+
 class LegEdge(edges.BaseEdge):
 
     def __call__(self, l, **kw):
@@ -55,7 +56,7 @@ class OttoLegs(Boxes):
 
         for l in (x, y, x, y):
             self.polyline((l - 2*r, 2), 45, r*2**0.5, 45)
-        
+
         self.move(x, y, move)
 
     def ankles(self, x, h, edge="f", callback=None, move=None):
@@ -90,7 +91,7 @@ class OttoLegs(Boxes):
         self.moveTo(3.45, 0, -90)
         self.polyline(0, (-264, 3.45), 0, 36, 6.55, 108, 0, (330, 9.0, 4), 0, 108, 6.55)
         self.move(20, 20, move)
-        
+
 
     def ankle2(self):
         # from vertical edge
@@ -147,4 +148,3 @@ class OttoLegs(Boxes):
         self.ankles(30, 25, callback=[None, self.ankle1], move="right")
         self.ankles(30, 25, callback=[None, self.ankle2], move="right")
         self.partsMatrix(2, 2, "right", self.servoring)
-

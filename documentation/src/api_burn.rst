@@ -35,8 +35,8 @@ Programmer's perspective
 ------------------------
 
 For this to work it is important that outside is drawn in a
-counterclockwise direction while holes are drawn in a 
-clockwise direction. 
+counterclockwise direction while holes are drawn in a
+clockwise direction.
 
 :py:meth:`boxes.Boxes.corner` adjusts the radius automatically
 according to **.burn**. This propagates to higher level

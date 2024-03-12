@@ -18,6 +18,7 @@ import boxes
 from boxes import *
 from boxes import lids
 
+
 class TrayLayoutFile(Boxes):
     """Generate a layout file for a typetray."""
     # This class generates the skeleton text file that can then be edited

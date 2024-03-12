@@ -120,6 +120,3 @@ class FlexBox(boxes.Boxes):
         self.surroundingWall(move="up")
         self.flexBoxSide(self.x, self.y, self.radius, move="right")
         self.flexBoxSide(self.x, self.y, self.radius, move="mirror")
-
-
-

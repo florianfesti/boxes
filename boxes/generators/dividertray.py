@@ -18,7 +18,7 @@ from __future__ import annotations
 import math
 from functools import partial
 
-from boxes import Boxes, edges, boolarg, lids
+from boxes import Boxes, boolarg, edges, lids
 
 
 class NotchSettings(edges.Settings):

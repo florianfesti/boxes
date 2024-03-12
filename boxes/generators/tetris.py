@@ -39,7 +39,7 @@ class Tetris(Boxes):
         s = self.blocksize
         self.ctx.stroke()
         self.set_source_color(Color.ETCHING)
-        
+
         if nr == 0:
             if self.shape in "LT":
                 for i in range(1, 3):
@@ -65,15 +65,15 @@ class Tetris(Boxes):
 
 
         self.ctx.stroke()
-                        
+
     def render(self):
         # adjust to the variables you want in the local scope
         t = self.thickness
         s = self.blocksize
-        
+
         if self.shape == "L":
             borders = [3*s - 2*t, 90, 2*s - 2*t, 90, s - 2*t, 90,
-                       s, -90, 2*s, 90, s - 2*t, 90] 
+                       s, -90, 2*s, 90, s - 2*t, 90]
         elif self.shape == "I":
             borders = [4*s - 2*t, 90, s - 2*t, 90 ] * 2
         elif self.shape == "S":

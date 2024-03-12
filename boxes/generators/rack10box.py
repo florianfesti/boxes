@@ -15,6 +15,7 @@
 
 from boxes.generators.rack19box import Rack19Box
 
+
 class Rack10Box(Rack19Box):
     """Closed box with screw on top for mounting in a 10" rack."""
 

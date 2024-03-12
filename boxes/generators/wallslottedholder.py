@@ -16,6 +16,7 @@
 from boxes import *
 from boxes.walledges import _WallMountedBox
 
+
 class FrontEdge(edges.Edge):
 
     def __call__(self, length, **kw):
@@ -27,7 +28,7 @@ class FrontEdge(edges.Edge):
         w = (wt-ws)/2 - r1
         for i in range(self.number):
             self.polyline(w, (90, r1), ds-r1-r2, (-90, r2), ws-2*r2,
-                          (-90, r2), ds-r1-r2, (90, r1), w)        
+                          (-90, r2), ds-r1-r2, (90, r1), w)
 
 class WallSlottedHolder(_WallMountedBox):
     """Wall tool holder with slots"""
@@ -85,11 +86,11 @@ class WallSlottedHolder(_WallMountedBox):
         ws = self.slot_width
         wt = self.tool_width
         t = self.thickness
-        
+
         d = min(2*t, (wt-ws)/4.)
         self.wallHolesAt(d, 0, self.h, 90)
         self.wallHolesAt(n*wt-d, 0, self.h, 90)
-        
+
         for i in range(1, n):
             if self.brace(i):
                 self.wallHolesAt(i*wt, 0, self.h, 90)
@@ -100,11 +101,11 @@ class WallSlottedHolder(_WallMountedBox):
         wt = self.tool_width
         t = self.thickness
         l = self.additional_depth + self.slot_depth
-        
+
         d = min(2*t, (wt-ws)/4.)
         self.fingerHolesAt(d, 0, l, 90)
         self.fingerHolesAt(n*wt-d, 0, l, 90)
-        
+
         for i in range(1, n):
             if self.brace(i):
                 self.fingerHolesAt(i*wt, 0, l, 90)

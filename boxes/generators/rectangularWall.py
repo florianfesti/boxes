@@ -15,6 +15,7 @@
 
 from boxes import *
 
+
 class RectangularWall(Boxes):
     """Simple wall with options for different edges"""
 
@@ -24,8 +25,8 @@ class RectangularWall(Boxes):
         Boxes.__init__(self)
 
         self.addSettingsArgs(edges.CabinetHingeSettings)
-        self.addSettingsArgs(edges.ClickSettings)        
-        self.addSettingsArgs(edges.DoveTailSettings)        
+        self.addSettingsArgs(edges.ClickSettings)
+        self.addSettingsArgs(edges.DoveTailSettings)
         self.addSettingsArgs(edges.FingerJointSettings)
         self.addSettingsArgs(edges.GearSettings)
         self.addSettingsArgs(edges.GripSettings)
@@ -52,7 +53,7 @@ class RectangularWall(Boxes):
             "--left_edge", action="store",
             type=ArgparseEdgeType("cCdDeEfFghiIjJkKlLmMnNoOpPqQRsSšŠuUvV"), choices=list("cCdDeEfFghiIjJkKlLmMnNoOpPqQRsSšŠuUvV"),
             default="e", help="edge type for left edge")
-        
+
 
     def cb(self, nr):
         t = self.thickness
@@ -67,4 +68,3 @@ class RectangularWall(Boxes):
 
         self.moveTo(3*t, 3*t)
         self.rectangularWall(self.x, self.h, self.edgetypes, callback=self.cb)
-

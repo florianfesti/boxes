@@ -15,13 +15,14 @@
 
 from boxes import *
 
+
 class Shoe(Boxes):
     """Shoe shaped box"""
 
-    description = """Shoe shaped box with flat sides and rounded top. 
-    Works best if flex if under slight compression. 
-    Make sure that the following conditions are met: 
-    y > tophole + r + fronttop; 
+    description = """Shoe shaped box with flat sides and rounded top.
+    Works best if flex if under slight compression.
+    Make sure that the following conditions are met:
+    y > tophole + r + fronttop;
     height > frontheight."""
 
     ui_group = "Misc"
@@ -31,7 +32,7 @@ class Shoe(Boxes):
 
         self.addSettingsArgs(edges.FingerJointSettings)
         self.addSettingsArgs(edges.FlexSettings)
- 
+
         self.argparser.add_argument(
             "--width",  action="store", type=float, default=65,
             help="width of the shoe")
@@ -81,7 +82,7 @@ class Shoe(Boxes):
         dr = a*(r-t)/stretch
         self.shoelip(x, tf, dr, lf, label="top")
 
-        
+
     def shoelip(self, x, tf, dr, lf, move=None, label=""):
 
         w = self.edges["F"].spacing()
@@ -113,7 +114,7 @@ class Shoe(Boxes):
 
         tx = y + 2 * self.edges.get('F').spacing()
         ty = h + self.edges.get('f').spacing() + self.edges.get("e").spacing()
-        
+
         if self.move(tx, ty, move, before=True):
             return
 

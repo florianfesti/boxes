@@ -35,7 +35,7 @@ jobs:
           cd ../build/ && ls && ls html/
           cp -r ../../static .
           rm -rf doctrees
-          touch .nojekyll    
+          touch .nojekyll
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

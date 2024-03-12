@@ -35,12 +35,13 @@
 # 			AttributeError: 'module' object inkex has no attribute 'uutounit
 # 			Fixed https://github.com/jnweiger/inkscape-gears-dev
 
-from math import pi, cos, sin, tan, radians, degrees, ceil, asin, acos, sqrt
+from math import acos, asin, ceil, cos, degrees, pi, radians, sin, sqrt, tan
 from os import devnull  # for debugging
 
 two_pi = 2 * pi
 import argparse
-from boxes.vectors import kerf, vdiff, vlength
+
+from boxes.vectors import vdiff, vlength
 
 __version__ = '0.9'
 
@@ -99,7 +100,7 @@ def have_undercut(teeth, pitch_angle=20.0, k=1.0):
 ## gather all basic gear calculations in one place
 def gear_calculations(num_teeth, circular_pitch, pressure_angle, clearance=0, ring_gear=False, profile_shift=0.):
     """ Put base calcs for spur/ring gears in one place.
-        - negative profile shifting helps against undercut. 
+        - negative profile shifting helps against undercut.
     """
     diametral_pitch = pi / circular_pitch
     pitch_diameter = num_teeth / diametral_pitch
@@ -134,7 +135,7 @@ def generate_rack_points(tooth_count, pitch, addendum, pressure_angle,
 
             - involute on a circle of infinite radius is a simple linear ramp
 
-        - the meshing circle touches at y = 0, 
+        - the meshing circle touches at y = 0,
         - the highest elevation of the teeth is at y = +addendum
         - the lowest elevation of the teeth is at y = -addendum-clearance
         - the base_height extends downwards from the lowest elevation.
@@ -171,7 +172,7 @@ def generate_rack_points(tooth_count, pitch, addendum, pressure_angle,
         points.append((x-tasc, base_top))
         points.append((x+tas, -addendum))
         points.append((x+spacing-tas, -addendum))
-        points.append((x+spacing+tasc, base_top)) 
+        points.append((x+spacing+tasc, base_top))
         x += pitch
 
     # add base on RHS
@@ -215,7 +216,7 @@ def generate_spur_points(teeth, base_radius, pitch_radius, outer_radius, root_ra
 
         pitch2 = c + half_thick_angle
         base2  = pitch2 + pitch_to_base_angle
-        offsetangles2 = [ base2 - x for x in angles] 
+        offsetangles2 = [ base2 - x for x in angles]
         points2 = [ point_on_circle( radii[i], offsetangles2[i]) for i in range(0,len(radii)) ]
 
         points_on_outer_radius = [ point_on_circle(outer_radius, x) for x in linspace(offsetangles1[-1], offsetangles2[-1], accuracy_circular) ]
@@ -274,7 +275,7 @@ class Gears():
                                      help="Number of teeth")
 
         self.OptionParser.add_option("-s", "--system",
-                                     action="store", type="string", 
+                                     action="store", type="string",
                                      dest="system", default='MM',
                                      help="Select system: 'CP' (Cyclic Pitch (default)), 'DP' (Diametral Pitch), 'MM' (Metric Module)")
 
@@ -310,7 +311,7 @@ class Gears():
                                      help="Clearance between bottom of gap of this gear and top of tooth of another")
 
         self.OptionParser.add_option("", "--annotation",
-                                     action="store", type="inkbool", 
+                                     action="store", type="inkbool",
                                      dest="annotation", default=False,
                                      help="Draw annotation text")
 
@@ -350,7 +351,7 @@ class Gears():
                                      help="Active tab. Not used now.")
 
         self.OptionParser.add_option("-x", "--centercross",
-                                     action="store", type="inkbool", 
+                                     action="store", type="inkbool",
                                      dest="centercross", default=False,
                                      help="Draw cross in center")
 
@@ -360,7 +361,7 @@ class Gears():
                                      help="Draw pitch circle (for mating)")
 
         self.OptionParser.add_option("-r", "--draw-rack",
-                                     action="store", type="inkbool", 
+                                     action="store", type="inkbool",
                                      dest="drawrack", default=False,
                                      help="Draw rack gear instead of spur gear")
 
@@ -380,7 +381,7 @@ class Gears():
                                      help="Length of tabs on ends of rack")
 
         self.OptionParser.add_option("", "--undercut-alert",
-                                     action="store", type="inkbool", 
+                                     action="store", type="inkbool",
                                      dest="undercut_alert", default=False,
                                      help="Let the user confirm a warning dialog if undercut occurs. This dialog also shows helpful hints against undercut")
 
@@ -389,7 +390,7 @@ class Gears():
         dimension = self.options.dimension
         if   self.options.system == 'CP': # circular pitch
             circular_pitch = dimension * 25.4
-        elif self.options.system == 'DP': # diametral pitch 
+        elif self.options.system == 'DP': # diametral pitch
             circular_pitch = pi * 25.4 / dimension
         elif self.options.system == 'MM': # module (metric)
             circular_pitch = pi * dimension
@@ -539,26 +540,26 @@ class Gears():
 
         self.boxes.moveTo(r+0.5*spoke_width+self.boxes.burn, 0, 90)
         self.boxes.corner(360, r+0.5*spoke_width)
-        
+
         self.boxes.ctx.restore()
         self.boxes.move(width, width, move)
 
     def __call__(self, teeth_only=False, move="", callback=None, **kw):
         """ Calculate Gear factors from inputs.
-            - Make list of radii, angles, and centers for each tooth and 
+            - Make list of radii, angles, and centers for each tooth and
               iterate through them
             - Turn on other visual features e.g. cross, rack, annotations, etc
         """
         self.options = self.OptionParser.parse_args([f"--{name}={value}" for name, value in kw.items()])
 
         warnings = [] # list of extra messages to be shown in annotations
-        # calculate unit factor for units defined in dialog. 
+        # calculate unit factor for units defined in dialog.
         unit_factor = 1
         # User defined options
         teeth = self.options.teeth
         # Angle of tangent to tooth at circular pitch wrt radial line.
-        angle = self.options.angle 
-        # Clearance: Radial distance between top of tooth on one gear to 
+        angle = self.options.angle
+        # Clearance: Radial distance between top of tooth on one gear to
         # bottom of gap on another.
         clearance = self.options.clearance * unit_factor
         mount_hole = self.options.mount_hole * unit_factor
@@ -575,7 +576,7 @@ class Gears():
         accuracy_involute = 20 # Number of points of the involute curve
         accuracy_circular = 9  # Number of points on circular parts
         if self.options.accuracy is not None:
-            if self.options.accuracy == 0:  
+            if self.options.accuracy == 0:
                 # automatic
                 if   teeth < 10: accuracy_involute = 20
                 elif teeth < 30: accuracy_involute = 12
@@ -706,4 +707,3 @@ class Gears():
 
         if not teeth_only:
             self.boxes.move(width, height, move)
-

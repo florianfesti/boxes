@@ -14,8 +14,9 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
-from boxes import edges, Color
-from boxes.lids import _TopEdge, LidSettings
+from boxes import Color, edges
+from boxes.lids import LidSettings, _TopEdge
+
 
 class FingerHoleEdgeSettings(edges.Settings):
     """Settings for FingerHoleEdge

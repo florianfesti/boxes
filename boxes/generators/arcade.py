@@ -15,9 +15,10 @@
 
 from boxes import *
 
+
 class Arcade(Boxes):
     """Desktop Arcade Machine"""
-    
+
     def __init__(self) -> None:
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings)
@@ -42,18 +43,18 @@ class Arcade(Boxes):
         tw, th = y+2*r+(self.front+t) * math.sin(math.radians(15)), h+2*r+(self.topback+t)/2**0.5
         if self.move(tw, th, move, True):
             return
-        
+
         self.moveTo(r+(self.front+t) * math.sin(math.radians(15)), 0)
 
         with self.saved_context():
             self.moveTo(0, r)
             self.polyline(y, 90, h, 45, self.topback+t, 90, self.top+2*t, 90, 100, -90, self.monitor_height, -30, self.keyboard_depth+2*t, 90, self.front+t, 75)
-        
+
         self.fingerHolesAt(10, r+t/2, self.bottom, 0)
         self.polyline(y, (90, r))
         self.fingerHolesAt(0.5*t, r+t/2, self.back, 0)
         self.fingerHolesAt(h-40-40, r+t/2, self.back, 0)
-        
+
         self.polyline(h, (45, r))
         self.fingerHolesAt(0, r+t/2, self.topback, 0)
         self.fingerHolesAt(self.topback+t/2, r+t, self.top, 90)
@@ -65,7 +66,7 @@ class Arcade(Boxes):
         self.polyline(self.keyboard_depth-d_30+2*t, (90, r), self.front+t, (75, r))
 
         self.move(tw, th, move)
-        
+
     def keyboard(self):
         # Add holes for the joystick and buttons here
         pass
@@ -73,7 +74,7 @@ class Arcade(Boxes):
     def speakers(self):
         self.hole(self.width/4., 50, 40)
         self.hole(self.width*3/4., 50, 40)
-        
+
     def render(self):
         width = self.width
         t = self.thickness
@@ -91,7 +92,7 @@ class Arcade(Boxes):
         h = self.h = ((self.monitor_height-self.topback+self.top+1*t+100) / 2**0.5 +
                       + (self.keyboard_depth+2*t)*math.sin(math.radians(15))
                       + (self.front+t) * math.cos(math.radians(15)))
-                      
+
         self.bottom = y-40-0.5*t
         self.backwall = h-40
 
@@ -113,5 +114,3 @@ class Arcade(Boxes):
         # Sides
         self.side(move="up")
         self.side(move="up")
-
-

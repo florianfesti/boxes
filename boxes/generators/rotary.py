@@ -290,7 +290,7 @@ class Rotary(Boxes):
                 self.rectangularWall(ow, h, edges="hFFH", move="right")
                 self.rectangularWall(ow, h, edges="hFFH", move="right")
             self.rectangularWall(ow, h, edges="hFFH", move="up only")
-        
+
         # Motor block
         mw = 40
         self.rectangularWall(3.6 * d, h, edges=["h", "f", MotorEdge(self, None),"f"], callback=[self.mainPlate], move="up")
@@ -322,6 +322,3 @@ class Rotary(Boxes):
                             hole=self.axle, move="right")
         self.parts.disc(self.diameter - 2 * self.rubberthickness + 4,
                         hole=self.axle, move="right up")
-
-
-

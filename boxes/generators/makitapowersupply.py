@@ -15,6 +15,7 @@
 
 from boxes import *
 
+
 class MakitaPowerSupply(Boxes):
     """Bench power supply powered with Maktia 18V battery or laptop power supply"""
 

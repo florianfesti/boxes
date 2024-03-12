@@ -92,6 +92,3 @@ class GearBox(Boxes):
         for i in range(self.stages):
             self.gears(teeth=self.teeth1, dimension=self.modulus, angle=pressure_angle,
                        mount_hole=mh, profile_shift=profile_shift, move="down")
-
-
-

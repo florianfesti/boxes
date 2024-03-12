@@ -132,9 +132,9 @@ If you have an enclosure, arrange the living hinge to be as close to your extrac
             (90, t/2),
             2.5*t,
             -90,
-            (y-latchSize) / 2)
-
-        self.corner(90)
+            (y-latchSize) / 2,
+            90
+        )
 
         self.move(tw, th, move)
 
@@ -223,37 +223,11 @@ If you have an enclosure, arrange the living hinge to be as close to your extrac
 
         if not isCover:
             # anchor pin
-            self.moveTo(-1.25*t, 1.5*t)
-            self.edges["e"](t)
-            self.corner(90)
-            self.edges["e"](2*t)
-            self.corner(90)
-            self.edges["e"](t)
-            self.corner(90)
-            self.edges["e"](2*t)
-            self.corner(90)
+            self.moveTo(-1.5*t, 1.25*t)
+            self.ctx.stroke()
+            self.rectangularWall(t, 2*t)
 
         self.move(tw, th, move)
-    
-    def flexBookLatchGrip(self, move=None):
-        t = self.thickness
-        l = self.latchsize
-
-        if self.move(l, 4*t, move, True):
-            return
-
-        self.edge(l)
-        self.corner(90)
-        self.edge(4*t)
-        self.corner(90)
-        self.edge(l)
-        self.corner(90)
-        self.edge(4*t)
-        self.corner(90)
-
-        self.rectangularHole(l/2, 2*t, .8*l, 2.5*t, r=1.25*t)
-
-        self.move(l, 4*t, move)
     
     def flexBookLatchPin(self, move=None):
         t = self.thickness
@@ -304,6 +278,7 @@ If you have an enclosure, arrange the living hinge to be as close to your extrac
         y = self.h
         self.h = self.y
         self.y = y
+        t = self.thickness
         
         self.radius = self.h / 2
         self.c4 = c4 = math.pi * self.radius * 0.5
@@ -329,6 +304,10 @@ If you have an enclosure, arrange the living hinge to be as close to your extrac
             self.flexBookLatchBracket(True, move="up")
         self.flexBookLatchBracket(False, move="right only")
 
-        self.flexBookLatchGrip(move="right rotated")
+        l = self.latchsize
+        self.rectangularWall(
+            4*t, l,
+            callback=[lambda: self.rectangularHole(2*t, l/2, 2.5*t, .8*l, r=2*t)],
+            move="right")
         self.flexBookLatchPin(move="right")
 

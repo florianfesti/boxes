@@ -56,7 +56,6 @@ class GridfinityBase(Boxes):
         nx, ny = self.x, self.y
         opening = self.opening
         self.rectangularWall(nx*pitch, ny*pitch, move="up", callback=[self.generate_grid])
-        return
 
     def create_tray(self):
         pitch = self.pitch
@@ -81,8 +80,6 @@ class GridfinityBase(Boxes):
 
         if self.bottom_edge != "e":
             self.rectangularWall(x, y, "ffff", move="up")
-
-        return
 
     def render(self):
         self.create_base_plate()

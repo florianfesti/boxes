@@ -145,25 +145,22 @@ nema 20 20 17
     def applyOffset(self, x, y):
         return (x+self.offset[0], y+self.offset[1])
     
-    def drawRect(self, x, y, w, h, r=0, center_x="True", center_y="True"):
+    def drawRect(self, x, y, w, h, r=0, center_x="True", center_y="True") -> None:
         x, y, w, h, r = (float(i) for i in [x, y, w, h, r])
         x, y = self.applyOffset(x, y)
         center_x = str_to_bool(center_x)
         center_y = str_to_bool(center_y)
         self.rectangularHole(x, y, w, h, r, center_x, center_y)
-        return
 
-    def drawCircle(self, x, y, r):
+    def drawCircle(self, x, y, r) -> None:
         x, y, r = (float(i) for i in [x, y, r])
         x, y = self.applyOffset(x, y)
         self.hole(x, y, r)
-        return
 
-    def drawMountingHole(self, x, y, d_shaft, d_head=0.0, angle=0):
+    def drawMountingHole(self, x, y, d_shaft, d_head=0.0, angle=0) -> None:
         x, y, d_shaft, d_head, angle = (float(i) for i in [x, y, d_shaft, d_head, angle])
         x, y = self.applyOffset(x, y)
         self.mountingHole(x, y, d_shaft, d_head, angle)
-        return
 
     def drawOutline(self, w, h):
         w, h = (float(i) for i in [w, h])
@@ -175,7 +172,6 @@ nema 20 20 17
         x, y = self.applyOffset(x, y)
         border = [(x, y), (x+w, y), (x+w, y+h), (x, y+h), (x, y)]
         self.showBorderPoly( border )
-        return
 
     def drawText(self, x, y, size, text, angle=0, align='bottom|left'):
         x, y, size, angle = (float(i) for i in [x, y, size, angle])
@@ -208,7 +204,6 @@ nema 20 20 17
             la = shlex.split(l, comments=True, posix=True)
             if len(la) > 0 and la[0].lower() in objects:
                 objects[la[0]](*la[1:])
-        return
 
     def render(self):
         self.offset = (0.0, 0.0)

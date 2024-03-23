@@ -27,19 +27,20 @@ class Parts:
     def __getattr__(self, name):
         return getattr(self.boxes, name)
 
-    def disc(self, diameter, hole=0, callback=None, move="", label=""):
+    def disc(self, diameter, hole=0, dwidth=1.0, callback=None, move="", label=""):
         """Simple disc
 
         :param diameter: diameter of the disc
         :param hole: (Default value = 0)
         :param callback: (Default value = None) called in the center
+        :param dwidth: flaten on right side to given ratio
         :param move: (Default value = "")
         :param label: (Default value = "")
         """
         size = diameter
         r = diameter / 2.0
 
-        if self.move(size, size, move, before=True, label=label):
+        if self.move(size*dwidth, size, move, before=True, label=label):
             return
 
         self.moveTo(size / 2, size / 2)
@@ -48,9 +49,18 @@ class Parts:
             self.hole(0, 0, hole / 2)
 
         self.cc(callback, None, 0, 0)
-        self.moveTo(r + self.burn, 0, 90)
-        self.corner(360, r, tabs=6)
-        self.move(size, size, move, label=label)
+        if dwidth == 1.0:
+            self.moveTo(r + self.burn, 0, 90)
+            self.corner(360, r, tabs=6)
+        else:
+            w = (2.0 * dwidth - 1) * r
+            a = degrees(acos(w / r))
+            self.moveTo(0, 0, -a)
+            self.moveTo(r, 0, -90)
+            self.corner(-360+2*a, r)
+            self.corner(-a)
+            self.edge(2*r*sin(radians(a)))
+        self.move(size*dwidth, size, move, label=label)
 
     def waivyKnob(self, diameter, n=20, angle=45, hole=0, callback=None, move=""):
         """Disc with a waivy edge to be easier to be gripped

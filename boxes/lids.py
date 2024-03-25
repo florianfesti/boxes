@@ -12,18 +12,19 @@
 #
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from __future__ import annotations
 
 import math
+from typing import Any, Callable
 
 import boxes
 from boxes import Boxes, edges
 
 
 class LidSettings(edges.Settings):
-
     """Settings for the Lid
 Values:
-*absolute
+* absolute
 
  * style : "none" : type of lid to create
  * handle : "none" : type of handle
@@ -34,33 +35,30 @@ Values:
   * play : 0.1 : play when sliding the lid on (if applicable)
   * handle_height : 8.0 : height of the handle (if applicable)
     """
-
     absolute_params = {
-        "style" : ("none", "flat", "chest", "overthetop", "ontop"),
-        "handle" : ("none", "long_rounded", "long_trapezoid", "long_doublerounded",
-                    "knob"),
+        "style": ("none", "flat", "chest", "overthetop", "ontop"),
+        "handle": ("none", "long_rounded", "long_trapezoid", "long_doublerounded", "knob"),
     }
 
     relative_params = {
-        "height" : 4.0,
-        "play" : 0.1,
-        "handle_height" : 8.0,
+        "height": 4.0,
+        "play": 0.1,
+        "handle_height": 8.0,
     }
 
 
 class Lid:
-
-    def __init__(self, boxes, settings):
+    def __init__(self, boxes, settings: LidSettings) -> None:
         self.boxes = boxes
         self.settings = settings
 
-    def __getattr__(self, name):
-        """Hack for using unalter code form Boxes class"""
+    def __getattr__(self, name: str) -> Any:
+        """Hack for using unaltered code form Boxes class"""
         if hasattr(self.settings, name):
             return getattr(self.settings, name)
         return getattr(self.boxes, name)
 
-    def __call__(self, x, y, edge=None):
+    def __call__(self, x: float, y: float, edge=None) -> bool:
         t = self.thickness
         style = self.settings.style
         height = self.height
@@ -82,8 +80,8 @@ class Lid:
             x2 = x
             y2 = y
             b = {
-                "Š" : "š",
-                "S" : "š",
+                "Š": "š",
+                "S": "š",
             }.get(edge, "e")
             if style == "overthetop":
                 x2 += 2*t + self.play
@@ -99,7 +97,7 @@ class Lid:
                                  ignore_widths=[1, 2, 5, 6], move="up")
             self.rectangularWall(y2, self.height, b + "fFf",
                                  ignore_widths=[1, 2, 5, 6], move="up")
-            if style ==	"ontop":
+            if style == "ontop":
                 self.rectangularWall(y - self.play, height + 2*t, "eeee",
                                      move="up")
                 self.rectangularWall(y - self.play, height + 2*t, "eeee",
@@ -114,9 +112,10 @@ class Lid:
     ### Handles
     ######################################################################
 
-    def handleCB(self, x, y):
+    def handleCB(self, x: float, y: float) -> Callable:
         t = self.thickness
-        def cb():
+
+        def cb() -> None:
             if self.handle.startswith("long"):
                 self.rectangularHole(x/2, y/2, x/2, t)
             elif self.handle.startswith("knob"):
@@ -131,7 +130,7 @@ class Lid:
 
         return cb
 
-    def longHandle(self, x, y, style="long_rounded", move=None):
+    def longHandle(self, x:float, y: float, style="long_rounded", move=None) -> None:
         t = self.settings.thickness
         hh = self.handle_height
         tw, th = x/2 + 2*t, self.handle_height + 2*t
@@ -159,7 +158,7 @@ class Lid:
 
         self.move(tw, th, move)
 
-    def knobHandle(self, x, y, style, move=None):
+    def knobHandle(self, x: float, y: float, style, move=None) -> None:
         t = self.settings.thickness
         hh = self.handle_height
         tw, th = 2 * 7 * t + self.spacing, self.handle_height + 2*t
@@ -180,7 +179,7 @@ class Lid:
 
         self.move(tw, th, move)
 
-    def handleParts(self, x, y):
+    def handleParts(self, x: float, y: float) -> None:
         if self.handle.startswith("long"):
             self.longHandle(x, y, self.handle, move="up")
         elif self.handle.startswith("knob"):
@@ -190,14 +189,14 @@ class Lid:
     ### Chest Lid
     ######################################################################
 
-    def getChestR(self, x, angle=0):
+    def getChestR(self, x: float, angle: float = 0) -> float:
         t = self.thickness
         d = x - 2*math.sin(math.radians(angle)) * (3*t)
 
         r = d / 2.0 / math.cos(math.radians(angle))
         return r
 
-    def chestSide(self, x, angle=0, move="", label=""):
+    def chestSide(self, x: float, angle: float = 0, move="", label: str = "") -> None:
         if "a" not in self.edges:
             s = edges.FingerJointSettings(self.thickness, True,
                                           finger=1.0, space=1.0)
@@ -218,10 +217,9 @@ class Lid:
 
         self.move(x+2*t, 0.5*x+3*t, move, False, label=label)
 
-    def chestTop(self, x, y, angle=0, callback=None, move=None, label=""):
+    def chestTop(self, x: float, y: float, angle: float = 0, callback=None, move=None, label: str = "") -> None:
         if "a" not in self.edges:
-            s = edges.FingerJointSettings(self.thickness, True,
-                                          finger=1.0, space=1.0)
+            s = edges.FingerJointSettings(self.thickness, True, finger=1.0, space=1.0)
             s.edgeObjects(self, "aA.")
 
         t = self.thickness
@@ -252,8 +250,8 @@ class Lid:
 
         self.move(tw, th, move, label=label)
 
-class _TopEdge(Boxes):
 
+class _TopEdge(Boxes):
     def addTopEdgeSettings(self, fingerjoint={}, stackable={}, hinge={},
                            cabinethinge={}, slideonlid={}, click={},
                            roundedtriangle={}, mounting={}, handle={}):
@@ -310,7 +308,7 @@ class _TopEdge(Boxes):
                 tb = tf = "Y"
         return [tl, tb, tr, tf]
 
-    def drawLid(self, x, y, top_edge, bedBolts=[None, None]):
+    def drawLid(self, x: float, y: float, top_edge, bedBolts=[None, None]) -> bool:
         d2, d3 = bedBolts
         if top_edge == "c":
             self.rectangularWall(x, y, "CCCC", bedBolts=[d2, d3, d2, d3], move="up", label="top")

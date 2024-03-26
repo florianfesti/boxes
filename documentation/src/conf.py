@@ -5,6 +5,7 @@
 
 import os
 import sys
+from datetime import datetime
 
 sys.path.append(os.path.abspath('../..'))
 
@@ -12,7 +13,7 @@ sys.path.append(os.path.abspath('../..'))
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'boxes.py'
-project_copyright = '2023, Florian Festi'
+project_copyright = datetime.now().year.__str__() + ', Florian Festi'
 author = 'Florian Festi'
 
 # -- General configuration ---------------------------------------------------

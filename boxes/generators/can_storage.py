@@ -315,7 +315,9 @@ for canned tomatoes:
         self.top_chute_depth = (self.depth - 1.1 * self.canDiameter) / math.cos(math.radians(self.chuteAngle))
         self.bottom_chute_height = max((self.depth - 1.1 * self.canDiameter) * math.sin(math.radians(self.chuteAngle)), 0.1 * self.canDiameter)
         self.bottom_chute_depth = self.depth / math.cos(math.radians(self.chuteAngle))
-        self.barrier_height = 0.25 * self.canDiameter
+        self.barrier_height = min(
+            0.25 * self.canDiameter,
+            self.bottom_chute_height + self.top_chute_height - self.thickness)
 
         if (self.top_chute_depth + self.bottom_chute_height - self.thickness) < (self.barrier_height + self.canDiameter * 0.1):
             self.bottom_chute_height = self.barrier_height + self.canDiameter * 0.1 + self.thickness - self.top_chute_depth

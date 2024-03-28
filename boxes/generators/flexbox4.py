@@ -80,9 +80,9 @@ class FlexBox4(Boxes):
             self.edges["X"](c4, h + 2 * self.thickness)
 
         self.edge(y - r - self.latchsize)
-        self.latch(self.latchsize+t, False)
+        self.latch(self.latchsize, False, extra_length=t)
         self.edge(h + 2 * self.thickness)
-        self.latch(self.latchsize+t, False, True)
+        self.latch(self.latchsize, False, True, extra_length=t)
         self.edge(y - r - self.latchsize)
         self.edge(c4)
         self.edge(x - 2 * r)

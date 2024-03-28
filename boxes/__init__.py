@@ -1050,18 +1050,12 @@ class Boxes:
         :param positive:  (Default value = True) False: Door side; True: Box side
         :param reverse:  (Default value = False) True when running away from the latch
         """
+        t = self.thickness
         if positive:
+            poly = [0, -90, t, 90, length / 2.0, 90, t, -90, length / 2.]
             if reverse:
-                self.edge(length / 2.0)
-            self.corner(-90)
-            self.edge(self.thickness)
-            self.corner(90)
-            self.edge(length / 2.0)
-            self.corner(90)
-            self.edge(self.thickness)
-            self.corner(-90)
-            if not reverse:
-                self.edge(length / 2.0)
+                poly = list(reversed(poly))
+            self.polyline(*poly)
         else:
             if reverse:
                 self._latchGrip(length)

@@ -1035,15 +1035,15 @@ class Boxes:
         self.corner(-90)
         self.edge(1.1 * self.thickness)
 
-    def _latchGrip(self, length):
+    def _latchGrip(self, length, extra_length=0.0):
         """
         :param length:
         """
         self.corner(90, self.thickness / 4.0)
-        self.grip(length / 2.0 - self.thickness / 2.0 - 0.2 * self.thickness, self.thickness / 2.0)
+        self.grip(length / 2.0 - self.thickness / 2.0 - 0.2 * self.thickness + extra_length, self.thickness / 2.0)
         self.corner(90, self.thickness / 4.0)
 
-    def latch(self, length, positive=True, reverse=False):
+    def latch(self, length, positive=True, reverse=False, extra_length=0.0):
         """Latch to fix a flex box door to the box
 
         :param length: length in mm
@@ -1058,12 +1058,12 @@ class Boxes:
             self.polyline(*poly)
         else:
             if reverse:
-                self._latchGrip(length)
+                self._latchGrip(length, extra_length)
             else:
                 self.corner(90)
             self._latchHole(length)
             if not reverse:
-                self._latchGrip(length)
+                self._latchGrip(length, extra_length)
             else:
                 self.corner(90)
 

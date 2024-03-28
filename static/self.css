@@ -199,12 +199,14 @@ textarea {
     font-family: monospace;
 }
 
+.gallery,
 .gallery_missing {
     display : inline-block;
     text-align : center;
-    vertical-align: middle;
+    vertical-align: bottom;
     width : 200px;
     margin : 5px;
+    margin-top : 15px;
     font-weight: bold;
 }
 

@@ -1,9 +1,12 @@
+from __future__ import annotations
+
 from math import *
+from typing import Any, Callable
 
 from boxes import vectors
 
 
-def arcOnCircle(spanning_angle, outgoing_angle, r=1.0):
+def arcOnCircle(spanning_angle: float, outgoing_angle: float, r: float = 1.0) -> tuple[float, float]:
     angle = spanning_angle + 2 * outgoing_angle
     radius = r * sin(radians(0.5 * spanning_angle)) / sin(radians(180 - outgoing_angle - 0.5 * spanning_angle))
     return angle, abs(radius)
@@ -14,7 +17,7 @@ class Parts:
         self.boxes = boxes
 
     """
-    def roundKnob(self, diameter, n=20, callback=None, move=""):
+    def roundKnob(self, diameter: float, n: int = 20, callback: Callable | None = None, move: str = ""):
         size = diameter+diameter/n
         if self.move(size, size, move, before=True):
             return
@@ -24,16 +27,16 @@ class Parts:
         self.move(size, size, move)
     """
 
-    def __getattr__(self, name):
+    def __getattr__(self, name: str) -> Any:
         return getattr(self.boxes, name)
 
-    def disc(self, diameter, hole=0, dwidth=1.0, callback=None, move="", label=""):
+    def disc(self, diameter: float, hole: float = 0, dwidth: float = 1.0, callback: Callable | None = None, move: str = "", label: str = "") -> None:
         """Simple disc
 
         :param diameter: diameter of the disc
         :param hole: (Default value = 0)
         :param callback: (Default value = None) called in the center
-        :param dwidth: flaten on right side to given ratio
+        :param dwidth: (Default value = 1) flatten on right side to given ratio
         :param move: (Default value = "")
         :param label: (Default value = "")
         """
@@ -62,7 +65,7 @@ class Parts:
             self.edge(2*r*sin(radians(a)))
         self.move(size*dwidth, size, move, label=label)
 
-    def waivyKnob(self, diameter, n=20, angle=45, hole=0, callback=None, move=""):
+    def waivyKnob(self, diameter: float, n: int = 20, angle: float = 45, hole: float = 0, callback: Callable | None = None, move: str = "") -> None:
         """Disc with a waivy edge to be easier to be gripped
 
         :param diameter: diameter of the knob
@@ -97,8 +100,8 @@ class Parts:
 
         self.move(size, size, move)
 
-    def concaveKnob(self, diameter, n=3, rounded=0.2, angle=70, hole=0,
-                    callback=None, move=""):
+    def concaveKnob(self, diameter: float, n: int = 3, rounded: float = 0.2, angle: float = 70, hole: float = 0,
+                    callback: Callable | None = None, move: str = "") -> None:
         """Knob with dents to be easier to be gripped
 
         :param diameter: diameter of the knob
@@ -132,13 +135,12 @@ class Parts:
         for i in range(n):
             self.boxes.corner(a, r)
             self.corner(angle)
-            self.corner(360. / n * rounded, diameter / 2, tabs=
-                        (i % max(1, (n+1) // 6) == 0))
+            self.corner(360. / n * rounded, diameter / 2, tabs=(i % max(1, (n+1) // 6) == 0))
             self.corner(angle)
 
         self.move(size, size, move)
 
-    def ringSegment(self, r_outside, r_inside, angle, n=1, move=None):
+    def ringSegment(self, r_outside: float, r_inside: float, angle: float, n: int = 1, move: str = "") -> None:
         """Ring Segment
 
         :param r_outside: outer radius

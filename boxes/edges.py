@@ -1329,7 +1329,14 @@ class Hinge(BaseEdge):
         self.description = self.description + ('', ' (start)', ' (end)', ' (both ends)')[layout]
 
     def margin(self) -> float:
-        return 3 * self.settings.thickness
+        t: float = self.settings.thickness
+        if self.settings.style == "outset":
+            r = 0.5 * self.settings.axle
+            alpha = math.degrees(math.asin(0.5 * t / r))
+            pos = math.cos(math.radians(alpha)) * r
+            return 1.5 * t + pos
+        else: # flush
+            return 0.5 * t + 0.5 * self.settings.axle + self.settings.hingestrength
 
     def outset(self, _reversed: bool = False) -> None:
         t: float = self.settings.thickness

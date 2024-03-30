@@ -19,11 +19,9 @@ import shlex
 from boxes import *
 
 
-def str_to_bool(s):
-    if (s.lower() in ['true', '1', 't', 'y', 'yes', 'yeah', 'yup', 'certainly', 'uh-huh']):
-        return True
-    else:
-        return False
+def str_to_bool(s: str) -> bool:
+    return s.lower() in ('true', '1', 't', 'y', 'yes', 'yeah', 'yup', 'certainly', 'uh-huh')
+
 
 class FrontPanel(Boxes):
     """Mounting Holes and cutouts for all your holy needs."""

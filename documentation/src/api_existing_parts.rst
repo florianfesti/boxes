@@ -22,6 +22,6 @@ More parts are available in a separate class. An instance is available as
 **Boxes.parts**
 
 .. automethod:: boxes.parts.Parts.disc
-.. automethod:: boxes.parts.Parts.waivyKnob
+.. automethod:: boxes.parts.Parts.wavyKnob
 .. automethod:: boxes.parts.Parts.concaveKnob
 .. automethod:: boxes.parts.Parts.ringSegment

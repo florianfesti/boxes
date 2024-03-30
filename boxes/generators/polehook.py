@@ -113,11 +113,11 @@ class PoleHook(Boxes): # change class name here and below
         self.parts.disc(d+2*ww, hole=self.screw, move="right")
         self.parts.disc(d+2*ww, callback=self.clamp, hole=self.screw+0.5*t, move="right")
         self.parts.disc(d+2*ww, hole=self.screw+0.5*t, move="right")
-        self.parts.waivyKnob(50, callback=lambda:self.nutHole(self.screwhead),
+        self.parts.wavyKnob(50, callback=lambda:self.nutHole(self.screwhead),
                              move="right")
-        self.parts.waivyKnob(50, callback=lambda:self.nutHole(self.screwhead),
+        self.parts.wavyKnob(50, callback=lambda:self.nutHole(self.screwhead),
                              move="right")
-        self.parts.waivyKnob(50, hole=self.screw+0.5*t, move="right")
+        self.parts.wavyKnob(50, hole=self.screw+0.5*t, move="right")
 
         ll = ((d**2 + (0.5*(d+ww))**2)**0.5) - 0.5 * d
         for i in range(3):

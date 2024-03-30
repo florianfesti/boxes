@@ -3777,20 +3777,20 @@ msgid "additional lid (for straight top_edge only)"
 msgstr "Zusätzlicher Deckel (nur für gerade Oberkanten)"
 
 #. name of box generator
-#: boxes/generators/waivyknob.py
-msgid "WaivyKnob"
+#: boxes/generators/wavyknob.py
+msgid "WavyKnob"
 msgstr "Geriffelter-Drehknopf"
 
-msgid "WaivyKnob Settings"
+msgid "WavyKnob Settings"
 msgstr "Einstellungen Drehknopf"
 
 #. parameter name
-#: boxes/generators/waivyknob.py
+#: boxes/generators/wavyknob.py
 msgid "serrationangle"
 msgstr "Verzahnungswinkel"
 
 #. help for parameter serrationangle
-#: boxes/generators/waivyknob.py
+#: boxes/generators/wavyknob.py
 msgid "higher values for deeper serrations (degrees)"
 msgstr "höherer Wert für tiefere Verzahnung (Grad)"
 

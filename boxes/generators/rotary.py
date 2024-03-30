@@ -251,8 +251,8 @@ class Rotary(Boxes):
             self.rectangularWall(hw - 2 * t - 2, 60, edges="efef", move="right")
             self.rectangularWall(hw - 4 * t - 4, 60, edges="efef", move="right")
             # Spindle auxiliaries
-            self.parts.waivyKnob(50, callback=lambda: self.nutHole("M8"), move="right")
-            self.parts.waivyKnob(50, callback=lambda: self.nutHole("M8"), move="right")
+            self.parts.wavyKnob(50, callback=lambda: self.nutHole("M8"), move="right")
+            self.parts.wavyKnob(50, callback=lambda: self.nutHole("M8"), move="right")
 
         self.rectangularWall(hw - 2 * t - 4, 60, edges="efef", move="up only")
 

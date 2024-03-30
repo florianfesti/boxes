@@ -16,7 +16,7 @@
 from boxes import *
 
 
-class WaivyKnob(Boxes):
+class WavyKnob(Boxes):
     """Round knob serrated outside for better gripping"""
 
     ui_group = "Part"
@@ -47,11 +47,11 @@ class WaivyKnob(Boxes):
     def render(self):
         t = self.thickness
         angle = self.serrationangle
-        self.parts.waivyKnob(self.diameter, self.serrations, angle,
+        self.parts.wavyKnob(self.diameter, self.serrations, angle,
                              callback=lambda:self.dHole(0, 0, d=self.bolthole,
                                                         rel_w=self.dhole),
                              move="right")
-        self.parts.waivyKnob(self.diameter, self.serrations, angle,
+        self.parts.wavyKnob(self.diameter, self.serrations, angle,
                              callback=lambda: self.nutHole(self.hexhead),
                              move="right")
-        self.parts.waivyKnob(self.diameter, self.serrations, angle)
+        self.parts.wavyKnob(self.diameter, self.serrations, angle)

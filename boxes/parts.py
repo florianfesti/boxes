@@ -65,8 +65,8 @@ class Parts:
             self.edge(2*r*sin(radians(a)))
         self.move(size*dwidth, size, move, label=label)
 
-    def waivyKnob(self, diameter: float, n: int = 20, angle: float = 45, hole: float = 0, callback: Callable | None = None, move: str = "") -> None:
-        """Disc with a waivy edge to be easier to be gripped
+    def wavyKnob(self, diameter: float, n: int = 20, angle: float = 45, hole: float = 0, callback: Callable | None = None, move: str = "") -> None:
+        """Disc with a wavy edge to be easier to be gripped
 
         :param diameter: diameter of the knob
         :param n: (Default value = 20) number of waves

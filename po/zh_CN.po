@@ -1203,10 +1203,10 @@ msgstr "松弛"
 msgid "Use hexagonal arrangement for the holes instead of orthogonal"
 msgstr "孔采用六角形排列，而不是正交排列"
 
-msgid "WaivyKnob"
+msgid "WavyKnob"
 msgstr "波浪形旋钮"
 
-msgid "WaivyKnob Settings"
+msgid "WavyKnob Settings"
 msgstr "波浪形旋钮设置"
 
 msgid "Width of the cards"

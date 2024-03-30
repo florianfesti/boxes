@@ -3759,20 +3759,20 @@ msgid "additional lid (for straight top_edge only)"
 msgstr "additional lid (for straight top_edge only)"
 
 #. name of box generator
-#: boxes/generators/waivyknob.py
-msgid "WaivyKnob"
-msgstr "WaivyKnob"
+#: boxes/generators/wavyknob.py
+msgid "WavyKnob"
+msgstr "WavyKnob"
 
-msgid "WaivyKnob Settings"
-msgstr "WaivyKnob Settings"
+msgid "WavyKnob Settings"
+msgstr "WavyKnob Settings"
 
 #. parameter name
-#: boxes/generators/waivyknob.py
+#: boxes/generators/wavyknob.py
 msgid "serrationangle"
 msgstr "serrationangle"
 
 #. help for parameter serrationangle
-#: boxes/generators/waivyknob.py
+#: boxes/generators/wavyknob.py
 msgid "higher values for deeper serrations (degrees)"
 msgstr "higher values for deeper serrations (degrees)"
 

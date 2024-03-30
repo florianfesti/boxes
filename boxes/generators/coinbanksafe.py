@@ -186,7 +186,7 @@ Leaving them unglued will allow you change the code, and to remove the pin from 
                 3, 1, "right", self.parts.disc, 2*small_radius,
                 callback=lambda:self.rectangularHole(0, 0, t, t))
             self.partsMatrix(
-                3, 1, "right", self.parts.waivyKnob, 2*small_radius,
+                3, 1, "right", self.parts.wavyKnob, 2*small_radius,
                 callback=lambda:self.rectangularHole(0, 0, t, t))
 
         self.partsMatrix(3, 1, "up only", self.parts.disc, 2*big_radius)

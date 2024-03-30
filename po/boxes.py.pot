@@ -7905,20 +7905,20 @@ msgid "finger holes"
 msgstr ""
 
 #. name of box generator
-#: boxes/generators/waivyknob.py
-msgid "WaivyKnob"
+#: boxes/generators/wavyknob.py
+msgid "WavyKnob"
 msgstr ""
 
-msgid "WaivyKnob Settings"
+msgid "WavyKnob Settings"
 msgstr ""
 
 #. parameter name
-#: boxes/generators/waivyknob.py
+#: boxes/generators/wavyknob.py
 msgid "serrationangle"
 msgstr ""
 
 #. help for parameter serrationangle
-#: boxes/generators/waivyknob.py
+#: boxes/generators/wavyknob.py
 msgid "higher values for deeper serrations (degrees)"
 msgstr ""
 

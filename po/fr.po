@@ -3741,20 +3741,20 @@ msgid "additional lid (for straight top_edge only)"
 msgstr "couvercle supplémentaire (pour un bord haut droit seulement)"
 
 #. name of box generator
-#: boxes/generators/waivyknob.py
-msgid "WaivyKnob"
+#: boxes/generators/wavyknob.py
+msgid "WavyKnob"
 msgstr "Bouton cannelé"
 
-msgid "WaivyKnob Settings"
+msgid "WavyKnob Settings"
 msgstr "Réglages du Bouton cannelé"
 
 #. parameter name
-#: boxes/generators/waivyknob.py
+#: boxes/generators/wavyknob.py
 msgid "serrationangle"
 msgstr "angle cannelage"
 
 #. help for parameter serrationangle
-#: boxes/generators/waivyknob.py
+#: boxes/generators/wavyknob.py
 msgid "higher values for deeper serrations (degrees)"
 msgstr "Une valeur plus grande donne une cannelure plus profonde (degré)"
 

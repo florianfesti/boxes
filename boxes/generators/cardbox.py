@@ -115,20 +115,17 @@ Whole box (early version still missing grip rail on the lid):
     def boxhight(self):
         if self.outside:
             return self.h - 3 * self.thickness
-        else:
-            return self.h
+        return self.h
     @property
     def boxwidth(self):
         return (len(self.sx) + 1) * self.thickness + sum(self.sx)
     @property
     def boxdepth(self):
-        if not self.outside:
-            if self.openingdirection == 'right':
-                return self.y + 2 * self.thickness
-            else:
-                return self.y
-        else:
+        if self.outside:
             return self.y - 2 * self.thickness
+        if self.openingdirection == 'right':
+            return self.y + 2 * self.thickness
+        return self.y
 
     def divider_bottom(self):
         t = self.thickness

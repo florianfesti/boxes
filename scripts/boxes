@@ -7,11 +7,9 @@ Usage:
   boxes <generator> [<args>...]
   boxes --list
   boxes (-h | --help)
-  boxes --version
 
 Options:
   -h --help     Show this screen.
-  --version     Show version.
   --list        List available generators.
 """
 
@@ -26,10 +24,6 @@ except ImportError:
     import boxes
 
 import boxes.generators
-
-
-def print_usage():
-    print(__doc__)
 
 
 def list_grouped_generators():
@@ -94,11 +88,21 @@ def generators_by_name():
     }
 
 
+def print_usage() -> None:
+    print(__doc__)
+
+
+def print_version() -> None:
+    print("boxes does not use versioning.")
+
+
 def main() -> None:
     if len(sys.argv) > 1 and sys.argv[1].startswith("--id="):
         del sys.argv[1]
-    if len(sys.argv) == 1:
+    if len(sys.argv) == 1 or sys.argv[1] == '--help' or sys.argv[1] == '-h':
         print_usage()
+    elif sys.argv[1] == '--version':
+        print_version()
     elif sys.argv[1] == '--list':
         list_grouped_generators()
     else:

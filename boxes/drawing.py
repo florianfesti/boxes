@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import codecs
-import datetime
 import io
 import math
 from typing import Any
@@ -427,16 +426,16 @@ class SVGSurface(Surface):
             parent.insert(0, t)
         return t
 
-    def _add_metadata(self, root):
+    def _add_metadata(self, root) -> None:
         md = self.metadata
+
+        title = "{group} - {name}".format(**md)
+        creation_date: str = md["creation_date"].strftime("%Y-%m-%d %H:%M:%S")
 
         # Add Inkscape style rdf meta data
         root.set("xmlns:dc", "http://purl.org/dc/elements/1.1/")
         root.set("xmlns:cc", "http://creativecommons.org/ns#")
-        root.set("xmlns:rdf","http://www.w3.org/1999/02/22-rdf-syntax-ns#")
-
-        title = "{group} - {name}".format(**md)
-        date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        root.set("xmlns:rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#")
 
         m = self._addTag(root, "metadata", '\n', True)
         r = ET.SubElement(m, 'rdf:RDF')
@@ -444,7 +443,7 @@ class SVGSurface(Surface):
         w.text = '\n'
 
         self._addTag(w, 'dc:title', title)
-        self._addTag(w, 'dc:date', date)
+        self._addTag(w, 'dc:date', creation_date)
 
         if "url" in md and md["url"]:
             self._addTag(w, 'dc:source', md["url"])
@@ -469,19 +468,11 @@ class SVGSurface(Surface):
         self._addTag(root, "title", md["name"], True)
 
         # Add XML comment
-        txt = """
-{name} - {short_description}
-""".format(**md)
+        txt = """\n{name} - {short_description}\n""".format(**md)
         if md["description"]:
-            txt += """
-
-{description}
-
-""".format(**md)
-        txt += """
-Created with Boxes.py (https://festi.info/boxes.py)
-Creation date: {date}
-""".format(date=date, **md)
+            txt += """\n\n{description}\n\n""".format(**md)
+        txt += """\nCreated with Boxes.py (https://festi.info/boxes.py)\n"""
+        txt += f"""Creation date: {creation_date}\n"""
 
         txt += "Command line (remove spaces between dashes): %s\n" % md["cli_short"]
 
@@ -616,15 +607,15 @@ class PSSurface(Surface):
         ('monospaced', True, True) : 'Courier-BoldOblique',
         }
 
-    def _metadata(self):
+    def _metadata(self) -> str:
         md = self.metadata
 
         desc = ""
         desc += "%%Title: Boxes.py - {group} - {name}\n".format(**md)
-        desc += f'%%CreationDate: {datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n'
+        desc += f'%%CreationDate: {md["creation_date"].strftime("%Y-%m-%d %H:%M:%S")}\n'
         desc += f'%%Keywords: boxes.py, laser, laser cutter\n'
         desc += f'%%Creator: {md.get("url") or md["cli"]}\n'
-        desc +=  "%%CreatedBy: Boxes.py (https://festi.info/boxes.py)\n"
+        desc += "%%CreatedBy: Boxes.py (https://festi.info/boxes.py)\n"
         for line in (md["short_description"] or "").split("\n"):
             desc += "%% %s\n" % line
         desc += "%\n"

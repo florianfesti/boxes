@@ -443,7 +443,8 @@ class SVGSurface(Surface):
         w.text = '\n'
 
         self._addTag(w, 'dc:title', title)
-        self._addTag(w, 'dc:date', creation_date)
+        if not md["reproducible"]:
+            self._addTag(w, 'dc:date', creation_date)
 
         if "url" in md and md["url"]:
             self._addTag(w, 'dc:source', md["url"])
@@ -472,7 +473,8 @@ class SVGSurface(Surface):
         if md["description"]:
             txt += """\n\n{description}\n\n""".format(**md)
         txt += """\nCreated with Boxes.py (https://festi.info/boxes.py)\n"""
-        txt += f"""Creation date: {creation_date}\n"""
+        if not md["reproducible"]:
+            txt += f"""Creation date: {creation_date}\n"""
 
         txt += "Command line (remove spaces between dashes): %s\n" % md["cli_short"]
 
@@ -612,7 +614,8 @@ class PSSurface(Surface):
 
         desc = ""
         desc += "%%Title: Boxes.py - {group} - {name}\n".format(**md)
-        desc += f'%%CreationDate: {md["creation_date"].strftime("%Y-%m-%d %H:%M:%S")}\n'
+        if not md["reproducible"]:
+            desc += f'%%CreationDate: {md["creation_date"].strftime("%Y-%m-%d %H:%M:%S")}\n'
         desc += f'%%Keywords: boxes.py, laser, laser cutter\n'
         desc += f'%%Creator: {md.get("url") or md["cli"]}\n'
         desc += "%%CreatedBy: Boxes.py (https://festi.info/boxes.py)\n"

@@ -154,7 +154,8 @@ You can replace the space characters representing the floor by a "X" to remove t
         if self.layout:
             self.parse(self.layout.split('\n'))
         else:
-            self.parse(self.input)
+            with open(self.input) as f:
+                self.parse(f.read())
 
         if self.outside:
             self.x = self.adjustSize(self.x)

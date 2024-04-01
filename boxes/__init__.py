@@ -306,6 +306,7 @@ class Boxes:
             "cli": "",
             "cli_short": "",
             "creation_date": datetime.datetime.now(),
+            "reproducible": False,  # If True output does not contain variable content like creation date.
         }
 
         # Dummy attribute for static analytic tools. Will be overwritten by `argparser` at runtime.

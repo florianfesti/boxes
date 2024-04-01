@@ -1783,7 +1783,7 @@ class Boxes:
                     xw = (math.ceil((x_start - xs) / (2 * max_radius_x + hspace)) * (2 * max_radius_x + hspace)) + xs
 
                     # look up matching inner line
-                    while (inner_line_index < len(inner_line_split) and
+                    while (inner_line_index < len(inner_line_split.geoms) and
                            (inner_line_split.geoms[inner_line_index].bounds[2] <  xw
                             or not innerTestPoly.contains(inner_line_split.geoms[inner_line_index]))):
                         inner_line_index += 1
@@ -1791,14 +1791,14 @@ class Boxes:
                     # and process line
                     while not xw > x_end:
                         # are we in inner polygon already?
-                        if (len(inner_line_split) > inner_line_index and
+                        if (len(inner_line_split.geoms) > inner_line_index and
                             xw > inner_line_split.geoms[inner_line_index].bounds[0]):
                             # place inner, full size polygons
                             while xw < inner_line_split.geoms[inner_line_index].bounds[2]:
                                 self.regularPolygonHole(xw, y, r=max_radius, n=n, a=a)
                                 xw += (2 * max_radius_x + hspace)
                             # forward to next inner line
-                            while (inner_line_index < len(inner_line_split) and
+                            while (inner_line_index < len(inner_line_split.geoms) and
                                    (inner_line_split.geoms[inner_line_index].bounds[0] <  xw
                                     or not innerTestPoly.contains(inner_line_split.geoms[inner_line_index]))):
                                 inner_line_index += 1

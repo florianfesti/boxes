@@ -14,6 +14,8 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from __future__ import annotations
 
+import io
+
 import boxes
 from boxes import *
 from boxes import lids
@@ -51,9 +53,9 @@ The actual sizes and all other settings can be entered in the second step."""
         # Use empty open and close methods to avoid initializing the whole drawing infrastructure.
         pass
 
-    def close(self) -> None:
+    def close(self):
         # Use empty open and close methods to avoid initializing the whole drawing infrastructure.
-        pass
+        return io.BytesIO(bytes(str(self), 'utf-8'))
 
     def fillDefault(self, sx: list[float], sy: list[float]) -> None:
         self.sx = sx
@@ -79,9 +81,6 @@ The actual sizes and all other settings can be entered in the second step."""
 
     def render(self) -> None:
         self.fillDefault(self.sx, self.sy)
-        with open(self.output, 'w') as f:
-            f.write(str(self))
-
 
 class TrayLayout(Boxes):
     """Generate a typetray from a layout file."""

@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import argparse
 import copy
+import datetime
 import gettext
 import math
 import random
@@ -296,14 +297,15 @@ class Boxes:
         self.translations = gettext.NullTranslations()
 
         self.metadata = {
-            "name" : self.__class__.__name__,
-            "short_description" : self.__doc__,
-            "description" : self.description,
-            "group" : self.ui_group,
-            "url" : "",
-            "url_short" : "",
-            "cli" : "",
-            "cli_short" : "",
+            "name": self.__class__.__name__,
+            "short_description": self.__doc__,
+            "description": self.description,
+            "group": self.ui_group,
+            "url": "",
+            "url_short": "",
+            "cli": "",
+            "cli_short": "",
+            "creation_date": datetime.datetime.now(),
         }
 
         # Dummy attribute for static analytic tools. Will be overwritten by `argparser` at runtime.
@@ -530,12 +532,13 @@ class Boxes:
         if args is None:
             args = sys.argv[1:]
 
-        def cliquote(s):
+        def cliQuote(s: str) -> str:
             s = s.replace('\r', '')
             s = s.replace('\n', "\\n")
             return quote(s)
 
-        self.metadata["cli"] = "boxes " + self.__class__.__name__ + " " + " ".join(cliquote(arg) for arg in args)
+        self.metadata["cli"] = "boxes " + self.__class__.__name__ + " " + " ".join(cliQuote(arg) for arg in args)
+        self.metadata["cli"] = self.metadata["cli"].strip()
 
         for key, value in vars(self.argparser.parse_args(args=args)).items():
             default = self.argparser.get_default(key)
@@ -546,15 +549,16 @@ class Boxes:
                     self.edgesettings[setting][key[len(setting)+1:]] = value
                     continue
             setattr(self, key, value)
-            if (value != default):
+            if value != default:
                 self.non_default_args[key] = value
 
         # Change file ending to format if not given explicitly
-        format = getattr(self, "format", "svg")
+        fileFormat = getattr(self, "format", "svg")
         if getattr(self, 'output', None) == 'box.svg':
-            self.output = 'box.' + format.split("_")[0]
+            self.output = 'box.' + fileFormat.split("_")[0]
 
-        self.metadata["cli_short"] = "boxes " + self.__class__.__name__ + " " + " ".join(cliquote(arg) for arg in args if (arg.split("=")[0][2:] in self.non_default_args))
+        self.metadata["cli_short"] = "boxes " + self.__class__.__name__ + " " + " ".join(cliQuote(arg) for arg in args if (arg.split("=")[0][2:] in self.non_default_args))
+        self.metadata["cli_short"] = self.metadata["cli_short"].strip()
 
     def addPart(self, part, name=None):
         """

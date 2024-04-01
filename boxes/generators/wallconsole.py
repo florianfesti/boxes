@@ -22,7 +22,7 @@ class WallConsole(_WallMountedBox):
     def __init__(self) -> None:
         super().__init__()
 
-        self.buildArgParser(sx=100, h=100, outside=True)
+        self.buildArgParser(sx="100", h=100, outside=True)
 
         self.argparser.add_argument(
             "--top_depth",  action="store", type=float, default=50,

@@ -567,7 +567,7 @@ class BServer:
                 if not os.path.exists(static_filename):
                     result.append(f"""  <span class="gallery_missing" id="search_id_{name}"><a href="{href}">{_(name)}<br><br>{_(box.__doc__)}</a></span>\n""")
                 else:
-                    result.append(f"""  <span class="gallery" id="search_id_{name}"><a title="{_(name)} - {_(box.__doc__)}" href="{href}"><img alt="{alt}" src="{thumbnail}"/></a></span>\n""")
+                    result.append(f"""  <span class="gallery" id="search_id_{name}"><a title="{_(name)} - {html.escape(_(box.__doc__))}" href="{href}"><img alt="{alt}" src="{thumbnail}"></a></span>\n""")
 
         result.append(f"""
 </div><div style="width: 5%; float: left;"></div>

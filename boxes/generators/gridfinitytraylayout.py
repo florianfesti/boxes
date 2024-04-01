@@ -1,3 +1,5 @@
+import argparse
+
 import boxes
 from boxes import Boxes, lids, restore
 from boxes.Color import Color
@@ -37,7 +39,14 @@ this compartment.
         self.argparser.add_argument("--countx", type=int, default=5, help="split x into this many grid sections.  0 means same as --nx")
         self.argparser.add_argument("--county", type=int, default=3, help="split y into this many grid sections.  0 means same as --ny")
         self.argparser.add_argument("--margin", type=float, default=0.75, help="Leave this much total margin on the outside, in mm")
-        self.argparser.add_argument("--layout", type=str, help="You can hand edit this before generating", default="\n");
+        if self.UI == "web":
+            self.argparser.add_argument("--layout", type=str, help="You can hand edit this before generating", default="\n");
+        else:
+            self.argparser.add_argument(
+                "--input", action="store", type=argparse.FileType('r'),
+                default="traylayout.txt",
+                help="layout file")
+            self.layout = None
 
     def generate_layout(self):
         layout = ''

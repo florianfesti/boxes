@@ -458,19 +458,19 @@ class Boxes:
                 if default is None: default = "50*3"
                 self.argparser.add_argument(
                     "--sx", action="store", type=argparseSections,
-                    default=default,
+                    default=str(default),
                     help="""sections left to right in mm [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#section-parameters)""")
             elif arg == "sy":
                 if default is None: default = "50*3"
                 self.argparser.add_argument(
                     "--sy", action="store", type=argparseSections,
-                    default=default,
+                    default=str(default),
                     help="""sections back to front in mm [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#section-parameters)""")
             elif arg == "sh":
                 if default is None: default = "50*3"
                 self.argparser.add_argument(
                     "--sh", action="store", type=argparseSections,
-                    default=default,
+                    default=str(default),
                     help="""sections bottom to top in mm [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#section-parameters)""")
             elif arg == "h":
                 if default is None: default = 100.0

@@ -85,7 +85,6 @@ class Rack19HalfWidth(Boxes):
         """Hole for a wire."""
         self.moveTo(3)
         self.hole(0, 0, 3.25)
-        print('hi')
         self.moveTo(3)
 
     hole_map = {

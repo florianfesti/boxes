@@ -23,7 +23,6 @@ class CoinHolderSideEdge(edges.BaseEdge):
         a_l2 = self.settings.coin_plate * math.sin(self.settings.angle)
         a = math.degrees(self.settings.angle)
 
-        print(a, a_l, a_l2)
         self.corner(-a)
         # Draw the angled edge, but set the thickness to two temporarily
         #   as two pieces will go on top of another

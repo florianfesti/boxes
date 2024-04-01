@@ -97,7 +97,7 @@ class FanHole(Boxes):
             for py in (inset, d-inset):
                 self.hole(px, py, r_h)
         self.moveTo(d/2, d/2)
-        print(self.style)
+
         if self.style == "CW Swirl":
             self.ctx.scale(-1, 1)
             self.swirl(d/2, self.inner_disc, self.arms)

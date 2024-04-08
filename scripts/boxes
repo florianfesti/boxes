@@ -6,16 +6,20 @@ Generate stencils for wooden boxes.
 Usage:
   boxes <generator> [<args>...]
   boxes --list
+  boxes --examples
   boxes (-h | --help)
 
 Options:
-  -h --help     Show this screen.
   --list        List available generators.
+  --examples    Generates an SVG for every generator into the "examples" folder.
+  -h --help     Show this screen.
 """
+from __future__ import annotations
 
 import gettext
 import os
 import sys
+from pathlib import Path
 
 try:
     import boxes
@@ -26,16 +30,48 @@ except ImportError:
 import boxes.generators
 
 
-def list_grouped_generators():
+def print_grouped_generators() -> None:
+    class ConsoleColors:
+        BOLD = '\033[1m'
+        CLEAR = '\033[0m'
+        ITALIC = '\033[3m'
+        UNDERLINE = '\033[4m'
+
     print('Available generators:')
     for group in generator_groups():
-        print('\n' + group.title)
+        print('\n' + ConsoleColors.UNDERLINE + group.title + ConsoleColors.CLEAR)
         if group.description:
-            print('\n%s\n' % group.description)
-        else:
-            print()
+            print('\n' + group.description)
+        print()
         for box in group.generators:
-            print(' *  {}  -  {}'.format(box.__name__, box.__doc__ or ''))
+            description = box.__doc__ or ""
+            description = description.replace("\n", "").replace("\r", "").strip()
+            print(f' *  {box.__name__:<15} - {ConsoleColors.ITALIC}{description}{ConsoleColors.CLEAR}')
+
+
+def create_example_every_generator() -> None:
+    print("Generating SVG examples for every possible generator.")
+    for group in generator_groups():
+        for boxExample in group.generators:
+            boxName = boxExample.__name__
+            notTestGenerator = ('GridfinityTrayLayout', 'TrayLayout', 'TrayLayoutFile', 'TypeTray', 'Edges',)
+            brokenGenerator = ()
+            avoidGenerator = notTestGenerator + brokenGenerator
+            if boxName in avoidGenerator:
+                print(f"SKIP: {boxName}")
+                continue
+            print(f"Generate example for: {boxName}")
+
+            box = boxExample()
+            box.translations = get_translation()
+            box.parseArgs("")
+            box.metadata["reproducible"] = True
+            box.open()
+            box.render()
+            boxData = box.close()
+
+            file = Path('examples') / (boxName + '.svg')
+            file.write_bytes(boxData.getvalue())
 
 
 def get_translation():
@@ -45,7 +81,7 @@ def get_translation():
         return gettext.translation('boxes.py', fallback=True)
 
 
-def run_generator(name, args):
+def run_generator(name: str, args) -> None:
     generators = generators_by_name()
     lower_name = name.lower()
 
@@ -59,8 +95,9 @@ def run_generator(name, args):
         with os.fdopen(sys.stdout.fileno(), "wb", closefd=False) if box.output == "-" else open(box.output, 'wb') as f:
             f.write(data.getvalue())
     else:
-        msg = f'Unknown generator \'{name}\'. Use boxes --list to get a list of available commands.\n'
+        msg = f"Unknown generator '{name}'. Use boxes --list to get a list of available commands.\n"
         sys.stderr.write(msg)
+
 
 def generator_groups():
     generators = generators_by_name()
@@ -72,14 +109,13 @@ def group_generators(generators):
     groups_by_name = boxes.generators.ui_groups_by_name
 
     for name, generator in generators.items():
-        group_for_generator = groups_by_name.get(generator.ui_group,
-                                                 groups_by_name['Misc'])
+        group_for_generator = groups_by_name.get(generator.ui_group, groups_by_name['Misc'])
         group_for_generator.add(generator)
 
     return groups
 
 
-def generators_by_name():
+def generators_by_name() -> dict[str, type[boxes.Boxes]]:
     all_generators = boxes.generators.getAllBoxGenerators()
 
     return {
@@ -104,7 +140,9 @@ def main() -> None:
     elif sys.argv[1] == '--version':
         print_version()
     elif sys.argv[1] == '--list':
-        list_grouped_generators()
+        print_grouped_generators()
+    elif sys.argv[1] == '--examples':
+        create_example_every_generator()
     else:
         name = sys.argv[1].lower()
         if name.startswith("--generator="):

@@ -1,4 +1,5 @@
-inkex
+lxml
 mypy
 pre-commit
+pytest>=8.1.1
 types-Markdown

@@ -17,9 +17,7 @@ from boxes import *
 
 
 class TwoPiece(Boxes):
-    """A two piece box where top slips over the bottom half to form
-       the enclosure.
-    """
+    """A two piece box where top slips over the bottom half to form the enclosure."""
 
     description = """
 Set *hi* larger than *h* to leave gap between the inner and outer shell. This can be used to make opening the box easier. Set *hi* smaller to only have a small inner ridge that will allow the content to be more visible after opening.

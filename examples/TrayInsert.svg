@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg height="437.00mm" viewBox="0.0 0.0 178.90 437.00" width="178.90mm" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<!--
+TrayInsert - Tray insert without floor and outer walls - allows only continuous walls
+
+Created with Boxes.py (https://festi.info/boxes.py)
+Command line (remove spaces between dashes): boxes TrayInsert
+-->
+<title>TrayInsert</title>
+<metadata>
+<rdf:RDF><cc:Work>
+<dc:title>Tray - TrayInsert</dc:title>
+<dc:source>boxes TrayInsert</dc:source>
+<dc:description>Tray insert without floor and outer walls - allows only continuous walls
+
+Created with Boxes.py (https://festi.info/boxes.py)
+Command line: boxes TrayInsert
+Command line short: boxes TrayInsert
+</dc:description>
+</cc:Work></rdf:RDF></metadata>
+<g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
+  <path d="M 18.800 427.000 H 118.800 V 417.000 H 18.800 V 427.000 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
+  <text dominant-baseline="hanging" font-size="8px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 68.800 418.000 )">100.00mm, burn:0.10mm</text>
+</g>
+<g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
+  <path d="M 18.800 415.300 H 66.800 C 66.855 415.300 66.900 415.255 66.900 415.200 V 365.300 C 66.900 365.200 66.800 365.300 66.900 365.300 H 69.700 C 69.800 365.300 69.700 365.200 69.700 365.300 V 415.200 C 69.700 415.255 69.745 415.300 69.800 415.300 H 117.800 C 117.855 415.300 117.900 415.255 117.900 415.200 V 365.300 C 117.900 365.200 117.800 365.300 117.900 365.300 H 120.700 C 120.800 365.300 120.700 365.200 120.700 365.300 V 415.200 C 120.700 415.255 120.745 415.300 120.800 415.300 H 168.800 C 168.855 415.300 168.900 415.255 168.900 415.200 V 315.200 C 168.900 315.145 168.855 315.100 168.800 315.100 H 18.800 C 18.745 315.100 18.700 315.145 18.700 315.200 V 415.200 C 18.700 415.255 18.745 415.300 18.800 415.300 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
+</g>
+<g id="p-2" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
+  <path d="M 18.800 313.600 H 66.800 C 66.855 313.600 66.900 313.555 66.900 313.500 V 263.600 C 66.900 263.500 66.800 263.600 66.900 263.600 H 69.700 C 69.800 263.600 69.700 263.500 69.700 263.600 V 313.500 C 69.700 313.555 69.745 313.600 69.800 313.600 H 117.800 C 117.855 313.600 117.900 313.555 117.900 313.500 V 263.600 C 117.900 263.500 117.800 263.600 117.900 263.600 H 120.700 C 120.800 263.600 120.700 263.500 120.700 263.600 V 313.500 C 120.700 313.555 120.745 313.600 120.800 313.600 H 168.800 C 168.855 313.600 168.900 313.555 168.900 313.500 V 213.500 C 168.900 213.445 168.855 213.400 168.800 213.400 H 18.800 C 18.745 213.400 18.700 213.445 18.700 213.500 V 313.500 C 18.700 313.555 18.745 313.600 18.800 313.600 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
+</g>
+<g id="p-3" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
+  <path d="M 18.800 211.900 H 168.800 C 168.855 211.900 168.900 211.855 168.900 211.800 V 111.800 C 168.900 111.745 168.855 111.700 168.800 111.700 H 120.800 C 120.745 111.700 120.700 111.745 120.700 111.800 V 161.700 C 120.700 161.800 120.800 161.700 120.700 161.700 H 117.900 C 117.800 161.700 117.900 161.800 117.900 161.700 V 111.800 C 117.900 111.745 117.855 111.700 117.800 111.700 H 69.800 C 69.745 111.700 69.700 111.745 69.700 111.800 V 161.700 C 69.700 161.800 69.800 161.700 69.700 161.700 H 66.900 C 66.800 161.700 66.900 161.800 66.900 161.700 V 111.800 C 66.900 111.745 66.855 111.700 66.800 111.700 H 18.800 C 18.745 111.700 18.700 111.745 18.700 111.800 V 211.800 C 18.700 211.855 18.745 211.900 18.800 211.900 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
+</g>
+<g id="p-4" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
+  <path d="M 18.800 110.200 H 168.800 C 168.855 110.200 168.900 110.155 168.900 110.100 V 10.100 C 168.900 10.045 168.855 10.000 168.800 10.000 H 120.800 C 120.745 10.000 120.700 10.045 120.700 10.100 V 60.000 C 120.700 60.100 120.800 60.000 120.700 60.000 H 117.900 C 117.800 60.000 117.900 60.100 117.900 60.000 V 10.100 C 117.900 10.045 117.855 10.000 117.800 10.000 H 69.800 C 69.745 10.000 69.700 10.045 69.700 10.100 V 60.000 C 69.700 60.100 69.800 60.000 69.700 60.000 H 66.900 C 66.800 60.000 66.900 60.100 66.900 60.000 V 10.100 C 66.900 10.045 66.855 10.000 66.800 10.000 H 18.800 C 18.745 10.000 18.700 10.045 18.700 10.100 V 110.100 C 18.700 110.155 18.745 110.200 18.800 110.200 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
+</g>
+</svg>

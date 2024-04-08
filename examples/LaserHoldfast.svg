@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg height="63.82mm" viewBox="0.0 0.0 137.60 63.82" width="137.60mm" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<!--
+LaserHoldfast - A holdfast for honey comb tables of laser cutters
+
+Created with Boxes.py (https://festi.info/boxes.py)
+Command line (remove spaces between dashes): boxes LaserHoldfast
+-->
+<title>LaserHoldfast</title>
+<metadata>
+<rdf:RDF><cc:Work>
+<dc:title>Part - LaserHoldfast</dc:title>
+<dc:source>boxes LaserHoldfast</dc:source>
+<dc:description>A holdfast for honey comb tables of laser cutters
+
+Created with Boxes.py (https://festi.info/boxes.py)
+Command line: boxes LaserHoldfast
+Command line short: boxes LaserHoldfast
+</dc:description>
+</cc:Work></rdf:RDF></metadata>
+<g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
+  <path d="M 18.800 53.824 H 118.800 V 43.824 H 18.800 V 53.824 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
+  <text dominant-baseline="hanging" font-size="8px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 68.800 44.824 )">100.00mm, burn:0.10mm</text>
+</g>
+<g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
+  <path d="M 17.950 42.974 H 62.950 C 63.406 42.974 63.855 42.854 64.250 42.626 C 64.645 42.397 64.973 42.069 65.202 41.674 C 65.430 41.279 65.550 40.830 65.550 40.374 C 65.550 39.917 65.430 39.469 65.202 39.074 C 64.973 38.679 64.645 38.350 64.250 38.122 C 63.855 37.894 63.406 37.774 62.950 37.774 H 22.950 C 22.995 37.774 23.035 37.804 23.047 37.848 C 20.882 29.769 20.882 21.263 23.047 13.184 C 23.165 12.743 23.165 12.279 23.047 11.838 C 22.928 11.398 22.696 10.996 22.374 10.673 C 22.051 10.350 21.649 10.118 21.208 10.000 C 20.767 9.882 20.303 9.882 19.862 10.000 C 19.421 10.118 19.019 10.350 18.697 10.673 C 18.374 10.996 18.142 11.398 18.024 11.838 C 15.623 20.799 15.623 30.233 18.024 39.194 C 18.022 39.185 18.020 39.177 18.020 39.168 V 42.874 C 18.020 42.929 18.065 42.974 18.120 42.974" stroke="rgb(0,0,0)" stroke-width="0.20" />
+</g>
+</svg>

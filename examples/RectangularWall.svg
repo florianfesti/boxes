@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg height="140.90mm" viewBox="0.0 0.0 137.90 140.90" width="137.90mm" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<!--
+RectangularWall - Simple wall with options for different edges
+
+Created with Boxes.py (https://festi.info/boxes.py)
+Command line (remove spaces between dashes): boxes RectangularWall
+-->
+<title>RectangularWall</title>
+<metadata>
+<rdf:RDF><cc:Work>
+<dc:title>Part - RectangularWall</dc:title>
+<dc:source>boxes RectangularWall</dc:source>
+<dc:description>Simple wall with options for different edges
+
+Created with Boxes.py (https://festi.info/boxes.py)
+Command line: boxes RectangularWall
+Command line short: boxes RectangularWall
+</dc:description>
+</cc:Work></rdf:RDF></metadata>
+<g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
+  <path d="M 18.800 130.900 H 118.800 V 120.900 H 18.800 V 130.900 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
+  <text dominant-baseline="hanging" font-size="8px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 68.800 121.900 )">100.00mm, burn:0.10mm</text>
+</g>
+<g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
+  <path d="M 27.800 110.200 H 127.800 C 127.855 110.200 127.900 110.155 127.900 110.100 V 10.100 C 127.900 10.045 127.855 10.000 127.800 10.000 H 27.800 C 27.745 10.000 27.700 10.045 27.700 10.100 V 110.100 C 27.700 110.155 27.745 110.200 27.800 110.200 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
+</g>
+</svg>

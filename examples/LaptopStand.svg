@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg height="118.20mm" viewBox="0.0 0.0 395.84 118.20" width="395.84mm" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<!--
+LaptopStand - A simple X shaped frame to support a laptop on a given angle
+
+Created with Boxes.py (https://festi.info/boxes.py)
+Command line (remove spaces between dashes): boxes LaptopStand
+-->
+<title>LaptopStand</title>
+<metadata>
+<rdf:RDF><cc:Work>
+<dc:title>Misc - LaptopStand</dc:title>
+<dc:source>boxes LaptopStand</dc:source>
+<dc:description>A simple X shaped frame to support a laptop on a given angle
+
+Created with Boxes.py (https://festi.info/boxes.py)
+Command line: boxes LaptopStand
+Command line short: boxes LaptopStand
+</dc:description>
+</cc:Work></rdf:RDF></metadata>
+<g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
+  <path d="M 18.800 108.205 H 118.800 V 98.205 H 18.800 V 108.205 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
+  <text dominant-baseline="hanging" font-size="8px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 68.800 99.205 )">100.00mm, burn:0.10mm</text>
+</g>
+<g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
+  <path d="M 32.373 21.800 V 96.505 C 32.373 96.560 32.418 96.605 32.473 96.605 H 52.473 C 52.499 96.605 52.525 96.594 52.544 96.575 L 56.050 93.069 C 56.079 93.040 56.008 93.069 56.050 93.069 H 201.762 C 201.817 93.069 201.862 93.024 201.862 92.969 V 75.393 C 201.862 75.293 201.762 75.393 201.862 75.393 H 204.662 C 204.762 75.393 204.662 75.293 204.662 75.393 V 92.969 C 204.662 93.024 204.706 93.069 204.762 93.069 H 350.473 C 350.515 93.069 350.444 93.040 350.473 93.069 L 353.980 96.575 C 353.998 96.594 354.024 96.605 354.050 96.605 H 382.334 C 382.382 96.605 382.423 96.571 382.432 96.523 L 385.835 78.560 C 385.871 78.370 385.857 78.174 385.793 77.992 C 385.729 77.810 385.619 77.647 385.472 77.521 C 385.326 77.395 385.149 77.310 384.959 77.274 L 377.099 75.785 C 376.909 75.749 376.714 75.764 376.531 75.827 C 376.349 75.891 376.187 76.002 376.061 76.148 C 375.935 76.294 375.850 76.471 375.814 76.661 L 373.971 86.388 C 373.952 86.486 374.069 86.407 373.971 86.388 L 32.563 21.702 C 32.543 21.698 32.523 21.700 32.505 21.708 C 32.487 21.715 32.472 21.728 32.461 21.745 C 32.450 21.761 32.444 21.780 32.444 21.800 M 372.179 84.805 V 10.100 C 372.179 10.045 372.135 10.000 372.079 10.000 H 352.079 C 352.053 10.000 352.027 10.011 352.009 10.029 L 348.502 13.536 C 348.473 13.565 348.544 13.536 348.502 13.536 H 54.079 C 54.037 13.536 54.108 13.565 54.079 13.536 L 50.573 10.029 C 50.554 10.011 50.528 10.000 50.502 10.000 H 22.219 C 22.171 10.000 22.129 10.034 22.120 10.081 L 18.717 28.045 C 18.681 28.235 18.696 28.431 18.759 28.613 C 18.823 28.795 18.934 28.957 19.080 29.083 C 19.226 29.209 19.403 29.295 19.593 29.331 L 27.453 30.820 C 27.643 30.856 27.839 30.841 28.021 30.777 C 28.203 30.714 28.365 30.603 28.491 30.457 C 28.617 30.310 28.703 30.134 28.739 29.944 L 30.581 20.217 C 30.600 20.119 30.483 20.198 30.581 20.217 L 199.736 52.266 C 199.756 52.270 199.776 52.268 199.794 52.260 C 199.812 52.253 199.827 52.240 199.838 52.223 C 199.849 52.207 199.855 52.188 199.855 52.168 V 31.376 C 199.855 31.276 199.755 31.376 199.855 31.376 H 202.655 C 202.755 31.376 202.655 31.276 202.655 31.376 V 52.737 C 202.655 52.785 202.689 52.826 202.736 52.835 L 371.990 84.903 C 372.009 84.907 372.029 84.905 372.047 84.897 C 372.065 84.889 372.081 84.876 372.092 84.860 C 372.102 84.844 372.108 84.824 372.108 84.805" stroke="rgb(0,0,0)" stroke-width="0.20" />
+</g>
+</svg>

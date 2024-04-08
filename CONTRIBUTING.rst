@@ -79,6 +79,13 @@ Boxes.py. Here are some guidelines that make it easier to get them added:
 * Simple generators can end up as one single commit
 * For more complicated generators there can be multiple patches -
   each adding another feature
+* Add reference default SVG to *examples* folder
+
+Adding a new example
+....................
+
+* Generate example SVGs: :code:`boxes --examples`
+* Add to git: :code:`git add -f examples/*.svg`
 
 Adding new Dependencies
 .......................

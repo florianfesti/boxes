@@ -3,6 +3,7 @@
 ci:
   autofix_prs: true
   autoupdate_schedule: quarterly
+exclude: '\.svg$'
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
@@ -99,3 +100,13 @@ repos:
     hooks:
       - id: codespell
         exclude: ^(boxes|locale|po|static)/ # todo folder boxes
+
+  - repo: local
+    hooks:
+      - id: pytest
+        name: pytest
+        entry: pytest
+        language: system
+        types: [ python ]
+        pass_filenames: false
+        always_run: true

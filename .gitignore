@@ -16,3 +16,5 @@ documentation/src/generators.inc
 *.ipynb_checkpoints
 venv/
 .vscode/
+tracker.log
+*.isorted

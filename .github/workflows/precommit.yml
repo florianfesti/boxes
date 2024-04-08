@@ -5,6 +5,7 @@ jobs:
   main:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         python-version: [ "3.8", "3.12" ] # Lowest and highest.
     steps:
@@ -13,4 +14,6 @@ jobs:
       with:
           python-version: ${{ matrix.python-version }}
           cache: "pip" # caching pip dependencies
+    - run: pip install -r requirements.txt
+    - run: pip install -r requirements_dev.txt
     - uses: pre-commit/action@v3.0.1

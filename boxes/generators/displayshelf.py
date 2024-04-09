@@ -55,6 +55,12 @@ class DisplayShelf(Boxes):
             "--include_back", action="store", type=boolarg, default=False,
             help="Include panel on the back of the shelf")
         self.argparser.add_argument(
+            "--include_front", action="store", type=boolarg, default=False,
+            help="Include panel on the front of the shelf (to be used backwards)")
+        self.argparser.add_argument(
+            "--include_bottom", action="store", type=boolarg, default=False,
+            help="Include horizontal panel on the bottom of the shelf")
+        self.argparser.add_argument(
             "--slope_top", action="store", type=boolarg, default=False,
             help="Slope the sides and the top by front wall height")
         self.argparser.add_argument(
@@ -65,6 +71,8 @@ class DisplayShelf(Boxes):
         t = self.thickness
         a = self.radians
         hs = (self.sl + t) * math.sin(a) + math.cos(a) * t
+        if self.include_bottom:
+            self.moveTo(0, self.edges["h"].startwidth())
         for i in range(self.num):
             pos_x = abs(0.5 * t * math.sin(a))
             pos_y = hs - math.cos(a) * 0.5 * t + i * (self.h - abs(hs)) / (self.num - 0.5)
@@ -91,17 +99,20 @@ class DisplayShelf(Boxes):
             hypotenuse = math.sqrt((horizontal_cut ** 2) + (vertical_cut ** 2))
 
         top = width - horizontal_cut
-        front = height - vertical_cut
+        self.front = front = height - vertical_cut
 
-        borders = [width, 90, front, 90 - self.angle, hypotenuse, self.angle, top, 90, height, 90]
-        edges = 'eeeef' if self.include_back else 'e'
+        edges = 'he' if self.include_bottom else 'ee'
+        le = self.edges['h'].startwidth() if self.include_bottom else self.edges['e'].startwidth()
+        edges += 'f' if self.include_front else 'e'
+        edges += 'eefe' if self.include_back else 'eeee'
+        borders = [width, 90, le, 0, front, 90 - self.angle, hypotenuse, self.angle, top, 90, height, 0, le, 90]
         self.polygonWall(borders, edge=edges, callback=[self.generate_finger_holes], move="up", label="left side")
         self.polygonWall(borders, edge=edges, callback=[self.generate_finger_holes], move="up", label="right side")
 
     def generate_rectangular_sides(self, width, height):
-        edges = "eeee"
-        if self.include_back:
-            edges = "eeef"
+        edges = 'h' if self.include_bottom else 'e'
+        edges += "fe" if self.include_front else "ee"
+        edges += "f" if self.include_back else "e"
         self.rectangularWall(width, height, edges, callback=[self.generate_finger_holes], move="up", label="left side")
         self.rectangularWall(width, height, edges, callback=[self.generate_finger_holes], move="up", label="right side")
 
@@ -175,9 +186,9 @@ class DisplayShelf(Boxes):
         thickness = self.thickness
 
         if self.outside:
-            self.sx = sx = self.adjustSize(sx)
-            if self.include_back:
-                self.y = y = self.adjustSize(y, False)
+            bottom = thickness + self.edges["h"].startwidth() if self.include_bottom else True
+            self.sx = sx = self.adjustSize(sx, bottom)
+            self.y = y = self.adjustSize(y, self.include_back, self.include_front)
 
         self.x = x = sum(sx) + thickness * (len(sx) - 1)
         self.radians = a = math.radians(self.angle)
@@ -192,5 +203,15 @@ class DisplayShelf(Boxes):
         self.generate_shelves()
         self.generate_dividers()
 
+        b = "h" if self.include_bottom else "e"
         if self.include_back:
-            self.rectangularWall(x, h, "eFeF", label="back wall", move="up")
+            self.rectangularWall(x, h, b + "FeF", label="back wall", move="up")
+        if self.include_front:
+            if self.slope_top:
+                self.rectangularWall(x, self.front, b + "FeF", label="front wall", move="up")
+            else:
+                self.rectangularWall(x, h, b + "FeF", label="front wall", move="up")
+        if self.include_bottom:
+            edges = "ff" if self.include_front else "ef"
+            edges += "ff" if self.include_back else "ef"
+            self.rectangularWall(x, y, edges, label="bottom wall", move="up")

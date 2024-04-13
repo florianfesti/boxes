@@ -59,7 +59,8 @@ class CustomBuildExtCommand(build_py):
                 self.distribution.data_files.append((path, [i for i in glob.glob(os.path.join("inkex", "*.inx"))]))
                 self.distribution.data_files.append((path, ['scripts/boxes']))
                 self.distribution.data_files.append((path, ['scripts/boxes_proxy.py']))
-            except CalledProcessError:
+            except (CalledProcessError, FileNotFoundError) as e:
+                print("Could not find Inkscape. Skipping plugin files.\n", e)
                 pass # Inkscape is not installed
 
         build_py.run(self)

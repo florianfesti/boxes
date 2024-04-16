@@ -20,7 +20,7 @@ Command line short: boxes AllEdges
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 22.025 2439.444 H 122.025 V 2429.444 H 22.025 V 2439.444 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="8px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 72.025 2430.444 )">100.00mm, burn:0.10mm</text>
+  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 72.025 2431.444 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 122.025 2397.744 V 2388.744 C 122.025 2388.689 121.980 2388.644 121.925 2388.644 H 109.925 C 108.889 2388.644 107.872 2388.372 106.975 2387.854 C 106.078 2387.336 105.333 2386.591 104.816 2385.694 C 104.280 2384.767 103.510 2383.997 102.583 2383.461 C 101.656 2382.926 100.604 2382.644 99.533 2382.644 H 44.317 C 43.247 2382.644 42.195 2382.926 41.267 2383.461 C 40.340 2383.997 39.570 2384.767 39.035 2385.694 C 38.517 2386.591 37.772 2387.336 36.875 2387.854 C 35.978 2388.372 34.961 2388.644 33.925 2388.644 H 21.925 C 21.870 2388.644 21.825 2388.689 21.825 2388.744 V 2397.744" stroke="rgb(0,0,0)" stroke-width="0.20" />

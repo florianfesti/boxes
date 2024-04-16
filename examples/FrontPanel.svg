@@ -170,7 +170,7 @@ Command line short: boxes FrontPanel
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 36.800 122.850 H 136.800 V 112.850 H 36.800 V 122.850 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="8px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 86.800 113.850 )">100.00mm, burn:0.10mm</text>
+  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 86.800 114.850 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 35.950 112.000 H 135.950 V 12.000 H 35.950 V 112.000 Z" stroke="rgb(255,0,0)" stroke-width="0.20" />

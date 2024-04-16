@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<svg height="140.90mm" viewBox="0.0 0.0 137.90 140.90" width="137.90mm" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg height="140.90mm" viewBox="0.0 0.0 129.10 140.90" width="129.10mm" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <!--
 RectangularWall - Simple wall with options for different edges
 
@@ -19,10 +19,10 @@ Command line short: boxes RectangularWall
 </dc:description>
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
-  <path d="M 18.800 130.900 H 118.800 V 120.900 H 18.800 V 130.900 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="8px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 68.800 121.900 )">100.00mm, burn:0.10mm</text>
+  <path d="M 10.000 130.900 H 110.000 V 120.900 H 10.000 V 130.900 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
+  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.000 122.900 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
-  <path d="M 27.800 110.200 H 127.800 C 127.855 110.200 127.900 110.155 127.900 110.100 V 10.100 C 127.900 10.045 127.855 10.000 127.800 10.000 H 27.800 C 27.745 10.000 27.700 10.045 27.700 10.100 V 110.100 C 27.700 110.155 27.745 110.200 27.800 110.200 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
+  <path d="M 19.000 110.200 H 119.000 C 119.055 110.200 119.100 110.155 119.100 110.100 V 10.100 C 119.100 10.045 119.055 10.000 119.000 10.000 H 19.000 C 18.945 10.000 18.900 10.045 18.900 10.100 V 110.100 C 18.900 110.155 18.945 110.200 19.000 110.200 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
 </g>
 </svg>

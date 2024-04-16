@@ -338,7 +338,7 @@ class Boxes:
             "--labels", action="store", type=boolarg, default=True,
             help="label the parts (where available)")
         defaultgroup.add_argument(
-            "--reference", action="store", type=float, default=100,
+            "--reference", action="store", type=float, default=100.0,
             help="print reference rectangle with given length (in mm)(zero to disable) [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#reference)")
         defaultgroup.add_argument(
             "--inner_corners", action="store", type=str, default="loop",
@@ -402,11 +402,11 @@ class Boxes:
             self.move(self.reference, 10, "up", before=True)
             self.ctx.rectangle(0, 0, self.reference, 10)
             if self.reference < 80:
-                self.text(f"{self.reference:.2f}mm, burn:{self.burn:.2f}mm", self.reference + 5, 5,
-                          fontsize=8, align="middle left", color=Color.ANNOTATIONS)
+                self.text(f"{self.reference:.1f}mm, burn:{self.burn:.2f}mm", self.reference + 5, 5,
+                          fontsize=6, align="middle left", color=Color.ANNOTATIONS)
             else:
-                self.text(f"{self.reference:.2f}mm, burn:{self.burn:.2f}mm", self.reference / 2.0, 5,
-                          fontsize=8, align="middle center", color=Color.ANNOTATIONS)
+                self.text(f"{self.reference:.1f}mm, burn:{self.burn:.2f}mm", self.reference / 2.0, 5,
+                          fontsize=6, align="middle center", color=Color.ANNOTATIONS)
             self.move(self.reference, 10, "up")
             if self.qr_code:
                 self.renderQrCode()

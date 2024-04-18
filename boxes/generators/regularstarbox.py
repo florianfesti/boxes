@@ -35,7 +35,9 @@ class SlotEdge(edges.Edge):
 
         if li > 0:
             poly = [lo-1, (90, 1), d+t-1, -90, ls1+ls2, -90, d-t, (90, t)]
-        self.polyline(*(poly + [li-2*t] + list(reversed(poly))))
+            self.polyline(*(poly + [li-2*t] + list(reversed(poly))))
+        else:
+            raise ValueError("Box is too small and has too many corners to work properly")
 
     def startwidth(self) -> float:
         return self.settings.thickness

@@ -87,15 +87,14 @@ See the diagram below for dimensions.
             y - frameheight*2, 90-angle,
             hypotenuse, 90+angle]
         hframe_poly = [
-            t, 0, x, 0, t, 90+angle,
-            hypotenuse, 90-angle,
-            x - framewidth*2, 90-angle,
-            hypotenuse, 90+angle]
+            t, 0, x, 0, t, 180-angle,
+            hypotenuse, angle,
+            x - framewidth*2, angle,
+            hypotenuse, 180-angle]
 
         self.polygonWall(vframe_poly, edgetypes, move="up")
         self.polygonWall(vframe_poly, edgetypes, move="up")
 
-        angle = 90 - angle
         self.polygonWall(hframe_poly, edgetypes, move="up")
         self.polygonWall(hframe_poly, edgetypes, move="up")
 

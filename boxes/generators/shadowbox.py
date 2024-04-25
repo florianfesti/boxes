@@ -107,3 +107,9 @@ See the diagram below for dimensions.
         self.rectangularWall(x, height, f"ef{top_edge}f", move="up")
         self.rectangularWall(y, height, f"eF{top_edge}F", move="up")
         self.rectangularWall(y, height, f"eF{top_edge}F", move="up")
+
+        # led strip holder
+        self.rectangularWall(x - 2*t, 10, "efef", move="up")
+        self.rectangularWall(x - 2*t, 10, "efef", move="up")
+        self.rectangularWall(y - 2*t, 10, "eFeF", move="up")
+        self.rectangularWall(y - 2*t, 10, "eFeF", move="up")

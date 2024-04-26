@@ -1,29 +1,23 @@
-# Simple Fedora based Docker container for running Boxes.py
+FROM python:3.12-slim as builder
 
-# Note that it downloads Boxes.py from GitHub and does not use your local copy
-# of the repository. Adjust the git command below to get it from somewhere else
+WORKDIR /app
 
-# Build with
-#  docker build -t boxes.py .
-# Run with
-#  docker run -ti -p 4000:8000 boxes.py
-# to get the web interface at localhost:4000
-# First access may take a while as the Python files need to be complied
+RUN python3 -m venv env
+RUN /app/env/bin/pip install gunicorn
 
-# Use latest Fedora release as base
-FROM fedora:latest
+ADD https://github.com/florianfesti/boxes.git /app
+RUN /app/env/bin/pip install -r requirements.txt
+RUN mv scripts/boxesserver scripts/boxesserver.py
 
-# Install requirements
-RUN dnf install -y git-core python3-markdown python3-setuptools python3-affine python3-shapely python3-pillow python3-qrcode pstoedit && dnf clean all
+# ---
 
-# Get Boxes.py sources to /boxes
-ARG BUILD_BRANCH=master
-ARG BUILD_REPO=https://github.com/florianfesti/boxes.git
-RUN git clone --depth 1 -b ${BUILD_BRANCH} ${BUILD_REPO}
-RUN chmod +x /boxes/scripts/boxesserver
+FROM python:3.12-slim
 
-# Internal port used
-EXPOSE 8000
+RUN apt update && \
+  apt install -y pstoedit --no-install-recommends && \
+  apt clean
 
-# Start the boxes web server on container start up
-CMD ["/boxes/scripts/boxesserver"]
+WORKDIR /app
+COPY --from=builder /app /app
+
+CMD /app/env/bin/gunicorn -b [::]:8000 -w 4 scripts.boxesserver

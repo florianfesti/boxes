@@ -9,6 +9,7 @@ THUMB_HEIGHT=10000 # height: auto;
 thumbnail() {
 	echo "convert \"$1\" -thumbnail ${THUMB_WIDTH}x${THUMB_HEIGHT} \"${1%.*}-thumb.jpg\""
 	convert "$1" -thumbnail ${THUMB_WIDTH}x${THUMB_HEIGHT} "${1%.*}-thumb.jpg"
+	git add "$1" "${1%.*}-thumb.jpg" "$STATIC_DIR"samples.sha256
 }
 
 [ ! -f "$STATIC_DIR"samples.sha256 ] && touch "$STATIC_DIR"samples.sha256

@@ -557,7 +557,7 @@ protruding underneath.
         bed_edge = Bed2SidesEdge(
             self, bed_inner_length, bed_head_length, bed_foot_height
         )
-        noop_edge = NoopEdge(self)
+        noop_edge = edges.NoopEdge(self)
         self.ctx.save()
         optim_180_x = (
             bed_inner_length + self.thickness + bed_head_length + 2 * self.spacing
@@ -916,16 +916,3 @@ class Bed2SidesEdge(edges.BaseEdge):
             (90, head_corner),
             head_length,
         )
-
-
-class NoopEdge(edges.BaseEdge):
-    """
-    Edge which does nothing, not even turn or move.
-    """
-
-    def __init__(self, boxes) -> None:
-        super().__init__(boxes, None)
-
-    def __call__(self, length, **kw):
-        # cancel turn
-        self.corner(-90)

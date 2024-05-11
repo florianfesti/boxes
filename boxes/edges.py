@@ -367,6 +367,22 @@ class OutSetEdge(Edge):
         return self.settings if self.settings is not None else self.boxes.thickness
 
 
+class NoopEdge(BaseEdge):
+    """
+    Edge which does nothing, not even turn or move.
+    """
+
+    def __init__(self, boxes, margin=0) -> None:
+        super().__init__(boxes, None)
+        self._margin = margin
+
+    def __call__(self, _, **kw):
+        # cancel turn
+        self.corner(-90)
+
+    def margin(self) -> float:
+        return self._margin
+
 #############################################################################
 ####     MountingEdge
 #############################################################################

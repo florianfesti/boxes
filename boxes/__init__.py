@@ -581,6 +581,8 @@ class Boxes:
         for part in parts:
             self.addPart(part)
 
+    fingerHolesAt : Any
+
     def _buildObjects(self):
         """Add default edges and parts"""
         self.edges = {}

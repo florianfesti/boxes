@@ -9,42 +9,35 @@ installing or building binary formats.
 Requirements
 ------------
 
-Affine
-........
-:code:`Affine` (package name may be :code:`python-affine` or
-:code:`python3-affine`) is used for vector calculation.
+Python
+......
 
-Shapely
-.......
-:code:`shapely` (package name may be :code:`python-shapely` or
-:code:`python3-shapely`) is used for filling shapes (with holes).
+Boxes.py is implemented in Python 3. For supported minor version see :code:`setup.py`.
 
+Python modules
+..............
 
-Markdown
-........
-:code:`Markdown` (package name may be :code:`python-markdown` or
-:code:`python3-markdown`) is used to format the description texts.
+Boxes.py need a set of Python modules:
 
+.. include:: ../../requirements.txt
 
-setuptools
-..........
-
-Setup.py uses the :code:`setuptools` library (package name may be
-:code:`python*-setuptools`). You only need it if you want to build the
-package.
+When using a distribution the packages will typically be name be :code:`python-MODULE` or :code:`python3-MODULE`
 
 pstoedit
 ........
 
 While not a hard requirement Boxes.py uses :code:`pstoedit` (sometimes :code:`ps2edit`) to offer formats
-that are not supported by Cairo: DXF, gcode, PLT. Currently the location
+that are not supported by directly by the graphics backend: DXF, gcode, PLT. Currently the location
 Boxes.py looks for :code:`pstoedit` is hard coded to :code:`/usr/bin/pstoedit`
 in the :code:`boxes.formats.Formats` class.
 
-Python
-......
+Python modules for development
+..............................
 
-Boxes.py is implemented in Python 3. For supported minor version see :code:`setup.py`.
+For development (e.g. running the test suite and generating the documentation) the following modules are also needed:
+
+.. include:: ../../requirements_dev.txt
+
 
 Sphinx
 ......

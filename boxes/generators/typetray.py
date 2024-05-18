@@ -114,7 +114,6 @@ class TypeTray(_TopEdge):
         else:
             label_group.add_argument(
                 "--label_file", action="store", type=argparse.FileType('r'),
-                default="labels.txt",
                 help="file with compartment labels. One line per compartment")
 
         self.addSettingsArgs(FingerHoleEdgeSettings)
@@ -234,11 +233,13 @@ class TypeTray(_TopEdge):
 
         bh = self.back_height if self.top_edge == "e" else 0.0
 
+        self.textcontent = []
         if hasattr(self, "label_text"):
             self.textcontent = self.label_text.split("\r\n")
         else:
-            with open(self.label_file) as f:
-                self.textcontent = f.readlines()
+            if self.label_file:
+                with open(self.label_file) as f:
+                    self.textcontent = f.readlines()
         self.textnumber = 0
 
         # x sides

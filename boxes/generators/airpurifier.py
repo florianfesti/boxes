@@ -46,7 +46,7 @@ class AirPurifier(Boxes):
             help="height of the filter along the flow direction (in mm)")
         self.argparser.add_argument(
             "--rim",  action="store", type=float, default=30.,
-            help="rim around the filter holing it in place (in mm)")
+            help="rim around the filter holding it in place (in mm)")
         self.argparser.add_argument(
             "--fan_diameter",  action="store", type=float, default=140.,
             choices=list(self.fan_holes.keys()),

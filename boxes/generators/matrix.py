@@ -48,7 +48,7 @@ class Matrix(Boxes):
     you can add the layout parameters, so that the inner frame adjusts accordingly.
 
     Please Note: if you are creating a large matrix build of multiple individual modules,
-    you need to enter absolut values across all modules for all parameters.
+    you need to enter absolute values across all modules for all parameters.
     Please cut the plane labeled "Plexiglass" out of plexiglass :)
     You can use a different thickness for the plexiglass, but make sure to adjust the settings accordingly.
     """

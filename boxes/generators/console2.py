@@ -25,7 +25,7 @@ class Console2(Boxes):
 This box is designed as a housing for electronic projects. It has hatches that can be re-opened with simple tools. It intentionally cannot be opened with bare hands - if build with thin enough material.
 
 #### Caution
-There is a chance that the latches of the back wall or the back wall itself interfere with the front panel or it's mounting frame/lips. The generator does not check for this. So depending on the variant chosen you might need to make the box deeper (increase y parameter) or the panel angle steeper (increase angle parameter) until there is enough room.
+There is a chance that the latches of the back wall or the back wall itself interfere with the front panel or its mounting frame/lips. The generator does not check for this. So depending on the variant chosen you might need to make the box deeper (increase y parameter) or the panel angle steeper (increase angle parameter) until there is enough room.
 
 It's also possible that the frame of the panel interferes with the floor if the hi parameter is too small.
 

@@ -444,7 +444,7 @@ class Gears():
             angle = spokes[i]-spokes[i-1]
 
             if spoke_width >= angle * mount_radius:
-                adj_factor = 1.2 # wrong value. its probably one of the points distances calculated below
+                adj_factor = 1.2 # wrong value. it's probably one of the points distances calculated below
                 mount_radius += adj_factor
                 messages.append(f"Too many spokes. Increased Mount support by {adj_factor/unit_factor:2.3f}{unit_label}")
 
@@ -654,7 +654,7 @@ class Gears():
             r = mount_hole / 2
             self.boxes.hole(0, 0, r)
         elif not teeth_only:
-            # its a ring gear
+            # it's a ring gear
             # which only has an outer ring where width = spoke width
             r = outer_radius + spoke_width + self.boxes.burn
             self.boxes.ctx.save()

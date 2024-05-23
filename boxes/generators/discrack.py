@@ -192,7 +192,7 @@ class DiscRack(Boxes):
                 self.edgesettings['FingerJoint']['edge_width'])
 
         if slitlengthplush > max_slitlengthplush:
-            warnings.append("Joint would protrude from lower box edge. Consider increasing the the disc outset parameter, or move the angle away from 45°.")
+            warnings.append("Joint would protrude from lower box edge. Consider increasing the disc outset parameter, or move the angle away from 45°.")
 
         # Can the discs be removed at all?
         # Does not need explicit checking, for Thales' theorem tells us that at

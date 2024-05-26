@@ -8,7 +8,7 @@ Set *bottomheight* to 0 for a wall mounting variant.
 Please add mounting holes yourself.
 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes Dispenser
 -->
 <title>Dispenser</title>
@@ -21,7 +21,7 @@ Command line (remove spaces between dashes): boxes Dispenser
 Set *bottomheight* to 0 for a wall mounting variant.
 Please add mounting holes yourself.
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes Dispenser
 Command line short: boxes Dispenser
 </dc:description>

@@ -3,7 +3,7 @@
 <!--
 WallEdges - Shows the different edge types for wall systems
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes WallEdges
 -->
 <title>WallEdges</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes WallEdges
 <dc:source>boxes WallEdges</dc:source>
 <dc:description>Shows the different edge types for wall systems
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes WallEdges
 Command line short: boxes WallEdges
 </dc:description>

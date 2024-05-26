@@ -3,7 +3,7 @@
 <!--
 WallConsole - Outset and angled plate to mount stuff to
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes WallConsole
 -->
 <title>WallConsole</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes WallConsole
 <dc:source>boxes WallConsole</dc:source>
 <dc:description>Outset and angled plate to mount stuff to
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes WallConsole
 Command line short: boxes WallConsole
 </dc:description>

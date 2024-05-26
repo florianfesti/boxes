@@ -3,7 +3,7 @@
 <!--
 Arcade - Desktop Arcade Machine
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes Arcade
 -->
 <title>Arcade</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes Arcade
 <dc:source>boxes Arcade</dc:source>
 <dc:description>Desktop Arcade Machine
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes Arcade
 Command line short: boxes Arcade
 </dc:description>

@@ -3,7 +3,7 @@
 <!--
 UniversalBox - Box with various options for different styles and lids
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes UniversalBox
 -->
 <title>UniversalBox</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes UniversalBox
 <dc:source>boxes UniversalBox</dc:source>
 <dc:description>Box with various options for different styles and lids
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes UniversalBox
 Command line short: boxes UniversalBox
 </dc:description>

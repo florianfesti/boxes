@@ -3,7 +3,7 @@
 <!--
 BinTray - A Type tray variant to be used up right with sloped walls in front
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes BinTray
 -->
 <title>BinTray</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes BinTray
 <dc:source>boxes BinTray</dc:source>
 <dc:description>A Type tray variant to be used up right with sloped walls in front
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes BinTray
 Command line short: boxes BinTray
 </dc:description>

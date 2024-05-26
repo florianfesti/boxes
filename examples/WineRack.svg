@@ -3,7 +3,7 @@
 <!--
 WineRack - Honey Comb Style Wine Rack
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes WineRack
 -->
 <title>WineRack</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes WineRack
 <dc:source>boxes WineRack</dc:source>
 <dc:description>Honey Comb Style Wine Rack
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes WineRack
 Command line short: boxes WineRack
 </dc:description>

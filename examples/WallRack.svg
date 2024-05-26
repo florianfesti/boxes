@@ -3,7 +3,7 @@
 <!--
 WallRack - Wall mountable rack for spices or other items
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes WallRack
 -->
 <title>WallRack</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes WallRack
 <dc:source>boxes WallRack</dc:source>
 <dc:description>Wall mountable rack for spices or other items
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes WallRack
 Command line short: boxes WallRack
 </dc:description>

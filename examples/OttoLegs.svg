@@ -3,7 +3,7 @@
 <!--
 OttoLegs - Otto LC - a laser cut chassis for Otto DIY - legs
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes OttoLegs
 -->
 <title>OttoLegs</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes OttoLegs
 <dc:source>boxes OttoLegs</dc:source>
 <dc:description>Otto LC - a laser cut chassis for Otto DIY - legs
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes OttoLegs
 Command line short: boxes OttoLegs
 </dc:description>

@@ -3,7 +3,7 @@
 <!--
 WallWrenchHolder - Hold a set of wrenches at a wall
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes WallWrenchHolder
 -->
 <title>WallWrenchHolder</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes WallWrenchHolder
 <dc:source>boxes WallWrenchHolder</dc:source>
 <dc:description>Hold a set of wrenches at a wall
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes WallWrenchHolder
 Command line short: boxes WallWrenchHolder
 </dc:description>

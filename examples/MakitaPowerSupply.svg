@@ -11,7 +11,7 @@ To allow powering by laptop power supply: flip switch, Lenovo round socket (or a
 
 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes MakitaPowerSupply
 -->
 <title>MakitaPowerSupply</title>
@@ -27,7 +27,7 @@ Vitamins: DSP5005 (or similar) power supply, two banana sockets, two 4.8mm flat 
 To allow powering by laptop power supply: flip switch, Lenovo round socket (or adjust right  hole for different socket)
 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes MakitaPowerSupply
 Command line short: boxes MakitaPowerSupply
 </dc:description>

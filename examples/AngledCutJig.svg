@@ -3,7 +3,7 @@
 <!--
 AngledCutJig - Jig for making angled cuts in a laser cutter
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes AngledCutJig
 -->
 <title>AngledCutJig</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes AngledCutJig
 <dc:source>boxes AngledCutJig</dc:source>
 <dc:description>Jig for making angled cuts in a laser cutter
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes AngledCutJig
 Command line short: boxes AngledCutJig
 </dc:description>

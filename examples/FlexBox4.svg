@@ -3,7 +3,7 @@
 <!--
 FlexBox4 - Box with living hinge and left corners rounded
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes FlexBox4
 -->
 <title>FlexBox4</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes FlexBox4
 <dc:source>boxes FlexBox4</dc:source>
 <dc:description>Box with living hinge and left corners rounded
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes FlexBox4
 Command line short: boxes FlexBox4
 </dc:description>

@@ -11,7 +11,7 @@ CoffeeCapsuleHolder -
 
 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes CoffeeCapsuleHolder
 -->
 <title>CoffeeCapsuleHolder</title>
@@ -27,7 +27,7 @@ Command line (remove spaces between dashes): boxes CoffeeCapsuleHolder
     You can store your coffee capsule near your espresso machine with this. It works both vertically, or upside down under a shelf.
 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes CoffeeCapsuleHolder
 Command line short: boxes CoffeeCapsuleHolder
 </dc:description>

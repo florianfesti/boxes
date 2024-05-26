@@ -3,7 +3,7 @@
 <!--
 SmallPartsTray - Tray with slants to easier get out game tokens or screws
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes SmallPartsTray
 -->
 <title>SmallPartsTray</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes SmallPartsTray
 <dc:source>boxes SmallPartsTray</dc:source>
 <dc:description>Tray with slants to easier get out game tokens or screws
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes SmallPartsTray
 Command line short: boxes SmallPartsTray
 </dc:description>

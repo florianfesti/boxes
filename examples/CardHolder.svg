@@ -3,7 +3,7 @@
 <!--
 CardHolder - Shelf for holding (multiple) piles of playing cards / notes
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes CardHolder
 -->
 <title>CardHolder</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes CardHolder
 <dc:source>boxes CardHolder</dc:source>
 <dc:description>Shelf for holding (multiple) piles of playing cards / notes
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes CardHolder
 Command line short: boxes CardHolder
 </dc:description>

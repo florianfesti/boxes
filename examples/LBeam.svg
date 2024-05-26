@@ -3,7 +3,7 @@
 <!--
 LBeam - Simple L-Beam: two pieces joined with a right angle
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes LBeam
 -->
 <title>LBeam</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes LBeam
 <dc:source>boxes LBeam</dc:source>
 <dc:description>Simple L-Beam: two pieces joined with a right angle
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes LBeam
 Command line short: boxes LBeam
 </dc:description>

@@ -3,7 +3,7 @@
 <!--
 LaserHoldfast - A holdfast for honey comb tables of laser cutters
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes LaserHoldfast
 -->
 <title>LaserHoldfast</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes LaserHoldfast
 <dc:source>boxes LaserHoldfast</dc:source>
 <dc:description>A holdfast for honey comb tables of laser cutters
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes LaserHoldfast
 Command line short: boxes LaserHoldfast
 </dc:description>

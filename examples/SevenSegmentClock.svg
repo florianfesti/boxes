@@ -12,7 +12,7 @@ There is currently not a lot of space for electronics and this generator is stil
 
 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes SevenSegmentClock
 -->
 <title>SevenSegmentClock</title>
@@ -29,7 +29,7 @@ Adding a diffuser on top or at the bottom of the segment holes will probably enh
 There is currently not a lot of space for electronics and this generator is still untested. Good luck!
 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes SevenSegmentClock
 Command line short: boxes SevenSegmentClock
 </dc:description>

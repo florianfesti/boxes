@@ -19,7 +19,7 @@ See also LBeam that can serve as compact BurnTest and FlexTest for testing flex 
 
 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes BurnTest
 -->
 <title>BurnTest</title>
@@ -43,7 +43,7 @@ correction.
 See also LBeam that can serve as compact BurnTest and FlexTest for testing flex settings.
 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes BurnTest
 Command line short: boxes BurnTest
 </dc:description>

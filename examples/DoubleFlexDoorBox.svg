@@ -3,7 +3,7 @@
 <!--
 DoubleFlexDoorBox - Box with two part lid with living hinges and round corners
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes DoubleFlexDoorBox
 -->
 <title>DoubleFlexDoorBox</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes DoubleFlexDoorBox
 <dc:source>boxes DoubleFlexDoorBox</dc:source>
 <dc:description>Box with two part lid with living hinges and round corners
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes DoubleFlexDoorBox
 Command line short: boxes DoubleFlexDoorBox
 </dc:description>

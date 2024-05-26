@@ -3,7 +3,7 @@
 <!--
 Rack19HalfWidth - Half width 19inch rack unit for musical equipment.
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes Rack19HalfWidth
 -->
 <title>Rack19HalfWidth</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes Rack19HalfWidth
 <dc:source>boxes Rack19HalfWidth</dc:source>
 <dc:description>Half width 19inch rack unit for musical equipment.
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes Rack19HalfWidth
 Command line short: boxes Rack19HalfWidth
 </dc:description>

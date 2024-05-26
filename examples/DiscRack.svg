@@ -3,7 +3,7 @@
 <!--
 DiscRack - A rack for storing disk-shaped objects vertically next to each other
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes DiscRack
 -->
 <title>DiscRack</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes DiscRack
 <dc:source>boxes DiscRack</dc:source>
 <dc:description>A rack for storing disk-shaped objects vertically next to each other
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes DiscRack
 Command line short: boxes DiscRack
 </dc:description>

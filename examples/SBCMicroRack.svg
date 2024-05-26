@@ -3,7 +3,7 @@
 <!--
 SBCMicroRack - Stackable rackable racks for SBC Pi-Style Computers
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes SBCMicroRack
 -->
 <title>SBCMicroRack</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes SBCMicroRack
 <dc:source>boxes SBCMicroRack</dc:source>
 <dc:description>Stackable rackable racks for SBC Pi-Style Computers
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes SBCMicroRack
 Command line short: boxes SBCMicroRack
 </dc:description>

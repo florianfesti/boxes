@@ -3,7 +3,7 @@
 <!--
 EuroRackSkiff - 3U Height case with adjustable width and height and included rails
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes EuroRackSkiff
 -->
 <title>EuroRackSkiff</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes EuroRackSkiff
 <dc:source>boxes EuroRackSkiff</dc:source>
 <dc:description>3U Height case with adjustable width and height and included rails
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes EuroRackSkiff
 Command line short: boxes EuroRackSkiff
 </dc:description>

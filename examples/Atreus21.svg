@@ -3,7 +3,7 @@
 <!--
 Atreus21 - Generator for a split atreus keyboard.
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes Atreus21
 -->
 <title>Atreus21</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes Atreus21
 <dc:source>boxes Atreus21</dc:source>
 <dc:description>Generator for a split atreus keyboard.
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes Atreus21
 Command line short: boxes Atreus21
 </dc:description>

@@ -3,7 +3,7 @@
 <!--
 UnevenHeightBox - Box with different height in each corner
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes UnevenHeightBox
 -->
 <title>UnevenHeightBox</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes UnevenHeightBox
 <dc:source>boxes UnevenHeightBox</dc:source>
 <dc:description>Box with different height in each corner
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes UnevenHeightBox
 Command line short: boxes UnevenHeightBox
 </dc:description>

@@ -8,7 +8,7 @@ Can be used as a display or for cards or gaming tokens. Lay on the side to get p
     ![Example Use](static/samples/SlantedTray-2.jpg)
 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes SlantedTray
 -->
 <title>SlantedTray</title>
@@ -21,7 +21,7 @@ Command line (remove spaces between dashes): boxes SlantedTray
 Can be used as a display or for cards or gaming tokens. Lay on the side to get piles to draw from.
     ![Example Use](static/samples/SlantedTray-2.jpg)
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes SlantedTray
 Command line short: boxes SlantedTray
 </dc:description>

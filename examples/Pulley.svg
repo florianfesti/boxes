@@ -3,7 +3,7 @@
 <!--
 Pulley - Timing belt pulleys for different profiles
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes Pulley
 -->
 <title>Pulley</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes Pulley
 <dc:source>boxes Pulley</dc:source>
 <dc:description>Timing belt pulleys for different profiles
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes Pulley
 Command line short: boxes Pulley
 </dc:description>

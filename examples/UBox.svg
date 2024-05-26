@@ -3,7 +3,7 @@
 <!--
 UBox - Box various options for different stypes and lids
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes UBox
 -->
 <title>UBox</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes UBox
 <dc:source>boxes UBox</dc:source>
 <dc:description>Box various options for different stypes and lids
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes UBox
 Command line short: boxes UBox
 </dc:description>

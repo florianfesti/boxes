@@ -3,7 +3,7 @@
 <!--
 Rack10Box - Closed box with screw on top for mounting in a 10" rack.
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes Rack10Box
 -->
 <title>Rack10Box</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes Rack10Box
 <dc:source>boxes Rack10Box</dc:source>
 <dc:description>Closed box with screw on top for mounting in a 10" rack.
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes Rack10Box
 Command line short: boxes Rack10Box
 </dc:description>

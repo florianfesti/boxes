@@ -3,7 +3,7 @@
 <!--
 BirdHouse - Simple Bird House
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes BirdHouse
 -->
 <title>BirdHouse</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes BirdHouse
 <dc:source>boxes BirdHouse</dc:source>
 <dc:description>Simple Bird House
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes BirdHouse
 Command line short: boxes BirdHouse
 </dc:description>

@@ -16,7 +16,7 @@ See the diagram below for dimensions.
 
 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes Shadowbox
 -->
 <title>Shadowbox</title>
@@ -37,7 +37,7 @@ See the diagram below for dimensions.
 ![backlit](static/samples/Shadowbox-backlit.jpg)
 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes Shadowbox
 Command line short: boxes Shadowbox
 </dc:description>

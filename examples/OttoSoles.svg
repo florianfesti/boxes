@@ -3,7 +3,7 @@
 <!--
 OttoSoles - Foam soles for the OttO bot
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes OttoSoles
 -->
 <title>OttoSoles</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes OttoSoles
 <dc:source>boxes OttoSoles</dc:source>
 <dc:description>Foam soles for the OttO bot
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes OttoSoles
 Command line short: boxes OttoSoles
 </dc:description>

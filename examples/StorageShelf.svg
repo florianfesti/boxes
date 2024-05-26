@@ -7,7 +7,7 @@ StorageShelf - StorageShelf can be used to store Typetray
 This is a simple shelf box.
 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes StorageShelf
 -->
 <title>StorageShelf</title>
@@ -19,7 +19,7 @@ Command line (remove spaces between dashes): boxes StorageShelf
 
 This is a simple shelf box.
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes StorageShelf
 Command line short: boxes StorageShelf
 </dc:description>

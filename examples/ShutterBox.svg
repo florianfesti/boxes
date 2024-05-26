@@ -12,7 +12,7 @@ Beware of the rolling shutter effect! Use wax on sliding surfaces.
 
 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes ShutterBox
 -->
 <title>ShutterBox</title>
@@ -29,7 +29,7 @@ Beware of the rolling shutter effect! Use wax on sliding surfaces.
 ![Detail](static/samples/ShutterBox-2.jpg)
 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes ShutterBox
 Command line short: boxes ShutterBox
 </dc:description>

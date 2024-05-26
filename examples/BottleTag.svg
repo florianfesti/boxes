@@ -3,7 +3,7 @@
 <!--
 BottleTag - Paper slip over bottle tag
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes BottleTag
 -->
 <title>BottleTag</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes BottleTag
 <dc:source>boxes BottleTag</dc:source>
 <dc:description>Paper slip over bottle tag
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes BottleTag
 Command line short: boxes BottleTag
 </dc:description>

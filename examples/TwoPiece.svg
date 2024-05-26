@@ -11,7 +11,7 @@ Set *hi* larger than *h* to leave gap between the inner and outer shell. This ca
 
 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes TwoPiece
 -->
 <title>TwoPiece</title>
@@ -27,7 +27,7 @@ Set *hi* larger than *h* to leave gap between the inner and outer shell. This ca
 ![Bottom view](static/samples/TwoPiece2.jpg)
 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes TwoPiece
 Command line short: boxes TwoPiece
 </dc:description>

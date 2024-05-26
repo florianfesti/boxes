@@ -10,7 +10,7 @@ The lids needs to be glued. For the bayonet lid all outside rings attach to the 
 
 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes RegularBox
 -->
 <title>RegularBox</title>
@@ -25,7 +25,7 @@ For short side walls that don't fit a connecting finger reduce *surroundingspace
 The lids needs to be glued. For the bayonet lid all outside rings attach to the bottom, all inside rings to the top.
 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes RegularBox
 Command line short: boxes RegularBox
 </dc:description>

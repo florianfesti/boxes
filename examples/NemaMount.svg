@@ -3,7 +3,7 @@
 <!--
 NemaMount - Mounting bracket for a Nema motor
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes NemaMount
 -->
 <title>NemaMount</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes NemaMount
 <dc:source>boxes NemaMount</dc:source>
 <dc:description>Mounting bracket for a Nema motor
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes NemaMount
 Command line short: boxes NemaMount
 </dc:description>

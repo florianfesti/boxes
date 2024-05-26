@@ -3,7 +3,7 @@
 <!--
 Planetary - Planetary Gear with possibly multiple identical stages
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes Planetary
 -->
 <title>Planetary</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes Planetary
 <dc:source>boxes Planetary</dc:source>
 <dc:description>Planetary Gear with possibly multiple identical stages
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes Planetary
 Command line short: boxes Planetary
 </dc:description>

@@ -3,7 +3,7 @@
 <!--
 AllEdges - Showing all edge types
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes AllEdges
 -->
 <title>AllEdges</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes AllEdges
 <dc:source>boxes AllEdges</dc:source>
 <dc:description>Showing all edge types
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes AllEdges
 Command line short: boxes AllEdges
 </dc:description>

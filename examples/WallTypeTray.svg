@@ -3,7 +3,7 @@
 <!--
 WallTypeTray - Type tray - allows only continuous walls
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes WallTypeTray
 -->
 <title>WallTypeTray</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes WallTypeTray
 <dc:source>boxes WallTypeTray</dc:source>
 <dc:description>Type tray - allows only continuous walls
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes WallTypeTray
 Command line short: boxes WallTypeTray
 </dc:description>

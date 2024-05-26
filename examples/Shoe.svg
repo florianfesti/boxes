@@ -11,7 +11,7 @@ Shoe shaped box with flat sides and rounded top.
     height > frontheight.
 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes Shoe
 -->
 <title>Shoe</title>
@@ -27,7 +27,7 @@ Shoe shaped box with flat sides and rounded top.
     y &gt; tophole + r + fronttop;
     height &gt; frontheight.
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes Shoe
 Command line short: boxes Shoe
 </dc:description>

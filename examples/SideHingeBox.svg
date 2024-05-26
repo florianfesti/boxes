@@ -15,7 +15,7 @@ but can't be inadvertently opened.
 
 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes SideHingeBox
 -->
 <title>SideHingeBox</title>
@@ -35,7 +35,7 @@ The latch is one-way: the box can be closed freely
 but can't be inadvertently opened.
 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes SideHingeBox
 Command line short: boxes SideHingeBox
 </dc:description>

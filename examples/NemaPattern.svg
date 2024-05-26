@@ -3,7 +3,7 @@
 <!--
 NemaPattern - Mounting holes for a Nema motor
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes NemaPattern
 -->
 <title>NemaPattern</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes NemaPattern
 <dc:source>boxes NemaPattern</dc:source>
 <dc:description>Mounting holes for a Nema motor
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes NemaPattern
 Command line short: boxes NemaPattern
 </dc:description>

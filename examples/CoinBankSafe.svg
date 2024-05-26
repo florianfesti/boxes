@@ -20,7 +20,7 @@ Leaving them unglued will allow you change the code, and to remove the pin from 
 
 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes CoinBankSafe
 -->
 <title>CoinBankSafe</title>
@@ -45,7 +45,7 @@ Leaving them unglued will allow you change the code, and to remove the pin from 
 
 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes CoinBankSafe
 Command line short: boxes CoinBankSafe
 </dc:description>

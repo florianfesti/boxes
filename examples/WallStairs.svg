@@ -10,7 +10,7 @@ sh gives height of the stairs from front to back. Note that the overall width an
 
 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes WallStairs
 -->
 <title>WallStairs</title>
@@ -25,7 +25,7 @@ You are supposed to add holes or slots to the stair tops yourself using Inkscape
 sh gives height of the stairs from front to back. Note that the overall width and height is bigger than the nominal values as walls and the protrusions are not included in the measurements.
 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes WallStairs
 Command line short: boxes WallStairs
 </dc:description>

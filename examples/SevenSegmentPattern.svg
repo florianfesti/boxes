@@ -8,7 +8,7 @@ This pattern is indented to be used with a LED stripe that is wound through all 
 
 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes SevenSegmentPattern
 -->
 <title>SevenSegmentPattern</title>
@@ -21,7 +21,7 @@ Command line (remove spaces between dashes): boxes SevenSegmentPattern
 This pattern is indented to be used with a LED stripe that is wound through all segments in an S pattern while the stripe being upright on its side. It can also be used with small pieces of LED stripes connected with short wires for large enough sizes.
 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes SevenSegmentPattern
 Command line short: boxes SevenSegmentPattern
 </dc:description>

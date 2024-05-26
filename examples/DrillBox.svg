@@ -7,7 +7,7 @@ DrillBox - A parametrized box for drills
 ![Multiple DrillBoxes](static/samples/DrillBoxes.jpg) 
 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes DrillBox
 -->
 <title>DrillBox</title>
@@ -19,7 +19,7 @@ Command line (remove spaces between dashes): boxes DrillBox
 
 ![Multiple DrillBoxes](static/samples/DrillBoxes.jpg) 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes DrillBox
 Command line short: boxes DrillBox
 </dc:description>

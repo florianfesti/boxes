@@ -3,7 +3,7 @@
 <!--
 Rotary - Rotary Attachment for engraving cylindrical objects in a laser cutter
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes Rotary
 -->
 <title>Rotary</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes Rotary
 <dc:source>boxes Rotary</dc:source>
 <dc:description>Rotary Attachment for engraving cylindrical objects in a laser cutter
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes Rotary
 Command line short: boxes Rotary
 </dc:description>

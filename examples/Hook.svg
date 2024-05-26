@@ -3,7 +3,7 @@
 <!--
 Hook - A hook with a rectangular mouth to mount at the wall
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes Hook
 -->
 <title>Hook</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes Hook
 <dc:source>boxes Hook</dc:source>
 <dc:description>A hook with a rectangular mouth to mount at the wall
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes Hook
 Command line short: boxes Hook
 </dc:description>

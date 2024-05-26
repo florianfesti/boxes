@@ -3,7 +3,7 @@
 <!--
 FanHole - Hole pattern for mounting a fan
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes FanHole
 -->
 <title>FanHole</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes FanHole
 <dc:source>boxes FanHole</dc:source>
 <dc:description>Hole pattern for mounting a fan
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes FanHole
 Command line short: boxes FanHole
 </dc:description>

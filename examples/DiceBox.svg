@@ -3,7 +3,7 @@
 <!--
 DiceBox - Box with lid and integraded hinge for storing dice
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes DiceBox
 -->
 <title>DiceBox</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes DiceBox
 <dc:source>boxes DiceBox</dc:source>
 <dc:description>Box with lid and integraded hinge for storing dice
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes DiceBox
 Command line short: boxes DiceBox
 </dc:description>

@@ -7,7 +7,7 @@ RegularStarBox - Regular polygon boxes that form a star when closed
 ![Open box](static/samples/RegularStarBox-2.jpg)
 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes RegularStarBox
 -->
 <title>RegularStarBox</title>
@@ -19,7 +19,7 @@ Command line (remove spaces between dashes): boxes RegularStarBox
 
 ![Open box](static/samples/RegularStarBox-2.jpg)
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes RegularStarBox
 Command line short: boxes RegularStarBox
 </dc:description>

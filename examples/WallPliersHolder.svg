@@ -3,7 +3,7 @@
 <!--
 WallPliersHolder - Bar to hang pliers on
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes WallPliersHolder
 -->
 <title>WallPliersHolder</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes WallPliersHolder
 <dc:source>boxes WallPliersHolder</dc:source>
 <dc:description>Bar to hang pliers on
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes WallPliersHolder
 Command line short: boxes WallPliersHolder
 </dc:description>

@@ -3,7 +3,7 @@
 <!--
 Stachel - Bass Recorder Endpin
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes Stachel
 -->
 <title>Stachel</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes Stachel
 <dc:source>boxes Stachel</dc:source>
 <dc:description>Bass Recorder Endpin
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes Stachel
 Command line short: boxes Stachel
 </dc:description>

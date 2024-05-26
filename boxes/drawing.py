@@ -455,7 +455,7 @@ class SVGSurface(Surface):
         desc = md["short_description"] or ""
         if "description" in md and md["description"]:
             desc += "\n\n" + md["description"]
-        desc += "\n\nCreated with Boxes.py (https://festi.info/boxes.py)\n"
+        desc += "\n\nCreated with Boxes.py (https://boxes.hackerspace-bamberg.de/)\n"
         desc += "Command line: %s\n" % md["cli"]
         desc += "Command line short: %s\n" % md["cli_short"]
         if md["url"]:
@@ -472,7 +472,7 @@ class SVGSurface(Surface):
         txt = """\n{name} - {short_description}\n""".format(**md)
         if md["description"]:
             txt += """\n\n{description}\n\n""".format(**md)
-        txt += """\nCreated with Boxes.py (https://festi.info/boxes.py)\n"""
+        txt += """\nCreated with Boxes.py (https://boxes.hackerspace-bamberg.de/)\n"""
         if not md["reproducible"]:
             txt += f"""Creation date: {creation_date}\n"""
 
@@ -618,7 +618,7 @@ class PSSurface(Surface):
             desc += f'%%CreationDate: {md["creation_date"].strftime("%Y-%m-%d %H:%M:%S")}\n'
         desc += f'%%Keywords: boxes.py, laser, laser cutter\n'
         desc += f'%%Creator: {md.get("url") or md["cli"]}\n'
-        desc += "%%CreatedBy: Boxes.py (https://festi.info/boxes.py)\n"
+        desc += "%%CreatedBy: Boxes.py (https://boxes.hackerspace-bamberg.de/)\n"
         for line in (md["short_description"] or "").split("\n"):
             desc += "%% %s\n" % line
         desc += "%\n"

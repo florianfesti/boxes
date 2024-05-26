@@ -3,7 +3,7 @@
 <!--
 Lamp - None
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes Lamp
 -->
 <title>Lamp</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes Lamp
 <dc:source>boxes Lamp</dc:source>
 <dc:description>
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes Lamp
 Command line short: boxes Lamp
 </dc:description>

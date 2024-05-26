@@ -39,7 +39,7 @@ Matrix - WS2812b matrix enclosure
     
 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes Matrix
 -->
 <title>Matrix</title>
@@ -83,7 +83,7 @@ Command line (remove spaces between dashes): boxes Matrix
     You can use a different thickness for the plexiglass, but make sure to adjust the settings accordingly.
     
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes Matrix
 Command line short: boxes Matrix
 </dc:description>

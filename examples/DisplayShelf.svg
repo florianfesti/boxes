@@ -3,7 +3,7 @@
 <!--
 DisplayShelf - Shelf with slanted floors
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes DisplayShelf
 -->
 <title>DisplayShelf</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes DisplayShelf
 <dc:source>boxes DisplayShelf</dc:source>
 <dc:description>Shelf with slanted floors
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes DisplayShelf
 Command line short: boxes DisplayShelf
 </dc:description>

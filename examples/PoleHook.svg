@@ -3,7 +3,7 @@
 <!--
 PoleHook - Hook for pole like things to be clamped to another pole
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes PoleHook
 -->
 <title>PoleHook</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes PoleHook
 <dc:source>boxes PoleHook</dc:source>
 <dc:description>Hook for pole like things to be clamped to another pole
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes PoleHook
 Command line short: boxes PoleHook
 </dc:description>

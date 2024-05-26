@@ -9,7 +9,7 @@ This is a configurable gridfinity base.  This
     <a href="https://www.youtube.com/watch?app=desktop&v=ra_9zU-mnl8">Zach Freedman's Gridfinity system</a>
 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes GridfinityBase
 -->
 <title>GridfinityBase</title>
@@ -23,7 +23,7 @@ This is a configurable gridfinity base.  This
     design is based on
     &lt;a href="https://www.youtube.com/watch?app=desktop&amp;v=ra_9zU-mnl8"&gt;Zach Freedman's Gridfinity system&lt;/a&gt;
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes GridfinityBase
 Command line short: boxes GridfinityBase
 </dc:description>

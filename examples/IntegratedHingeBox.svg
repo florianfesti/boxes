@@ -3,7 +3,7 @@
 <!--
 IntegratedHingeBox - Box with lid and integraded hinge
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes IntegratedHingeBox
 -->
 <title>IntegratedHingeBox</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes IntegratedHingeBox
 <dc:source>boxes IntegratedHingeBox</dc:source>
 <dc:description>Box with lid and integraded hinge
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes IntegratedHingeBox
 Command line short: boxes IntegratedHingeBox
 </dc:description>

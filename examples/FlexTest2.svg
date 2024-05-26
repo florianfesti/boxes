@@ -3,7 +3,7 @@
 <!--
 FlexTest2 - Piece for testing 2D flex settings
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes FlexTest2
 -->
 <title>FlexTest2</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes FlexTest2
 <dc:source>boxes FlexTest2</dc:source>
 <dc:description>Piece for testing 2D flex settings
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes FlexTest2
 Command line short: boxes FlexTest2
 </dc:description>

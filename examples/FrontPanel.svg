@@ -79,7 +79,7 @@ mountinghole x y d_shaft [d_head=0] [angle=0]
     
 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes FrontPanel
 -->
 <title>FrontPanel</title>
@@ -163,7 +163,7 @@ mountinghole x y d_shaft [d_head=0] [angle=0]
 &lt;/md-block&gt;
     
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes FrontPanel
 Command line short: boxes FrontPanel
 </dc:description>

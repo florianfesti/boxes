@@ -3,7 +3,7 @@
 <!--
 OrganPipe - Rectangular organ pipe based on pipecalc
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes OrganPipe
 -->
 <title>OrganPipe</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes OrganPipe
 <dc:source>boxes OrganPipe</dc:source>
 <dc:description>Rectangular organ pipe based on pipecalc
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes OrganPipe
 Command line short: boxes OrganPipe
 </dc:description>

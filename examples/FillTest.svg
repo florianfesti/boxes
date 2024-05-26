@@ -3,7 +3,7 @@
 <!--
 FillTest - Piece for testing different settings for hole filling
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes FillTest
 -->
 <title>FillTest</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes FillTest
 <dc:source>boxes FillTest</dc:source>
 <dc:description>Piece for testing different settings for hole filling
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes FillTest
 Command line short: boxes FillTest
 </dc:description>

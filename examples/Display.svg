@@ -3,7 +3,7 @@
 <!--
 Display - Display for flyers or leaflets
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes Display
 -->
 <title>Display</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes Display
 <dc:source>boxes Display</dc:source>
 <dc:description>Display for flyers or leaflets
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes Display
 Command line short: boxes Display
 </dc:description>

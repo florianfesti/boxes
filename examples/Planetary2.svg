@@ -7,7 +7,7 @@ Planetary2 - Balanced force Difference Planetary Gear (not yet working properly)
 Still has issues. The middle planetary gears set must not have a mashing sun gear as it can't be a proper gear set.
 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes Planetary2
 -->
 <title>Planetary2</title>
@@ -19,7 +19,7 @@ Command line (remove spaces between dashes): boxes Planetary2
 
 Still has issues. The middle planetary gears set must not have a mashing sun gear as it can't be a proper gear set.
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes Planetary2
 Command line short: boxes Planetary2
 </dc:description>

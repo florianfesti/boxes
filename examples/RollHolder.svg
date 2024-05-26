@@ -7,7 +7,7 @@ RollHolder - Holder for kitchen rolls or other rolls
 Needs a dowel or pipe as axle.
 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes RollHolder
 -->
 <title>RollHolder</title>
@@ -19,7 +19,7 @@ Command line (remove spaces between dashes): boxes RollHolder
 
 Needs a dowel or pipe as axle.
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes RollHolder
 Command line short: boxes RollHolder
 </dc:description>

@@ -3,7 +3,7 @@
 <!--
 RobotArm - Segments of servo powered robot arm
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes RobotArm
 -->
 <title>RobotArm</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes RobotArm
 <dc:source>boxes RobotArm</dc:source>
 <dc:description>Segments of servo powered robot arm
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes RobotArm
 Command line short: boxes RobotArm
 </dc:description>

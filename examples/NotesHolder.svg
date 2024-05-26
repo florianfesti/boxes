@@ -3,7 +3,7 @@
 <!--
 NotesHolder - Box for holding a stack of paper, coasters etc
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes NotesHolder
 -->
 <title>NotesHolder</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes NotesHolder
 <dc:source>boxes NotesHolder</dc:source>
 <dc:description>Box for holding a stack of paper, coasters etc
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes NotesHolder
 Command line short: boxes NotesHolder
 </dc:description>

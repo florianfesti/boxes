@@ -3,7 +3,7 @@
 <!--
 OpenBox - Box with top and front open
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes OpenBox
 -->
 <title>OpenBox</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes OpenBox
 <dc:source>boxes OpenBox</dc:source>
 <dc:description>Box with top and front open
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes OpenBox
 Command line short: boxes OpenBox
 </dc:description>

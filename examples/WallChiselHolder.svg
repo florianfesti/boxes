@@ -3,7 +3,7 @@
 <!--
 WallChiselHolder - Wall tool holder for chisels, files and similar tools
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes WallChiselHolder
 -->
 <title>WallChiselHolder</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes WallChiselHolder
 <dc:source>boxes WallChiselHolder</dc:source>
 <dc:description>Wall tool holder for chisels, files and similar tools
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes WallChiselHolder
 Command line short: boxes WallChiselHolder
 </dc:description>

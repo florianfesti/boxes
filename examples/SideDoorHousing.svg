@@ -31,7 +31,7 @@ The latches lock in place when closed. To open them they need to be pressed in a
 
 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes SideDoorHousing
 -->
 <title>SideDoorHousing</title>
@@ -67,7 +67,7 @@ The latches lock in place when closed. To open them they need to be pressed in a
 
 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes SideDoorHousing
 Command line short: boxes SideDoorHousing
 </dc:description>

@@ -8,7 +8,7 @@ This was done as a table decoration. May be at some point in the future someone 
 with towers and gates and walls that can be attached in multiple configurations.
 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes Castle
 -->
 <title>Castle</title>
@@ -21,7 +21,7 @@ Command line (remove spaces between dashes): boxes Castle
 This was done as a table decoration. May be at some point in the future someone will create a proper castle
 with towers and gates and walls that can be attached in multiple configurations.
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes Castle
 Command line short: boxes Castle
 </dc:description>

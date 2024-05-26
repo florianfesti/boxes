@@ -3,7 +3,7 @@
 <!--
 LaptopStand - A simple X shaped frame to support a laptop on a given angle
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes LaptopStand
 -->
 <title>LaptopStand</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes LaptopStand
 <dc:source>boxes LaptopStand</dc:source>
 <dc:description>A simple X shaped frame to support a laptop on a given angle
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes LaptopStand
 Command line short: boxes LaptopStand
 </dc:description>

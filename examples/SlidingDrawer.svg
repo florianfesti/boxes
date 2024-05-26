@@ -3,7 +3,7 @@
 <!--
 SlidingDrawer - Sliding drawer box
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes SlidingDrawer
 -->
 <title>SlidingDrawer</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes SlidingDrawer
 <dc:source>boxes SlidingDrawer</dc:source>
 <dc:description>Sliding drawer box
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes SlidingDrawer
 Command line short: boxes SlidingDrawer
 </dc:description>

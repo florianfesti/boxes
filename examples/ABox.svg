@@ -7,7 +7,7 @@ ABox - A simple Box
 This box is kept simple on purpose. If you need more features have a look at the UniversalBox.
 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes ABox
 -->
 <title>ABox</title>
@@ -19,7 +19,7 @@ Command line (remove spaces between dashes): boxes ABox
 
 This box is kept simple on purpose. If you need more features have a look at the UniversalBox.
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes ABox
 Command line short: boxes ABox
 </dc:description>

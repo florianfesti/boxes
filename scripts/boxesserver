@@ -386,7 +386,7 @@ class BServer:
 
         s = ""
         for language in languages:
-            s += f'<link rel="alternate" hreflang="{language.replace("_", "-")}" href="https://www.festi.info/boxes.py/?language={language}">\n'
+            s += f'<link rel="alternate" hreflang="{language.replace("_", "-")}" href="https://boxes.hackerspace-bamberg.de/?language={language}">\n'
         return s
 
     def genHTMLCSS(self) -> str:

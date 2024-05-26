@@ -3,7 +3,7 @@
 <!--
 WavyKnob - Round knob serrated outside for better gripping
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes WavyKnob
 -->
 <title>WavyKnob</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes WavyKnob
 <dc:source>boxes WavyKnob</dc:source>
 <dc:description>Round knob serrated outside for better gripping
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes WavyKnob
 Command line short: boxes WavyKnob
 </dc:description>

@@ -3,7 +3,7 @@
 <!--
 RectangularWall - Simple wall with options for different edges
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes RectangularWall
 -->
 <title>RectangularWall</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes RectangularWall
 <dc:source>boxes RectangularWall</dc:source>
 <dc:description>Simple wall with options for different edges
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes RectangularWall
 Command line short: boxes RectangularWall
 </dc:description>

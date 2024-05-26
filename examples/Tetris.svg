@@ -3,7 +3,7 @@
 <!--
 Tetris - 3D Tetris shapes
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes Tetris
 -->
 <title>Tetris</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes Tetris
 <dc:source>boxes Tetris</dc:source>
 <dc:description>3D Tetris shapes
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes Tetris
 Command line short: boxes Tetris
 </dc:description>

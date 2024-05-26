@@ -7,7 +7,7 @@ BayonetBox - Round box made from layers with twist on top
 Glue together - all outside rings to the bottom, all inside rings to the top.
 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes BayonetBox
 -->
 <title>BayonetBox</title>
@@ -19,7 +19,7 @@ Command line (remove spaces between dashes): boxes BayonetBox
 
 Glue together - all outside rings to the bottom, all inside rings to the top.
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes BayonetBox
 Command line short: boxes BayonetBox
 </dc:description>

@@ -7,7 +7,7 @@ About Boxes.py
 
 * Boxes.py is an online box generator
 
-  * https://www.festi.info/boxes.py/index.html
+  * https://boxes.hackerspace-bamberg.de/
 
 * Boxes.py is an Inkscape plug-in
 * Boxes.py is library to write your own

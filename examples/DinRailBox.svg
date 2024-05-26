@@ -3,7 +3,7 @@
 <!--
 DinRailBox - Box for DIN rail used in electrical junction boxes
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes DinRailBox
 -->
 <title>DinRailBox</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes DinRailBox
 <dc:source>boxes DinRailBox</dc:source>
 <dc:description>Box for DIN rail used in electrical junction boxes
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes DinRailBox
 Command line short: boxes DinRailBox
 </dc:description>

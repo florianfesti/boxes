@@ -3,7 +3,7 @@
 <!--
 SkadisBoard - Customizable Ikea like pegboard
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes SkadisBoard
 -->
 <title>SkadisBoard</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes SkadisBoard
 <dc:source>boxes SkadisBoard</dc:source>
 <dc:description>Customizable Ikea like pegboard
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes SkadisBoard
 Command line short: boxes SkadisBoard
 </dc:description>

@@ -15,7 +15,7 @@ PhoneHolder -
 
 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes PhoneHolder
 -->
 <title>PhoneHolder</title>
@@ -35,7 +35,7 @@ Command line (remove spaces between dashes): boxes PhoneHolder
     Default values are currently based on Galaxy S7.
 
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes PhoneHolder
 Command line short: boxes PhoneHolder
 </dc:description>

@@ -3,7 +3,7 @@
 <!--
 SpicesRack - Rack for cans of spices
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes SpicesRack
 -->
 <title>SpicesRack</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes SpicesRack
 <dc:source>boxes SpicesRack</dc:source>
 <dc:description>Rack for cans of spices
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes SpicesRack
 Command line short: boxes SpicesRack
 </dc:description>

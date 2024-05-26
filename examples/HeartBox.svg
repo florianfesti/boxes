@@ -3,7 +3,7 @@
 <!--
 HeartBox - Box in the form of a heart
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes HeartBox
 -->
 <title>HeartBox</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes HeartBox
 <dc:source>boxes HeartBox</dc:source>
 <dc:description>Box in the form of a heart
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes HeartBox
 Command line short: boxes HeartBox
 </dc:description>

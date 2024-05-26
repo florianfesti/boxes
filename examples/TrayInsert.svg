@@ -3,7 +3,7 @@
 <!--
 TrayInsert - Tray insert without floor and outer walls - allows only continuous walls
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes TrayInsert
 -->
 <title>TrayInsert</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes TrayInsert
 <dc:source>boxes TrayInsert</dc:source>
 <dc:description>Tray insert without floor and outer walls - allows only continuous walls
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes TrayInsert
 Command line short: boxes TrayInsert
 </dc:description>

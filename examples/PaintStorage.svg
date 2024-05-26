@@ -3,7 +3,7 @@
 <!--
 PaintStorage - Stackable storage for hobby paint or other things
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes PaintStorage
 -->
 <title>PaintStorage</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes PaintStorage
 <dc:source>boxes PaintStorage</dc:source>
 <dc:description>Stackable storage for hobby paint or other things
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes PaintStorage
 Command line short: boxes PaintStorage
 </dc:description>

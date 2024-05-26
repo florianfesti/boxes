@@ -3,7 +3,7 @@
 <!--
 Folder - Book cover with flex for the spine
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes Folder
 -->
 <title>Folder</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes Folder
 <dc:source>boxes Folder</dc:source>
 <dc:description>Book cover with flex for the spine
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes Folder
 Command line short: boxes Folder
 </dc:description>

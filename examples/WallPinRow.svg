@@ -3,7 +3,7 @@
 <!--
 WallPinRow - Outset and angled plate to mount stuff to
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes WallPinRow
 -->
 <title>WallPinRow</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes WallPinRow
 <dc:source>boxes WallPinRow</dc:source>
 <dc:description>Outset and angled plate to mount stuff to
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes WallPinRow
 Command line short: boxes WallPinRow
 </dc:description>

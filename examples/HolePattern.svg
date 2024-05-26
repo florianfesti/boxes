@@ -3,7 +3,7 @@
 <!--
 HolePattern - Generate hole patterns in different simple shapes
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes HolePattern
 -->
 <title>HolePattern</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes HolePattern
 <dc:source>boxes HolePattern</dc:source>
 <dc:description>Generate hole patterns in different simple shapes
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes HolePattern
 Command line short: boxes HolePattern
 </dc:description>

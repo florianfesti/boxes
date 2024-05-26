@@ -3,7 +3,7 @@
 <!--
 WallPlaneHolder - Hold a plane to a wall
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes WallPlaneHolder
 -->
 <title>WallPlaneHolder</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes WallPlaneHolder
 <dc:source>boxes WallPlaneHolder</dc:source>
 <dc:description>Hold a plane to a wall
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes WallPlaneHolder
 Command line short: boxes WallPlaneHolder
 </dc:description>

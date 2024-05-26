@@ -3,7 +3,7 @@
 <!--
 CoinDisplay - A showcase for a single coin
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes CoinDisplay
 -->
 <title>CoinDisplay</title>
@@ -13,7 +13,7 @@ Command line (remove spaces between dashes): boxes CoinDisplay
 <dc:source>boxes CoinDisplay</dc:source>
 <dc:description>A showcase for a single coin
 
-Created with Boxes.py (https://festi.info/boxes.py)
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes CoinDisplay
 Command line short: boxes CoinDisplay
 </dc:description>

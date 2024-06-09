@@ -181,21 +181,21 @@ class PhotoFrame(Boxes):
     ui_group = "Misc"
 
     description = """
-    3-layer photo frame. 
-    
-    Selected excellent features:
-    
-    * easy to change the photo after glue-up, without disassembling the frame
-    * calculates the ideal matting size for your photo based on ancient Greek mathematics
-    * can make the frame in one piece or split into 4 pieces to save material
-    
-    Features available in the mysterious future:
-    
-    * add a hole for hanging the frame on the wall
-    * rounded corners (works now on selected layers)
-    * calculate the frame size based on the piece of glass/acrylic you already have
-    * determine the width of the internal area based on the thickness of the matting and glass
-    """
+3-layer photo frame.
+
+Selected excellent features:
+
+* easy to change the photo after glue-up, without disassembling the frame
+* calculates the ideal matting size for your photo based on ancient Greek mathematics
+* can make the frame in one piece or split into 4 pieces to save material
+
+Features available in the mysterious future:
+
+* add a hole for hanging the frame on the wall
+* rounded corners (works now on selected layers)
+* calculate the frame size based on the piece of glass/acrylic you already have
+* determine the width of the internal area based on the thickness of the matting and glass
+"""
 
     x = 100 / 2
     y = 150 / 2

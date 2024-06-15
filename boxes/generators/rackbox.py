@@ -65,7 +65,6 @@ class RackBox(Boxes):
     def render(self):
 
         t = self.thickness
-        self.h = h = self.h + 2*t # compensate for lid
         x, y, h = self.x, self.y, self.h
         d1, d2, d3 =self.d1, self.d2, self.d3
         hd = self.holedist
@@ -75,13 +74,15 @@ class RackBox(Boxes):
         if self.outside:
             self.x = x = self.adjustSize(x)
             self.y = y = self.adjustSize(y)
-            self.h = h = h - 3*t
+            self.h = h = h - 1 * t
+        else:
+            self.h = h = h + 2 * t # compensate for lid
 
         self.rectangularWall(x, h, "fFeF", callback=[self.wallxCB],
                              move="right")
         self.rectangularWall(y, h, "ffef", callback=[self.wallyCB], move="up")
         self.flangedWall(x, h, "FFeF", callback=[self.wallxfCB], r=t,
-                         flanges=[0., 2*hd, -t, 2*hd])
+                         flanges=[0., 2*hd, 0, 2*hd])
         self.rectangularWall(y, h, "ffef", callback=[self.wallyCB],
                              move="left up")
 

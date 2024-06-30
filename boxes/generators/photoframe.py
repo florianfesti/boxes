@@ -12,7 +12,7 @@
 #
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+import inspect
 import logging
 import math
 from dataclasses import dataclass, fields
@@ -26,27 +26,32 @@ logger.addHandler(logging.StreamHandler())
 
 @dataclass
 class Dimensions:
+    """
+    Calculate the dimensions of a photo frame with matting and glass.
+
+    What changes if the user specifies the dimensions of the glass?
+    - the matting outer dimension is fixed by the glass instead of calculated out from the photo
+    - the matting width and height must be calculated from the photo dimensions
+    - so you can't have golden matting or user-specified matting width/height
+    """
+
     x: float
     y: float
     golden_mat: bool
     matting_w_param: float
     matting_h_param: float
     matting_overlap: float
+    glass_w: float
+    glass_h: float
     frame_w: float
-    frame_h: float
     frame_overlap: float
-    split_parts: bool
-    unsplit_parts: bool
-    mount_hole_dia: float
+    split_top_param: bool
+    split_middle_param: bool
     corner_radius: float
     guide_fudge: float = 2.0
 
     def __post_init__(self):
-        if not self.unsplit_parts and not self.split_parts:
-            self.unsplit_parts = True
-
-        if self.golden_mat and (self.matting_w_param or self.matting_h_param):
-            raise ValueError("Golden matting and explicit matting dimensions are mutually exclusive")
+        self.check_matting_params()
         self.check()
 
     @property
@@ -56,6 +61,10 @@ class Dimensions:
     @property
     def photo_y(self):
         return self.y
+
+    @property
+    def frame_h(self):
+        return self.frame_w
 
     @property
     def mat_hole_x(self):
@@ -82,13 +91,27 @@ class Dimensions:
         return x1
 
     @property
+    def fixed_glass_size(self):
+        return self.glass_w and self.glass_h
+
+    @property
     def matting_w(self):
+        """
+        Width of the visible matting border on the sides of photo, not including the bit that's hidden by the frame
+        """
+
+        if self.fixed_glass_size:
+            visible = self.glass_w - 2 * self.frame_overlap
+            return (visible - self.mat_hole_x) / 2
         if self.golden_mat:
             return self.golden_matting_width
         return self.matting_w_param
 
     @property
     def matting_h(self):
+        if self.fixed_glass_size:
+            visible = self.glass_h - 2 * self.frame_overlap
+            return (visible - self.mat_hole_y) / 2
         if self.golden_mat:
             return self.golden_matting_width
         return self.matting_h_param
@@ -131,10 +154,16 @@ class Dimensions:
 
     @property
     def window_x(self):
+        """
+        Width of the window that shows the photo
+        """
         return self.mat_x - self.frame_overlap * 2
 
     @property
     def window_y(self):
+        """
+        Height of the window that shows the photo
+        """
         return self.mat_y - self.frame_overlap * 2
 
     @property
@@ -153,21 +182,100 @@ class Dimensions:
     def centre_y(self):
         return self.base_y / 2
 
+    @property
+    def split_middle(self):
+        return self.split_middle_param
+
+    @property
+    def unsplit_middle(self):
+        return not self.split_middle_param
+
+    @property
+    def split_top(self):
+        return self.split_top_param
+
+    @property
+    def unsplit_top(self):
+        return not self.split_top_param
+
+    def check_matting_params(self):
+        if self.golden_mat and self.fixed_glass_size:
+            calc = f"Calculated matting width x: {self.matting_w:.1f}, y: {self.matting_h:.1f} for glass {self.glass_w:.1f} x {self.glass_h:.1f}."
+            advice = "If you want to specify the glass size, do not use golden matting."
+            raise ValueError(f"Cannot have golden matting and fixed glass size at the same time. {calc} {advice}")
+
+        if self.fixed_glass_size and (self.matting_w_param or self.matting_h_param):
+            # Should we whinge about this? Only if the difference is significant
+            # The correct ratio may have been calculated on the front-end
+            whinge_threshold_mm = 0.5
+            d_w = self.matting_w_param - self.matting_w
+            d_h = self.matting_h_param - self.matting_h
+            if abs(d_w) > whinge_threshold_mm or abs(d_h) > whinge_threshold_mm:
+                msg = f"Calculated matting width {self.matting_w:.1f} differs from specified matting widths {self.matting_w_param:.1f},  {self.matting_h_param:.1f}."
+                advice = "If you want to specify the matting widths, set the glass size to zero. If you want to specify the glass size, set the matting widths to 0."
+                logger.warning(msg)
+                raise ValueError(f"Fixed glass size and explicit matting dimensions are mutually exclusive. {msg} {advice}")
+
+        if self.golden_mat and (self.matting_w_param or self.matting_h_param):
+            # Should we whinge about this? Only if the difference is significant
+            # The correct ratio may have been calculated on the front-end
+            whinge_threshold_mm = 0.5
+            d_w = self.matting_w_param - self.golden_matting_width
+            d_h = self.matting_h_param - self.golden_matting_width
+            if abs(d_w) > whinge_threshold_mm or abs(d_h) > whinge_threshold_mm:
+                msg = f"Golden matting width {self.golden_matting_width:.1f} differs from specified matting widths {self.matting_w_param:.1f},  {self.matting_h_param:.1f}"
+                advice = "If you want to specify the matting width, set the glass size to zero. If you want to specify the glass size, set the matting widths to 0."
+                logger.warning(msg)
+                raise ValueError(f"Golden matting and explicit matting dimensions are mutually exclusive. {msg} {advice}")
+
     def check(self):
         photo_info = f"Photo: {self.photo_x:.0f} x {self.photo_y:.0f}"
         mat_hole_info = f"Matting hole: {self.mat_hole_x:.0f} x {self.mat_hole_y:.0f} (O {self.matting_overlap:.0f})"
-        mat_info = f"Matting: {self.mat_x:.0f} x {self.mat_y:.0f} (W {self.matting_w:.0f}, H {self.matting_h:.0f})"
-        base_info = f"Base: {self.base_x} x {self.base_y} (W {self.frame_w:.0f}, H {self.frame_h:.0f})"
-        base_x_info = f"Base x: {self.base_x:.0f} = {self.window_x:.0f} + 2 * ({self.frame_w:.0f} - {self.frame_overlap:.0f})"
-        base_y_info = f"Base y: {self.base_y:.0f} = {self.window_y:.0f} + 2 * ({self.frame_h:.0f} - {self.frame_overlap:.0f})"
-        window_info = f"Window: {self.window_x} x {self.window_y} (rim {self.frame_overlap:.0f})"
+        matting_w_info = f"Matting widths: {self.matting_w:.0f} sides, {self.matting_h:.0f} top/bottom"
+        mat_info = f"Mat size: {self.mat_x:.0f} x {self.mat_y:.0f} (W {self.matting_w:.0f}, H {self.matting_h:.0f})"
+        base_info = f"Back of frame: {self.base_x} x {self.base_y} (W {self.frame_w:.0f}, H {self.frame_h:.0f})"
+        base_x_info = f"Back of frame x: {self.base_x:.0f} = {self.window_x:.0f} + 2 * ({self.frame_w:.0f} - {self.frame_overlap:.0f})"
+        base_y_info = f"Back of frame y: {self.base_y:.0f} = {self.window_y:.0f} + 2 * ({self.frame_h:.0f} - {self.frame_overlap:.0f})"
+        window_info = f"Viewing window in front layer: {self.window_x} x {self.window_y} (rim {self.frame_overlap:.0f})"
+        pocket_info = f"Pocket for glass and matting: {self.pocket_x:.0f} x {self.pocket_y:.0f} (guide {self.guide_fudge:.0f})"
+        if self.fixed_glass_size:
+            glass_info = f"Glass size: {self.glass_w:.0f} x {self.glass_h:.0f} (fixed)"
+        else:
+            glass_info = "Glass size: not specified"
+        info = [
+            photo_info,
+            mat_hole_info,
+            matting_w_info,
+            glass_info,
+            mat_info,
+            window_info,
+            pocket_info,
+            base_info,
+            base_x_info,
+            base_y_info,
+        ]
+
+        issues = []
 
         for field in fields(self):
             logger.debug(f"{field.name}: {getattr(self, field.name)}")
             if isinstance(getattr(self, field.name), float):
                 v = getattr(self, field.name)
                 if v < 0:
-                    raise ValueError(f"{field.name} must be positive")
+                    issues.append(f"{field.name} must be positive")
+
+        # Check all properties
+        for name, value in inspect.getmembers(self.__class__, lambda o: isinstance(o, property)):
+            prop_value = getattr(self, name)
+            logger.debug(f"{name}: {prop_value}")
+            if isinstance(prop_value, float):
+                if prop_value < 0:
+                    issues.append(f"{name} must be positive")
+
+        if issues:
+            info_str = "\n".join(info)
+            issues_str = "\n".join(issues)
+            raise ValueError(f"Invalid dimensions:\n{issues_str}\n{info_str}")
 
         for info in (photo_info, mat_hole_info, mat_info, window_info, base_info, base_x_info, base_y_info):
             logger.debug(info)
@@ -188,13 +296,13 @@ Selected excellent features:
 * easy to change the photo after glue-up, without disassembling the frame
 * calculates the ideal matting size for your photo based on ancient Greek mathematics
 * can make the frame in one piece or split into 4 pieces to save material
+* can make a frame to fit the piece of glass/acrylic you already have
+* adds a hole for hanging the frame on the wall
 
 Features available in the mysterious future:
 
-* add a hole for hanging the frame on the wall
-* rounded corners (works now on selected layers)
-* calculate the frame size based on the piece of glass/acrylic you already have
-* determine the width of the internal area based on the thickness of the matting and glass
+* rounded corners
+* a stand on the back to display the frame on a table
 """
 
     x = 100 / 2
@@ -203,11 +311,12 @@ Features available in the mysterious future:
     matting_w = 0
     matting_h = 0
     matting_overlap = 2
+    glass_w = 0
+    glass_h = 0
     frame_w = 20.0
-    frame_h = 20.0
     frame_overlap = 5.0
-    unsplit_parts = True
-    split_parts = True
+    split_middle = True
+    split_top = True
     mount_hole_dia = 6.0
     corner_radius = 0.0
     guide_fudge = 2.0
@@ -227,13 +336,13 @@ Features available in the mysterious future:
             matting_w_param=self.matting_w,
             matting_h_param=self.matting_h,
             matting_overlap=self.matting_overlap,
+            glass_w=self.glass_w,
+            glass_h=self.glass_h,
             frame_w=self.frame_w,
-            frame_h=self.frame_h,
             frame_overlap=self.frame_overlap,
-            split_parts=self.split_parts,
-            unsplit_parts=self.unsplit_parts,
+            split_middle_param=self.split_middle,
+            split_top_param=self.split_top,
             corner_radius=self.corner_radius,
-            mount_hole_dia=self.mount_hole_dia,
             guide_fudge=self.guide_fudge,
         )
 
@@ -244,14 +353,21 @@ Features available in the mysterious future:
         self.render_photo()
 
     def render_middle(self):
-        d = self.d
+        """
+        Render the middle layer of the frame, which holds the matting and glass in place
+
+        Local variable `stack_n` is reserved for future use where multiple middle layers
+        are needed to hold thicker glass or matting. I have needed this in the past
+        but not often enough to add it to the UI.
+        """
+
         stack_n = 1
 
-        if d.unsplit_parts:
+        if self.d.unsplit_middle:
             for _ in range(stack_n):
                 self.middle_unsplit()
 
-        if d.split_parts:
+        if self.d.split_middle:
             for _ in range(stack_n):
                 self.middle_split()
 
@@ -318,10 +434,10 @@ Features available in the mysterious future:
         logger.debug(f"Ratio: {ratio:.2f}")
 
     def render_top(self):
-        if self.d.unsplit_parts:
+        if self.d.unsplit_top:
             self.front_unsplit()
 
-        if self.d.split_parts:
+        if self.d.split_top:
             self.front_split()
 
     def front_unsplit(self):
@@ -358,8 +474,14 @@ Features available in the mysterious future:
     def render_base(self):
         d = self.d
         label = f"Base {d.base_x:.0f}x{d.base_y:.0f} for photo {d.photo_x:.0f}x{d.photo_y:.0f}"
-        callback = [lambda: self.photo_registration_rectangle(offset=1)]
-        self.roundedPlate(d.base_x, d.base_y, d.corner_radius, "e", callback, extend_corners=False, move="up", label=label)
+
+        callback = [lambda: self.photo_registration_rectangle(offset=1), None, None, None]
+        holes = self.edgesettings.get("Mounting", {}).get("num", 0)
+        self.rectangularWall(d.base_x, d.base_y, "eeGe" if holes else "eeee", callback=callback, move="up", label=label)
+
+        # I can't work out the interface for roundedPlate with edge settings other than "e"
+        # so no rounded corners for you!
+        # self.roundedPlate(d.base_x, d.base_y, d.corner_radius, "e", callback, extend_corners=False, move="up", label=label)
 
     def photo_registration_rectangle(self, offset=0):
         """
@@ -408,8 +530,11 @@ Features available in the mysterious future:
             self.edge(d - 2 * r)
 
     def add_arguments(self):
-        self.addSettingsArgs(edges.FingerJointSettings)
+        # we have no finger joints (yet), but we do have mounting holes
+        # self.addSettingsArgs(edges.FingerJointSettings)
+
         self.addSettingsArgs(edges.DoveTailSettings, size=2.0, depth=1)
+        self.addSettingsArgs(edges.MountingSettings, num=1)
         self.buildArgParser(x=self.x, y=self.y)
         self.argparser.add_argument(
             "--golden_mat", action="store", type=BoolArg(), default=self.golden_mat, help="Use golden ratio to calculate matting width"
@@ -419,14 +544,14 @@ Features available in the mysterious future:
             action="store",
             type=float,
             default=self.matting_w,
-            help="Width of the matting border around the photo",
+            help="Width of the matting border around the sides of the photo",
         )
         self.argparser.add_argument(
             "--matting_h",
             action="store",
             type=float,
             default=self.matting_h,
-            help="Height of the matting border around the photo",
+            help="Width of the matting border around top/bottom of the photo",
         )
         self.argparser.add_argument(
             "--matting_overlap",
@@ -436,18 +561,25 @@ Features available in the mysterious future:
             help="Matting overlap of the photo, e.g. 2mm if photo has border, 5mm if not",
         )
         self.argparser.add_argument(
+            "--glass_w",
+            action="store",
+            type=float,
+            default=self.glass_w,
+            help="Width of the pre-cut glass or acrylic",
+        )
+        self.argparser.add_argument(
+            "--glass_h",
+            action="store",
+            type=float,
+            default=self.glass_h,
+            help="Height of the pre-cut glass or acrylic",
+        )
+        self.argparser.add_argument(
             "--frame_w",
             action="store",
             type=float,
             default=self.frame_w,
             help="Width of the frame border around the matting",
-        )
-        self.argparser.add_argument(
-            "--frame_h",
-            action="store",
-            type=float,
-            default=self.frame_h,
-            help="Height of the frame border around the matting",
         )
         self.argparser.add_argument(
             "--guide_fudge",
@@ -463,30 +595,23 @@ Features available in the mysterious future:
             default=self.frame_overlap,
             help="Frame overlap to hold the matting/glass in place",
         )
-        self.argparser.add_argument(
-            "--corner_radius",
-            action="store",
-            type=float,
-            default=self.corner_radius,
-            help="Radius of the corners of the frame",
-        )
-        self.argparser.add_argument(
-            "--split_parts",
-            action="store",
-            type=BoolArg(),
-            default=self.split_parts,
-            help="Split frame and guides into thin rectangles to save material",
-        )
-        self.argparser.add_argument(
-            "--unsplit_parts", action="store", type=BoolArg(), default=self.unsplit_parts, help="Cut frame and guides as one piece"
-        )
         # self.argparser.add_argument(
-        #     "--mount_hole_dia",
+        #     "--corner_radius",
         #     action="store",
         #     type=float,
-        #     default=self.mount_hole_dia,
-        #     help="Diameter of the mounting hole (TODO)",
+        #     default=self.corner_radius,
+        #     help="Radius of the corners of the frame (TODO)",
         # )
+        # self.argparser.add_argument(
+        #     "--split_middle",
+        #     action="store",
+        #     type=BoolArg(),
+        #     default=self.split_middle,
+        #     help="Split guides into thin rectangles to save material",
+        # )
+        self.argparser.add_argument(
+            "--split_top", action="store", type=BoolArg(), default=self.split_top, help="Split frame into thin rectangles to save material"
+        )
 
     def render_photo(self):
         d = self.d

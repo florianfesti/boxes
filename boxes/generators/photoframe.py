@@ -258,7 +258,6 @@ class Dimensions:
         issues = []
 
         for field in fields(self):
-            logger.debug(f"{field.name}: {getattr(self, field.name)}")
             if isinstance(getattr(self, field.name), float):
                 v = getattr(self, field.name)
                 if v < 0:
@@ -267,7 +266,6 @@ class Dimensions:
         # Check all properties
         for name, value in inspect.getmembers(self.__class__, lambda o: isinstance(o, property)):
             prop_value = getattr(self, name)
-            logger.debug(f"{name}: {prop_value}")
             if isinstance(prop_value, float):
                 if prop_value < 0:
                     issues.append(f"{name} must be positive")
@@ -276,9 +274,6 @@ class Dimensions:
             info_str = "\n".join(info)
             issues_str = "\n".join(issues)
             raise ValueError(f"Invalid dimensions:\n{issues_str}\n{info_str}")
-
-        for info in (photo_info, mat_hole_info, mat_info, window_info, base_info, base_x_info, base_y_info):
-            logger.debug(info)
 
 
 class PhotoFrame(Boxes):
@@ -305,8 +300,8 @@ Features available in the mysterious future:
 * a stand on the back to display the frame on a table
 """
 
-    x = 100 / 2
-    y = 150 / 2
+    x = 100
+    y = 150
     golden_mat = True
     matting_w = 0
     matting_h = 0

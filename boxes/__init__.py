@@ -2132,12 +2132,22 @@ class Boxes:
             (True, True, True, True, True),
         ][pieces][side]
 
-    def roundedPlate(self, x, y, r, edge="f", callback=None,
-                     holesMargin=None, holesSettings=None,
-                     bedBolts=None, bedBoltSettings=None,
-                     wallpieces=1,
-                     extend_corners=True,
-                     move=None):
+    def roundedPlate(
+        self,
+        x,
+        y,
+        r,
+        edge="f",
+        callback=None,
+        holesMargin=None,
+        holesSettings=None,
+        bedBolts=None,
+        bedBoltSettings=None,
+        wallpieces=1,
+        extend_corners=True,
+        move=None,
+        label=None,
+    ):
         """Plate with rounded corner fitting to .surroundingWall()
 
         For the callbacks the sides are counted depending on wallpieces
@@ -2154,6 +2164,7 @@ class Boxes:
         :param wallpieces: (Default value = 1) # of separate surrounding walls
         :param extend_corners: (Default value = True) have corners outset with the edges
         :param move:  (Default value = None)
+        :param label:  (Default value = None)
         """
         corner_holes = True
 
@@ -2218,7 +2229,7 @@ class Boxes:
             self.hexHolesPlate(x - 2 * holesMargin, y - 2 * holesMargin, r,
                                settings=holesSettings)
 
-        self.move(overallwidth, overallheight, move)
+        self.move(overallwidth, overallheight, move, label=label)
 
     def surroundingWallPiece(self, cbnr, x, y, r, pieces=1):
         """

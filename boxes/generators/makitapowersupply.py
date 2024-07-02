@@ -38,7 +38,12 @@ To allow powering by laptop power supply: flip switch, Lenovo round socket (or a
 
         self.argparser.add_argument("--flipswitch_diameter", action="store",
             type=float, default=6.3,
-            help="diameter of the flipswitch mounting hole")
+            help="diameter of the flipswitch mounting hole (disabled of no secondary power)")
+
+        self.argparser.add_argument("--secondary_power", action="store",
+            default="ibm-barrel",
+            choices=["ibm-barrel", "usb-c", "none"],
+            help="style of secondary power input")
 
 
     def side(self, l, h=14, move=None):
@@ -86,12 +91,17 @@ To allow powering by laptop power supply: flip switch, Lenovo round socket (or a
     def front(self):
         d_b = self.banana_socket_diameter
         d_f = self.flipswitch_diameter
+        secondary_power_style = self.secondary_power
 
         self.hole(10, self.h/2, d=d_b)
         self.hole(30, self.h/2, d=d_b)
-        self.hole(50, self.h/2, d=d_f)
 
-        self.rectangularHole(76, 6.4, 12.4, 12.4)
+        if secondary_power_style == "ibm-barrel":
+            self.hole(50, self.h/2, d=d_f)
+            self.rectangularHole(76, 6.4, 12.4, 12.4)
+        if secondary_power_style == "usb-c":
+            self.hole(50, self.h/2, d=d_f)
+            self.rectangularHole(75, 2.6, 9.2, 3.2, r=1)
 
     def back(self):
         n = int((self.h-2*self.thickness) // 8)

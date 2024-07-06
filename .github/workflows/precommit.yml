@@ -1,5 +1,8 @@
 on:
   pull_request:
+  push:
+    branches: ["master"]
+  workflow_dispatch: # Allows you to run this workflow manually from the Actions tab
 
 jobs:
   main:

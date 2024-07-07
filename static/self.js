@@ -158,6 +158,157 @@ function GridfinityTrayLayoutInit() {
     layout_id.cols = 24;
 }
 
+function PhotoFrameInit() {
+    console.log("PhotoFrameInit: setting event handlers for matting");
+    window.photoFrameUserMattingW = null;
+    window.photoFrameUserMattingH = null;
+    window.photoFrameUserGlassW = null;
+    window.photoFrameUserGlassH = null;
+
+    for (const id_string of ['matting_w', 'matting_h']) {
+        const id = document.getElementById(id_string);
+        id.addEventListener('input', PhotoFrame_MattingUpdate);
+        // id.addEventListener('change', PhotoFrame_MattingUpdate);
+    }
+    for (const id_string of ['glass_w', 'glass_h']) {
+        const id = document.getElementById(id_string);
+        id.addEventListener('input', PhotoFrame_GlassUpdate);
+        id.addEventListener('change', PhotoFrame_GlassUpdate);
+    }
+    for (const id_string of ['golden_mat']) {
+        const id = document.getElementById(id_string);
+        id.addEventListener('change', PhotoFrame_GoldenMattingChange);
+    }
+    for (const id_string of ['matting_overlap', 'x', 'y']) {
+        const id = document.getElementById(id_string);
+        id.addEventListener('input', PhotoFrame_GoldenMattingChange);
+        id.addEventListener('change', PhotoFrame_GoldenMattingChange);
+    }
+
+    // Set the initial values
+    PhotoFrame_GoldenMattingChange();
+}
+
+function PhotoFrame_MattingUpdate(event) {
+    // If the user manually updates the matting, save the values and turn off golden matting
+
+    const golden_mat = document.getElementById('golden_mat').checked;
+    const matting_w = document.getElementById('matting_w').value;
+    const matting_h = document.getElementById('matting_h').value;
+
+    console.log("PhotoFrame_MattingUpdate", matting_w, matting_h, golden_mat);
+    window.photoFrameUserMattingW = matting_w;
+    window.photoFrameUserMattingH = matting_h;
+
+    if (golden_mat) {
+        document.getElementById('golden_mat').checked = false;
+    }
+    if (matting_w || matting_h) {
+        document.getElementById('glass_w').value = 0;
+        document.getElementById('glass_h').value = 0;
+    }
+}
+
+function PhotoFrame_GlassUpdate(event) {
+    // If the user enters glass dimensions, save the values and turn off golden matting
+
+    // console.log("PhotoFrame_GlassUpdate");
+
+    const golden_mat = document.getElementById('golden_mat').checked;
+    const glass_w = parseFloat(document.getElementById('glass_w').value);
+    const glass_h = parseFloat(document.getElementById('glass_h').value);
+    const matting_w = parseFloat(document.getElementById('matting_w').value);
+    const matting_h = parseFloat(document.getElementById('matting_h').value);
+
+    console.log("PhotoFrame_GlassUpdate", glass_w, glass_h, matting_w, matting_h, golden_mat);
+    window.photoFrameUserGlassW = glass_w;
+    window.photoFrameUserGlassH = glass_h;
+
+    if (golden_mat) {
+        document.getElementById('golden_mat').checked = false;
+    }
+    if (glass_w || glass_h) {
+        document.getElementById('matting_w').value = 0;
+        document.getElementById('matting_h').value = 0;
+    }
+}
+
+function PhotoFrame_GoldenMattingChange(event) {
+    // If the user turns on golden matting, calculate the values
+    // If the user turns off golden matting, restore the manual matting values
+    // If golden matting is on and the user changes the photo size or overlap, recalculate the matting
+
+    const golden_mat = document.getElementById('golden_mat').checked;
+    console.log("PhotoFrame_GoldenMattingChange", golden_mat);
+
+    if (golden_mat) {
+        try {
+            const mattingWidth = PhotoFrame_GoldenMattingWidth();
+            document.getElementById('matting_w').value = mattingWidth;
+            document.getElementById('matting_h').value = mattingWidth;
+        } catch (error) {
+            document.getElementById('matting_w').value = 0;
+            document.getElementById('matting_h').value = 0;
+        }
+        document.getElementById('glass_w').value = 0;
+        document.getElementById('glass_h').value = 0;
+    } else {
+        if (window.photoFrameUserGlassW != null && window.photoFrameUserGlassH != null) {
+            document.getElementById('glass_w').value = window.photoFrameUserGlassW;
+            document.getElementById('glass_h').value = window.photoFrameUserGlassH;
+            document.getElementById('matting_w').value = 0;
+            document.getElementById('matting_h').value = 0;
+        } else if (window.photoFrameUserMattingW != null && window.photoFrameUserMattingH != null) {
+            document.getElementById('matting_w').value = window.photoFrameUserMattingW;
+            document.getElementById('matting_h').value = window.photoFrameUserMattingH;
+            document.getElementById('glass_w').value = 0;
+            document.getElementById('glass_h').value = 0;
+        }
+    }
+}
+
+function PhotoFrame_GoldenMattingWidth() {
+    // Calculate the width of the matting border. The border is around the hole in the matting
+    // that the photo fits into, not the photo per se
+
+    // Caller is responsible for catching errors
+
+    let mattingWidth = goldenMattingWidth(PhotoFrame_MatHole("x"), PhotoFrame_MatHole("y"));
+    mattingWidth = parseFloat(mattingWidth.toFixed(1));
+    return mattingWidth;
+}
+
+function PhotoFrame_MatHole(element_id) {
+    const photo_x = parseFloat(document.getElementById(element_id).value);
+    const matting_overlap = parseFloat(document.getElementById('matting_overlap').value);
+    return photo_x - 2 * matting_overlap;
+}
+
+function goldenMattingWidth(photoWidth, photoHeight) {
+    // Validate input dimensions
+    if (photoWidth <= 0 || photoHeight <= 0) {
+        throw new Error("Photo dimensions must be positive values");
+    }
+
+    // Calculate the width of the matting border
+    const phi = (1 + Math.sqrt(5)) / 2;
+    const a = 4;
+    const b = 2 * (photoWidth + photoHeight);
+    const c = -(phi - 1) * photoWidth * photoHeight;
+
+    // It is mathematically impossible to get complex roots
+    // or for the other root to be the right answer, so relax
+    const disc = b**2 - 4 * a * c;
+    const x1 = (-b + Math.sqrt(disc)) / (2 * a);
+
+    // Broad check for valid result in case user has achieved the impossible
+    if (!isFinite(x1) || isNaN(x1) || x1 <= 0) {
+        throw new Error("Calculation resulted in an invalid matting width");
+    }
+
+    return x1;
+}
+
 function ParseSections(s) {
     var sections = [];
     for (var section of s.split(":")) {
@@ -240,7 +391,8 @@ function TrayLayoutInit() {
 function addCallbacks() {
     page_callbacks = {
         "TrayLayout": TrayLayoutInit,
-	"GridfinityTrayLayout": GridfinityTrayLayoutInit,
+        "GridfinityTrayLayout": GridfinityTrayLayoutInit,
+        "PhotoFrame": PhotoFrameInit,
     };
     loc = new URL(window.location.href);
     pathname = loc.pathname;

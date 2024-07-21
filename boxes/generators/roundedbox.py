@@ -64,8 +64,6 @@ With lid:
         if r > dr:
             r -= dr
         else:
-            x += dr - 2*r
-            y += dr - 2*r
             self.moveTo(dr-r, 0)
             r = 0
 

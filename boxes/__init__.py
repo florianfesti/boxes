@@ -1079,7 +1079,7 @@ class Boxes:
 
         :param x: width in mm
         :param h: height in mm
-        :param hl: height if th grip hole
+        :param hl: height if the grip hole
         :param r:  (Default value = 30) radius of the corners
         """
         d = (x - hl - 2 * r) / 2.0
@@ -1222,8 +1222,8 @@ class Boxes:
         """
         Draw a round disc
 
-        :param x: position
-        :param y: position
+        :param x: x position
+        :param y: y position
         :param r: radius
         """
         r += self.burn
@@ -1242,8 +1242,8 @@ class Boxes:
         """
         Draw a hole in shape of an n-edged regular polygon
 
-        :param x: position
-        :param y: position
+        :param x: x position
+        :param y: y position
         :param r: radius
         :param n: number of edges
         :param a: rotation angle
@@ -1286,8 +1286,8 @@ class Boxes:
         """
         Draw a round hole
 
-        :param x: position
-        :param y: position
+        :param x: x position
+        :param y: y position
         :param r: radius
         """
 
@@ -1305,8 +1305,8 @@ class Boxes:
         """
         Draw a rectangular hole
 
-        :param x: position
-        :param y: position
+        :param x: x position
+        :param y: y position
         :param dx: width
         :param dy: height
         :param r:  (Default value = 0) radius of the corners
@@ -1328,8 +1328,8 @@ class Boxes:
         """
         Draw a hole for a shaft with flat edge - D shaped hole
 
-        :param x: center position
-        :param y: center position
+        :param x: center x position
+        :param y: center y position
         :param r: radius (overrides d)
         :param d: diameter
         :param w: width measured against flat side in mm
@@ -1360,8 +1360,8 @@ class Boxes:
         """
         Draw a hole for a shaft with two opposed flat edges - ( ) shaped hole
 
-        :param x: center position
-        :param y: center position
+        :param x: center x position
+        :param y: center y position
         :param r: radius (overrides d)
         :param d: diameter
         :param w: width measured against flat side in mm
@@ -1396,8 +1396,8 @@ class Boxes:
         """
         Draw a pear shaped mounting hole for sliding over a screw head. Total height = 1.5* d_shaft + d_head
 
-        :param x: position
-        :param y: position
+        :param x: x position
+        :param y: y position
         :param d_shaft: diameter of the screw shaft
         :param d_head: diameter of the screw head
         :param angle: rotation angle of the hole

@@ -121,8 +121,8 @@ class WallHoles(WallEdge):
         """
         Draw holes for a matching WallJoinedEdge
 
-        :param x: position
-        :param y: position
+        :param x: x position
+        :param y: y position
         :param length: length of matching edge
         :param angle:  (Default value = 90)
         """

@@ -73,8 +73,8 @@ this compartment.
         """
         Draw a rectangular hole
 
-        :param x: position
-        :param y: position
+        :param x: x position
+        :param y: y position
         :param dx: width
         :param dy: height
         :param r:  (Default value = 0) radius of the corners

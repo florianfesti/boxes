@@ -538,8 +538,8 @@ interesting in the last 2mm of a photo anyway.
         Draw a rectangular etching (from GridfinityTrayLayout.rectangularEtching)
         Same as rectangularHole, but with no burn margin
 
-        :param x: position
-        :param y: position
+        :param x: x position
+        :param y: y position
         :param dx: width
         :param dy: height
         :param r:  (Default value = 0) radius of the corners

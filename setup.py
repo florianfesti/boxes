@@ -2,7 +2,9 @@
 
 import glob
 import os
+import subprocess
 import sys
+from pathlib import Path
 from subprocess import CalledProcessError, check_output
 
 from setuptools import find_packages, setup
@@ -11,13 +13,22 @@ from setuptools.command.build_py import build_py
 
 class CustomBuildExtCommand(build_py):
     """Customized setuptools install command - prints a friendly greeting."""
+    script_path: Path = Path("scripts")
 
-    def buildInkscapeExt(self):
-        os.system("{} {} {}".format(sys.executable, os.path.join("scripts", "boxes2inkscape"), "inkex"))
+    def buildInkscapeExt(self) -> None:
+        try:
+            subprocess.run([sys.executable, str(self.script_path / "boxes2inkscape"), "inkex"], check=True, capture_output=True, text=True)
+        except CalledProcessError as e:
+            print("Could not build inkscape extension because of error: ", e)
+            print("Output: ", e.stdout, e.stderr)
 
-    def updatePOT(self):
-        os.system("{} {} {}".format(sys.executable, os.path.join("scripts", "boxes2pot"), "po/boxes.py.pot"))
-        os.system("{} {}".format("xgettext -L Python -j --from-code=utf-8 -o po/boxes.py.pot", "boxes/*.py scripts/boxesserver scripts/boxes"))
+    def updatePOT(self) -> None:
+        try:
+            subprocess.run([sys.executable, str(self.script_path / "boxes2pot"), "po/boxes.py.pot"], check=True, capture_output=True, text=True)
+            subprocess.run(["xgettext -L Python -j --from-code=utf-8 -o po/boxes.py.pot boxes/*.py scripts/boxesserver scripts/boxes"], shell=True, check=True, capture_output=True, text=True)
+        except CalledProcessError as e:
+            print("Could not process translation because of error: ", e)
+            print("Output: ", e.stdout, e.stderr)
 
     def generate_mo_files(self):
         pos = glob.glob("po/*.po")

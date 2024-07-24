@@ -1039,8 +1039,8 @@ class FingerHoles(FingerJointBase):
         """
         Draw holes for a matching finger joint edge
 
-        :param x: position
-        :param y: position
+        :param x: x position
+        :param y: y position
         :param length: length of matching edge
         :param angle:  (Default value = 90)
         :param bedBolts:  (Default value = None)

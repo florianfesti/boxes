@@ -52,7 +52,7 @@ class Matrix(Boxes):
     Please cut the plane labeled "Plexiglass" out of plexiglass :)
     You can use a different thickness for the plexiglass, but make sure to adjust the settings accordingly.
     """
-    ui_group = "misc"
+    ui_group = "Misc"
 
     led_width: int
     led_height: int

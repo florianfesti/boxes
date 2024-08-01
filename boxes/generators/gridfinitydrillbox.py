@@ -13,9 +13,10 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from boxes import ArgparseEdgeType, Boxes, Color, edges
-from boxes.lids import LidSettings, _TopEdge
+from boxes import ArgparseEdgeType, Boxes, edges
 from boxes.generators.gridfinitytraylayout import GridfinityTrayLayout
+from boxes.lids import LidSettings, _TopEdge
+
 
 class GridfinityDrillBox(_TopEdge, GridfinityTrayLayout):
     """A Gridfinity box for drills or similar tools"""
@@ -86,4 +87,3 @@ class GridfinityDrillBox(_TopEdge, GridfinityTrayLayout):
         foot = self.opening - self.opening_margin
         for i in range(min(self.nx * self.ny, 4)):
             self.rectangularWall(foot, foot, move="right")
-

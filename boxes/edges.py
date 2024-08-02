@@ -160,6 +160,10 @@ class Settings:
     Overload the absolute_params and relative_params class attributes with
     the supported keys and default values. The values are available via
     attribute access.
+
+    Store values that are not supposed to be changed by the users in class or
+    instance properties. This way API users can set them as needed wile still
+    be shared between all (Edge) instances using this settings object.
     """
     absolute_params: dict[str, Any] = {}  # TODO find better typing.
     relative_params: dict[str, Any] = {}  # TODO find better typing.

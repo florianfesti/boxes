@@ -268,6 +268,8 @@ class Settings:
                 self.values[name] = value
             elif name in self.relative_params:
                 self.values[name] = value * factor
+            elif hasattr(self, name):
+                setattr(self, name, value)
             else:
                 raise ValueError(f"Unknown parameter for {self.__class__.__name__}: {name}")
         self.checkValues()
@@ -837,7 +839,6 @@ Values:
 * absolute
   * style : "rectangular" : style of the fingers
   * surroundingspaces : 2.0 : space at the start and end in multiple of normal spaces
-  * angle: 90 : Angle of the walls meeting
 
 * relative (in multiples of thickness)
 
@@ -853,7 +854,6 @@ Values:
     absolute_params = {
         "style": ("rectangular", "springs", "barbs", "snap"),
         "surroundingspaces": 2.0,
-        "angle": 90.0,
     }
 
     relative_params = {
@@ -865,6 +865,8 @@ Values:
         "extra_length": 0.0,
         "bottom_lip": 0.0,
     }
+
+    angle = 90 # Angle of the walls meeting
 
     def checkValues(self) -> None:
         if abs(self.space + self.finger) < 0.1:

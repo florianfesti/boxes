@@ -143,7 +143,7 @@ class ShutterBox(Boxes):
         self.addSettingsArgs(edges.FingerJointSettings, surroundingspaces=0.5)
         self.addSettingsArgs(edges.FlexSettings, distance=.75, connection=2.)
 
-        self.buildArgParser(x=150, y=100, h=100)
+        self.buildArgParser(x=100, y=150, h=100)
         self.argparser.add_argument(
             "--radius",  action="store", type=float, default=40.0,
             help="radius of the corners")
@@ -165,34 +165,34 @@ class ShutterBox(Boxes):
 
         t = self.thickness
         self.ctx.save()
-        self.side(x, h, r, style, move="right")
-        self.side(x, h, r, style, move="right")
+        self.side(y, h, r, style, move="right")
+        self.side(y, h, r, style, move="right")
         if style == "single":
-            self.rectangularWall(y, h, "fFEF", move="right")
+            self.rectangularWall(x, h, "fFEF", move="right")
         else:
-            self.rectangularWall(y, h-r, "fFeF", move="right")
-        self.rectangularWall(y, h-r, "fFeF", move="right")
+            self.rectangularWall(x, h-r, "fFeF", move="right")
+        self.rectangularWall(x, h-r, "fFeF", move="right")
 
         if style == "double":
             self.cornerRadius(r, two=True, move="right")
 
         self.cornerRadius(r, two=True, move="right")
         if style == "single":
-            self.rails(x, r, move="right")
+            self.rails(y, r, move="right")
         else:
-            self.rails2(x, r, move="right")
+            self.rails2(y, r, move="right")
 
         self.ctx.restore()
-        self.side(x, h, r, style, move="up only")
+        self.side(y, h, r, style, move="up only")
 
-        self.rectangularWall(x, y, "FFFF", move="right")
+        self.rectangularWall(y, x, "FFFF", move="right")
 
         if style == "single":
-            self.door(x-r+0.5*math.pi*r + 3*t, y-0.2*t, move="right")
+            self.door(y-r+0.5*math.pi*r + 3*t, x-0.2*t, move="right")
         else:
-            self.door(x-2*r+math.pi*r + 3*t, y-0.2*t, move="right")
+            self.door(y-2*r+math.pi*r + 3*t, x-0.2*t, move="right")
 
-        self.rectangularWall(2*t, y-2.2*t, edges="eeef", move="right")
+        self.rectangularWall(2*t, x-2.2*t, edges="eeef", move="right")
 
 
         a = 90. / n
@@ -204,28 +204,28 @@ class ShutterBox(Boxes):
 
         if style == "double":
             if h - 2*r > 2*t:
-                self.rectangularWall(h - 2*r, y, "fBfe", move="right")
-                self.rectangularWall(ls, y, "fAfb", move="right")
+                self.rectangularWall(h - 2*r, x, "fBfe", move="right")
+                self.rectangularWall(ls, x, "fAfb", move="right")
             else:
-                self.rectangularWall(ls, y, "fAfe", move="right")
+                self.rectangularWall(ls, x, "fAfe", move="right")
 
             for i in range(n-2):
-                self.rectangularWall(ls, y, "fAfa", move="right")
+                self.rectangularWall(ls, x, "fAfa", move="right")
 
-            self.rectangularWall(ls, y, "fBfa", move="right")
+            self.rectangularWall(ls, x, "fBfa", move="right")
 
-            self.rectangularWall(x-2*r, y, "fbfb", move="right")
+            self.rectangularWall(y-2*r, x, "fbfb", move="right")
         else:
-            self.rectangularWall(x-r, y, "fbfe", move="right")
+            self.rectangularWall(y-r, x, "fbfe", move="right")
 
-        self.rectangularWall(ls, y, "fafB", move="right")
+        self.rectangularWall(ls, x, "fafB", move="right")
 
         for i in range(n-2):
-            self.rectangularWall(ls, y, "fafA", move="right")
+            self.rectangularWall(ls, x, "fafA", move="right")
 
 
         if h - 2*r > 2*t:
-            self.rectangularWall(ls, y, "fbfA", move="right")
-            self.rectangularWall(h - 2*r, y, "fefB", move="right")
+            self.rectangularWall(ls, x, "fbfA", move="right")
+            self.rectangularWall(h - 2*r, x, "fefB", move="right")
         else:
-            self.rectangularWall(ls, y, "fefA", move="right")
+            self.rectangularWall(ls, x, "fefA", move="right")

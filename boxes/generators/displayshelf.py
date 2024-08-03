@@ -79,7 +79,7 @@ class DisplayShelf(Boxes):
         hs = (self.sl + t) * math.sin(a) + math.cos(a) * t
         b_offs = self.bottom_distance
         h = self.h - b_offs - self.top_distance
-        if self.include_bottom:
+        if self.slope_top and self.include_bottom:
             self.moveTo(0, self.edges["h"].startwidth())
         for i in range(self.num):
             pos_x = abs(0.5 * t * math.sin(a))

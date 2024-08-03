@@ -66,16 +66,24 @@ class DisplayShelf(Boxes):
         self.argparser.add_argument(
             "--divider_wall_height", action="store", type=float, default=20.0,
             help="height of divider walls")
+        self.argparser.add_argument(
+            "--bottom_distance", action="store", type=float, default=0.0,
+            help="height below the bottom shelf")
+        self.argparser.add_argument(
+            "--top_distance", action="store", type=float, default=0.0,
+            help="extra height above the top shelf")
 
     def generate_finger_holes(self):
         t = self.thickness
         a = self.radians
         hs = (self.sl + t) * math.sin(a) + math.cos(a) * t
+        b_offs = self.bottom_distance
+        h = self.h - b_offs - self.top_distance
         if self.include_bottom:
             self.moveTo(0, self.edges["h"].startwidth())
         for i in range(self.num):
             pos_x = abs(0.5 * t * math.sin(a))
-            pos_y = hs - math.cos(a) * 0.5 * t + i * (self.h - abs(hs)) / (self.num - 0.5)
+            pos_y = hs - math.cos(a) * 0.5 * t + i * (h - abs(hs)) / (self.num - 0.5) + b_offs
             if a < 0:
                 pos_y += -math.sin(a) * self.sl
             self.fingerHolesAt(pos_x, pos_y, self.sl, -self.angle)

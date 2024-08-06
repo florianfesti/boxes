@@ -1,0 +1,37 @@
+
+[build-system]
+requires = ["setuptools >= 63.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+dynamic = ["dependencies", "optional-dependencies"]
+name = 'boxes'
+version = '1.0'
+requires-python = '>=3.8'
+description = 'Boxes generator for laser cutters'
+maintainers = [ { name = 'Florian Festi', email='florian@festi.info' } ]
+readme = "README.rst"
+keywords = ["boxes", "box", "generator", "svg", "laser cutter"]
+classifiers = [ # https://pypi.python.org/pypi?%3Aaction=list_classifiers
+  "Development Status :: 5 - Production/Stable",
+  "Environment :: Console",
+  "Environment :: Web Environment",
+  "Intended Audience :: Manufacturing",
+  "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+  "Programming Language :: Python :: 3",
+  "Topic :: Multimedia :: Graphics :: Editors :: Vector-Based",
+  "Topic :: Scientific/Engineering",
+]
+
+[tool.setuptools.dynamic]
+dependencies = {file=["requirements.txt"]}
+optional-dependencies = {dev = { file = ["requirements_dev.txt"] }}
+
+[project.scripts]
+boxes = 'scripts.boxes:main'
+boxesserver = 'scripts.boxesserver:main'
+
+[project.urls]
+Homepage = "https://hackaday.io/project/10649-boxespy"
+Repository = "https://github.com/florianfesti/boxes"
+Documentation = "https://florianfesti.github.io/boxes/html/index.html"

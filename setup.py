@@ -77,27 +77,8 @@ class CustomBuildExtCommand(build_py):
         build_py.run(self)
 
 setup(
-    name='boxes',
-    version='0.9',
-    description='Boxes generator for laser cutters',
-    author='Florian Festi',
-    author_email='florian@festi.info',
-    url='https://github.com/florianfesti/boxes',
     packages=find_packages(),
-    python_requires='>=3.8',
-    install_requires=['affine>=2.0', 'markdown', 'shapely>=1.8.2', 'qrcode>=7.3.1'],
-    scripts=['scripts/boxes', 'scripts/boxesserver'],
     cmdclass={
         'build_py': CustomBuildExtCommand,
     },
-    classifiers=[ # https://pypi.python.org/pypi?%3Aaction=list_classifiers
-        "Development Status :: 5 - Production/Stable",
-        "Environment :: Console",
-        "Environment :: Web Environment",
-        "Intended Audience :: Manufacturing",
-        "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
-        "Programming Language :: Python :: 3",
-        "Topic :: Multimedia :: Graphics :: Editors :: Vector-Based",
-        "Topic :: Scientific/Engineering",
-    ],
-    keywords=["boxes", "box", "generator", "svg", "laser cutter"], )
+    )

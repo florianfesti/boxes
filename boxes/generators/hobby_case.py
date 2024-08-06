@@ -83,6 +83,13 @@ The actual sizes and all other settings can be entered in the second step."""
         self.fillDefault(self.sx, self.sy)
 
 
+def create_custom_array(values, inbetween_value, ends_value=None):
+    array = [elem for pair in zip(values, [inbetween_value] * (len(values) - 1)) for elem in pair] + [values[-1]]
+    if not ends_value:
+        return array
+    return [ends_value] + array + [ends_value]
+
+
 class HobbyCaseLayout(Boxes):
     """Generate a typetray from a layout file."""
 
@@ -121,12 +128,14 @@ You can replace the space characters representing the floor by a "X" to remove t
         self.sumW = sum(self.unitW)
 
         self.shelvesNs = [int(w) for w in self.shelvesNs.split()]
+        self.externalDepth = self.unitD + 2 * self.thickness
 
     def topAndBottom(self):
-        x = self.sumW + 2 * self.cols * self.thickness
-        y = self.unitD + 2 * self.thickness
+        x = self.sumW + 2 * (self.cols - 1) * self.thickness
+        y = self.externalDepth
         self.rectangularWall(x, y, "FFeF", move="up", label="top (%ix%i)" % (x, y))
-        self.rectangularWall(x, y, "FFeF", move="up", label="bottom (%dx%d)" % (x, y))
+        self.rectangularWall(x, y, "FFeF", move="up", label="bottom (%ix%i)" % (x, y))
+        self.rectangularWall(x, y, "eeee", move="up", label="reference top/bottom (%ix%i)" % (x, y))
 
     def verticalWalls(self):
         self.ctx.save()
@@ -194,15 +203,40 @@ You can replace the space characters representing the floor by a "X" to remove t
         tx = sum(self.unitW) + 2 * (self.cols - 1) * self.thickness + 2 * F
         ty = self.rows * self.unitH + (self.rows - 1) * self.thickness + 2 * F
 
-        if self.move(tx, ty, move, True):
-            return
+        horizontalEdges = "F" + "eF" * self.cols
+        horizontalLengths = [F] + [item for w in self.unitW for item in (w, 2 * self.thickness)] + [F]
 
-        for i in range(self.cols):
-            x = self.unitW[i]
-            y = self.unitH
-            self.edgeAt("F", sum(self.unitW[:i]) + i * 2 * self.thickness, j * (self.unitH + self.thickness), x)
+        verticalLengths = [self.unitH + self.thickness] * self.rows
+        verticalLengths[-1] += self.thickness
 
+        horizontalLengths = self.unitW
+        horizontalInbetween = 2*self.thickness
+        verticalLengths = [self.unitH] * self.rows
+        verticalInbetween = self.thickness
 
+        self.rectangularWall(tx, ty,
+                             [
+                                 self.segmented_edge(horizontalLengths, "F", horizontalInbetween, "E", F, "E"),
+                                 self.segmented_edge(verticalLengths, "F", verticalInbetween, "E", F, "E"),
+                                 self.segmented_edge(list(reversed(horizontalLengths)), "F", horizontalInbetween, "E", F, "E"),
+                                 self.segmented_edge(list(reversed(verticalLengths)), "F", verticalInbetween, "E", F, "E"),
+                             ], label="base plate\n(%ix%i)" % (tx, ty))
+
+        posx = 2 * self.thickness
+        posy = self.unitH + 2.5 * self.thickness - self.thickness / 2
+        self.fingerHolesAt(posx, posy, self.unitW[0], angle=0)
+
+        # self.move(tx, ty, "up")
+
+    def test_ref(self):
+        tx = sum(self.unitW) + 2 * (self.cols) * self.thickness
+        ty = self.rows * self.unitH + (self.rows + 1) * self.thickness
+        self.rectangularWall(tx, ty, "eeee", move="up", label="top (%ix%i)" % (tx, ty))
+
+    def segmented_edge(self, segments_lengths, segment_edge, inbetween_length, inbetween_edge, ends_length=None, ends_edge=None):
+        lengths = create_custom_array(segments_lengths, inbetween_length, ends_length)
+        _edges = create_custom_array([segment_edge]*len(segments_lengths), inbetween_edge, ends_edge)
+        return boxes.edges.CompoundEdge(self, _edges, lengths)
 
     def parse(self, input):
         x = []
@@ -292,8 +326,10 @@ You can replace the space characters representing the floor by a "X" to remove t
 
     def render(self) -> None:
         self.prepare()
-        self.cover()
-        self.topAndBottom()
-        self.verticalWalls()
-        self.shelves()
-        self.base_plate()
+        # self.test_ref()
+        self.new_base_plate()
+        # self.cover()
+        # self.topAndBottom()
+        # self.verticalWalls()
+        # self.shelves()
+        # self.base_plate()

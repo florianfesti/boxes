@@ -84,7 +84,7 @@ Once wsl is installed, run it and enter the following commands:
 - :code:`cd ~`
 - :code:`git clone https://github.com/florianfesti/boxes.git`
 - :code:`cd ~/boxes`
-- :code:`python3 -m pip install -r ~/boxes/requirements.txt`
+- :code:`python3 -m pip install .`
 - :code:`python3 ~/boxes/scripts/boxesserver`
 
 .. figure:: win11-wsl-boxesserver-localhost.png

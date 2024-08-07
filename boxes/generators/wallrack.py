@@ -45,7 +45,7 @@ class WallRack(Boxes):
         self.argparser.add_argument(
             "--side_edges", action="store",
             type=ArgparseEdgeType("Fh"), choices=list("Fh"),
-            default="h", help="edge type holding the shelfs together")
+            default="h", help="edge type holding the shelves together")
         self.argparser.add_argument(
             "--flat_bottom", type=boolarg, default=False, help="Make bottom Flat, so that the rack can also stand")
 

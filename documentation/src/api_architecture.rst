@@ -25,7 +25,7 @@ and implement .render() that does the actual drawing.
 
 Generators are found in ``boxes/generators/``. They are included into
 the web UI and the CLI tool by the name of their class. So whenever
-you copy either an existing generator or the sceleton in
+you copy either an existing generator or the skeleton in
 ``boxes/generators/_template.py`` you need to change the name of the
 main class first.
 

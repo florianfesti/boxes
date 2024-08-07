@@ -6,7 +6,7 @@ RUN python3 -m venv env
 RUN /app/env/bin/pip install gunicorn
 
 ADD https://github.com/florianfesti/boxes.git /app
-RUN /app/env/bin/pip install -r requirements.txt
+RUN /app/env/bin/pip install .
 RUN mv scripts/boxesserver scripts/boxesserver.py
 
 # ---

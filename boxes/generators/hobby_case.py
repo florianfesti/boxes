@@ -132,10 +132,18 @@ You can replace the space characters representing the floor by a "X" to remove t
         self.internalDepth = self.unitD
 
     def topAndBottom(self):
-        x = self.sumW + 2 * (self.cols - 1) * self.thickness
+        x = self.sumW + 2 * (self.cols - 1) * self.thickness + 2 * self.thickness
         y = self.externalDepth
-        self.rectangularWall(x, y, "FFeF", move="up", label="top (%ix%i)" % (x, y))
-        self.rectangularWall(x, y, "FFeF", move="up", label="bottom (%ix%i)" % (x, y))
+
+        horizontalLengths = self.unitW
+        horizontalInbetween = 2 * self.thickness
+
+        for name in ["bottom", "top"]:
+            self.rectangularWall(x, y,
+                                 [self.segmented_edge(horizontalLengths, "f", horizontalInbetween, "e", self.thickness, "e"),
+                                  "F", "e", "F"],
+                                 move="up",
+                                 label="%s (%ix%i)" % (name, x, y))
         # self.rectangularWall(x, y, "eeee", move="up", label="reference top/bottom (%ix%i)" % (x, y))
 
     def verticalWalls(self):
@@ -144,13 +152,29 @@ You can replace the space characters representing the floor by a "X" to remove t
         x_outer = self.externalDepth
         y = self.rows * self.unitH + (self.rows + 1) * self.thickness
 
-        self.rectangularWall(x_outer, y, "fffe", move="right", label="left\n(%ix%i)" % (x_outer, y))
+        # drill horizontal holes for the shelves
+
+        self.rectangularWall(x_outer, y,
+                             edges=["f",
+                                    self.segmented_edge([self.unitH] * self.rows, "f", self.thickness, "e",
+                                                        self.thickness * 1, "e"),
+                                    "f", "e"],
+                             move="right",
+                             label="left\n(%ix%i)" % (x_outer, y))
 
         self.partsMatrix(2 * (self.cols - 1), 0, "right",
                          self.rectangularWall,
                          x_inner, y, "fffe", label="vertical wall\n(%ix%i)" % (x_inner, y))
 
-        self.rectangularWall(x_outer, y, "fffe", move="up", label="right\n(%ix%i)" % (x_outer, y))
+        self.rectangularWall(x_outer, y,
+                             edges=["f",
+                                    "e",
+                                    "f",
+                                    self.segmented_edge([self.unitH] * self.rows, "f", self.thickness, "e",
+                                                        self.thickness * 1, "e"),
+                                    ],
+                             move="up",
+                             label="right\n(%ix%i)" % (x_outer, y))
 
         self.move(x_outer, y + 2 * self.thickness, "up")
 
@@ -167,48 +191,10 @@ You can replace the space characters representing the floor by a "X" to remove t
                              self.rectangularWall,
                              x, y, "efff", label="shelf (column %i)\n(%ix%i)" % (columnIndex, x, y))
 
-    def base_plate(self):
-        tw = self.sumW + 2 * self.cols * self.thickness
-        th = self.rows * self.unitH + (self.rows + 1) * self.thickness
-        self.ctx.save()
-
-        # TODO: use CompoundEdge on all outer edges/joints
-        self.rectangularWall(tw, th, "fFfF", label="base plate\n(%ix%i)" % (tw, th))
-
-        self.fingerHolesAt(1.5 * self.thickness, 1.5 * self.thickness, self.unitW[0], angle=0)
-        self.fingerHolesAt(1.5 * self.thickness, 1.5 * self.thickness, self.unitW[0], angle=90)
-
-        if self.cols > 1:
-            for col in range(1, self.cols):
-                # TODO: Fix horizonal and vertical shifts by weird margins
-                posx = sum(self.unitW[:col]) + (col) * self.thickness
-                posy = 1.5 * self.thickness
-
-                self.fingerHolesAt(posx, posy, th, angle=90)
-                self.fingerHolesAt(posx + self.thickness, posy, th, angle=90)
-        self.ctx.restore()
-        self.ctx.save()
-        if self.rows > 1:
-            for row in range(1, self.rows):
-                for col in range(self.cols):
-                    posx = sum(self.unitW[:col]) + col * 2 * self.thickness + (col + 1) * 1.25 * self.thickness
-                    posy = row * self.unitH + row * self.thickness + 1.5 * self.thickness
-                    w = self.unitW[col]
-
-                    self.fingerHolesAt(posx, posy, w, angle=0)
-        self.ctx.restore()
-        # self.move(tw, th, "up")
-
     def new_base_plate(self, move=None):
         F = self.edges["F"].startwidth()
         tx = sum(self.unitW) + 2 * (self.cols - 1) * self.thickness + 2 * F
         ty = self.rows * self.unitH + (self.rows - 1) * self.thickness + 2 * F
-
-        horizontalEdges = "F" + "eF" * self.cols
-        horizontalLengths = [F] + [item for w in self.unitW for item in (w, 2 * self.thickness)] + [F]
-
-        verticalLengths = [self.unitH + self.thickness] * self.rows
-        verticalLengths[-1] += self.thickness
 
         horizontalLengths = self.unitW
         horizontalInbetween = 2 * self.thickness
@@ -225,8 +211,7 @@ You can replace the space characters representing the floor by a "X" to remove t
             posx = 1.75 * self.thickness + sum(self.unitW[:col]) + col * 2 * self.thickness
             posy = F + 0.75 * self.thickness
             self.fingerHolesAt(posx, posy, ty - 2 * F, angle=90)
-            self.fingerHolesAt(posx-self.thickness, posy, ty - 2 * F, angle=90)
-
+            self.fingerHolesAt(posx - self.thickness, posy, ty - 2 * F, angle=90)
 
         self.rectangularWall(tx, ty,
                              [
@@ -237,8 +222,6 @@ You can replace the space characters representing the floor by a "X" to remove t
                                  self.segmented_edge(list(reversed(verticalLengths)), "F", verticalInbetween, "E", F,
                                                      "E"),
                              ], label="base plate\n(%ix%i)" % (tx, ty), move="up")
-
-        # self.move(tx, ty, "up")
 
     def test_ref(self):
         tx = sum(self.unitW) + 2 * (self.cols) * self.thickness
@@ -345,4 +328,3 @@ You can replace the space characters representing the floor by a "X" to remove t
         self.topAndBottom()
         self.verticalWalls()
         self.shelves()
-        # self.base_plate()

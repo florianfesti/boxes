@@ -150,8 +150,8 @@ You can replace the space characters representing the floor by a "X" to remove t
     def fingerHolesForShelves(self):
         F = self.edges["f"].startwidth()
         for row in range(1, self.rows):
-            posx = 0 * self.thickness
-            posy = F + row * self.unitH + row * self.thickness + 0.75 * self.thickness
+            posx = 1.25 * self.thickness
+            posy = F + row * self.unitH + row * self.thickness + 1.75 * self.thickness
             self.fingerHolesAt(posx, posy, self.internalDepth, angle=0)
 
     def verticalWall(self, x, y, edges=None, move=None, label=None):
@@ -167,21 +167,23 @@ You can replace the space characters representing the floor by a "X" to remove t
         self.fingerHolesForShelves()
         self.rectangularWall(x_outer, y,
                              edges=["f",
+                                    "e",
+                                    "f",
                                     self.segmented_edge([self.unitH] * self.rows, "f", self.thickness, "e",
-                                                        self.thickness * 1, "e"),
-                                    "f", "e"],
+                                                        self.thickness * 1, "e")],
                              move="right",
                              label="left\n(%ix%i)" % (x_outer, y))
 
         for i in range(2 * (self.cols - 1)):
-            self.verticalWall(x_inner, y, "fffe", move="right", label="vertical wall\n(%ix%i)" % (x_inner, y))
+            self.verticalWall(x_inner, y, "feff", move="right", label="vertical wall\n(%ix%i)" % (x_inner, y))
 
         self.fingerHolesForShelves()
         self.rectangularWall(x_outer, y,
                              edges=["f",
+                                    "e",
+                                    "f",
                                     self.segmented_edge([self.unitH] * self.rows, "f", self.thickness, "e",
-                                                        self.thickness * 1, "e"),
-                                    "f", "e"],
+                                                        self.thickness * 1, "e")],
                              move="up",
                              label="right\n(%ix%i)" % (x_outer, y))
 

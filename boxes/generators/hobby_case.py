@@ -140,11 +140,23 @@ You can replace the space characters representing the floor by a "X" to remove t
 
         for name in ["bottom", "top"]:
             self.rectangularWall(x, y,
-                                 [self.segmented_edge(horizontalLengths, "f", horizontalInbetween, "e", self.thickness, "e"),
+                                 [self.segmented_edge(horizontalLengths, "f", horizontalInbetween, "e", self.thickness,
+                                                      "e"),
                                   "F", "e", "F"],
                                  move="up",
                                  label="%s (%ix%i)" % (name, x, y))
         # self.rectangularWall(x, y, "eeee", move="up", label="reference top/bottom (%ix%i)" % (x, y))
+
+    def fingerHolesForShelves(self):
+        F = self.edges["f"].startwidth()
+        for row in range(1, self.rows):
+            posx = 0 * self.thickness
+            posy = F + row * self.unitH + row * self.thickness + 0.75 * self.thickness
+            self.fingerHolesAt(posx, posy, self.internalDepth, angle=0)
+
+    def verticalWall(self, x, y, edges=None, move=None, label=None):
+        self.fingerHolesForShelves()
+        self.rectangularWall(x, y, edges, move=move, label=label)
 
     def verticalWalls(self):
         self.ctx.save()
@@ -152,8 +164,7 @@ You can replace the space characters representing the floor by a "X" to remove t
         x_outer = self.externalDepth
         y = self.rows * self.unitH + (self.rows + 1) * self.thickness
 
-        # drill horizontal holes for the shelves
-
+        self.fingerHolesForShelves()
         self.rectangularWall(x_outer, y,
                              edges=["f",
                                     self.segmented_edge([self.unitH] * self.rows, "f", self.thickness, "e",
@@ -162,17 +173,15 @@ You can replace the space characters representing the floor by a "X" to remove t
                              move="right",
                              label="left\n(%ix%i)" % (x_outer, y))
 
-        self.partsMatrix(2 * (self.cols - 1), 0, "right",
-                         self.rectangularWall,
-                         x_inner, y, "fffe", label="vertical wall\n(%ix%i)" % (x_inner, y))
+        for i in range(2 * (self.cols - 1)):
+            self.verticalWall(x_inner, y, "fffe", move="right", label="vertical wall\n(%ix%i)" % (x_inner, y))
 
+        self.fingerHolesForShelves()
         self.rectangularWall(x_outer, y,
                              edges=["f",
-                                    "e",
-                                    "f",
                                     self.segmented_edge([self.unitH] * self.rows, "f", self.thickness, "e",
                                                         self.thickness * 1, "e"),
-                                    ],
+                                    "f", "e"],
                              move="up",
                              label="right\n(%ix%i)" % (x_outer, y))
 
@@ -181,7 +190,14 @@ You can replace the space characters representing the floor by a "X" to remove t
     def cover(self, move=None):
         x = self.sumW + 2 * self.cols * self.thickness
         y = self.rows * self.unitH + (self.rows + 1) * self.thickness
-        self.rectangularWall(x, y, "eeze", move="up", label="cover plate\n(%ix%i)" % (x, y))
+
+        _edges = ["e", "z", "e", "z", "e"]
+        hole_edge_length = 150
+        straight_edge_length = (x - 2 * hole_edge_length) / 3
+        lengths = [straight_edge_length, hole_edge_length, straight_edge_length, hole_edge_length, straight_edge_length]
+
+        self.rectangularWall(x, y, ["e", "e", boxes.edges.CompoundEdge(self, _edges, lengths), "e"],
+                             move="up", label="cover plate\n(%ix%i)" % (x, y))
 
     def shelves(self, move=None):
         for columnIndex, unitWidth in enumerate(self.unitW):
@@ -209,9 +225,9 @@ You can replace the space characters representing the floor by a "X" to remove t
 
         for col in range(1, self.cols):
             posx = 1.75 * self.thickness + sum(self.unitW[:col]) + col * 2 * self.thickness
-            posy = F + 0.75 * self.thickness
-            self.fingerHolesAt(posx, posy, ty - 2 * F, angle=90)
-            self.fingerHolesAt(posx - self.thickness, posy, ty - 2 * F, angle=90)
+            posy = F + 0.5 * self.thickness
+            self.fingerHolesAt(posx, posy, ty, angle=90)
+            self.fingerHolesAt(posx - self.thickness, posy, ty, angle=90)
 
         self.rectangularWall(tx, ty,
                              [

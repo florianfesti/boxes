@@ -18,7 +18,6 @@ import io
 
 import boxes
 from boxes import *
-from boxes import lids
 
 
 class HobbyCaseFile(Boxes):
@@ -108,7 +107,6 @@ You can replace the space characters representing the floor by a "X" to remove t
     def __init__(self) -> None:
         super().__init__()
         self.addSettingsArgs(boxes.edges.FingerJointSettings)
-        self.addSettingsArgs(lids.LidSettings)
         self.argparser.add_argument("--unitD", action="store", type=float, default=128)
         self.argparser.add_argument("--unitH", action="store", type=float, default=50)
         self.argparser.add_argument("--unitW", action="store", type=str, default="215 215 215")
@@ -132,6 +130,7 @@ You can replace the space characters representing the floor by a "X" to remove t
         self.internalDepth = self.unitD
 
     def topAndBottom(self):
+        F = self.edges["f"].startwidth()
         x = self.sumW + 2 * (self.cols - 1) * self.thickness + 2 * self.thickness
         y = self.externalDepth
 
@@ -139,13 +138,19 @@ You can replace the space characters representing the floor by a "X" to remove t
         horizontalInbetween = 2 * self.thickness
 
         for name in ["bottom", "top"]:
+            for col in range(1, self.cols):
+                posx = 1.75 * self.thickness + sum(self.unitW[:col]) + col * 2 * self.thickness
+                posy = F + 1.25 * self.thickness
+                self.fingerHolesAt(posx, posy, self.internalDepth, angle=90)
+                self.fingerHolesAt(posx - self.thickness, posy, self.internalDepth, angle=90)
             self.rectangularWall(x, y,
                                  [self.segmented_edge(horizontalLengths, "f", horizontalInbetween, "e", self.thickness,
                                                       "e"),
                                   "F", "e", "F"],
                                  move="up",
                                  label="%s (%ix%i)" % (name, x, y))
-        # self.rectangularWall(x, y, "eeee", move="up", label="reference top/bottom (%ix%i)" % (x, y))
+
+
 
     def fingerHolesForShelves(self):
         F = self.edges["f"].startwidth()

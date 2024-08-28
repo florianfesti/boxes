@@ -1210,9 +1210,9 @@ class StackableBaseEdge(BaseEdge):
         if self.bottom and s.bottom_stabilizers:
             with self.saved_context():
                 sp = self.boxes.spacing
-                self.moveTo(-sp / 2, -s.height - sp)
+                self.moveTo(-sp / 2)
                 self.rectangularWall(length - 1.05 * self.boxes.thickness,
-                                     s.bottom_stabilizers)
+                                     s.bottom_stabilizers, move="down")
 
         self.boxes.edge(s.width, tabs=1)
         self.boxes.corner(p * s.angle, r)

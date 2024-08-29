@@ -19,69 +19,6 @@ import io
 import boxes
 from boxes import *
 
-
-class HobbyCaseFile(Boxes):
-    """Generate a layout file for a hobbycase."""
-    # This class generates the skeleton text file that can then be edited
-    # to describe the actual box
-
-    description = """This is a two step process. This is step 1.
-The layout is based on a grid of sizes in x and y direction.
-Choose how many distances you need in both directions.
-The actual sizes and all other settings can be entered in the second step."""
-
-    webinterface = False
-
-    ui_group = "Tray"
-
-    sx: list[float] = []  # arg input
-    sy: list[float] = []  # arg input
-    hwalls: list[list[bool]] = []
-    vwalls: list[list[bool]] = []
-    floors: list[list[bool]] = []
-
-    def __init__(self, input=None, webargs=False) -> None:
-        Boxes.__init__(self)
-        self.argparser = argparse.ArgumentParser()
-        self.buildArgParser("sx", "sy")
-        self.argparser.add_argument(
-            "--output", action="store", type=str, default="hobbycaselayout.txt",
-            help="Name of the layout text file.")
-
-    def open(self) -> None:
-        # Use empty open and close methods to avoid initializing the whole drawing infrastructure.
-        pass
-
-    def close(self):
-        # Use empty open and close methods to avoid initializing the whole drawing infrastructure.
-        return io.BytesIO(bytes(str(self), 'utf-8'))
-
-    def fillDefault(self, sx: list[float], sy: list[float]) -> None:
-        self.sx = sx
-        self.sy = sy
-        x = len(sx)
-        y = len(sy)
-        self.hwalls = [[True for _ in range(x)] for _ in range(y + 1)]
-        self.vwalls = [[True for _ in range(x + 1)] for _ in range(y)]
-        self.floors = [[True for _ in range(x)] for _ in range(y)]
-
-    def __str__(self) -> str:
-        r = []
-
-        for i, x in enumerate(self.sx):
-            r.append(" |" * i + " ,> %.1fmm\n" % x)
-
-        for hwalls, vwalls, floors, y in zip(self.hwalls, self.vwalls, self.floors, self.sy):
-            r.append("".join("+" + " -"[h] for h in hwalls) + "+\n")
-            r.append("".join((" |"[v] + "X "[f] for v, f in zip(vwalls, floors))) + " |"[vwalls[-1]] + " %.1fmm\n" % y)
-        r.append("".join("+" + " -"[h] for h in self.hwalls[-1]) + "+\n")
-
-        return "".join(r)
-
-    def render(self) -> None:
-        self.fillDefault(self.sx, self.sy)
-
-
 def create_custom_array(values, inbetween_value, ends_value=None):
     array = [elem for pair in zip(values, [inbetween_value] * (len(values) - 1)) for elem in pair] + [values[-1]]
     if not ends_value:
@@ -114,6 +51,7 @@ You can replace the space characters representing the floor by a "X" to remove t
         self.argparser.add_argument("--rows", action="store", type=int, default=6)
         self.argparser.add_argument("--shelvesNs", action="store", type=str, default="2 3 2")
 
+
     @restore
     def edgeAt(self, edge, x, y, length, angle=0):
         self.moveTo(x, y, angle)
@@ -129,6 +67,12 @@ You can replace the space characters representing the floor by a "X" to remove t
         self.externalDepth = self.unitD + 2 * self.thickness
         self.internalDepth = self.unitD
 
+        s = self.edgesettings.get("FingerJoint", {})
+        s["width"] = 2.0
+        doubleFingerJointSettings = s = edges.FingerJointSettings(self.thickness, True,
+                                                                **self.edgesettings.get("FingerJoint", {}))
+        self.addPart(edges.FingerHoles(self, doubleFingerJointSettings), name="doubleFingerHolesAt")
+
     def topAndBottom(self):
         F = self.edges["f"].startwidth()
         x = self.sumW + 2 * (self.cols - 1) * self.thickness + 2 * self.thickness
@@ -139,10 +83,9 @@ You can replace the space characters representing the floor by a "X" to remove t
 
         for name in ["bottom", "top"]:
             for col in range(1, self.cols):
-                posx = 1.75 * self.thickness + sum(self.unitW[:col]) + col * 2 * self.thickness
+                posx = 1.25 * self.thickness + sum(self.unitW[:col]) + col * 2 * self.thickness
                 posy = F + 1.25 * self.thickness
-                self.fingerHolesAt(posx, posy, self.internalDepth, angle=90)
-                self.fingerHolesAt(posx - self.thickness, posy, self.internalDepth, angle=90)
+                self.doubleFingerHolesAt(posx, posy, self.internalDepth, angle=90)
             self.rectangularWall(x, y,
                                  [self.segmented_edge(horizontalLengths, "f", horizontalInbetween, "e", self.thickness,
                                                       "e"),
@@ -231,10 +174,10 @@ You can replace the space characters representing the floor by a "X" to remove t
                 self.fingerHolesAt(posx, posy, self.unitW[col], angle=0)
 
         for col in range(1, self.cols):
-            posx = 1.75 * self.thickness + sum(self.unitW[:col]) + col * 2 * self.thickness
+            posx = 1.25 * self.thickness + sum(self.unitW[:col]) + col * 2 * self.thickness
             posy = F + 0.5 * self.thickness
-            self.fingerHolesAt(posx, posy, ty, angle=90)
-            self.fingerHolesAt(posx - self.thickness, posy, ty, angle=90)
+            self.doubleFingerHolesAt(posx, posy, ty, angle=90)
+
 
         self.rectangularWall(tx, ty,
                              [

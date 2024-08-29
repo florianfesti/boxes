@@ -46,7 +46,7 @@ calculations needed are a bit more tricky. You can use the ``debug``
 default param to check if you got things right when attempting
 something like this yourself.
 
-Note that the front walls and the shelfs form a 90° angle so they work
+Note that the front walls and the shelves form a 90° angle so they work
 with the default FingerJoints.
 
 BinTray

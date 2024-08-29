@@ -160,6 +160,10 @@ class Settings:
     Overload the absolute_params and relative_params class attributes with
     the supported keys and default values. The values are available via
     attribute access.
+
+    Store values that are not supposed to be changed by the users in class or
+    instance properties. This way API users can set them as needed wile still
+    be shared between all (Edge) instances using this settings object.
     """
     absolute_params: dict[str, Any] = {}  # TODO find better typing.
     relative_params: dict[str, Any] = {}  # TODO find better typing.
@@ -268,6 +272,8 @@ class Settings:
                 self.values[name] = value
             elif name in self.relative_params:
                 self.values[name] = value * factor
+            elif hasattr(self, name):
+                setattr(self, name, value)
             else:
                 raise ValueError(f"Unknown parameter for {self.__class__.__name__}: {name}")
         self.checkValues()
@@ -837,7 +843,6 @@ Values:
 * absolute
   * style : "rectangular" : style of the fingers
   * surroundingspaces : 2.0 : space at the start and end in multiple of normal spaces
-  * angle: 90 : Angle of the walls meeting
 
 * relative (in multiples of thickness)
 
@@ -853,7 +858,6 @@ Values:
     absolute_params = {
         "style": ("rectangular", "springs", "barbs", "snap"),
         "surroundingspaces": 2.0,
-        "angle": 90.0,
     }
 
     relative_params = {
@@ -865,6 +869,8 @@ Values:
         "extra_length": 0.0,
         "bottom_lip": 0.0,
     }
+
+    angle = 90 # Angle of the walls meeting
 
     def checkValues(self) -> None:
         if abs(self.space + self.finger) < 0.1:
@@ -1204,9 +1210,9 @@ class StackableBaseEdge(BaseEdge):
         if self.bottom and s.bottom_stabilizers:
             with self.saved_context():
                 sp = self.boxes.spacing
-                self.moveTo(-sp / 2, -s.height - sp)
+                self.moveTo(-sp / 2)
                 self.rectangularWall(length - 1.05 * self.boxes.thickness,
-                                     s.bottom_stabilizers)
+                                     s.bottom_stabilizers, move="down")
 
         self.boxes.edge(s.width, tabs=1)
         self.boxes.corner(p * s.angle, r)

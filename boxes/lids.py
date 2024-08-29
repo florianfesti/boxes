@@ -98,10 +98,10 @@ class Lid:
             self.rectangularWall(y2, self.height, b + "fFf",
                                  ignore_widths=[1, 2, 5, 6], move="up")
             if style == "ontop":
-                self.rectangularWall(y - self.play, height + 2*t, "eeee",
-                                     move="up")
-                self.rectangularWall(y - self.play, height + 2*t, "eeee",
-                                     move="up")
+                for _ in range(4):
+                    self.polygonWall(
+                        (2*t, (90, t), t+self.height, 90, 4*t, 90,
+                         t+self.height, (90, t)), "e", move="up")
         else:
             return False
 

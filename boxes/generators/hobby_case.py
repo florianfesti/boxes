@@ -50,7 +50,8 @@ You can replace the space characters representing the floor by a "X" to remove t
         self.argparser.add_argument("--cols", action="store", type=int, default=3)
         self.argparser.add_argument("--rows", action="store", type=int, default=6)
         self.argparser.add_argument("--shelvesNs", action="store", type=str, default="2 3 2")
-
+        self.argparser.add_argument("--railsets", action="store", type=str, default=8)
+        self.addSettingsArgs(boxes.edges.StackableSettings, angle=90, width=0.0, height=2.0)
 
     @restore
     def edgeAt(self, edge, x, y, length, angle=0):
@@ -156,6 +157,9 @@ You can replace the space characters representing the floor by a "X" to remove t
             self.partsMatrix(self.shelvesNs[columnIndex], 0, "up",
                              self.rectangularWall,
                              x, y, "efff", label="shelf (column %i)\n(%ix%i)" % (columnIndex, x, y))
+    def rails(self, move=None):
+        self.partsMatrix(2*self.railsets, 0, "up",self.rectangularWall,
+                        0, self.internalDepth, "efeS")
 
     def new_base_plate(self, move=None):
         F = self.edges["F"].startwidth()
@@ -294,3 +298,4 @@ You can replace the space characters representing the floor by a "X" to remove t
         self.topAndBottom()
         self.verticalWalls()
         self.shelves()
+        self.rails()

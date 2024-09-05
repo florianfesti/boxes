@@ -422,7 +422,7 @@ Values:
 
 * absolute_params
 
- * bottom : "stud" : "stud", "hook" or "none"
+ * bottom : "stud" : "stud" to brace against the wall, "hook" for attaching to a second cleat or "none" for just straight
  * depth : 18.0 : horizontal width of the hook in mm
  * angle : 45.0 : angle of the cut (0 for horizontal)
  * spacing : 200.0 : distance of the cleats in mm (for bottom hook)

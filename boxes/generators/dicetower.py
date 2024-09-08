@@ -37,6 +37,8 @@ You can also configure the DiceTower and change the number and angle of the ramp
             "--height",  action="store", type=float, default=170.0, help="height of the tower")
         self.buildArgParser("outside")
         self.argparser.add_argument(
+            "--bottom",  action="store", type=boolarg, default=True, help="include bottom piece")
+        self.argparser.add_argument(
             "--ramps",  action="store", type=int, default=3, help="number of ramps in the tower")
         self.argparser.add_argument(
             "--angle",  action="store", type=float, default=30.0, help="angle of the ramps in the tower")
@@ -87,13 +89,15 @@ You can also configure the DiceTower and change the number and angle of the ramp
         front_edge = edges.CompoundEdge(self, "Ef", (front_gap, self.height - front_gap))
 
         # Outer walls
-        self.rectangularWall(self.depth, self.height, ("F", front_edge, "e", "f"), callback=[self.side], move="mirror right", label="side")
-        self.rectangularWall(self.width, self.height, "FFeF", move="right", label="back")
-        self.rectangularWall(self.depth, self.height, ("F", front_edge, "e", "f"), callback=[self.side], move="right", label="side")
-        self.rectangularWall(self.width, self.height - front_gap, "eFeF", move="right", label="front")
+        bottom_edge = "F" if self.bottom else "e"
+        self.rectangularWall(self.depth, self.height, (bottom_edge, front_edge, "e", "f"), callback=[self.side], move="mirror right", label="side")
+        self.rectangularWall(self.width, self.height, (bottom_edge, "F", "e", "F"), move="right", label="back")
+        self.rectangularWall(self.depth, self.height, (bottom_edge, front_edge, "e", "f"), callback=[self.side], move="right", label="side")
+        self.rectangularWall(self.width, self.height - front_gap, ("e", "F", "e", "F"), move="right", label="front")
 
         # Bottom
-        self.rectangularWall(self.width, self.depth, "Efff", move="right", label="bottom")
+        if self.bottom:
+            self.rectangularWall(self.width, self.depth, "Efff", move="right", label="bottom")
 
         # ramps
         self.rectangularWall(self.width, self.ramp_len, "efef", move="up", label="ramp")

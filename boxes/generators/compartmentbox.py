@@ -17,6 +17,7 @@
 from boxes import *
 from boxes.generators.typetray import TypeTray
 
+
 class CompartmentBox(TypeTray):
     """Type tray variation with sliding lid"""
 
@@ -73,8 +74,8 @@ pieces or as a single piece that continues at the back.
             raise ValueError("vertical margin can not be negative")
         if (margin_side < 0):
             raise ValueError("side margin can not be negative")
-        
-        split_lip = self.split_lip 
+
+        split_lip = self.split_lip
         if not split_lip:
             tback = tside
 
@@ -87,7 +88,7 @@ pieces or as a single piece that continues at the back.
         x = sum(self.sx) + self.thickness * (len(self.sx) - 1)
         y = sum(self.sy) + self.thickness * (len(self.sy) - 1)
         h = self.h
-           
+
         # x walls
         self.ctx.save()
 
@@ -159,7 +160,7 @@ pieces or as a single piece that continues at the back.
 
 
         # lip that holds the lid in place
-        lip_front_edge = "e" if self.handle == "lip" else "E"  
+        lip_front_edge = "e" if self.handle == "lip" else "E"
         if split_lip:
             self.rectangularWall(y, t, "eef" + lip_front_edge, move="up", label="Lip Left")
             self.rectangularWall(y, t, "eef" + lip_front_edge, move="mirror up", label="Lip Right")

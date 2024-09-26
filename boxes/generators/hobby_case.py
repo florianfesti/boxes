@@ -76,7 +76,7 @@ You can replace the space characters representing the floor by a "X" to remove t
 
     def topAndBottom(self):
         F = self.edges["f"].startwidth()
-        x = self.sumW + 2 * (self.cols - 1) * self.thickness + 2 * self.thickness
+        x = self.sumW + 2 * (self.cols - 1) * self.thickness
         y = self.externalDepth
 
         horizontalLengths = self.unitW
@@ -88,8 +88,7 @@ You can replace the space characters representing the floor by a "X" to remove t
                 posy = F + 1.25 * self.thickness
                 self.doubleFingerHolesAt(posx, posy, self.internalDepth, angle=90)
             self.rectangularWall(x, y,
-                                 [self.segmented_edge(horizontalLengths, "f", horizontalInbetween, "e", self.thickness,
-                                                      "e"),
+                                 [self.segmented_edge(horizontalLengths, "f", horizontalInbetween, "e"),
                                   "F", "e", "F"],
                                  move="up",
                                  label="%s (%ix%i)" % (name, x, y))
@@ -139,11 +138,11 @@ You can replace the space characters representing the floor by a "X" to remove t
         self.move(x_outer, y + 2 * self.thickness, "up")
 
     def cover(self, move=None):
-        x = self.sumW + 2 * self.cols * self.thickness
+        x = self.sumW + 2 * (self.cols-1) * self.thickness
         y = self.rows * self.unitH + (self.rows + 1) * self.thickness
 
         _edges = ["e", "z", "e", "z", "e"]
-        hole_edge_length = 150
+        hole_edge_length = self.unitW[0]/2
         straight_edge_length = (x - 2 * hole_edge_length) / 3
         lengths = [straight_edge_length, hole_edge_length, straight_edge_length, hole_edge_length, straight_edge_length]
 
@@ -163,7 +162,7 @@ You can replace the space characters representing the floor by a "X" to remove t
 
     def new_base_plate(self, move=None):
         F = self.edges["F"].startwidth()
-        tx = sum(self.unitW) + 2 * (self.cols - 1) * self.thickness + 2 * F
+        tx = sum(self.unitW) + 2 * (self.cols - 1) * self.thickness
         ty = self.rows * self.unitH + (self.rows - 1) * self.thickness + 2 * F
 
         horizontalLengths = self.unitW
@@ -182,15 +181,12 @@ You can replace the space characters representing the floor by a "X" to remove t
             posy = F + 0.5 * self.thickness
             self.doubleFingerHolesAt(posx, posy, ty, angle=90)
 
-
         self.rectangularWall(tx, ty,
                              [
-                                 self.segmented_edge(horizontalLengths, "F", horizontalInbetween, "E", F, "E"),
+                                 self.segmented_edge(horizontalLengths, "F", horizontalInbetween, "E"),
                                  self.segmented_edge(verticalLengths, "F", verticalInbetween, "E", F, "E"),
-                                 self.segmented_edge(list(reversed(horizontalLengths)), "F", horizontalInbetween, "E",
-                                                     F, "E"),
-                                 self.segmented_edge(list(reversed(verticalLengths)), "F", verticalInbetween, "E", F,
-                                                     "E"),
+                                 self.segmented_edge(list(reversed(horizontalLengths)), "F", horizontalInbetween, "E"),
+                                 self.segmented_edge(list(reversed(verticalLengths)), "F", verticalInbetween, "E", F,"E"),
                              ], label="base plate\n(%ix%i)" % (tx, ty), move="up")
 
     def test_ref(self):

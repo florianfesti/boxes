@@ -167,6 +167,10 @@ f625a31c8f1f08341f8e4c0ba5d34524f92e258ca2ae3027774c399a200ddfc9  ../static/samp
 bace3582c13ee543f09fd45752d4403e237d01541aaa4ea266e61e64fd12156a  ../static/samples/FlexBook.jpg
 0518ad5dfec317949f4a02b8bb4b60bcf781c82561e3f121dca1f2e2d0c5468c  ../static/samples/BrickSorter-5.jpg
 53ce98807aabf8fdd14e6fa9f0a3e405dadd8f4d7c936f8abc31f1572657763d  ../static/samples/BrickSorter.jpg
+0ba4d726fb598ddb2d3b1fe67f5982b8d478997471177bf1247ca24b07927e83  ../static/samples/BookHolder-minis-side.jpg
+6ce9f050d9fb7648e4d203b02bd45190561f27595f259ec76f5ed33db3289c81  ../static/samples/BookHolder.jpg
+14179ba1de4a975f4f125aa58ab3448c64c34464e6fbc9e4269ea3ef15fc6b39  ../static/samples/BookHolder-back.jpg
+0bfff73dd7ddd30a2bb63b483db881e2141cc9eea52c0ee2472bea0027755257  ../static/samples/BookHolder-minis.jpg
 f94c22f55d7067875d65c157a6dc221a09d383ace9234fee4b81544ab9cc4341  ../static/samples/Shadowbox-backlit.jpg
 cf5315266705af168fcadf691dc58053e5623c3955bc782ca67087b0feff672e  ../static/samples/BrickSorter-3.jpg
 f51e3cb0e74e380beda4c0966ee770142ff4fa38c266ca026177f9f4978190a4  ../static/samples/BrickSorter-6.jpg
@@ -176,5 +180,11 @@ a0865738425d5d9966dc6975d7e73559bac3c307c9614e8b48bae4abdf3efb5b  ../static/samp
 2dcb314cdfa8b136b59288d2f4f7e501b4290ff68560216b6bedd779a32095ad  ../static/samples/Shadowbox-diagram.jpg
 21333db253007b6e101333826a1231d788cf10e0e2afec84ff2a3f983330091d  ../static/samples/Matrix.jpg
 9855c836088d93e508f1c1899ae62733111062f932c1d79ddcc827da2b73335c  ../static/samples/SideHingeBox.jpg
-77452cf4c547102ce115b2d1c47ba83b740efa5d7a50cb3b6c17f4e771edbd4e  ../static/samples/PhotoFrame.jpg
+551c90afcc8d6795794d6b468ef735b549d8d6c0d3b2693fe78d205399034dbd  ../static/samples/PhotoFrame.jpg
 007dd3f4934cdf1af0097813a22490b3d211e9053172098458d6615fa0e6d433  ../static/samples/GridfinityDrillBox.jpg
+0db260a55a26e787a0bce3d4b740c755e4cccca13dd551c723de8645bf3352d8  ../static/samples/StackableBin.jpg
+b7842f3c19ae8ff35f1c9d05e9dd333f08563e645b8539bbe46487719da0f19e  ../static/samples/DiceTower.jpg
+0cf7df07a972de4cf86db65976668b438e857f0e091be77882440b97227fe6ee  ../static/samples/Display.jpg
+d7f7fd6c1b5a51c4fdfc21a03d55597f04d78383fef2138bc6ade4ee95676bc9  ../static/samples/CompartmentBox-closed.jpg
+fec237bd76c18f1cad18a888f57299e5ff5033ab8032e7a26ea0b1259a42d150  ../static/samples/CompartmentBox-lid.jpg
+5c2127a79948504f629ed792de539022411e428eb46dc8ad9c5286fb397cd603  ../static/samples/CompartmentBox.jpg

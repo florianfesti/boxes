@@ -1,4 +1,4 @@
-FROM python:3.12-slim as builder
+FROM python:3.12-slim AS builder
 
 WORKDIR /app
 
@@ -20,4 +20,4 @@ RUN apt update && \
 WORKDIR /app
 COPY --from=builder /app /app
 
-CMD /app/env/bin/gunicorn -b [::]:8000 -w 4 scripts.boxesserver
+CMD ["/app/env/bin/gunicorn",  "-b",  "[::]:8000", "-w", "4", "scripts.boxesserver"]

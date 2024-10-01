@@ -14,10 +14,9 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from __future__ import annotations
 
-import io
-
 import boxes
 from boxes import *
+
 
 def create_custom_array(values, inbetween_value, ends_value=None):
     array = [elem for pair in zip(values, [inbetween_value] * (len(values) - 1)) for elem in pair] + [values[-1]]
@@ -84,7 +83,7 @@ You can replace the space characters representing the floor by a "X" to remove t
 
         for name in ["bottom", "top"]:
             for col in range(1, self.cols):
-                posx = 1.25 * self.thickness + sum(self.unitW[:col]) + col * 2 * self.thickness
+                posx = 0.25 * self.thickness + sum(self.unitW[:col]) + col * 2 * self.thickness
                 posy = F + 1.25 * self.thickness
                 self.doubleFingerHolesAt(posx, posy, self.internalDepth, angle=90)
             self.rectangularWall(x, y,
@@ -98,7 +97,7 @@ You can replace the space characters representing the floor by a "X" to remove t
     def fingerHolesForShelves(self):
         F = self.edges["f"].startwidth()
         for row in range(1, self.rows):
-            posx = 1.25 * self.thickness
+            posx = 0.25 * self.thickness
             posy = F + row * self.unitH + row * self.thickness + 1.75 * self.thickness
             self.fingerHolesAt(posx, posy, self.internalDepth, angle=0)
 
@@ -172,12 +171,12 @@ You can replace the space characters representing the floor by a "X" to remove t
 
         for col in range(self.cols):
             for row in range(1, self.rows):
-                posx = 2.25 * self.thickness + sum(self.unitW[:col]) + col * 2 * self.thickness
+                posx = 1.25 * self.thickness + sum(self.unitW[:col]) + col * 2 * self.thickness
                 posy = F + row * self.unitH + row * self.thickness + 0.75 * self.thickness
                 self.fingerHolesAt(posx, posy, self.unitW[col], angle=0)
 
         for col in range(1, self.cols):
-            posx = 1.25 * self.thickness + sum(self.unitW[:col]) + col * 2 * self.thickness
+            posx = 0.25 * self.thickness + sum(self.unitW[:col]) + col * 2 * self.thickness
             posy = F + 0.5 * self.thickness
             self.doubleFingerHolesAt(posx, posy, ty, angle=90)
 

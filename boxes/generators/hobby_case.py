@@ -1,4 +1,4 @@
-# Copyright (C) 2016 Florian Festi
+# Copyright (C) 2024 Jan Grzybowski
 #
 #   This program is free software: you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -42,6 +42,8 @@ You can replace the space characters representing the floor by a "X" to remove t
 
     def __init__(self) -> None:
         super().__init__()
+        self.add_rails = True
+        self.add_cover = True
         self.addSettingsArgs(boxes.edges.FingerJointSettings)
         self.argparser.add_argument("--unitD", action="store", type=float, default=128)
         self.argparser.add_argument("--unitH", action="store", type=float, default=50)
@@ -49,7 +51,8 @@ You can replace the space characters representing the floor by a "X" to remove t
         self.argparser.add_argument("--cols", action="store", type=int, default=3)
         self.argparser.add_argument("--rows", action="store", type=int, default=6)
         self.argparser.add_argument("--shelvesNs", action="store", type=str, default="2 3 2")
-        self.argparser.add_argument("--railsets", action="store", type=str, default=8)
+        self.argparser.add_argument("--add_rails", action="store", type=boolarg, default=True)
+        self.argparser.add_argument("--add_cover", action="store", type=boolarg, default=True)
         self.addSettingsArgs(boxes.edges.StackableSettings, angle=90, width=0.0, height=2.0)
 
     @restore
@@ -60,10 +63,11 @@ You can replace the space characters representing the floor by a "X" to remove t
 
     def prepare(self):
         self.unitW = [float(w) for w in self.unitW.split()]
-
         self.sumW = sum(self.unitW)
 
         self.shelvesNs = [int(w) for w in self.shelvesNs.split()]
+        self.railsets = [self.rows-1-shelve for shelve in self.shelvesNs]
+
         self.externalDepth = self.unitD + 2 * self.thickness
         self.internalDepth = self.unitD
 
@@ -155,9 +159,18 @@ You can replace the space characters representing the floor by a "X" to remove t
             self.partsMatrix(self.shelvesNs[columnIndex], 0, "up",
                              self.rectangularWall,
                              x, y, "efff", label="shelf (column %i)\n(%ix%i)" % (columnIndex, x, y))
-    def rails(self, move=None):
-        self.partsMatrix(2*self.railsets, 0, "up",self.rectangularWall,
-                        0, self.internalDepth, "efeS")
+
+    def railSet(self, sideLength, backLength, move=None):
+        self.ctx.save()
+        self.rectangularWall( sideLength,0, "feSe", move="right")
+        self.rectangularWall( backLength,0, "feSe", move="right")
+        self.rectangularWall( sideLength,0, "feSe", move="right")
+        self.move(2*sideLength+backLength, 3*self.thickness, move)
+
+    def rails(self):
+        for col_idx, unitWidth in enumerate(self.unitW):
+            for n in range(self.railsets[col_idx]):
+                self.railSet(self.internalDepth, unitWidth,"up")
 
     def new_base_plate(self, move=None):
         F = self.edges["F"].startwidth()
@@ -188,109 +201,19 @@ You can replace the space characters representing the floor by a "X" to remove t
                                  self.segmented_edge(list(reversed(verticalLengths)), "F", verticalInbetween, "E", F,"E"),
                              ], label="base plate\n(%ix%i)" % (tx, ty), move="up")
 
-    def test_ref(self):
-        tx = sum(self.unitW) + 2 * (self.cols) * self.thickness
-        ty = self.rows * self.unitH + (self.rows + 1) * self.thickness
-        self.rectangularWall(tx, ty, "eeee", move="up", label="top (%ix%i)" % (tx, ty))
-
     def segmented_edge(self, segments_lengths, segment_edge, inbetween_length, inbetween_edge, ends_length=None,
                        ends_edge=None):
         lengths = create_custom_array(segments_lengths, inbetween_length, ends_length)
         _edges = create_custom_array([segment_edge] * len(segments_lengths), inbetween_edge, ends_edge)
         return boxes.edges.CompoundEdge(self, _edges, lengths)
 
-    def parse(self, input):
-        x = []
-        y = []
-        hwalls = []
-        vwalls = []
-        floors = []
-        for nr, line in enumerate(input):
-            if not line or line[0] == "#":
-                continue
-            m = re.match(r"( \|)* ,>\s*(\d*\.?\d+)\s*mm\s*", line)
-            if m:
-                x.append(float(m.group(2)))
-                continue
-            if line[0] == '+':
-                w = []
-                for n, c in enumerate(line[:len(x) * 2 + 1]):
-                    if n % 2:
-                        if c == ' ':
-                            w.append(False)
-                        elif c == '-' or c == '=':
-                            w.append(True)
-                        else:
-                            pass
-                            # raise ValueError(line)
-                    else:
-                        if c != '+':
-                            pass
-                            # raise ValueError(line)
-
-                hwalls.append(w)
-            if line[0] in " |":
-                w = []
-                f = []
-                for n, c in enumerate(line[:len(x) * 2 + 1]):
-                    if n % 2:
-                        if c in 'xX':
-                            f.append(False)
-                        elif c == ' ':
-                            f.append(True)
-                        else:
-                            raise ValueError(
-                                """Can't parse line %i in layout: expected " ", "x" or "X" for char #%i""" % (
-                                    nr + 1, n + 1))
-                    else:
-                        if c == ' ':
-                            w.append(False)
-                        elif c == '|':
-                            w.append(True)
-                        else:
-                            raise ValueError("""Can't parse line %i in layout: expected " ", or "|" for char #%i""" % (
-                                nr + 1, n + 1))
-
-                floors.append(f)
-                vwalls.append(w)
-                m = re.match(r"([ |][ xX])+[ |]\s*(\d*\.?\d+)\s*mm\s*", line)
-                if not m:
-                    raise ValueError("""Can't parse line %i in layout: Can read height of the row""" % (nr + 1))
-                else:
-                    y.append(float(m.group(2)))
-
-        # check sizes
-        lx = len(x)
-        ly = len(y)
-
-        if lx == 0:
-            raise ValueError("Need more than one wall in x direction")
-        if ly == 0:
-            raise ValueError("Need more than one wall in y direction")
-        if len(hwalls) != ly + 1:
-            raise ValueError("Wrong number of horizontal wall lines: %i (%i expected)" % (len(hwalls), ly + 1))
-        for nr, walls in enumerate(hwalls):
-            if len(walls) != lx:
-                raise ValueError("Wrong number of horizontal walls in line %i: %i (%i expected)" % (nr, len(walls), lx))
-        if len(vwalls) != ly:
-            raise ValueError("Wrong number of vertical wall lines: %i (%i expected)" % (len(vwalls), ly))
-        for nr, walls in enumerate(vwalls):
-            if len(walls) != lx + 1:
-                raise ValueError(
-                    "Wrong number of vertical walls in line %i: %i (%i expected)" % (nr, len(walls), lx + 1))
-
-        self.x = x
-        self.y = y
-        self.hwalls = hwalls
-        self.vwalls = vwalls
-        self.floors = floors
-
     def render(self) -> None:
         self.prepare()
-        # self.test_ref()
         self.new_base_plate()
-        self.cover()
+        if self.add_cover:
+            self.cover()
         self.topAndBottom()
         self.verticalWalls()
         self.shelves()
-        self.rails()
+        if self.add_rails:
+            self.rails()

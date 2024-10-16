@@ -64,6 +64,7 @@ You can replace the space characters representing the floor by a "X" to remove t
     def prepare(self):
         self.unitW = [float(w) for w in self.unitW.split()]
         self.sumW = sum(self.unitW)
+        self.totalW = self.sumW + 2 * (self.cols - 1) * self.thickness
 
         self.shelvesNs = [int(w) for w in self.shelvesNs.split()]
         self.railsets = [self.rows-1-shelve for shelve in self.shelvesNs]
@@ -77,37 +78,27 @@ You can replace the space characters representing the floor by a "X" to remove t
                                                                 **self.edgesettings.get("FingerJoint", {}))
         self.addPart(edges.FingerHoles(self, doubleFingerJointSettings), name="doubleFingerHolesAt")
 
+    def topAndBottomCB(self):
+        for col in range(1, self.cols):
+            posx = sum(self.unitW[:col]) + (col * 2 - 1) * self.thickness
+            self.doubleFingerHolesAt(posx, 0, self.internalDepth, angle=90)
+
     def topAndBottom(self):
-        F = self.edges["f"].startwidth()
-        x = self.sumW + 2 * (self.cols - 1) * self.thickness
-        y = self.externalDepth
-
-        horizontalLengths = self.unitW
-        horizontalInbetween = 2 * self.thickness
-
         for name in ["bottom", "top"]:
-            for col in range(1, self.cols):
-                posx = 0.25 * self.thickness + sum(self.unitW[:col]) + col * 2 * self.thickness
-                posy = F + 1.25 * self.thickness
-                self.doubleFingerHolesAt(posx, posy, self.internalDepth, angle=90)
-            self.rectangularWall(x, y,
-                                 [self.segmented_edge(horizontalLengths, "f", horizontalInbetween, "e"),
-                                  "F", "e", "F"],
-                                 move="up",
-                                 label="%s (%ix%i)" % (name, x, y))
+            self.rectangularWall(
+                self.totalW, self.externalDepth,
+                [self.segmented_edge(self.unitW, "f", 2*self.thickness, "e"), "F", "e", "F"],
+                callback=[self.topAndBottomCB],
+                move="up",
+                label="%s (%ix%i)" % (name, self.totalW, self.externalDepth))
 
-
-
-    def fingerHolesForShelves(self):
-        F = self.edges["f"].startwidth()
+    def shelveCB(self):
         for row in range(1, self.rows):
-            posx = 0.25 * self.thickness
-            posy = F + row * self.unitH + row * self.thickness + 1.75 * self.thickness
-            self.fingerHolesAt(posx, posy, self.internalDepth, angle=0)
+            posy = row * self.unitH + (row + 0.5) * self.thickness
+            self.fingerHolesAt(0, posy, self.internalDepth, angle=0)
 
     def verticalWall(self, x, y, edges=None, move=None, label=None):
-        self.fingerHolesForShelves()
-        self.rectangularWall(x, y, edges, move=move, label=label)
+        self.rectangularWall(x, y, edges, callback=[self.shelveCB], move=move, label=label)
 
     def verticalWalls(self):
         self.ctx.save()
@@ -115,26 +106,26 @@ You can replace the space characters representing the floor by a "X" to remove t
         x_outer = self.externalDepth
         y = self.rows * self.unitH + (self.rows + 1) * self.thickness
 
-        self.fingerHolesForShelves()
         self.rectangularWall(x_outer, y,
                              edges=["f",
                                     "e",
                                     "f",
                                     self.segmented_edge([self.unitH] * self.rows, "f", self.thickness, "e",
                                                         self.thickness * 1, "e")],
+                             callback=[self.shelveCB],
                              move="right",
                              label="left\n(%ix%i)" % (x_outer, y))
 
         for i in range(2 * (self.cols - 1)):
             self.verticalWall(x_inner, y, "feff", move="right", label="vertical wall\n(%ix%i)" % (x_inner, y))
 
-        self.fingerHolesForShelves()
         self.rectangularWall(x_outer, y,
                              edges=["f",
                                     "e",
                                     "f",
                                     self.segmented_edge([self.unitH] * self.rows, "f", self.thickness, "e",
                                                         self.thickness * 1, "e")],
+                             callback=[self.shelveCB],
                              move="up",
                              label="right\n(%ix%i)" % (x_outer, y))
 

@@ -75,23 +75,23 @@ class HobbyCase(Boxes):
             posx = sum(self.unit_w[:col]) + (col * 2 - 1) * self.thickness
             self.doubleFingerHolesAt(posx, 0, self.internal_depth, angle=90)
 
-    def topAndBottom(self):
+    def topAndBottom(self, move="up"):
         for name in ["bottom", "top"]:
             self.rectangularWall(
                 self.total_w, self.external_depth, "fFeF",
                 callback=[self.topAndBottomHolesCallback],
-                move="up",
+                move=move,
                 label="%s (%ix%i)" % (name, self.total_w, self.external_depth))
 
-    def shelvesHolesCallback(self):
+    def slotsHolesCallback(self):
         for row in range(1, self.rows):
             posy = row * self.unit_h + (row + 0.5) * self.thickness
             self.fingerHolesAt(0, posy, self.internal_depth, angle=0)
 
     def verticalWall(self, x, y, edges=None, move=None, label=None):
-        self.rectangularWall(x, y, edges, callback=[self.shelvesHolesCallback], move=move, label=label)
+        self.rectangularWall(x, y, edges, callback=[self.slotsHolesCallback], move=move, label=label)
 
-    def verticalWalls(self):
+    def verticalWalls(self, move="up"):
         self.ctx.save()
         x_inner = self.internal_depth
         x_outer = self.external_depth
@@ -99,7 +99,7 @@ class HobbyCase(Boxes):
 
         self.rectangularWall(x_outer, y,
                              edges="feff",
-                             callback=[self.shelvesHolesCallback],
+                             callback=[self.slotsHolesCallback],
                              move="right",
                              label="left\n(%ix%i)" % (x_outer, y))
 
@@ -108,14 +108,14 @@ class HobbyCase(Boxes):
 
         self.rectangularWall(x_outer, y,
                              edges="feff",
-                             callback=[self.shelvesHolesCallback],
+                             callback=[self.slotsHolesCallback],
                              move="up",
                              label="right\n(%ix%i)" % (x_outer, y))
 
-        self.move(x_outer, y + 2 * self.thickness, "up")
+        self.move(x_outer, y + 2 * self.thickness, move)
 
-    def cover(self, move=None):
-        x = self.sum_w + 2 * (self.cols - 1) * self.thickness
+    def cover(self, move="up"):
+        x = self.total_w + 2 * self.thickness
         y = self.rows * self.unit_h + (self.rows + 1) * self.thickness
 
         _edges = ["e", "z", "e", "z", "e"]
@@ -123,14 +123,14 @@ class HobbyCase(Boxes):
         straight_edge_length = (x - 2 * hole_edge_length) / 3
         lengths = [straight_edge_length, hole_edge_length, straight_edge_length, hole_edge_length, straight_edge_length]
 
-        self.rectangularWall(x, y, ["e", "e", boxes.edges.CompoundEdge(self, _edges, lengths), "e"],
-                             move="up", label="cover plate\n(%ix%i)" % (x, y))
+        self.rectangularWall(x, y, ["E", "E", boxes.edges.CompoundEdge(self, _edges, lengths), "E"],
+                             move=move, label="cover plate\n(%ix%i)" % (x, y))
 
-    def shelves(self, move=None):
+    def shelves(self, move="up"):
         for columnIndex, unit_width in enumerate(self.unit_w):
             x = unit_width
             y = self.internal_depth
-            self.partsMatrix(self.shelves_n[columnIndex], 0, "up",
+            self.partsMatrix(self.shelves_n[columnIndex], 0, move,
                              self.rectangularWall,
                              x, y, "efff", label="shelf (column %i)\n(%ix%i)" % (columnIndex, x, y))
 
@@ -141,12 +141,12 @@ class HobbyCase(Boxes):
         self.rectangularWall( sideLength,0, "feSe", move="right")
         self.move(2*sideLength+backLength, 3*self.thickness, move)
 
-    def rails(self):
+    def rails(self, move="up"):
         for col_idx, unit_width in enumerate(self.unit_w):
             for n in range(self.railsets[col_idx]):
-                self.railSet(self.internal_depth, unit_width, "up")
+                self.railSet(self.internal_depth, unit_width, move)
 
-    def base_plate(self, move=None):
+    def base_plate(self, move="up"):
         F = self.edges["F"].startwidth()
         tx = sum(self.unit_w) + 2 * (self.cols - 1) * self.thickness
         ty = self.rows * self.unit_h + (self.rows - 1) * self.thickness + 2 * F
@@ -164,7 +164,7 @@ class HobbyCase(Boxes):
 
         self.rectangularWall(tx, ty,
                              ["F","F","F","F"],
-                             label="base plate\n(%ix%i)" % (tx, ty), move="up")
+                             label="base plate\n(%ix%i)" % (tx, ty), move=move)
 
     def render(self) -> None:
         self.prepare()

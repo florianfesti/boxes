@@ -19,18 +19,17 @@ from boxes import *
 
 
 class HobbyCase(Boxes):
-    """Generate a typetray from a layout file."""
-
-    # This class reads in the layout either from a file (with --input) or
-    # as string (with --layout) and turns it into a drawing for a box.
+    """A case that can be used in any hobby."""
 
     ui_group = "Tray"
 
-    description = """This is a two step process. This is step 2.
-Edit the layout text graphics to adjust your tray.
-Put in the sizes for each column and row. You can replace the hyphens and
-vertical bars representing the walls with a space character to remove the walls.
-You can replace the space characters representing the floor by a "X" to remove the floor for this compartment.
+    description = """
+    The hobby case is defined by units, "cells" of the case. 
+    You define depth, height and widths of the cells. 
+    By combining dimensions with number of columns and rows slots for shelves are generated.
+    Slots can be populated by:
+     - shelves (horizontal piece of plywood that covers full width and depth of the column. You can put anything on them, but they also provide some structural integrity. It is recommended to have a least one shelve every 2-4 slots (depending on the unit height)
+     - rails (3 horizontal pieces that stick out of the side and back walls of the column. They can be used to allow taller things placed on shelves below, but also some sliding drawers can be put in them.
 """
 
     def __init__(self) -> None:
@@ -38,15 +37,14 @@ You can replace the space characters representing the floor by a "X" to remove t
         self.add_rails = True
         self.add_cover = True
         self.addSettingsArgs(boxes.edges.FingerJointSettings)
-        self.argparser.add_argument("--unitD", action="store", type=float, default=128)
-        self.argparser.add_argument("--unitH", action="store", type=float, default=50)
-        self.argparser.add_argument("--unitW", action="store", type=argparseSections, default="215*3")
-        self.argparser.add_argument("--cols", action="store", type=int, default=3)
-        self.argparser.add_argument("--rows", action="store", type=int, default=6)
-        self.argparser.add_argument("--shelvesNs", action="store", type=argparseSections, default="2:3:2")
-        self.argparser.add_argument("--add_rails", action="store", type=boolarg, default=True)
-        self.argparser.add_argument("--add_cover", action="store", type=boolarg, default=True)
-        self.addSettingsArgs(boxes.edges.StackableSettings, angle=90, width=0.0, height=2.0)
+        self.argparser.add_argument("--unitD", action="store", type=float, default=128, help="Depth of single unit")
+        self.argparser.add_argument("--unitH", action="store", type=float, default=50, help="Height of single unit")
+        self.argparser.add_argument("--unitW", action="store", type=argparseSections, default="215*3", help="Widths of unit columns, eg. 215*3 or 150:215:150")
+        self.argparser.add_argument("--rows", action="store", type=int, default=6, help="Number of rows in each of the columns")
+        self.argparser.add_argument("--shelvesNs", action="store", type=argparseSections, default="2:3:2", help="How many shelves should each column have eg. 2:3:2. Use integers only!")
+        self.argparser.add_argument("--add_rails", action="store", type=boolarg, default=True, help="Should rails be generated for slots unpopulated by shelves?")
+        self.argparser.add_argument("--add_cover", action="store", type=boolarg, default=True, help="Should cover for the case be generated?")
+        self.addSettingsArgs(boxes.edges.StackableSettings, angle=90, width=0.0, height=2.0, help="")
 
     @restore
     def edgeAt(self, edge, x, y, length, angle=0):
@@ -55,6 +53,8 @@ You can replace the space characters representing the floor by a "X" to remove t
         edge(length)
 
     def prepare(self):
+        self.cols = len(self.unitW)
+
         self.sumW = sum(self.unitW)
         self.totalW = self.sumW + 2 * (self.cols - 1) * self.thickness
 

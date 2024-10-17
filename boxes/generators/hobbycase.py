@@ -18,14 +18,7 @@ import boxes
 from boxes import *
 
 
-def create_custom_array(values, inbetween_value, ends_value=None):
-    array = [elem for pair in zip(values, [inbetween_value] * (len(values) - 1)) for elem in pair] + [values[-1]]
-    if not ends_value:
-        return array
-    return [ends_value] + array + [ends_value]
-
-
-class HobbyCaseLayout(Boxes):
+class HobbyCase(Boxes):
     """Generate a typetray from a layout file."""
 
     # This class reads in the layout either from a file (with --input) or
@@ -47,10 +40,10 @@ You can replace the space characters representing the floor by a "X" to remove t
         self.addSettingsArgs(boxes.edges.FingerJointSettings)
         self.argparser.add_argument("--unitD", action="store", type=float, default=128)
         self.argparser.add_argument("--unitH", action="store", type=float, default=50)
-        self.argparser.add_argument("--unitW", action="store", type=str, default="215 215 215")
+        self.argparser.add_argument("--unitW", action="store", type=argparseSections, default="215*3")
         self.argparser.add_argument("--cols", action="store", type=int, default=3)
         self.argparser.add_argument("--rows", action="store", type=int, default=6)
-        self.argparser.add_argument("--shelvesNs", action="store", type=str, default="2 3 2")
+        self.argparser.add_argument("--shelvesNs", action="store", type=argparseSections, default="2:3:2")
         self.argparser.add_argument("--add_rails", action="store", type=boolarg, default=True)
         self.argparser.add_argument("--add_cover", action="store", type=boolarg, default=True)
         self.addSettingsArgs(boxes.edges.StackableSettings, angle=90, width=0.0, height=2.0)
@@ -62,11 +55,10 @@ You can replace the space characters representing the floor by a "X" to remove t
         edge(length)
 
     def prepare(self):
-        self.unitW = [float(w) for w in self.unitW.split()]
         self.sumW = sum(self.unitW)
         self.totalW = self.sumW + 2 * (self.cols - 1) * self.thickness
 
-        self.shelvesNs = [int(w) for w in self.shelvesNs.split()]
+        self.shelvesNs = [int(w) for w in self.shelvesNs]
         self.railsets = [self.rows-1-shelve for shelve in self.shelvesNs]
 
         self.externalDepth = self.unitD + 2 * self.thickness
@@ -78,7 +70,7 @@ You can replace the space characters representing the floor by a "X" to remove t
                                                                 **self.edgesettings.get("FingerJoint", {}))
         self.addPart(edges.FingerHoles(self, doubleFingerJointSettings), name="doubleFingerHolesAt")
 
-    def topAndBottomCB(self):
+    def topAndBottomHolesCallback(self):
         for col in range(1, self.cols):
             posx = sum(self.unitW[:col]) + (col * 2 - 1) * self.thickness
             self.doubleFingerHolesAt(posx, 0, self.internalDepth, angle=90)
@@ -86,19 +78,18 @@ You can replace the space characters representing the floor by a "X" to remove t
     def topAndBottom(self):
         for name in ["bottom", "top"]:
             self.rectangularWall(
-                self.totalW, self.externalDepth,
-                [self.segmented_edge(self.unitW, "f", 2*self.thickness, "e"), "F", "e", "F"],
-                callback=[self.topAndBottomCB],
+                self.totalW, self.externalDepth,"fFeF",
+                callback=[self.topAndBottomHolesCallback],
                 move="up",
                 label="%s (%ix%i)" % (name, self.totalW, self.externalDepth))
 
-    def shelveCB(self):
+    def shelvesHolesCallback(self):
         for row in range(1, self.rows):
             posy = row * self.unitH + (row + 0.5) * self.thickness
             self.fingerHolesAt(0, posy, self.internalDepth, angle=0)
 
     def verticalWall(self, x, y, edges=None, move=None, label=None):
-        self.rectangularWall(x, y, edges, callback=[self.shelveCB], move=move, label=label)
+        self.rectangularWall(x, y, edges, callback=[self.shelvesHolesCallback], move=move, label=label)
 
     def verticalWalls(self):
         self.ctx.save()
@@ -107,12 +98,8 @@ You can replace the space characters representing the floor by a "X" to remove t
         y = self.rows * self.unitH + (self.rows + 1) * self.thickness
 
         self.rectangularWall(x_outer, y,
-                             edges=["f",
-                                    "e",
-                                    "f",
-                                    self.segmented_edge([self.unitH] * self.rows, "f", self.thickness, "e",
-                                                        self.thickness * 1, "e")],
-                             callback=[self.shelveCB],
+                             edges="feff",
+                             callback=[self.shelvesHolesCallback],
                              move="right",
                              label="left\n(%ix%i)" % (x_outer, y))
 
@@ -120,12 +107,8 @@ You can replace the space characters representing the floor by a "X" to remove t
             self.verticalWall(x_inner, y, "feff", move="right", label="vertical wall\n(%ix%i)" % (x_inner, y))
 
         self.rectangularWall(x_outer, y,
-                             edges=["f",
-                                    "e",
-                                    "f",
-                                    self.segmented_edge([self.unitH] * self.rows, "f", self.thickness, "e",
-                                                        self.thickness * 1, "e")],
-                             callback=[self.shelveCB],
+                             edges="feff",
+                             callback=[self.shelvesHolesCallback],
                              move="up",
                              label="right\n(%ix%i)" % (x_outer, y))
 
@@ -168,11 +151,6 @@ You can replace the space characters representing the floor by a "X" to remove t
         tx = sum(self.unitW) + 2 * (self.cols - 1) * self.thickness
         ty = self.rows * self.unitH + (self.rows - 1) * self.thickness + 2 * F
 
-        horizontalLengths = self.unitW
-        horizontalInbetween = 2 * self.thickness
-        verticalLengths = [self.unitH] * self.rows
-        verticalInbetween = self.thickness
-
         for col in range(self.cols):
             for row in range(1, self.rows):
                 posx = 1.25 * self.thickness + sum(self.unitW[:col]) + col * 2 * self.thickness
@@ -185,18 +163,8 @@ You can replace the space characters representing the floor by a "X" to remove t
             self.doubleFingerHolesAt(posx, posy, ty, angle=90)
 
         self.rectangularWall(tx, ty,
-                             [
-                                 self.segmented_edge(horizontalLengths, "F", horizontalInbetween, "E"),
-                                 self.segmented_edge(verticalLengths, "F", verticalInbetween, "E", F, "E"),
-                                 self.segmented_edge(list(reversed(horizontalLengths)), "F", horizontalInbetween, "E"),
-                                 self.segmented_edge(list(reversed(verticalLengths)), "F", verticalInbetween, "E", F,"E"),
-                             ], label="base plate\n(%ix%i)" % (tx, ty), move="up")
-
-    def segmented_edge(self, segments_lengths, segment_edge, inbetween_length, inbetween_edge, ends_length=None,
-                       ends_edge=None):
-        lengths = create_custom_array(segments_lengths, inbetween_length, ends_length)
-        _edges = create_custom_array([segment_edge] * len(segments_lengths), inbetween_edge, ends_edge)
-        return boxes.edges.CompoundEdge(self, _edges, lengths)
+                             ["F","F","F","F"],
+                             label="base plate\n(%ix%i)" % (tx, ty), move="up")
 
     def render(self) -> None:
         self.prepare()

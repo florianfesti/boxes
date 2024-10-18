@@ -24,8 +24,8 @@ class HobbyCase(Boxes):
     ui_group = "Tray"
 
     description = """
-    The hobby case is defined by units, "cells" of the case. 
-    You define depth, height and widths of the cells. 
+    The hobby case is defined by units, "cells" of the case.
+    You define depth, height and widths of the cells.
     By combining dimensions with number of columns and rows slots for shelves are generated.
     Slots can be populated by:
      - shelves (horizontal piece of plywood that covers full width and depth of the column. You can put anything on them, but they also provide some structural integrity. It is recommended to have a least one shelve every 2-4 slots (depending on the unit height)
@@ -44,13 +44,7 @@ class HobbyCase(Boxes):
         self.argparser.add_argument("--shelves_n", action="store", type=argparseSections, default="2:3:2", help="How many shelves should each column have eg. 2:3:2. Use integers only!")
         self.argparser.add_argument("--add_rails", action="store", type=boolarg, default=True, help="Should rails be generated for slots unpopulated by shelves?")
         self.argparser.add_argument("--add_cover", action="store", type=boolarg, default=True, help="Should cover for the case be generated?")
-        self.addSettingsArgs(boxes.edges.StackableSettings, angle=90, width=0.0, height=2.0, help="")
-
-    @restore
-    def edgeAt(self, edge, x, y, length, angle=0):
-        self.moveTo(x, y, angle)
-        edge = self.edges.get(edge, edge)
-        edge(length)
+        self.addSettingsArgs(boxes.edges.StackableSettings, angle=90, width=0.0, height=2.0)
 
     def prepare(self):
         self.cols = len(self.unit_w)
@@ -66,8 +60,7 @@ class HobbyCase(Boxes):
 
         s = self.edgesettings.get("FingerJoint", {})
         s["width"] = 2.0
-        doubleFingerJointSettings = edges.FingerJointSettings(self.thickness, True,
-                                                                **self.edgesettings.get("FingerJoint", {}))
+        doubleFingerJointSettings = edges.FingerJointSettings(self.thickness, True, **self.edgesettings.get("FingerJoint", {}))
         self.addPart(edges.FingerHoles(self, doubleFingerJointSettings), name="doubleFingerHolesAt")
 
     def topAndBottomHolesCallback(self):
@@ -75,13 +68,12 @@ class HobbyCase(Boxes):
             posx = sum(self.unit_w[:col]) + (col * 2 - 1) * self.thickness
             self.doubleFingerHolesAt(posx, 0, self.internal_depth, angle=90)
 
-    def topAndBottom(self, move="up"):
+    def top_and_bottom(self, move="up"):
         for name in ["bottom", "top"]:
-            self.rectangularWall(
-                self.total_w, self.external_depth, "fFeF",
-                callback=[self.topAndBottomHolesCallback],
-                move=move,
-                label="%s (%ix%i)" % (name, self.total_w, self.external_depth))
+            self.rectangularWall(self.total_w, self.external_depth, "fFeF",
+                                 callback=[self.topAndBottomHolesCallback],
+                                 move=move,
+                                 label="%s (%ix%i)" % (name, self.total_w, self.external_depth))
 
     def slotsHolesCallback(self):
         for row in range(1, self.rows):
@@ -91,14 +83,13 @@ class HobbyCase(Boxes):
     def verticalWall(self, x, y, edges=None, move=None, label=None):
         self.rectangularWall(x, y, edges, callback=[self.slotsHolesCallback], move=move, label=label)
 
-    def verticalWalls(self, move="up"):
+    def vertical_walls(self, move="up"):
         self.ctx.save()
         x_inner = self.internal_depth
         x_outer = self.external_depth
         y = self.rows * self.unit_h + (self.rows + 1) * self.thickness
 
-        self.rectangularWall(x_outer, y,
-                             edges="feff",
+        self.rectangularWall(x_outer, y, "feff",
                              callback=[self.slotsHolesCallback],
                              move="right",
                              label="left\n(%ix%i)" % (x_outer, y))
@@ -106,8 +97,7 @@ class HobbyCase(Boxes):
         for i in range(2 * (self.cols - 1)):
             self.verticalWall(x_inner, y, "feff", move="right", label="vertical wall\n(%ix%i)" % (x_inner, y))
 
-        self.rectangularWall(x_outer, y,
-                             edges="feff",
+        self.rectangularWall(x_outer, y, "feff",
                              callback=[self.slotsHolesCallback],
                              move="up",
                              label="right\n(%ix%i)" % (x_outer, y))
@@ -162,17 +152,15 @@ class HobbyCase(Boxes):
             posy = F + 0.5 * self.thickness
             self.doubleFingerHolesAt(posx, posy, ty, angle=90)
 
-        self.rectangularWall(tx, ty,
-                             ["F","F","F","F"],
-                             label="base plate\n(%ix%i)" % (tx, ty), move=move)
+        self.rectangularWall(tx, ty, "FFFF", label="base plate\n(%ix%i)" % (tx, ty), move=move)
 
     def render(self) -> None:
         self.prepare()
         self.base_plate()
         if self.add_cover:
             self.cover()
-        self.topAndBottom()
-        self.verticalWalls()
+        self.top_and_bottom()
+        self.vertical_walls()
         self.shelves()
         if self.add_rails:
             self.rails()

@@ -91,7 +91,7 @@ BookHolder with default parameters (A4 size, landscape, back_support):
 
         # Highest point on the right where the book back rests
         max_height_back = a + self.bottom_support + self.radius
-        # Hightest point on the left where the book bottom rests
+        # Highest point on the left where the book bottom rests
         max_height_front = c + self.bottom_support + self.radius
 
         total_height = max(max_height_back, max_height_front)

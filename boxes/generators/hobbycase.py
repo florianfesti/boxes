@@ -46,11 +46,18 @@ class HobbyCase(Boxes):
         self.argparser.add_argument("--add_cover", action="store", type=boolarg, default=True, help="Should cover for the case be generated?")
         self.addSettingsArgs(boxes.edges.StackableSettings, angle=90, width=0.0, height=2.0)
 
+
     def prepare(self):
+        self.margin_x = 0.75
+        self.margin_y = 0.75
+
         self.cols = len(self.unit_w)
 
         self.sum_w = sum(self.unit_w)
         self.total_w = self.sum_w + 2 * (self.cols - 1) * self.thickness
+
+        self.sum_h = self.rows * self.unit_h
+        self.total_h = self.sum_h + (self.rows - 1) * self.thickness + 2 * self.thickness
 
         self.shelves_n = [int(w) for w in self.shelves_n]
         self.railsets = [self.rows - 1 - shelve for shelve in self.shelves_n]
@@ -136,31 +143,35 @@ class HobbyCase(Boxes):
             for n in range(self.railsets[col_idx]):
                 self.railSet(self.internal_depth, unit_width, move)
 
-    def base_plate(self, move="up"):
-        F = self.edges["F"].startwidth()
-        tx = sum(self.unit_w) + 2 * (self.cols - 1) * self.thickness
-        ty = self.rows * self.unit_h + (self.rows - 1) * self.thickness + 2 * F
+    def vertical_holes_callback(self):
+        for col in range(1, self.cols):
+            posx = sum(self.unit_w[:col]) + col * 2 * self.thickness
+            posy = 1.5 * self.thickness
+            self.doubleFingerHolesAt(posx, posy, self.total_h, angle=90)
 
+    def horizontal_holes_callback(self):
         for col in range(self.cols):
             for row in range(1, self.rows):
-                posx = 1.25 * self.thickness + sum(self.unit_w[:col]) + col * 2 * self.thickness
-                posy = F + row * self.unit_h + row * self.thickness + 0.75 * self.thickness
+                posx = self.thickness + sum(self.unit_w[:col]) + col * 2 * self.thickness
+                posy = self.thickness + row * self.unit_h + row * self.thickness + 0.75 * self.thickness
                 self.fingerHolesAt(posx, posy, self.unit_w[col], angle=0)
 
-        for col in range(1, self.cols):
-            posx = 0.25 * self.thickness + sum(self.unit_w[:col]) + col * 2 * self.thickness
-            posy = F + 0.5 * self.thickness
-            self.doubleFingerHolesAt(posx, posy, ty, angle=90)
+    def baseplate_callback(self):
+        self.horizontal_holes_callback()
+        self.vertical_holes_callback()
 
-        self.rectangularWall(tx, ty, "FFFF", label="base plate\n(%ix%i)" % (tx, ty), move=move)
+    def base_plate(self, move="up"):
+        self.rectangularWall(self.total_w, self.total_h, "FFFF",
+                             callback=[self.baseplate_callback()],
+                             label="base plate\n(%ix%i)" % (self.total_w, self.total_h), move=move)
 
     def render(self) -> None:
         self.prepare()
         self.base_plate()
+        self.shelves()
         if self.add_cover:
             self.cover()
         self.top_and_bottom()
         self.vertical_walls()
-        self.shelves()
         if self.add_rails:
             self.rails()

@@ -2901,9 +2901,12 @@ class Boxes:
             top_lengths = []
             top_edges = []
 
+            if angle == 0:
+                left = self.edges["d"]
+
+            leftsettings.setValues(self.thickness, angle=angle)
             self.moveTo(left.spacing() + self.spacing, 0)
             l = borders[i] - length_correction
-            leftsettings.setValues(self.thickness, angle=angle)
             angle = borders[i+1]
 
             while isinstance(angle, (tuple, list)):
@@ -2925,6 +2928,8 @@ class Boxes:
                 length_correction = t * math.tan(math.radians(-angle / 2))
             else:
                 length_correction = 0.0
+            if angle == 0:
+                right = self.edges["D"]
             l -= length_correction
 
             bottom(l)

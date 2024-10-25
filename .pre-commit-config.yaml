@@ -6,7 +6,7 @@ ci:
 exclude: '\.svg$'
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v5.0.0
     hooks:
       - id: trailing-whitespace
       - id: end-of-file-fixer
@@ -18,30 +18,33 @@ repos:
       - id: detect-private-key
       - id: check-executables-have-shebangs
       - id: check-shebang-scripts-are-executable
+      - id: check-illegal-windows-names
 
   - repo: https://github.com/pre-commit/pygrep-hooks
-    rev: v1.10.0  # Use the ref you want to point at
+    rev: v1.10.0
     hooks:
-      - id: python-use-type-annotations
       - id: python-no-eval
+      - id: python-no-log-warn
+      - id: python-use-type-annotations
       - id: rst-backticks
       - id: rst-directive-colons
       - id: rst-inline-touching-normal
+      - id: text-unicode-replacement-char
 
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.15.0
+    rev: v3.19.0
     hooks:
       - id: pyupgrade
-        args: [ --py38-plus ]
+        args: [ --py39-plus ]
 
   - repo: https://github.com/PyCQA/autoflake
-    rev: v2.2.1
+    rev: v2.3.1
     hooks:
       - id: autoflake
         args: [ --remove-all-unused-imports, --in-place, --ignore-pass-statements, ]
 
   - repo: https://github.com/pycqa/isort
-    rev: 5.12.0
+    rev: 5.13.2
     hooks:
       - id: isort
 
@@ -55,7 +58,7 @@ repos:
   #      # additional_dependencies: [ flake8-bugbear, flake8-docstrings ]
 
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.6.1
+    rev: v1.13.0
     hooks:
       - id: mypy
         args: [ '--ignore-missing-imports' ]
@@ -84,19 +87,19 @@ repos:
         files: '^setup.py$'
 
   - repo: https://github.com/rstcheck/rstcheck
-    rev: v6.2.0
+    rev: v6.2.4
     hooks:
       - id: rstcheck
         args: [ "--report-level=warning", "--ignore-directives=autoclass,automethod,automodule" ]
         additional_dependencies: [ sphinx ]
 
   - repo: https://github.com/shellcheck-py/shellcheck-py
-    rev: v0.9.0.6
+    rev: v0.10.0.1
     hooks:
       - id: shellcheck
 
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.2.6
+    rev: v2.3.0
     hooks:
       - id: codespell
         exclude: ^(boxes|locale|po|static)/ # todo folder boxes

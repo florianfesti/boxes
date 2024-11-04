@@ -157,6 +157,34 @@ class NicotTransportCageCutout(PathCutout):
     OFFSET = (-32.555031,-21.874992)
     SEGMENTS = [
         ('M', (40.305031, 27.125)),
+        ('L', (46.555031, 27.125)),
+        ('L', (49.555031, 17.125)),
+        ('L', (50.055031, 17.125)),
+        ('L', (50.655037, 17.125)),
+        ('L', (50.655037, 14.125)),
+        ('L', (41.805031, 14.125)),
+        ('C', (41.805031, 14.401142, 41.581173, 14.700713, 41.305031, 14.700713)),
+        ('C', (41.028889, 14.700713, 40.805031, 14.401142, 40.805031, 14.125)),
+        ('L', (24.305031, 14.125)),
+        ('C', (24.305031, 14.401142, 24.081173, 14.700713, 23.805031, 14.700713)),
+        ('C', (23.528889, 14.700713, 23.305031, 14.401142, 23.305031, 14.125)),
+        ('L', (15.055031, 14.125)),
+        ('L', (14.455027, 14.125)),
+        ('L', (14.455027, 17.125)),
+        ('L', (15.555031, 17.125)),
+        ('L', (18.555031, 27.125)),
+        ('L', (24.805031, 27.125)),
+        ('L', (40.305031, 27.125))
+    ]
+
+
+class PlastmixTransportCageCutout(PathCutout):
+    """Plastmix transport and introduction cage"""
+    DIMENSIONS = (36.2, 15.5)
+    HEIGHT = 90.0
+    OFFSET = (-32.555031,-21.874992)
+    SEGMENTS = [
+        ('M', (40.305031, 27.125)),
         ('L', (40.305031, 29.625)),
         ('L', (43.555031, 29.625)),
         ('L', (43.555031, 27.125)),
@@ -770,7 +798,7 @@ FAQ:
 
     ui_group = "Beekeeping"
 
-    CUTOUTS = (NicotTransportCageCutout, NicotHatchingCageCutout, NicotIncubatorCageCutout, ChinaTransportCageCutout,
+    CUTOUTS = (NicotTransportCageCutout, NicotHatchingCageCutout, NicotIncubatorCageCutout, PlastmixTransportCageCutout, ChinaTransportCageCutout,
                AirHolesForNicotTransportCageCutout, AirHolesForNicotIncubatorCageCutout, AirHolesForNicotHatchingCageCutout, AirHolesForChinaTransportCageCutout,
                NoneCutout)
     LAYERS = (NoneCutout, NicotTransportCageCutout, AirHolesForNicotTransportCageCutout)

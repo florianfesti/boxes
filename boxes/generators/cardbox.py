@@ -247,4 +247,4 @@ Whole box (early version still missing grip rail on the lid):
                 self.rectangularWall(h, y, "fAff", move="right", label="Divider")
 
             if self.add_lidtopper:
-                self.rectangularWall(x, y - 2 * t, "eeee", move="right", label="Lid topper (optional)")
+                self.rectangularWall(x - 2 * t, y, "eeee", move="right", label="Lid topper (optional)")

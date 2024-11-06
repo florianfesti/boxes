@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: [ "3.9", "3.12" ] # Lowest and highest.
+        python-version: [ "3.9", "3.13" ] # Lowest and highest.
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-python@v5
@@ -20,3 +20,9 @@ jobs:
     - run: pip install .
     - run: pip install .[dev]
     - uses: pre-commit/action@v3.0.1
+    - uses: actions/upload-artifact@v4
+      with:
+        path: ./tests/data/*.svg
+        name: generated-testdata-py${{ matrix.python-version }}
+        compression-level: 9
+        retention-days: 9

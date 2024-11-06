@@ -1,9 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <svg height="578.05mm" viewBox="0.0 0.0 259.55 578.05" width="259.55mm" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <!--
-PhotoFrame - 
-    3-layer photo frame with a slot at the top to slide matboard/acrylic/glass over the photo after glue-up.
-    
+PhotoFrame - 3-layer photo frame with a slot at the top to slide matboard/acrylic/glass over the photo after glue-up.
 
 
 
@@ -60,9 +58,7 @@ Command line (remove spaces between dashes): boxes PhotoFrame
 <rdf:RDF><cc:Work>
 <dc:title>Misc - PhotoFrame</dc:title>
 <dc:source>boxes PhotoFrame</dc:source>
-<dc:description>
-    3-layer photo frame with a slot at the top to slide matboard/acrylic/glass over the photo after glue-up.
-    
+<dc:description>3-layer photo frame with a slot at the top to slide matboard/acrylic/glass over the photo after glue-up.
 
 
 3-layer photo frame.

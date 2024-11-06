@@ -1,10 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <svg height="439.40mm" viewBox="0.0 0.0 773.67 439.40" width="773.67mm" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <!--
-Silverware - 
-    Cuttlery stand with carrying grip
-    using flex for rounded corners
-    
+Silverware - Cuttlery stand with carrying grip
+using flex for rounded corners
 
 Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes Silverware
@@ -14,10 +12,8 @@ Command line (remove spaces between dashes): boxes Silverware
 <rdf:RDF><cc:Work>
 <dc:title>Unstable - Silverware</dc:title>
 <dc:source>boxes Silverware</dc:source>
-<dc:description>
-    Cuttlery stand with carrying grip
-    using flex for rounded corners
-    
+<dc:description>Cuttlery stand with carrying grip
+using flex for rounded corners
 
 Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes Silverware

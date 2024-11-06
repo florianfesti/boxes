@@ -24,9 +24,7 @@ class TestSVG:
 
     # Ignore multistep generators and generators which require input.
     notTestGenerators = ('GridfinityTrayLayout', 'TrayLayout', 'TrayLayoutFile', 'TypeTray', 'Edges',)
-    brokenGenerators = (
-        'Console', # Generated svg is different on windows and linux.
-    )
+    brokenGenerators = ()
     avoidGenerator = notTestGenerators + brokenGenerators
 
     def test_generators_available(self) -> None:

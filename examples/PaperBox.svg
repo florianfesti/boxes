@@ -1,9 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <svg height="446.05mm" viewBox="0.0 0.0 360.20 446.05" width="360.20mm" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <!--
-PaperBox - 
-    Box made of paper, with lid.
-    
+PaperBox - Box made of paper, with lid.
 
 
 
@@ -24,9 +22,7 @@ Command line (remove spaces between dashes): boxes PaperBox
 <rdf:RDF><cc:Work>
 <dc:title>Misc - PaperBox</dc:title>
 <dc:source>boxes PaperBox</dc:source>
-<dc:description>
-    Box made of paper, with lid.
-    
+<dc:description>Box made of paper, with lid.
 
 
 This box is made of paper.

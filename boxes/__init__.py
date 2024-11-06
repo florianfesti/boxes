@@ -19,6 +19,7 @@ import argparse
 import copy
 import datetime
 import gettext
+import inspect
 import math
 import random
 import re
@@ -319,7 +320,9 @@ class Boxes:
     def __init__(self) -> None:
         self.formats = formats.Formats()
         self.ctx = None
-        description: str = self.__doc__ or ""
+        description: str = ""
+        if self.__doc__:
+            description = inspect.cleandoc(self.__doc__)
         if self.description:
             description += "\n\n" + self.description
         self.argparser = ArgumentParser(description=description)
@@ -327,9 +330,12 @@ class Boxes:
         self.non_default_args: dict[Any, Any] = {}
         self.translations = gettext.NullTranslations()
 
+        short_description: str = ""
+        if self.__doc__:
+            short_description = inspect.cleandoc(self.__doc__)
         self.metadata = {
             "name": self.__class__.__name__,
-            "short_description": self.__doc__,
+            "short_description": short_description,
             "description": self.description,
             "group": self.ui_group,
             "url": "",

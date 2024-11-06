@@ -1,9 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <svg height="253.10mm" viewBox="0.0 0.0 578.60 253.10" width="578.60mm" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <!--
-CoffeeCapsuleHolder - 
-    Coffee capsule holder
-    
+CoffeeCapsuleHolder - Coffee capsule holder
 
 
 
@@ -19,9 +17,7 @@ Command line (remove spaces between dashes): boxes CoffeeCapsuleHolder
 <rdf:RDF><cc:Work>
 <dc:title>Misc - CoffeeCapsuleHolder</dc:title>
 <dc:source>boxes CoffeeCapsuleHolder</dc:source>
-<dc:description>
-    Coffee capsule holder
-    
+<dc:description>Coffee capsule holder
 
 
     You can store your coffee capsule near your espresso machine with this. It works both vertically, or upside down under a shelf.

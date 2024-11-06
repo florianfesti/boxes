@@ -1,9 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <svg height="303.95mm" viewBox="0.0 0.0 1934.50 303.95" width="1934.50mm" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <!--
-AgricolaInsert - 
-    Agricola Revised Edition game box insert, including some expansions.
-    
+AgricolaInsert - Agricola Revised Edition game box insert, including some expansions.
 
 
 
@@ -111,9 +109,7 @@ Command line (remove spaces between dashes): boxes AgricolaInsert
 <rdf:RDF><cc:Work>
 <dc:title>Misc - AgricolaInsert</dc:title>
 <dc:source>boxes AgricolaInsert</dc:source>
-<dc:description>
-    Agricola Revised Edition game box insert, including some expansions.
-    
+<dc:description>Agricola Revised Edition game box insert, including some expansions.
 
 
 This insert was designed with 3 mm plywood in mind, and should work fine with

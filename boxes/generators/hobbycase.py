@@ -34,6 +34,7 @@ class HobbyCase(Boxes):
 
     def __init__(self) -> None:
         super().__init__()
+        self.debug = None
         self.add_rails = True
         self.add_cover = True
         self.addSettingsArgs(boxes.edges.FingerJointSettings)
@@ -48,9 +49,6 @@ class HobbyCase(Boxes):
 
 
     def prepare(self):
-        self.margin_x = 0.75
-        self.margin_y = 0.75
-
         self.cols = len(self.unit_w)
 
         self.sum_w = sum(self.unit_w)
@@ -84,7 +82,7 @@ class HobbyCase(Boxes):
 
     def slotsHolesCallback(self):
         for row in range(1, self.rows):
-            posy = row * self.unit_h + (row + 0.5) * self.thickness
+            posy = 0.5 * self.thickness + row * (self.unit_h + self.thickness)
             self.fingerHolesAt(0, posy, self.internal_depth, angle=0)
 
     def verticalWall(self, x, y, edges=None, move=None, label=None):
@@ -134,7 +132,7 @@ class HobbyCase(Boxes):
     def railSet(self, sideLength, backLength, move=None):
         self.ctx.save()
         self.rectangularWall( sideLength,0, "feSe", move="right")
-        self.rectangularWall( backLength,0, "feSe", move="right")
+        self.rectangularWall( backLength-8*self.thickness,0, "feSe", move="right")
         self.rectangularWall( sideLength,0, "feSe", move="right")
         self.move(2*sideLength+backLength, 3*self.thickness, move)
 
@@ -145,15 +143,14 @@ class HobbyCase(Boxes):
 
     def vertical_holes_callback(self):
         for col in range(1, self.cols):
-            posx = sum(self.unit_w[:col]) + col * 2 * self.thickness
-            posy = 1.5 * self.thickness
-            self.doubleFingerHolesAt(posx, posy, self.total_h, angle=90)
+            posx = self.thickness + sum(self.unit_w[:col]) + (col-1) * 2 * self.thickness
+            self.doubleFingerHolesAt(posx, 0, self.total_h, angle=90)
 
     def horizontal_holes_callback(self):
         for col in range(self.cols):
             for row in range(1, self.rows):
-                posx = self.thickness + sum(self.unit_w[:col]) + col * 2 * self.thickness
-                posy = self.thickness + row * self.unit_h + row * self.thickness + 0.75 * self.thickness
+                posx = sum(self.unit_w[:col]) + col * 2 * self.thickness
+                posy = 0.5 * self.thickness + row * (self.unit_h + self.thickness)
                 self.fingerHolesAt(posx, posy, self.unit_w[col], angle=0)
 
     def baseplate_callback(self):
@@ -162,10 +159,14 @@ class HobbyCase(Boxes):
 
     def base_plate(self, move="up"):
         self.rectangularWall(self.total_w, self.total_h, "FFFF",
-                             callback=[self.baseplate_callback()],
+                             callback=[self.baseplate_callback],
                              label="base plate\n(%ix%i)" % (self.total_w, self.total_h), move=move)
 
     def render(self) -> None:
+        if self.debug:
+            self.spacing = 0
+        else:
+            self.spacing = 10
         self.prepare()
         self.base_plate()
         self.shelves()

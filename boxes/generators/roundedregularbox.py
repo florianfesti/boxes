@@ -87,6 +87,6 @@ class RoundedRegularBox(boxes.Boxes):
             if self.top == "lid":
                 self.polygonWall([self.side, (360 / n, self.radius+t)] *n, edge="e", move="right")
 
-        self.polygonWall(poly, move="up")
+        self.polygonWall(poly, move="up only")
         self.moveTo(0, t)
         self.polygonWalls(poly, self.h)

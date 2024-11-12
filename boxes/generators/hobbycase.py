@@ -111,14 +111,14 @@ class HobbyCase(Boxes):
 
     def cover(self, move="up"):
         x = self.total_w + 2 * self.thickness
-        y = self.rows * self.unit_h + (self.rows + 1) * self.thickness
+        y = self.total_h + self.thickness
 
         _edges = ["e", "z", "e", "z", "e"]
         hole_edge_length = self.unit_w[0]/2
         straight_edge_length = (x - 2 * hole_edge_length) / 3
         lengths = [straight_edge_length, hole_edge_length, straight_edge_length, hole_edge_length, straight_edge_length]
 
-        self.rectangularWall(x, y, ["E", "E", boxes.edges.CompoundEdge(self, _edges, lengths), "E"],
+        self.rectangularWall(x, y, ["e", "e", boxes.edges.CompoundEdge(self, _edges, lengths), "e"],
                              move=move, label="cover plate\n(%ix%i)" % (x, y))
 
     def shelves(self, move="up"):

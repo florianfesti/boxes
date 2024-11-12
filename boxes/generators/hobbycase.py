@@ -52,82 +52,82 @@ class HobbyCase(Boxes):
         self.cols = len(self.unit_w)
 
         self.sum_w = sum(self.unit_w)
-        self.total_w = self.sum_w + 2 * (self.cols - 1) * self.thickness
+        self.inside_w = self.sum_w + 2 * (self.cols - 1) * self.thickness
+        self.outside_w = self.inside_w + 2 * self.thickness
 
         self.sum_h = self.rows * self.unit_h
-        self.total_h = self.sum_h + (self.rows - 1) * self.thickness + 2 * self.thickness
+        self.inside_h = self.sum_h + (self.rows - 1) * self.thickness + 2 * self.thickness
+        self.outside_h = self.inside_h #+ 2 * self.thickness
 
         self.shelves_n = [int(w) for w in self.shelves_n]
         self.railsets = [self.rows - 1 - shelve for shelve in self.shelves_n]
 
-        self.external_depth = self.unit_d + 2 * self.thickness
-        self.internal_depth = self.unit_d
+        self.inside_depth = self.unit_d
+        self.outside_depth = self.inside_depth + 2 * self.thickness
 
         s = self.edgesettings.get("FingerJoint", {})
         s["width"] = 2.0
         doubleFingerJointSettings = edges.FingerJointSettings(self.thickness, True, **self.edgesettings.get("FingerJoint", {}))
         self.addPart(edges.FingerHoles(self, doubleFingerJointSettings), name="doubleFingerHolesAt")
 
-    def topAndBottomHolesCallback(self):
+    def cut_double_wall_holes(self, length):
         for col in range(1, self.cols):
-            posx = sum(self.unit_w[:col]) + (col * 2 - 1) * self.thickness
-            self.doubleFingerHolesAt(posx, 0, self.internal_depth, angle=90)
+            posx = self.thickness + sum(self.unit_w[:col]) + (col-1) * 2 * self.thickness
+            self.doubleFingerHolesAt(posx, 0, length, angle=90)
+
+    def cut_shelve_holes_in_single_column(self, length, posx = 0):
+        for row in range(1, self.rows):
+            posy = 0.5 * self.thickness + row * (self.unit_h + self.thickness)
+            self.fingerHolesAt(posx, posy, length, angle=0)
+
+    def topAndBottomHolesCallback(self):
+        self.cut_double_wall_holes(self.inside_depth)
 
     def top_and_bottom(self, move="up"):
         for name in ["bottom", "top"]:
-            self.rectangularWall(self.total_w, self.external_depth, "fFeF",
+            self.rectangularWall(self.inside_w, self.outside_depth, "fFeF",
                                  callback=[self.topAndBottomHolesCallback],
                                  move=move,
-                                 label="%s (%ix%i)" % (name, self.total_w, self.external_depth))
+                                 label=f"{name} ({self.inside_w}x{self.outside_depth})")
 
     def slotsHolesCallback(self):
-        for row in range(1, self.rows):
-            posy = 0.5 * self.thickness + row * (self.unit_h + self.thickness)
-            self.fingerHolesAt(0, posy, self.internal_depth, angle=0)
+        self.cut_shelve_holes_in_single_column(self.inside_depth, 0)
 
-    def verticalWall(self, x, y, edges=None, move=None, label=None):
+    def verticalWall(self, x, y, edges="feff", move="right", label=None):
+        label = f"{label}\n({x}x{y})"
         self.rectangularWall(x, y, edges, callback=[self.slotsHolesCallback], move=move, label=label)
 
     def vertical_walls(self, move="up"):
         self.ctx.save()
-        x_inner = self.internal_depth
-        x_outer = self.external_depth
-        y = self.rows * self.unit_h + (self.rows + 1) * self.thickness
 
-        self.rectangularWall(x_outer, y, "feff",
-                             callback=[self.slotsHolesCallback],
-                             move="right",
-                             label="left\n(%ix%i)" % (x_outer, y))
+        self.verticalWall(self.outside_depth, self.outside_h, label="left")
 
         for i in range(2 * (self.cols - 1)):
-            self.verticalWall(x_inner, y, "feff", move="right", label="vertical wall\n(%ix%i)" % (x_inner, y))
+            self.verticalWall(self.inside_depth, self.outside_h, label="vertical wall")
 
-        self.rectangularWall(x_outer, y, "feff",
-                             callback=[self.slotsHolesCallback],
-                             move="up",
-                             label="right\n(%ix%i)" % (x_outer, y))
+        self.verticalWall(self.outside_depth, self.outside_h, move="up", label="right")
 
-        self.move(x_outer, y + 2 * self.thickness, move)
+        self.move(self.outside_depth, self.outside_h + 2 * self.thickness, move)
 
     def cover(self, move="up"):
-        x = self.total_w + 2 * self.thickness
-        y = self.total_h + self.thickness
+        x = self.outside_w
+        y = self.outside_h + self.thickness
 
         _edges = ["e", "z", "e", "z", "e"]
         hole_edge_length = self.unit_w[0]/2
         straight_edge_length = (x - 2 * hole_edge_length) / 3
         lengths = [straight_edge_length, hole_edge_length, straight_edge_length, hole_edge_length, straight_edge_length]
+        edge_with_cutouts = boxes.edges.CompoundEdge(self, _edges, lengths)
 
-        self.rectangularWall(x, y, ["e", "e", boxes.edges.CompoundEdge(self, _edges, lengths), "e"],
-                             move=move, label="cover plate\n(%ix%i)" % (x, y))
+        self.rectangularWall(x, y, ["e", "e", edge_with_cutouts, "e"], move=move, label=f"cover plate\n({x}x{y})")
 
     def shelves(self, move="up"):
         for columnIndex, unit_width in enumerate(self.unit_w):
             x = unit_width
-            y = self.internal_depth
+            y = self.inside_depth
             self.partsMatrix(self.shelves_n[columnIndex], 0, move,
                              self.rectangularWall,
-                             x, y, "efff", label="shelf (column %i)\n(%ix%i)" % (columnIndex, x, y))
+                             x, y, "efff", label=f"shelf (column {columnIndex})\n({x}x{y})")
 
     def railSet(self, sideLength, backLength, move=None):
         self.ctx.save()
@@ -139,28 +139,18 @@ class HobbyCase(Boxes):
     def rails(self, move="up"):
         for col_idx, unit_width in enumerate(self.unit_w):
             for n in range(self.railsets[col_idx]):
-                self.railSet(self.internal_depth, unit_width, move)
-
-    def vertical_holes_callback(self):
-        for col in range(1, self.cols):
-            posx = self.thickness + sum(self.unit_w[:col]) + (col-1) * 2 * self.thickness
-            self.doubleFingerHolesAt(posx, 0, self.total_h, angle=90)
-
-    def horizontal_holes_callback(self):
-        for col in range(self.cols):
-            for row in range(1, self.rows):
-                posx = sum(self.unit_w[:col]) + col * 2 * self.thickness
-                posy = 0.5 * self.thickness + row * (self.unit_h + self.thickness)
-                self.fingerHolesAt(posx, posy, self.unit_w[col], angle=0)
+                self.railSet(self.inside_depth, unit_width, move)
 
     def baseplate_callback(self):
-        self.horizontal_holes_callback()
-        self.vertical_holes_callback()
+        for col in range(self.cols):
+            posx = sum(self.unit_w[:col]) + col * 2 * self.thickness
+            self.cut_shelve_holes_in_single_column(self.unit_w[col], posx)
+        self.cut_double_wall_holes(self.inside_h)
 
     def base_plate(self, move="up"):
-        self.rectangularWall(self.total_w, self.total_h, "FFFF",
+        self.rectangularWall(self.inside_w, self.inside_h, "FFFF",
                              callback=[self.baseplate_callback],
-                             label="base plate\n(%ix%i)" % (self.total_w, self.total_h), move=move)
+                             label=f"base plate\n({self.inside_w}x{self.inside_h})", move=move)
 
     def render(self) -> None:
         if self.debug:

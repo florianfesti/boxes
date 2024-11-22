@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-16 21:47+0200\n"
+"POT-Creation-Date: 2024-12-28 10:38+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -840,10 +840,6 @@ msgid "Settings for Finger Joints"
 msgstr ""
 
 #. parameter name for FingerJoint
-msgid "angle"
-msgstr ""
-
-#. parameter name for FingerJoint
 msgid "style"
 msgstr ""
 
@@ -934,6 +930,10 @@ msgid "width of finger holes (multiples of thickness)"
 msgstr ""
 
 msgid "Settings for Stackable Edges"
+msgstr ""
+
+#. parameter name for Stackable
+msgid "angle"
 msgstr ""
 
 #. help for parameter angle
@@ -1346,6 +1346,170 @@ msgid "AgricolaInsert Settings"
 msgstr ""
 
 #. name of box generator
+#: boxes/generators/airpurifier.py
+msgid "AirPurifier"
+msgstr ""
+
+#. description of AirPurifier
+#: boxes/generators/airpurifier.py
+msgid "Housing for the Nukit Open Air Purifier"
+msgstr ""
+
+#. long description of AirPurifier in markdown
+#: boxes/generators/airpurifier.py
+msgid ""
+"See [Nukit Open Air Purifier](https://github.com/opennukit/Nukit-Open-Air-"
+"Purifier/)\n"
+msgstr ""
+
+msgid "AirPurifier Settings"
+msgstr ""
+
+#. help for parameter x
+#: boxes/generators/airpurifier.py
+msgid "inner width in mm"
+msgstr ""
+
+#. help for parameter y
+#: boxes/generators/airpurifier.py
+msgid "inner depth in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/airpurifier.py
+msgid "filter_height"
+msgstr ""
+
+#. help for parameter filter_height
+#: boxes/generators/airpurifier.py
+msgid "height of the filter along the flow direction (in mm)"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/airpurifier.py
+msgid "rim"
+msgstr ""
+
+#. help for parameter rim
+#: boxes/generators/airpurifier.py
+msgid "rim around the filter holding it in place (in mm)"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/airpurifier.py
+msgid "fan_diameter"
+msgstr ""
+
+#. help for parameter fan_diameter
+#: boxes/generators/airpurifier.py
+msgid "diameter of the fans (in mm)"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/airpurifier.py
+msgid "filters"
+msgstr ""
+
+#. help for parameter filters
+#: boxes/generators/airpurifier.py
+msgid "Filters on both sides or only one"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/airpurifier.py
+msgid "split_frames"
+msgstr ""
+
+#. help for parameter split_frames
+#: boxes/generators/airpurifier.py
+msgid "Split frame pieces into four thin rectangles to save material"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/airpurifier.py
+msgid "fans_left"
+msgstr ""
+
+#. help for parameter fans_left
+#: boxes/generators/airpurifier.py
+msgid "number of fans on the left side (-1 for maximal number)"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/airpurifier.py
+msgid "fans_right"
+msgstr ""
+
+#. help for parameter fans_right
+#: boxes/generators/airpurifier.py
+msgid "number of fans on the right side (-1 for maximal number)"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/airpurifier.py
+msgid "fans_top"
+msgstr ""
+
+#. help for parameter fans_top
+#: boxes/generators/airpurifier.py
+msgid "number of fans on the top side (-1 for maximal number)"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/airpurifier.py
+msgid "fans_bottom"
+msgstr ""
+
+#. help for parameter fans_bottom
+#: boxes/generators/airpurifier.py
+msgid "number of fans on the bottom side (-1 for maximal number)"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/airpurifier.py
+msgid "screw_holes"
+msgstr ""
+
+#. help for parameter screw_holes
+#: boxes/generators/airpurifier.py
+msgid "diameter of the holes for screwing in the fans (in mm)"
+msgstr ""
+
+msgid "Settings for Dove Tail Joints"
+msgstr ""
+
+#. help for parameter angle
+#: boxes/generators/airpurifier.py
+msgid "how much should fingers widen (-80 to 80)"
+msgstr ""
+
+#. help for parameter depth
+#: boxes/generators/airpurifier.py
+msgid ""
+"how far the dove tails stick out of/into the edge (multiples of thickness)"
+msgstr ""
+
+#. parameter name for DoveTail
+#: boxes/generators/airpurifier.py
+msgid "radius"
+msgstr ""
+
+#. help for parameter radius
+#: boxes/generators/airpurifier.py
+msgid "radius used on all four corners (multiples of thickness)"
+msgstr ""
+
+#. parameter name for DoveTail
+#: boxes/generators/airpurifier.py
+msgid "size"
+msgstr ""
+
+#. help for parameter size
+#: boxes/generators/airpurifier.py
+msgid "from one middle of a dove tail to another (multiples of thickness)"
+msgstr ""
+
+#. name of box generator
 #: boxes/generators/alledges.py
 msgid "AllEdges"
 msgstr ""
@@ -1356,11 +1520,6 @@ msgid "Showing all edge types"
 msgstr ""
 
 msgid "AllEdges Settings"
-msgstr ""
-
-#. help for parameter x
-#: boxes/generators/alledges.py
-msgid "inner width in mm"
 msgstr ""
 
 msgid "Settings for HandleEdge"
@@ -1400,11 +1559,6 @@ msgstr ""
 msgid ""
 "added to side panels if checked, to front and back otherwise (only used with "
 "top_edge parameter)"
-msgstr ""
-
-#. parameter name for HandleEdge
-#: boxes/generators/alledges.py
-msgid "radius"
 msgstr ""
 
 #. help for parameter radius
@@ -1476,11 +1630,6 @@ msgid "Jig for making angled cuts in a laser cutter"
 msgstr ""
 
 msgid "AngledCutJig Settings"
-msgstr ""
-
-#. help for parameter y
-#: boxes/generators/angledcutjig.py
-msgid "inner depth in mm"
 msgstr ""
 
 #. help for parameter angle
@@ -1616,7 +1765,7 @@ msgid ""
 "plate. The width of the \"brim\" can also be adjusted with the "
 "**edge_width**\n"
 " parameter in the **Finger Joints Settings**.\n"
-" \n"
+"\n"
 "See ClosedBox for variant without a base.\n"
 msgstr ""
 
@@ -1704,7 +1853,7 @@ msgstr ""
 
 #. help for parameter front
 #: boxes/generators/bintray.py
-msgid "fraction of bin height covert with slope"
+msgid "fraction of bin height covered with slope"
 msgstr ""
 
 #. name of box generator
@@ -1733,6 +1882,106 @@ msgstr ""
 #. help for parameter roof_overhang
 #: boxes/generators/birdhouse.py
 msgid "overhang as fraction of the roof length"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/bookholder.py
+msgid "BookHolder"
+msgstr ""
+
+#. description of BookHolder
+#: boxes/generators/bookholder.py
+msgid ""
+"Angled display stand for books, ring files, flyers, postcards, or business "
+"cards."
+msgstr ""
+
+#. long description of BookHolder in markdown
+#: boxes/generators/bookholder.py
+msgid ""
+"\n"
+"Smaller versions for postcards (with a small ledge) and for business cards:\n"
+"\n"
+"![BookHolder minis (front)](static/samples/BookHolder-minis.jpg)\n"
+"\n"
+"![BookHolder minis (side)](static/samples/BookHolder-minis-side.jpg)\n"
+"\n"
+"BookHolder with default parameters (A4 size, landscape, back_support):\n"
+"\n"
+"![BookHolder (back)](static/samples/BookHolder-back.jpg)\n"
+msgstr ""
+
+msgid "BookHolder Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/bookholder.py
+msgid "book_width"
+msgstr ""
+
+#. help for parameter book_width
+#: boxes/generators/bookholder.py
+msgid "total width of book stand"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/bookholder.py
+msgid "book_height"
+msgstr ""
+
+#. help for parameter book_height
+#: boxes/generators/bookholder.py
+msgid "height of the front plate"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/bookholder.py
+msgid "book_depth"
+msgstr ""
+
+#. help for parameter book_depth
+#: boxes/generators/bookholder.py
+msgid "larger sizes for books with more pages"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/bookholder.py
+msgid "ledge_height"
+msgstr ""
+
+#. help for parameter ledge_height
+#: boxes/generators/bookholder.py
+msgid "part in front to hold the book open (0 to turn off)"
+msgstr ""
+
+#. help for parameter angle
+#: boxes/generators/bookholder.py
+msgid "degrees between floor and front plate"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/bookholder.py
+msgid "bottom_support"
+msgstr ""
+
+#. help for parameter bottom_support
+#: boxes/generators/bookholder.py
+msgid "extra material on bottom to raise book up"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/bookholder.py
+msgid "back_support"
+msgstr ""
+
+#. help for parameter back_support
+#: boxes/generators/bookholder.py
+msgid "height of additional support in the back (0 to turn off)"
+msgstr ""
+
+#. help for parameter radius
+#: boxes/generators/bookholder.py
+msgid "radius at the sharp corners (negative for radius=thickness)"
 msgstr ""
 
 #. name of box generator
@@ -1869,6 +2118,105 @@ msgid "radius of the corners"
 msgstr ""
 
 #. name of box generator
+#: boxes/generators/brick_sorter.py
+msgid "BrickSorter"
+msgstr ""
+
+#. description of BrickSorter
+#: boxes/generators/brick_sorter.py
+msgid "Stackable nestable sorting sieve for bricks"
+msgstr ""
+
+#. long description of BrickSorter in markdown
+#: boxes/generators/brick_sorter.py
+msgid ""
+"## Stackable nestable sorting sieve for bricks\n"
+"A stackable sorting sieve for bricks, nestable for storage.\n"
+"You will need to export all 5 levels, to get a full sieve.\n"
+"If you feel you do not need the upper levels, just do not export them.\n"
+"x,y,h are the dimensions for the largest sieve,\n"
+"they will be the outer dimensions of the box,\n"
+"the smaller sieves will be nested inside, therefore smaller.\n"
+"Of course 256mm or 384mm (base plate size) are recommended values for x and "
+"y,\n"
+"but you can use any value you like.\n"
+"\n"
+"Full set of all 5 levels:\n"
+"![Full Set](static/samples/BrickSorter-2.jpg)\n"
+"\n"
+"![Full Set](static/samples/BrickSorter-3.jpg)\n"
+"\n"
+"Stacked for Usage:\n"
+"![Stacked](static/samples/BrickSorter-4.jpg)\n"
+"\n"
+"Nested for Storage:\n"
+"![Full Set](static/samples/BrickSorter-5.jpg)\n"
+"\n"
+"In Use:\n"
+"![Full Set](static/samples/BrickSorter-6.jpg)\n"
+msgstr ""
+
+msgid "BrickSorter Settings"
+msgstr ""
+
+#. help for parameter x
+#: boxes/generators/brick_sorter.py
+msgid "outer width of the most outer layer"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/brick_sorter.py
+msgid "level"
+msgstr ""
+
+#. help for parameter level
+#: boxes/generators/brick_sorter.py
+msgid "Level of the nestable sieve"
+msgstr ""
+
+#. possible choice for level
+#: boxes/generators/brick_sorter.py
+msgid "large_sieve"
+msgstr ""
+
+#. possible choice for level
+#: boxes/generators/brick_sorter.py
+msgid "medium_sieve"
+msgstr ""
+
+#. possible choice for level
+#: boxes/generators/brick_sorter.py
+msgid "small_sieve"
+msgstr ""
+
+#. possible choice for level
+#: boxes/generators/brick_sorter.py
+msgid "tiny_sieve"
+msgstr ""
+
+#. possible choice for level
+#: boxes/generators/brick_sorter.py
+msgid "bottom"
+msgstr ""
+
+#. help for parameter radius
+#: boxes/generators/brick_sorter.py
+msgid ""
+"Radius of the corners of the sieve pattern in mm. Enter 30 for circular "
+"holes."
+msgstr ""
+
+#. parameter name
+#: boxes/generators/brick_sorter.py
+msgid "wiggle"
+msgstr ""
+
+#. help for parameter wiggle
+#: boxes/generators/brick_sorter.py
+msgid "Wiggle room, that the layers can slide in each other."
+msgstr ""
+
+#. name of box generator
 #: boxes/generators/burntest.py
 msgid "BurnTest"
 msgstr ""
@@ -1917,6 +2265,26 @@ msgstr ""
 #. help for parameter pairs
 #: boxes/generators/burntest.py
 msgid "number of pairs (each testing four burn values)"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/burntest.py
+msgid "date"
+msgstr ""
+
+#. help for parameter date
+#: boxes/generators/burntest.py
+msgid "add current date etching to each piece"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/burntest.py
+msgid "id"
+msgstr ""
+
+#. help for parameter id
+#: boxes/generators/burntest.py
+msgid "add identifier etching to each piece"
 msgstr ""
 
 #. name of box generator
@@ -2122,6 +2490,68 @@ msgid "hole to border spacing (in mm)"
 msgstr ""
 
 #. name of box generator
+#: boxes/generators/carbonfilter.py
+msgid "CarbonFilter"
+msgstr ""
+
+#. description of CarbonFilter
+#: boxes/generators/carbonfilter.py
+msgid "Compact filter for activated char coal pellets"
+msgstr ""
+
+#. long description of CarbonFilter in markdown
+#: boxes/generators/carbonfilter.py
+msgid ""
+"The filter does not include the top rim. You need some rectangular wooden "
+"strip about 2-3cm in size to glue around. The x and y are without this rim "
+"and should be about 5 cm smaller that the nominal size.\n"
+"\n"
+"The following sizes are currently hard coded:\n"
+"\n"
+"* Height of rails on top: 50mm\n"
+"* Borders on top: 40mm\n"
+"* Char coal width (horizontal): 40mm\n"
+"* Bottom width: 40 + 20 + 40 mm\n"
+"\n"
+"For assembly it is important that all bottom plates are the same way up. "
+"This allows the ribs of adjacent pockets to pass beside each other.\n"
+"\n"
+"There are three type of ribs:\n"
+"\n"
+"* Those with staight tops go in the middle of the bottom plates\n"
+"* Those pointier angle go at the outer sides and meet with the side bars\n"
+"* The less pointy go at all other sides of the bottom plates that will end "
+"up on the inside\n"
+"\n"
+"The last two types of ribs do not have finger joints on the outside but "
+"still need to be glued to the top beam of the adjacent pocket or the left or "
+"right side bar.\n"
+msgstr ""
+
+msgid "CarbonFilter Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/carbonfilter.py
+msgid "pockets"
+msgstr ""
+
+#. help for parameter pockets
+#: boxes/generators/carbonfilter.py
+msgid "number of V shaped filter pockets"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/carbonfilter.py
+msgid "ribs"
+msgstr ""
+
+#. help for parameter ribs
+#: boxes/generators/carbonfilter.py
+msgid "number of ribs to hold the bottom and the mesh"
+msgstr ""
+
+#. name of box generator
 #: boxes/generators/cardbox.py
 msgid "CardBox"
 msgstr ""
@@ -2137,7 +2567,7 @@ msgid ""
 "\n"
 "### Description\n"
 "Versatile Box for Storage of playing cards. Multiple different styles of "
-"storage are supportet, e.g. a flat storage or a trading card deck box style "
+"storage are supported, e.g. a flat storage or a trading card deck box style "
 "storage. See images for ideas.\n"
 "\n"
 "#### Building instructions\n"
@@ -2425,6 +2855,80 @@ msgid "True if a backplate should be generated."
 msgstr ""
 
 #. name of box generator
+#: boxes/generators/coinbanksafe.py
+msgid "CoinBankSafe"
+msgstr ""
+
+#. description of CoinBankSafe
+#: boxes/generators/coinbanksafe.py
+msgid "A piggy-bank designed to look like a safe."
+msgstr ""
+
+#. long description of CoinBankSafe in markdown
+#: boxes/generators/coinbanksafe.py
+msgid ""
+"\n"
+"Make sure not to discard the circle cutouts from the lid, base, and door. "
+"They are all needed.\n"
+"\n"
+"![Closed](static/samples/CoinBankSafe-closed.jpg)\n"
+"\n"
+"![Open](static/samples/CoinBankSafe-open.jpg)\n"
+"\n"
+"Assemble the locking pins like this: wiggle-disc, number-disc, doorhole-"
+"disc, spacer-disc, D-disc.\n"
+"Glue the first three in place, but do not glue the last two.\n"
+"Leaving them unglued will allow you change the code, and to remove the pin "
+"from the door.\n"
+"\n"
+"![Pins](static/samples/CoinBankSafe-pins.jpg)\n"
+"\n"
+msgstr ""
+
+msgid "CoinBankSafe Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/coinbanksafe.py
+msgid "slotlength"
+msgstr ""
+
+#. help for parameter slotlength
+#: boxes/generators/coinbanksafe.py
+msgid "Length of the coin slot in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/coinbanksafe.py
+msgid "slotwidth"
+msgstr ""
+
+#. help for parameter slotwidth
+#: boxes/generators/coinbanksafe.py
+msgid "Width of the coin slot in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/coinbanksafe.py
+msgid "handlelength"
+msgstr ""
+
+#. help for parameter handlelength
+#: boxes/generators/coinbanksafe.py
+msgid "Length of handle in multiples of thickness"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/coinbanksafe.py
+msgid "handleclearance"
+msgstr ""
+
+#. help for parameter handleclearance
+#: boxes/generators/coinbanksafe.py
+msgid "Clearance of handle in multiples of thickness"
+msgstr ""
+
+#. name of box generator
 #: boxes/generators/coindisplay.py
 msgid "CoinDisplay"
 msgstr ""
@@ -2470,6 +2974,455 @@ msgstr ""
 #. help for parameter angle
 #: boxes/generators/coindisplay.py
 msgid "The angle that the coin will tilt as"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/typetray.py
+msgid "TypeTray"
+msgstr ""
+
+#. description of TypeTray
+#: boxes/generators/typetray.py
+msgid "Type tray - allows only continuous walls"
+msgstr ""
+
+msgid "TypeTray Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/typetray.py
+msgid "back_height"
+msgstr ""
+
+#. help for parameter back_height
+#: boxes/generators/typetray.py
+msgid "additional height of the back wall - e top edge only"
+msgstr ""
+
+#. help for parameter radius
+#: boxes/generators/typetray.py
+msgid "radius for strengthening side walls with back_height"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/typetray.py
+msgid "gripheight"
+msgstr ""
+
+#. help for parameter gripheight
+#: boxes/generators/typetray.py
+msgid "height of the grip hole in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/typetray.py
+msgid "gripwidth"
+msgstr ""
+
+#. help for parameter gripwidth
+#: boxes/generators/typetray.py
+msgid "width of th grip hole in mm (zero for no hole)"
+msgstr ""
+
+#. help for parameter handle
+#: boxes/generators/typetray.py
+msgid "add handle to the bottom (changes bottom edge in the front)"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/typetray.py
+msgid "fingerholes"
+msgstr ""
+
+#. help for parameter fingerholes
+#: boxes/generators/typetray.py
+msgid "Decide which outer walls should have finger hole, too"
+msgstr ""
+
+#. possible choice for fingerholes
+#: boxes/generators/typetray.py
+msgid "inside-only"
+msgstr ""
+
+#. possible choice for fingerholes
+#: boxes/generators/typetray.py
+msgid "back"
+msgstr ""
+
+#. possible choice for fingerholes
+#: boxes/generators/typetray.py
+msgid "front-and-back"
+msgstr ""
+
+msgid "Settings for Cabinet Hinges"
+msgstr ""
+
+#. parameter name for CabinetHinge
+#: boxes/generators/typetray.py
+msgid "bore"
+msgstr ""
+
+#. help for parameter bore
+#: boxes/generators/typetray.py
+msgid "diameter of the pin hole in mm"
+msgstr ""
+
+#. parameter name for CabinetHinge
+#: boxes/generators/typetray.py
+msgid "eyes_per_hinge"
+msgstr ""
+
+#. help for parameter eyes_per_hinge
+#: boxes/generators/typetray.py
+msgid "pieces per hinge"
+msgstr ""
+
+#. parameter name for CabinetHinge
+#: boxes/generators/typetray.py
+msgid "hinges"
+msgstr ""
+
+#. help for parameter hinges
+#: boxes/generators/typetray.py
+msgid "number of hinges per edge"
+msgstr ""
+
+#. help for parameter style
+#: boxes/generators/typetray.py
+msgid "style of hinge used"
+msgstr ""
+
+#. possible choice for style
+#: boxes/generators/typetray.py
+msgid "inside"
+msgstr ""
+
+#. parameter name for CabinetHinge
+#: boxes/generators/typetray.py
+msgid "eye"
+msgstr ""
+
+#. help for parameter eye
+#: boxes/generators/typetray.py
+msgid "radius of the eye (multiples of thickness)"
+msgstr ""
+
+#. help for parameter play
+#: boxes/generators/typetray.py
+msgid "space between eyes (multiples of thickness)"
+msgstr ""
+
+#. parameter name for CabinetHinge
+#: boxes/generators/typetray.py
+msgid "spacing"
+msgstr ""
+
+#. help for parameter spacing
+#: boxes/generators/typetray.py
+msgid "minimum space around the hinge (multiples of thickness)"
+msgstr ""
+
+msgid "Settings for RoundedTriangleEdge"
+msgstr ""
+
+#. help for parameter height
+#: boxes/generators/typetray.py
+msgid "height above the wall"
+msgstr ""
+
+#. parameter name for RoundedTriangleEdge
+#: boxes/generators/typetray.py
+msgid "r_hole"
+msgstr ""
+
+#. help for parameter r_hole
+#: boxes/generators/typetray.py
+msgid "radius of hole"
+msgstr ""
+
+#. help for parameter radius
+#: boxes/generators/typetray.py
+msgid "radius of top corner"
+msgstr ""
+
+#. help for parameter outset
+#: boxes/generators/typetray.py
+msgid ""
+"extend the triangle along the length of the edge (multiples of thickness)"
+msgstr ""
+
+msgid "Settings for Mounting Edge"
+msgstr ""
+
+#. parameter name for Mounting
+#: boxes/generators/typetray.py
+msgid "d_head"
+msgstr ""
+
+#. help for parameter d_head
+#: boxes/generators/typetray.py
+msgid "head diameter of mounting screw (in mm)"
+msgstr ""
+
+#. parameter name for Mounting
+#: boxes/generators/typetray.py
+msgid "d_shaft"
+msgstr ""
+
+#. help for parameter d_shaft
+#: boxes/generators/typetray.py
+msgid "shaft diameter of mounting screw (in mm)"
+msgstr ""
+
+#. help for parameter margin
+#: boxes/generators/typetray.py
+msgid ""
+"minimum space left and right without holes (fraction of the edge length)"
+msgstr ""
+
+#. parameter name for Mounting
+#: boxes/generators/typetray.py
+msgid "num"
+msgstr ""
+
+#. help for parameter num
+#: boxes/generators/typetray.py
+msgid "number of mounting holes (integer)"
+msgstr ""
+
+#. parameter name for Mounting
+#: boxes/generators/typetray.py
+msgid "side"
+msgstr ""
+
+#. help for parameter side
+#: boxes/generators/typetray.py
+msgid "side of box (not all valid configurations make sense...)"
+msgstr ""
+
+#. help for parameter style
+#: boxes/generators/typetray.py
+msgid "edge style"
+msgstr ""
+
+#. possible choice for style
+#: boxes/generators/typetray.py
+msgid "straight edge, within"
+msgstr ""
+
+#. possible choice for style
+#: boxes/generators/typetray.py
+msgid "straight edge, extended"
+msgstr ""
+
+#. possible choice for style
+#: boxes/generators/typetray.py
+msgid "mounting tab"
+msgstr ""
+
+msgid "Compartment Labels"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/typetray.py
+msgid "text_size"
+msgstr ""
+
+#. help for parameter text_size
+#: boxes/generators/typetray.py
+msgid "Textsize in mm for the traycontent"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/typetray.py
+msgid "text_alignment"
+msgstr ""
+
+#. help for parameter text_alignment
+#: boxes/generators/typetray.py
+msgid "Text Alignment"
+msgstr ""
+
+#. possible choice for text_alignment
+#: boxes/generators/typetray.py
+msgid "center"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/typetray.py
+msgid "text_distance_x"
+msgstr ""
+
+#. help for parameter text_distance_x
+#: boxes/generators/typetray.py
+msgid ""
+"Distance in X from edge of tray in mm. Has no effect when text is centered."
+msgstr ""
+
+#. parameter name
+#: boxes/generators/typetray.py
+msgid "text_distance_y"
+msgstr ""
+
+#. help for parameter text_distance_y
+#: boxes/generators/typetray.py
+msgid "Distance in Y from edge of tray in mm."
+msgstr ""
+
+#. parameter name
+#: boxes/generators/typetray.py
+msgid "text_at_front"
+msgstr ""
+
+#. help for parameter text_at_front
+#: boxes/generators/typetray.py
+msgid "Start compartement labels on the front"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/typetray.py
+msgid "label_file"
+msgstr ""
+
+#. help for parameter label_file
+#: boxes/generators/typetray.py
+msgid "file with compartment labels. One line per compartment"
+msgstr ""
+
+msgid "Settings for FingerHoleEdge"
+msgstr ""
+
+#. parameter name for FingerHoleEdge
+#: boxes/generators/typetray.py
+msgid "absolute_depth"
+msgstr ""
+
+#. help for parameter absolute_depth
+#: boxes/generators/typetray.py
+msgid "depth of the hole in mm (in addition to the relative)"
+msgstr ""
+
+#. parameter name for FingerHoleEdge
+#: boxes/generators/typetray.py
+msgid "absolute_width"
+msgstr ""
+
+#. help for parameter absolute_width
+#: boxes/generators/typetray.py
+msgid "width of the hole in mm (in addition to the relative)"
+msgstr ""
+
+#. help for parameter radius
+#: boxes/generators/typetray.py
+msgid "maximal radius (in mm)"
+msgstr ""
+
+#. parameter name for FingerHoleEdge
+#: boxes/generators/typetray.py
+msgid "relative_depth"
+msgstr ""
+
+#. help for parameter relative_depth
+#: boxes/generators/typetray.py
+msgid "depth of the hole as fraction of the wall"
+msgstr ""
+
+#. parameter name for FingerHoleEdge
+#: boxes/generators/typetray.py
+msgid "relative_width"
+msgstr ""
+
+#. help for parameter relative_width
+#: boxes/generators/typetray.py
+msgid "width of the hole as fraction of the wall width"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/compartmentbox.py
+msgid "CompartmentBox"
+msgstr ""
+
+#. description of CompartmentBox
+#: boxes/generators/compartmentbox.py
+msgid "Type tray variation with sliding lid"
+msgstr ""
+
+#. long description of CompartmentBox in markdown
+#: boxes/generators/compartmentbox.py
+msgid ""
+"Sliding lid rests on inner walls,\n"
+"so will not work if no inner walls are present.\n"
+"Suggested to place walls close to both sides for maximum stability.\n"
+"Margin helps to prevent the lid from getting stuck.\n"
+"Vertical margin increases the overall height.\n"
+"The lip holding the lid in place can be generated as two separate\n"
+"pieces or as a single piece that continues at the back.\n"
+"\n"
+"![Closed](static/samples/CompartmentBox-closed.jpg)\n"
+"![Half open](static/samples/CompartmentBox-lid.jpg)\n"
+msgstr ""
+
+msgid "CompartmentBox Settings"
+msgstr ""
+
+#. help for parameter handle
+#: boxes/generators/compartmentbox.py
+msgid "how to grab the lid to remove"
+msgstr ""
+
+#. possible choice for handle
+#: boxes/generators/compartmentbox.py
+msgid "hole"
+msgstr ""
+
+#. possible choice for handle
+#: boxes/generators/compartmentbox.py
+msgid "lip"
+msgstr ""
+
+#. help for parameter radius
+#: boxes/generators/compartmentbox.py
+msgid "radius of the grip hole in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/compartmentbox.py
+msgid "holes"
+msgstr ""
+
+#. help for parameter holes
+#: boxes/generators/compartmentbox.py
+msgid "width of hole(s) in percentage of maximum hole width"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/compartmentbox.py
+msgid "margin_t"
+msgstr ""
+
+#. help for parameter margin_t
+#: boxes/generators/compartmentbox.py
+msgid "vertical margin for sliding lid (multiples of thickness)"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/compartmentbox.py
+msgid "margin_s"
+msgstr ""
+
+#. help for parameter margin_s
+#: boxes/generators/compartmentbox.py
+msgid "margin to add at both sides of sliding lid (multiples of thickness)"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/compartmentbox.py
+msgid "split_lip"
+msgstr ""
+
+#. help for parameter split_lip
+#: boxes/generators/compartmentbox.py
+msgid "create two strips to reduce waste material"
 msgstr ""
 
 #. name of box generator
@@ -2607,7 +3560,7 @@ msgid ""
 "\n"
 "#### Caution\n"
 "There is a chance that the latches of the back wall or the back wall itself "
-"interfere with the front panel or it's mounting frame/lips. The generator "
+"interfere with the front panel or its mounting frame/lips. The generator "
 "does not check for this. So depending on the variant chosen you might need "
 "to make the box deeper (increase y parameter) or the panel angle steeper "
 "(increase angle parameter) until there is enough room.\n"
@@ -2683,65 +3636,19 @@ msgid "the panel is glued and not held by finger joints"
 msgstr ""
 
 #. name of box generator
-#: boxes/generators/crypticfont.py
-msgid "CrypticFont"
-msgstr ""
-
-#. description of CrypticFont
-#: boxes/generators/crypticfont.py
-msgid "DESCRIPTION"
-msgstr ""
-
-msgid "CrypticFont Settings"
-msgstr ""
-
-#. parameter name
-#: boxes/generators/crypticfont.py
-msgid "ctext"
-msgstr ""
-
-#. help for parameter ctext
-#: boxes/generators/crypticfont.py
-msgid "text to render"
-msgstr ""
-
-msgid "Settings for the Cryptic Font"
-msgstr ""
-
-#. parameter name for CrypticFont
-#: boxes/generators/crypticfont.py
-msgid "ratio"
-msgstr ""
-
-#. help for parameter ratio
-#: boxes/generators/crypticfont.py
-msgid "ratio of height to width"
-msgstr ""
-
-#. parameter name for CrypticFont
-#: boxes/generators/crypticfont.py
-msgid "spacing"
-msgstr ""
-
-#. help for parameter width
-#: boxes/generators/crypticfont.py
-msgid "width of the glphys in mm"
-msgstr ""
-
-#. name of box generator
 #: boxes/generators/desksign.py
 msgid "Desksign"
 msgstr ""
 
 #. description of Desksign
 #: boxes/generators/desksign.py
-msgid "Simple diagonal plate with stands to show name or mesage"
+msgid "Simple diagonal plate with stands to show name or message."
 msgstr ""
 
 #. long description of Desksign in markdown
 #: boxes/generators/desksign.py
 msgid ""
-"Text to be engraved can be genarated by inputing the label and fontsize "
+"Text to be engraved can be generated by inputting the label and fontsize "
 "fields.\n"
 "                  height represents the area that can be used for writing "
 "text, does not match the actual\n"
@@ -2889,6 +3796,64 @@ msgstr ""
 #. help for parameter pin_height
 #: boxes/generators/dicebox.py
 msgid "radius of the disc rotating in the hinge (multiples of thickness)"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/dicetower.py
+msgid "DiceTower"
+msgstr ""
+
+#. description of DiceTower
+#: boxes/generators/dicetower.py
+msgid "Tool for fairly rolling dice"
+msgstr ""
+
+#. long description of DiceTower in markdown
+#: boxes/generators/dicetower.py
+msgid ""
+"Feel free to add a shallow ABox as a container for catching the dice so they "
+"don't scatter across the table.\n"
+"\n"
+"You can also configure the DiceTower and change the number and angle of the "
+"ramps.\n"
+msgstr ""
+
+msgid "DiceTower Settings"
+msgstr ""
+
+#. help for parameter width
+#: boxes/generators/dicetower.py
+msgid "width of the tower (side where the dice fall out)"
+msgstr ""
+
+#. help for parameter depth
+#: boxes/generators/dicetower.py
+msgid "depth of the tower"
+msgstr ""
+
+#. help for parameter height
+#: boxes/generators/dicetower.py
+msgid "height of the tower"
+msgstr ""
+
+#. help for parameter bottom
+#: boxes/generators/dicetower.py
+msgid "include bottom piece"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/dicetower.py
+msgid "ramps"
+msgstr ""
+
+#. help for parameter ramps
+#: boxes/generators/dicetower.py
+msgid "number of ramps in the tower"
+msgstr ""
+
+#. help for parameter angle
+#: boxes/generators/dicetower.py
+msgid "angle of the ramps in the tower"
 msgstr ""
 
 #. name of box generator
@@ -3103,11 +4068,6 @@ msgstr ""
 msgid "DisplayShelf Settings"
 msgstr ""
 
-#. parameter name
-#: boxes/generators/displayshelf.py
-msgid "num"
-msgstr ""
-
 #. help for parameter num
 #: boxes/generators/displayshelf.py
 msgid "number of shelves"
@@ -3140,6 +4100,26 @@ msgstr ""
 
 #. parameter name
 #: boxes/generators/displayshelf.py
+msgid "include_front"
+msgstr ""
+
+#. help for parameter include_front
+#: boxes/generators/displayshelf.py
+msgid "Include panel on the front of the shelf (to be used backwards)"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/displayshelf.py
+msgid "include_bottom"
+msgstr ""
+
+#. help for parameter include_bottom
+#: boxes/generators/displayshelf.py
+msgid "Include horizontal panel on the bottom of the shelf"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/displayshelf.py
 msgid "slope_top"
 msgstr ""
 
@@ -3156,6 +4136,26 @@ msgstr ""
 #. help for parameter divider_wall_height
 #: boxes/generators/displayshelf.py
 msgid "height of divider walls"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/displayshelf.py
+msgid "bottom_distance"
+msgstr ""
+
+#. help for parameter bottom_distance
+#: boxes/generators/displayshelf.py
+msgid "height below the bottom shelf"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/displayshelf.py
+msgid "top_distance"
+msgstr ""
+
+#. help for parameter top_distance
+#: boxes/generators/displayshelf.py
+msgid "extra height above the top shelf"
 msgstr ""
 
 #. name of box generator
@@ -3217,11 +4217,6 @@ msgstr ""
 #. help for parameter right_wall
 #: boxes/generators/dividertray.py
 msgid "generate wall on the right side"
-msgstr ""
-
-#. parameter name
-#: boxes/generators/dividertray.py
-msgid "bottom"
 msgstr ""
 
 #. help for parameter bottom
@@ -3340,11 +4335,6 @@ msgstr ""
 msgid "DrillBox Settings"
 msgstr ""
 
-#. parameter name
-#: boxes/generators/drillbox.py
-msgid "holes"
-msgstr ""
-
 #. help for parameter holes
 #: boxes/generators/drillbox.py
 msgid "Number of holes for each size"
@@ -3370,104 +4360,6 @@ msgstr ""
 msgid "increment between holes"
 msgstr ""
 
-msgid "Settings for RoundedTriangleEdge"
-msgstr ""
-
-#. help for parameter height
-#: boxes/generators/drillbox.py
-msgid "height above the wall"
-msgstr ""
-
-#. parameter name for RoundedTriangleEdge
-#: boxes/generators/drillbox.py
-msgid "r_hole"
-msgstr ""
-
-#. help for parameter r_hole
-#: boxes/generators/drillbox.py
-msgid "radius of hole"
-msgstr ""
-
-#. help for parameter radius
-#: boxes/generators/drillbox.py
-msgid "radius of top corner"
-msgstr ""
-
-#. help for parameter outset
-#: boxes/generators/drillbox.py
-msgid ""
-"extend the triangle along the length of the edge (multiples of thickness)"
-msgstr ""
-
-msgid "Settings for Mounting Edge"
-msgstr ""
-
-#. parameter name for Mounting
-#: boxes/generators/drillbox.py
-msgid "d_head"
-msgstr ""
-
-#. help for parameter d_head
-#: boxes/generators/drillbox.py
-msgid "head diameter of mounting screw (in mm)"
-msgstr ""
-
-#. parameter name for Mounting
-#: boxes/generators/drillbox.py
-msgid "d_shaft"
-msgstr ""
-
-#. help for parameter d_shaft
-#: boxes/generators/drillbox.py
-msgid "shaft diameter of mounting screw (in mm)"
-msgstr ""
-
-#. help for parameter margin
-#: boxes/generators/drillbox.py
-msgid ""
-"minimum space left and right without holes (fraction of the edge length)"
-msgstr ""
-
-#. help for parameter num
-#: boxes/generators/drillbox.py
-msgid "number of mounting holes (integer)"
-msgstr ""
-
-#. parameter name for Mounting
-#: boxes/generators/drillbox.py
-msgid "side"
-msgstr ""
-
-#. help for parameter side
-#: boxes/generators/drillbox.py
-msgid "side of box (not all valid configurations make sense...)"
-msgstr ""
-
-#. possible choice for side
-#: boxes/generators/drillbox.py
-msgid "back"
-msgstr ""
-
-#. help for parameter style
-#: boxes/generators/drillbox.py
-msgid "edge style"
-msgstr ""
-
-#. possible choice for style
-#: boxes/generators/drillbox.py
-msgid "straight edge, within"
-msgstr ""
-
-#. possible choice for style
-#: boxes/generators/drillbox.py
-msgid "straight edge, extended"
-msgstr ""
-
-#. possible choice for style
-#: boxes/generators/drillbox.py
-msgid "mounting tab"
-msgstr ""
-
 #. name of box generator
 #: boxes/generators/drillstand.py
 msgid "DrillStand"
@@ -3481,7 +4373,7 @@ msgstr ""
 #. long description of DrillStand in markdown
 #: boxes/generators/drillstand.py
 msgid ""
-"Note: `sh` gives the hight of the rows front to back. It though should have "
+"Note: `sh` gives the height of the rows front to back. It though should have "
 "the same number of entries as `sy`. These heights are the one on the left "
 "side and increase throughout the row. To have each compartment a bit higher "
 "than the previous one the steps in `sh` should be a bit bigger than "
@@ -3689,6 +4581,268 @@ msgid "Hole"
 msgstr ""
 
 #. name of box generator
+#: boxes/generators/fatballdispenser.py
+msgid "FatBallDispenser"
+msgstr ""
+
+#. description of FatBallDispenser
+#: boxes/generators/fatballdispenser.py
+msgid "Birdhouse for fat balls."
+msgstr ""
+
+#. long description of FatBallDispenser in markdown
+#: boxes/generators/fatballdispenser.py
+msgid ""
+"\n"
+"### Description\n"
+"Fat balls are quite common to feed tits. Here you can build a dispenser that "
+"protects\n"
+"the fat balls from rain and snow. The design was tested using 4mm plywood "
+"for the\n"
+"main structural parts. For the spacer of the locking mechanism two layers of "
+"3mm\n"
+"plywood have been stacked. The poles were made from 8mm diameter beech rod "
+"and 19cm\n"
+"in length. Some basic consistency checks have been made for different "
+"numbers, but\n"
+"only the defaults have ever been built.\n"
+"\n"
+"The final dispenser consists of two parts which slide into each other. You "
+"can mount\n"
+"a hook to hang it into a tree. All edges that have angles different from 90 "
+"degrees (chamfers)\n"
+"have engraved guiding lines which indicate the angle. You have to sand the "
+"edge such\n"
+"that the pieces fit together.\n"
+"\n"
+"The top part (roof) consists of the the following elements for a N sided "
+"dispenser:\n"
+"\n"
+"  * The N sided roof bottom plate which supports the roof tiles. It has a "
+"central cut out\n"
+"    which is needed for assembly and on the bottom side an engraved line "
+"which indicates the\n"
+"    position of the mounting bracket.\n"
+"  * N triangles forming the roof. They also have a small arc at the tip "
+"(roof_hole_diameter)\n"
+"  which acts as a drilling guide if you want to mount a hook.\n"
+"  * The N sided roof support piece which has a central hole for the hook. It "
+"is been mounted\n"
+"  to the roof tiles through the hole in the roof bottom plate to support the "
+"roof\n"
+"  tiles and acts as a mounting plate for the hook.\n"
+"  * Spacer(s); in the reference builds 2 spacers using 3mm plywood have been "
+"used. The spacer\n"
+"  needs to be a bit thicker than the ceiling (see below). That's the "
+"smaller\n"
+"  \"U\" shaped part which is glued to the bottom side of the roof bottom "
+"plate.\n"
+"  * The bracket is also \"U\" shaped and a bit wider than the spacer. This "
+"is glued to the\n"
+"  bottom of the spacer and holds the cage (bottom part).\n"
+"\n"
+"The bottom part (cage) consists of the follwoing elements:\n"
+"\n"
+"  * The ceiling is N sided with the central refill hole and N smaller holes "
+"into which\n"
+"  the poles are fitted.\n"
+"  * The N sided floor part with finger joints for the balcony walls and "
+"holes for\n"
+"  the poles. A central hole to drain rain water can be added as well.\n"
+"  * N balcony walls surrounding the floor.\n"
+"  * N poles that join floor and ceiling (not part of the drawing)\n"
+"\n"
+"Other parts needed for assembly:\n"
+"\n"
+"  * Wooden rod (N times the length of the poles).\n"
+"  * A hook (e.g. M5x50mm)\n"
+"  * A washer to distribute the load of the hook to the support piece\n"
+"  * One or two nuts to secure the hook\n"
+"  * Optional, a pice of wire mesh\n"
+"\n"
+"Assembly:\n"
+"\n"
+"  * Sand all chamfers\n"
+"  * Glue balcony walls to the floor\n"
+"  * Glue pairs of roof tiles and use the roof bottom plate as a jig, Hot "
+"glue may be used to\n"
+"    tack the parts.\n"
+"  * Glue all roof tiles to form the roof\n"
+"  * Glue spacer(s) and the bracket into a stack\n"
+"  * Glue roof tiles to the roof bottom plate and attach the support piece\n"
+"  * Glue the stack to the roof bottom plate\n"
+"  * Cut the poles to length\n"
+"  * If you want to use multiple colors paint now, otherwise you also can "
+"paint later\n"
+"  * After painting you may need to get the paint out of the pole holes again "
+"using a drillbit\n"
+"  * Glue the poles into floor plate and ceiling\n"
+"  * Attach the hanger\n"
+"  * Attach the wire mesh\n"
+"    "
+msgstr ""
+
+msgid "FatBallDispenser Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/fatballdispenser.py
+msgid "sides"
+msgstr ""
+
+#. help for parameter sides
+#: boxes/generators/fatballdispenser.py
+msgid "The number of sides of the floor plan."
+msgstr ""
+
+#. parameter name
+#: boxes/generators/fatballdispenser.py
+msgid "pole_diameter"
+msgstr ""
+
+#. help for parameter pole_diameter
+#: boxes/generators/fatballdispenser.py
+msgid "The diameter of the poles."
+msgstr ""
+
+#. parameter name
+#: boxes/generators/fatballdispenser.py
+msgid "ball_diameter"
+msgstr ""
+
+#. help for parameter ball_diameter
+#: boxes/generators/fatballdispenser.py
+msgid ""
+"The diameter of the fat balls. Give some extra mm to make it a loose fit"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/fatballdispenser.py
+msgid "balcony_width"
+msgstr ""
+
+#. help for parameter balcony_width
+#: boxes/generators/fatballdispenser.py
+msgid "The width of the area outside of the poles."
+msgstr ""
+
+#. parameter name
+#: boxes/generators/fatballdispenser.py
+msgid "balcony_height"
+msgstr ""
+
+#. help for parameter balcony_height
+#: boxes/generators/fatballdispenser.py
+msgid "The height of the balcony in mm. Set to 0 if no walls are needed."
+msgstr ""
+
+#. parameter name
+#: boxes/generators/fatballdispenser.py
+msgid "drain_hole_diameter"
+msgstr ""
+
+#. help for parameter drain_hole_diameter
+#: boxes/generators/fatballdispenser.py
+msgid ""
+"The diameter of the hole of the floor (to drain rainwater)\n"
+"                    in mm. Set to 0 if you don't need it."
+msgstr ""
+
+#. parameter name
+#: boxes/generators/fatballdispenser.py
+msgid "pole_clearance"
+msgstr ""
+
+#. help for parameter pole_clearance
+#: boxes/generators/fatballdispenser.py
+msgid ""
+"The minimum distance between a pole and the central\n"
+"                    refill hole in the ceiling in mm."
+msgstr ""
+
+#. parameter name
+#: boxes/generators/fatballdispenser.py
+msgid "slide_clearance"
+msgstr ""
+
+#. help for parameter slide_clearance
+#: boxes/generators/fatballdispenser.py
+msgid ""
+"The gap between the parts that slide into each other\n"
+"                    in the locking mechanism in mm."
+msgstr ""
+
+#. parameter name
+#: boxes/generators/fatballdispenser.py
+msgid "spacer_width"
+msgstr ""
+
+#. help for parameter spacer_width
+#: boxes/generators/fatballdispenser.py
+msgid "The width of the spacer (part of the locking mechanism) in mm."
+msgstr ""
+
+#. parameter name
+#: boxes/generators/fatballdispenser.py
+msgid "pole_clearance_factor"
+msgstr ""
+
+#. help for parameter pole_clearance_factor
+#: boxes/generators/fatballdispenser.py
+msgid ""
+"The fraction of the pole clearance which is being used for\n"
+"                    the locking mechanism."
+msgstr ""
+
+#. help for parameter roof_overhang
+#: boxes/generators/fatballdispenser.py
+msgid "Defines how much wider than the bottom floor the roof is."
+msgstr ""
+
+#. parameter name
+#: boxes/generators/fatballdispenser.py
+msgid "roof_height"
+msgstr ""
+
+#. help for parameter roof_height
+#: boxes/generators/fatballdispenser.py
+msgid "The height of the roof in mm."
+msgstr ""
+
+#. parameter name
+#: boxes/generators/fatballdispenser.py
+msgid "roof_hole_diameter"
+msgstr ""
+
+#. help for parameter roof_hole_diameter
+#: boxes/generators/fatballdispenser.py
+msgid ""
+"The diameter of the hole of the roof in mm.\n"
+"                    Set to 0 if you don't want to attach a hanger."
+msgstr ""
+
+#. parameter name
+#: boxes/generators/fatballdispenser.py
+msgid "roof_maintenance_clearance"
+msgstr ""
+
+#. help for parameter roof_maintenance_clearance
+#: boxes/generators/fatballdispenser.py
+msgid ""
+"The distance from on bottom corner of the roof to the maintenance hole in mm."
+msgstr ""
+
+#. parameter name
+#: boxes/generators/fatballdispenser.py
+msgid "roof_support_fraction"
+msgstr ""
+
+#. help for parameter roof_support_fraction
+#: boxes/generators/fatballdispenser.py
+msgid "The radius of the roof support part as a fraction of the roof radius."
+msgstr ""
+
+#. name of box generator
 #: boxes/generators/filamentspool.py
 msgid "FilamentSpool"
 msgstr ""
@@ -3741,11 +4895,6 @@ msgstr ""
 msgid "diameter of the axle hole"
 msgstr ""
 
-#. parameter name
-#: boxes/generators/filamentspool.py
-msgid "sides"
-msgstr ""
-
 #. help for parameter sides
 #: boxes/generators/filamentspool.py
 msgid "number of pieces for the center part"
@@ -3762,6 +4911,39 @@ msgid "Piece for testing different settings for hole filling"
 msgstr ""
 
 msgid "FillTest Settings"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/flexbook.py
+msgid "FlexBook"
+msgstr ""
+
+#. description of FlexBook
+#: boxes/generators/flexbook.py
+msgid "Box with living hinge styled after a book."
+msgstr ""
+
+#. long description of FlexBook in markdown
+#: boxes/generators/flexbook.py
+msgid ""
+"\n"
+"If you have an enclosure, arrange the living hinge to be as close to your "
+"extractor fan as possible.\n"
+"\n"
+"![Open](static/samples/FlexBook-2.jpg)"
+msgstr ""
+
+msgid "FlexBook Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/flexbook.py
+msgid "recess_wall"
+msgstr ""
+
+#. help for parameter recess_wall
+#: boxes/generators/flexbook.py
+msgid "Whether to recess the inner wall for easier object removal"
 msgstr ""
 
 #. description of FlexBox
@@ -3951,7 +5133,7 @@ msgid ""
 "all\n"
 "    currently supported objects.\n"
 "\n"
-"#### \n"
+"####\n"
 "`rect x y w h [cr=0] [cx=True] [cy=True]`\n"
 "\n"
 "     x: x position\n"
@@ -3972,7 +5154,7 @@ msgid ""
 "    h: height\n"
 "\n"
 "`outline` has a special meaning: You can create multiple panel outlines with "
-"one command.  \n"
+"one command.\n"
 "This has the effect of making it easy to manage all the holes on all the "
 "sides of\n"
 "your boxes.\n"
@@ -4187,7 +5369,7 @@ msgstr ""
 #: boxes/generators/gridfinitybase.py
 msgid ""
 "This is a configurable gridfinity base.  This\n"
-"    design is based on \n"
+"    design is based on\n"
 "    <a href=\"https://www.youtube.com/watch?app=desktop&v=ra_9zU-mnl8\">Zach "
 "Freedman's Gridfinity system</a>"
 msgstr ""
@@ -4242,29 +5424,14 @@ msgstr ""
 msgid "The cutout for each grid opening.  Typical is 38."
 msgstr ""
 
-#. name of box generator
-#: boxes/generators/traylayout.py
-msgid "TrayLayout"
+#. parameter name
+#: boxes/generators/gridfinitybase.py
+msgid "cut_pads"
 msgstr ""
 
-#. description of TrayLayout
-#: boxes/generators/traylayout.py
-msgid "Generate a typetray from a layout file."
-msgstr ""
-
-#. long description of TrayLayout in markdown
-#: boxes/generators/traylayout.py
-msgid ""
-"This is a two step process. This is step 2.\n"
-"Edit the layout text graphics to adjust your tray.\n"
-"Put in the sizes for each column and row. You can replace the hyphens and\n"
-"vertical bars representing the walls with a space character to remove the "
-"walls.\n"
-"You can replace the space characters representing the floor by a \"X\" to "
-"remove the floor for this compartment.\n"
-msgstr ""
-
-msgid "TrayLayout Settings"
+#. help for parameter cut_pads
+#: boxes/generators/gridfinitybase.py
+msgid "cut pads to be used for gridinity boxes from the grid openings"
 msgstr ""
 
 #. name of box generator
@@ -4283,7 +5450,7 @@ msgid ""
 "\n"
 "This is a general purpose gridfinity tray generator.  You can create\n"
 "somewhat arbitrarily shaped trays, or just do nothing for simple grid\n"
-"shaped trays. \n"
+"shaped trays.\n"
 "\n"
 "The dimensions are automatically calculated to fit perfectly into a\n"
 "gridfinity grid (like the GridfinityBase, or any other Gridfinity\n"
@@ -4293,7 +5460,7 @@ msgid ""
 "You can replace the hyphens and vertical bars representing the walls\n"
 "with a space character to remove the walls.  You can replace the space\n"
 "characters representing the floor by a \"X\" to remove the floor for\n"
-"this compartment. \n"
+"this compartment.\n"
 msgstr ""
 
 msgid "GridfinityTrayLayout Settings"
@@ -4350,9 +5517,49 @@ msgstr ""
 msgid "Leave this much total margin on the outside, in mm"
 msgstr ""
 
-#. help for parameter layout
-#: boxes/generators/gridfinitytraylayout.py
-msgid "You can hand edit this before generating"
+#. name of box generator
+#: boxes/generators/gridfinitydrillbox.py
+msgid "GridfinityDrillBox"
+msgstr ""
+
+#. description of GridfinityDrillBox
+#: boxes/generators/gridfinitydrillbox.py
+msgid "A Gridfinity box for drills or similar tools"
+msgstr ""
+
+#. long description of GridfinityDrillBox in markdown
+#: boxes/generators/gridfinitydrillbox.py
+msgid ""
+"You need to add a hole pattern to all horizontal layers except the very "
+"bottom"
+msgstr ""
+
+msgid "GridfinityDrillBox Settings"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/traylayout.py
+msgid "TrayLayout"
+msgstr ""
+
+#. description of TrayLayout
+#: boxes/generators/traylayout.py
+msgid "Generate a typetray from a layout file."
+msgstr ""
+
+#. long description of TrayLayout in markdown
+#: boxes/generators/traylayout.py
+msgid ""
+"This is a two step process. This is step 2.\n"
+"Edit the layout text graphics to adjust your tray.\n"
+"Put in the sizes for each column and row. You can replace the hyphens and\n"
+"vertical bars representing the walls with a space character to remove the "
+"walls.\n"
+"You can replace the space characters representing the floor by a \"X\" to "
+"remove the floor for this compartment.\n"
+msgstr ""
+
+msgid "TrayLayout Settings"
 msgstr ""
 
 #. name of box generator
@@ -4449,11 +5656,6 @@ msgstr ""
 
 #. possible choice for top
 #: boxes/generators/heart.py
-msgid "hole"
-msgstr ""
-
-#. possible choice for top
-#: boxes/generators/heart.py
 msgid "lid"
 msgstr ""
 
@@ -4493,67 +5695,103 @@ msgstr ""
 msgid "split the lid in y direction (mm)"
 msgstr ""
 
-msgid "Settings for Cabinet Hinges"
+#. name of box generator
+#: boxes/generators/hobbycase.py
+msgid "HobbyCase"
 msgstr ""
 
-#. parameter name for CabinetHinge
-#: boxes/generators/hingebox.py
-msgid "bore"
+#. description of HobbyCase
+#: boxes/generators/hobbycase.py
+msgid ""
+"A case that can be used in any hobby involving small pieces in need of "
+"organizing."
 msgstr ""
 
-#. help for parameter bore
-#: boxes/generators/hingebox.py
-msgid "diameter of the pin hole in mm"
+#. long description of HobbyCase in markdown
+#: boxes/generators/hobbycase.py
+msgid ""
+"\n"
+"The hobby case is defined by units, \"cells\" of the case.\n"
+"You define depth, height and widths of the cells.\n"
+"By combining dimensions with number of columns and rows slots for shelves "
+"are generated.\n"
+"Slots can be populated by:\n"
+"\n"
+"* shelves (horizontal piece of plywood that covers full width and depth of "
+"the column. You can put anything on them, but they also provide some "
+"structural integrity. It is recommended to have a least one shelve every 2-4 "
+"slots (depending on the unit height)\n"
+"* rails (3 horizontal pieces that stick out of the side and back walls of "
+"the column. They can be used to allow taller things placed on shelves below, "
+"but also some sliding drawers can be put in them.\n"
 msgstr ""
 
-#. parameter name for CabinetHinge
-#: boxes/generators/hingebox.py
-msgid "eyes_per_hinge"
+msgid "HobbyCase Settings"
 msgstr ""
 
-#. help for parameter eyes_per_hinge
-#: boxes/generators/hingebox.py
-msgid "pieces per hinge"
+#. parameter name
+#: boxes/generators/hobbycase.py
+msgid "unit_d"
 msgstr ""
 
-#. parameter name for CabinetHinge
-#: boxes/generators/hingebox.py
-msgid "hinges"
+#. help for parameter unit_d
+#: boxes/generators/hobbycase.py
+msgid "Depth of single unit"
 msgstr ""
 
-#. help for parameter hinges
-#: boxes/generators/hingebox.py
-msgid "number of hinges per edge"
+#. parameter name
+#: boxes/generators/hobbycase.py
+msgid "unit_h"
 msgstr ""
 
-#. help for parameter style
-#: boxes/generators/hingebox.py
-msgid "style of hinge used"
+#. help for parameter unit_h
+#: boxes/generators/hobbycase.py
+msgid "Height of single unit"
 msgstr ""
 
-#. possible choice for style
-#: boxes/generators/hingebox.py
-msgid "inside"
+#. parameter name
+#: boxes/generators/hobbycase.py
+msgid "unit_w"
 msgstr ""
 
-#. parameter name for CabinetHinge
-#: boxes/generators/hingebox.py
-msgid "eye"
+#. help for parameter unit_w
+#: boxes/generators/hobbycase.py
+msgid "Widths of unit columns, eg. 215*3 or 150:215:150"
 msgstr ""
 
-#. help for parameter eye
-#: boxes/generators/hingebox.py
-msgid "radius of the eye (multiples of thickness)"
+#. help for parameter rows
+#: boxes/generators/hobbycase.py
+msgid "Number of rows in each of the columns"
 msgstr ""
 
-#. help for parameter play
-#: boxes/generators/hingebox.py
-msgid "space between eyes (multiples of thickness)"
+#. parameter name
+#: boxes/generators/hobbycase.py
+msgid "shelves_n"
 msgstr ""
 
-#. help for parameter spacing
-#: boxes/generators/hingebox.py
-msgid "minimum space around the hinge (multiples of thickness)"
+#. help for parameter shelves_n
+#: boxes/generators/hobbycase.py
+msgid "How many shelves should each column have eg. 2:3:2. Use integers only!"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/hobbycase.py
+msgid "add_rails"
+msgstr ""
+
+#. help for parameter add_rails
+#: boxes/generators/hobbycase.py
+msgid "Should rails be generated for slots unpopulated by shelves?"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/hobbycase.py
+msgid "add_cover"
+msgstr ""
+
+#. help for parameter add_cover
+#: boxes/generators/hobbycase.py
+msgid "Should cover for the case be generated?"
 msgstr ""
 
 #. name of box generator
@@ -4651,19 +5889,6 @@ msgid "IntegratedHingeBox Settings"
 msgstr ""
 
 #. name of box generator
-#: boxes/generators/j.py
-msgid "J"
-msgstr ""
-
-msgid "J Settings"
-msgstr ""
-
-#. parameter name
-#: boxes/generators/j.py
-msgid "XX"
-msgstr ""
-
-#. name of box generator
 #: boxes/generators/jointpanel.py
 msgid "JointPanel"
 msgstr ""
@@ -4715,33 +5940,110 @@ msgstr ""
 msgid "draw pieces apart so they can be cut to form a large sheet"
 msgstr ""
 
-msgid "Settings for Dove Tail Joints"
+#. name of box generator
+#: boxes/generators/keyholder.py
+msgid "KeyHolder"
 msgstr ""
 
-#. help for parameter angle
-#: boxes/generators/jointpanel.py
-msgid "how much should fingers widen (-80 to 80)"
+#. description of KeyHolder
+#: boxes/generators/keyholder.py
+msgid "Wall organizer with hooks for keys or similar small items"
 msgstr ""
 
-#. help for parameter depth
-#: boxes/generators/jointpanel.py
+#. long description of KeyHolder in markdown
+#: boxes/generators/keyholder.py
 msgid ""
-"how far the dove tails stick out of/into the edge (multiples of thickness)"
+"Example for a KeyHolder with a slightly larger backplate and 8 hooks. This "
+"uses 6mm plywood for extra stability.\n"
+"\n"
+"Closeup:\n"
+"\n"
+"![KeyHolder-2](static/samples/KeyHolder-2.jpg)\n"
+"\n"
+"Full picture:\n"
 msgstr ""
 
-#. help for parameter radius
-#: boxes/generators/jointpanel.py
-msgid "radius used on all four corners (multiples of thickness)"
+msgid "KeyHolder Settings"
 msgstr ""
 
-#. parameter name for DoveTail
-#: boxes/generators/jointpanel.py
-msgid "size"
+#. parameter name
+#: boxes/generators/keyholder.py
+msgid "num_hooks"
 msgstr ""
 
-#. help for parameter size
-#: boxes/generators/jointpanel.py
-msgid "from one middle of a dove tail to another (multiples of thickness)"
+#. help for parameter num_hooks
+#: boxes/generators/keyholder.py
+msgid "Number of hooks"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/keyholder.py
+msgid "hook_distance"
+msgstr ""
+
+#. help for parameter hook_distance
+#: boxes/generators/keyholder.py
+msgid "Distance between hooks"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/keyholder.py
+msgid "hook_thickness"
+msgstr ""
+
+#. help for parameter hook_thickness
+#: boxes/generators/keyholder.py
+msgid "Thickness of hook"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/keyholder.py
+msgid "hook_height"
+msgstr ""
+
+#. help for parameter hook_height
+#: boxes/generators/keyholder.py
+msgid "Height of back part of hook"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/keyholder.py
+msgid "padding_top"
+msgstr ""
+
+#. help for parameter padding_top
+#: boxes/generators/keyholder.py
+msgid "Padding above hooks"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/keyholder.py
+msgid "padding_left_right"
+msgstr ""
+
+#. help for parameter padding_left_right
+#: boxes/generators/keyholder.py
+msgid "Padding left/right from hooks"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/keyholder.py
+msgid "padding_bot"
+msgstr ""
+
+#. help for parameter padding_bot
+#: boxes/generators/keyholder.py
+msgid "Padding below hooks"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/keyholder.py
+msgid "mounting"
+msgstr ""
+
+#. help for parameter mounting
+#: boxes/generators/keyholder.py
+msgid "Add mounting holes"
 msgstr ""
 
 #. name of box generator
@@ -4944,19 +6246,6 @@ msgid "width of the shaft"
 msgstr ""
 
 #. name of box generator
-#: boxes/generators/laserlini.py
-msgid "Laserlini"
-msgstr ""
-
-#. description of Laserlini
-#: boxes/generators/laserlini.py
-msgid "Mini cross bow"
-msgstr ""
-
-msgid "Laserlini Settings"
-msgstr ""
-
-#. name of box generator
 #: boxes/generators/lbeam.py
 msgid "LBeam"
 msgstr ""
@@ -4967,14 +6256,6 @@ msgid "Simple L-Beam: two pieces joined with a right angle"
 msgstr ""
 
 msgid "LBeam Settings"
-msgstr ""
-
-#. name of box generator
-#: boxes/generators/lueftung.py
-msgid "Lueftung"
-msgstr ""
-
-msgid "Lueftung Settings"
 msgstr ""
 
 #. name of box generator
@@ -5032,7 +6313,221 @@ msgstr ""
 
 #. help for parameter flipswitch_diameter
 #: boxes/generators/makitapowersupply.py
-msgid "diameter of the flipswitch mounting hole"
+msgid ""
+"diameter of the flipswitch mounting hole (disabled of no secondary power)"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/makitapowersupply.py
+msgid "secondary_power"
+msgstr ""
+
+#. help for parameter secondary_power
+#: boxes/generators/makitapowersupply.py
+msgid "style of secondary power input"
+msgstr ""
+
+#. possible choice for secondary_power
+#: boxes/generators/makitapowersupply.py
+msgid "ibm-barrel"
+msgstr ""
+
+#. possible choice for secondary_power
+#: boxes/generators/makitapowersupply.py
+msgid "usb-c"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/matrix.py
+msgid "Matrix"
+msgstr ""
+
+#. description of Matrix
+#: boxes/generators/matrix.py
+msgid "WS2812b matrix enclosure"
+msgstr ""
+
+#. long description of Matrix in markdown
+#: boxes/generators/matrix.py
+msgid ""
+"## Simple WS2812b matrix enclosure\n"
+"    WS2812b matrix enclosure for cheap chinease prebuild led matrixes.\n"
+"    This design assumes that the distance between the leds is equal in both "
+"directions.\n"
+"\n"
+"    There are several parts to this design:\n"
+"    - The inner frame to hold the pcb in place\n"
+"    - The front frame to hold a sandwich of plexiglass, spacer and the pcb\n"
+"    - The plexiglass to protect and diffuse the leds.\n"
+"        You may add car tint foil to the plexiglass to achieve a black look\n"
+"    - The spacer to keep the plexiglass from touching the leds\n"
+"    - The back box with an optional mounting hole. Please add a hole for "
+"the\n"
+"        power supply to the side panels and the power and data cables\n"
+"        through the led mount frame with your favorite svg editor.\n"
+"    - The side panels with finger joints to hold everything together\n"
+"\n"
+"    Assembly:\n"
+"    1. Cut the parts\n"
+"    2. Assemble the frame (side panels and inner frame)\n"
+"    3. Insert the pcb, the spacers and the plexiglass\n"
+"    4. Close the front frame\n"
+"    5. Insert electronics in the back box\n"
+"        (for example a USB C port on the side panel, a esp32 with wled "
+"firmware)\n"
+"    6. Close the back box\n"
+"\n"
+"    The inner frame and spacer should keep everything in place without the "
+"need for glue.\n"
+"    If you are using multiple modules,\n"
+"    you can add the layout parameters, so that the inner frame adjusts "
+"accordingly.\n"
+"\n"
+"    Please Note: if you are creating a large matrix build of multiple "
+"individual modules,\n"
+"    you need to enter absolute values across all modules for all "
+"parameters.\n"
+"    Please cut the plane labeled \"Plexiglass\" out of plexiglass :)\n"
+"    You can use a different thickness for the plexiglass, but make sure to "
+"adjust the settings accordingly.\n"
+"    "
+msgstr ""
+
+msgid "Matrix Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/matrix.py
+msgid "led_width"
+msgstr ""
+
+#. help for parameter led_width
+#: boxes/generators/matrix.py
+msgid "Width of the LED matrix in pixels"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/matrix.py
+msgid "led_height"
+msgstr ""
+
+#. help for parameter led_height
+#: boxes/generators/matrix.py
+msgid "Height of the LED matrix in pixels"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/matrix.py
+msgid "pysical_led_y"
+msgstr ""
+
+#. help for parameter pysical_led_y
+#: boxes/generators/matrix.py
+msgid "Width of the LED matrix pcb in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/matrix.py
+msgid "pysical_led_x"
+msgstr ""
+
+#. help for parameter pysical_led_x
+#: boxes/generators/matrix.py
+msgid "Height of the LED matrix pcb in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/matrix.py
+msgid "matrix_back_frame_border"
+msgstr ""
+
+#. help for parameter matrix_back_frame_border
+#: boxes/generators/matrix.py
+msgid ""
+"Border of the back frame bo keep the pcb in blace but allow for air flow and "
+"cable management"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/matrix.py
+msgid "matrix_front_frame_border_offset"
+msgstr ""
+
+#. help for parameter matrix_front_frame_border_offset
+#: boxes/generators/matrix.py
+msgid "Offset of the front frame to allow for the plexiglass to be attached"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/matrix.py
+msgid "distance_between_leds"
+msgstr ""
+
+#. help for parameter distance_between_leds
+#: boxes/generators/matrix.py
+msgid ""
+"Distance of the color dividers. Make sure your machine is able to cut thin "
+"structures."
+msgstr ""
+
+#. help for parameter h
+#: boxes/generators/matrix.py
+msgid "Height of the matrix"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/matrix.py
+msgid "height_pcb"
+msgstr ""
+
+#. help for parameter height_pcb
+#: boxes/generators/matrix.py
+msgid "Height of the pcb including the highest non led components in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/matrix.py
+msgid "plexiglass_thicknes"
+msgstr ""
+
+#. help for parameter plexiglass_thicknes
+#: boxes/generators/matrix.py
+msgid "Thickness of the plexiglass in mm"
+msgstr ""
+
+#. help for parameter mounting_holes
+#: boxes/generators/matrix.py
+msgid "Add mounting holes for the enclosure"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/matrix.py
+msgid "mounting_hole_diameter"
+msgstr ""
+
+#. help for parameter mounting_hole_diameter
+#: boxes/generators/matrix.py
+msgid "Diameter of the mounting holes in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/matrix.py
+msgid "matrix_count_x"
+msgstr ""
+
+#. help for parameter matrix_count_x
+#: boxes/generators/matrix.py
+msgid "Number of modules in x direction"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/matrix.py
+msgid "matrix_count_y"
+msgstr ""
+
+#. help for parameter matrix_count_y
+#: boxes/generators/matrix.py
+msgid "Number of modules in y direction"
 msgstr ""
 
 #. name of box generator
@@ -5226,7 +6721,17 @@ msgstr ""
 
 #. help for parameter opening
 #: boxes/generators/notesholder.py
-msgid "percent of front that's open"
+msgid "percent of front (or back) that's open"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/notesholder.py
+msgid "back_openings"
+msgstr ""
+
+#. help for parameter back_openings
+#: boxes/generators/notesholder.py
+msgid "have openings on the back side, too"
 msgstr ""
 
 #. name of box generator
@@ -5801,6 +7306,197 @@ msgid ""
 msgstr ""
 
 #. name of box generator
+#: boxes/generators/photoframe.py
+msgid "PhotoFrame"
+msgstr ""
+
+#. description of PhotoFrame
+#: boxes/generators/photoframe.py
+msgid ""
+"\n"
+"    3-layer photo frame with a slot at the top to slide matboard/acrylic/"
+"glass over the photo after glue-up.\n"
+"    "
+msgstr ""
+
+#. long description of PhotoFrame in markdown
+#: boxes/generators/photoframe.py
+msgid ""
+"\n"
+"3-layer photo frame.\n"
+"\n"
+"Selected excellent features:\n"
+"\n"
+"* easy to change the photo after glue-up, without disassembling the frame\n"
+"* calculates the ideal matting size for your photo based on ancient Greek "
+"mathematics\n"
+"* can make the frame in one piece or split into 4 pieces to save material\n"
+"* can make a frame to fit the piece of glass/acrylic you already have\n"
+"* adds a hole for hanging the frame on the wall\n"
+"\n"
+"Features available in the mysterious future:\n"
+"\n"
+"* rounded corners\n"
+"* a stand on the back to display the frame on a table\n"
+"\n"
+"## How to frame things like a pro\n"
+"\n"
+"There are 1 or 2 things that you can't change when framing: the size of the "
+"artwork\n"
+"and the size of the glass. So we generate everything else to fit those "
+"measurements.\n"
+"\n"
+"Set `x` and `y` to the dimensions of the actual artwork.\n"
+"\n"
+"* If your photo has a border, measure inside it.\n"
+"* If your photo does not have a border, still measure the actual artwork. "
+"Don't reduce the dimensions to allow for mounting. We do that separately.\n"
+"\n"
+"A real pro measures the photo, calculates the matting, and cuts the glass to "
+"fit the matting.\n"
+"We will assume that you are not in fact a real pro, and can't be trusted "
+"with a glass cutter.\n"
+"So measure your glass and we'll calculate the matting to suit it. If you "
+"aren't using glass,\n"
+"we'll calculate the matting size based on \"golden ratio of areas\" like the "
+"pros do. Everyone\n"
+"will think your frame is perfect, but they won't know why.\n"
+"\n"
+"Matting is just cardboard. Its jobs are to keep the glass off the photo, "
+"provide a clean border around the artwork,\n"
+"and make the whole thing look fancy. You can attach the photo to the matting "
+"or to the back of the frame.\n"
+"Either way, the matting conceals all sorts of sins like bad cuts, glue "
+"marks, or mounting with blue painter's tape.\n"
+"Matting also lets you reuse the frame for different sized photos. Just "
+"generate a new mat with the same glass dimensions.\n"
+"\n"
+"The hole in the matting is smaller than the photo. This is so the photo "
+"doesn't fall out.\n"
+"Even if your photo has a border, the hole needs to be a bit smaller than the "
+"photo,\n"
+"or you will struggle to line up the photo without the edges showing.\n"
+"Recommended overlaps are given in the settings. Don't worry about \"losing\" "
+"too much of the photo.\n"
+"The matting will make the photo look bigger and more important. There's "
+"never anything\n"
+"interesting in the last 2mm of a photo anyway.\n"
+msgstr ""
+
+msgid "PhotoFrame Settings"
+msgstr ""
+
+#. help for parameter x
+#: boxes/generators/photoframe.py
+msgid "Width of the photo, not including any border"
+msgstr ""
+
+#. help for parameter y
+#: boxes/generators/photoframe.py
+msgid "Height of the photo, not including any border"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/photoframe.py
+msgid "golden_mat"
+msgstr ""
+
+#. help for parameter golden_mat
+#: boxes/generators/photoframe.py
+msgid "Use golden ratio to calculate matting width"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/photoframe.py
+msgid "matting_w"
+msgstr ""
+
+#. help for parameter matting_w
+#: boxes/generators/photoframe.py
+msgid "Width of the matting border around the sides of the photo"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/photoframe.py
+msgid "matting_h"
+msgstr ""
+
+#. help for parameter matting_h
+#: boxes/generators/photoframe.py
+msgid "Width of the matting border around top/bottom of the photo"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/photoframe.py
+msgid "matting_overlap"
+msgstr ""
+
+#. help for parameter matting_overlap
+#: boxes/generators/photoframe.py
+msgid "Matting overlap of the photo, e.g. 2mm if photo has border, 5mm if not"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/photoframe.py
+msgid "glass_w"
+msgstr ""
+
+#. help for parameter glass_w
+#: boxes/generators/photoframe.py
+msgid "Width of the pre-cut glass or acrylic"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/photoframe.py
+msgid "glass_h"
+msgstr ""
+
+#. help for parameter glass_h
+#: boxes/generators/photoframe.py
+msgid "Height of the pre-cut glass or acrylic"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/photoframe.py
+msgid "frame_w"
+msgstr ""
+
+#. help for parameter frame_w
+#: boxes/generators/photoframe.py
+msgid "Width of the frame border around the matting"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/photoframe.py
+msgid "guide_fudge"
+msgstr ""
+
+#. help for parameter guide_fudge
+#: boxes/generators/photoframe.py
+msgid "Clearance in the guide pocket to help slide the matting/glass in"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/photoframe.py
+msgid "frame_overlap"
+msgstr ""
+
+#. help for parameter frame_overlap
+#: boxes/generators/photoframe.py
+msgid "Frame overlap to hold the matting/glass in place"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/photoframe.py
+msgid "split_front"
+msgstr ""
+
+#. help for parameter split_front
+#: boxes/generators/photoframe.py
+msgid "Split front into thin rectangles to save material"
+msgstr ""
+
+#. name of box generator
 #: boxes/generators/piratechest.py
 msgid "PirateChest"
 msgstr ""
@@ -5813,10 +7509,10 @@ msgstr ""
 #. long description of PirateChest in markdown
 #: boxes/generators/piratechest.py
 msgid ""
-"Do not assemble sides before attaching the lid! \n"
-"    Hinge of the lid has to be placed first because it is impossible \n"
-"    to get it in position without removing the side wall. The lid can \n"
-"    be a bit tricky to assemble. Keep track of how the parts fit together. \n"
+"Do not assemble sides before attaching the lid!\n"
+"    Hinge of the lid has to be placed first because it is impossible\n"
+"    to get it in position without removing the side wall. The lid can\n"
+"    be a bit tricky to assemble. Keep track of how the parts fit together.\n"
 "    Part with label \"lid back\" is placed in the hinges"
 msgstr ""
 
@@ -5826,6 +7522,77 @@ msgstr ""
 #. help for parameter n
 #: boxes/generators/piratechest.py
 msgid "number of sides on the lid. n ≥ 3"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/pizzashovel.py
+msgid "PizzaShovel"
+msgstr ""
+
+#. description of PizzaShovel
+#: boxes/generators/pizzashovel.py
+msgid "Pizza shovel with conveyor belt action"
+msgstr ""
+
+#. long description of PizzaShovel in markdown
+#: boxes/generators/pizzashovel.py
+msgid ""
+"\n"
+"You need (permanent) baking paper to create the conveyor. With that you can "
+"pick up and put down the pizza by moving the handle attached to the belt.\n"
+"    "
+msgstr ""
+
+msgid "PizzaShovel Settings"
+msgstr ""
+
+#. help for parameter grip_length
+#: boxes/generators/pizzashovel.py
+msgid "Length of the grip. Zero for holes for a screw-in handle"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/pizzashovel.py
+msgid "grip_height"
+msgstr ""
+
+#. help for parameter grip_height
+#: boxes/generators/pizzashovel.py
+msgid "Height of the grip. Distance between the cross beams."
+msgstr ""
+
+#. parameter name
+#: boxes/generators/pizzashovel.py
+msgid "top_holes"
+msgstr ""
+
+#. help for parameter top_holes
+#: boxes/generators/pizzashovel.py
+msgid ""
+"Diameter of the screw holes in the bottom of the pusher - where the screws "
+"pass through"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/pizzashovel.py
+msgid "bottom_holes"
+msgstr ""
+
+#. help for parameter bottom_holes
+#: boxes/generators/pizzashovel.py
+msgid ""
+"Diameter of the screw holes in the bottom of the pusher - where the screws "
+"hold"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/pizzashovel.py
+msgid "grip_holes"
+msgstr ""
+
+#. help for parameter grip_holes
+#: boxes/generators/pizzashovel.py
+msgid "Diameter of the screw holes for zero griplength"
 msgstr ""
 
 #. name of box generator
@@ -6255,7 +8022,7 @@ msgstr ""
 
 #. description of RectangularWall
 #: boxes/generators/rectangularWall.py
-msgid "Simple wall"
+msgid "Simple wall with options for different edges"
 msgstr ""
 
 msgid "RectangularWall Settings"
@@ -6279,6 +8046,11 @@ msgstr ""
 #. possible choice for bottom_edge
 #: boxes/generators/rectangularWall.py
 msgid "j"
+msgstr ""
+
+#. possible choice for bottom_edge
+#: boxes/generators/rectangularWall.py
+msgid "J"
 msgstr ""
 
 #. possible choice for bottom_edge
@@ -6719,11 +8491,6 @@ msgstr ""
 msgid "diameter of the axle in mm including play"
 msgstr ""
 
-#. parameter name
-#: boxes/generators/rollholder.py
-msgid "screw_holes"
-msgstr ""
-
 #. help for parameter screw_holes
 #: boxes/generators/rollholder.py
 msgid "diameter of mounting holes in mm"
@@ -6849,6 +8616,34 @@ msgid "edge type for top and bottom edges"
 msgstr ""
 
 #. name of box generator
+#: boxes/generators/roundedregularbox.py
+msgid "RoundedRegularBox"
+msgstr ""
+
+#. description of RoundedRegularBox
+#: boxes/generators/roundedregularbox.py
+msgid "Regular polygone box with vertical edges rounded"
+msgstr ""
+
+msgid "RoundedRegularBox Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/roundedregularbox.py
+msgid "inner_size"
+msgstr ""
+
+#. help for parameter inner_size
+#: boxes/generators/roundedregularbox.py
+msgid "diameter of the inner circle in mm"
+msgstr ""
+
+#. help for parameter wallpieces
+#: boxes/generators/roundedregularbox.py
+msgid "number of pieces for outer wall (0 for one per side)"
+msgstr ""
+
+#. name of box generator
 #: boxes/generators/royalgame.py
 msgid "RoyalGame"
 msgstr ""
@@ -6889,11 +8684,9 @@ msgstr ""
 #: boxes/generators/sevensegment.py
 msgid ""
 "This pattern is indented to be used with a LED stripe that is wound through "
-"alls segments in an S pattern while the stripe being upright on its side. It "
-"can probably also be used for small pieces of LED stripes connected with "
-"short wires for large enough sizes.\n"
-"\n"
-"Both is currently untested.\n"
+"all segments in an S pattern while the stripe being upright on its side. It "
+"can also be used with small pieces of LED stripes connected with short wires "
+"for large enough sizes.\n"
 msgstr ""
 
 msgid "SevenSegmentPattern Settings"
@@ -6927,14 +8720,14 @@ msgstr ""
 #. long description of SevenSegmentClock in markdown
 #: boxes/generators/sevensegmentclock.py
 msgid ""
-"You need a LED stripe that is wound through alls segments in an S pattern "
-"and then continuing to the next digit while the stripe being upright on its "
-"side. Selecting *debug* gives a better idea how things fit together. \n"
+"You need a LED stripe that is wound through all segments in an S pattern and "
+"then continuing to the next digit while the stripe being upright on its "
+"side. Selecting *debug* gives a better idea how things fit together.\n"
 "\n"
-"Adding a defusor on top or at the bottom of the segment holes will probably "
+"Adding a diffuser on top or at the bottom of the segment holes will probably "
 "enhance the visuals. Just using paper may be enough.\n"
 "\n"
-"There is currently not a lot of space for elecrtonics and this generator is "
+"There is currently not a lot of space for electronics and this generator is "
 "still untested. Good luck!\n"
 msgstr ""
 
@@ -6952,11 +8745,80 @@ msgid "depth (with walls if outside is selected) in mm"
 msgstr ""
 
 #. name of box generator
-#: boxes/generators/sharpeningjig.py
-msgid "SharpeningJig"
+#: boxes/generators/shadowbox.py
+msgid "Shadowbox"
 msgstr ""
 
-msgid "SharpeningJig Settings"
+#. description of Shadowbox
+#: boxes/generators/shadowbox.py
+msgid "The frame and spacers necessary to display a shadowbox / lightbox."
+msgstr ""
+
+#. long description of Shadowbox in markdown
+#: boxes/generators/shadowbox.py
+msgid ""
+"\n"
+"The frame needed to build a shadowbox from paper cutouts.\n"
+"The cutout used in the photographs can be downloaded [here](https://3axis.co/"
+"laser-cut-my-neighbor-totoro-3d-lightbox-lamp-cdr-file/eoxldrxo/).\n"
+"\n"
+"See the diagram below for dimensions.\n"
+"\n"
+"![diagram](static/samples/Shadowbox-diagram.jpg)\n"
+"\n"
+"![backlit](static/samples/Shadowbox-backlit.jpg)\n"
+msgstr ""
+
+msgid "Shadowbox Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/shadowbox.py
+msgid "layers"
+msgstr ""
+
+#. help for parameter layers
+#: boxes/generators/shadowbox.py
+msgid "the number of paper layers; don't forget the back (blank) layer!"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/shadowbox.py
+msgid "framewidth"
+msgstr ""
+
+#. help for parameter framewidth
+#: boxes/generators/shadowbox.py
+msgid "the width of the paper layer frames"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/shadowbox.py
+msgid "frameheight"
+msgstr ""
+
+#. help for parameter frameheight
+#: boxes/generators/shadowbox.py
+msgid "the height of the paper layer frames"
+msgstr ""
+
+#. help for parameter extraheight
+#: boxes/generators/shadowbox.py
+msgid ""
+"cumulative height of your paper layers, play between frames, the LED strip, "
+"battery/wiring, anything else you want to fit in the case"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/shadowbox.py
+msgid "casejoinery"
+msgstr ""
+
+#. help for parameter casejoinery
+#: boxes/generators/shadowbox.py
+msgid ""
+"whether or not to join sides to front plate (disable if doing manual joins "
+"on fancy wood)"
 msgstr ""
 
 #. name of box generator
@@ -6972,10 +8834,10 @@ msgstr ""
 #. long description of Shoe in markdown
 #: boxes/generators/shoe.py
 msgid ""
-"Shoe shaped box with flat sides and rounded top. \n"
-"    Works best if flex if under slight compression. \n"
-"    Make sure that the following conditions are met: \n"
-"    y > tophole + r + fronttop; \n"
+"Shoe shaped box with flat sides and rounded top.\n"
+"    Works best if flex if under slight compression.\n"
+"    Make sure that the following conditions are met:\n"
+"    y > tophole + r + fronttop;\n"
 "    height > frontheight."
 msgstr ""
 
@@ -7072,34 +8934,46 @@ msgstr ""
 
 #. description of SideDoorHousing
 #: boxes/generators/sidedoorhousing.py
-msgid "A box with service hatches at the sides"
+msgid ""
+"Box with service hatches on either one or both of the sides that are locked "
+"with latches"
 msgstr ""
 
 #. long description of SideDoorHousing in markdown
 #: boxes/generators/sidedoorhousing.py
 msgid ""
 "\n"
-"This box is designed as a housing for electronic projects. It has hatches "
-"that can be re-opened with simple tools. It intentionally cannot be opened "
-"with bare hands - if build with thin enough material. The hatches are at the "
-"x sides.\n"
+"This box is designed as a housing for electronic projects but could be used "
+"for other purposes. It has hatches that can be re-opened with simple tools. "
+"If built from thin enough material, it intentionally cannot be opened with "
+"bare hands.\n"
+"\n"
+"The hatches are on the x sides.\n"
 "\n"
 "#### Assembly instructions\n"
-"The main body is easy to assemble by starting with the floor and then adding "
-"the four walls and the top piece.\n"
+"The main body is easy to assemble:\n"
+"1. Starting with the floor and then add the four walls (for any removable "
+"sides, the wall will just be a small part on the base )\n"
+"2. Add the top piece\n"
 "\n"
-"For the removable walls you need to add the lips and latches. The U-shaped "
-"clamps holding the latches in place need to be clued in place without also "
-"gluing the latches themselves. Make sure the springs on the latches point "
-"inwards and the angled ends point to the side walls as shown here (showing a "
-"different box type):\n"
+"For the removable walls:\n"
+"1. Add the lips to the removable walls\n"
+"2. Sit the latches in place (it is importand to make sure the springs on the "
+"latches point inwards and the angled ends point to the side walls. See image "
+"below)\n"
+"3. Glue the U-shaped clamps in place (it is important **not** to glue the "
+"latches)\n"
 "\n"
-"![Wall details](static/samples/Console2-backwall-detail.jpg)\n"
+"![Wall details](static/samples/SideDoorHousing.jpg)\n"
+"\n"
 "\n"
 "#### Re-Opening\n"
 "\n"
 "The latches lock in place when closed. To open them they need to be pressed "
 "in and can then be moved aside.\n"
+"\n"
+"![Closed Box](static/samples/SideDoorHousing-2.jpg)\n"
+"\n"
 msgstr ""
 
 msgid "SideDoorHousing Settings"
@@ -7113,6 +8987,73 @@ msgstr ""
 #. help for parameter double_door
 #: boxes/generators/sidedoorhousing.py
 msgid "allow removing the backwall, too"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/sidehingebox.py
+msgid "SideHingeBox"
+msgstr ""
+
+#. description of SideHingeBox
+#: boxes/generators/sidehingebox.py
+msgid ""
+"Box, with an hinge that does not protrude from the back of the box, and a "
+"latch."
+msgstr ""
+
+#. long description of SideHingeBox in markdown
+#: boxes/generators/sidehingebox.py
+msgid ""
+"\n"
+"This box is another take on a hinge box.\n"
+"The hinges doesn't protrude from the box, but the sides needs double walls.\n"
+"When opened, 2 sides are opening, improving access inside the box.\n"
+"An optional latch is included, based on a mechanical switch and a 3D printed "
+"button.\n"
+"The latch is one-way: the box can be closed freely\n"
+"(this side of the button is angled, and totally smooth since it's the "
+"printing bed surface),\n"
+"but can't be inadvertently opened.\n"
+msgstr ""
+
+msgid "SideHingeBox Settings"
+msgstr ""
+
+#. help for parameter play
+#: boxes/generators/sidehingebox.py
+msgid "play between the two sides as multiple of the wall thickness"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/sidehingebox.py
+msgid "hinge_center"
+msgstr ""
+
+#. help for parameter hinge_center
+#: boxes/generators/sidehingebox.py
+msgid "distance between the hinge center and adjacent sides (0.0 for default)"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/sidehingebox.py
+msgid "hinge_radius"
+msgstr ""
+
+#. help for parameter hinge_radius
+#: boxes/generators/sidehingebox.py
+msgid "radius of the hinge inner circle"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/sidehingebox.py
+msgid "cherrymx_latches"
+msgstr ""
+
+#. help for parameter cherrymx_latches
+#: boxes/generators/sidehingebox.py
+msgid ""
+"add one or two latches, based on 3D printing and a cherry mx compatible "
+"mechanical keyboard switch"
 msgstr ""
 
 #. name of box generator
@@ -7163,26 +9104,26 @@ msgid "Width of the handle"
 msgstr ""
 
 #. name of box generator
-#: boxes/generators/simpleflexure.py
-msgid "SimpleFlexure"
+#: boxes/generators/skadis.py
+msgid "SkadisBoard"
 msgstr ""
 
-#. description of SimpleFlexure
-#: boxes/generators/simpleflexure.py
-msgid "Simple XY stage without separation of axis"
+#. description of SkadisBoard
+#: boxes/generators/skadis.py
+msgid "Customizable Ikea like pegboard"
 msgstr ""
 
-msgid "SimpleFlexure Settings"
+msgid "SkadisBoard Settings"
 msgstr ""
 
-#. parameter name
-#: boxes/generators/simpleflexure.py
-msgid "border"
+#. help for parameter columns
+#: boxes/generators/skadis.py
+msgid "Number of holes left to right counting both even and odd rows"
 msgstr ""
 
-#. help for parameter border
-#: boxes/generators/simpleflexure.py
-msgid "width of the outside ground frame"
+#. help for parameter rows
+#: boxes/generators/skadis.py
+msgid "Number of rows of holes top to bottom"
 msgstr ""
 
 #. name of box generator
@@ -7209,24 +9150,6 @@ msgstr ""
 #. help for parameter front_height
 #: boxes/generators/slantedtray.py
 msgid "height of the front as fraction of the total height"
-msgstr ""
-
-#. name of box generator
-#: boxes/generators/slidelock.py
-msgid "SlideLock"
-msgstr ""
-
-msgid "SlideLock Settings"
-msgstr ""
-
-#. parameter name
-#: boxes/generators/slidelock.py
-msgid "finger_width"
-msgstr ""
-
-#. help for parameter finger_width
-#: boxes/generators/slidelock.py
-msgid "width of the locking fingers in multiple of thickness"
 msgstr ""
 
 #. name of box generator
@@ -7319,26 +9242,6 @@ msgid ""
 msgstr ""
 
 msgid "SmallPartsTray2 Settings"
-msgstr ""
-
-#. parameter name
-#: boxes/generators/smallpartstray2.py
-msgid "back_height"
-msgstr ""
-
-#. help for parameter back_height
-#: boxes/generators/smallpartstray2.py
-msgid "additional height of the back wall - e top edge only"
-msgstr ""
-
-#. help for parameter radius
-#: boxes/generators/smallpartstray2.py
-msgid "radius for strengthening side walls with back_height"
-msgstr ""
-
-#. help for parameter handle
-#: boxes/generators/smallpartstray2.py
-msgid "add handle to the bottom (changes bottom edge in the front)"
 msgstr ""
 
 #. name of box generator
@@ -7486,6 +9389,24 @@ msgid "width of the surrounding wall in mm"
 msgstr ""
 
 #. name of box generator
+#: boxes/generators/stackablebin.py
+msgid "StackableBin"
+msgstr ""
+
+#. description of StackableBin
+#: boxes/generators/stackablebin.py
+msgid "Stackable bin base on bintray"
+msgstr ""
+
+msgid "StackableBin Settings"
+msgstr ""
+
+#. help for parameter d
+#: boxes/generators/stackablebin.py
+msgid "bin (d)epth"
+msgstr ""
+
+#. name of box generator
 #: boxes/generators/storagerack.py
 msgid "StorageRack"
 msgstr ""
@@ -7559,14 +9480,6 @@ msgid "use finger hole edge for retainer walls"
 msgstr ""
 
 #. name of box generator
-#: boxes/generators/testcorners.py
-msgid "TestCorners"
-msgstr ""
-
-msgid "TestCorners Settings"
-msgstr ""
-
-#. name of box generator
 #: boxes/generators/tetris.py
 msgid "Tetris"
 msgstr ""
@@ -7615,7 +9528,7 @@ msgid ""
 "The traffic light was created to visualize the status of a Icinga monitored "
 "system.\n"
 "\n"
-"When turned by 90°, it can be also used to create a bottle holder."
+"When turned by 90°, it can be also used to create a bottle holder.\n"
 msgstr ""
 
 msgid "TrafficLight Settings"
@@ -7726,9 +9639,7 @@ msgstr ""
 #. description of TwoPiece
 #: boxes/generators/two_piece.py
 msgid ""
-"A two piece box where top slips over the bottom half to form \n"
-"       the enclosure.\n"
-"    "
+"A two piece box where top slips over the bottom half to form the enclosure."
 msgstr ""
 
 #. long description of TwoPiece in markdown
@@ -7744,39 +9655,6 @@ msgid ""
 msgstr ""
 
 msgid "TwoPiece Settings"
-msgstr ""
-
-#. name of box generator
-#: boxes/generators/typetray.py
-msgid "TypeTray"
-msgstr ""
-
-#. description of TypeTray
-#: boxes/generators/typetray.py
-msgid "Type tray - allows only continuous walls"
-msgstr ""
-
-msgid "TypeTray Settings"
-msgstr ""
-
-#. parameter name
-#: boxes/generators/typetray.py
-msgid "gripheight"
-msgstr ""
-
-#. help for parameter gripheight
-#: boxes/generators/typetray.py
-msgid "height of the grip hole in mm"
-msgstr ""
-
-#. parameter name
-#: boxes/generators/typetray.py
-msgid "gripwidth"
-msgstr ""
-
-#. help for parameter gripwidth
-#: boxes/generators/typetray.py
-msgid "width of th grip hole in mm (zero for no hole)"
 msgstr ""
 
 #. name of box generator
@@ -7905,24 +9783,6 @@ msgid "finger holes"
 msgstr ""
 
 #. name of box generator
-#: boxes/generators/wavyknob.py
-msgid "WavyKnob"
-msgstr ""
-
-msgid "WavyKnob Settings"
-msgstr ""
-
-#. parameter name
-#: boxes/generators/wavyknob.py
-msgid "serrationangle"
-msgstr ""
-
-#. help for parameter serrationangle
-#: boxes/generators/wavyknob.py
-msgid "higher values for deeper serrations (degrees)"
-msgstr ""
-
-#. name of box generator
 #: boxes/generators/wallcaliperholder.py
 msgid "WallCaliper"
 msgstr ""
@@ -8016,19 +9876,9 @@ msgstr ""
 msgid "horizontal width of the hook"
 msgstr ""
 
-#. parameter name for SlatWall
-#: boxes/generators/wallcaliperholder.py
-msgid "hook_distance"
-msgstr ""
-
 #. help for parameter hook_distance
 #: boxes/generators/wallcaliperholder.py
 msgid "horizontal space to the hook"
-msgstr ""
-
-#. parameter name for SlatWall
-#: boxes/generators/wallcaliperholder.py
-msgid "hook_height"
 msgstr ""
 
 #. help for parameter hook_height
@@ -8079,7 +9929,9 @@ msgstr ""
 
 #. help for parameter bottom
 #: boxes/generators/wallcaliperholder.py
-msgid "\"stud\", \"hook\" or \"none\""
+msgid ""
+"\"stud\" to brace against the wall, \"hook\" for attaching to a second cleat "
+"or \"none\" for just straight"
 msgstr ""
 
 #. help for parameter depth
@@ -8230,6 +10082,95 @@ msgid "WallEdges Settings"
 msgstr ""
 
 #. name of box generator
+#: boxes/generators/wallhopper.py
+msgid "WallHopper"
+msgstr ""
+
+#. description of WallHopper
+#: boxes/generators/wallhopper.py
+msgid "Storage hopper with dispensing tray"
+msgstr ""
+
+#. long description of WallHopper in markdown
+#: boxes/generators/wallhopper.py
+msgid ""
+"\n"
+"####Assembly Notes:\n"
+"1. The generator produces three pieces with angled finger joints.\n"
+"Bottom panel, sloped front panel and label panel (if enabled).\n"
+"2. Joint lengths vary to accommodate the slope angles.\n"
+"3. Orient pieces as shown in the generated layout to assemble correctly.\n"
+msgstr ""
+
+msgid "WallHopper Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/wallhopper.py
+msgid "hopper_depth"
+msgstr ""
+
+#. help for parameter hopper_depth
+#: boxes/generators/wallhopper.py
+msgid "Depth of the hopper"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/wallhopper.py
+msgid "dispenser_depth"
+msgstr ""
+
+#. help for parameter dispenser_depth
+#: boxes/generators/wallhopper.py
+msgid "Depth of the dispenser"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/wallhopper.py
+msgid "dispenser_height"
+msgstr ""
+
+#. help for parameter dispenser_height
+#: boxes/generators/wallhopper.py
+msgid "Height of the dispenser"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/wallhopper.py
+msgid "slope_ratio"
+msgstr ""
+
+#. help for parameter slope_ratio
+#: boxes/generators/wallhopper.py
+msgid "Fraction of the bottom slope of the dispenser"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/wallhopper.py
+msgid "slope_angle"
+msgstr ""
+
+#. help for parameter slope_angle
+#: boxes/generators/wallhopper.py
+msgid "Angle of the bottom slope of the dispenser"
+msgstr ""
+
+#. help for parameter label
+#: boxes/generators/wallhopper.py
+msgid "include a label area on the front"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/wallhopper.py
+msgid "label_ratio"
+msgstr ""
+
+#. help for parameter label_ratio
+#: boxes/generators/wallhopper.py
+msgid "Fraction of the label of the dispenser"
+msgstr ""
+
+#. name of box generator
 #: boxes/generators/wallpinrow.py
 msgid "WallPinRow"
 msgstr ""
@@ -8337,34 +10278,6 @@ msgid "height of the front of plane"
 msgstr ""
 
 #. name of box generator
-#: boxes/generators/wallplate.py
-msgid "WallPlate"
-msgstr ""
-
-#. description of WallPlate
-#: boxes/generators/wallplate.py
-msgid "Simple plate with slat wall hooks"
-msgstr ""
-
-msgid "WallPlate Settings"
-msgstr ""
-
-#. help for parameter depth
-#: boxes/generators/wallplate.py
-msgid "depth of walls with the hooks"
-msgstr ""
-
-#. parameter name
-#: boxes/generators/wallplate.py
-msgid "outset_sides"
-msgstr ""
-
-#. help for parameter outset_sides
-#: boxes/generators/wallplate.py
-msgid "make a bit wider to allow stronger joint"
-msgstr ""
-
-#. name of box generator
 #: boxes/generators/wallpliersholder.py
 msgid "WallPliersHolder"
 msgstr ""
@@ -8380,6 +10293,64 @@ msgstr ""
 #. help for parameter angle
 #: boxes/generators/wallpliersholder.py
 msgid "bracing angle - less for more bracing"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/wallrack.py
+msgid "WallRack"
+msgstr ""
+
+#. description of WallRack
+#: boxes/generators/wallrack.py
+msgid "Wall mountable rack for spices or other items"
+msgstr ""
+
+msgid "WallRack Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/wallrack.py
+msgid "full_height_top"
+msgstr ""
+
+#. help for parameter full_height_top
+#: boxes/generators/wallrack.py
+msgid "Add full height of topmost rack to the back panel"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/wallrack.py
+msgid "wall_height"
+msgstr ""
+
+#. help for parameter wall_height
+#: boxes/generators/wallrack.py
+msgid "height of walls"
+msgstr ""
+
+#. help for parameter back_height
+#: boxes/generators/wallrack.py
+msgid "height of the back as fraction of the front height"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/wallrack.py
+msgid "side_edges"
+msgstr ""
+
+#. help for parameter side_edges
+#: boxes/generators/wallrack.py
+msgid "edge type holding the shelves together"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/wallrack.py
+msgid "flat_bottom"
+msgstr ""
+
+#. help for parameter flat_bottom
+#: boxes/generators/wallrack.py
+msgid "Make bottom Flat, so that the rack can also stand"
 msgstr ""
 
 #. name of box generator
@@ -8436,6 +10407,59 @@ msgstr ""
 #. help for parameter radius
 #: boxes/generators/wallslottedholder.py
 msgid "radius of the slots at the front"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/wallstackablebin.py
+msgid "WallStackableBin"
+msgstr ""
+
+#. description of WallStackableBin
+#: boxes/generators/wallstackablebin.py
+msgid "A wall-mounted bin that can stack or hang from a wall."
+msgstr ""
+
+#. long description of WallStackableBin in markdown
+#: boxes/generators/wallstackablebin.py
+msgid ""
+"\n"
+"####Features:\n"
+"- Configurable dimensions (width, height, depth)\n"
+"- Adjustable front slope angle for easy access\n"
+"- Optional label area on front face\n"
+"- Stackable design with interlocking geometry\n"
+"- Multiple wall mounting options\n"
+"\n"
+"####Stacking Compatibility:\n"
+"The stacking mechanism requires careful consideration of wall mounting "
+"types.\n"
+"Bins using \"plain\" wall mounts can stack on bins with other mount types.\n"
+"Note: Using the \"outside\" dimension option is generally not compatible "
+"with stacking.\n"
+"\n"
+"####Assembly Notes:\n"
+"1. The generator produces three pieces with angled finger joints.\n"
+"Bottom panel, sloped front panel and label panel (if enabled).\n"
+"2. Joint lengths vary to accommodate the slope angles\n"
+"3. Orient pieces as shown in the generated layout to assemble correctly.\n"
+msgstr ""
+
+msgid "WallStackableBin Settings"
+msgstr ""
+
+#. help for parameter angle
+#: boxes/generators/wallstackablebin.py
+msgid "angle of the bottom slope"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/wallstackablebin.py
+msgid "label_height"
+msgstr ""
+
+#. help for parameter label_height
+#: boxes/generators/wallstackablebin.py
+msgid "fraction of bin height covered with label (if label is enabled)"
 msgstr ""
 
 #. name of box generator
@@ -8564,6 +10588,24 @@ msgid "additional distance between wrenches (in mm)"
 msgstr ""
 
 #. name of box generator
+#: boxes/generators/wavyknob.py
+msgid "WavyKnob"
+msgstr ""
+
+msgid "WavyKnob Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/wavyknob.py
+msgid "serrationangle"
+msgstr ""
+
+#. help for parameter serrationangle
+#: boxes/generators/wavyknob.py
+msgid "higher values for deeper serrations (degrees)"
+msgstr ""
+
+#. name of box generator
 #: boxes/generators/winerack.py
 msgid "WineRack"
 msgstr ""
@@ -8602,67 +10644,56 @@ msgid "no_verticals"
 msgstr ""
 
 #. name of box generator
-#: boxes/generators/wirestraightener.py
-msgid "WireStraightener"
+#: boxes/generators/zbeam.py
+msgid "ZBeam"
 msgstr ""
 
-msgid "WireStraightener Settings"
+#. description of ZBeam
+#: boxes/generators/zbeam.py
+msgid "Z-Beam (or U-Beam): three pieces joined at right angles"
 msgstr ""
 
-#. parameter name
-#: boxes/generators/wirestraightener.py
-msgid "roller_diameter"
+#. long description of ZBeam in markdown
+#: boxes/generators/zbeam.py
+msgid ""
+"\n"
+"With the \"flanged_ubeam\" option, there is a fourth piece the length of "
+"\"y\".\n"
+"![U-Beam with flange](static/samples/ZBeam-flanged-ubeam.jpg)\n"
 msgstr ""
 
-#. help for parameter roller_diameter
-#: boxes/generators/wirestraightener.py
-msgid "outer diameter of the rollers in mm"
-msgstr ""
-
-#. help for parameter axle_diameter
-#: boxes/generators/wirestraightener.py
-msgid "diameter of the bolts holding the rollers in mm"
-msgstr ""
-
-#. parameter name
-#: boxes/generators/wirestraightener.py
-msgid "roller_width"
-msgstr ""
-
-#. help for parameter roller_width
-#: boxes/generators/wirestraightener.py
-msgid "width of the rollers including washers in mm"
+msgid "ZBeam Settings"
 msgstr ""
 
 #. parameter name
-#: boxes/generators/wirestraightener.py
-msgid "rollers"
+#: boxes/generators/zbeam.py
+msgid "flanged_ubeam"
 msgstr ""
 
-#. help for parameter rollers
-#: boxes/generators/wirestraightener.py
-msgid "number of rollers (top and bottom combined)"
+#. help for parameter flanged_ubeam
+#: boxes/generators/zbeam.py
+msgid "Add a fourth piece to make a U-Beam with a flange"
 msgstr ""
 
-#: scripts/boxesserver:286
+#: scripts/boxesserver:285
 msgid ""
 "There is no image yet. Please donate an image of your project on <a "
 "href=&quot;https://github.com/florianfesti/boxes/issues/628&quot; "
 "target=&quot;_blank&quot; rel=&quot;noopener&quot;>GitHub</a>!"
 msgstr ""
 
-#: scripts/boxesserver:455
+#: scripts/boxesserver:454
 msgid "Help"
 msgstr ""
 
-#: scripts/boxesserver:456
+#: scripts/boxesserver:455
 msgid "Home Page"
 msgstr ""
 
-#: scripts/boxesserver:457
+#: scripts/boxesserver:456
 msgid "Documentation"
 msgstr ""
 
-#: scripts/boxesserver:458
+#: scripts/boxesserver:457
 msgid "Sources"
 msgstr ""

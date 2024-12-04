@@ -41,6 +41,7 @@ class GridfinityBase(Boxes):
             help="edge type for bottom edge")
         self.argparser.add_argument("--pitch", type=int, default=42, help="The Gridfinity pitch, in mm.  Should always be 42.")
         self.argparser.add_argument("--opening", type=int, default=38, help="The cutout for each grid opening.  Typical is 38.")
+        self.argparser.add_argument("--cut_pads", type=boolarg, default=False, help="cut pads to be used for gridinity boxes from the grid openings")
 
     def generate_grid(self):
         pitch = self.pitch
@@ -51,6 +52,8 @@ class GridfinityBase(Boxes):
                 lx = col*pitch+pitch/2
                 ly = row*pitch+pitch/2
                 self.rectangularHole(lx, ly, opening, opening)
+                if self.cut_pads:
+                    self.rectangularHole(lx, ly, opening - 2, opening - 2, r=2)
 
     def create_base_plate(self):
         pitch = self.pitch

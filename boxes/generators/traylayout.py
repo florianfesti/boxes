@@ -104,7 +104,15 @@ You can replace the space characters representing the floor by a "X" to remove t
         self.buildArgParser("h", "hi", "outside", "sx", "sy")
         if self.UI == "web":
             self.argparser.add_argument(
-                "--layout", action="store", type=str, default="\n")
+                "--layout", action="store", type=str, default="\n",
+                help="""* Set **sx** and **sy** before editing this!
+* You can still change measurements afterwards
+* You can replace the hyphens and vertical bars representing the walls
+with a space character to remove the walls.
+* You can replace the space characters representing the floor by a "X"
+to remove the floor for this compartment.
+* Resize text area if necessary.""")
+            self.description = ""
         else:
             self.argparser.add_argument(
                 "--input", action="store", type=argparse.FileType('r'),

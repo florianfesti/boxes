@@ -28,8 +28,9 @@ dependencies = {file=["requirements.txt"]}
 optional-dependencies = {dev = { file = ["requirements_dev.txt"] }}
 
 [project.scripts]
-boxes = 'scripts.boxes:main'
-boxesserver = 'scripts.boxesserver:main'
+boxes = 'boxes.scripts.boxes_main:main'
+boxesserver = 'boxes.scripts.boxesserver:main'
+boxes_proxy = 'boxes.scripts.boxes_proxy:main'
 
 [project.urls]
 Homepage = "https://hackaday.io/project/10649-boxespy"

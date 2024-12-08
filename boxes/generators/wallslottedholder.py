@@ -26,9 +26,13 @@ class FrontEdge(edges.Edge):
         r1 = min(self.radius, ds/2, (wt-ws)/2)
         r2 = min(self.radius, ws/2)
         w = (wt-ws)/2 - r1
+        t = self.thickness
+        d = min(2*t, (wt-ws)/4.)
+        self.edge(d)
         for i in range(self.number):
             self.polyline(w, (90, r1), ds-r1-r2, (-90, r2), ws-2*r2,
                           (-90, r2), ds-r1-r2, (90, r1), w)
+        self.edge(d)
 
 class WallSlottedHolder(_WallMountedBox):
     """Wall tool holder with slots"""
@@ -89,11 +93,11 @@ class WallSlottedHolder(_WallMountedBox):
 
         d = min(2*t, (wt-ws)/4.)
         self.wallHolesAt(d, 0, self.h, 90)
-        self.wallHolesAt(n*wt-d, 0, self.h, 90)
+        self.wallHolesAt(n*wt+d, 0, self.h, 90)
 
         for i in range(1, n):
             if self.brace(i):
-                self.wallHolesAt(i*wt, 0, self.h, 90)
+                self.wallHolesAt(i*wt+d, 0, self.h, 90)
 
     def topCB(self):
         n = self.number
@@ -104,11 +108,11 @@ class WallSlottedHolder(_WallMountedBox):
 
         d = min(2*t, (wt-ws)/4.)
         self.fingerHolesAt(d, 0, l, 90)
-        self.fingerHolesAt(n*wt-d, 0, l, 90)
+        self.fingerHolesAt(n*wt+d, 0, l, 90)
 
         for i in range(1, n):
             if self.brace(i):
-                self.fingerHolesAt(i*wt, 0, l, 90)
+                self.fingerHolesAt(i*wt+d, 0, l, 90)
 
     def render(self):
         self.generateWallEdges()
@@ -119,7 +123,9 @@ class WallSlottedHolder(_WallMountedBox):
         wt = self.tool_width
         n = self.number
 
-        self.rectangularWall(n*wt, self.h, "eeee", callback=[self.backCB], move="up")
-        self.rectangularWall(n*wt, l1+l2, [FrontEdge(self, None), "e","e","e"], callback=[self.topCB], move="up")
+        d = min(2*t, (wt-ws)/4.)
+
+        self.rectangularWall(n*wt+2*d, self.h, "eeee", callback=[self.backCB], move="up")
+        self.rectangularWall(n*wt+2*d, l1+l2, [FrontEdge(self, None), "e","e","e"], callback=[self.topCB], move="up")
         self.moveTo(0, t)
         self.rectangularTriangle(l1+l2, self.h, "fbe", r=3*t, num=self.braces())

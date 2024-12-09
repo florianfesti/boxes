@@ -13,8 +13,6 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# mypy: ignore-errors
-
 from boxes import *
 from boxes.walledges import _WallMountedBox
 
@@ -22,15 +20,19 @@ class WallXXX(_WallMountedBox): # Change class name!
     """DESCRIPTION"""
 
     def __init__(self) -> None:
-        super().__init__(self)
-
-        self.addSettingsArgs(edges.FingerJointSettings)
+        super().__init__()
 
         # remove cli params you do not need
         self.buildArgParser(x=100, sx="3*50", y=100, sy="3*50", h=100, hi=0)
+
         # Add non default cli params if needed (see argparse std lib)
         self.argparser.add_argument(
             "--XX",  action="store", type=float, default=0.5,
+            help="DESCRIPTION")
+
+        # Add non default cli params if needed (see argparse std lib)
+        self.argparser.add_argument(
+            "--XXX",  action="store", type=boolarg, default=False,
             help="DESCRIPTION")
 
     def render(self):

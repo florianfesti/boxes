@@ -19,10 +19,10 @@ import sys
 pass
 from shlex import quote
 
-from inkex.extensions import GenerateExtension
 from lxml import etree
 
 import inkex
+from inkex.extensions import GenerateExtension
 
 
 class boxesPyWrapper(GenerateExtension):

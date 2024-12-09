@@ -16,18 +16,15 @@
 # mypy: ignore-errors
 
 from boxes import *
+from boxes.walledges import _WallMountedBox
 
-
-class SlatwallXXX(Boxes): # Change class name!
+class WallXXX(_WallMountedBox): # Change class name!
     """DESCRIPTION"""
 
-    ui_group = "SlatWall"
-
     def __init__(self) -> None:
-        Boxes.__init__(self)
+        super().__init__(self)
 
         self.addSettingsArgs(edges.FingerJointSettings)
-        self.addSettingsArgs(edges.SlatWallSettings)
 
         # remove cli params you do not need
         self.buildArgParser(x=100, sx="3*50", y=100, sy="3*50", h=100, hi=0)
@@ -37,10 +34,6 @@ class SlatwallXXX(Boxes): # Change class name!
             help="DESCRIPTION")
 
     def render(self):
-        # Add slat wall edges
-        s = edges.SlatWallSettings(self.thickness, True,
-                                   **self.edgesettings.get("SlatWall", {}))
-        s.edgeObjects(self)
-        self.slatWallHolesAt = edges.SlatWallHoles(self, s)
+        self.generateWallEdges() # creates the aAbBcCdD| edges
 
         # render your parts here

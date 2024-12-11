@@ -91,7 +91,7 @@ Bins using "plain" wall mounts can stack on bins with other mount types.
 Note: Using the "outside" dimension option is generally not compatible with stacking.
 
 ####Assembly Notes:
-1. The generator produces three pieces with angled finger joints. 
+1. The generator produces three pieces with angled finger joints.
 Bottom panel, sloped front panel and label panel (if enabled).
 2. Joint lengths vary to accommodate the slope angles
 3. Orient pieces as shown in the generated layout to assemble correctly.
@@ -161,7 +161,7 @@ Bottom panel, sloped front panel and label panel (if enabled).
             # Back panel with wall mount edges
             self.rectangularWall(self.x, self.h, "hCec", label="back", move="up")
 
-        # Spacer for wall mounting
+        # Non drawn spacer to move wall pieces to the right
         self.rectangularWall(self.x, 3, "DDDD", label="movement", move="right only")
 
         # Side panels with wall mount and stackable edges

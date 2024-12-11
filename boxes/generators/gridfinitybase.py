@@ -45,25 +45,19 @@ class GridfinityBase(Boxes):
 
     def generate_grid(self):
         pitch = self.pitch
-        nx, ny = self.x, self.y
         opening = self.opening
-        for col in range(nx):
-            for row in range(ny):
+        for col in range(self.x):
+            for row in range(self.y):
                 lx = col*pitch+pitch/2
                 ly = row*pitch+pitch/2
                 self.rectangularHole(lx, ly, opening, opening)
                 if self.cut_pads:
                     self.rectangularHole(lx, ly, opening - 2, opening - 2, r=2)
 
-    def create_base_plate(self):
+    def render(self):
         pitch = self.pitch
         nx, ny = self.x, self.y
         opening = self.opening
-        self.rectangularWall(nx*pitch, ny*pitch, move="up", callback=[self.generate_grid])
-
-    def create_tray(self):
-        pitch = self.pitch
-        nx, ny = self.x, self.y
         margin = self.m
         x, y, h = nx*pitch, ny*pitch, self.h
         t = self.thickness
@@ -72,6 +66,8 @@ class GridfinityBase(Boxes):
         t1, t2, t3, t4 = "eeee"
         b = self.edges.get(self.bottom_edge, self.edges["F"])
         sideedge = "F" # if self.vertical_edges == "finger joints" else "h"
+
+        self.rectangularWall(nx*pitch, ny*pitch, move="up", callback=[self.generate_grid])
 
         self.rectangularWall(x, h, [b, sideedge, t1, sideedge],
                              ignore_widths=[1, 6], move="right")
@@ -85,8 +81,4 @@ class GridfinityBase(Boxes):
         if self.bottom_edge != "e":
             self.rectangularWall(x, y, "ffff", move="up")
 
-    def render(self):
-        self.create_base_plate()
-        self.create_tray()
-        self.lid(self.x*self.pitch + 2*self.m,
-                 self.y*self.pitch + 2*self.m)
+        self.lid(x, y)

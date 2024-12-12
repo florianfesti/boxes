@@ -16,71 +16,6 @@
 from boxes import *
 from boxes.walledges import _WallMountedBox
 
-class WallHopperEdge(edges.BaseEdge):
-    # Character used to identify this edge type in wall specifications
-    char = "j"
-
-    def __call__(self, length, **kw):
-
-        # Get configuration from settings
-        dd = self.settings.dispenser_depth
-        dh = self.settings.dispenser_height
-        a = self.settings.slope_angle     # Base angle for slope
-        sr = self.settings.slope_ratio if self.slope_ratio < 1 else 0.999 # Fraction of height for front slope
-        lr = self.settings.label_ratio if self.label_ratio < 1 else 0.999 # Fraction of height for label
-        label = self.settings.label     # Whether to include label area
-        h = self.settings.h        # Total height of bin
-
-        # Check that sa generates a valid dispenser
-        minsa = 0 # 0 degrees is a flat front
-        maxsa = math.degrees(math.atan(dd/(dh*sr))) # equivalent to no flat section on the dispenser
-        if a < minsa:
-            a = minsa
-        elif a > maxsa:
-            a = maxsa
-
-        # Check that ratios are valid
-        if not self.label:
-            lr = 0
-        if sr + lr >= 0.95:
-            # Scale proportionally to sum to 0.95
-            total = sr + lr
-            sr = (sr / total) * 0.95  # Scale to 95%
-            lr = (lr / total) * 0.95  # Scale to 95%
-
-        # Calculate angle between label and return to dispenser
-        b = math.degrees(math.atan(dd/((1-(lr+sr))*dh)))
-
-        # Dispenser flat is dispenser depth minus the slope
-        df = dd - dh*sr*math.tan(math.radians(a))
-
-        # Calculate the length of the slope
-        sl = dh*sr/math.cos(math.radians(a))
-
-        # calculate the length of the top slope
-        tl = (dd**2 + ((1-(lr+sr))*dh)**2)**0.5
-
-        # Draw the edge profile sequence:
-        self.corner(-90)
-        self.edges["e"](-df)
-        self.corner(90)
-        self.edges["f"](h-dh)
-        self.corner(-b)
-        self.edges["e"](tl)
-        self.corner(b)
-        self.edges["f"](lr*dh)
-        self.corner(a)
-        self.edges["f"](sl)
-        self.corner(-a)
-
-
-    def margin(self) -> float:
-        # Calculate the margin required for this edge type
-        # Same calculation as width of slope projection
-        # Add material thickness if a label area is included
-        t = self.settings.thickness if self.settings.label else 0
-        return (self.settings.dispenser_height * self.settings.slope_ratio) * math.tan(math.radians(self.settings.slope_angle)) + t
-
 class WallHopper(_WallMountedBox):
     """Storage hopper with dispensing tray"""
 
@@ -97,13 +32,13 @@ Bottom panel, sloped front panel and label panel (if enabled).
         self.buildArgParser(x=80, h=150)
 
         self.argparser.add_argument(
-            "--hopper_depth",  action="store", type=float, default=60,
+            "--hopper_depth",  action="store", type=float, default=50,
             help="Depth of the hopper")
         self.argparser.add_argument(
-            "--dispenser_depth",  action="store", type=float, default=50,
+            "--dispenser_depth",  action="store", type=float, default=45,
             help="Depth of the dispenser")
         self.argparser.add_argument(
-            "--dispenser_height",  action="store", type=float, default=70,
+            "--dispenser_height",  action="store", type=float, default=50,
             help="Height of the dispenser")
         self.argparser.add_argument(
             "--slope_ratio",  action="store", type=float, default=0.4,
@@ -122,15 +57,13 @@ Bottom panel, sloped front panel and label panel (if enabled).
     def render(self):
         self.generateWallEdges() # creates the aAbBcCdD| edges
 
-        # Add custom edge for the front profile
-        self.addPart(WallHopperEdge(self, self))
-
         hd = self.hopper_depth
         dd = self.dispenser_depth
         dh = self.dispenser_height
         sr = self.slope_ratio if self.slope_ratio < 1 else 0.999
         a = self.slope_angle
         lr = self.label_ratio if self.label_ratio < 1 else 0.999
+        t = self.thickness
 
         x = self.x
         h = self.h
@@ -143,12 +76,13 @@ Bottom panel, sloped front panel and label panel (if enabled).
         elif a > maxsa:
             a = maxsa
 
+        # Get the width of the 'h' edge
         wh = self.edges["h"].startwidth()
 
         # Check that ratios are valid
         if not self.label:
             lr = 0
-        if sr + lr >= 0.95:
+        if sr + lr >= 1: # Check you haven't put in invalid values
             # Scale proportionally to sum to 0.95
             total = sr + lr
             sr = (sr / total) * 0.95  # Scale to 95%
@@ -201,21 +135,19 @@ Bottom panel, sloped front panel and label panel (if enabled).
         # Non drawn spacer to move wall pieces to the right
         self.rectangularWall(self.x, 3, "DDDD", label="movement", move="right only")
 
-        # This one doesn't work, as it's not applying compensation to the
-        # dimensions to account for the 'h' edge, also the finger joints
-        # for the top of the hopper are slightly off for some reason
-        self.polygonWall([
-            hd+df, (90-a, wh),
-            sl, (a, wh),
-            dh*lr, b,
-            tl, -b,
-            h-dh, 90,
-            hd+wh, 90,
-            h, 0,
-            wh, 90,
-            ],
-            "hhhehebe",correct_corners=False, label="left", move="up", )
 
-        # This one works, but it generates a thin line that I don't want
-        # and don't know how to get rid of
-        self.rectangularWall(hd+df,h, "hBej", label="right", move="up")
+        sideEdges = [
+            t, 0,                # nudge along by thickness
+            hd+df, (90-a, wh),   # hopper depth + dispenser flat, then rotate slope angle with a radius of an 'h' edge
+            sl, (a, wh),         # slope length, then rotate back to vertical with a radius of an 'h' edge
+            dh*lr, b,            # label height, then rotate to the angle between label and dispenser
+            tl, -b,              # top slope length, then rotate back to vertical
+            h-dh, 90,            # Additional hopper height, then rotate to horizontal
+            hd+wh+t, 90,         # Hopper depth + 'h' edge width + thickness, then rotate to vertical
+            h, 0,                # Wall edge to the bottom
+            wh, 90,              # Width of an 'h' edge to close the box
+            ]
+
+
+        self.polygonWall(sideEdges, "ehhhehebe",correct_corners=False, label="left", move="up")
+        self.polygonWall(sideEdges, "ehhhehebe",correct_corners=False, label="right", move="up mirror")

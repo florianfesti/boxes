@@ -143,6 +143,8 @@ Bottom panel, sloped front panel and label panel (if enabled).
         elif a > maxsa:
             a = maxsa
 
+        wh = self.edges["h"].startwidth()
+
         # Check that ratios are valid
         if not self.label:
             lr = 0
@@ -203,15 +205,17 @@ Bottom panel, sloped front panel and label panel (if enabled).
         # dimensions to account for the 'h' edge, also the finger joints
         # for the top of the hopper are slightly off for some reason
         self.polygonWall([
-            hd+df, 90-a,
+            hd+df, 90,
+            wh, -a,
             sl, a,
             dh*lr, b,
             tl, -b,
             h-dh, 90,
             hd, 90,
-            h,90
+            h, 0,
+            wh, 90,
             ],
-            "hffefeb",correct_corners=False, label="left", move="up", )
+            "heffefebe",correct_corners=False, label="left", move="up", )
 
         # This one works, but it generates a thin line that I don't want
         # and don't know how to get rid of

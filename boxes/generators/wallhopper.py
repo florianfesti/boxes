@@ -155,7 +155,7 @@ Bottom panel, sloped front panel and label panel (if enabled).
             lr = (lr / total) * 0.95  # Scale to 95%
 
         # Calculate angle between label and return to dispenser
-        b = math.degrees(math.atan((dd+wh)/((1-(lr+sr))*dh)))
+        b = math.degrees(math.atan(dd/((1-(lr+sr))*dh)))
 
         # Dispenser flat is dispenser depth minus the slope
         df = dd - dh*sr*math.tan(math.radians(a))
@@ -164,7 +164,7 @@ Bottom panel, sloped front panel and label panel (if enabled).
         sl = dh*sr/math.cos(math.radians(a))
 
         # calculate the length of the top slope
-        tl = ((dd+wh)**2 + ((1-(lr+sr))*dh)**2)**0.5
+        tl = (dd**2 + ((1-(lr+sr))*dh)**2)**0.5
 
         # Configure angled finger joints for the sloped sections
         # First set: For bottom-to-slope connection
@@ -196,7 +196,7 @@ Bottom panel, sloped front panel and label panel (if enabled).
             # Back panel with wall mount edges
             self.rectangularWall(x, h, "hCec", label="back", move="up")
             # Front panel of hopper
-            self.rectangularWall(x, h-dh, "eFeF", label="front", move="up")
+            self.rectangularWall(x, h-dh, "efef", label="front", move="up")
 
         # Non drawn spacer to move wall pieces to the right
         self.rectangularWall(self.x, 3, "DDDD", label="movement", move="right only")
@@ -210,11 +210,11 @@ Bottom panel, sloped front panel and label panel (if enabled).
             dh*lr, b,
             tl, -b,
             h-dh, 90,
-            hd, 90,
+            hd+wh, 90,
             h, 0,
             wh, 90,
             ],
-            "hhhefebe",correct_corners=False, label="left", move="up", )
+            "hhhehebe",correct_corners=False, label="left", move="up", )
 
         # This one works, but it generates a thin line that I don't want
         # and don't know how to get rid of

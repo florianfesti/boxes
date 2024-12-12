@@ -155,7 +155,7 @@ Bottom panel, sloped front panel and label panel (if enabled).
             lr = (lr / total) * 0.95  # Scale to 95%
 
         # Calculate angle between label and return to dispenser
-        b = math.degrees(math.atan(dd/((1-(lr+sr))*dh)))
+        b = math.degrees(math.atan((dd+wh)/((1-(lr+sr))*dh)))
 
         # Dispenser flat is dispenser depth minus the slope
         df = dd - dh*sr*math.tan(math.radians(a))
@@ -164,7 +164,7 @@ Bottom panel, sloped front panel and label panel (if enabled).
         sl = dh*sr/math.cos(math.radians(a))
 
         # calculate the length of the top slope
-        tl = (dd**2 + ((1-(lr+sr))*dh)**2)**0.5
+        tl = ((dd+wh)**2 + ((1-(lr+sr))*dh)**2)**0.5
 
         # Configure angled finger joints for the sloped sections
         # First set: For bottom-to-slope connection
@@ -185,14 +185,14 @@ Bottom panel, sloped front panel and label panel (if enabled).
             if self.label:
                 # Sloped front with label area
                 self.rectangularWall(x, sl,
-                                   "gFkF", label="slope", move="up")
+                                   "gfkf", label="slope", move="up")
                 # Label panel
                 self.rectangularWall(x, dh*lr,
-                                   "KFeF", label="label", move="up")
+                                   "Kfef", label="label", move="up")
             else:
                 # Sloped front without label
                 self.rectangularWall(x, sl,
-                                   "gFeF", label="slope", move="up")
+                                   "gfef", label="slope", move="up")
             # Back panel with wall mount edges
             self.rectangularWall(x, h, "hCec", label="back", move="up")
             # Front panel of hopper
@@ -205,9 +205,8 @@ Bottom panel, sloped front panel and label panel (if enabled).
         # dimensions to account for the 'h' edge, also the finger joints
         # for the top of the hopper are slightly off for some reason
         self.polygonWall([
-            hd+df, 90,
-            wh, -a,
-            sl, a,
+            hd+df, (90-a, wh),
+            sl, (a, wh),
             dh*lr, b,
             tl, -b,
             h-dh, 90,
@@ -215,7 +214,7 @@ Bottom panel, sloped front panel and label panel (if enabled).
             h, 0,
             wh, 90,
             ],
-            "heffefebe",correct_corners=False, label="left", move="up", )
+            "hhhefebe",correct_corners=False, label="left", move="up", )
 
         # This one works, but it generates a thin line that I don't want
         # and don't know how to get rid of

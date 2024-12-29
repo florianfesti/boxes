@@ -88,7 +88,7 @@ Assembly:
     # Angles in degrees use `a_` and angles in radians use `ar_` as prefix
     # Edges of polygons are prefixed with `l_`
 
-    ui_group = "Unstable"  # see ./__init__.py for names
+    ui_group = "Misc"
 
     def __init__(self) -> None:
         Boxes.__init__(self)

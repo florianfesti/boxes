@@ -447,14 +447,14 @@ class BServer:
     def genPagePartFooter(self, lang) -> str:
         _ = lang.gettext
 
-        return """
+        return f"""
 <div class="footer">
 <ul>
-  <li>""" + self.genHTMLLanguageSelection(lang) + """</li>
-  <li><a href="https://florianfesti.github.io/boxes/html/usermanual.html" target="_blank" rel="noopener">""" + _("Help") + """</a></li>
-  <li><a href="https://hackaday.io/project/10649-boxespy" target="_blank" rel="noopener">""" + _("Home Page") + """</a></li>
-  <li><a href="https://florianfesti.github.io/boxes/html/index.html" target="_blank" rel="noopener">""" + _("Documentation") + """</a></li>
-  <li><a href="https://github.com/florianfesti/boxes" target="_blank" rel="noopener">""" + _("Sources") + """</a></li>
+  <li>{self.genHTMLLanguageSelection(lang)}</li>
+  <li><a href="https://florianfesti.github.io/boxes/html/usermanual.html" target="_blank" rel="noopener">{_("Help")}</a></li>
+  <li><a href="https://hackaday.io/project/10649-boxespy" target="_blank" rel="noopener">{_("Home Page")}</a></li>
+  <li><a href="https://florianfesti.github.io/boxes/html/index.html" target="_blank" rel="noopener">{_("Documentation")}</a></li>
+  <li><a href="https://github.com/florianfesti/boxes" target="_blank" rel="noopener">{_("Sources")}</a></li>
 </ul>
 </div>
 """

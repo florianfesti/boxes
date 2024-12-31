@@ -39,7 +39,7 @@ class UnevenHeightBox(Boxes):
             "--height3", action="store", type=float, default=100,
             help="height of the left back corner in mm")
         self.argparser.add_argument(
-            "--lid", action="store", type=boolarg, default=False,
+            "--add_lid", action="store", type=boolarg, default=True,
             help="add a lid (works best with high corners opposing each other)")
         self.argparser.add_argument(
             "--lid_height", action="store", type=float, default=0,
@@ -62,7 +62,7 @@ class UnevenHeightBox(Boxes):
             y = self.adjustSize(y)
             for i in range(4):
                 heights[i] = self.adjustSize(heights[i], self.bottom_edge,
-                                             self.lid)
+                                             self.add_lid)
 
         t = self.thickness
         h0, h1, h2, h3 = heights
@@ -77,7 +77,7 @@ class UnevenHeightBox(Boxes):
             if b != "e":
                 self.rectangularWall(x, y, "ffff", move="up")
 
-            if self.lid:
+            if self.add_lid:
                 maxh = max(heights)
                 lidheights = [maxh-h+self.lid_height for h in heights]
                 h0, h1, h2, h3 = lidheights
@@ -85,7 +85,7 @@ class UnevenHeightBox(Boxes):
                 edges = ["E" if (lidheights[i] == 0.0 and lidheights[i+1] == 0.0) else "f" for i in range(4)]
                 self.rectangularWall(x, y, edges, move="up")
 
-        if self.lid:
+        if self.add_lid:
             self.moveTo(0, maxh+self.lid_height+self.edges["F"].spacing()+self.edges[b].spacing()+1*self.spacing, 180)
             edge_inverse = {"e": "e", "z": "Z", "Z": "z"}
             edge_types = [edge_inverse[et] for et in edge_types]

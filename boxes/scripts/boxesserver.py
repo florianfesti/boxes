@@ -118,7 +118,7 @@ boxes.ArgumentParser = ThrowingArgumentParser  # type: ignore
 class BServer:
     lang_re = re.compile(r"([a-z]{2,3}(-[-a-zA-Z0-9]*)?)\s*(;\s*q=(\d\.?\d*))?")
 
-    def __init__(self, url_prefix="", static_url="static") -> None:
+    def __init__(self, url_prefix="", static_url="static", legal_url="") -> None:
         self.boxes = {b.__name__: b for b in boxes.generators.getAllBoxGenerators().values() if b.webinterface}
         self.groups = boxes.generators.ui_groups
         self.groups_by_name = boxes.generators.ui_groups_by_name
@@ -133,6 +133,7 @@ class BServer:
         self._cache: dict[Any, Any] = {}
         self.url_prefix = url_prefix
         self.static_url = static_url
+        self.legal_url = legal_url
 
     def getLanguages(self, domain=None, localedir=None):
         if self._languages is not None:
@@ -457,6 +458,7 @@ class BServer:
   <li><a href="https://hackaday.io/project/10649-boxespy" target="_blank" rel="noopener">{_("Home Page")}</a></li>
   <li><a href="https://florianfesti.github.io/boxes/html/index.html" target="_blank" rel="noopener">{_("Documentation")}</a></li>
   <li><a href="https://github.com/florianfesti/boxes" target="_blank" rel="noopener">{_("Sources")}</a></li>
+{f'<li><a href="{self.legal_url}" target="_blank" rel="noopener">{_("Legal")}</a></li>' if self.legal_url else ''}
   <li class="right">{self.genHTMLLanguageSelection(lang)}</li>
 """
 
@@ -597,6 +599,11 @@ class BServer:
             if arg.startswith("render="):
                 render = arg[len("render="):]
 
+        if not self.legal_url:
+            if (environ.get('HTTP_HOST', '') == "boxes.hackerspace-bamberg.de" or
+                environ.get('SERVER_NAME', '') == "boxes.hackerspace-bamberg.de"):
+                self.legal_url = "https://www.hackerspace-bamberg.de/Datenschutz"
+
         lang = self.getLanguage(args, environ.get("HTTP_ACCEPT_LANGUAGE", ""))
         _ = lang.gettext
 
@@ -687,6 +694,8 @@ def main() -> None:
                         help="URL path to Boxes.py instance")
     parser.add_argument("--static_url", default="static",
                         help="URL of static content")
+    parser.add_argument("--legal_url", default="",
+                        help="URL of legal web page")
     args = parser.parse_args()
 
     boxserver = BServer(url_prefix=args.url_prefix, static_url=args.static_url)

@@ -246,6 +246,11 @@ class BServer:
 <div>
 <div class="clear"></div>
 <hr>
+<div class="linkbar">                                                                                                                                             <ul>
+{self.genLinks(lang)}
+</ul>
+</div>
+<hr>
 <h2 style="margin: 0px 0px 0px 20px;">{_(name)}</h2>
         <p>{_(box.__doc__) if box.__doc__ else ""}</p>
 <form action="{action}" method="GET" rel="nofollow">
@@ -294,7 +299,6 @@ class BServer:
 </div>
 </div>
 </div>
-{self.genPagePartFooter(lang)}
 </body>
 </html>
         ''')
@@ -320,7 +324,6 @@ class BServer:
 <div class="container">
 <div style="width: 75%; float: left;">
 {self.genPagePartHeader(lang)}
-
 <div class="modenav">
 <span class="modebutton"><a href="Gallery">{_("Gallery")}</a></span>
 <span class="modebutton modeactive">{_("Menu")}</span>
@@ -357,7 +360,6 @@ class BServer:
 <hr>
 </div>
 </div>
-{self.genPagePartFooter(lang)}
 </body>
 </html>
 """)
@@ -439,24 +441,23 @@ class BServer:
 <div>
 
 <div class="clear"></div>
-
-<div class="search">
-\U0001f50d <input autocomplete="off" type="search" oninput="filterSearchItems();" name="search" id="search" placeholder="Search">
-</div>"""
-
-    def genPagePartFooter(self, lang) -> str:
-        _ = lang.gettext
-
-        return f"""
-<div class="footer">
+<hr/>
+<div class="linkbar">
 <ul>
-  <li>{self.genHTMLLanguageSelection(lang)}</li>
-  <li><a href="https://florianfesti.github.io/boxes/html/usermanual.html" target="_blank" rel="noopener">{_("Help")}</a></li>
+{self.genLinks(lang)}
+  <li class="right">\U0001f50d <input autocomplete="off" type="search" oninput="filterSearchItems();" name="search" id="search" placeholder="Search"></li>
+</ul>
+</div>
+<hr/>
+"""
+
+    def genLinks(self, lang):
+        _ = lang.gettext
+        return f"""  <li><a href="https://florianfesti.github.io/boxes/html/usermanual.html" target="_blank" rel="noopener">{_("Help")}</a></li>
   <li><a href="https://hackaday.io/project/10649-boxespy" target="_blank" rel="noopener">{_("Home Page")}</a></li>
   <li><a href="https://florianfesti.github.io/boxes/html/index.html" target="_blank" rel="noopener">{_("Documentation")}</a></li>
   <li><a href="https://github.com/florianfesti/boxes" target="_blank" rel="noopener">{_("Sources")}</a></li>
-</ul>
-</div>
+  <li class="right">{self.genHTMLLanguageSelection(lang)}</li>
 """
 
     def genPageError(self, name, e, lang) -> list[bytes]:
@@ -572,7 +573,6 @@ class BServer:
         result.append(f"""
 </div><div style="width: 5%; float: left;"></div>
         <div class="clear"></div><hr></div>
-{self.genPagePartFooter(lang)}
 </body>
 </html>
 """

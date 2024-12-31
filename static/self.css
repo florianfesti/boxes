@@ -81,6 +81,7 @@ table tr p {
 .container {
     background-color: #FFF8EA;
     margin-top: 20px;
+    margin-bottom: 40px;
     margin-left: auto;
     margin-right: auto;
     padding: 10px;
@@ -124,33 +125,28 @@ video {
     width: 100%;
 }
 
-.footer {
-    margin-left: auto;
-    margin-right: auto;
-    padding: 10px;
-    padding-bottom: 15px;
-    width: 996px;
-    border-radius: 30px;
-    text-align: center;
+.linkbar {
+    padding-bottom: 0px;
     margin-top: 0px;
 }
 
-.footer ul {
+.linkbar ul {
     margin-top: 0px;
+    padding-left: 10px;
 }
 
-.footer ul li {
+.linkbar ul li {
     list-style-type: circle;
     display: inline-block;
     font-size: 0.9em;
 }
 
-.search {
-    float : right;
-    padding-top: 10px;
+.linkbar ul li.right {
+    float: right;
+    margin-right : 10px;
 }
 
-.footer ul li a {
+.linkbar ul li a {
     color: #555;
     margin-right: 10px;
 }

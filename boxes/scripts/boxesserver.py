@@ -378,7 +378,6 @@ class BServer:
         return f'''
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1">
-            <meta name="flattr:id" content="456799">
             <link rel="icon" type="image/svg+xml" href="{self.static_url}/boxes-logo.svg" sizes="any">
             <link rel="icon" type="image/x-icon" href="{self.static_url}/favicon.ico">
         '''

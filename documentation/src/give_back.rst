@@ -47,5 +47,5 @@ also hosts the web instance nowadays.
 You can donate money with `PayPal
 <https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=finanzen%40hackerspace-bamberg.de&lc=DE&item_name=backspace%20e.%20V.&amp;item_number=Boxes.py&no_note=0&currency_code=EUR&bn=PP-DonationsBF:btn_donate_LG.gif:NonHostedGuest>`_
 or bank transfer. Backspace e.V. is a German non profit and donations
-are tax deductable. See the `German donation page
+are tax deductible. See the `German donation page
 <https://www.hackerspace-bamberg.de/Sponsoring>`_ for details.

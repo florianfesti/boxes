@@ -272,8 +272,8 @@ class _TopEdge(Boxes):
         tl = tb = tr = tf = self.edges.get(top_edge, self.edges["e"])
 
         if tl.char == "i":
-            tb = tf = "e"
-            tl = "j"
+            tl = tr = "e"
+            tb = "j"
         elif tl.char == "k":
             tl = tr = "e"
         elif tl.char == "L":
@@ -319,7 +319,7 @@ class _TopEdge(Boxes):
         elif top_edge == "L":
             self.rectangularWall(x, y, "Enlm", move="up", label="lid top")
         elif top_edge == "i":
-            self.rectangularWall(x, y, "EJeI", move="up", label="lid top")
+            self.rectangularWall(x, y, "JeIE", move="up", label="lid top")
         elif top_edge == "k":
             outset =  self.edges["k"].settings.outset
             self.edges["k"].settings.setValues(self.thickness, outset=True)

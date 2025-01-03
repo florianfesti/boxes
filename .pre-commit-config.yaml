@@ -90,7 +90,7 @@ repos:
     rev: v6.2.4
     hooks:
       - id: rstcheck
-        args: [ "--report-level=warning", "--ignore-directives=autoclass,automethod,automodule" ]
+        args: [ "--report-level=error", "--ignore-directives=autoclass,automethod,automodule"]
         additional_dependencies: [ sphinx ]
 
   - repo: https://github.com/shellcheck-py/shellcheck-py

@@ -53,8 +53,9 @@ If there are no inner front to back walls just add everything to one side wall a
 
     def __init__(self) -> None:
         Boxes.__init__(self)
-        self.addTopEdgeSettings(fingerjoint={"surroundingspaces": 1.0},
-                                roundedtriangle={"outset" : 1})
+        #self.addTopEdgeSettings(fingerjoint={"surroundingspaces": 1.0},
+        #                        roundedtriangle={"outset" : 1})
+        self.addSettingsArgs(edges.FingerJointSettings, surroundingspaces=1.0)
         self.addSettingsArgs(LidSettings)
         self.buildArgParser("sx", "sy", "hi", "outside", h=30)
         # "bottom_edge", "top_edge")
@@ -197,8 +198,8 @@ If there are no inner front to back walls just add everything to one side wall a
                 move="up", label="slope")
 
         # top / lid
-        self.drawLid(x, y, self.top_edge) # XXX deal with front
-        self.lid(x, y, self.top_edge)
+        #self.drawLid(x, y, self.top_edge) # XXX deal with front
+        #self.lid(x, y, self.top_edge)
 
         self.ctx.restore()
         self.rectangularWall(x, hi, "ffff", move="right only")

@@ -53,6 +53,9 @@ Please add mounting holes yourself."""
             "--slotheight",  action="store", type=float, default=10.0,
             help="height of the dispenser slot / items (in mm)")
         self.argparser.add_argument(
+            "--viewingwidth",  action="store", type=float, default=0.333333,
+            help="width of the viewing slot as part of total width (0 for closed front)")
+        self.argparser.add_argument(
             "--bottomheight",  action="store", type=float, default=0.0,
             help="height underneath the dispenser (in mm)")
         self.argparser.add_argument(
@@ -109,7 +112,14 @@ Please add mounting holes yourself."""
                 y, th, ("h", frontedge, "e", "f"),
                 label="Right wall", ignore_widths=[6], move="right")
 
-        self.rectangularWall(x/3, h-hs, "eee" + se,
-                             label="Left front", move="right")
-        self.rectangularWall(x/3, h-hs, "eee" + se,
-                             label="Right front", move="mirror right")
+        self.viewingwidth = max(min(self.viewingwidth, 0.9), 0.0)
+        if self.viewingwidth == 0.0:
+            self.rectangularWall(x, h-hs, "e" + se + "e" + se,
+                                 label="front", move="right")
+
+        else:
+            w = x * (1-self.viewingwidth) / 2
+            self.rectangularWall(w, h-hs, "eee" + se,
+                                 label="Left front", move="right")
+            self.rectangularWall(w, h-hs, "eee" + se,
+                                 label="Right front", move="mirror right")

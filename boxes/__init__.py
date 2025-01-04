@@ -1244,10 +1244,11 @@ class Boxes:
 
         if not before:
             # restore position
+            self.ctx.stroke()
             self.ctx.restore()
             if self.labels and label:
                 self.text(label, x/2, y/2, align="middle center", color=Color.ANNOTATIONS, fontsize=4)
-            self.ctx.stroke()
+                self.ctx.stroke()
 
         for term in terms:
             if not term in moves:

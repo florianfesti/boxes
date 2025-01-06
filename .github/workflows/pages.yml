@@ -34,6 +34,7 @@ jobs:
           cp index.html ../build/
           cd ../build/ && ls && ls html/
           cp -r ../../static .
+          ln -s ../static html/static
           rm -rf doctrees
           touch .nojekyll
       - name: Upload artifact

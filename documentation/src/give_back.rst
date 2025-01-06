@@ -36,7 +36,7 @@ the project directly.
 Donate Money
 ------------
 
-I understand that for many just sending a few buck over as a token of
+I understand that for many just sending a few bucks over as a token of
 appreciation is easier than to getting involved. If you want to do
 that you can support my hacker space `Backspace in Bamberg Germany
 <https://wiki.hackerspaces.org/Backspace>`_ (`German web site

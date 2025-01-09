@@ -161,8 +161,7 @@ to remove the floor for this compartment.
         if self.layout:
             self.parse(self.layout.split('\n'))
         else:
-            with open(self.input) as f:
-                self.parse(f.read())
+            self.parse(self.input)
 
         if self.outside:
             self.x = self.adjustSize(self.x)

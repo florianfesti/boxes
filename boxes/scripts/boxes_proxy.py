@@ -37,7 +37,7 @@ class boxesPyWrapper(GenerateExtension):
                 pars.add_argument(key, default=key)
 
     def generate(self):
-        cmd = "boxes"  # boxes.exe in this local dir (or if present in %PATH%), or boxes from $PATH in linux
+        cmd = ["boxes"]  # boxes.exe in this local dir (or if present in %PATH%), or boxes from $PATH in linux
         for arg in vars(self.options):
             if arg in (
                     "output", "id", "ids", "selected_nodes",
@@ -47,12 +47,15 @@ class boxesPyWrapper(GenerateExtension):
             # interpreted if set to false
             if arg == "original" and str(getattr(self.options, arg)) == "false":
                 continue
-            cmd += f" --{arg} {quote(str(getattr(self.options, arg)))}"
-        cmd += f" --output -"
-        cmd = cmd.replace("boxes --generator", "boxes")
+            if arg == "generator":
+                cmd.append(str(getattr(self.options, arg)))
+                continue
+            cmd.extend([f"--{arg}", str(getattr(self.options, arg))])
+        cmd += ["--output", "-"]
 
+        #print(repr(cmd), file=sys.stderr)
         # run boxes with the parameters provided
-        result = subprocess.run(cmd.split(), capture_output=True)
+        result = subprocess.run(cmd, capture_output=True)
 
         if result.returncode:
             inkex.utils.debug("Generating box svg failed.  Cannot continue. Command was:")

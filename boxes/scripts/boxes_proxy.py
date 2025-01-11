@@ -12,12 +12,8 @@ Last patch: 27.04.2021
 License: GNU GPL v3
 
 """
-pass
 import subprocess
 import sys
-
-pass
-from shlex import quote
 
 from lxml import etree
 

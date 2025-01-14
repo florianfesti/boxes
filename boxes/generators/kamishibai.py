@@ -21,7 +21,7 @@ class Kamishibai(_TopEdge):
     """Kamishibai butai (japanese image theatre)"""
 
     ui_group = "Misc"
-    description = "This is a kamishibai butai (japanese image theatre), with several options for covering the different holes when put away. Magenta cuts should be performed before the blue cuts."
+    description = "This is a kamishibai butai (japanese image theatre), with several options for covering the different holes when put away. The recommended wood thickness is 5 mm at least. Magenta cuts should be performed before the blue cuts."
 
     def __init__(self) -> None:
         Boxes.__init__(self)
@@ -39,8 +39,8 @@ class Kamishibai(_TopEdge):
             "--SheetsStackDepth",  action="store", type=float, default=30.0,
             help="Depth of the sheets stack in mm")
         self.argparser.add_argument(
-            "--FrameThickness",  action="store", type=int, default=4,
-            help="Frame thickness in multiples of thickness")
+            "--FrameThickness",  action="store", type=float, default=20.0,
+            help="Frame thickness in mm")
         self.argparser.add_argument(
             "--FrameCornerRadius",  action="store", type=float, default=5.0,
             help="Radius of the frame corners in mm")
@@ -109,36 +109,18 @@ class Kamishibai(_TopEdge):
         ScrewsLocking_group.add_argument(
             "--LockScrewDistanceFromBorder",  action="store", type=float, default=11,
             help="Distance of the screw axis from the side border (in multiples of thickness)")
-            
+
     def screwAttachement (self, isTop):
         LockScrewLength = self.TopLockScrewLength if isTop else self.BottomLockScrewLength
-        self.corner(90)
-        self.edge(self.thickness)
-        self.corner(90)
-        self.edge(self.LockNutWidth/2 - self.LockScrewDiameter/2)
-        self.corner(-90)
-        self.edge(self.LockNutThickness)
-        self.corner(-90)
-        self.edge(self.LockNutWidth/2 - self.LockScrewDiameter/2)
-        self.corner(90)
-        self.edge(LockScrewLength - self.LockNutThickness - self.thickness*2)
-        self.corner(-90)
-        self.edge(self.LockScrewDiameter)
-        self.corner(-90)
-        self.edge(LockScrewLength - self.LockNutThickness - self.thickness*2)
-        self.corner(90)
-        self.edge(self.LockNutWidth/2 - self.LockScrewDiameter/2)
-        self.corner(-90)
-        self.edge(self.LockNutThickness)
-        self.corner(-90)
-        self.edge(self.LockNutWidth/2 - self.LockScrewDiameter/2)
-        self.corner(90)
-        self.edge(self.thickness)
-        self.corner(90)
-    
+        self.polyline(0, 90, self.thickness, 90, self.LockNutWidth/2 - self.LockScrewDiameter/2, -90,
+                        self.LockNutThickness, -90, self.LockNutWidth/2 - self.LockScrewDiameter/2, 90,
+                        LockScrewLength - self.LockNutThickness - self.thickness*2, -90, self.LockScrewDiameter, -90,
+                        LockScrewLength - self.LockNutThickness - self.thickness*2, 90, self.LockNutWidth/2 - self.LockScrewDiameter/2, -90,
+                        self.LockNutThickness, -90, self.LockNutWidth/2 - self.LockScrewDiameter/2, 90, self.thickness, 90)
+
     def boxFrontBackCallback (self, wi, hi, isFront):
         # window hole
-        self.rectangularHole(self.thickness*(self.FrameThickness + 2), self.thickness*self.FrameThickness, wi - self.thickness*self.FrameThickness*2, hi - self.Margin - self.thickness * (self.FrameThickness*2 + (2 if self.HandleThickness > 0 else 0)), self.FrameCornerRadius, False, False)
+        self.rectangularHole(self.thickness*2 + self.FrameThickness, self.FrameThickness, wi - self.FrameThickness*2, hi - self.Margin - self.FrameThickness*2 - self.thickness * (2 if self.HandleThickness > 0 else 0), self.FrameCornerRadius, False, False)
         # finger holes for handle ceiling
         if self.HandleThickness > 0 :
             self.fingerHolesAt(self.thickness*2 , hi - self.thickness * 1.5, self.thickness*4,0)
@@ -164,8 +146,8 @@ class Kamishibai(_TopEdge):
                     self.hole(self.HingeHolesBoxEdgeDistance + self.thickness, (hi - self.Margin) * 3/4 - posy, self.HingeHolesDiameter/2)
                     self.hole(wi + self.thickness*3 - self.HingeHolesBoxEdgeDistance, posy, self.HingeHolesDiameter/2)
                     self.hole(wi + self.thickness*3 - self.HingeHolesBoxEdgeDistance, (hi - self.Margin) * 3/4 - posy, self.HingeHolesDiameter/2)
-    
-    def boxFrontBack (self, wi, hi, isFront, move=None, label=""): 
+
+    def boxFrontBack (self, wi, hi, isFront, move=None, label=""):
         if self.LockScrewDiameter > 0 :
             #self.rectangularWall(wi + self.thickness*4, hi, "fNfM", callback=[
             #                lambda:self.boxFrontBackCallback(wi, hi, isFront)
@@ -189,8 +171,7 @@ class Kamishibai(_TopEdge):
             self.screwAttachement(False)
             self.edge(self.LockScrewDiameter/2)
             self.edges["f"](self.thickness*(self.LockScrewDistanceFromBorder - 3) - self.LockScrewDiameter)
-            self.edge(self.thickness*2)
-            self.corner(90)
+            self.polyline(self.thickness*2, 90)
             #right
             self.edges["N"](hi)
             self.corner(90)
@@ -218,7 +199,7 @@ class Kamishibai(_TopEdge):
             self.rectangularWall(wi + self.thickness*4, hi, "fNfM", callback=[
                             lambda:self.boxFrontBackCallback(wi, hi, isFront)
                             ],move=move, label=label)
-    
+
     def boxTopBottom (self, wi, di, isTop, move=None, label=""):
         if self.move(wi + self.thickness*2, di + self.thickness * (self.FrontExtraDepth + self.BackExtraDepth + 6) + (self.thickness*3 if self.FrontCoverStyle == "two-part lid with hinge eyes (both ends)" else 0), move, True):
             return
@@ -230,7 +211,7 @@ class Kamishibai(_TopEdge):
             self.hole(self.thickness * (self.LockScrewDistanceFromBorder - 1), di + self.thickness * (self.BackExtraDepth + 3.5), self.LockScrewDiameter/2)
             self.hole(wi/2 + self.thickness * 4, di + self.thickness * (self.BackExtraDepth + 3.5), self.LockScrewDiameter/2)
             self.hole(wi - self.thickness * (self.LockScrewDistanceFromBorder - 9), di + self.thickness * (self.BackExtraDepth + 3.5), self.LockScrewDiameter/2)
-            
+
             # finger holes for front and back if neccessary #TODO update all this section...
             #self.fingerHolesAt(self.thickness*2, self.thickness * (self.BackExtraDepth + 2.5), wi + self.thickness*4,0)
             self.fingerHolesAt(self.thickness*2, self.thickness * (self.BackExtraDepth + 2.5), self.thickness*(self.LockScrewDistanceFromBorder - 3) - self.LockScrewDiameter,0)
@@ -288,32 +269,17 @@ class Kamishibai(_TopEdge):
         # back side
         self.moveTo(self.thickness*2, 0)
         if isTop :
-            self.edge(self.thickness * 1)
-            self.corner(90)
-            self.edge(self.thickness * 2)
-            self.corner(-90)
-            self.edge(wi + self.thickness*2)
-            self.corner(-90)
-            self.edge(self.thickness * 2)
-            self.corner(90)
-            self.edge(self.thickness * 1)
-            
+            self.polyline(self.thickness, 90, self.thickness * 2, -90, wi + self.thickness*2, -90,
+                            self.thickness * 2, 90, self.thickness, [90, self.thickness*2])
         else :
             self.edge(self.thickness * 2)
             self.edges["L"](wi)
-            self.edge(self.thickness * 2)
-        self.corner(90, radius=self.thickness*2)
+            self.polyline(self.thickness * 2, [90, self.thickness*2])
         # right side
         if isTop :
-            self.edge(self.thickness * self.BackExtraDepth)
-            self.corner(90)
-            self.edge(self.thickness*2)
-            self.corner(-90)
-            self.edge(di + self.thickness*2)
+            self.polyline(self.thickness * self.BackExtraDepth, 90, self.thickness*2, -90, di + self.thickness*2, 0)
             if self.FrontExtraDepth > 0 :
-                self.corner(-90)
-                self.edge(self.thickness*2)
-                self.corner(90)
+                self.polyline(0, -90, self.thickness*2, 90)
                 if self.FrontCoverStyle == "slide-on lid" :
                     self.edge(self.thickness * (self.FrontExtraDepth - 0))
                 else :
@@ -332,28 +298,19 @@ class Kamishibai(_TopEdge):
         # front side
         if self.FrontExtraDepth > 0 :
             if self.FrontCoverStyle == "two-part lid with hinge eyes (both ends)" :
+                self.edges["k"].settings.style = "flush_inset"
                 self.edges["k"](wi + self.thickness*8)
                 self.corner(90)
             elif self.FrontCoverStyle == "slide-on lid" :
                 if isTop :
-                    self.edge(self.thickness * 1)
-                    self.corner(90)
-                    self.edge(self.thickness * 2)
-                    self.corner(-90)
-                    self.edge(wi + self.thickness*2)
-                    self.corner(-90)
-                    self.edge(self.thickness * 2)
-                    self.corner(90)
-                    self.edge(self.thickness * 1)
-                    self.corner(90, radius = self.thickness*2)
+                    self.polyline(self.thickness, 90, self.thickness * 2, -90, wi + self.thickness*2, -90,
+                                    self.thickness * 2, 90, self.thickness, [90, self.thickness*2])
                 else :
                     self.edge(self.thickness * 2)
                     self.edges["L"](wi)
-                    self.edge(self.thickness * 2)
-                    self.corner(90, radius = self.thickness*2)
+                    self.polyline(self.thickness * 2, [90, self.thickness*2])
             else :
-                self.edge(wi + self.thickness*8)
-                self.corner(90)
+                self.polyline(wi + self.thickness*8, 90)
         else :
             if not isTop :
                 self.edge(self.thickness*2)
@@ -365,17 +322,11 @@ class Kamishibai(_TopEdge):
         if isTop :
             if self.FrontExtraDepth > 0 :
                 if self.FrontCoverStyle == "slide-on lid" :
-                    self.edge(self.thickness * (self.FrontExtraDepth - 0))
+                    self.polyline(self.thickness * (self.FrontExtraDepth - 0), 90)
                 else :
-                    self.edge(self.thickness * self.FrontExtraDepth)
-                self.corner(90)
-                self.edge(self.thickness*2)
-                self.corner(-90)
-            self.edge(di + self.thickness*2)
-            self.corner(-90)
-            self.edge(self.thickness*2)
-            self.corner(90)
-            self.edge(self.thickness * self.BackExtraDepth)
+                    self.polyline(self.thickness * self.FrontExtraDepth, 90)
+                self.polyline(self.thickness*2, -90)
+            self.polyline(di + self.thickness*2, -90, self.thickness*2, 90, self.thickness * self.BackExtraDepth, 0)
         else :
             if self.FrontCoverStyle == "slide-on lid" :
                 self.edge(self.thickness * (1 + self.FrontExtraDepth))
@@ -386,7 +337,7 @@ class Kamishibai(_TopEdge):
         self.corner(90, radius=self.thickness*2)
         # move plate
         self.move(wi + self.thickness*2, di + self.thickness * (self.FrontExtraDepth + self.BackExtraDepth + 6) + (self.thickness*3 if self.FrontCoverStyle == "two-part lid with hinge eyes (both ends)" else 0), move, label=label)
-            
+
     def boxFrontSideCallback (self, hi) :
         # hinge holes for 3 pane pannel
         if ((self.HingeHolesDiameter > 0) and (self.FrontCoverStyle == "three-part lid, higes not provided")) :
@@ -395,14 +346,14 @@ class Kamishibai(_TopEdge):
                 posy += y
                 self.hole(posy - self.thickness, self.HingeHolesBoxEdgeDistance, self.HingeHolesDiameter/2)
                 self.hole(hi * 3/4 + self.Margin/2 - posy, self.HingeHolesBoxEdgeDistance, self.HingeHolesDiameter/2)
-    
+
     def boxOpenSide (self, hi, move=None):
         #back
         if self.BackExtraDepth > 2 :
             self.rectangularWall(hi, self.thickness*self.BackExtraDepth, "Nfff", move=move, label="back side")
         else :
             self.rectangularWall(hi, self.thickness*self.BackExtraDepth, "Neff", move=move, label="back side")
-        
+
         # front
         if self.FrontExtraDepth > 0 :
             if self.FrontCoverStyle == "slide-on lid" :
@@ -416,7 +367,7 @@ class Kamishibai(_TopEdge):
                 self.rectangularWall(hi, self.FrontExtraDepth * self.thickness, "efff", callback=[lambda:self.boxFrontSideCallback(hi)], move=move, label="front side")
             else :
                 self.rectangularWall(hi, self.thickness*self.FrontExtraDepth, "efff", move=move, label="front side")
-        
+
     def topHandle (self, wi, di, move=None, label=""):
         # handle plates
         for i in range(self.HandleThickness):
@@ -432,78 +383,28 @@ class Kamishibai(_TopEdge):
             self.rectangularHole((wi - self.HandleWidth)/2 + self.thickness * self.HandleThickness, self.thickness*2 + self.thickness * self.HandleThickness, self.HandleWidth - self.thickness * self.HandleThickness * 2, 30, 15, False, False)
             # main plate
             # bottom
-            self.edge(self.thickness*5)
-            self.corner(90)
-            self.edge(self.thickness)
-            self.corner(-90)
-            self.edge(wi/2 - self.HandleWidth/2 - self.thickness*5)
-            self.corner(-90)
-            self.edge(self.thickness)
-            self.corner(90)
-            self.edge(self.thickness*5)
-            self.corner(90)
-            self.edge(self.thickness)
-            self.corner(-90)
+            self.polyline(self.thickness*5, 90, self.thickness, -90, wi/2 - self.HandleWidth/2 - self.thickness*5, -90,
+                        self.thickness, 90, self.thickness*5, 90, self.thickness, -90)
             if (self.LockScrewDiameter > 0) :
-                self.edge(self.HandleWidth/2 - self.thickness*5 - self.LockNutWidth)
-                self.corner(-90)
-                self.edge(self.thickness)
-                self.corner(90)
-                self.edge(self.LockNutWidth*2)
-                self.corner(90)
-                self.edge(self.thickness)
-                self.corner(-90)
+                self.polyline(self.HandleWidth/2 - self.thickness*5 - self.LockNutWidth, -90, self.thickness, 90,
+                            self.LockNutWidth*2, 90, self.thickness, -90)
                 self.edge(self.HandleWidth/2 - self.thickness*5 - self.LockNutWidth)
             else :
                 self.edge(self.HandleWidth - self.thickness*10)
-            self.corner(-90)
-            self.edge(self.thickness)
-            self.corner(90)
-            self.edge(self.thickness*5)
-            self.corner(90)
-            self.edge(self.thickness)
-            self.corner(-90)
-            self.edge(wi/2 - self.HandleWidth/2 - self.thickness*5)
-            self.corner(-90)
-            self.edge(self.thickness)
-            self.corner(90)
-            self.edge(self.thickness*5)
-            self.corner(90)
+            self.polyline(0, -90, self.thickness, 90, self.thickness*5, 90, self.thickness, -90,
+                        wi/2 - self.HandleWidth/2 - self.thickness*5, -90, self.thickness, 90, self.thickness*5, 90)
             # right
-            self.edge(self.thickness*2)
-            self.corner(90)
+            self.polyline(self.thickness*2, 90)
             # plate holder
-            self.edge(self.thickness)
-            self.corner(90)
-            self.edge(self.thickness)
-            self.corner(-90)
-            self.edge(self.thickness*3)
-            self.corner(-90)
-            self.edge(self.thickness)
-            self.corner(90)
-            self.edge(wi/2 - self.HandleWidth/2 - self.thickness * (self.HandleThickness+2))
+            self.polyline(self.thickness, 90, self.thickness, -90, self.thickness*3, -90,
+                        self.thickness, 90, wi/2 - self.HandleWidth/2 - self.thickness * (self.HandleThickness+2), -90)
             # handle
-            self.corner(-90)
-            self.edge(30 - 15 + self.thickness*(self.HandleThickness * 2))
-            self.corner(90,15)
-            self.edge(self.HandleWidth - 30)
-            self.corner(90,15)
-            self.edge(30 - 15 + self.thickness*(self.HandleThickness * 2))
-            self.corner(-90)
-            self.edge(wi/2 - self.HandleWidth/2 - self.thickness * (self.HandleThickness+2))
+            self.polyline(30 - 15 + self.thickness*(self.HandleThickness * 2), [90,15], self.HandleWidth - 30, [90,15],
+                        30 - 15 + self.thickness*(self.HandleThickness * 2), -90, wi/2 - self.HandleWidth/2 - self.thickness * (self.HandleThickness+2), 90)
             #plate holder
-            self.corner(90)
-            self.edge(self.thickness)
-            self.corner(-90)
-            self.edge(self.thickness*3)
-            self.corner(-90)
-            self.edge(self.thickness)
-            self.corner(90)
-            self.edge(self.thickness)
-            self.corner(90)
+            self.polyline(self.thickness, -90, self.thickness*3, -90, self.thickness, 90, self.thickness, 90)
             # left
-            self.edge(self.thickness*2)
-            self.corner(90)
+            self.polyline(self.thickness*2, 90)
             # move plate
             self.move(wi, 30 + self.thickness*(self.HandleThickness * 2 + 2), move, label=label)
         # plate holders
@@ -529,16 +430,9 @@ class Kamishibai(_TopEdge):
         self.edges["f"](self.thickness*4)
         self.corner(90)
         #right
-        self.edge(di/2 - self.HandleThickness* self.thickness/2)
-        self.corner(90)
-        self.edge(self.thickness*5)
-        self.corner(-90)
-        self.edge(self.thickness * self.HandleThickness)
-        self.corner(-90)
-        self.edge(self.thickness*5)
-        self.corner(90)
-        self.edge(di/2 - self.HandleThickness* self.thickness/2)
-        self.corner(90)
+        self.polyline(di/2 - self.HandleThickness* self.thickness/2, 90, self.thickness*5, -90,
+                    self.thickness * self.HandleThickness, -90, self.thickness*5, 90,
+                    di/2 - self.HandleThickness* self.thickness/2, 90)
         #top
         self.edges["f"](self.thickness*4)
         self.edge(wi/2 - self.HandleWidth/2 - self.thickness*6)
@@ -549,19 +443,12 @@ class Kamishibai(_TopEdge):
         self.edges["f"](self.thickness*4)
         self.corner(90)
         #left
-        self.edge(di/2 - self.HandleThickness* self.thickness/2)
-        self.corner(90)
-        self.edge(self.thickness*5)
-        self.corner(-90)
-        self.edge(self.thickness * self.HandleThickness)
-        self.corner(-90)
-        self.edge(self.thickness*5)
-        self.corner(90)
-        self.edge(di/2 - self.HandleThickness* self.thickness/2)
-        self.corner(90)
+        self.polyline(di/2 - self.HandleThickness* self.thickness/2, 90, self.thickness*5, -90,
+                    self.thickness * self.HandleThickness, -90, self.thickness*5, 90,
+                    di/2 - self.HandleThickness* self.thickness/2, 90)
         # move plate
         self.move(wi+ self.thickness, di+ self.thickness*4, move, label="handle ceiling")
-            
+
     def coverPanel1Lid (self, wi, hi, hasSubLayer = False, move=None, label=""):
         # sides
         if hasSubLayer :
@@ -581,7 +468,7 @@ class Kamishibai(_TopEdge):
                 self.rectangularWall (self.thickness*2, self.thickness + self.PegsWidthMargin, "eeee", move=move)
             else :
                 self.rectangularWall(wi, hi, "lmen", callback=[lambda:self.hole(wi/2, hi - self.thickness*4, d=self.thickness*4)],move=move, label=label)
-        
+
     def coverPanel2Side(self, wi, hi, lockStyle, move=None, label=""):
         if lockStyle == "with key" :
             self.rectangularWall((wi + self.thickness*8 - self.Margin)/2, hi, "IeJe", callback=[lambda:self.hole((wi - self.Margin)/2 - self.thickness*0.5, hi/2, self.thickness*3.5),
@@ -593,7 +480,7 @@ class Kamishibai(_TopEdge):
             self.rectangularWall((wi + self.thickness*8 - self.Margin)/2, hi, "IeJe", callback=[lambda:self.hole((wi - self.Margin)/2 - self.thickness*2, hi/2, self.thickness*2), lambda:self.rectangularHole((hi - self.thickness)/2, self.thickness*2.5, self.thickness, self.thickness, 0, False, False, color=Color.MAGENTA)], move=move, label=label)
         else :
             self.rectangularWall((wi + self.thickness*8 - self.Margin)/2, hi, "IeJe", move=move, label=label)
-            
+
     def coverPanel3Side (self, wi, hi, move=None, label=""):
         if self.move(wi/2 + self.thickness*2, hi *3/4 + self.thickness*2, move, True):
             return
@@ -605,21 +492,13 @@ class Kamishibai(_TopEdge):
                 self.hole(self.HingeHolesCoverEdgeDistance, posy, self.HingeHolesDiameter/2)
                 self.hole(self.HingeHolesCoverEdgeDistance, hi * 3/4 + self.Margin/2 + self.thickness - posy, self.HingeHolesDiameter/2)
         # plate
-        self.edge((wi + self.thickness*2 - self.Margin)/2)
-        self.corner(90)
-        self.edge((hi + self.thickness*2 - self.Margin)/2)
-        self.corner(90)
-        self.edge((wi + self.thickness*2 - self.Margin)/4)
-        self.corner(-math.atan(2*(hi + self.thickness*2-self.Margin)/(wi + self.thickness*2-self.Margin))*180/math.pi)
-        self.edge(math.sqrt(pow((hi + self.thickness*2 - self.Margin)/4, 2) + pow((wi + self.thickness*2 - self.Margin)/8, 2)))
-        self.corner(math.atan(2*(hi + self.thickness*2-self.Margin)/(wi + self.thickness*2-self.Margin))*180/math.pi)
-        self.edge((wi + self.thickness*2 - self.Margin)/8)
-        self.corner(90)
-        self.edge((hi + self.thickness*2 - self.Margin)*3/4)
-        self.corner(90)
+        self.polyline((wi + self.thickness*2 - self.Margin)/2, 90, (hi + self.thickness*2 - self.Margin)/2, 90,
+                    (wi + self.thickness*2 - self.Margin)/4, -math.atan(2*(hi + self.thickness*2-self.Margin)/(wi + self.thickness*2-self.Margin))*180/math.pi,
+                    math.sqrt(pow((hi + self.thickness*2 - self.Margin)/4, 2) + pow((wi + self.thickness*2 - self.Margin)/8, 2)), math.atan(2*(hi + self.thickness*2-self.Margin)/(wi + self.thickness*2-self.Margin))*180/math.pi,
+                    (wi + self.thickness*2 - self.Margin)/8, 90, (hi + self.thickness*2 - self.Margin)*3/4, 90)
         # move plate
         self.move(wi/2 + self.thickness*2, hi *3/4 + self.thickness*2, move, label=label)
-            
+
     def coverPanel3Top (self, wi, hi, lockStyle, move=None, label=""):
         if self.move(wi + self.thickness*2, hi/2 + self.thickness*2, move, True):
             return
@@ -640,25 +519,15 @@ class Kamishibai(_TopEdge):
                 self.hole(posx, self.HingeHolesCoverEdgeDistance, self.HingeHolesDiameter/2)
                 self.hole(wi + self.thickness*2 - posx, self.HingeHolesCoverEdgeDistance, self.HingeHolesDiameter/2)
         # plate
-        self.edge(wi + self.thickness*2)
-        self.corner(90)
-        self.edge((hi + self.thickness*2 - self.Margin)/4)
-        self.corner(90)
-        self.edge((wi + self.thickness*2)/8)
-        self.corner(-math.atan(2*(hi + self.thickness*2-self.Margin)/(wi + self.thickness*2))*180/math.pi)
-        self.edge(math.sqrt(pow((hi + self.thickness*2 - self.Margin)/4, 2) + pow((wi + self.thickness*2)/8, 2)))
-        self.corner(math.atan(2*(hi + self.thickness*2-self.Margin)/(wi + self.thickness*2))*180/math.pi)
-        self.edge((wi + self.thickness*2)/2)
-        self.corner(math.atan(2*(hi + self.thickness*2-self.Margin)/(wi + self.thickness*2))*180/math.pi)
-        self.edge(math.sqrt(pow((hi + self.thickness*2 - self.Margin)/4, 2) + pow((wi + self.thickness*2)/8, 2)))
-        self.corner(-math.atan(2*(hi + self.thickness*2-self.Margin)/(wi + self.thickness*2))*180/math.pi)
-        self.edge((wi + self.thickness*2)/8)
-        self.corner(90)
-        self.edge((hi + self.thickness*2 - self.Margin)/4)
-        self.corner(90)
+        self.polyline(wi + self.thickness*2, 90, (hi + self.thickness*2 - self.Margin)/4, 90,
+                    (wi + self.thickness*2)/8, -math.atan(2*(hi + self.thickness*2-self.Margin)/(wi + self.thickness*2))*180/math.pi,
+                    math.sqrt(pow((hi + self.thickness*2 - self.Margin)/4, 2) + pow((wi + self.thickness*2)/8, 2)), math.atan(2*(hi + self.thickness*2-self.Margin)/(wi + self.thickness*2))*180/math.pi,
+                    (wi + self.thickness*2)/2, math.atan(2*(hi + self.thickness*2-self.Margin)/(wi + self.thickness*2))*180/math.pi,
+                    math.sqrt(pow((hi + self.thickness*2 - self.Margin)/4, 2) + pow((wi + self.thickness*2)/8, 2)), -math.atan(2*(hi + self.thickness*2-self.Margin)/(wi + self.thickness*2))*180/math.pi,
+                    (wi + self.thickness*2)/8, 90, (hi + self.thickness*2 - self.Margin)/4, 90)
         # move plate
         self.move(wi + self.thickness*2, hi/2 + self.thickness*2, move, label=label)
-            
+
     def lockSimple (self, move=None):
         # external locking wheel
         if self.move(self.thickness*10, self.thickness*10, move, True):
@@ -679,7 +548,7 @@ class Kamishibai(_TopEdge):
         self.move(self.thickness*11, self.thickness*11, move, label="lock internal")
         # discs attachement
         self.rectangularWall(self.thickness*4, self.thickness + self.PegsWidthMargin, "eeee", move=move)
-            
+
     def keyHoles(self, centerHoleLength, isRotated=False):
         # center key hole
         if centerHoleLength == 2 :
@@ -695,7 +564,7 @@ class Kamishibai(_TopEdge):
         else :
             self.rectangularHole(0, self.thickness*2, self.thickness, self.thickness)
             self.rectangularHole(0, -self.thickness*2, self.thickness, self.thickness)
-    
+
     def lockWithKey (self, isInnerLockRorated = False, move=None):
         # external locking wheel
         if self.move(self.thickness*15, self.thickness*15, move, True):
@@ -721,45 +590,17 @@ class Kamishibai(_TopEdge):
         if self.move(self.thickness*10, self.thickness*4, move, True):
             return
         self.rectangularHole(self.thickness, self.thickness, self.thickness, self.thickness, 0, False, False)
-        self.edge(self.thickness*3)
-        self.corner(90)
-        self.edge(self.thickness)
-        self.corner(-90)
-        self.edge(self.thickness*3)
-        self.corner(-90)
-        self.edge(self.thickness)
-        self.corner(90)
-        self.edge(self.thickness*2)
-        self.corner(90)
-        self.edge(self.thickness)
-        self.corner(-90)
-        self.edge(self.thickness)
-        self.corner(90)
-        self.edge(self.thickness)
-        self.corner(90)
-        self.edge(self.thickness*2)
-        self.corner(-90)
-        self.edge(self.thickness)
-        self.corner(90)
-        self.edge(self.thickness)
-        self.corner(90)
-        self.edge(self.thickness)
-        self.corner(-90)
-        self.edge(self.thickness*3)
-        self.corner(-90)
-        self.edge(self.thickness)
-        self.corner(90)
-        self.edge(self.thickness*3)
-        self.corner(90)
-        self.edge(self.thickness*3)
-        self.corner(90)
+        self.polyline(self.thickness*3, 90, self.thickness, -90, self.thickness*3, -90, self.thickness, 90,
+                    self.thickness*2, 90, self.thickness, -90, self.thickness, 90, self.thickness, 90,
+                    self.thickness*2, -90, self.thickness, 90, self.thickness, 90, self.thickness, -90,
+                    self.thickness*3, -90, self.thickness, 90, self.thickness*3, 90, self.thickness*3, 90)
         self.move(self.thickness*10, self.thickness*4, move, label="key")
-            
+
     def render(self):
        hi = self.SheetHeight + self.Margin * 2 + ((self.thickness*2) if self.HandleThickness > 0 else 0)
        wi = self.SheetWidth + self.Margin
        di = self.SheetsStackDepth + self.Margin
-       
+
        if self.FrontCoverStyle == "two-part lid with hinge eyes (both ends)" and self.FrontExtraDepth < 2 * HingeSettings.relative_params["hingestrength"] + HingeSettings.relative_params["axle"]/2 :
            self.FrontExtraDepth = 2 * HingeSettings.relative_params["hingestrength"] + HingeSettings.relative_params["axle"]/2
        if self.FrontCoverStyle == "slide-on lid" and self.FrontExtraDepth < 3 :
@@ -767,29 +608,29 @@ class Kamishibai(_TopEdge):
        if self.BackExtraDepth < 1 :
            self.BackExtraDepth = 1
        self.ctx.save()
-       
+
        # front
        self.boxFrontBack (wi, hi, True, move="up", label="front")
        # back
        self.boxFrontBack (wi, hi, False, move="mirror up", label="back")
-       
+
        # top
        self.boxTopBottom (wi, di, True, move="up", label="top")
        # bottom
        self.boxTopBottom (wi, di, False, move="up", label="bottom")
-       
+
        # open sides
        self.boxOpenSide(hi, move="up")
        self.boxOpenSide(hi, move="mirror up")
-       
+
        # side covers
        self.coverPanel1Lid (di, hi, True, move="rotated up", label="side panel")
        self.coverPanel1Lid (di, hi, True, move="rotated up", label="side panel")
-       
+
        # top handle
        if self.HandleThickness > 0 and self.HandleWidth > 0 :
            self.topHandle (wi, di, move="up", label="top handle")
-       
+
        # front panel cover
        # two-part lid hinge eyes (both ends)
        if self.FrontCoverStyle=="two-part lid with hinge eyes (both ends)":
@@ -816,8 +657,6 @@ class Kamishibai(_TopEdge):
        # slide-on lid
        elif self.FrontCoverStyle=="slide-on lid":
            self.coverPanel1Lid (wi, hi, False, move="up", label="front panel")
-       
+
        # back panel cover
        self.coverPanel1Lid (wi, hi, False, move="up", label="back panel")
-       
-       

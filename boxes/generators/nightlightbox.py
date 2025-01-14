@@ -166,6 +166,7 @@ class NightLightBox(_TopEdge):
         self.edges["f"](hSize - self.thickness)
         self.polyline(self.thickness, 90)
         # top
+        self.edges["i"].settings.style = "flush_inset"
         self.edges["i"](self.thickness*5)
         self.edges["F"](self.BackgroundDepth - self.thickness*5 - self.Margin/2)
         self.polyline(self.DiffuserPlateThickness + self.InterPlateSpacing + self.Margin/2, 90)

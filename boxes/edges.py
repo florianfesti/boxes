@@ -1456,7 +1456,7 @@ class HingePin(BaseEdge):
 
     def margin(self) -> float:
         if self.settings.outset and (
-                self.grip_percentage > 0.0 or
+                self.settings.grip_percentage > 0.0 or
                 self.settings.grip_length > 0.0 ):
             return self.settings.thickness + self.boxes.edges['g'].margin()
         else:

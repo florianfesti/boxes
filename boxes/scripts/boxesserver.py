@@ -247,7 +247,8 @@ class BServer:
 <div>
 <div class="clear"></div>
 <hr>
-<div class="linkbar">                                                                                                                                             <ul>
+<div class="linkbar">
+<ul>
 {self.genLinks(lang)}
 </ul>
 </div>
@@ -407,12 +408,12 @@ class BServer:
 
         html_option = ""
         for language in languages:
-            html_option += f"<option value='{language}'{' selected' if language == current_language else ''}>{language}</option>\n"
+            html_option += f"\t\t\t\t<option value='{language}'{' selected' if language == current_language else ''}>{language}</option>\n"
 
         return """
         <form>
             <select name="language" onchange='if(this.value != \"""" + current_language + """\") { this.form.submit(); }'>
-            """ + html_option + """
+""" + html_option + """
             </select>
         </form>
         """
@@ -453,14 +454,17 @@ class BServer:
 
     def genLinks(self, lang):
         _ = lang.gettext
-        return f"""  <li><a href="https://florianfesti.github.io/boxes/html/usermanual.html" target="_blank" rel="noopener">{_("Help")}</a></li>
-  <li><a href="https://hackaday.io/project/10649-boxespy" target="_blank" rel="noopener">{_("Home Page")}</a></li>
-  <li><a href="https://florianfesti.github.io/boxes/html/index.html" target="_blank" rel="noopener">{_("Documentation")}</a></li>
-  <li><a href="https://github.com/florianfesti/boxes" target="_blank" rel="noopener">{_("Sources")}</a></li>
-{f'<li><a href="{self.legal_url}" target="_blank" rel="noopener">{_("Legal")}</a></li>' if self.legal_url else ''}
-  <li><a href="https://florianfesti.github.io/boxes/html/give_back.html" target="_blank" rel="noopener">{_("Give Back")}</a></li>
-  <li class="right">{self.genHTMLLanguageSelection(lang)}</li>
-"""
+        links = [("https://florianfesti.github.io/boxes/html/usermanual.html", _("Help")),
+                 ("https://hackaday.io/project/10649-boxespy", _("Home Page")),
+                 ("https://florianfesti.github.io/boxes/html/index.html", _("Documentation")),
+                 ("https://github.com/florianfesti/boxes", _("Sources"))]
+        if self.legal_url:
+            links.append((self.legal_url, _("Legal")))
+        links.append(("https://florianfesti.github.io/boxes/html/give_back.html", _("Give Back")))
+
+        result = [f'  <li><a href="{url}" target="_blank" rel="noopener">{txt}</a></li>\n' for url, txt in links]
+        result.append(f'   <li class="right">{self.genHTMLLanguageSelection(lang)}</li>\n')
+        return "".join(result)
 
     def genPageError(self, name, e, lang) -> list[bytes]:
         """Generates a error page."""

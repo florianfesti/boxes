@@ -50,7 +50,7 @@ With lid:
             help="edge type for top and bottom edges")
         self.argparser.add_argument(
             "--top",  action="store", type=str, default="none",
-            choices=["closed", "hole", "lid",],
+            choices=["none", "closed", "hole", "lid",],
             help="style of the top and lid")
 
     def hole(self):

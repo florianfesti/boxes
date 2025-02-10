@@ -37,7 +37,7 @@ Donate Money
 ------------
 
 I understand that for many just sending a few bucks over as a token of
-appreciation is easier than to getting involved. If you want to do
+appreciation is easier than getting involved. If you want to do
 that you can support my hacker space `Backspace in Bamberg Germany
 <https://wiki.hackerspaces.org/Backspace>`_ (`German web site
 <http://hackerspace-bamberg.de/>`_).  Without its support (and laser

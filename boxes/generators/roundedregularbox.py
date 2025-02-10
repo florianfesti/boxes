@@ -44,8 +44,8 @@ class RoundedRegularBox(boxes.Boxes):
             "--wallpieces", action="store", type=int, default=0,
              help="number of pieces for outer wall (0 for one per side)")
         self.argparser.add_argument(
-            "--top",  action="store", type=str, default="none",
-            choices=["closed", "hole", "lid",],
+            "--top",  action="store", type=str, default="hole",
+            choices=["hole", "lid", "closed",],
             help="style of the top and lid")
 
     def holeCB(self):

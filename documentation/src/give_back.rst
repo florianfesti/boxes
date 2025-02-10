@@ -19,7 +19,7 @@ please enjoy!
 Contribute
 ----------
 
-Another way to give back in contributing to the project itself. This
+Another way to give back is contributing to the project itself. This
 does not need to mean contributing code. There also is a need for
 pictures, descriptions, assembly instructions, documentation, translations
 and much more. See :ref:`contributing` for details.
@@ -38,7 +38,7 @@ Donate Money
 
 I understand that for many just sending a few bucks over as a token of
 appreciation is easier than getting involved. If you want to do
-that you can support my hacker space `Backspace in Bamberg Germany
+that, you can support my hacker space `Backspace in Bamberg Germany
 <https://wiki.hackerspaces.org/Backspace>`_ (`German web site
 <http://hackerspace-bamberg.de/>`_).  Without its support (and laser
 cutter) the development of Boxes.py would not have been possible. It
@@ -47,7 +47,7 @@ also hosts the web instance nowadays.
 You can donate money via `PayPal
 <https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=finanzen%40hackerspace-bamberg.de&lc=DE&item_name=backspace%20e.%20V.&amp;item_number=Boxes.py&no_note=0&currency_code=EUR&bn=PP-DonationsBF:btn_donate_LG.gif:NonHostedGuest>`_. If you don't have an account, credit or debit card also works there.
 
-Or bank transfer to
+Or do a bank transfer to
 
 ===== ===============
 Owner backspace e.V.

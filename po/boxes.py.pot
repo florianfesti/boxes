@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-28 10:38+0100\n"
+"POT-Creation-Date: 2025-01-24 18:13+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -993,14 +993,6 @@ msgstr ""
 msgid "set to lower value to get disks surrounding the pins"
 msgstr ""
 
-#. help for parameter style
-msgid "\"outset\" or \"flush\""
-msgstr ""
-
-#. possible choice for style
-msgid "flush"
-msgstr ""
-
 #. parameter name for Hinge
 msgid "axle"
 msgstr ""
@@ -1214,8 +1206,7 @@ msgstr ""
 #: boxes/generators/agricolainsert.py
 msgid ""
 "\n"
-"    Agricola Revised Edition game box insert, including some expansions.\n"
-"    "
+"Agricola Revised Edition game box insert, including some expansions.\n"
 msgstr ""
 
 #. long description of AgricolaInsert in markdown
@@ -2809,8 +2800,7 @@ msgstr ""
 #: boxes/generators/coffeecapsulesholder.py
 msgid ""
 "\n"
-"    Coffee capsule holder\n"
-"    "
+"Coffee capsule holder\n"
 msgstr ""
 
 #. long description of CoffeeCapsuleHolder in markdown
@@ -3985,6 +3975,16 @@ msgstr ""
 #. help for parameter slotheight
 #: boxes/generators/dispenser.py
 msgid "height of the dispenser slot / items (in mm)"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/dispenser.py
+msgid "viewingwidth"
+msgstr ""
+
+#. help for parameter viewingwidth
+#: boxes/generators/dispenser.py
+msgid "width of the viewing slot as part of total width (0 for closed front)"
 msgstr ""
 
 #. parameter name
@@ -7098,8 +7098,7 @@ msgstr ""
 #: boxes/generators/paperbox.py
 msgid ""
 "\n"
-"    Box made of paper, with lid.\n"
-"    "
+"Box made of paper, with lid.\n"
 msgstr ""
 
 #. long description of PaperBox in markdown
@@ -7221,8 +7220,7 @@ msgstr ""
 #: boxes/generators/phoneholder.py
 msgid ""
 "\n"
-"    Smartphone desk holder\n"
-"    "
+"Smartphone desk holder\n"
 msgstr ""
 
 #. long description of PhoneHolder in markdown
@@ -7314,9 +7312,8 @@ msgstr ""
 #: boxes/generators/photoframe.py
 msgid ""
 "\n"
-"    3-layer photo frame with a slot at the top to slide matboard/acrylic/"
-"glass over the photo after glue-up.\n"
-"    "
+"3-layer photo frame with a slot at the top to slide matboard/acrylic/glass "
+"over the photo after glue-up.\n"
 msgstr ""
 
 #. long description of PhotoFrame in markdown
@@ -9065,9 +9062,8 @@ msgstr ""
 #: boxes/generators/silverwarebox.py
 msgid ""
 "\n"
-"    Cuttlery stand with carrying grip\n"
-"    using flex for rounded corners\n"
-"    "
+"Cuttlery stand with carrying grip\n"
+"using flex for rounded corners\n"
 msgstr ""
 
 msgid "Silverware Settings"
@@ -9728,7 +9724,12 @@ msgstr ""
 msgid "height of the left back corner in mm"
 msgstr ""
 
-#. help for parameter lid
+#. parameter name
+#: boxes/generators/unevenheightbox.py
+msgid "add_lid"
+msgstr ""
+
+#. help for parameter add_lid
 #: boxes/generators/unevenheightbox.py
 msgid "add a lid (works best with high corners opposing each other)"
 msgstr ""
@@ -10675,25 +10676,33 @@ msgstr ""
 msgid "Add a fourth piece to make a U-Beam with a flange"
 msgstr ""
 
-#: scripts/boxesserver:285
+#: scripts/boxesserver:292
 msgid ""
 "There is no image yet. Please donate an image of your project on <a "
 "href=&quot;https://github.com/florianfesti/boxes/issues/628&quot; "
 "target=&quot;_blank&quot; rel=&quot;noopener&quot;>GitHub</a>!"
 msgstr ""
 
-#: scripts/boxesserver:454
+#: scripts/boxesserver:457
 msgid "Help"
 msgstr ""
 
-#: scripts/boxesserver:455
+#: scripts/boxesserver:458
 msgid "Home Page"
 msgstr ""
 
-#: scripts/boxesserver:456
+#: scripts/boxesserver:459
 msgid "Documentation"
 msgstr ""
 
-#: scripts/boxesserver:457
+#: scripts/boxesserver:460
 msgid "Sources"
+msgstr ""
+
+#: scripts/boxesserver:462
+msgid "Legal"
+msgstr ""
+
+#: scripts/boxesserver:463
+msgid "Give Back"
 msgstr ""

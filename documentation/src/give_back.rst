@@ -1,4 +1,5 @@
-=====================
+.. _giveback:
+
 Giving Something Back
 =====================
 

@@ -2,8 +2,13 @@
 Contributing to Boxes.py
 ========================
 
-You are thinking about contributing to Boxes.py? That's great!
-Boxes.py is designed to be re-used and extended.
+You are thinking about contributing to the Boxes.py project? This page
+is about the technical aspects of contributing to the project with
+code or improvements. If you'd rather donate some money have a look at
+:ref:`giveback`.
+
+Still here? That's great! Boxes.py is designed to be re-used and extended.
+
 
 This document gives you some guidelines how your contribution is most
 likely to impact the development and your changes are most likely to

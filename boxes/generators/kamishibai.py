@@ -471,15 +471,15 @@ class Kamishibai(_TopEdge):
 
     def coverPanel2Side(self, wi, hi, lockStyle, move=None, label=""):
         if lockStyle == "with key" :
-            self.rectangularWall((wi + self.thickness*8 - self.Margin)/2, hi, "IeJe", callback=[lambda:self.hole((wi - self.Margin)/2 - self.thickness*0.5, hi/2, self.thickness*3.5),
+            self.rectangularWall((wi + self.thickness*6 - self.Margin)/2, hi, "IeJe", callback=[lambda:self.hole((wi - self.Margin)/2 - self.thickness*1.5, hi/2, self.thickness*3.5),
                         lambda:self.rectangularHole((hi - self.thickness - self.Margin)/2, self.thickness*4 - self.Margin/2, self.thickness + self.Margin, self.thickness + self.Margin, 0, False, False, color=Color.MAGENTA),
                         lambda:self.rectangularHole(self.thickness*2, (hi - self.thickness)/2, self.thickness, self.thickness, 0, False, False, color=Color.MAGENTA),
-                        lambda:self.rectangularHole((hi - self.thickness)/2, (wi - self.Margin)/2 - self.thickness*3, self.thickness, self.thickness, 0, False, False, color=Color.MAGENTA)],
+                        lambda:self.rectangularHole((hi - self.thickness)/2, (wi - self.Margin)/2 - self.thickness*4, self.thickness, self.thickness, 0, False, False, color=Color.MAGENTA)],
                         move=move, label=label)
         elif lockStyle == "simple" :
-            self.rectangularWall((wi + self.thickness*8 - self.Margin)/2, hi, "IeJe", callback=[lambda:self.hole((wi - self.Margin)/2 - self.thickness*2, hi/2, self.thickness*2), lambda:self.rectangularHole((hi - self.thickness)/2, self.thickness*2.5, self.thickness, self.thickness, 0, False, False, color=Color.MAGENTA)], move=move, label=label)
+            self.rectangularWall((wi + self.thickness*6 - self.Margin)/2, hi, "IeJe", callback=[lambda:self.hole((wi - self.Margin)/2, hi/2, self.thickness*2), lambda:self.rectangularHole((hi - self.thickness)/2, self.thickness*2.5, self.thickness, self.thickness, 0, False, False, color=Color.MAGENTA)], move=move, label=label)
         else :
-            self.rectangularWall((wi + self.thickness*8 - self.Margin)/2, hi, "IeJe", move=move, label=label)
+            self.rectangularWall((wi + self.thickness*6 - self.Margin)/2, hi, "IeJe", move=move, label=label)
 
     def coverPanel3Side (self, wi, hi, move=None, label=""):
         if self.move(wi/2 + self.thickness*2, hi *3/4 + self.thickness*2, move, True):

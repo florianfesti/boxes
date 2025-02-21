@@ -69,16 +69,17 @@ class GridfinityBase(Boxes):
 
         self.rectangularWall(nx*pitch, ny*pitch, move="up", callback=[self.generate_grid])
 
-        self.rectangularWall(x, h, [b, sideedge, t1, sideedge],
-                             ignore_widths=[1, 6], move="right")
-        self.rectangularWall(y, h, [b, "f", t2, "f"],
-                             ignore_widths=[1, 6], move="up")
-        self.rectangularWall(y, h, [b, "f", t4, "f"],
-                             ignore_widths=[1, 6], move="")
-        self.rectangularWall(x, h, [b, sideedge, t3, sideedge],
-                             ignore_widths=[1, 6], move="left up")
+        if h > 0:
+            self.rectangularWall(x, h, [b, sideedge, t1, sideedge],
+                                ignore_widths=[1, 6], move="right")
+            self.rectangularWall(y, h, [b, "f", t2, "f"],
+                                ignore_widths=[1, 6], move="up")
+            self.rectangularWall(y, h, [b, "f", t4, "f"],
+                                ignore_widths=[1, 6], move="")
+            self.rectangularWall(x, h, [b, sideedge, t3, sideedge],
+                                ignore_widths=[1, 6], move="left up")
 
-        if self.bottom_edge != "e":
-            self.rectangularWall(x, y, "ffff", move="up")
+            if self.bottom_edge != "e":
+                self.rectangularWall(x, y, "ffff", move="up")
 
         self.lid(x, y)

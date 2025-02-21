@@ -12,6 +12,7 @@
 #
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+import math
 
 from boxes import *
 from boxes import lids
@@ -30,8 +31,10 @@ class GridfinityBase(Boxes):
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings, space=4, finger=4)
         self.addSettingsArgs(lids.LidSettings)
-        self.argparser.add_argument("--x", type=int, default=3, help="number of grids in X direction")
-        self.argparser.add_argument("--y", type=int, default=2, help="number of grids in Y direction")
+        self.argparser.add_argument("--sx", type=int, default=0, help="size of base in X direction (0=auto)")
+        self.argparser.add_argument("--sy", type=int, default=0, help="size of base in Y direction (0=auto)")
+        self.argparser.add_argument("--x", type=int, default=3, help="number of grids in X direction (0=auto)")
+        self.argparser.add_argument("--y", type=int, default=2, help="number of grids in Y direction (0=auto)")
         self.argparser.add_argument("--h", type=float, default=7*3, help="height of sidewalls of the tray (mm)")
         self.argparser.add_argument("--m", type=float, default=0.5, help="Extra margin around the gridfinity base to allow it to drop into the carrier (mm)")
         self.argparser.add_argument(
@@ -50,20 +53,52 @@ class GridfinityBase(Boxes):
         radius, pad_radius = self.radius, self.pad_radius
         pitch = self.pitch
         opening = self.opening
+        padx = self.sx - (self.x * pitch)
+        pady = self.sy - (self.y * pitch)
+
         for col in range(self.x):
             for row in range(self.y):
-                lx = col*pitch+pitch/2
-                ly = row*pitch+pitch/2
+                lx = col*pitch+pitch/2+int(padx/2)
+                ly = row*pitch+pitch/2+math.ceil(pady/2)
                 self.rectangularHole(lx, ly, opening, opening, r=radius)
                 if self.cut_pads:
                     self.rectangularHole(lx, ly, opening - 2, opening - 2, r=pad_radius)
 
     def render(self):
+        if self.x == 0 and self.sx == 0:
+            raise ValueError('either --sx or --x must be provided')
+        if self.y == 0 and self.sy == 0:
+            raise ValueError('either --sy or --y must be provided')
+
+        if self.sx == 0:
+            # if we are producting a minimally sized base sx will be zero
+            self.sx = self.x*self.pitch
+        else:
+            if self.x == 0:
+                # if we are producing an automatically determined maximum
+                # number of grid cols self.x will be zero
+                self.x = int(self.sx / self.pitch)
+            # if both sx and x were provided, x takes precedence
+            self.sx = max(self.sx, self.x*self.pitch)
+
+        if self.sy == 0:
+            # if we are producting a minimally sized base sy will be zero
+            self.sy = self.y*self.pitch
+        else:
+            if self.y == 0:
+                # if we are producing an automatically determined maximum
+                # number of grid rows self.y will be zero
+                self.y = int(self.sy / self.pitch)
+            # if both sy and y were provided, y takes precedence
+            self.sy = max(self.sy, self.y*self.pitch)
+
         pitch = self.pitch
+        x, y = self.sx, self.sy
         nx, ny = self.x, self.y
         opening = self.opening
         margin = self.m
-        x, y, h = nx*pitch, ny*pitch, self.h
+
+        h = self.h
         t = self.thickness
         x += 2*margin
         y += 2*margin
@@ -71,7 +106,7 @@ class GridfinityBase(Boxes):
         b = self.edges.get(self.bottom_edge, self.edges["F"])
         sideedge = "F" # if self.vertical_edges == "finger joints" else "h"
 
-        self.rectangularWall(nx*pitch, ny*pitch, move="up", callback=[self.generate_grid])
+        self.rectangularWall(x, y, move="up", callback=[self.generate_grid])
 
         if h > 0:
             self.rectangularWall(x, h, [b, sideedge, t1, sideedge],

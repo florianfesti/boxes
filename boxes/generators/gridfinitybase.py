@@ -41,18 +41,22 @@ class GridfinityBase(Boxes):
             help="edge type for bottom edge")
         self.argparser.add_argument("--pitch", type=int, default=42, help="The Gridfinity pitch, in mm.  Should always be 42.")
         self.argparser.add_argument("--opening", type=int, default=38, help="The cutout for each grid opening.  Typical is 38.")
+        self.argparser.add_argument("--radius", type=float, default=1.6, help="The corner radius for each grid opening.  Typical is 1.6.")
         self.argparser.add_argument("--cut_pads", type=boolarg, default=False, help="cut pads to be used for gridinity boxes from the grid openings")
+        self.argparser.add_argument("--pad-radius", type=float, default=0.8, help="The corner radius for each grid opening.  Typical is 0.8,")
+        
 
     def generate_grid(self):
+        radius, pad_radius = self.radius, self.pad_radius
         pitch = self.pitch
         opening = self.opening
         for col in range(self.x):
             for row in range(self.y):
                 lx = col*pitch+pitch/2
                 ly = row*pitch+pitch/2
-                self.rectangularHole(lx, ly, opening, opening)
+                self.rectangularHole(lx, ly, opening, opening, r=radius)
                 if self.cut_pads:
-                    self.rectangularHole(lx, ly, opening - 2, opening - 2, r=2)
+                    self.rectangularHole(lx, ly, opening - 2, opening - 2, r=pad_radius)
 
     def render(self):
         pitch = self.pitch

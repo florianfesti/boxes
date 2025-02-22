@@ -5,6 +5,11 @@ Frequently Asked Questions
 .. toctree::
    :maxdepth: 1
 
+Why is the URL not http://boxes.py
+----------------------------------
+
+Boxes.py started its life as a simple command line script named - surprise - boxes.py. The web interface only came much later. Turns out the .py TLD belongs to Paraguay. Getting a domain right there is really hard even for a Paraguayan citizen unless you move down to .com.py and impossible for a foreigner. So the current URL must do.
+
 Can I sell boxes I created with Boxes.py
 ----------------------------------------
 

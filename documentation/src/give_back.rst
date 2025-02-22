@@ -31,7 +31,7 @@ Spread the Word
 I also belief one of the main goals of Open Source is to maximize the
 value and usefulness of software and the work that went into it. So
 telling others about Boxes.py, giving a talk at your local hacker
-space or publishing a video is just as valuable as participating to
+space, publishing a video, or just posting about your project is just as valuable as participating to
 the project directly.
 
 Donate Money

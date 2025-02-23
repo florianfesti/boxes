@@ -48,7 +48,9 @@ class GridfinityBase(Boxes):
         self.argparser.add_argument("--opening", type=int, default=38, help="The cutout for each grid opening.  Typical is 38.")
         self.argparser.add_argument("--radius", type=float, default=1.6, help="The corner radius for each grid opening.  Typical is 1.6.")
         self.argparser.add_argument("--cut_pads", type=boolarg, default=False, help="cut pads to be used for gridinity boxes from the grid openings")
-        self.argparser.add_argument("--pad-radius", type=float, default=0.8, help="The corner radius for each grid opening.  Typical is 0.8.")
+        self.argparser.add_argument("--cut_pads-mag-diameter", type=float, default=6.5, help="if pads are cut add holes for magnets. Typical is 6.5, zero to disable,")
+        self.argparser.add_argument("--cut_pads-mag-offset", type=float, default=7.75, help="if magnet hole offset from pitch corners.  Typical is 7.75.")
+        self.argparser.add_argument("--pad-radius", type=float, default=0.8, help="The corner radius for each grid opening.  Typical is 0.8,")
         self.argparser.add_argument("--panel-x", type=int, default=0, help="the maximum sized panel that can be cut in x direction")
         self.argparser.add_argument("--panel-y", type=int, default=0, help="the maximum sized panel that can be cut in y direction")
 
@@ -66,6 +68,15 @@ class GridfinityBase(Boxes):
                 self.rectangularHole(lx, ly, opening, opening, r=radius)
                 if self.cut_pads:
                     self.rectangularHole(lx, ly, opening - 2, opening - 2, r=pad_radius)
+
+                    if self.cut_pads_mag_diameter > 0:
+                        # create a shorter variable names for use in the loop
+                        ofs = self.cut_pads_mag_offset 
+                        dia = self.cut_pads_mag_diameter
+                        for xoff, yoff in ((1,1), (-1,1), (1,-1), (-1,-1)):
+                            x = lx+((pitch // 2)-ofs)*xoff
+                            y = ly+((pitch // 2)-ofs)*yoff
+                            self.hole(x, y, d=dia)
 
     def subdivide_grid(self, X, Y, A, B):
         # Calculate the number of subdivisions needed in each dimension

@@ -10,6 +10,13 @@ Why is the URL not http://boxes.py
 
 Boxes.py started its life as a simple command line script named - surprise - boxes.py. The web interface only came much later. Turns out the .py TLD belongs to Paraguay. Getting a domain right there is really hard even for a Paraguayan citizen unless you move down to .com.py and impossible for a foreigner. So the current URL must do.
 
+Why is Boxes.py so complicated?
+-------------------------------
+
+For one Boxes.py offers more options than any other box generator I know. These options need to be made available somehow.
+
+But the actual reason is a question of philosophy. Boxes.py made the decision to not use fixed values for most things but just make them available in the UI. But it uses sane default values. So you don't need to touch most settings. As a beginner you can safely keep the edge settings closed. Just put in the general measurements, material thickness and your burn (aka kerf) value.
+
 Can I sell boxes I created with Boxes.py
 ----------------------------------------
 

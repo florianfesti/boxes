@@ -71,7 +71,7 @@ class GridfinityBase(Boxes):
 
                     if self.cut_pads_mag_diameter > 0:
                         # create a shorter variable names for use in the loop
-                        ofs = self.cut_pads_mag_offset 
+                        ofs = self.cut_pads_mag_offset
                         dia = self.cut_pads_mag_diameter
                         for xoff, yoff in ((1,1), (-1,1), (1,-1), (-1,-1)):
                             x = lx+((pitch // 2)-ofs)*xoff
@@ -82,16 +82,16 @@ class GridfinityBase(Boxes):
         # Calculate the number of subdivisions needed in each dimension
         num_x = math.ceil(X / A)
         num_y = math.ceil(Y / B)
-        
+
         # Compute balanced segment sizes
         segment_widths = [X // num_x] * num_x
         for i in range(X % num_x):  # Distribute remainder
             segment_widths[i] += 1
-        
+
         segment_heights = [Y // num_y] * num_y
         for i in range(Y % num_y):  # Distribute remainder
             segment_heights[i] += 1
-        
+
         # Generate the subdivisions
         grid_segments = {}
         y_start = 0
@@ -104,8 +104,8 @@ class GridfinityBase(Boxes):
                 x_start += w
                 col_index += 1
             y_start += h
-            row_index += 1  
-        
+            row_index += 1
+
         return len(segment_widths), len(segment_heights), grid_segments
 
     def render(self):
@@ -135,14 +135,14 @@ class GridfinityBase(Boxes):
                 self.y = int(self.sy / self.pitch)
             # if both sy and y were provided, y takes precedence
             self.sy = max(self.sy, self.y*self.pitch)
-        
+
         opening = self.opening
         margin = self.m
 
         t = self.thickness
         self.sx += 2*margin
         self.sy += 2*margin
-        
+
         if self.panel_x != 0 and self.panel_y != 0:
             self.render_split(self.sx, self.sy, self.h, self.x, self.y, self.pitch)
         else:
@@ -177,7 +177,7 @@ class GridfinityBase(Boxes):
                 segment_pad_bottom = pad_y // 2
             if (row == segments_rows - 1):
                 segment_pad_top = pad_y // 2
-            
+
             with self.saved_context():
                 for col in range(segments_cols):
                     nx, ny = segments[(col, row)][2:4]
@@ -189,7 +189,7 @@ class GridfinityBase(Boxes):
                         segment_pad_left = pad_x // 2
                     if (col == segments_cols - 1):
                         segment_pad_right = pad_x // 2
-                    
+
                     box_width = nx * self.pitch + segment_pad_left + segment_pad_right
                     box_height = ny * self.pitch + segment_pad_bottom + segment_pad_top
 
@@ -226,7 +226,7 @@ class GridfinityBase(Boxes):
             t1, t2, t3, t4 = "eeee"
             b = self.edges.get(self.bottom_edge, self.edges["F"])
             sideedge = "F" # if self.vertical_edges == "finger joints" else "h"
-            
+
             # Render walls in x direction
             for ii in range(2):
                 resets = []
@@ -245,18 +245,18 @@ class GridfinityBase(Boxes):
                         ee = [b, "f", "e", "F"]
                     else:
                         ee = [b, "f", "e", "F"]
-                    
+
                     self.rectangularWall(box_width, h, ee,
                                         ignore_widths=[1, 6], move="right")
                     resets.append((box_width, ee))
-                
+
                 for width, ee in resets:
                     self.rectangularWall(width, 0, ee,
                                         ignore_widths=[1, 6], move="left only")
-                    
+
                 self.rectangularWall(self.sx, h, ee,
                                         ignore_widths=[1, 6], move="up only")
-                
+
             # Render walls in y direction
             self.moveTo(self.sx + h*2, -(self.sy+h*2+self.thickness*2), 90)
             for ii in range(2):
@@ -275,17 +275,17 @@ class GridfinityBase(Boxes):
                         ee = [b, "F", "e", "F"]
                     else:
                         ee = [b, "f", "e", "F"]
-                    self.rectangularWall(box_height, h, ee, 
+                    self.rectangularWall(box_height, h, ee,
                                         ignore_widths=[1, 6], move="right")
-                    
-                                    
+
+
                     #self.rectangularWall(box_height, h, [b, sideedge, t3, "f"],
                     #                    ignore_widths=[1, 6], move="left only")
 
                     #self.rectangularWall(box_height, h, [b, sideedge, t3, "f"],
                     #                    ignore_widths=[1, 6], move="down")
-                    
-                self.moveTo(-self.sy-h-self.thickness, -h-self.thickness*2)    
+
+                self.moveTo(-self.sy-h-self.thickness, -h-self.thickness*2)
 
             # Render the floor, if requested
             self.moveTo(0, 0, -90)
@@ -300,7 +300,7 @@ class GridfinityBase(Boxes):
                         segment_pad_bottom = pad_y // 2
                     if (row == segments_rows - 1):
                         segment_pad_top = pad_y // 2
-                    
+
                     with self.saved_context():
                         for col in range(segments_cols):
                             nx, ny = segments[(col, row)][2:4]
@@ -312,7 +312,7 @@ class GridfinityBase(Boxes):
                                 segment_pad_left = pad_x // 2
                             if (col == segments_cols - 1):
                                 segment_pad_right = pad_x // 2
-                            
+
                             box_width = nx * self.pitch + segment_pad_left + segment_pad_right
                             box_height = ny * self.pitch + segment_pad_bottom + segment_pad_top
 
@@ -361,9 +361,9 @@ class GridfinityBase(Boxes):
             move="up",
             callback=[partial(self.generate_grid, nx, ny, shift_x, shift_y)]
         )
-        
+
         if h > 0:
-            self.rectangularWall(x, h, [b, sideedge, t1, sideedge], 
+            self.rectangularWall(x, h, [b, sideedge, t1, sideedge],
                                 ignore_widths=[1, 6], move="right")
             self.rectangularWall(y, h, [b, "f", t2, "f"],
                                 ignore_widths=[1, 6], move="up")

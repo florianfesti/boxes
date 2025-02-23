@@ -64,8 +64,8 @@ You can set the ``inner_corners`` default setting to ``corner``
 What settings were used to generate a drawing?
 ----------------------------------------------
 
-If you do have a SVG or PostScript you can look into the meta data of the file. Most document viewers will have a ``Document properties`` window. You can also just open the file with a text editor and find the details at the first few lines.
+If you do have a SVG, PostScript or LightBurn file you can look into the meta data of the file. Most document viewers will have a ``Document properties`` window. For Light Burn look into the document notes. You can also just open the file with a text editor and find the details at the first few lines or by searching for URL.
 
 Note that you can just use the URL in there to get back to the settings page to change some values. The difference between the settings and the rendered drawing is just ``render=0`` or ``render=1`` at the end of the URL.
 
-For other formats you are currently out of luck.
+For other formats you are currently out of luck. But you can save the URL you downloaded the file from. It contains all settings.

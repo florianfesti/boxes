@@ -44,6 +44,11 @@ class GridfinityBase(Boxes):
             type=ArgparseEdgeType("Fhse"), choices=list("Fhse"),
             default='F',
             help="edge type for bottom edge")
+        self.argparser.add_argument(
+            "--panel_edge", action="store",
+            type=ArgparseEdgeType("De"), choices=list("De"),
+            default='D',
+            help="edge type for sub panels")
         self.argparser.add_argument("--pitch", type=int, default=42, help="The Gridfinity pitch, in mm.  Should always be 42.")
         self.argparser.add_argument("--opening", type=int, default=38, help="The cutout for each grid opening.  Typical is 38.")
         self.argparser.add_argument("--radius", type=float, default=1.6, help="The corner radius for each grid opening.  Typical is 1.6.")
@@ -162,8 +167,8 @@ class GridfinityBase(Boxes):
 
         # Render the primary grid
         for row in range(segments_rows):
-            t0 = "e" if row == 0 else "d"
-            t2 = "e" if row == segments_rows - 1 else "D"
+            t0 = "e" if row == 0 else ("d" if self.panel_edge != "e" else "e")
+            t2 = "e" if row == segments_rows - 1 else ("D" if self.panel_edge != "e" else "e")
 
             segment_pad_bottom, segment_pad_top = 0, 0
             if (row == 0):
@@ -174,8 +179,8 @@ class GridfinityBase(Boxes):
             with self.saved_context():
                 for col in range(segments_cols):
                     nx, ny = segments[(col, row)][2:4]
-                    t1 = "e" if col == segments_cols - 1 else "d"
-                    t3 = "e" if col == 0 else "D"
+                    t1 = "e" if col == segments_cols - 1 else ("d" if self.panel_edge != "e" else "e")
+                    t3 = "e" if col == 0 else ("D" if self.panel_edge != "e" else "e")
 
                     segment_pad_left, segment_pad_right = 0, 0
                     if (col == 0):

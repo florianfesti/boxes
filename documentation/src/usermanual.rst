@@ -25,9 +25,9 @@ Units of measurements
 
 In general all measurements are in Millimeters (mm). There is no
 option to change the units of measurement and there is no plan to add
-such a option.
+such an option.
 
-A second way to define lengths is as multiple of the material
+A second way to define lengths is as a multiple of the material
 thickness which is one of the standard parameters described
 below. This allows features to retain their proportions even if some
 parts depend on the material thickness.

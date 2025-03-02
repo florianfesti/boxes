@@ -122,6 +122,7 @@ class NotesHolder(Boxes):
                 # front walls
                 if self.opening == 0.0 or (side and not self.back_openings):
                     self.rectangularWall(x, h, [b, "f", "e", "f"],
+                                         callback=[self.fingerHoleCB(sx, h)],
                                          ignore_widths=[1, 6], move="right")
                 else:
                     self.rectangularWall(sx[0] * (1-o/100) / 2, h,

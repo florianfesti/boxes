@@ -3,6 +3,35 @@
 <!--
 TrayInsert - Tray insert without floor and outer walls - allows only continuous walls
 
+
+## Tray/Box insert dividers.
+Tray insert with extra margin for that perfect fit.
+
+You can specify the grid sizes with the standard `(sx, sy)` format, which allows nice
+variable rows and columns.  If you  check the `outside` box, the full outside of the
+tray insert ends up being the sum of all the sx/sy values.  However, if you want a
+consistent cell size, and uncheck outside, then the overall dimensinos end up
+larger by `(n-1)*thickenss`, to make space for your walls.
+
+You can specify the `x` and `y` parameters if you like, just make them larger than
+what the sum of `(sx, sy)` would end up with, and the walls be automatically extended to
+to exactly fill the inside of your tray or box.
+
+So, for example, if you're fitting `30mm x 40mm` items and want them to
+fit inside a `250mm x 300mm` box, you can specify
+
+    sx = 30*8
+    sy = 40*7
+    uncheck outside
+    x=250
+    y=300
+
+This frees your mind into separately thinking about the cell size vs the overall box size.
+
+![Tray Extra](static/samples/TrayInsert-3.jpg)
+    
+
+
 Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes TrayInsert
 -->
@@ -12,6 +41,33 @@ Command line (remove spaces between dashes): boxes TrayInsert
 <dc:title>Tray - TrayInsert</dc:title>
 <dc:source>boxes TrayInsert</dc:source>
 <dc:description>Tray insert without floor and outer walls - allows only continuous walls
+
+## Tray/Box insert dividers.
+Tray insert with extra margin for that perfect fit.
+
+You can specify the grid sizes with the standard `(sx, sy)` format, which allows nice
+variable rows and columns.  If you  check the `outside` box, the full outside of the
+tray insert ends up being the sum of all the sx/sy values.  However, if you want a
+consistent cell size, and uncheck outside, then the overall dimensinos end up
+larger by `(n-1)*thickenss`, to make space for your walls.
+
+You can specify the `x` and `y` parameters if you like, just make them larger than
+what the sum of `(sx, sy)` would end up with, and the walls be automatically extended to
+to exactly fill the inside of your tray or box.
+
+So, for example, if you're fitting `30mm x 40mm` items and want them to
+fit inside a `250mm x 300mm` box, you can specify
+
+    sx = 30*8
+    sy = 40*7
+    uncheck outside
+    x=250
+    y=300
+
+This frees your mind into separately thinking about the cell size vs the overall box size.
+
+![Tray Extra](static/samples/TrayInsert-3.jpg)
+    
 
 Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes TrayInsert

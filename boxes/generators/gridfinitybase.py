@@ -33,8 +33,8 @@ class GridfinityBase(Boxes):
         self.addSettingsArgs(edges.DoveTailSettings, size=3, depth=.3, radius=.05, angle=40)
         self.addSettingsArgs(edges.FingerJointSettings, space=4, finger=4)
         self.addSettingsArgs(lids.LidSettings)
-        self.argparser.add_argument("--sx", type=int, default=0, help="size of base in X direction (0=auto)")
-        self.argparser.add_argument("--sy", type=int, default=0, help="size of base in Y direction (0=auto)")
+        self.argparser.add_argument("--size_x", type=int, default=0, help="size of base in X direction (0=auto)")
+        self.argparser.add_argument("--size_y", type=int, default=0, help="size of base in Y direction (0=auto)")
         self.argparser.add_argument("--x", type=int, default=3, help="number of grids in X direction (0=auto)")
         self.argparser.add_argument("--y", type=int, default=2, help="number of grids in Y direction (0=auto)")
         self.argparser.add_argument("--h", type=float, default=7*3, help="height of sidewalls of the tray (mm)")
@@ -53,11 +53,11 @@ class GridfinityBase(Boxes):
         self.argparser.add_argument("--opening", type=int, default=38, help="The cutout for each grid opening.  Typical is 38.")
         self.argparser.add_argument("--radius", type=float, default=1.6, help="The corner radius for each grid opening.  Typical is 1.6.")
         self.argparser.add_argument("--cut_pads", type=boolarg, default=False, help="cut pads to be used for gridinity boxes from the grid openings")
-        self.argparser.add_argument("--cut_pads-mag-diameter", type=float, default=6.5, help="if pads are cut add holes for magnets. Typical is 6.5, zero to disable,")
-        self.argparser.add_argument("--cut_pads-mag-offset", type=float, default=7.75, help="if magnet hole offset from pitch corners.  Typical is 7.75.")
-        self.argparser.add_argument("--pad-radius", type=float, default=0.8, help="The corner radius for each grid opening.  Typical is 0.8,")
-        self.argparser.add_argument("--panel-x", type=int, default=0, help="the maximum sized panel that can be cut in x direction")
-        self.argparser.add_argument("--panel-y", type=int, default=0, help="the maximum sized panel that can be cut in y direction")
+        self.argparser.add_argument("--cut_pads_mag_diameter", type=float, default=6.5, help="if pads are cut add holes for magnets. Typical is 6.5, zero to disable,")
+        self.argparser.add_argument("--cut_pads_mag_offset", type=float, default=7.75, help="if magnet hole offset from pitch corners.  Typical is 7.75.")
+        self.argparser.add_argument("--pad_radius", type=float, default=0.8, help="The corner radius for each grid opening.  Typical is 0.8,")
+        self.argparser.add_argument("--panel_x", type=int, default=0, help="the maximum sized panel that can be cut in x direction")
+        self.argparser.add_argument("--panel_y", type=int, default=0, help="the maximum sized panel that can be cut in y direction")
 
 
     def generate_grid(self, nx, ny, shift_x=0, shift_y=0):
@@ -114,37 +114,37 @@ class GridfinityBase(Boxes):
         return len(segment_widths), len(segment_heights), grid_segments
 
     def render(self):
-        if self.x == 0 and self.sx == 0:
-            raise ValueError('either --sx or --x must be provided')
-        if self.y == 0 and self.sy == 0:
-            raise ValueError('either --sy or --y must be provided')
+        if self.x == 0 and self.size_x == 0:
+            raise ValueError('either --size_x or --x must be provided')
+        if self.y == 0 and self.size_y == 0:
+            raise ValueError('either --size_y or --y must be provided')
 
-        if self.sx == 0:
-            # if we are producting a minimally sized base sx will be zero
-            self.sx = self.x*self.pitch
+        if self.size_x == 0:
+            # if we are producting a minimally sized base size_x will be zero
+            self.size_x = self.x*self.pitch
         else:
             if self.x == 0:
                 # if we are producing an automatically determined maximum
                 # number of grid cols self.x will be zero
-                self.x = int(self.sx / self.pitch)
-            # if both sx and x were provided, x takes precedence
-            self.sx = max(self.sx, self.x*self.pitch)
+                self.x = int(self.size_x / self.pitch)
+            # if both size_x and x were provided, x takes precedence
+            self.size_x = max(self.size_x, self.x*self.pitch)
 
-        if self.sy == 0:
-            # if we are producting a minimally sized base sy will be zero
-            self.sy = self.y*self.pitch
+        if self.size_y == 0:
+            # if we are producting a minimally sized base size_y will be zero
+            self.size_y = self.y*self.pitch
         else:
             if self.y == 0:
                 # if we are producing an automatically determined maximum
                 # number of grid rows self.y will be zero
-                self.y = int(self.sy / self.pitch)
-            # if both sy and y were provided, y takes precedence
-            self.sy = max(self.sy, self.y*self.pitch)
+                self.y = int(self.size_y / self.pitch)
+            # if both size_y and y were provided, y takes precedence
+            self.size_y = max(self.size_y, self.y*self.pitch)
 
         if self.panel_x != 0 and self.panel_y != 0:
-            self.render_split(self.sx, self.sy, self.h, self.x, self.y, self.pitch, self.m)
+            self.render_split(self.size_x, self.size_y, self.h, self.x, self.y, self.pitch, self.m)
         else:
-            self.render_unsplit(self.sx, self.sy, self.h, self.x, self.y, self.pitch, self.m)
+            self.render_unsplit(self.size_x, self.size_y, self.h, self.x, self.y, self.pitch, self.m)
 
     def render_split(self, x, y, h, nx, ny, pitch, margin):
         """

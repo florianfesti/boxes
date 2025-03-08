@@ -3,6 +3,12 @@
 <!--
 RoundedRegularBox - Regular polygone box with vertical edges rounded
 
+
+
+![Lids off](static/samples/RoundedRegularBox2.jpg)
+
+
+
 Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes RoundedRegularBox
 -->
@@ -12,6 +18,10 @@ Command line (remove spaces between dashes): boxes RoundedRegularBox
 <dc:title>FlexBox - RoundedRegularBox</dc:title>
 <dc:source>boxes RoundedRegularBox</dc:source>
 <dc:description>Regular polygone box with vertical edges rounded
+
+
+![Lids off](static/samples/RoundedRegularBox2.jpg)
+
 
 Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes RoundedRegularBox

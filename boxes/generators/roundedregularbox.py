@@ -21,7 +21,9 @@ import boxes
 class RoundedRegularBox(boxes.Boxes):
     """Regular polygone box with vertical edges rounded"""
 
-    description = """"""
+    description = """
+![Lids off](static/samples/RoundedRegularBox2.jpg)
+"""
 
     ui_group = "FlexBox"
 

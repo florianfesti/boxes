@@ -65,7 +65,7 @@ class Kamishibai(_TopEdge):
         front_group = self.argparser.add_argument_group("Kamishibai front cover")
         front_group.add_argument(
             "--FrontCoverStyle",  action="store", type=str, default="two-part lid with hinge eyes (both ends)",
-            choices=["none", "slide-on lid", "two-part lid with hinge eyes (both ends)", "three-part lid, higes not provided"],
+            choices=["slide-on lid", "two-part lid with hinge eyes (both ends)", "three-part lid, higes not provided"],
             help="style of the front cover")
         front_group.add_argument(
             "--FrontExtraDepth",  action="store", type=int, default=3,
@@ -227,8 +227,15 @@ class Kamishibai(_TopEdge):
             if self.LockScrewExtraFeetScewDiameter > 0 and self.LockScrewExtraFeetDistanceFromBorder > 0 and not isTop :
                 self.hole(self.LockScrewExtraFeetDistanceFromBorder, self.LockScrewExtraFeetDistanceFromBorder, self.LockScrewExtraFeetScewDiameter/2)
                 self.hole(wi + self.thickness * 8 - self.LockScrewExtraFeetDistanceFromBorder, self.LockScrewExtraFeetDistanceFromBorder, self.LockScrewExtraFeetScewDiameter/2)
-                self.hole(self.LockScrewExtraFeetDistanceFromBorder, di + self.thickness * (self.BackExtraDepth + self.BackExtraDepth + 5) - self.LockScrewExtraFeetDistanceFromBorder, self.LockScrewExtraFeetScewDiameter/2)
-                self.hole(wi + self.thickness * 8 - self.LockScrewExtraFeetDistanceFromBorder, di + self.thickness * (self.BackExtraDepth + self.BackExtraDepth + 5) - self.LockScrewExtraFeetDistanceFromBorder, self.LockScrewExtraFeetScewDiameter/2)
+                if self.FrontCoverStyle == "two-part lid with hinge eyes (both ends)":
+                    self.hole(self.thickness * 6, di + self.thickness * (self.BackExtraDepth + self.FrontExtraDepth + 4) - self.LockScrewExtraFeetDistanceFromBorder, self.LockScrewExtraFeetScewDiameter/2)
+                    self.hole(wi + self.thickness * 2, di + self.thickness * (self.BackExtraDepth + self.FrontExtraDepth + 4) - self.LockScrewExtraFeetDistanceFromBorder, self.LockScrewExtraFeetScewDiameter/2)
+                elif self.FrontCoverStyle == "three-part lid, higes not provided":
+                    self.hole(self.LockScrewExtraFeetDistanceFromBorder, di + self.thickness * (self.BackExtraDepth + self.FrontExtraDepth + 4) - self.LockScrewExtraFeetDistanceFromBorder, self.LockScrewExtraFeetScewDiameter/2)
+                    self.hole(wi + self.thickness * 8 - self.LockScrewExtraFeetDistanceFromBorder, di + self.thickness * (self.BackExtraDepth + self.FrontExtraDepth + 4) - self.LockScrewExtraFeetDistanceFromBorder, self.LockScrewExtraFeetScewDiameter/2)
+                else:
+                    self.hole(self.LockScrewExtraFeetDistanceFromBorder, di + self.thickness * (self.BackExtraDepth + self.FrontExtraDepth + 6) - self.LockScrewExtraFeetDistanceFromBorder, self.LockScrewExtraFeetScewDiameter/2)
+                    self.hole(wi + self.thickness * 8 - self.LockScrewExtraFeetDistanceFromBorder, di + self.thickness * (self.BackExtraDepth + self.FrontExtraDepth + 6) - self.LockScrewExtraFeetDistanceFromBorder, self.LockScrewExtraFeetScewDiameter/2)
 
             #finger holes for top and bottom door locks
             if self.FrontExtraTopAndBottomLocks and (self.FrontCoverStyle == "two-part lid with hinge eyes (both ends)"
@@ -267,7 +274,7 @@ class Kamishibai(_TopEdge):
             self.fingerHolesAt(self.thickness*3.5, di + self.thickness*(self.BackExtraDepth + 4), self.thickness * (self.FrontExtraDepth  - 2), angle=90)
             self.fingerHolesAt(wi + self.thickness*4.5, di + self.thickness*(self.BackExtraDepth + 4), self.thickness * (self.FrontExtraDepth  - 2), angle=90)
         elif self.FrontExtraDepth > 0 and (self.FrontCoverStyle == "three-part lid, higes not provided" or self.FrontCoverStyle == "none") :
-            self.fingerHolesAt(self.thickness*3.5, di + self.thickness*(self.BackExtraDepth + self.BackExtraDepth + 0), self.FrontExtraDepth * self.thickness, angle=90)
+            self.fingerHolesAt(self.thickness*3.5, di + self.thickness*(self.BackExtraDepth + self.FrontExtraDepth + 0), self.FrontExtraDepth * self.thickness, angle=90)
             self.fingerHolesAt(wi + self.thickness*4.5, di + self.thickness*(self.BackExtraDepth  + self.BackExtraDepth + 0), self.FrontExtraDepth * self.thickness, angle=90)
         elif self.FrontExtraDepth > 2 and self.FrontCoverStyle == "slide-on lid" :
             self.fingerHolesAt(self.thickness*3.5, di + self.thickness*(self.BackExtraDepth + 4), self.thickness * (self.FrontExtraDepth), angle=90)
@@ -516,9 +523,8 @@ class Kamishibai(_TopEdge):
             # plate
             self.edges["I"](wi/2 + self.thickness * 1.5 - self.LockScrewDiameter/2  - self.Margin/2)
             self.screwAttachement(self.DoorFeetScrewLength)
-            self.polyline(self.thickness * 1.5 - self.LockScrewDiameter/2, 90, hi + self.thickness*2, 90, self.thickness * 1.5 - self.LockScrewDiameter/2, 0)
-            self.screwAttachement(self.DoorFeetScrewLength)
-            self.edges["J"](wi/2 + self.thickness * 1.5 - self.LockScrewDiameter/2 - self.Margin/2)
+            self.polyline(self.thickness * 1.5 - self.LockScrewDiameter/2, 90, hi + self.thickness*2, 90, self.thickness * 1.5, 0)
+            self.edges["J"](wi/2 + self.thickness * 1.5 - self.Margin/2)
             self.polyline(0, 90, hi, 90)
             # move plate
             self.move((wi + self.thickness*6 - self.Margin)/2, hi + self.thickness*2, move, label=label)
@@ -604,13 +610,8 @@ class Kamishibai(_TopEdge):
         self.rectangularWall(self.thickness*4, self.thickness + self.PegsWidthMargin, "eeee", move=move)
 
     def lockExtra (self, move=None):
-        # external plate wheel
-        if self.move(self.thickness*6 - self.Margin, self.thickness*6 - self.Margin, move, True):
-            return
-        self.parts.disc(self.thickness*6 - self.Margin, callback=lambda:self.rectangularHole(0, 0, self.thickness, self.thickness))
-        self.move(self.thickness*6 - self.Margin, self.thickness*6 - self.Margin, move, label="lock external")
         # grip wheel
-        if self.move(self.thickness*6, self.thickness*6, move, True):
+        if self.move(self.thickness*7, self.thickness*7, move, True):
             return
         self.parts.wavyKnob(self.thickness*5, callback=lambda:self.rectangularHole(0, 0, self.thickness, self.thickness))
         self.move(self.thickness*6, self.thickness*6, move, label="lock grip")
@@ -630,7 +631,7 @@ class Kamishibai(_TopEdge):
         self.parts.disc(self.thickness*8 - self.Margin, dwidth=0.8, callback=lambda:self.rectangularHole(0, 0, self.thickness, self.thickness))
         self.move(self.thickness*8 - self.Margin, self.thickness*8 - self.Margin, move, label="lock locker")
         # discs attachement
-        self.rectangularWall(self.thickness*6, self.thickness + self.PegsWidthMargin, "eeee", move=move)
+        self.rectangularWall(self.thickness*5, self.thickness + self.PegsWidthMargin, "eeee", move=move)
 
     def keyHoles(self, centerHoleLength, isRotated=False):
         # center key hole

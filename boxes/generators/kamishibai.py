@@ -514,7 +514,7 @@ class Kamishibai(_TopEdge):
         if "bottom" in lockStyle :
             self.hole((wi - self.Margin)/2 - self.thickness, self.thickness*4, self.thickness*2)
             self.rectangularHole((wi - self.Margin)/2 - self.thickness, self.thickness*4, self.thickness, self.thickness, 0, color=Color.MAGENTA)
-    
+
     def coverPanel2Side(self, wi, hi, lockStyle, move=None, label=""):
         if self.DoorFeetScrewLength > 0 and self.LockScrewDiameter > 0 :
             if self.move((wi + self.thickness*6 - self.Margin)/2, hi + self.thickness*2, move, True):

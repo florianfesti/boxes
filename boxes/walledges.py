@@ -21,10 +21,11 @@ class _WallMountedBox(Boxes):
         self.addSettingsArgs(SlatWallSettings)
         self.addSettingsArgs(DinRailSettings)
         self.addSettingsArgs(FrenchCleatSettings)
+        self.addSettingsArgs(SkadisSettings)
         self.argparser.add_argument(
             "--walltype",  action="store", type=str, default="plain",
             choices=["plain", "plain reinforced", "slatwall", "dinrail",
-                     "french cleat"],
+                     "french cleat", "skadis"],
             help="Type of wall system to attach to")
 
     def generateWallEdges(self):
@@ -44,6 +45,10 @@ class _WallMountedBox(Boxes):
             s = FrenchCleatSettings(
                 self.thickness, True,
                 **self.edgesettings.get("FrenchCleat", {}))
+        elif self.walltype == "skadis":
+            s = SkadisSettings(
+                self.thickness, True,
+                **self.edgesettings.get("Skadis", {}))
 
         s.edgeObjects(self)
         self.wallHolesAt = self.edges["|"]
@@ -445,3 +450,58 @@ Values:
     }
 
     base_class = FrenchCleatEdge
+
+#############################################################################
+####     Skadis
+#############################################################################
+
+class SkadisEdge(WallEdge):
+
+    def lengths(self, length):
+        if length < 11:
+            return [length]
+        if self.settings.style == "hooks":
+            return [0] + ([11, 29] * int(length // 40)) + [length % 40]
+        elif self.settings.style == "hook+stud" and length > 40+15:
+            return [0, 11, 29, 10, length - 11 - 29 - 10]
+        else:
+            return [0, 11, length-11]
+
+    def _section(self, nr, length):
+        poly = [length]
+        r = 1
+        a = 10
+        ar = math.radians(a)
+        b = self.settings.board_thickness
+        h = 4.8
+        print(nr)
+        if nr == 0 or self.settings.style == "hooks":
+            poly = [0, -90, b+h-r, (90, r), 10-2*r, (90, r),
+                    h-r-5*math.tan(ar), 90-a,
+                    5/math.cos(ar), -90+a, b-r, (-90, r), length-r-5]
+        else:
+            poly = [0, -90, b, (90, 2), 10-4, (90, 2), b, -90, length-10]
+        if self._reversed:
+            poly = reversed(poly)
+        return self.polyline(*poly)
+
+    def margin(self):
+        return self.settings.board_thickness + 4.8
+
+class SkadisSettings(WallSettings):
+
+    """Settings for SkadisEdges
+Values:
+
+* absolute_params
+
+ * style : "hooks" : How to hook into the wall
+ * board_thickness : 5.1 : Thickness of the Skandis board
+"""
+
+    base_class = SkadisEdge
+
+    absolute_params = {
+        "style" : ("hooks", "hook+stud", "single"),
+        "board_thickness" : 5.1,
+        }

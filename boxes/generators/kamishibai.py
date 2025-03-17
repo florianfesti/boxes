@@ -88,10 +88,10 @@ class Kamishibai(_TopEdge):
             "--HingeHolesBoxEdgeDistance",  action="store", type=float, default=7.0,
             help="distance of the box holes from the edge to the holes centers in mm")
         hinges_3panes_group.add_argument(
-            "--HingeHolesCoverSeparation",  action="store", type=argparseSections, default=str("24.0:12.0"),
+            "--HingeHolesCoverSeparation",  action="store", type=argparseSections, default="24.0:12.0",
             help="separation of the cover holes from one another's center in mm (section parameter type) ; the first item is the distance from the border")
         hinges_3panes_group.add_argument(
-            "--HingeHolesBoxSeparation",  action="store", type=argparseSections, default=str("15.0:30.0"),
+            "--HingeHolesBoxSeparation",  action="store", type=argparseSections, default="15.0:30.0",
             help="separation of the box holes from one another's center in mm (section parameter type) ; the first item is the distance from the border")
         ScrewsLocking_group = self.argparser.add_argument_group("Screws parameters for attaching the pieces together")
         ScrewsLocking_group.add_argument(

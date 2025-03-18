@@ -57,7 +57,7 @@ class Kamishibai(_TopEdge):
             "--HandleMargin",  action="store", type=float, default=0.0,
             help="Margin for the top handle in mm (Set to 0 for no margin)")
         self.argparser.add_argument(
-            "--BackExtraDepth",  action="store", type=int, default=0,
+            "--BackExtraDepth",  action="store", type=int, default=4,
             help="Back extra depth (for adding buttons for example), in multiples of thickness ; set to 0 to let the system calculate the smallest one")
         self.argparser.add_argument(
             "--PegsWidthMargin",  action="store", type=float, default=0.5,
@@ -68,7 +68,7 @@ class Kamishibai(_TopEdge):
             choices=["slide-on lid", "two-part lid with hinge eyes (both ends)", "three-part lid, higes not provided"],
             help="style of the front cover")
         front_group.add_argument(
-            "--FrontExtraDepth",  action="store", type=int, default=3,
+            "--FrontExtraDepth",  action="store", type=int, default=4,
             help="Front extra depth (for attaching hinges for example), in multiples of thickness ; set to 0 to ignore or let the system calculate the smallest one")
         front_group.add_argument(
             "--FrontLockStyle",  action="store", type=str, default="with key",
@@ -95,7 +95,7 @@ class Kamishibai(_TopEdge):
             help="separation of the box holes from one another's center in mm (section parameter type) ; the first item is the distance from the border")
         ScrewsLocking_group = self.argparser.add_argument_group("Screws parameters for attaching the pieces together")
         ScrewsLocking_group.add_argument(
-            "--LockScrewDiameter",  action="store", type=float, default=3.0,
+            "--LockScrewDiameter",  action="store", type=float, default=0.0,
             help="Diameter of the screw holes in mm (set to 0 for no screws)")
         ScrewsLocking_group.add_argument(
             "--TopLockScrewLength",  action="store", type=float, default=16.0,

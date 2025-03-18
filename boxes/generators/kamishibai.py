@@ -30,10 +30,10 @@ class Kamishibai(_TopEdge):
         # ~ self.addSettingsArgs(edges.HingeSettings, outset=True, pinwidth=0.4, style="flush", axle=2.5, hingestrength=2)
         self.addSettingsArgs(edges.HingeSettings, outset=True, pinwidth=0.4, style="flush", axle=2.5, hingestrength=1)
         self.argparser.add_argument(
-            "--SheetWidth",  action="store", type=float, default=380.0,
+            "--SheetWidth",  action="store", type=float, default=297.0,
             help="width of the sheets in mm")
         self.argparser.add_argument(
-            "--SheetHeight",  action="store", type=float, default=280.0,
+            "--SheetHeight",  action="store", type=float, default=210.0,
             help="height of the sheets in mm")
         self.argparser.add_argument(
             "--SheetsStackDepth",  action="store", type=float, default=30.0,

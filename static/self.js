@@ -88,6 +88,36 @@ function initPage(num_hide = null) {
     for (let el of t) initThumbnail(el);
 }
 
+function initArgsPage(num_hide = null) {
+    initPage(num_hide);
+    const i = document.querySelectorAll("td > input, td > select");
+    for (let el of i) {
+	el.addEventListener("change", refreshPreview);
+    }
+    refreshPreview();
+    document.getElementById("preview_chk").addEventListener("change", togglePreview);
+}
+
+function refreshPreview() {
+    if (document.getElementById("preview_img").hidden)
+	return;
+
+    const form = document.querySelector("#arguments");
+    const formData = new FormData(form);
+    formData.set("format", "svg");
+
+    const url = form.action + "?" + new URLSearchParams(formData).toString() + "&render=1";
+
+    const preview = document.getElementById("preview_img");
+    preview.src = url;
+}
+
+function togglePreview() {
+    document.getElementById("preview_img").hidden = !event.target.checked;
+    if (event.target.checked)
+	refreshPreview();
+}
+
 function GridfinityTrayLayout_GenerateLayout(x, y, nx, ny, countx, county) {
     // x = width in mm
     // y = height in mm

@@ -237,7 +237,7 @@ class BServer:
 </head>
 <body onload="initArgsPage({len(box.argparser._action_groups) - 3})">
 
-<div class="container">
+<div class="argumentcontainer">
 <div style="float: left;">
 <a href="./{langparam}"><h1>{_("Boxes.py")}</h1></a>
 </div>
@@ -249,7 +249,7 @@ class BServer:
 <hr>
 <div class="linkbar">
 <ul>
-{self.genLinks(lang)}
+{self.genLinks(lang, True)}
 </ul>
 </div>
 <hr>
@@ -301,6 +301,9 @@ class BServer:
 <img style="width:100%;" src="{self.static_url}/samples/{box.__class__.__name__}.jpg" onerror="this.parentElement.innerHTML = '{no_img_msg}';" alt="Picture of box.">
 </div>
 </div>
+</div>
+<div id="preview">
+<img id="preview_img" src="{self.static_url}/nothing.png">
 </div>
 </body>
 </html>
@@ -453,7 +456,7 @@ class BServer:
 <hr/>
 """
 
-    def genLinks(self, lang):
+    def genLinks(self, lang, preview=False):
         _ = lang.gettext
         links = [("https://florianfesti.github.io/boxes/html/usermanual.html", _("Help")),
                  ("https://hackaday.io/project/10649-boxespy", _("Home Page")),
@@ -464,6 +467,10 @@ class BServer:
         links.append(("https://florianfesti.github.io/boxes/html/give_back.html", _("Give Back")))
 
         result = [f'  <li><a href="{url}" target="_blank" rel="noopener">{txt}</a></li>\n' for url, txt in links]
+
+        if preview:
+            result.append(f'    <li class="right">{_("Preview")} <input id="preview_chk" type="checkbox" checked="checked"> </li>\n')
+
         result.append(f'  <li class="right">{self.genHTMLLanguageSelection(lang)}  </li>\n')
         return "".join(result)
 

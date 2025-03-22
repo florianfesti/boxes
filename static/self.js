@@ -1,3 +1,6 @@
+
+/*** Thumbnails ******************************************/
+
 function showThumbnail(img_link) {
     const img = document.getElementById("sample-preview");
     img.src = img_link;
@@ -14,6 +17,8 @@ function hideThumbnail() {
     const img = document.getElementById("sample-preview");
     img.style.display = "none";
 }
+
+/*** Expand/Collapse **************************************/
 
 function expandId(id) {
     const e = document.getElementById(id);
@@ -57,6 +62,8 @@ function toggleEvt(evt) {
     }
 }
 
+/*** Init page ***************************************/
+
 function initToggle(el, hide = false) {
     // Add event handler.
     el.addEventListener("click", toggleEvt);
@@ -98,6 +105,8 @@ function initArgsPage(num_hide = null) {
     document.getElementById("preview_chk").addEventListener("change", togglePreview);
 }
 
+/*** Preview ****************************************/
+
 function refreshPreview() {
     if (document.getElementById("preview_img").hidden)
 	return;
@@ -117,6 +126,8 @@ function togglePreview() {
     if (event.target.checked)
 	refreshPreview();
 }
+
+/*** GrindFinity ******************************************/
 
 function GridfinityTrayLayout_GenerateLayout(x, y, nx, ny, countx, county) {
     // x = width in mm
@@ -187,6 +198,8 @@ function GridfinityTrayLayoutInit() {
     layout_id.rows = 20;
     layout_id.cols = 24;
 }
+
+/*** PhotoFrame ******************************************/
 
 function PhotoFrameInit() {
     console.log("PhotoFrameInit: setting event handlers for matting");
@@ -339,6 +352,8 @@ function goldenMattingWidth(photoWidth, photoHeight) {
     return x1;
 }
 
+/*** TrayLayout ******************************************/
+
 function ParseSections(s) {
     var sections = [];
     for (var section of s.split(":")) {
@@ -432,6 +447,8 @@ function addCallbacks() {
         callback();
     }
 }
+
+/*** Search for generators **************************************/
 
 document.addEventListener('DOMContentLoaded', function() {
     addCallbacks();

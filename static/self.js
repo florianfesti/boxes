@@ -115,7 +115,7 @@ function refreshPreview() {
     const formData = new FormData(form);
     formData.set("format", "svg");
 
-    const url = form.action + "?" + new URLSearchParams(formData).toString() + "&render=1";
+    const url = form.action + "?" + new URLSearchParams(formData).toString() + "&render=4";
 
     const preview = document.getElementById("preview_img");
     preview.src = url;

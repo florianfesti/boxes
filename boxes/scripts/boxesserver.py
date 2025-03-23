@@ -39,6 +39,7 @@ try:
 except ImportError:
     sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), "../.."))
     import boxes.generators
+import boxes
 
 
 class FileChecker(threading.Thread):
@@ -492,6 +493,17 @@ class BServer:
         h += "</body></html>"
         return [h.encode("utf-8")]
 
+    def genPageErrorSVG(self, name, e, lang) -> list[bytes]:
+        """Generates a error page."""
+        _ = lang.gettext
+
+        box = boxes.Boxes()
+        box.parseArgs(["--reference=0.0"])
+        box.open()
+        box.text(_("An error occurred!"))
+        box.text(str(e), y=-20, fontsize=7)
+        return box.close()
+
     def serveStatic(self, environ, start_response):
         filename = environ["PATH_INFO"][len("/static/"):]
         path = os.path.join(self.staticdir, filename)
@@ -649,8 +661,12 @@ class BServer:
         try:
             box.parseArgs(args)
         except ArgumentParserError as e:
-            start_response(status, headers)
-            return self.genPageError(name, e, lang)
+            if render == "4":
+                start_response(status, box.formats.http_headers["svg"])
+                return self.genPageErrorSVG(name, e, lang)
+            else:
+                start_response(status, headers)
+                return self.genPageError(name, e, lang)
 
         try:
             box.metadata["url"] = self.getURL(environ)

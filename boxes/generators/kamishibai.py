@@ -34,38 +34,38 @@ class Kamishibai(_TopEdge):
     thickness (i.e. with sheets with a small margin).
     
     For assembling the box, please follow the following steps:
-    * Assemble the front side and back side pieces to the front and back of the front and back
+    1. Assemble the front side and back side pieces to the front and back of the front and back
     panels respectively  
-    * Assemble the top handle pieces together and insert two of the plates into the two holes (centered) ;
+    2. Assemble the top handle pieces together and insert two of the plates into the two holes (centered) ;
     then insert the assembled handles into the dansle ceiling and add the two other plates
-    * Insert the front and back panels into the bottom panel
-    * Attach the handle between the top of the front and back panels, then add the top panel but do not
+    3. Insert the front and back panels into the bottom panel
+    4. Attach the handle between the top of the front and back panels, then add the top panel but do not
     fasten it yet, just keep it loose on top
-    * Assemble the locks together to the doors if enabled:
-       * lock with key : lock front - lock external - plate cut from the door (also add the door now) -
+    5. Assemble the locks together to the doors if enabled:
+       5.1 lock with key : lock front - lock external - plate cut from the door (also add the door now) -
        lock internal
-       * lock simple : lock grip - lock external - plate cut from the door (also add the door now) - lock
+       5.2 lock simple : lock grip - lock external - plate cut from the door (also add the door now) - lock
        internal
-       * small extra locks for top and bottom : lock grip - plate cut from the door (also add the door
+       5.3 small extra locks for top and bottom : lock grip - plate cut from the door (also add the door
        now) - lock internal - lock spacer - lock locker
-    * Add the hinges to the doors if needed (for two-panes front doors)
-    * fasten the top
-    * Attach two side panel inner plates to a side panel with the two pegs (use glue if necessary) and
+    6. Add the hinges to the doors if needed (for two-panes front doors)
+    7. fasten the top
+    8. Attach two side panel inner plates to a side panel with the two pegs (use glue if necessary) and
     repeat a second time
-    * If you use a lock with key, add the last short peg to the back plate (you may want to sand it a bit
+    9. If you use a lock with key, add the last short peg to the back plate (you may want to sand it a bit
     on the other half so that the key can be attached easily enough, but it should not fal off either)
-    * You should now be able to close and open all the doors
+    10. You should now be able to close and open all the doors
 
     Usage recommendations:
-    * Add your paper sheets fron one side or the other (normally you leave either left or right closed,
+    1. Add your paper sheets fron one side or the other (normally you leave either left or right closed,
     depending on which is more comfortable for you)
-    * Thick paper is easier to handle ; if you print on a home printer, use the thickest you printer can
+    2. Thick paper is easier to handle ; if you print on a home printer, use the thickest you printer can
     print (probably around 200 grams per square meter) ; if you want extra quality, go to a printing shop
     and ask them for 300 grams per square meter printing
-    * You can also buy virgin drawing paper to write your own stories
-    * If you decided to go for the lock with key, you can ask one of the participants to unlock the box,
+    3. You can also buy virgin drawing paper to write your own stories
+    4. If you decided to go for the lock with key, you can ask one of the participants to unlock the box,
     it really helps in immersing into toe story
-    * If you need a kamishibai for showing images during a guided tour, you may choose to use the
+    5. If you need a kamishibai for showing images during a guided tour, you may choose to use the
     one-panel front, and use transparent acrylic for the back and front panels to keep you sheets
     protected from light rain ; you may need to cut the box from a rain-resistant material
     (outside-compatible plywood or acrylic)

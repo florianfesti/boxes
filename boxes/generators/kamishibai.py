@@ -34,7 +34,7 @@ class Kamishibai(_TopEdge):
     thickness (i.e. with sheets with a small margin).
     
     For assembling the box, please follow the following steps:
-    * Assemble the "front side" and "back side" pieces to the front and back of the front and back
+    * Assemble the front side and back side pieces to the front and back of the front and back
     panels respectively  
     * Assemble the top handle pieces together and insert two of the plates into the two holes (centered) ;
     then insert the assembled handles into the dansle ceiling and add the two other plates

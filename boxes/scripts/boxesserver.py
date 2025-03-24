@@ -39,6 +39,7 @@ try:
 except ImportError:
     sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), "../.."))
     import boxes.generators
+import boxes
 
 
 class FileChecker(threading.Thread):
@@ -200,7 +201,7 @@ class BServer:
                     (name, name, name + "_id", name + "_description", max(len(l) for l in val) + 10, len(val) + 1, default or a.default)
         elif a.choices:
             options = "\n".join(
-                """<option value="%s"%s>%s</option>""" %
+                """    <option value="%s"%s>%s</option>""" %
                 (e, ' selected="selected"' if (e == (default or a.default)) or (str(e) == str(default or a.default)) else "",
                  _(e)) for e in a.choices)
             input = """<select name="{}" id="{}" aria-labeledby="{} {}" size="1">\n{}</select>\n""".format(name, name, name + "_id", name + "_description", options)
@@ -231,13 +232,13 @@ class BServer:
 <head>
     <title>{_("%s - Boxes") % _(name)}</title>
     {self.genHTMLMeta()}
-    {self.genHTMLMetaLanguageLink()}
+{self.genHTMLMetaLanguageLink()}
     {self.genHTMLCSS()}
     {self.genHTMLJS()}
 </head>
-<body onload="initPage({len(box.argparser._action_groups) - 3})">
+<body onload="initArgsPage({len(box.argparser._action_groups) - 3})">
 
-<div class="container">
+<div class="argumentcontainer">
 <div style="float: left;">
 <a href="./{langparam}"><h1>{_("Boxes.py")}</h1></a>
 </div>
@@ -249,13 +250,14 @@ class BServer:
 <hr>
 <div class="linkbar">
 <ul>
-{self.genLinks(lang)}
+{self.genLinks(lang, True)}
 </ul>
 </div>
 <hr>
+
 <h2 style="margin: 0px 0px 0px 20px;">{_(name)}</h2>
         <p>{_(box.__doc__) if box.__doc__ else ""}</p>
-<form action="{action}" method="GET" rel="nofollow">
+<form id="arguments" action="{action}" method="GET" rel="nofollow">
         """]
         groupid = 0
         for group in box.argparser._action_groups[3:] + box.argparser._action_groups[:3]:
@@ -277,10 +279,10 @@ class BServer:
 <input type="hidden" name="language" id="language" value="{lang_name}">
 
 <p>
- <button name="render" value="1" formtarget="_blank">{_("Generate")}</button>
- <button name="render" value="2" formtarget="_self">{_("Download")}</button>
- <button name="render" value="0" formtarget="_self">{_("Save to URL")}</button>
-<button name="render" value="3" formtarget="_blank">{_("QR Code")}</button>
+    <button name="render" value="1" formtarget="_blank">{_("Generate")}</button>
+    <button name="render" value="2" formtarget="_self">{_("Download")}</button>
+    <button name="render" value="0" formtarget="_self">{_("Save to URL")}</button>
+    <button name="render" value="3" formtarget="_blank">{_("QR Code")}</button>
 </p>
 </form>
 </div>
@@ -301,6 +303,9 @@ class BServer:
 </div>
 </div>
 </div>
+<div id="preview">
+<img id="preview_img" src="{self.static_url}/nothing.png">
+</div>
 </body>
 </html>
         ''')
@@ -318,7 +323,7 @@ class BServer:
 <head>
     <title>{_("Boxes.py")}</title>
     {self.genHTMLMeta()}
-    {self.genHTMLMetaLanguageLink()}
+{self.genHTMLMetaLanguageLink()}
     {self.genHTMLCSS()}
     {self.genHTMLJS()}
 </head>
@@ -377,11 +382,11 @@ class BServer:
 
     def genHTMLMeta(self) -> str:
         return f'''
-            <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-            <link rel="icon" type="image/svg+xml" href="{self.static_url}/boxes-logo.svg" sizes="any">
-            <link rel="icon" type="image/x-icon" href="{self.static_url}/favicon.ico">
-        '''
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/svg+xml" href="{self.static_url}/boxes-logo.svg" sizes="any">
+    <link rel="icon" type="image/x-icon" href="{self.static_url}/favicon.ico">
+'''
 
     def genHTMLMetaLanguageLink(self) -> str:
         """Generates meta language list for search engines."""
@@ -389,7 +394,7 @@ class BServer:
 
         s = ""
         for language in languages:
-            s += f'<link rel="alternate" hreflang="{language.replace("_", "-")}" href="https://boxes.hackerspace-bamberg.de/?language={language}">\n'
+            s += f'    <link rel="alternate" hreflang="{language.replace("_", "-")}" href="https://boxes.hackerspace-bamberg.de/?language={language}">\n'
         return s
 
     def genHTMLCSS(self) -> str:
@@ -416,7 +421,7 @@ class BServer:
 """ + html_option + """
             </select>
         </form>
-        """
+"""
 
     def genPagePartHeader(self, lang) -> str:
         _ = lang.gettext
@@ -452,7 +457,7 @@ class BServer:
 <hr/>
 """
 
-    def genLinks(self, lang):
+    def genLinks(self, lang, preview=False):
         _ = lang.gettext
         links = [("https://florianfesti.github.io/boxes/html/usermanual.html", _("Help")),
                  ("https://hackaday.io/project/10649-boxespy", _("Home Page")),
@@ -463,7 +468,11 @@ class BServer:
         links.append(("https://florianfesti.github.io/boxes/html/give_back.html", _("Give Back")))
 
         result = [f'  <li><a href="{url}" target="_blank" rel="noopener">{txt}</a></li>\n' for url, txt in links]
-        result.append(f'   <li class="right">{self.genHTMLLanguageSelection(lang)}</li>\n')
+
+        if preview:
+            result.append(f'    <li class="right">{_("Preview")} <input id="preview_chk" type="checkbox" checked="checked"> </li>\n')
+
+        result.append(f'  <li class="right">{self.genHTMLLanguageSelection(lang)}  </li>\n')
         return "".join(result)
 
     def genPageError(self, name, e, lang) -> list[bytes]:
@@ -483,6 +492,17 @@ class BServer:
             h += f"<p>{html.escape(s)}</p>\n"
         h += "</body></html>"
         return [h.encode("utf-8")]
+
+    def genPageErrorSVG(self, name, e, lang) -> list[bytes]:
+        """Generates a error page."""
+        _ = lang.gettext
+
+        box = boxes.Boxes()
+        box.parseArgs(["--reference=0.0"])
+        box.open()
+        box.text(_("An error occurred!"))
+        box.text(str(e), y=-20, fontsize=7)
+        return box.close()
 
     def serveStatic(self, environ, start_response):
         filename = environ["PATH_INFO"][len("/static/"):]
@@ -549,7 +569,7 @@ class BServer:
 <head>
     <title>{_("Gallery")} - {_("Boxes.py")}</title>
     {self.genHTMLMeta()}
-    {self.genHTMLMetaLanguageLink()}
+{self.genHTMLMetaLanguageLink()}
     {self.genHTMLCSS()}
     {self.genHTMLJS()}
 </head>
@@ -641,8 +661,12 @@ class BServer:
         try:
             box.parseArgs(args)
         except ArgumentParserError as e:
-            start_response(status, headers)
-            return self.genPageError(name, e, lang)
+            if render == "4":
+                start_response(status, box.formats.http_headers["svg"])
+                return self.genPageErrorSVG(name, e, lang)
+            else:
+                start_response(status, headers)
+                return self.genPageError(name, e, lang)
 
         try:
             box.metadata["url"] = self.getURL(environ)

@@ -78,6 +78,20 @@ table tr p {
 
 /* Container */
 
+.argumentcontainer {
+    background-color: #FFF8EA;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    float: left;
+    margin-left: 40px;
+    margin-right: auto;
+    padding: 10px;
+    padding-bottom: 15px;
+    width: 996px;
+    border-radius: 30px;
+    box-shadow: 0 0 5px 0 #333333;
+}
+
 .container {
     background-color: #FFF8EA;
     margin-top: 20px;
@@ -89,7 +103,11 @@ table tr p {
     width: 996px;
     border-radius: 30px;
     box-shadow: 0 0 5px 0 #333333;
+}
 
+
+#preview {
+    overflow: auto;
 }
 
 hr {

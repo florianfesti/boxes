@@ -32,11 +32,11 @@ class Kamishibai(_TopEdge):
     example). It makes the box easier to mount and unmount for repairing purposes, and the feet protect
     the wood from whatever surface the box is put on. Screws are not compatible with a small frame
     thickness (i.e. with sheets with a small margin).
-    
+
     For assembling the box, please follow the following steps:
     1. Assemble the front side and back side pieces to the front and back of the front and back
-    panels respectively  
-    2. Assemble the top handle pieces together and insert two of the plates into the two holes (centered) ;
+    panels respectively
+    2. Assemble the top handle pieces together and insert two of the plates into the two holes (centered);
     then insert the assembled handles into the dansle ceiling and add the two other plates
     3. Insert the front and back panels into the bottom panel
     4. Attach the handle between the top of the front and back panels, then add the top panel but do not

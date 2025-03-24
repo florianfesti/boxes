@@ -33,8 +33,8 @@ class Kamishibai(_TopEdge):
     the wood from whatever surface the box is put on. Screws are not compatible with a small frame
     thickness (i.e. with sheets with a small margin).
     For assembling the box, please follow the following steps:
-    1. Assemble the front side and back side pieces to the front and back of the front and back
-    panels respectively
+    1. Assemble the front side and back side pieces to the front and back of the front and back panels
+    respectively
     2. Assemble the top handle pieces together and insert two of the plates into the two holes (centered);
     then insert the assembled handles into the dansle ceiling and add the two other plates
     3. Insert the front and back panels into the bottom panel
@@ -43,8 +43,8 @@ class Kamishibai(_TopEdge):
     5. Assemble the locks together to the doors if enabled:
        5.1 lock with key : lock front - lock external - plate cut from the door (also add the door now) -
        lock internal
-       5.2 lock simple : lock grip - lock external - plate cut from the door (also add the door now) - lock
-       internal
+       5.2 lock simple : lock grip - lock external - plate cut from the door (also add the door now) -
+       lock internal
        5.3 small extra locks for top and bottom : lock grip - plate cut from the door (also add the door
        now) - lock internal - lock spacer - lock locker
     6. Add the hinges to the doors if needed (for two-panes front doors)

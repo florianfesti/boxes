@@ -40,6 +40,7 @@ this compartment.
         self.argparser.add_argument("--county", type=int, default=3, help="split y into this many grid sections.  0 means same as --ny")
         self.argparser.add_argument("--margin", type=float, default=0.75, help="Leave this much total margin on the outside, in mm")
         self.argparser.add_argument("--stacking", action="store", type=boolarg, default=False, help="support gridfinity compatible stacking")
+        self.argparser.add_argument("--gen_pads", type=boolarg, default=True, help="generate pads to be used on the bottom of the box")
         if self.UI == "web":
             self.argparser.add_argument("--layout", type=str, help="You can hand edit this before generating", default="\n");
         else:
@@ -145,9 +146,10 @@ this compartment.
         with self.saved_context():
             self.base_plate(callback=[self.baseplate_etching],
                             move="mirror right")
-            foot = self.opening - self.opening_margin
-            for i in range(min(self.nx * self.ny, 4)):
-                self.rectangularWall(foot, foot, move="right")
+            if self.gen_pads:
+                foot = self.opening - self.opening_margin
+                for i in range(min(self.nx * self.ny, 4)):
+                    self.rectangularWall(foot, foot, move="right")
         self.base_plate(callback=[self.baseplate_etching],
                         move="up only")
         self.lid(sum(self.x) + (len(self.x)-1) * self.thickness,

@@ -41,6 +41,7 @@ this compartment.
         self.argparser.add_argument("--margin", type=float, default=0.75, help="Leave this much total margin on the outside, in mm")
         self.argparser.add_argument("--stacking", action="store", type=boolarg, default=False, help="support gridfinity compatible stacking")
         self.argparser.add_argument("--gen_pads", type=boolarg, default=True, help="generate pads to be used on the bottom of the box")
+        self.argparser.add_argument("--pad_radius", type=float, default=0.8, help="The corner radius for each grid opening.  Typical is 0.8,")
         if self.UI == "web":
             self.argparser.add_argument("--layout", type=str, help="You can hand edit this before generating", default="\n");
         else:
@@ -106,6 +107,26 @@ this compartment.
                     self.rectangularEtching(x+p/2+xx*p, y+p/2+yy*p, o-m, o-m)
             self.ctx.stroke()
 
+    def generatePad(self, x, y, r=0, move=None):
+        """
+        Draw a rectangular pad with radius edge
+
+        :param x: x position
+        :param y: y position
+        :param r:  (Default value = 0) radius of the corners
+        :param move:  (Default value = None)
+        """
+        if self.move(x, y, move, before=True):
+            return
+
+        r = min(r, x/2., y/2.)
+        self.moveTo(x / 2, 0)
+        self.edge(x / 2 - r) # start with an edge to allow easier change of inner corners
+        for d in (y, x, y, x / 2.0 + r):
+            self.corner(90, r)
+            self.edge(d - 2 * r)
+        self.move(x, y, move)
+
     def render(self):
         # Create a layout
         self.x = self.pitch * self.nx - self.margin
@@ -149,7 +170,7 @@ this compartment.
             if self.gen_pads:
                 foot = self.opening - self.opening_margin
                 for i in range(min(self.nx * self.ny, 4)):
-                    self.rectangularWall(foot, foot, move="right")
+                    self.generatePad(foot, foot, move="right", r=self.pad_radius)
         self.base_plate(callback=[self.baseplate_etching],
                         move="up only")
         self.lid(sum(self.x) + (len(self.x)-1) * self.thickness,

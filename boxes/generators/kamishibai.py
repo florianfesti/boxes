@@ -32,7 +32,6 @@ class Kamishibai(_TopEdge):
     example). It makes the box easier to mount and unmount for repairing purposes, and the feet protect
     the wood from whatever surface the box is put on. Screws are not compatible with a small frame
     thickness (i.e. with sheets with a small margin).
-
     For assembling the box, please follow the following steps:
     1. Assemble the front side and back side pieces to the front and back of the front and back
     panels respectively
@@ -55,7 +54,6 @@ class Kamishibai(_TopEdge):
     9. If you use a lock with key, add the last short peg to the back plate (you may want to sand it a bit
     on the other half so that the key can be attached easily enough, but it should not fal off either)
     10. You should now be able to close and open all the doors
-
     Usage recommendations:
     1. Add your paper sheets fron one side or the other (normally you leave either left or right closed,
     depending on which is more comfortable for you)

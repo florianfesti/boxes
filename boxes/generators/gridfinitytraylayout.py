@@ -42,6 +42,8 @@ this compartment.
         self.argparser.add_argument("--stacking", action="store", type=boolarg, default=False, help="support gridfinity compatible stacking")
         self.argparser.add_argument("--gen_pads", type=boolarg, default=True, help="generate pads to be used on the bottom of the box")
         self.argparser.add_argument("--pad_radius", type=float, default=0.8, help="The corner radius for each grid opening.  Typical is 0.8,")
+        self.argparser.add_argument("--cut_pads_mag_diameter", type=float, default=6.5, help="if pads are cut add holes for magnets. Typical is 6.5, zero to disable,")
+        self.argparser.add_argument("--cut_pads_mag_offset", type=float, default=7.75, help="if magnet hole offset from pitch corners.  Typical is 7.75.")
         if self.UI == "web":
             self.argparser.add_argument("--layout", type=str, help="You can hand edit this before generating", default="\n");
         else:
@@ -120,11 +122,23 @@ this compartment.
             return
 
         r = min(r, x/2., y/2.)
-        self.moveTo(x / 2, 0)
-        self.edge(x / 2 - r) # start with an edge to allow easier change of inner corners
-        for d in (y, x, y, x / 2.0 + r):
-            self.corner(90, r)
-            self.edge(d - 2 * r)
+        with self.saved_context():
+            self.moveTo(x / 2, 0)
+            self.edge(x / 2 - r) # start with an edge to allow easier change of inner corners
+            for d in (y, x, y, x / 2.0 + r):
+                self.corner(90, r)
+                self.edge(d - 2 * r)
+
+        self.moveTo(x/2, y/2)
+        if self.cut_pads_mag_diameter > 0:
+            # create a shorter variable names for use in the loop
+            ofs = self.cut_pads_mag_offset
+            dia = self.cut_pads_mag_diameter
+            for xoff, yoff in ((1,1), (-1,1), (1,-1), (-1,-1)):
+                hole_x = ((self.pitch // 2)-ofs)*xoff
+                hole_y = ((self.pitch // 2)-ofs)*yoff
+                self.hole(hole_x, hole_y, d=dia)
+
         self.move(x, y, move)
 
     def render(self):

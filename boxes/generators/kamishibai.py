@@ -60,8 +60,8 @@ class Kamishibai(_TopEdge):
     * Add your paper sheets fron one side or the other (normally you leave either left or right closed,
     depending on which is more comfortable for you)
     * Thick paper is easier to handle ; if you print on a home printer, use the thickest you printer can
-    print (probably around 200 g/m²) ; if you want extra quality, go to a printing shop and ask them for
-    300g/m² printing
+    print (probably around 200 grams per square meter) ; if you want extra quality, go to a printing shop
+    and ask them for 300 grams per square meter printing
     * You can also buy virgin drawing paper to write your own stories
     * If you decided to go for the lock with key, you can ask one of the participants to unlock the box,
     it really helps in immersing into toe story

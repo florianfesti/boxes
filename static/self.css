@@ -110,6 +110,11 @@ table tr p {
     overflow: auto;
 }
 
+#preview_buttons {
+    margin-left: 40px;
+    margin-top: 20px;
+}
+
 hr {
     display: block;
     height: 1px;

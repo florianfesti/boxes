@@ -40,6 +40,9 @@ location where the current and next part will be drawn. It's a string with
 space separated words controlling the direction; see the documentation for
 ``where`` below for possible values.
 
+This kind of direction controls the global placement and is unrelated to the
+drawing direction which is important for burn correction (aka kerf).
+
 For implementing parts the following helper function can be used to
 implement a ``move`` parameter:
 

@@ -1,3 +1,4 @@
+.. _api_edges:
 Edges
 =====
 
@@ -33,13 +34,13 @@ A set of instances are kept in the ``.edges`` attribute of the
 * C : ClickEdge
 * d : DoveTailJoint
 * D : DoveTailJointCounterPart
-* e : Edge
-* E : OutSetEdge
+* e : Edge, straight edge
+* E : OutSetEdge, like Edge but extended outside by one thickness
 * f : FingerJointEdge
 * F : FingerJointEdgeCounterPart
 * g : GrippingEdge
 * G : MountingEdge
-* h : FingerHoleEdge
+* h : FingerHoleEdge, edge with holes for finger joints
 * ijk : Hinge (start, end, both sides)
 * IJK : HingePin (start, end, both sides)
 * L : LidHoleEdge

@@ -1,15 +1,13 @@
 Parts
 -----
 
+There are a few parameters shared by many of the parts.
 
-
-
-There are a few parameters shared by many of the parts:
 
 The callback parameter
 ......................
 
-The callback parameter can take on of the following forms:
+The callback parameter can take one of the following forms:
 
 * A function (or bound method) that expects one parameter: the number of the side the callback is currently called for.
 * A dict with some of the numbers of the sides as keys and functions without parameters as values.

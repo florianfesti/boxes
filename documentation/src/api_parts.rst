@@ -35,24 +35,32 @@ For finding the right piece to the *callback* parameter this function is used:
 The move parameter
 ..................
 
-For placing the parts the ``move`` parameter can be used. It is string
-with space separated words - at most one of each of those options:
-
-* left / right
-* up / down
-* only
-
-If "only" is given the part is not drawn but only the move is
-done. This can be useful to go in one direction after having placed
-multiple parts in the other and have returned with ``.ctx.restore()``.
+The ``move`` parameter helps when placing multiple parts. It controls the
+location where the current and next part will be drawn. It's a string with
+space separated words controlling the direction; see the documentation for
+``where`` below for possible values.
 
 For implementing parts the following helper function can be used to
 implement a ``move`` parameter:
 
 .. automethod:: boxes.Boxes.move
 
-It needs to be called before and after drawing the actual part with
-the proper ``before`` parameter set.
+If "only" is given the part is not drawn but only the move is
+done. This can be useful to go in one direction after having placed
+multiple parts in the other and have returned with ``.ctx.restore()``.
+
+The following example draws three walls: one on the left of the origin and two
+on the right. The second draw with "right only" is necessary to prevent
+"drawing over" the first wall. The last call needs no move as no more parts
+get drawn afterwards.
+
+.. code-block:: python
+
+    self.rectangularWall(x, y, move="left")        # move left and draw
+    self.rectangularWall(x, y, move="right only")  # move right
+    self.rectangularWall(x, y, move="right")       # draw and move right
+    self.rectangularWall(x, y)                     # draw
+
 
 The edges parameter
 ...................

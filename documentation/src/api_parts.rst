@@ -71,14 +71,8 @@ The edges parameter
 The ``edges`` parameter needs to be an iterable of Edge instances to be
 used as edges of the part. Instead of instances it is possible to pass
 a single character that is looked up in the ``.edges`` dict. This
-allows to pass a string with the desired characters per edge. By
-default the following character are supported:
-
-* e : straight edge
-* E : as above but extended outside by one thickness
-* f, F : finger joints
-* h : edge with holes for finger joints
-* d, D : dove tail joints
+allows to pass a string with the desired characters per edge. See
+:ref:`api_edges` for a list of possible edges and their symbols.
 
 Generators can register their own Edges by putting them into the
 ``.edges`` dictionary.

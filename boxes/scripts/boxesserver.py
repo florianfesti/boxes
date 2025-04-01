@@ -304,7 +304,13 @@ class BServer:
 </div>
 </div>
 <div id="preview">
-<img id="preview_img" src="{self.static_url}/nothing.png">
+  <div id="preview_buttons">
+    <button type="button" onclick="preview_scale/=1.2; document.getElementById('preview_img').style.width = preview_scale + '%';">-</button>
+    <button type="button" onclick="preview_scale*= 1.2; document.getElementById('preview_img').style.width = preview_scale + '%';" >+</button>
+    <button type="button" onclick="preview_scale=100; document.getElementById('preview_img').style.width = preview_scale + '%';" >=</button>
+  </div>
+<br>
+<img id="preview_img" style="width:100%" src="{self.static_url}/nothing.png">
 </div>
 </body>
 </html>

@@ -107,6 +107,8 @@ function initArgsPage(num_hide = null) {
 
 /*** Preview ****************************************/
 
+preview_scale=100;
+
 function refreshPreview() {
     if (document.getElementById("preview_img").hidden)
 	return;
@@ -122,7 +124,7 @@ function refreshPreview() {
 }
 
 function togglePreview() {
-    document.getElementById("preview_img").hidden = !event.target.checked;
+    document.getElementById("preview").hidden = !event.target.checked;
     if (event.target.checked)
 	refreshPreview();
 }

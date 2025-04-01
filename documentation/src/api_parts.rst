@@ -1,15 +1,13 @@
 Parts
 -----
 
+There are a few parameters shared by many of the parts.
 
-
-
-There are a few parameters shared by many of the parts:
 
 The callback parameter
 ......................
 
-The callback parameter can take on of the following forms:
+The callback parameter can take one of the following forms:
 
 * A function (or bound method) that expects one parameter: the number of the side the callback is currently called for.
 * A dict with some of the numbers of the sides as keys and functions without parameters as values.
@@ -35,24 +33,35 @@ For finding the right piece to the *callback* parameter this function is used:
 The move parameter
 ..................
 
-For placing the parts the ``move`` parameter can be used. It is string
-with space separated words - at most one of each of those options:
+The ``move`` parameter helps when placing multiple parts. It controls the
+location where the current and next part will be drawn. It's a string with
+space separated words controlling the direction; see the documentation for
+``where`` below for possible values.
 
-* left / right
-* up / down
-* only
-
-If "only" is given the part is not drawn but only the move is
-done. This can be useful to go in one direction after having placed
-multiple parts in the other and have returned with ``.ctx.restore()``.
+This kind of direction controls the global placement and is unrelated to the
+drawing direction which is important for burn correction (aka kerf).
 
 For implementing parts the following helper function can be used to
 implement a ``move`` parameter:
 
 .. automethod:: boxes.Boxes.move
 
-It needs to be called before and after drawing the actual part with
-the proper ``before`` parameter set.
+If "only" is given the part is not drawn but only the move is
+done. This can be useful to go in one direction after having placed
+multiple parts in the other and have returned with ``.ctx.restore()``.
+
+The following example draws three walls: one on the left of the origin and two
+on the right. The second draw with "right only" is necessary to prevent
+"drawing over" the first wall. The last call needs no move as no more parts
+get drawn afterwards.
+
+.. code-block:: python
+
+    self.rectangularWall(x, y, move="left")        # move left and draw
+    self.rectangularWall(x, y, move="right only")  # move right
+    self.rectangularWall(x, y, move="right")       # draw and move right
+    self.rectangularWall(x, y)                     # draw
+
 
 The edges parameter
 ...................
@@ -60,14 +69,8 @@ The edges parameter
 The ``edges`` parameter needs to be an iterable of Edge instances to be
 used as edges of the part. Instead of instances it is possible to pass
 a single character that is looked up in the ``.edges`` dict. This
-allows to pass a string with the desired characters per edge. By
-default the following character are supported:
-
-* e : straight edge
-* E : as above but extended outside by one thickness
-* f, F : finger joints
-* h : edge with holes for finger joints
-* d, D : dove tail joints
+allows to pass a string with the desired characters per edge. See
+:ref:`api_edges` for a list of possible edges and their symbols.
 
 Generators can register their own Edges by putting them into the
 ``.edges`` dictionary.

@@ -73,7 +73,8 @@ allows to pass a string with the desired characters per edge. See
 :ref:`api_edges` for a list of possible edges and their symbols.
 
 Generators can register their own Edges by putting them into the
-``.edges`` dictionary.
+``.edges`` dictionary. The edge symbols ``a``, ``A``, ``b``, ``B`` are
+reserved for generators.
 
 Same applies to the parameters of ``.surroundingWall`` although they
 denominate single edge (types) only.

@@ -266,7 +266,7 @@ class NightLightBox(_TopEdge):
 
         # top / lid
         self.drawLid(y - self.thickness, x, "i")
-        
+
         # diffuser plate
         self.diffuserPlate(move="up", label="Diffuser")
 

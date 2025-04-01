@@ -163,8 +163,8 @@ class NightLightBox(_TopEdge):
         self.corner(90)
         # right side
         self.edge(self.thickness*4) # stackable feet height, to be replaced with actual parameter
-        self.edges["f"](hSize - self.thickness)
-        self.polyline(self.thickness, 90)
+        self.edges["f"](hSize)
+        self.corner(90)
         # top
         self.edges["i"].settings.style = "flush_inset"
         self.edges["i"](self.thickness*5)
@@ -238,7 +238,7 @@ class NightLightBox(_TopEdge):
         self.rectangularWall(x, y, "ffff", callback=[lambda:self.railSlots(x, y)], move="up", label="bottom")
 
         # back
-        self.rectangularWall(x, h - self.thickness, "sFeF", callback=[lambda:self.backExtraHoles()], move="up", label="back")
+        self.rectangularWall(x, h, "sFeF", callback=[lambda:self.backExtraHoles()], move="up", label="back")
 
         # front and optional customizable front face
         if self.BoxStyle == "extra customizable face" :
@@ -265,9 +265,8 @@ class NightLightBox(_TopEdge):
         self.rectangularWall(self.thickness*2, self.thickness, "eeee", move="up", label="guide")
 
         # top / lid
-        self.drawLid(y, x, "i")
-        self.lid(y, x, "i")
-
+        self.drawLid(y - self.thickness, x, "i")
+        
         # diffuser plate
         self.diffuserPlate(move="up", label="Diffuser")
 

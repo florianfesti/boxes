@@ -119,7 +119,7 @@ boxes.ArgumentParser = ThrowingArgumentParser  # type: ignore
 class BServer:
     lang_re = re.compile(r"([a-z]{2,3}(-[-a-zA-Z0-9]*)?)\s*(;\s*q=(\d\.?\d*))?")
 
-    def __init__(self, url_prefix="", static_url="static", legal_url="") -> None:
+    def __init__(self, url_prefix="", static_url="static", static_path="../static/", legal_url="") -> None:
         self.boxes = {b.__name__: b for b in boxes.generators.getAllBoxGenerators().values() if b.webinterface}
         self.groups = boxes.generators.ui_groups
         self.groups_by_name = boxes.generators.ui_groups_by_name
@@ -129,7 +129,12 @@ class BServer:
             self.groups_by_name.get(box.ui_group,
                                     self.groups_by_name["Misc"]).add(box)
 
-        self.staticdir = os.path.join(os.path.dirname(__file__), '../static/')
+        if os.path.isabs(static_path):
+            self.staticdir = static_path
+        else:
+            self.staticdir = os.path.join(os.path.dirname(__file__), '../static/')
+            if not os.path.isdir(self.staticdir):
+                self.staticdir = os.path.join(os.path.dirname(__file__), '..', '../static/')
         self._languages = None
         self._cache: dict[Any, Any] = {}
         self.url_prefix = url_prefix
@@ -728,11 +733,14 @@ def main() -> None:
                         help="URL path to Boxes.py instance")
     parser.add_argument("--static_url", default="static",
                         help="URL of static content")
+    parser.add_argument("--static_path", default="../static/",
+                        help="location of static content on disk")
     parser.add_argument("--legal_url", default="",
                         help="URL of legal web page")
     args = parser.parse_args()
 
-    boxserver = BServer(url_prefix=args.url_prefix, static_url=args.static_url)
+    boxserver = BServer(url_prefix=args.url_prefix, static_url=args.static_url,
+                        static_path=args.static_path)
 
     fc = FileChecker()
     fc.start()

@@ -2432,6 +2432,11 @@ class Boxes:
         """
         Rectangular wall for all kind of box like objects
 
+        The callback is called for each edge in counter-clockwise order with
+        the current position at the start of the edge. The position is
+        independent of the width of the edge (positive y move to the "inside"
+        of the wall, negative y move over the edge).
+
         :param x: width
         :param y: height
         :param edges:  (Default value = "eeee") bottom, right, top, left

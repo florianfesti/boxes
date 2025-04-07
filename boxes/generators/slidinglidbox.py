@@ -30,20 +30,39 @@ class SlidingLidBox(Boxes):
         self.argparser.add_argument(
             "--margin_s", action="store", type=float, default=0.05,
             help="margin to add at both sides of sliding lid (multiples of thickness)")
+        self.argparser.add_argument(
+            "--lid_type", action="store", type=str, default="hole",
+            choices={"hole", "lip", "none"}, help="add an optional grip hole to the lid")
+        self.argparser.add_argument(
+            "--hole_length", action="store", type=float, default=40,
+            help="length of the grip hole in mm")
+        self.argparser.add_argument(
+            "--hole_width", action="store", type=float, default=20,
+            help="width of the grip hole in mm")
+        self.argparser.add_argument(
+            "--hole_radius", action="store", type=float, default=10,
+            help="radius of the grip hole in mm")
 
-    def hHoles(self):
+    def lowerRailHoles(self):
+        # finger holes for bottom rails, subtracting half a thickness so the top sits right at self.h
         pos_h = self.h - 0.5 * self.thickness
         self.fingerHolesAt(pos_h, 0, self.y)
 
     def backHoles(self):
+        # back holes for bottom rails, subtracting half a thickness so the top sits right at self.h
         pos_h = self.h - 0.5 * self.thickness
         self.fingerHolesAt(0, pos_h, self.rail_mm, 0)
         self.fingerHolesAt(self.x, pos_h, self.rail_mm, 180)
 
-    def render(self):
-        # top edge, set fix to finger jonts opposing
-        self.top_edge = "F"
+    def gripHole(self, lid_y):
+        # grip hole x position: half a width from the edge, so subtracting one width to reach the middle
+        pos_x = self.y - self.hole_width
+        # grip hole y position: centered on the lid
+        pos_y = lid_y / 2
+        self.rectangularHole(pos_x, pos_y, self.hole_width,
+                             self.hole_length, self.hole_radius)
 
+    def render(self):
         # the size of the gap for the lid
         gap = (1 + self.margin_t) * self.thickness
 
@@ -53,10 +72,13 @@ class SlidingLidBox(Boxes):
             self.y = self.adjustSize(self.y)
             # correct for the top and bottom edge, then also subtract the gap for the lid
             self.h = self.adjustSize(
-                self.h, e1=self.top_edge, e2=self.bottom_edge) - gap
+                self.h, e1="F", e2=self.bottom_edge) - gap
 
         # rail width is a multiple of thickness -> calculate rail width in mm
         self.rail_mm = self.rail * self.thickness
+
+        # the margin of the top edge, that is already taken up by the side rail, corrected for burn
+        rail_margin = self.rail_mm - self.burn
 
         # the height of the side and back walls is bigger by the size of the gap
         h_plus = self.h + gap
@@ -67,10 +89,10 @@ class SlidingLidBox(Boxes):
         # side walls
         # compound edge: f on bottom to match with F of front, E to span the gap for the lid
         sides_compound_edge = edges.CompoundEdge(self, "fE", [self.h, gap])
-        self.rectangularWall(self.y, h_plus, [self.bottom_edge, sides_compound_edge, self.top_edge, "f"], callback=[
-                             None, self.hHoles, ], move="up mirror", label="right side")
-        self.rectangularWall(self.y, h_plus, [self.bottom_edge, sides_compound_edge, self.top_edge, "f"], callback=[
-                             None, self.hHoles, ], move="up", label="left side")
+        self.rectangularWall(self.y, h_plus, [self.bottom_edge, sides_compound_edge, "F", "f"], callback=[
+                             None, self.lowerRailHoles], move="up mirror", label="right side")
+        self.rectangularWall(self.y, h_plus, [self.bottom_edge, sides_compound_edge, "F", "f"], callback=[
+                             None, self.lowerRailHoles], move="up", label="left side")
 
         # bottom
         self.rectangularWall(self.y, self.x, "ffff", move="up", label="bottom")
@@ -89,19 +111,30 @@ class SlidingLidBox(Boxes):
 
         # lid
         # modify lid width by horizontal margin, to make the lid slide better
-        x_lid = self.x - 2 * self.margin_s * self.thickness
-        self.rectangularWall(self.y, x_lid, "eEee", move="up", label="lid")
+        lid_y = self.x - 2 * self.margin_s * self.thickness
+        if self.lid_type == "lip":
+            lip_copound_edge = edges.CompoundEdge(
+                self, "EfE", [rail_margin, lid_y - 2 * rail_margin, rail_margin])
+            # lid
+            self.rectangularWall(
+                self.y, lid_y, ["e", lip_copound_edge, "e", "e"], move="up", label="lid")
+            # lid lip
+            self.rectangularWall(lid_y - 2 * rail_margin, gap, "Feee",
+                                 move="up", label="lid lip")
+        elif self.lid_type == "hole":
+            self.rectangularWall(self.y, lid_y, "eEee", move="up", label="lid",
+                                 callback=[lambda: self.gripHole(lid_y)])
+        else:
+            self.rectangularWall(self.y, lid_y, "eEee", move="up", label="lid")
 
         # move to the right for the rest of the pieces
         self.ctx.restore()
         self.rectangularWall(self.y, h_plus, "ffff", move="right only")
 
         # back
-        # the margin of the back top edge, that is already taken up by the side rail, corrected fur burn
-        rail_margin = self.rail_mm - self.burn
         # compound edge: top edge in the middle, long edges to cover the ends of the side rails
         back_compound_edge = edges.CompoundEdge(
-            self, ["E", self.top_edge, "E"], [rail_margin, self.x - 2 * rail_margin, rail_margin])
+            self, ["E", "f", "E"], [rail_margin, self.x - 2 * rail_margin, rail_margin])
         self.rectangularWall(self.x, h_plus, [self.bottom_edge, "F", back_compound_edge, "F"],  callback=[
                              self.backHoles], move="up", label="back")
 
@@ -112,5 +145,5 @@ class SlidingLidBox(Boxes):
 
         # back rail
         # shorter back rail to make space for the side rails
-        self.rectangularWall(self.x - 2 * rail_margin, self.rail_mm, "feee",
+        self.rectangularWall(self.x - 2 * rail_margin, self.rail_mm, "Feee",
                              move="up", label="back rail")

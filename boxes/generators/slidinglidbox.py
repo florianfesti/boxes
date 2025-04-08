@@ -9,6 +9,8 @@ class SlidingLidBox(Boxes):
 * The width of the rail can be adjusted, wider rails are more stable but make the opening smaller.
 * The horizontal margin makes the lid slightly narrower to prevent the lid from jamming.
 * The vertical margin makes the gap between the rails larger to let the lid slide more easily.
+
+![Closed](static/samples/SlidingLidBox-2.jpg)
 """
 
     ui_group = "Box"

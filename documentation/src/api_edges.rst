@@ -29,43 +29,43 @@ classes have a number of methods to deal with these kinds of offsets.
 A set of instances are kept in the ``.edges`` attribute of the
 ``Boxes`` class. It is a dict with strings of length one as keys:
 
-* aAbB : reserved to be used in generators
-* c : ClickConnector
-* C : ClickEdge
-* d : DoveTailJoint
-* D : DoveTailJointCounterPart
-* e : Edge, straight edge
-* E : OutSetEdge, like Edge but extended outside by one thickness
-* f : FingerJointEdge
-* F : FingerJointEdgeCounterPart
-* g : GrippingEdge
-* G : MountingEdge
-* h : FingerHoleEdge, edge with holes for finger joints
-* ijk : Hinge (start, end, both sides)
-* IJK : HingePin (start, end, both sides)
-* L : LidHoleEdge
-* l : LidEdge
-* M : LidSideLeft
-* m : LidLeft
-* N : LidSideRight
-* n : LidRight
-* Oo : ChestHinge
-* Pp : ChestHingeTop
-* Q : ChestHingeFront
-* q : ChestHingePin
-* R : RackEdge
-* s : StackableEdge
-* S : StackableEdgeTop
-* š : StackableFeet
-* Š : StackableHoleEdgeTop
-* T : RoundedTriangleFingerHolesEdge
-* t : RoundedTriangleEdge
-* uUvV : CabinetHingeEdge
-* X : FlexEdge
-* y : HandleEdge
-* Y : HandleHoleEdge
-* Z : GroovedEdgeCounterPart
-* z : GroovedEdge
+* ``aAbB`` : reserved to be used in generators
+* ``c`` : ClickConnector
+* ``C`` : ClickEdge
+* ``d`` : DoveTailJoint
+* ``D`` : DoveTailJointCounterPart
+* ``e`` : Edge, straight edge
+* ``E`` : OutSetEdge, like Edge but extended outside by one thickness
+* ``f`` : FingerJointEdge
+* ``F`` : FingerJointEdgeCounterPart
+* ``g`` : GrippingEdge
+* ``G`` : MountingEdge
+* ``h`` : FingerHoleEdge, edge with holes for finger joints
+* ``ijk`` : Hinge (start, end, both sides)
+* ``IJK`` : HingePin (start, end, both sides)
+* ``L`` : LidHoleEdge
+* ``l`` : LidEdge
+* ``M`` : LidSideLeft
+* ``m`` : LidLeft
+* ``N`` : LidSideRight
+* ``n`` : LidRight
+* ``Oo`` : ChestHinge
+* ``Pp`` : ChestHingeTop
+* ``Q`` : ChestHingeFront
+* ``q`` : ChestHingePin
+* ``R`` : RackEdge
+* ``s`` : StackableEdge
+* ``S`` : StackableEdgeTop
+* ``š`` : StackableFeet
+* ``Š`` : StackableHoleEdgeTop
+* ``T`` : RoundedTriangleFingerHolesEdge
+* ``t`` : RoundedTriangleEdge
+* ``uUvV`` : CabinetHingeEdge
+* ``X`` : FlexEdge
+* ``y`` : HandleEdge
+* ``Y`` : HandleHoleEdge
+* ``Z`` : GroovedEdgeCounterPart
+* ``z`` : GroovedEdge
 
 Edge base class
 ---------------

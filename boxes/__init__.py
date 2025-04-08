@@ -2437,6 +2437,22 @@ class Boxes:
         independent of the width of the edge (positive y move to the "inside"
         of the wall, negative y move over the edge).
 
+        ignore_widths extends adjacent edges to cover for the width. The
+        diagram below shows where edges are extended for each number. Note
+        that for edges from two parts to still match this needs to be done
+        on both sides and both parts need to use same edge or at least an
+        edge with the same width.
+
+        ::
+             4--3
+            5    2
+            |    |
+            6    1
+             7--0
+
+        e.g. if four rectangularWalls use "s" edges on the bottom, the side
+        edges can be extended to the bottom with [1, 6].
+
         :param x: width
         :param y: height
         :param edges:  (Default value = "eeee") bottom, right, top, left

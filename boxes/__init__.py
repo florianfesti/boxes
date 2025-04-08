@@ -2444,6 +2444,7 @@ class Boxes:
         edge with the same width.
 
         ::
+
              4--3
             5    2
             |    |

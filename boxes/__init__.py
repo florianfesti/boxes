@@ -2440,7 +2440,7 @@ class Boxes:
         :param x: width
         :param y: height
         :param edges:  (Default value = "eeee") bottom, right, top, left
-        :param ignore_widths: list of edge_widths added to adjacent edge
+        :param ignore_widths:  (Default value = []) list of edge_widths added to adjacent edge
         :param holesMargin:  (Default value = None)
         :param holesSettings:  (Default value = None)
         :param bedBolts:  (Default value = None)

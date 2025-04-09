@@ -122,7 +122,7 @@ If you have an enclosure, arrange the living hinge to be as close to your extrac
         self.edges["f"](h)
         self.corner(90)
 
-        self.rectangularHole(y/2, -1.5*t, latchSize - 2*t, t)
+        self.rectangularHole(y/2, -1.5*t, latchSize - 1.9*t, t*1.1)
 
         self.polyline(
             (y-latchSize) / 2,
@@ -159,7 +159,7 @@ If you have an enclosure, arrange the living hinge to be as close to your extrac
         self.corner(90, 2*t)
         self.edges["e"](y/2)
 
-        self.rectangularHole(0, 1.5*t, latchSize, t)
+        self.rectangularHole(0, 1.5*t, latchSize+.1*t, 1.15*t)
         self.rectangularHole((latchSize+7*t)/2, 3.5*t, t, t)
         self.rectangularHole(-(latchSize+7*t)/2, 3.5*t, t, t)
 

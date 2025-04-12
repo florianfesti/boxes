@@ -106,13 +106,13 @@ table tr p {
 }
 
 
-#preview {
-    overflow: auto;
-}
-
 #preview_buttons {
     margin-left: 40px;
     margin-top: 20px;
+}
+
+#preview_figure {
+    margin: 0px;
 }
 
 hr {

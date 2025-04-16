@@ -84,7 +84,7 @@ table tr p {
     margin-bottom: 40px;
     float: left;
     margin-left: 40px;
-    margin-right: auto;
+    margin-right: 20px;
     padding: 10px;
     padding-bottom: 15px;
     width: 996px;
@@ -105,10 +105,8 @@ table tr p {
     box-shadow: 0 0 5px 0 #333333;
 }
 
-
 #preview_buttons {
-    margin-left: 40px;
-    margin-top: 20px;
+    padding-top: 30px;
 }
 
 #preview_figure {

@@ -35,9 +35,6 @@ Slots can be populated by:
 
     def __init__(self) -> None:
         super().__init__()
-        self.debug = None
-        self.add_rails = True
-        self.add_cover = True
         self.addSettingsArgs(boxes.edges.FingerJointSettings)
         self.argparser.add_argument("--unit_d", action="store", type=float, default=128, help="Depth of single unit")
         self.argparser.add_argument("--unit_h", action="store", type=float, default=50, help="Height of single unit")
@@ -151,7 +148,7 @@ Slots can be populated by:
         self.cut_double_wall_holes(self.inside_h)
 
     # Render
-    def render(self) -> None:
+    def render(self):
         self.prepare()
         self.base_plate()
         self.shelves()

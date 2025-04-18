@@ -97,7 +97,7 @@ function initPage(num_hide = null) {
 
 function initArgsPage(num_hide = null) {
     initPage(num_hide);
-    const i = document.querySelectorAll("td > input, td > select");
+    const i = document.querySelectorAll("td > input, td > select, td > textarea");
     for (let el of i) {
 	el.addEventListener("change", refreshPreview);
     }

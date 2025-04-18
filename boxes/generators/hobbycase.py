@@ -152,10 +152,6 @@ Slots can be populated by:
 
     # Render
     def render(self) -> None:
-        if self.debug:
-            self.spacing = 0
-        else:
-            self.spacing = 10
         self.prepare()
         self.base_plate()
         self.shelves()

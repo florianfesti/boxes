@@ -9,10 +9,12 @@ from __future__ import annotations
 import gettext
 import os
 import sys
+import copy
 import argparse
 import logging
+import hashlib
 from pathlib import Path
-
+from typing import TextIO
 try:
     import boxes
 except ImportError:
@@ -21,6 +23,14 @@ except ImportError:
 
 import boxes.generators
 
+import yaml
+
+
+class ArgumentParserError(Exception): pass
+
+class ThrowingArgumentParser(argparse.ArgumentParser):
+    def error(self, message):
+        raise ArgumentParserError(message)
 
 def print_grouped_generators() -> None:
     class ConsoleColors:
@@ -40,31 +50,151 @@ def print_grouped_generators() -> None:
             description = description.replace("\n", "").replace("\r", "").strip()
             print(f' *  {box.__name__:<15} - {ConsoleColors.ITALIC}{description}{ConsoleColors.CLEAR}')
 
+def multi_generate(config_path : Path|str|TextIO, output_path : Path|str, output_name_formater=None, format="svg") -> list[str]:
+    if isinstance(config_path, str) or isinstance(config_path, Path):
+        with open(config_path) as ff:
+            config_data = yaml.safe_load(ff)
+    else:
+        config_data = yaml.safe_load(config_path)
 
-def create_example_every_generator() -> None:
-    print("Generating SVG examples for every possible generator.")
-    for group in generator_groups():
-        for boxExample in group.generators:
-            boxName = boxExample.__name__
-            notTestGenerator = ('GridfinityTrayLayout', 'TrayLayout', 'TrayLayoutFile', 'TypeTray', 'Edges',)
-            brokenGenerator = ()
-            avoidGenerator = notTestGenerator + brokenGenerator
-            if boxName in avoidGenerator:
-                print(f"SKIP: {boxName}")
-                continue
-            print(f"Generate example for: {boxName}")
+    all_generators = boxes.generators.getAllBoxGenerators()
+    generators_by_name = {b.__name__: b for b in all_generators.values()}
 
-            box = boxExample()
+    generated_files = []
+    defaults = config_data.get("Defaults", {})
+
+    for ii, box_settings in enumerate(config_data.get("Boxes", [])):
+        # Allow for skipping generation
+        if box_settings.get("generate") == False:
+            continue
+
+        # Get the box generator
+        box_type = box_settings.pop("box_type", None)
+        if box_type is None:
+            raise ValueError("box_type must be provided for each cut")
+
+        # __ALL__ is a special case
+        box_classes: tuple|None = None
+        if box_type != "__ALL__":
+            box_classes = ( generators_by_name.get(box_type, None), )
+            if box_classes is None:
+                raise ValueError("invalid generator '%s'" % box_type)
+        else:
+            skipGenerators = set(box_settings.get("skipGenerators", []))
+            brokenGenerators = set(box_settings.get("brokenGenerators", []))
+            avoidGenerators = skipGenerators | brokenGenerators
+            box_classes = tuple(filter(lambda x: x.__name__ not in avoidGenerators, all_generators.values()))
+
+        for box_cls in box_classes:
+            box_cls_name = box_cls.__name__
+
+            # Instantitate the box object
+            box = box_cls()
             box.translations = get_translation()
-            box.parseArgs("")
+
+            # Create the settings for the generator
+            settings = copy.deepcopy(defaults)
+            settings.update(box_settings.get("args", {}))
+
+            # Handle layout separately
+            if hasattr(box, "layout") and "layout" in settings:
+                if os.path.exists(settings["layout"]):
+                    with open(settings["layout"]) as ff:
+                        settings["layout"] = ff.read()
+                else:
+                    box.layout = settings["layout"]
+
+            # Turn the settings into arguments, but ignore format
+            # in the YAML file if provided and use the argument to the function
+            box_args = []
+            for kk, vv in settings.items():
+                # Handle format separately
+                if kk in ("format","layout"):
+                    continue
+                box_args.append(f"--{kk}={vv}")
+
+            # Layout has three options:
+            #  - provided verbatim in the YAML file
+            #  - provided as a path to a file in the YAML file
+            #  - using the special placeholder __GENERATE__ which will invoke the default
+            if "layout" in settings:
+                if os.path.exists(settings["layout"]):
+                    with open(settings["layout"]) as ff:
+                        layout = ff.read()
+                else:
+                    layout = settings["layout"]
+                box_args.append(f"--layout={layout}")
+
+            # SVG is default, only apply argument if changing default
+            if format != "svg":
+                box_args.append(f"--format={format}")
+
+            # Parse the box arguments - because we allow arguments at the
+            # top-level defaults, we ignore unknown arguments
+            try:
+                # Ignore unknown arguments by pre-parsing. This two stage
+                # approach was performed to avoid modifying parseArgs and
+                # changing it's behavior.  A long-term better solution
+                # might be to allow parseArgs to take a 'strict' argument
+                # the can enable/disable strict parsing of arguments
+                args, argv = box.argparser.parse_known_args(box_args)
+                if len(argv) > 0:
+                    for unknown_arg in argv:
+                        box_args.remove(unknown_arg)
+                box.parseArgs(box_args)
+            except ArgumentParserError:
+                print("Error parsing box args for box %s : %s", ii, box_cls_name)
+                continue
+
+            # handle __GENERATE__ which must be called after parseArgs
+            if getattr(box, "layout", None) == "__GENERATE__":
+                if hasattr(box, "generate_layout") and callable(box.generate_layout):
+                    box.layout = box.generate_layout()
+                else:
+                    print("Error box %s : %s requires manual layout", ii, box_cls_name)
+                    continue
+
             box.metadata["reproducible"] = True
+
+            # Render the box SVG
             box.open()
             box.render()
-            boxData = box.close()
+            data = box.close()
 
-            file = Path('examples') / (boxName + '.svg')
-            file.write_bytes(boxData.getvalue())
+            if callable(output_name_formater):
+                output_fname = output_name_formater(
+                    box_type=box_cls_name,
+                    name=box_settings.get("name", box_cls_name),
+                    box_idx=ii,
+                    metadata=box.metadata,
+                    box_args=box_args
+                )
+            else:
+                output_fname = output_name_formater.format(
+                    box_type=box_cls_name,
+                    name=box_settings.get("name", box_cls_name),
+                    box_idx=ii,
+                    metadata=box.metadata,
+                )
 
+            # Write the output - if count is provided generate multiple copies
+            if box_settings.get("count") is not None:
+                for jj in range(int(box_settings.get("count"))):
+                    output_file = os.path.join(output_path, f"{output_fname}_{jj}.{format}")
+                    print(f"Writing {output_file}")
+                    with open(output_file, "wb") as ff:
+                        ff.write(data.read())
+                        data.seek(0)
+                    generated_files.append(output_file)
+
+            else:
+                output_file = os.path.join(output_path, f"{output_fname}.{format}")
+                print(f"Writing {output_file}")
+                with open(output_file, "wb") as ff:
+                    ff.write(data.read())
+                generated_files.append(output_file)
+
+    return generated_files
 
 def get_translation():
     try:
@@ -138,8 +268,9 @@ def main() -> None:
     parser.add_argument("--list", action="store_true", default=False, help="List available generators.")
     parser.add_argument("--examples", action="store_true", default=False, help='Generates an SVG for every generator into the "examples" folder.')
     parser.add_argument("--help", action="store_true", default=False)
+    parser.add_argument("--multi-generator", type=argparse.FileType('r', encoding='UTF-8'), help="Generate multiple boxes from a configuration YAML")
     args, extra = parser.parse_known_args()
-    if args.generator and (args.examples or args.list):
+    if args.generator and (args.examples or args.multi_generator or args.list):
         parser.error("cannot combine --generator with other commands")
 
     # if debug is True set logging level
@@ -152,7 +283,32 @@ def main() -> None:
     elif args.list:
         print_grouped_generators()
     elif args.examples:
-        create_example_every_generator()
+        print("Generating SVG examples for every possible generator.")
+        config_path = Path(__file__).parent.parent.parent / 'examples.yml'
+        output_path = Path("examples")
+        multi_generate(config_path, output_path, example_output_fname_formatter)
+    elif args.multi_generator:
+        try:
+            if os.path.isdir(extra[0]):
+                # if the output path is a folder assume the default name format
+                # and write all files to the sub-folder
+                output_path = Path(extra[0])
+                output_fname_format = "{name}_{box_idx}"
+            elif "{" not in extra[0] and "}" not in extra[0]:
+                # if substitution brackets aren't found, assume that isn't
+                # the desired behavior since it would cause every file to overwrite previous files
+                # so use this as a prefix with box index
+                output_path = Path(os.path.dirname(extra[0]))
+                output_fname_format = extra[0] + "_{box_idx}"
+            else:
+                # The user has provided a full path template, so use it as-is
+                output_path =Path(os.path.dirname(extra[0]))
+                output_fname_format = os.path.basename(extra[0])
+        except IndexError:
+            # No template has been provided, use defaults
+            output_path = Path(".")
+            output_fname_format = "{name}_{box_idx}"
+        multi_generate(args.multi_generator, output_path, output_fname_format)
     else:
         if args.generator:
             name = args.generator

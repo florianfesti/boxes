@@ -48,12 +48,19 @@ repos:
     hooks:
       - id: mypy
         files: '^boxes/.*\.py$'
+        additional_dependencies: [ "types-PyYAML" ]
       - id: mypy
         files: '^documentation/src/boxes2rst.py$'
       - id: mypy
         files: '^scripts/boxes2inkscape$'
       - id: mypy
         files: '^scripts/boxes2pot$'
+      - id: mypy
+        files: '^scripts/boxes_proxy.py$'
+      - id: mypy
+        files: '^scripts/boxesserver$'
+      - id: mypy
+        files: '^scripts/boxes_generator$'
       - id: mypy
         files: '^setup.py$'
 

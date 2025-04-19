@@ -58,7 +58,7 @@ this compartment.
 
         x = self.pitch * self.nx - self.margin
         y = self.pitch * self.ny - self.margin
-        
+
         stepx = x / countx
         stepy = y / county
         for i in range(countx):

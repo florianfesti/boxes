@@ -461,7 +461,7 @@ class SkadisEdge(WallEdge):
         if length < 11:
             return [length]
         if self.settings.style == "hooks":
-            return [0] + ([11, 29] * int(length // 40)) + [length % 40]
+            return [0, 11] + ([29, 11] * int((length - 11) // 40)) + [(length -11) % 40]
         elif self.settings.style == "hook+stud" and length > 40+15:
             return [0, 11, 29, 10, length - 11 - 29 - 10]
         else:

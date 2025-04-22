@@ -1,5 +1,3 @@
-import argparse
-
 import boxes
 from boxes import Boxes, lids, restore, boolarg
 from boxes.Color import Color
@@ -45,14 +43,9 @@ this compartment.
         self.argparser.add_argument("--cut_pads_mag_diameter", type=float, default=6.5, help="if pads are cut add holes for magnets. Typical is 6.5, zero to disable,")
         self.argparser.add_argument("--cut_pads_mag_offset", type=float, default=7.75, help="if magnet hole offset from pitch corners.  Typical is 7.75.")
         self.argparser.add_argument("--base_thickness", type=float, default=0.0, help="the thickness of base the box will sit upon.  0 to use the material thickness, 4.65 for a standard Gridfinity 3D printed base")
-        if self.UI == "web":
-            self.argparser.add_argument("--layout", type=str, help="You can hand edit this before generating", default="\n");
-        else:
-            self.argparser.add_argument(
-                "--input", action="store", type=argparse.FileType('r'),
-                default="traylayout.txt",
-                help="layout file")
-            self.layout = None
+        self.argparser.add_argument("--layout", type=str, help="You can hand edit this before generating", default="\n")
+        if self.UI != "web":
+            self.argparser.add_argument("--input", action="store", type=str, default="traylayout.txt", help="layout file")
 
     def generate_layout(self):
         layout = ''

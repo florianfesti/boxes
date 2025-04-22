@@ -15,7 +15,7 @@
 from __future__ import annotations
 
 import io
-
+import os
 import boxes
 from boxes import *
 from boxes import lids
@@ -102,23 +102,21 @@ You can replace the space characters representing the floor by a "X" to remove t
         self.addSettingsArgs(boxes.edges.FingerJointSettings)
         self.addSettingsArgs(lids.LidSettings)
         self.buildArgParser("h", "hi", "outside", "sx", "sy")
-        if self.UI == "web":
-            self.argparser.add_argument(
-                "--layout", action="store", type=str, default="\n",
-                help="""* Set **sx** and **sy** before editing this!
+        self.argparser.add_argument(
+            "--layout", action="store", type=str, default="\n",
+            help="""* Set **sx** and **sy** before editing this!
 * You can still change measurements afterwards
 * You can replace the hyphens and vertical bars representing the walls
 with a space character to remove the walls.
 * You can replace the space characters representing the floor by a "X"
 to remove the floor for this compartment.
 * Resize text area if necessary.""")
-            self.description = ""
-        else:
+        self.description = ""
+        if self.UI != "web":
             self.argparser.add_argument(
-                "--input", action="store", type=argparse.FileType('r'),
+                "--input", action="store", type=str,
                 default="traylayout.txt",
                 help="layout file")
-            self.layout = None
 
     def vWalls(self, x: int, y: int) -> int:
         """Number of vertical walls at a crossing."""
@@ -160,8 +158,13 @@ to remove the floor for this compartment.
     def prepare(self):
         if self.layout:
             self.parse(self.layout.split('\n'))
+        elif os.path.exists(self.input):
+            with open(self.input) as input_file:
+                self.parse(input_file)
+        elif callable(getattr(self, "generate_layout", None)):
+            self.parse(self.generate_layout().split('\n'))
         else:
-            self.parse(self.input)
+            raise RuntimeError("traylayout requires --layout, --input, or implementation of generate_layout")
 
         if self.outside:
             self.x = self.adjustSize(self.x)

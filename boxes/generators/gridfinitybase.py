@@ -158,8 +158,8 @@ class GridfinityBase(Boxes):
         pad_x = x - (nx * pitch)
         pad_y = y - (ny * pitch)
         # compute maximum number of grids in each panel
-        panel_nx = (self.panel_x // pitch)
-        panel_ny = (self.panel_y // pitch)
+        panel_nx = ((self.panel_x - pad_x) // pitch)
+        panel_ny = ((self.panel_y -pad_y) // pitch)
 
         # Sub-divide the larger Grid into approximately equal sized segments
         # in both X and Y direction, not exceeding the provided panel size

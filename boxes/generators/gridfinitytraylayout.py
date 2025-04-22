@@ -103,8 +103,8 @@ this compartment.
         m = self.opening_margin
         self.ctx.stroke()
         with self.saved_context():
-            for xx in [0, self.nx-1]:
-                for yy in [0, self.ny-1]:
+            for xx in {0, self.nx-1}:
+                for yy in {0, self.ny-1}:
                     self.set_source_color(Color.ETCHING)
                     self.rectangularEtching(x+p/2+xx*p, y+p/2+yy*p, o-m, o-m)
             self.ctx.stroke()

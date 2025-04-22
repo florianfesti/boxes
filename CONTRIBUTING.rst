@@ -175,6 +175,13 @@ You can set the BOXES_GENERATOR_PATH environment variable to add
 custom generators if you cannot easily copy them in the sources /
 system installation.
 
+Alternatively you can use Docker Compose to run the server locally.
+* Install Docker and Docker Compose
+* Run :code:`docker-compose up`
+* Open the web browser and go to http://localhost:4455
+This will start the server and enable hot reload so your changes will
+be visible immediately.
+
 Reporting bugs
 --------------
 

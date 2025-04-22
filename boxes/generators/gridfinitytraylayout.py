@@ -1,5 +1,3 @@
-import argparse
-
 import boxes
 from boxes import Boxes, lids, restore, boolarg
 from boxes.Color import Color
@@ -48,7 +46,7 @@ this compartment.
             self.argparser.add_argument("--layout", type=str, help="You can hand edit this before generating", default="\n");
         else:
             self.argparser.add_argument(
-                "--input", action="store", type=argparse.FileType('r'),
+                "--input", action="store", type=str,
                 default="traylayout.txt",
                 help="layout file")
             self.layout = None

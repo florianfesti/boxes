@@ -15,7 +15,7 @@
 from __future__ import annotations
 
 import io
-
+import os
 import boxes
 from boxes import *
 from boxes import lids
@@ -115,7 +115,7 @@ to remove the floor for this compartment.
             self.description = ""
         else:
             self.argparser.add_argument(
-                "--input", action="store", type=argparse.FileType('r'),
+                "--input", action="store", type=str,
                 default="traylayout.txt",
                 help="layout file")
             self.layout = None
@@ -160,8 +160,13 @@ to remove the floor for this compartment.
     def prepare(self):
         if self.layout:
             self.parse(self.layout.split('\n'))
+        elif os.path.exists(self.input):
+            with open(self.input) as input_file:
+                self.parse(input_file)
+        elif callable(getattr(self, "generate_layout", None)):
+            self.parse(self.generate_layout().split('\n'))
         else:
-            self.parse(self.input)
+            raise RuntimeError("traylayout requires --layout, --input, or implementation of generate_layout")
 
         if self.outside:
             self.x = self.adjustSize(self.x)

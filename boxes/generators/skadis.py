@@ -23,7 +23,7 @@ class SkadisBoard(Boxes):
 
 You can use boxes and holders from the "WallMounted" group with "skadis" as "walltype". Note that these generators do not have any support to pick the right width(s). Inner distance between slots are 35 + n * 40 mm. It is recommended to cut the acceessories from 4 mm material. Then 36 + n * 40 mm should be used for inner widths. Deselect "outside" where available to be able to deal with inner measurements."""
 
-    ui_group = "Misc"
+    ui_group = "WallMounted"
 
     def __init__(self) -> None:
         Boxes.__init__(self)

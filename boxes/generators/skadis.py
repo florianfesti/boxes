@@ -45,4 +45,5 @@ You can use boxes and holders from the "WallMounted" group with "skadis" as "wal
 
     def render(self):
         self.roundedPlate((self.columns+1) * 20, (self.rows+1)*20, edge="e", r=8,
-                          extend_corners=False, callback=[self.CB])
+                          extend_corners=False, callback=[self.CB], move="up")
+        self.partsMatrix(8, 4, "up", self.parts.disc, 15, 5)

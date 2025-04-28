@@ -44,6 +44,7 @@ this compartment.
         self.argparser.add_argument("--pad_radius", type=float, default=0.8, help="The corner radius for each grid opening.  Typical is 0.8,")
         self.argparser.add_argument("--cut_pads_mag_diameter", type=float, default=6.5, help="if pads are cut add holes for magnets. Typical is 6.5, zero to disable,")
         self.argparser.add_argument("--cut_pads_mag_offset", type=float, default=7.75, help="if magnet hole offset from pitch corners.  Typical is 7.75.")
+        self.argparser.add_argument("--base_thickness", type=float, default=0.0, help="the thickness of base the box will sit upon.  0 to use the material thickness, 4.65 for a standard Gridfinity 3D printed base")
         if self.UI == "web":
             self.argparser.add_argument("--layout", type=str, help="You can hand edit this before generating", default="\n");
         else:
@@ -166,7 +167,11 @@ this compartment.
             # The goal of the above code is that a stack of laser cut boxes and a stack
             # of 3d printed boxes will end up the same total height
 
-            self.h = (int(self.h[0:-1]) * 7) - self.thickness
+            self.h = (int(self.h[0:-1]) * 7)
+            if self.base_thickness == 0.0:
+                self.h -= self.thickness
+            else:
+                self.h -= self.base_thickness
 
             if self.stacking:
                 self.h += 3.69

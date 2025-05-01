@@ -58,6 +58,7 @@ class GridfinityBase(Boxes):
         self.argparser.add_argument("--pad_radius", type=float, default=0.8, help="The corner radius for each grid opening.  Typical is 0.8,")
         self.argparser.add_argument("--panel_x", type=int, default=0, help="the maximum sized panel that can be cut in x direction")
         self.argparser.add_argument("--panel_y", type=int, default=0, help="the maximum sized panel that can be cut in y direction")
+        self.argparser.add_argument("--base_type", type=str, default="standard", choices=["standard", "refined"])
 
 
     def generate_grid(self, nx, ny, shift_x=0, shift_y=0):
@@ -82,6 +83,94 @@ class GridfinityBase(Boxes):
                             x = lx+((pitch // 2)-ofs)*xoff
                             y = ly+((pitch // 2)-ofs)*yoff
                             self.hole(x, y, d=dia)
+
+    def generate_refined_grid(self, nx, ny, shift_x=0, shift_y=0, dovetails=True):
+        radius, pad_radius = self.radius, self.pad_radius
+        pitch = self.pitch
+        opening = self.opening
+
+        for col in range(nx):
+            for row in range(ny):
+                lx = col*pitch+pitch/2 + shift_x
+                ly = row*pitch+pitch/2 + shift_y
+
+                self.rectangularHole(lx, ly, opening, opening, r=radius, color=Color.ETCHING)
+                self.hole(lx, ly, d=17)
+                # 0,0 is bottom-left grid
+                if dovetails:
+                    if col == 0:
+                        self.plate_to_plate_hole(lx, ly, "<")
+                    if row == 0:
+                        self.plate_to_plate_hole(lx, ly, "v")
+                    if row == (ny - 1):
+                        self.plate_to_plate_hole(lx, ly, "^")
+                    if col == (nx - 1):
+                        self.plate_to_plate_hole(lx, ly, ">")
+                if self.cut_pads_mag_diameter > 0:
+                    ofs = self.cut_pads_mag_offset
+                    # make the pads slightly smaller for press fit
+                    dia = self.cut_pads_mag_diameter - 0.5
+                    for xoff, yoff in ((1,1), (-1,1), (1,-1), (-1,-1)):
+                        x = lx+((pitch // 2)-ofs)*xoff
+                        y = ly+((pitch // 2)-ofs)*yoff
+                        self.hole(x, y, d=dia)
+
+    @restore
+    def plate_to_plate_hole(self, ctr_x, ctr_y, pos):
+        if pos == "<":
+            self.moveTo(ctr_x - self.pitch/2, ctr_y - 3 + self.burn, 0)
+        elif pos == "v":
+            self.moveTo(ctr_x + 3 - self.burn, ctr_y - self.pitch/2, 90)
+        elif pos == "^":
+            self.moveTo(ctr_x - 3 + self.burn, ctr_y + self.pitch/2, -90)
+        elif pos == ">":
+            self.moveTo(ctr_x + self.pitch/2, ctr_y + 3 - self.burn, 180)
+
+        self.edge(3)
+        self.corner(-53, 0)
+        self.edge(5)
+        self.corner(53, 0)
+        self.edge(3)
+        self.corner(90, 0)
+        self.edge(13.5 - (self.burn*2))
+        self.corner(90, 0)
+        self.edge(3)
+        self.corner(53, 0)
+        self.edge(5)
+        self.corner(-53, 0)
+        self.edge(3)
+
+    @restore
+    def plate_to_plate_tab(self, x, y):
+        """        3mm
+          5.325mm/-----
+        |-------/ 5mm
+        | 6 mm        14mm
+        |
+        """
+        self.edge(3)
+        self.corner(53, 0)
+        self.edge(5)
+        self.corner(-53, 0)
+        self.edge(6)
+        self.corner(-53, 0)
+        self.edge(5)
+        self.corner(53, 0)
+        self.edge(3)
+        self.corner(90, 0)
+        self.edge(13.5)
+        self.corner(90, 0)
+        self.edge(3)
+        self.corner(53, 0)
+        self.edge(5)
+        self.corner(-53, 0)
+        self.edge(6)
+        self.corner(-53, 0)
+        self.edge(5)
+        self.corner(53, 0)
+        self.edge(3)
+        self.corner(90, 0)
+        self.edge(13.5)
 
     def subdivide_grid(self, X, Y, A, B):
         # Calculate the number of subdivisions needed in each dimension
@@ -140,6 +229,21 @@ class GridfinityBase(Boxes):
                 self.y = int(self.size_y / self.pitch)
             # if both size_y and y were provided, y takes precedence
             self.size_y = max(self.size_y, self.y*self.pitch)
+
+        
+        self.exact_size = ((self.size_x == self.x*self.pitch) and (self.size_y == self.y*self.pitch))
+
+        # make tabs for refined bases if:
+        # - height is 0 (no need for dovetails if there are walls), and
+        # - the box is exact sized (no need for dovetails if the box is not exactly on pitch)
+        if self.h == 0 and self.base_type == "refined" and self.exact_size:
+            num_tabs = 8
+            for ii in range(num_tabs):
+                dontdraw = self.move(17, 14, "right", before=True)
+                if not dontdraw:
+                    self.plate_to_plate_tab(0,0)
+                self.move(17, 14, "right")
+            self.moveTo(-(17+self.spacing)*8, 15)
 
         if self.panel_x != 0 and self.panel_y != 0:
             self.render_split(self.size_x, self.size_y, self.h, self.x, self.y, self.pitch, self.m)
@@ -372,12 +476,14 @@ class GridfinityBase(Boxes):
             callback=[partial(self.generate_grid, nx, ny, shift_x, shift_y)]
         )
 
-        # add margin for walls and lid
-        x += 2 * margin
-        y += 2 * margin
-
         if h > 0:
+            # add margin for walls and lid
+            x += 2 * margin
+            y += 2 * margin
+            shift_x += margin
+            shift_y += margin
 
+        
             self.rectangularWall(x, h, [b, sideedge, t1, sideedge],
                                 ignore_widths=[1, 6], move="right")
             self.rectangularWall(y, h, [b, "f", t2, "f"],
@@ -388,6 +494,13 @@ class GridfinityBase(Boxes):
                                 ignore_widths=[1, 6], move="left up")
 
             if self.bottom_edge != "e":
-                self.rectangularWall(x, y, "ffff", move="up")
+                if self.base_type != "refined":
+                    self.rectangularWall(x, y, "ffff", move="right")
+                else:
+                    self.rectangularWall(x, y, "ffff", move="right", callback=[partial(self.generate_refined_grid, nx, ny, shift_x, shift_y, False)])
 
-        self.lid(x, y)
+            self.lid(x, y)
+        else:
+            if self.base_type == "refined":
+                # Generate a refined based and include dovetails if exact sized
+                self.rectangularWall(x, y, "eeee", move="right", callback=[partial(self.generate_refined_grid, nx, ny, shift_x, shift_y,  self.exact_size)])

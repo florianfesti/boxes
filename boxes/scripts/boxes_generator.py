@@ -175,9 +175,9 @@ def generate_layout(box):
     layout += "+-" * countx + "+\n"
     return layout
 
-def generate(cut, output_prefix):
+def generate(cut, output_prefix, format="svg"):
     """
-    Generate a single box SVG
+    Generate a single box
     """
     generated_files = []
     defaults = cut.get("Defaults", {})
@@ -210,11 +210,11 @@ def generate(cut, output_prefix):
 
         box_args = []
         for kk, vv in settings.items():
-            # Handle layout separately
-            if kk == "layout":
+            # Handle layout and format separately
+            if kk in ("format", "layout"):
                 continue
             box_args.append(f"--{kk}={vv}")
-
+        box_args.append(f"--format={format}")
         try:
             # Ignore unknown arguments by pre-parsing. This two stage
             # approach was performed to avoid modifying parseArgs and
@@ -249,17 +249,17 @@ def generate(cut, output_prefix):
         # Write the output
         if box_settings.get("count") is not None:
             for jj in range(int(box_settings.get("count"))):
-                logging.info("Writing %s_%s.svg", output_file, jj)
-                with open(f"{output_file}_{jj}.svg", "wb") as ff:
+                logging.info("Writing %s_%s.%s", output_file, jj, format)
+                with open(f"{output_file}_{jj}.{format}", "wb") as ff:
                     ff.write(data.read())
                     data.seek(0)
-                generated_files.append(f"{output_file}_{jj}.svg")
+                generated_files.append(f"{output_file}_{jj}.{format}")
 
         else:
-            logging.info("Writing %s.svg", output_file)
-            with open(f"{output_file}.svg", "wb") as ff:
+            logging.info("Writing %s.%s", output_file, format)
+            with open(f"{output_file}.{format}", "wb") as ff:
                 ff.write(data.read())
-            generated_files.append(f"{output_file}.svg")
+            generated_files.append(f"{output_file}.{format}")
 
     return generated_files
 
@@ -501,10 +501,10 @@ def main(args):
 
         with open(cut_file) as ff:
             cut = yaml.safe_load(ff)
-            generated_files.update( generate(cut, output_prefix) )
+            generated_files.update( generate(cut, output_prefix, args.format) )
 
     # convert width/height in mm to pixels
-    if args.panel_width > 0 and args.panel_height > 0 and args.merge:
+    if args.panel_width > 0 and args.panel_height > 0 and args.merge and args.format == "svg":
         width_px = int( (args.panel_width / 25.4) * 96)
         height_px = int( (args.panel_height / 25.4) * 96)
         margin_px = int( (args.margin / 25.4) * 96)
@@ -536,6 +536,8 @@ def main(args):
         logging.info("Merge output %s", output_file)
 
 if __name__ == "__main__":
+    formats = boxes.formats.Formats()
+
     parser = argparse.ArgumentParser()
     parser.add_argument("cuts", nargs="+", help="Input cut files")
     parser.add_argument("--prefix", type=str, default=None)
@@ -549,6 +551,13 @@ if __name__ == "__main__":
     parser.add_argument("--margin", type=int, default=1, help="margin around outside of element in mm")
     parser.add_argument("--output", default="merged_output.svg", help="Merged output SVG file suffix")
     parser.add_argument("--merge", default=False, action="store_true", help="Produce merged output")
+    parser.add_argument("--format",
+        action="store",
+        type=str,
+        default="svg",
+        choices=formats.getFormats(),
+        help="format of resulting file [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#format)"
+    )
     args = parser.parse_args()
 
     logging.basicConfig(level=logging.INFO)

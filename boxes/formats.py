@@ -18,7 +18,7 @@ import os
 import shutil
 import subprocess
 import tempfile
-
+import io
 from boxes.drawing import Context, LBRN2Surface, PSSurface, SVGSurface
 
 
@@ -83,23 +83,27 @@ class Formats:
 
         if fmt not in self._BASE_FORMATS:
             fd, tmpfile = tempfile.mkstemp()
-            os.write(fd, data.getvalue())
-            os.close(fd)
-            fd2, outfile = tempfile.mkstemp()
+            try:
+                os.write(fd, data.getvalue())
+                os.close(fd)
+                fd2, outfile = tempfile.mkstemp()
+                try:
+                    cmd = self.formats[fmt].format(
+                        pstoedit=self.pstoedit,
+                        ps2pdf=self.ps2pdf,
+                        input=tmpfile,
+                        output=outfile).split()
+                    result = subprocess.run(cmd)
 
-            cmd = self.formats[fmt].format(
-                pstoedit=self.pstoedit,
-                ps2pdf=self.ps2pdf,
-                input=tmpfile,
-                output=outfile).split()
-
-            result = subprocess.run(cmd)
-            os.unlink(tmpfile)
-            if result.returncode:
-                # XXX show stderr output
-                raise ValueError("Conversion failed. pstoedit returned %i\n\n %s" % (result.returncode, result.stderr))
-            data = open(outfile, 'rb')
-            os.unlink(outfile)
-            os.close(fd2)
+                    if result.returncode:
+                        # XXX show stderr output
+                        raise ValueError("Conversion failed. pstoedit returned %i\n\n %s" % (result.returncode, result.stderr))
+                    with open(outfile, 'rb') as ff:
+                        data = io.BytesIO(ff.read())
+                finally:
+                    os.close(fd2)
+                    os.unlink(outfile)
+            finally:
+                os.unlink(tmpfile)
 
         return data

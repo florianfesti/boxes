@@ -24,7 +24,7 @@ from boxes.drawing import Context, LBRN2Surface, PSSurface, SVGSurface
 
 class Formats:
 
-    pstoedit_candidates = ["/usr/bin/pstoedit", "pstoedit", "pstoedit.exe"]
+    pstoedit_candidates = ["/usr/bin/pstoedit", "pstoedit", r"C:\Program Files\pstoedit\pstoedit.exe", "pstoedit.exe"]
     ps2pdf_candidates = ["/usr/bin/ps2pdf", "ps2pdf", "ps2pdf.exe"]
 
     _BASE_FORMATS = ['svg', 'svg_Ponoko', 'ps', 'lbrn2']

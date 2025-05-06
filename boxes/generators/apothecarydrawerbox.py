@@ -1,80 +1,10 @@
 from boxes import *
 from boxes.edges import FingerJointEdge
+import copy
 
 # Dependent generators for drawers
 from boxes.generators.abox import ABox
 from boxes.generators.dividertray import DividerTray
-
-class AlternatingFingerJointEdgeEven(FingerJointEdge):
-    """Alternating finger joint edge """
-    char = 'a'
-    description = "Alternating Finger Joint"
-    positive = True
-
-    # Pasted from FingerJointEdge but with added alternate args and rendering
-    def __call__(self, length, bedBolts=None, bedBoltSettings=None, alternate=True, altMod=0, **kw):
-      positive = self.positive
-      t = self.settings.thickness
-
-      s, f = self.settings.space, self.settings.finger
-      thickness = self.settings.thickness
-      style = self.settings.style
-      play = self.settings.play
-
-      fingers, leftover = self.calcFingers(length, bedBolts)
-
-      if (fingers == 0 and f and
-              leftover > 0.75 * thickness and leftover > 4 * play):
-          fingers = 1
-          f = leftover = leftover / 2.0
-          bedBolts = None
-          style = "rectangular"
-
-      if not positive:
-          f += play
-          s -= play
-          leftover -= play
-
-      self.edge(leftover / 2.0, tabs=1)
-
-      l1, l2 = self.fingerLength(self.settings.angle)
-      h = l1 - l2
-
-      d = (bedBoltSettings or self.bedBoltSettings)[0]
-
-      for i in range(fingers):
-          if i != 0:
-              if not positive and bedBolts and bedBolts.drawBolt(i):
-                  self.hole(0.5 * s,
-                            0.5 * self.settings.thickness, 0.5 * d)
-
-              if positive and bedBolts and bedBolts.drawBolt(i):
-                  self.bedBoltHole(s, bedBoltSettings)
-              else:
-                  self.edge(s)
-
-          # Skip finger if alternating
-          if alternate and i % 2 == altMod:
-              self.edge(f)
-          else:
-              self.draw_finger(f, h, style,
-                               positive, i < fingers // 2)
-
-      self.edge(leftover / 2.0, tabs=1)
-
-class AlternatingFingerJointEdgeOdd(AlternatingFingerJointEdgeEven):
-    """Alternating finger joint edge """
-    char = 'b'
-    description = "Alternating Finger Joint"
-    positive = True
-
-    def __call__(self, length, bedBolts=None, bedBoltSettings=None, alternate=True, altMod=1, **kw):
-        fingers, leftover = self.calcFingers(length, bedBolts)
-        # Handles odd number of fingers
-        if fingers % 2 == 0:
-            altMod = 0
-
-        super().__call__(length, bedBolts, bedBoltSettings, alternate=alternate, altMod=altMod, **kw)
 
 class DrawerSettings(edges.Settings):
     """Settings for the Drawers
@@ -156,10 +86,16 @@ can each fit most popular TCG cards.
         drawer_settings = self.edgesettings['Drawer']
         drawer_style = drawer_settings['style']
 
-        # Add alternating finger joint edges
-        altEven = AlternatingFingerJointEdgeEven(self, self.edges["f"].settings)
+        altFingerSettings = copy.copy(self.edges["f"].settings)
+        # Even joint edge
+        altEven = FingerJointEdge(self, altFingerSettings)
+        altEven.settings.alternating = "even"
+        altEven.char = "a"
         self.addPart(altEven)
-        altOdd = AlternatingFingerJointEdgeOdd(self, self.edges["f"].settings)
+        # Odd joint edge
+        altOdd = FingerJointEdge(self, altFingerSettings)
+        altOdd.settings.alternating = "odd"
+        altOdd.char = "b"
         self.addPart(altOdd)
 
         # Back panel

@@ -19,7 +19,7 @@ import inspect
 import math
 import re
 from abc import ABC, abstractmethod
-from typing import Any
+from typing import Any, Literal
 
 from boxes import gears
 
@@ -872,6 +872,8 @@ Values:
 
     angle = 90 # Angle of the walls meeting
 
+    alternating: Literal['even', 'odd'] | None = None # even or odd for which alternating pattern to use
+
     def checkValues(self) -> None:
         if abs(self.space + self.finger) < 0.1:
             raise ValueError("FingerJointSettings: space + finger must not be close to zero")
@@ -976,6 +978,7 @@ class FingerJointEdge(BaseEdge, FingerJointBase):
         play = self.settings.play
 
         fingers, leftover = self.calcFingers(length, bedBolts)
+        altMod = 1 if self.settings.alternating == "odd" and fingers % 2 == 1 else 0
 
         # not enough space for normal fingers - use small rectangular one
         if (fingers == 0 and f and
@@ -1007,8 +1010,13 @@ class FingerJointEdge(BaseEdge, FingerJointBase):
                     self.bedBoltHole(s, bedBoltSettings)
                 else:
                     self.edge(s)
-            self.draw_finger(f, h, style,
-                             positive, i < fingers // 2)
+
+            # Skip finger if alternating
+            if self.settings.alternating and i % 2 == altMod:
+                self.edge(f)
+            else:
+                self.draw_finger(f, h, style,
+                                positive, i < fingers // 2)
 
         self.edge(leftover / 2.0, tabs=1)
 

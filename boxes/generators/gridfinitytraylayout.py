@@ -56,8 +56,11 @@ this compartment.
         if county == 0:
             county = self.ny
 
-        stepx = self.x / countx
-        stepy = self.y / county
+        x = self.pitch * self.nx - self.margin
+        y = self.pitch * self.ny - self.margin
+        
+        stepx = x / countx
+        stepy = y / county
         for i in range(countx):
             line = ' |' * i + f" ,> {stepx}mm\n"
             layout += line

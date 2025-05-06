@@ -22,6 +22,7 @@ except ImportError:
     import boxes
 
 import boxes.generators
+import boxes.svgmerge
 
 import yaml
 
@@ -269,6 +270,7 @@ def main() -> None:
     parser.add_argument("--examples", action="store_true", default=False, help='Generates an SVG for every generator into the "examples" folder.')
     parser.add_argument("--help", action="store_true", default=False)
     parser.add_argument("--multi-generator", type=argparse.FileType('r', encoding='UTF-8'), help="Generate multiple boxes from a configuration YAML")
+    parser.add_argument("--merge", action="store_true", default=False, help="Merge multiple SVG files into optimal cuts for a given panel size")
     args, extra = parser.parse_known_args()
     if args.generator and (args.examples or args.multi_generator or args.list):
         parser.error("cannot combine --generator with other commands")
@@ -309,6 +311,13 @@ def main() -> None:
             output_path = Path(".")
             output_fname_format = "{name}_{box_idx}"
         multi_generate(args.multi_generator, output_path, output_fname_format)
+    elif args.merge:
+        merger = boxes.svgmerge.SvgMerge()
+        merger.parseArgs(extra)
+        merger.render(extra)
+        data = merger.close()
+        with os.fdopen(sys.stdout.fileno(), "wb", closefd=False) if merger.output == "-" else open(merger.output, 'wb') as f:
+            f.write(data.getvalue())
     else:
         if args.generator:
             name = args.generator

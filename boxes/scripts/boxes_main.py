@@ -1,24 +1,15 @@
 #!/usr/bin/env python3
-"""boxes.py
+"""
 
 Generate stencils for wooden boxes.
 
-Usage:
-  boxes <generator> [<args>...]
-  boxes --list
-  boxes --examples
-  boxes (-h | --help)
-
-Options:
-  --list        List available generators.
-  --examples    Generates an SVG for every generator into the "examples" folder.
-  -h --help     Show this screen.
 """
 from __future__ import annotations
 
 import gettext
 import os
 import sys
+import argparse
 from pathlib import Path
 
 try:
@@ -124,31 +115,52 @@ def generators_by_name() -> dict[str, type[boxes.Boxes]]:
     }
 
 
-def print_usage() -> None:
-    print(__doc__)
-
-
 def print_version() -> None:
     print("boxes does not use versioning.")
 
 
+def example_output_fname_formatter(box_type, name, box_idx, metadata, box_args):
+    if not box_args:
+        return f"{name}"
+    else:
+        args_hash = hashlib.sha1(" ".join(sorted(box_args)).encode("utf-8")).hexdigest()
+        return f"{name}_{args_hash[0:8]}"
+
+
 def main() -> None:
-    if len(sys.argv) > 1 and sys.argv[1].startswith("--id="):
-        del sys.argv[1]
-    if len(sys.argv) == 1 or sys.argv[1] == '--help' or sys.argv[1] == '-h':
-        print_usage()
-    elif sys.argv[1] == '--version':
+    parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter, description=__doc__)
+    parser.allow_abbrev = False
+    parser.add_argument("--generator", type=str, default=None)
+    parser.add_argument("--id", type=str, default=None, help="ignored")
+    parser.add_argument("--debug", action="store_true", default=False)
+    parser.add_argument("--version", action="store_true", default=False)
+    parser.add_argument("--list", action="store_true", default=False, help="List available generators.")
+    parser.add_argument("--examples", action="store_true", default=False, help='Generates an SVG for every generator into the "examples" folder.')
+    args, extra = parser.parse_known_args()
+    if args.generator and (args.examples or args.list):
+        parser.error("cannot combine --generator with other commands")
+    
+    # if debug is True set logging level
+    if args.debug:
+        logging.getLogger().setLevel(logging.DEBUG)
+    
+    # Handle various actions
+    if args.version:
         print_version()
-    elif sys.argv[1] == '--list':
+    elif args.list:
         print_grouped_generators()
-    elif sys.argv[1] == '--examples':
+    elif args.examples:
         create_example_every_generator()
     else:
-        name = sys.argv[1].lower()
-        if name.startswith("--generator="):
-            name = name[12:]
-        run_generator(name, sys.argv[2:])
-
+        if args.generator:
+            name = args.generator
+        else:
+            name = extra.pop(0).lower()
+        run_generator(name, extra)
 
 if __name__ == '__main__':
+    # Setup basic logging
+    import logging
+    logging.basicConfig(level=logging.INFO)
+
     main()

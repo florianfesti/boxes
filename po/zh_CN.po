@@ -26,52 +26,52 @@ msgstr "直边"
 #. E edge description
 #: boxes/edges.py
 msgid "Straight Edge (outset by thickness)"
-msgstr ""
+msgstr "直边（从厚度开始）"
 
 #. E edge description
 #: boxes/edges.py
 msgid "E Straight Edge (outset by thickness)"
-msgstr ""
+msgstr "E直边（从厚度开始）"
 
 #. G edge description
 #: boxes/edges.py
 msgid "Edge with pear shaped mounting holes"
-msgstr ""
+msgstr "边缘有梨形安装孔"
 
 #. G edge description
 #: boxes/edges.py
 msgid "G Edge with pear shaped mounting holes"
-msgstr ""
+msgstr "G带梨形安装孔的边缘"
 
 #. z edge description
 #: boxes/edges.py
 msgid "Edge with grooves"
-msgstr ""
+msgstr "边缘有凹槽"
 
 #. z edge description
 #: boxes/edges.py
 msgid "z Edge with grooves"
-msgstr ""
+msgstr "z带凹槽的边缘"
 
 #. Z edge description
 #: boxes/edges.py
 msgid "Edge with grooves (opposing side)"
-msgstr ""
+msgstr "带凹槽的边缘（对侧）"
 
 #. Z edge description
 #: boxes/edges.py
 msgid "Z Edge with grooves (opposing side)"
-msgstr ""
+msgstr "Z边带凹槽（对侧）"
 
 #. g edge description
 #: boxes/edges.py
 msgid "Corrugated edge useful as an gipping area"
-msgstr ""
+msgstr "波纹边缘可用作抛光区域"
 
 #. g edge description
 #: boxes/edges.py
 msgid "g Corrugated edge useful as an gipping area"
-msgstr ""
+msgstr "g波纹边缘可用作抛光区域"
 
 #. f edge description
 #: boxes/edges.py
@@ -81,12 +81,12 @@ msgstr "榫卯结构"
 #. f edge description
 #: boxes/edges.py
 msgid "f Finger Joint"
-msgstr ""
+msgstr "f指关节"
 
 #. F edge description
 #: boxes/edges.py
 msgid "Finger Joint (opposing side)"
-msgstr ""
+msgstr "指关节（对侧）"
 
 #. F edge description
 #: boxes/edges.py
@@ -96,7 +96,7 @@ msgstr "普通卡榫"
 #. h edge description
 #: boxes/edges.py
 msgid "Edge (parallel Finger Joint Holes)"
-msgstr ""
+msgstr "边缘（平行指关节孔）"
 
 #. h edge description
 #: boxes/edges.py
@@ -106,17 +106,17 @@ msgstr "插入式卡榫（无撑角）"
 #. | edge description
 #: boxes/edges.py
 msgid "Edge (orthogonal Finger Joint Holes)"
-msgstr ""
+msgstr "边缘（正交指接孔）"
 
 #. | edge description
 #: boxes/edges.py
 msgid "| Edge (orthogonal Finger Joint Holes)"
-msgstr ""
+msgstr "|边缘（正交指接孔）"
 
 #. s edge description
 #: boxes/edges.py
 msgid "Stackable (bottom, finger joint holes)"
-msgstr ""
+msgstr "可堆叠（底部、指接孔）"
 
 #. s edge description
 #: boxes/edges.py
@@ -126,337 +126,337 @@ msgstr "插入式卡榫（有撑角）"
 #. S edge description
 #: boxes/edges.py
 msgid "Stackable (top)"
-msgstr ""
+msgstr "可堆叠（顶部）"
 
 #. S edge description
 #: boxes/edges.py
 msgid "S Stackable (top)"
-msgstr ""
+msgstr "S可堆叠（顶部）"
 
 #. š edge description
 #: boxes/edges.py
 msgid "Stackable feet (bottom)"
-msgstr ""
+msgstr "可堆叠脚（底部）"
 
 #. š edge description
 #: boxes/edges.py
 msgid "š Stackable feet (bottom)"
-msgstr ""
+msgstr "š可堆叠脚（底部）"
 
 #. Š edge description
 #: boxes/edges.py
 msgid "Stackable edge with finger holes (top)"
-msgstr ""
+msgstr "带指孔的可堆叠边缘（顶部）"
 
 #. Š edge description
 #: boxes/edges.py
 msgid "Š Stackable edge with finger holes (top)"
-msgstr ""
+msgstr "Š带指孔的可堆叠边缘（顶部）"
 
 #. i edge description
 #: boxes/edges.py
 msgid "Straight edge with hinge eye"
-msgstr ""
+msgstr "直边带铰链眼"
 
 #. i edge description
 #: boxes/edges.py
 msgid "i Straight edge with hinge eye"
-msgstr ""
+msgstr "i直边带铰链眼"
 
 #. I edge description
 #: boxes/edges.py
 msgid "Edge with hinge pin"
-msgstr ""
+msgstr "带铰链销的边缘"
 
 #. I edge description
 #: boxes/edges.py
 msgid "I Edge with hinge pin"
-msgstr ""
+msgstr "I带铰链销的边缘"
 
 #. o edge description
 #: boxes/edges.py
 msgid "Edge with chest hinge"
-msgstr ""
+msgstr "带胸铰链的边缘"
 
 #. o edge description
 #: boxes/edges.py
 msgid "o Edge with chest hinge"
-msgstr ""
+msgstr "o带胸铰链的边缘"
 
 #. p edge description
 #: boxes/edges.py
 msgid "p Edge with chest hinge"
-msgstr ""
+msgstr "p带胸铰链的边缘"
 
 #. q edge description
 #: boxes/edges.py
 msgid "Edge with pins for an chest hinge"
-msgstr ""
+msgstr "胸前铰链带销钉的边缘"
 
 #. q edge description
 #: boxes/edges.py
 msgid "q Edge with pins for an chest hinge"
-msgstr ""
+msgstr "q胸前铰链带销钉的边缘"
 
 #. Q edge description
 #: boxes/edges.py
 msgid "Edge opposing a chest hinge"
-msgstr ""
+msgstr "与胸部铰链相对的边缘"
 
 #. Q edge description
 #: boxes/edges.py
 msgid "Q Edge opposing a chest hinge"
-msgstr ""
+msgstr "Q边缘与胸部铰链相对"
 
 #. u edge description
 #: boxes/edges.py
 msgid "Edge with cabinet hinges"
-msgstr ""
+msgstr "带橱柜铰链的边缘"
 
 #. u edge description
 #: boxes/edges.py
 msgid "u Edge with cabinet hinges"
-msgstr ""
+msgstr "u带橱柜铰链的边缘"
 
 #. l edge description
 #: boxes/edges.py
 msgid "Edge for slide on lid (back)"
-msgstr ""
+msgstr "滑盖边缘（背面）"
 
 #. l edge description
 #: boxes/edges.py
 msgid "l Edge for slide on lid (back)"
-msgstr ""
+msgstr "l滑盖边缘（背面）"
 
 #. L edge description
 #: boxes/edges.py
 msgid "Edge for slide on lid (box back)"
-msgstr ""
+msgstr "滑盖边缘（盒子背面）"
 
 #. L edge description
 #: boxes/edges.py
 msgid "L Edge for slide on lid (box back)"
-msgstr ""
+msgstr "L边用于滑盖（盒子背面）"
 
 #. n edge description
 #: boxes/edges.py
 msgid "Edge for slide on lid (right)"
-msgstr ""
+msgstr "滑盖边缘（右）"
 
 #. n edge description
 #: boxes/edges.py
 msgid "n Edge for slide on lid (right)"
-msgstr ""
+msgstr "n滑盖边缘（右）"
 
 #. m edge description
 #: boxes/edges.py
 msgid "Edge for slide on lid (left)"
-msgstr ""
+msgstr "滑盖边缘（左）"
 
 #. m edge description
 #: boxes/edges.py
 msgid "m Edge for slide on lid (left)"
-msgstr ""
+msgstr "m滑盖边缘（左）"
 
 #. N edge description
 #: boxes/edges.py
 msgid "Edge for slide on lid (box right)"
-msgstr ""
+msgstr "滑盖边缘（右框）"
 
 #. N edge description
 #: boxes/edges.py
 msgid "N Edge for slide on lid (box right)"
-msgstr ""
+msgstr "N边缘用于滑盖（右框）"
 
 #. M edge description
 #: boxes/edges.py
 msgid "Edge for slide on lid (box left)"
-msgstr ""
+msgstr "滑盖边缘（左框）"
 
 #. M edge description
 #: boxes/edges.py
 msgid "M Edge for slide on lid (box left)"
-msgstr ""
+msgstr "M边缘用于滑盖（左框）"
 
 #. c edge description
 #: boxes/edges.py
 msgid "Click on (bottom side)"
-msgstr ""
+msgstr "点击（底部）"
 
 #. c edge description
 #: boxes/edges.py
 msgid "c Click on (bottom side)"
-msgstr ""
+msgstr "c点击（底部）"
 
 #. C edge description
 #: boxes/edges.py
 msgid "Click on (top)"
-msgstr ""
+msgstr "点击（顶部）"
 
 #. C edge description
 #: boxes/edges.py
 msgid "C Click on (top)"
-msgstr ""
+msgstr "C点击（顶部）"
 
 #. d edge description
 #: boxes/edges.py
 msgid "Dove Tail Joint"
-msgstr ""
+msgstr "鸽尾关节"
 
 #. d edge description
 #: boxes/edges.py
 msgid "d Dove Tail Joint"
-msgstr ""
+msgstr "d鸽尾接头"
 
 #. D edge description
 #: boxes/edges.py
 msgid "Dove Tail Joint (opposing side)"
-msgstr ""
+msgstr "鸽尾关节（对侧）"
 
 #. D edge description
 #: boxes/edges.py
 msgid "D Dove Tail Joint (opposing side)"
-msgstr ""
+msgstr "D鸽尾接头（对侧）"
 
 #. X edge description
 #: boxes/edges.py
 msgid "Flex cut"
-msgstr ""
+msgstr "柔性切割"
 
 #. X edge description
 #: boxes/edges.py
 msgid "X Flex cut"
-msgstr ""
+msgstr "x柔性切割"
 
 #. R edge description
 #: boxes/edges.py
 msgid "Rack (and pinion) Edge"
-msgstr ""
+msgstr "齿条（和小齿轮）边缘"
 
 #. R edge description
 #: boxes/edges.py
 msgid "R Rack (and pinion) Edge"
-msgstr ""
+msgstr "R齿条（和小齿轮）边缘"
 
 #. t edge description
 #: boxes/edges.py
 msgid "Triangle for handle"
-msgstr ""
+msgstr "手柄三角形"
 
 #. t edge description
 #: boxes/edges.py
 msgid "t Triangle for handle"
-msgstr ""
+msgstr "t手柄三角形"
 
 #. T edge description
 #: boxes/edges.py
 msgid "T Triangle for handle"
-msgstr ""
+msgstr "T手柄三角形"
 
 #. y edge description
 #: boxes/edges.py
 msgid "Handle for e.g. a drawer"
-msgstr ""
+msgstr "例如抽屉把手"
 
 #. y edge description
 #: boxes/edges.py
 msgid "y Handle for e.g. a drawer"
-msgstr ""
+msgstr "y抽屉把手"
 
 #. Y edge description
 #: boxes/edges.py
 msgid "Handle with holes for parallel finger joint"
-msgstr ""
+msgstr "带有平行指关节孔的手柄"
 
 #. Y edge description
 #: boxes/edges.py
 msgid "Y Handle with holes for parallel finger joint"
-msgstr ""
+msgstr "Y带有平行指关节孔的手柄"
 
 #. j edge description
 #: boxes/edges.py
 msgid "Straight edge with hinge eye (other end)"
-msgstr ""
+msgstr "直边带铰链眼（另一端）"
 
 #. j edge description
 #: boxes/edges.py
 msgid "j Straight edge with hinge eye (other end)"
-msgstr ""
+msgstr "j直边带铰链眼（另一端）"
 
 #. J edge description
 #: boxes/edges.py
 msgid "Edge with hinge pin (other end)"
-msgstr ""
+msgstr "带铰链销的边缘（另一端）"
 
 #. J edge description
 #: boxes/edges.py
 msgid "J Edge with hinge pin (other end)"
-msgstr ""
+msgstr "J带铰链销的边缘（另一端）"
 
 #. k edge description
 #: boxes/edges.py
 msgid "Straight edge with hinge eye (both ends)"
-msgstr ""
+msgstr "直边带铰链眼（两端）"
 
 #. k edge description
 #: boxes/edges.py
 msgid "k Straight edge with hinge eye (both ends)"
-msgstr ""
+msgstr "k直边带铰链眼（两端）"
 
 #. K edge description
 #: boxes/edges.py
 msgid "Edge with hinge pin (both ends)"
-msgstr ""
+msgstr "带铰链销的边缘（两端）"
 
 #. K edge description
 #: boxes/edges.py
 msgid "K Edge with hinge pin (both ends)"
-msgstr ""
+msgstr "k带铰链销的边缘（两端）"
 
 #. O edge description
 #: boxes/edges.py
 msgid "Edge with chest hinge (other end)"
-msgstr ""
+msgstr "带胸铰链的边缘（另一端）"
 
 #. O edge description
 #: boxes/edges.py
 msgid "O Edge with chest hinge (other end)"
-msgstr ""
+msgstr "O带胸铰链的边缘（另一端）"
 
 #. P edge description
 #: boxes/edges.py
 msgid "P Edge with chest hinge (other end)"
-msgstr ""
+msgstr "P带胸铰链的边缘（另一端）"
 
 #. U edge description
 #: boxes/edges.py
 msgid "Edge with cabinet hinges top side"
-msgstr ""
+msgstr "带橱柜铰链的边缘顶部"
 
 #. U edge description
 #: boxes/edges.py
 msgid "U Edge with cabinet hinges top side"
-msgstr ""
+msgstr "U形边缘，顶部带有机柜铰链"
 
 #. v edge description
 #: boxes/edges.py
 msgid "Edge with cabinet hinges for 90° lid"
-msgstr ""
+msgstr "带有90°盖子的橱柜铰链边缘"
 
 #. v edge description
 #: boxes/edges.py
 msgid "v Edge with cabinet hinges for 90° lid"
-msgstr ""
+msgstr "v带有90°盖子的橱柜铰链边缘"
 
 #. V edge description
 #: boxes/edges.py
 msgid "Edge with cabinet hinges 90° lid"
-msgstr ""
+msgstr "带90°盖子的橱柜铰链边缘"
 
 #. V edge description
 #: boxes/edges.py
 msgid "V Edge with cabinet hinges 90° lid"
-msgstr ""
+msgstr "V带90°盖子的橱柜铰链边缘"
 
 #. name of generator group
 #: boxes/generators/__init__.py
@@ -596,6 +596,8 @@ msgid ""
 "sections back to front in mm [🛈](https://florianfesti.github.io/boxes/html/"
 "usermanual.html#section-parameters)"
 msgstr ""
+"从后到前的截面（mm）[🛈](https://florianfesti.github.io/boxes/html/"
+"usermanual.html#section-parameters)"
 
 #. parameter name
 msgid "sh"
@@ -606,6 +608,8 @@ msgid ""
 "sections bottom to top in mm [🛈](https://florianfesti.github.io/boxes/html/"
 "usermanual.html#section-parameters)"
 msgstr ""
+"从下到上的截面（mm）[🛈](https://florianfesti.github.io/boxes/html/"
+"usermanual.html#section-parameters)"
 
 #. parameter name
 msgid "bottom_edge"
@@ -795,7 +799,7 @@ msgstr ""
 
 #. parameter name
 msgid "labels"
-msgstr ""
+msgstr "标签"
 
 #. help for parameter labels
 msgid "label the parts (where available)"
@@ -815,13 +819,15 @@ msgstr ""
 
 #. parameter name
 msgid "inner_corners"
-msgstr ""
+msgstr "内角"
 
 #. help for parameter inner_corners
 msgid ""
 "style for inner corners [🛈](https://florianfesti.github.io/boxes/html/"
 "usermanual.html#inner-corners)"
 msgstr ""
+"内角风格 [🛈](https://florianfesti.github.io/boxes/html/usermanual.html#inner-"
+"corners)"
 
 #. possible choice for inner_corners
 msgid "loop"
@@ -833,7 +839,7 @@ msgstr "角落"
 
 #. possible choice for inner_corners
 msgid "backarc"
-msgstr ""
+msgstr "弧后"
 
 #. parameter name
 msgid "burn"
@@ -868,11 +874,11 @@ msgstr "弹性"
 
 #. possible choice for style
 msgid "barbs"
-msgstr ""
+msgstr "倒钩"
 
 #. possible choice for style
 msgid "snap"
-msgstr ""
+msgstr "打开"
 
 #. parameter name for FingerJoint
 msgid "surroundingspaces"
@@ -884,13 +890,13 @@ msgstr "两端的长度是常规长度的倍数"
 
 #. parameter name for FingerJoint
 msgid "bottom_lip"
-msgstr ""
+msgstr "下唇"
 
 #. help for parameter bottom_lip
 msgid ""
 "height of the bottom lips sticking out  (multiples of thickness) FingerHoleEdge "
 "only!"
-msgstr ""
+msgstr "下唇突出的高度（厚度的倍数）指孔仅限边缘！"
 
 #. parameter name for FingerJoint
 msgid "edge_width"
@@ -953,12 +959,12 @@ msgstr "内侧角度"
 
 #. parameter name for Stackable
 msgid "bottom_stabilizers"
-msgstr ""
+msgstr "底部稳定器"
 
 #. help for parameter bottom_stabilizers
 msgid ""
 "height of strips to be glued to the inside of bottom edges (multiples of thickness)"
-msgstr ""
+msgstr "粘合到底边缘内侧的条带高度（厚度的倍数）"
 
 #. parameter name for Stackable
 msgid "height"
@@ -966,7 +972,7 @@ msgstr "高度"
 
 #. help for parameter height
 msgid "height of the feet (multiples of thickness)"
-msgstr ""
+msgstr "脚的高度（厚度的倍数）"
 
 #. parameter name for Stackable
 msgid "holedistance"
@@ -974,11 +980,11 @@ msgstr "孔距"
 
 #. help for parameter holedistance
 msgid "distance from finger holes to bottom edge (multiples of thickness)"
-msgstr ""
+msgstr "指孔到底边缘的距离（厚度的倍数）"
 
 #. help for parameter width
 msgid "width of the feet (multiples of thickness)"
-msgstr ""
+msgstr "脚部宽度（厚度的倍数）"
 
 msgid "Settings for Hinges and HingePins"
 msgstr "铰链和铰链销的设置"
@@ -1009,7 +1015,7 @@ msgstr "轴"
 
 #. help for parameter axle
 msgid "diameter of the pin hole (multiples of thickness)"
-msgstr ""
+msgstr "销孔直径（厚度的倍数）"
 
 #. parameter name for Hinge
 msgid "grip_length"
@@ -1017,7 +1023,7 @@ msgstr "握把长度"
 
 #. help for parameter grip_length
 msgid "fixed length of the grips on he lids (multiples of thickness)"
-msgstr ""
+msgstr "盖子上握把的固定长度（厚度的倍数）"
 
 #. parameter name for Hinge
 msgid "hingestrength"
@@ -1025,7 +1031,7 @@ msgstr "铰链强度"
 
 #. help for parameter hingestrength
 msgid "thickness of the arc holding the pin in place (multiples of thickness)"
-msgstr ""
+msgstr "将销钉固定到位的弧形厚度（厚度的倍数）"
 
 msgid "Settings for Slide-on Lids"
 msgstr "滑盖的设置"
@@ -1036,7 +1042,7 @@ msgstr "洞宽"
 
 #. help for parameter hole_width
 msgid "width of the \"finger hole\" in mm"
-msgstr ""
+msgstr "“指孔”的宽度，单位为毫米"
 
 #. parameter name for SlideOnLid
 msgid "second_pin"
@@ -1044,7 +1050,7 @@ msgstr "第二针"
 
 #. help for parameter second_pin
 msgid "additional pin for better positioning"
-msgstr ""
+msgstr "额外的销钉可更好地定位"
 
 #. parameter name for SlideOnLid
 msgid "spring"
@@ -1052,7 +1058,7 @@ msgstr "弹簧"
 
 #. help for parameter spring
 msgid "position(s) of the extra locking springs in the lid"
-msgstr ""
+msgstr "盖子中额外锁紧弹簧的位置"
 
 #. possible choice for spring
 msgid "both"
@@ -1075,7 +1081,7 @@ msgstr "点击盖子的设置"
 
 #. help for parameter angle
 msgid "angle of the hooks bending outward"
-msgstr ""
+msgstr "钩子向外弯曲的角度"
 
 #. parameter name for Click
 msgid "bottom_radius"
@@ -1083,7 +1089,7 @@ msgstr "底半径"
 
 #. help for parameter bottom_radius
 msgid "radius at the bottom (multiples of thickness)"
-msgstr ""
+msgstr "底部半径（厚度的倍数）"
 
 #. parameter name for Click
 msgid "depth"
@@ -1091,7 +1097,7 @@ msgstr "深度"
 
 #. help for parameter depth
 msgid "length of the hooks (multiples of thickness)"
-msgstr ""
+msgstr "钩子的长度（厚度的倍数）"
 
 msgid "Settings for Flex"
 msgstr "弹性设置"
@@ -1102,7 +1108,7 @@ msgstr "伸展"
 
 #. help for parameter stretch
 msgid "Hint of how much the flex part should be shortened"
-msgstr ""
+msgstr "柔性部件应缩短多少的提示"
 
 #. parameter name for Flex
 msgid "connection"
@@ -1110,7 +1116,7 @@ msgstr "连接"
 
 #. help for parameter connection
 msgid "width of the gaps in the cuts (multiples of thickness)"
-msgstr ""
+msgstr "切口间隙的宽度（厚度的倍数）"
 
 #. parameter name for Flex
 msgid "distance"
@@ -1118,11 +1124,11 @@ msgstr "距离"
 
 #. help for parameter distance
 msgid "width of the pattern perpendicular to the cuts (multiples of thickness)"
-msgstr ""
+msgstr "垂直于切口的图案宽度（厚度的倍数）"
 
 #. help for parameter width
 msgid "width of the pattern in direction of the cuts (multiples of thickness)"
-msgstr ""
+msgstr "图案在切割方向上的宽度（厚度的倍数）"
 
 msgid "Settings for the Lid"
 msgstr "盖子设置"
@@ -1137,19 +1143,19 @@ msgstr "手柄样式"
 
 #. possible choice for handle
 msgid "long_rounded"
-msgstr ""
+msgstr "长圆形"
 
 #. possible choice for handle
 msgid "long_trapezoid"
-msgstr ""
+msgstr "长梯形"
 
 #. possible choice for handle
 msgid "long_doublerounded"
-msgstr ""
+msgstr "长双圆形"
 
 #. possible choice for handle
 msgid "knob"
-msgstr ""
+msgstr "把手"
 
 #. help for parameter style
 msgid "type of lid to create"
@@ -1169,7 +1175,7 @@ msgstr ""
 
 #. possible choice for style
 msgid "ontop"
-msgstr ""
+msgstr "顶部"
 
 #. parameter name for Lid
 msgid "handle_height"
@@ -1181,7 +1187,7 @@ msgstr "手柄高度（如适用）"
 
 #. help for parameter height
 msgid "height of the brim (if any)"
-msgstr ""
+msgstr "帽沿高度（如有）"
 
 #. help for parameter play
 msgid "play when sliding the lid on (if applicable)"
@@ -1332,7 +1338,7 @@ msgstr "空气净化器"
 #. description of AirPurifier
 #: boxes/generators/airpurifier.py
 msgid "Housing for the Nukit Open Air Purifier"
-msgstr ""
+msgstr "Nukit开放式空气净化器的外壳"
 
 #. long description of AirPurifier in markdown
 #: boxes/generators/airpurifier.py
@@ -1347,7 +1353,7 @@ msgstr "空气净化器 设置"
 #. help for parameter x
 #: boxes/generators/airpurifier.py
 msgid "inner width in mm"
-msgstr ""
+msgstr "内部宽度(mm)"
 
 #. help for parameter y
 #: boxes/generators/airpurifier.py
@@ -1357,12 +1363,12 @@ msgstr "内部深度（mm）"
 #. parameter name
 #: boxes/generators/airpurifier.py
 msgid "filter_height"
-msgstr ""
+msgstr "过滤器高度"
 
 #. help for parameter filter_height
 #: boxes/generators/airpurifier.py
 msgid "height of the filter along the flow direction (in mm)"
-msgstr ""
+msgstr "过滤器沿流动方向的高度（毫米）"
 
 #. parameter name
 #: boxes/generators/airpurifier.py
@@ -1372,7 +1378,7 @@ msgstr "边缘"
 #. help for parameter rim
 #: boxes/generators/airpurifier.py
 msgid "rim around the filter holding it in place (in mm)"
-msgstr ""
+msgstr "过滤器周围的边缘将其固定到位（单位：毫米）"
 
 #. parameter name
 #: boxes/generators/airpurifier.py
@@ -1382,7 +1388,7 @@ msgstr "风扇直径"
 #. help for parameter fan_diameter
 #: boxes/generators/airpurifier.py
 msgid "diameter of the fans (in mm)"
-msgstr ""
+msgstr "风扇直径（mm）"
 
 #. parameter name
 #: boxes/generators/airpurifier.py
@@ -1427,7 +1433,7 @@ msgstr ""
 #. parameter name
 #: boxes/generators/airpurifier.py
 msgid "fans_top"
-msgstr ""
+msgstr "风扇顶部"
 
 #. help for parameter fans_top
 #: boxes/generators/airpurifier.py
@@ -1437,7 +1443,7 @@ msgstr ""
 #. parameter name
 #: boxes/generators/airpurifier.py
 msgid "fans_bottom"
-msgstr ""
+msgstr "风扇底部"
 
 #. help for parameter fans_bottom
 #: boxes/generators/airpurifier.py
@@ -1447,7 +1453,7 @@ msgstr ""
 #. parameter name
 #: boxes/generators/airpurifier.py
 msgid "screw_holes"
-msgstr ""
+msgstr "螺丝孔"
 
 #. help for parameter screw_holes
 #: boxes/generators/airpurifier.py
@@ -1501,24 +1507,24 @@ msgid "AllEdges Settings"
 msgstr "所有边缘设置"
 
 msgid "Settings for HandleEdge"
-msgstr ""
+msgstr "手柄边缘设置"
 
 #. help for parameter height
 #: boxes/generators/alledges.py
 msgid "height above the wall in mm"
-msgstr ""
+msgstr "离墙高度（mm）"
 
 #. parameter name for HandleEdge
 #: boxes/generators/alledges.py
 msgid "hole_height"
-msgstr ""
+msgstr "洞高度"
 
 #. help for parameter hole_height
 #: boxes/generators/alledges.py
 msgid ""
 "height of hole(s) in percentage of maximum hole height (handle height - 2 * "
 "material thickness)"
-msgstr ""
+msgstr "孔的高度占最大孔高度的百分比（手柄高度-2*材料厚度）"
 
 #. help for parameter hole_width
 #: boxes/generators/alledges.py
@@ -1542,12 +1548,12 @@ msgstr ""
 #. help for parameter radius
 #: boxes/generators/alledges.py
 msgid "radius of corners in mm"
-msgstr ""
+msgstr "拐角半径（mm）"
 
 #. help for parameter outset
 #: boxes/generators/alledges.py
 msgid "extend the handle along the length of the edge (multiples of thickness)"
-msgstr ""
+msgstr "沿边缘长度（厚度的倍数）延伸手柄"
 
 #. name of box generator
 #: boxes/generators/angledbox.py
@@ -1623,7 +1629,7 @@ msgstr "街机游戏机"
 #. description of Arcade
 #: boxes/generators/arcade.py
 msgid "Desktop Arcade Machine"
-msgstr ""
+msgstr "台式街机"
 
 msgid "Arcade Settings"
 msgstr "街机游戏机设置"
@@ -1664,27 +1670,27 @@ msgstr ""
 #. help for parameter hotswap_enable
 #: boxes/generators/atreus21.py
 msgid "enlarge switches holes for hotswap pcb sockets"
-msgstr ""
+msgstr "扩大热插拔pcb插座的开关孔"
 
 #. parameter name
 #: boxes/generators/atreus21.py
 msgid "pcb_mount_enable"
-msgstr ""
+msgstr "pcb安装启用"
 
 #. help for parameter pcb_mount_enable
 #: boxes/generators/atreus21.py
 msgid "adds holes for pcb mount switches"
-msgstr ""
+msgstr "为pcb安装开关添加孔"
 
 #. parameter name
 #: boxes/generators/atreus21.py
 msgid "led_enable"
-msgstr ""
+msgstr "启用LED"
 
 #. help for parameter led_enable
 #: boxes/generators/atreus21.py
 msgid "adds pin holes under switches for leds"
-msgstr ""
+msgstr "在开关下为led添加针孔"
 
 #. parameter name
 #: boxes/generators/atreus21.py
@@ -1694,7 +1700,7 @@ msgstr ""
 #. help for parameter diode_enable
 #: boxes/generators/atreus21.py
 msgid "adds pin holes under switches for diodes"
-msgstr ""
+msgstr "在开关下方为二极管添加针孔"
 
 #. parameter name
 #: boxes/generators/atreus21.py
@@ -1793,7 +1799,7 @@ msgstr "定位销"
 #. help for parameter alignment_pins
 #: boxes/generators/bayonetbox.py
 msgid "diameter of the alignment pins"
-msgstr ""
+msgstr "对齐销的直径"
 
 #. name of box generator
 #: boxes/generators/bintray.py
@@ -1838,7 +1844,7 @@ msgstr "鸟屋"
 #. description of BirdHouse
 #: boxes/generators/birdhouse.py
 msgid "Simple Bird House"
-msgstr ""
+msgstr "简易鸟屋"
 
 msgid "BirdHouse Settings"
 msgstr "鸟屋设置"
@@ -1846,7 +1852,7 @@ msgstr "鸟屋设置"
 #. help for parameter h
 #: boxes/generators/birdhouse.py
 msgid "inner height in mm"
-msgstr ""
+msgstr "内部高度（mm）"
 
 #. parameter name
 #: boxes/generators/birdhouse.py
@@ -1856,7 +1862,7 @@ msgstr ""
 #. help for parameter roof_overhang
 #: boxes/generators/birdhouse.py
 msgid "overhang as fraction of the roof length"
-msgstr ""
+msgstr "悬挑占屋顶长度的比例"
 
 #. name of box generator
 #: boxes/generators/bookholder.py
@@ -1895,7 +1901,7 @@ msgstr "书本宽度"
 #. help for parameter book_width
 #: boxes/generators/bookholder.py
 msgid "total width of book stand"
-msgstr ""
+msgstr "书架总宽度"
 
 #. parameter name
 #: boxes/generators/bookholder.py
@@ -1905,7 +1911,7 @@ msgstr "书本高度"
 #. help for parameter book_height
 #: boxes/generators/bookholder.py
 msgid "height of the front plate"
-msgstr ""
+msgstr "前板高度"
 
 #. parameter name
 #: boxes/generators/bookholder.py
@@ -1935,7 +1941,7 @@ msgstr ""
 #. parameter name
 #: boxes/generators/bookholder.py
 msgid "bottom_support"
-msgstr ""
+msgstr "底部支撑"
 
 #. help for parameter bottom_support
 #: boxes/generators/bookholder.py
@@ -1945,7 +1951,7 @@ msgstr ""
 #. parameter name
 #: boxes/generators/bookholder.py
 msgid "back_support"
-msgstr ""
+msgstr "背后支撑"
 
 #. help for parameter back_support
 #: boxes/generators/bookholder.py
@@ -2025,12 +2031,12 @@ msgstr "瓶子标签设置"
 #. help for parameter width
 #: boxes/generators/bottletag.py
 msgid "width of neck tag"
-msgstr ""
+msgstr "颈标宽度"
 
 #. help for parameter height
 #: boxes/generators/bottletag.py
 msgid "height of neck tag"
-msgstr ""
+msgstr "颈标高度"
 
 #. parameter name
 #: boxes/generators/bottletag.py
@@ -2040,7 +2046,7 @@ msgstr "最小直径"
 #. help for parameter min_diameter
 #: boxes/generators/bottletag.py
 msgid "inner diameter of bottle neck hole"
-msgstr ""
+msgstr "瓶颈孔内径"
 
 #. parameter name
 #: boxes/generators/bottletag.py
@@ -2050,7 +2056,7 @@ msgstr "最大直径"
 #. help for parameter max_diameter
 #: boxes/generators/bottletag.py
 msgid "outer diameter of bottle neck hole"
-msgstr ""
+msgstr "瓶颈孔外径"
 
 #. help for parameter radius
 #: boxes/generators/bottletag.py
@@ -2065,7 +2071,7 @@ msgstr "数码管宽度"
 #. help for parameter segment_width
 #: boxes/generators/bottletag.py
 msgid "inner segment width"
-msgstr ""
+msgstr "内段宽度"
 
 #. name of box generator
 #: boxes/generators/breadbox.py
@@ -2144,7 +2150,7 @@ msgstr "等级"
 #. help for parameter level
 #: boxes/generators/brick_sorter.py
 msgid "Level of the nestable sieve"
-msgstr ""
+msgstr "可嵌套滤网的高度"
 
 #. possible choice for level
 #: boxes/generators/brick_sorter.py
@@ -2284,7 +2290,7 @@ msgstr "设置"
 #. possible choice for bottom_edge
 #: boxes/generators/can_storage.py
 msgid "š"
-msgstr ""
+msgstr "š"
 
 #. parameter name
 #: boxes/generators/can_storage.py
@@ -2314,7 +2320,7 @@ msgstr "易拉罐数量"
 #. help for parameter canNum
 #: boxes/generators/can_storage.py
 msgid "number of cans to be stored"
-msgstr ""
+msgstr "存放的易拉罐数量"
 
 #. parameter name
 #: boxes/generators/can_storage.py
@@ -2327,7 +2333,7 @@ msgid "slope angle of the chutes"
 msgstr "滑道斜角"
 
 msgid "Settings for Hole filling"
-msgstr ""
+msgstr "孔洞填充设置"
 
 #. parameter name for fillHoles
 #: boxes/generators/can_storage.py
@@ -2337,7 +2343,7 @@ msgstr ""
 #. help for parameter bar_length
 #: boxes/generators/can_storage.py
 msgid "maximum length of bars"
-msgstr ""
+msgstr "钢筋最大长度"
 
 #. parameter name for fillHoles
 #: boxes/generators/can_storage.py
@@ -2352,7 +2358,7 @@ msgstr ""
 #. possible choice for fill_pattern
 #: boxes/generators/can_storage.py
 msgid "no fill"
-msgstr ""
+msgstr "无填充"
 
 #. possible choice for fill_pattern
 #: boxes/generators/can_storage.py
@@ -2402,7 +2408,7 @@ msgstr ""
 #. parameter name for fillHoles
 #: boxes/generators/can_storage.py
 msgid "hole_style"
-msgstr ""
+msgstr "洞样式"
 
 #. help for parameter hole_style
 #: boxes/generators/can_storage.py
@@ -2508,7 +2514,7 @@ msgstr ""
 #. help for parameter pockets
 #: boxes/generators/carbonfilter.py
 msgid "number of V shaped filter pockets"
-msgstr ""
+msgstr "V形过滤袋的数量"
 
 #. parameter name
 #: boxes/generators/carbonfilter.py
@@ -2592,7 +2598,7 @@ msgstr "自定义"
 #. parameter name
 #: boxes/generators/cardbox.py
 msgid "fingerhole_depth"
-msgstr ""
+msgstr "卯洞深度"
 
 #. help for parameter fingerhole_depth
 #: boxes/generators/cardbox.py
@@ -2625,20 +2631,20 @@ msgstr "设置"
 #. help for parameter angle
 #: boxes/generators/cardholder.py
 msgid "backward angle of floor"
-msgstr ""
+msgstr "地板后角"
 
 #. parameter name
 #: boxes/generators/cardholder.py
 msgid "stackable"
-msgstr ""
+msgstr "堆叠式"
 
 #. help for parameter stackable
 #: boxes/generators/cardholder.py
 msgid "make holders stackable"
-msgstr ""
+msgstr "使支架可堆叠"
 
 msgid "Settings for Grooved Edge"
-msgstr ""
+msgstr "凹槽边缘的设置"
 
 #. parameter name for Grooved
 #: boxes/generators/cardholder.py
@@ -2648,7 +2654,7 @@ msgstr ""
 #. help for parameter arc_angle
 #: boxes/generators/cardholder.py
 msgid "the angle of arc cuts"
-msgstr ""
+msgstr "弧形切割的角度"
 
 #. parameter name for Grooved
 #: boxes/generators/cardholder.py
@@ -2668,7 +2674,7 @@ msgstr ""
 #. help for parameter interleave
 #: boxes/generators/cardholder.py
 msgid "alternate the direction of grooves"
-msgstr ""
+msgstr "改变凹槽的方向"
 
 #. parameter name for Grooved
 #: boxes/generators/cardholder.py
@@ -2805,17 +2811,17 @@ msgstr ""
 #. help for parameter rows
 #: boxes/generators/coffeecapsulesholder.py
 msgid "Number of capsules by columns."
-msgstr ""
+msgstr "按列列出的胶囊数量。"
 
 #. parameter name
 #: boxes/generators/coffeecapsulesholder.py
 msgid "backplate"
-msgstr ""
+msgstr "背板"
 
 #. help for parameter backplate
 #: boxes/generators/coffeecapsulesholder.py
 msgid "True if a backplate should be generated."
-msgstr ""
+msgstr "如果应该生成背板，则为True。"
 
 #. name of box generator
 #: boxes/generators/coinbanksafe.py
@@ -2825,7 +2831,7 @@ msgstr "硬币保险箱"
 #. description of CoinBankSafe
 #: boxes/generators/coinbanksafe.py
 msgid "A piggy-bank designed to look like a safe."
-msgstr ""
+msgstr "一个看起来像保险箱的存钱罐。"
 
 #. long description of CoinBankSafe in markdown
 #: boxes/generators/coinbanksafe.py
@@ -2854,37 +2860,37 @@ msgstr "硬币保险箱 设置"
 #. parameter name
 #: boxes/generators/coinbanksafe.py
 msgid "slotlength"
-msgstr ""
+msgstr "插槽长度"
 
 #. help for parameter slotlength
 #: boxes/generators/coinbanksafe.py
 msgid "Length of the coin slot in mm"
-msgstr ""
+msgstr "投币口长度（mm）"
 
 #. parameter name
 #: boxes/generators/coinbanksafe.py
 msgid "slotwidth"
-msgstr ""
+msgstr "插槽宽度"
 
 #. help for parameter slotwidth
 #: boxes/generators/coinbanksafe.py
 msgid "Width of the coin slot in mm"
-msgstr ""
+msgstr "投币口宽度（mm）"
 
 #. parameter name
 #: boxes/generators/coinbanksafe.py
 msgid "handlelength"
-msgstr ""
+msgstr "手柄长度"
 
 #. help for parameter handlelength
 #: boxes/generators/coinbanksafe.py
 msgid "Length of handle in multiples of thickness"
-msgstr ""
+msgstr "手柄长度为厚度的倍数"
 
 #. parameter name
 #: boxes/generators/coinbanksafe.py
 msgid "handleclearance"
-msgstr ""
+msgstr "手柄间隙"
 
 #. help for parameter handleclearance
 #: boxes/generators/coinbanksafe.py
@@ -3005,7 +3011,7 @@ msgstr ""
 #. possible choice for fingerholes
 #: boxes/generators/typetray.py
 msgid "inside-only"
-msgstr ""
+msgstr "仅限内部"
 
 #. possible choice for fingerholes
 #: boxes/generators/typetray.py
@@ -3015,7 +3021,7 @@ msgstr ""
 #. possible choice for fingerholes
 #: boxes/generators/typetray.py
 msgid "front-and-back"
-msgstr ""
+msgstr "正面和背面"
 
 msgid "Settings for Cabinet Hinges"
 msgstr "柜铰链设置"
@@ -3187,7 +3193,7 @@ msgstr ""
 #. parameter name
 #: boxes/generators/typetray.py
 msgid "text_size"
-msgstr ""
+msgstr "字体大小"
 
 #. help for parameter text_size
 #: boxes/generators/typetray.py
@@ -3197,12 +3203,12 @@ msgstr ""
 #. parameter name
 #: boxes/generators/typetray.py
 msgid "text_alignment"
-msgstr ""
+msgstr "字体对齐"
 
 #. help for parameter text_alignment
 #: boxes/generators/typetray.py
 msgid "Text Alignment"
-msgstr ""
+msgstr "字体对齐"
 
 #. possible choice for text_alignment
 #: boxes/generators/typetray.py
@@ -5330,6 +5336,9 @@ msgid ""
 "    <a href=\"https://www.youtube.com/watch?app=desktop&v=ra_9zU-mnl8\">Zach "
 "Freedman's Gridfinity system</a>"
 msgstr ""
+"这是一个可配置的网格基础。该设计基于\n"
+"    <a href=\"https://www.youtube.com/watch?app=desktop&v=ra_9zU-mnl8\">Zach "
+"Freedman的网格有限系统</a>"
 
 msgid "GridfinityBase Settings"
 msgstr "设置"
@@ -5378,7 +5387,7 @@ msgstr ""
 #: boxes/generators/gridfinitybase.py
 msgid ""
 "Extra margin around the gridfinity base to allow it to drop into the carrier (mm)"
-msgstr ""
+msgstr "网格有限度基座周围的额外余量，使其能够落入载体中（mm）"
 
 #. parameter name
 #: boxes/generators/gridfinitybase.py
@@ -5895,17 +5904,17 @@ msgstr ""
 #. possible choice for shape
 #: boxes/generators/holepattern.py
 msgid "rectangle"
-msgstr ""
+msgstr "矩形"
 
 #. possible choice for shape
 #: boxes/generators/holepattern.py
 msgid "ellipse"
-msgstr ""
+msgstr "椭圆"
 
 #. possible choice for shape
 #: boxes/generators/holepattern.py
 msgid "oval"
-msgstr ""
+msgstr "椭圆形"
 
 #. name of box generator
 #: boxes/generators/hooks.py
@@ -6103,17 +6112,17 @@ msgstr "设置"
 #. parameter name
 #: boxes/generators/kamishibai.py
 msgid "SheetWidth"
-msgstr ""
+msgstr "板材宽度"
 
 #. help for parameter SheetWidth
 #: boxes/generators/kamishibai.py
 msgid "width of the sheets in mm"
-msgstr ""
+msgstr "板材宽度（mm）"
 
 #. parameter name
 #: boxes/generators/kamishibai.py
 msgid "SheetHeight"
-msgstr ""
+msgstr "板材高度"
 
 #. help for parameter SheetHeight
 #: boxes/generators/kamishibai.py
@@ -6123,7 +6132,7 @@ msgstr ""
 #. parameter name
 #: boxes/generators/kamishibai.py
 msgid "SheetsStackDepth"
-msgstr ""
+msgstr "板材堆叠深度"
 
 #. help for parameter SheetsStackDepth
 #: boxes/generators/kamishibai.py
@@ -6133,7 +6142,7 @@ msgstr ""
 #. parameter name
 #: boxes/generators/kamishibai.py
 msgid "FrameThickness"
-msgstr ""
+msgstr "框架厚度"
 
 #. help for parameter FrameThickness
 #: boxes/generators/kamishibai.py
@@ -6470,17 +6479,17 @@ msgstr "设置"
 #. parameter name
 #: boxes/generators/keyholder.py
 msgid "num_hooks"
-msgstr ""
+msgstr "钩子数"
 
 #. help for parameter num_hooks
 #: boxes/generators/keyholder.py
 msgid "Number of hooks"
-msgstr ""
+msgstr "钩子数量"
 
 #. parameter name
 #: boxes/generators/keyholder.py
 msgid "hook_distance"
-msgstr ""
+msgstr "钩子距离"
 
 #. help for parameter hook_distance
 #: boxes/generators/keyholder.py
@@ -6490,22 +6499,22 @@ msgstr ""
 #. parameter name
 #: boxes/generators/keyholder.py
 msgid "hook_thickness"
-msgstr ""
+msgstr "钩子厚度"
 
 #. help for parameter hook_thickness
 #: boxes/generators/keyholder.py
 msgid "Thickness of hook"
-msgstr ""
+msgstr "钩子厚度"
 
 #. parameter name
 #: boxes/generators/keyholder.py
 msgid "hook_height"
-msgstr ""
+msgstr "钩子高度"
 
 #. help for parameter hook_height
 #: boxes/generators/keyholder.py
 msgid "Height of back part of hook"
-msgstr ""
+msgstr "吊钩后部高度"
 
 #. parameter name
 #: boxes/generators/keyholder.py
@@ -6837,7 +6846,7 @@ msgstr ""
 #. possible choice for secondary_power
 #: boxes/generators/makitapowersupply.py
 msgid "usb-c"
-msgstr ""
+msgstr "usb-c"
 
 #. name of box generator
 #: boxes/generators/matrix.py
@@ -6847,7 +6856,7 @@ msgstr "点阵屏外壳"
 #. description of Matrix
 #: boxes/generators/matrix.py
 msgid "WS2812b matrix enclosure"
-msgstr ""
+msgstr "WS2812b矩阵外壳"
 
 #. long description of Matrix in markdown
 #: boxes/generators/matrix.py
@@ -6898,22 +6907,22 @@ msgstr "设置"
 #. parameter name
 #: boxes/generators/matrix.py
 msgid "led_width"
-msgstr ""
+msgstr "led宽度"
 
 #. help for parameter led_width
 #: boxes/generators/matrix.py
 msgid "Width of the LED matrix in pixels"
-msgstr ""
+msgstr "LED点阵中每一个灯珠的宽度"
 
 #. parameter name
 #: boxes/generators/matrix.py
 msgid "led_height"
-msgstr ""
+msgstr "led高度"
 
 #. help for parameter led_height
 #: boxes/generators/matrix.py
 msgid "Height of the LED matrix in pixels"
-msgstr ""
+msgstr "LED点阵中每一个灯珠的高度"
 
 #. parameter name
 #: boxes/generators/matrix.py
@@ -6923,7 +6932,7 @@ msgstr ""
 #. help for parameter pysical_led_y
 #: boxes/generators/matrix.py
 msgid "Width of the LED matrix pcb in mm"
-msgstr ""
+msgstr "LED点阵pcb的宽度(mm)"
 
 #. parameter name
 #: boxes/generators/matrix.py
@@ -6933,7 +6942,7 @@ msgstr ""
 #. help for parameter pysical_led_x
 #: boxes/generators/matrix.py
 msgid "Height of the LED matrix pcb in mm"
-msgstr ""
+msgstr "LED点阵pcb的高度(mm)"
 
 #. parameter name
 #: boxes/generators/matrix.py
@@ -6972,37 +6981,37 @@ msgstr ""
 #. help for parameter h
 #: boxes/generators/matrix.py
 msgid "Height of the matrix"
-msgstr ""
+msgstr "矩阵高度"
 
 #. parameter name
 #: boxes/generators/matrix.py
 msgid "height_pcb"
-msgstr ""
+msgstr "pcb高度"
 
 #. help for parameter height_pcb
 #: boxes/generators/matrix.py
 msgid "Height of the pcb including the highest non led components in mm"
-msgstr ""
+msgstr "pcb的高度，包括最高的非led组件，单位为毫米"
 
 #. parameter name
 #: boxes/generators/matrix.py
 msgid "plexiglass_thicknes"
-msgstr ""
+msgstr "有机玻璃厚度"
 
 #. help for parameter plexiglass_thicknes
 #: boxes/generators/matrix.py
 msgid "Thickness of the plexiglass in mm"
-msgstr ""
+msgstr "有机玻璃厚度（mm）"
 
 #. help for parameter mounting_holes
 #: boxes/generators/matrix.py
 msgid "Add mounting holes for the enclosure"
-msgstr ""
+msgstr "为机柜添加安装孔"
 
 #. parameter name
 #: boxes/generators/matrix.py
 msgid "mounting_hole_diameter"
-msgstr ""
+msgstr "安装孔直径"
 
 #. help for parameter mounting_hole_diameter
 #: boxes/generators/matrix.py
@@ -7115,7 +7124,7 @@ msgstr "y孔区宽度"
 #. parameter name
 #: boxes/generators/microrack.py
 msgid "hole_diameter"
-msgstr ""
+msgstr "孔径"
 
 #. help for parameter hole_diameter
 #: boxes/generators/microrack.py
@@ -7233,7 +7242,7 @@ msgstr "盒子样式"
 #. possible choice for BoxStyle
 #: boxes/generators/nightlightbox.py
 msgid "minimalist"
-msgstr ""
+msgstr "极简主义者"
 
 #. possible choice for BoxStyle
 #: boxes/generators/nightlightbox.py
@@ -7766,7 +7775,7 @@ msgstr "孔采用六角形排列，而不是正交排列"
 #. parameter name
 #: boxes/generators/paintbox.py
 msgid "drawer"
-msgstr ""
+msgstr "抽屉"
 
 #. help for parameter drawer
 #: boxes/generators/paintbox.py
@@ -7818,7 +7827,7 @@ msgstr ""
 #. possible choice for design
 #: boxes/generators/paperbox.py
 msgid "automatic"
-msgstr ""
+msgstr "自动"
 
 #. possible choice for design
 #: boxes/generators/paperbox.py
@@ -8482,37 +8491,37 @@ msgstr "设置"
 #. parameter name
 #: boxes/generators/platonic.py
 msgid "type"
-msgstr ""
+msgstr "类型"
 
 #. help for parameter type
 #: boxes/generators/platonic.py
 msgid "type of platonic solid"
-msgstr ""
+msgstr "柏拉图式立体"
 
 #. possible choice for type
 #: boxes/generators/platonic.py
 msgid "tetrahedron"
-msgstr ""
+msgstr "四面体"
 
 #. possible choice for type
 #: boxes/generators/platonic.py
 msgid "cube"
-msgstr ""
+msgstr "立方体"
 
 #. possible choice for type
 #: boxes/generators/platonic.py
 msgid "octahedron"
-msgstr ""
+msgstr "八面体"
 
 #. possible choice for type
 #: boxes/generators/platonic.py
 msgid "dodecahedron"
-msgstr ""
+msgstr "十二面体"
 
 #. possible choice for type
 #: boxes/generators/platonic.py
 msgid "icosahedro"
-msgstr ""
+msgstr "二十面体"
 
 #. name of box generator
 #: boxes/generators/polehook.py
@@ -8947,7 +8956,7 @@ msgstr "多角形盒"
 #. description of RegularStarBox
 #: boxes/generators/regularstarbox.py
 msgid "Regular polygon boxes that form a star when closed"
-msgstr ""
+msgstr "闭合时形成星形的正多边形框"
 
 #. long description of RegularStarBox in markdown
 #: boxes/generators/regularstarbox.py
@@ -9133,12 +9142,12 @@ msgstr "卷纸轴"
 #. description of RollHolder
 #: boxes/generators/rollholder.py
 msgid "Holder for kitchen rolls or other rolls"
-msgstr ""
+msgstr "厨房卷或其他卷的支架"
 
 #. long description of RollHolder in markdown
 #: boxes/generators/rollholder.py
 msgid "Needs a dowel or pipe as axle."
-msgstr ""
+msgstr "需要一个销钉或管子作为轴。"
 
 msgid "RollHolder Settings"
 msgstr "设置"
@@ -9146,27 +9155,27 @@ msgstr "设置"
 #. help for parameter width
 #: boxes/generators/rollholder.py
 msgid "length of the axle in mm"
-msgstr ""
+msgstr "轴的长度，单位为毫米"
 
 #. help for parameter diameter
 #: boxes/generators/rollholder.py
 msgid "maximum diameter of the roll in mm (choose generously)"
-msgstr ""
+msgstr "辊的最大直径（mm）（请随意选择）"
 
 #. help for parameter height
 #: boxes/generators/rollholder.py
 msgid "height of mounting plate in mm"
-msgstr ""
+msgstr "安装板高度（mm）"
 
 #. help for parameter axle
 #: boxes/generators/rollholder.py
 msgid "diameter of the axle in mm including play"
-msgstr ""
+msgstr "轴的直径（mm），包括间隙"
 
 #. help for parameter screw_holes
 #: boxes/generators/rollholder.py
 msgid "diameter of mounting holes in mm"
-msgstr ""
+msgstr "安装孔直径（mm）"
 
 #. parameter name
 #: boxes/generators/rollholder.py
@@ -9176,7 +9185,7 @@ msgstr ""
 #. help for parameter one_piece
 #: boxes/generators/rollholder.py
 msgid "have a continuous back plate instead of two separate holders"
-msgstr ""
+msgstr "有一个连续的背板，而不是两个单独的支架"
 
 #. name of box generator
 #: boxes/generators/rotary.py
@@ -9219,7 +9228,7 @@ msgstr "刀片厚度"
 #. help for parameter knifethickness
 #: boxes/generators/rotary.py
 msgid "thickness of the knives in mm. Use 0 for use with honey comb table."
-msgstr ""
+msgstr "刀具的厚度，单位为毫米。使用0表示与蜂巢桌一起使用。"
 
 #. parameter name
 #: boxes/generators/rotary.py
@@ -9275,7 +9284,7 @@ msgstr "墙板"
 #. help for parameter wallpieces
 #: boxes/generators/roundedbox.py
 msgid "number of pieces for outer wall"
-msgstr ""
+msgstr "外墙件数"
 
 #. parameter name
 #: boxes/generators/roundedbox.py
@@ -9310,17 +9319,17 @@ msgstr "设置"
 #. parameter name
 #: boxes/generators/roundedregularbox.py
 msgid "inner_size"
-msgstr ""
+msgstr "内部尺寸"
 
 #. help for parameter inner_size
 #: boxes/generators/roundedregularbox.py
 msgid "diameter of the inner circle in mm"
-msgstr ""
+msgstr "内圈直径（mm）"
 
 #. help for parameter wallpieces
 #: boxes/generators/roundedregularbox.py
 msgid "number of pieces for outer wall (0 for one per side)"
-msgstr ""
+msgstr "外墙件数（每侧0件）"
 
 #. name of box generator
 #: boxes/generators/royalgame.py
@@ -9344,6 +9353,13 @@ msgid ""
 "![All pieces](static/samples/RoyalGame-3.jpg)\n"
 "\n"
 msgstr ""
+"大多数蓝线需要通过高速低功率切割来雕刻。但实际上需要切割三个蓝色孔：盖子上的抓握孔和"
+"顶部和底部的两个小矩形，供盖子抓握。\n"
+"\n"
+"![Lid Details](static/samples/RoyalGame-2.jpg)\n"
+"\n"
+"![All pieces](static/samples/RoyalGame-3.jpg)\n"
+"\n"
 
 msgid "RoyalGame Settings"
 msgstr "皇家游戏设置"
@@ -9356,7 +9372,7 @@ msgstr "七段数码管图样"
 #. description of SevenSegmentPattern
 #: boxes/generators/sevensegment.py
 msgid "Holepatterns and walls for a seven segment digit"
-msgstr ""
+msgstr "七段数码管的镂空图案和墙壁"
 
 #. long description of SevenSegmentPattern in markdown
 #: boxes/generators/sevensegment.py
@@ -9366,6 +9382,8 @@ msgid ""
 "used with small pieces of LED stripes connected with short wires for large enough "
 "sizes.\n"
 msgstr ""
+"这种图案是缩进的，与LED条带一起使用，LED条带以S图案缠绕在所有部分上，同时条带侧面直"
+"立。它也可以与用短线连接的小块LED条一起使用，以获得足够大的尺寸。\n"
 
 msgid "SevenSegmentPattern Settings"
 msgstr "设置"
@@ -9378,12 +9396,12 @@ msgstr ""
 #. help for parameter digit
 #: boxes/generators/sevensegment.py
 msgid "height of the digit (without walls) in mm"
-msgstr ""
+msgstr "数字高度（无墙），单位为毫米"
 
 #. help for parameter h
 #: boxes/generators/sevensegment.py
 msgid "height separation walls in mm"
-msgstr ""
+msgstr "隔墙高度（mm）"
 
 #. name of box generator
 #: boxes/generators/sevensegmentclock.py
@@ -9393,7 +9411,7 @@ msgstr "七段数码管时钟"
 #. description of SevenSegmentClock
 #: boxes/generators/sevensegmentclock.py
 msgid "Seven segment clock build with LED stripe"
-msgstr ""
+msgstr "七段式时钟，带LED条带"
 
 #. long description of SevenSegmentClock in markdown
 #: boxes/generators/sevensegmentclock.py
@@ -9463,7 +9481,7 @@ msgstr ""
 #. parameter name
 #: boxes/generators/shadowbox.py
 msgid "framewidth"
-msgstr ""
+msgstr "框架宽度"
 
 #. help for parameter framewidth
 #: boxes/generators/shadowbox.py
@@ -9473,7 +9491,7 @@ msgstr ""
 #. parameter name
 #: boxes/generators/shadowbox.py
 msgid "frameheight"
-msgstr ""
+msgstr "框架高度"
 
 #. help for parameter frameheight
 #: boxes/generators/shadowbox.py
@@ -9490,7 +9508,7 @@ msgstr ""
 #. parameter name
 #: boxes/generators/shadowbox.py
 msgid "casejoinery"
-msgstr ""
+msgstr "细木工制品"
 
 #. help for parameter casejoinery
 #: boxes/generators/shadowbox.py
@@ -9507,7 +9525,7 @@ msgstr "鞋"
 #. description of Shoe
 #: boxes/generators/shoe.py
 msgid "Shoe shaped box"
-msgstr ""
+msgstr "鞋形盒子"
 
 #. long description of Shoe in markdown
 #: boxes/generators/shoe.py
@@ -9525,7 +9543,7 @@ msgstr "鞋设置"
 #. help for parameter width
 #: boxes/generators/shoe.py
 msgid "width of the shoe"
-msgstr ""
+msgstr "鞋的宽度"
 
 #. help for parameter length
 #: boxes/generators/shoe.py
@@ -9565,7 +9583,7 @@ msgstr ""
 #. help for parameter tophole
 #: boxes/generators/shoe.py
 msgid "length of the opening at the top"
-msgstr ""
+msgstr "顶部开口的长度"
 
 #. help for parameter radius
 #: boxes/generators/shoe.py
@@ -10256,7 +10274,7 @@ msgstr ""
 #. help for parameter shape
 #: boxes/generators/tetris.py
 msgid "shape of the piece"
-msgstr ""
+msgstr "工件的形状"
 
 #. possible choice for shape
 #: boxes/generators/tetris.py
@@ -10281,6 +10299,9 @@ msgid ""
 "\n"
 "When turned by 90°, it can be also used to create a bottle holder.\n"
 msgstr ""
+"创建交通灯是为了可视化Icinga监控系统的状态。\n"
+"\n"
+"当旋转90°时，它也可以用来制作瓶架。\n"
 
 msgid "TrafficLight Settings"
 msgstr "红绿灯设置"
@@ -10534,7 +10555,7 @@ msgstr "添加盖子（最好与高角相对）"
 #. help for parameter lid_height
 #: boxes/generators/unevenheightbox.py
 msgid "additional height of the lid"
-msgstr ""
+msgstr "盖子的额外高度"
 
 #. parameter name
 #: boxes/generators/unevenheightbox.py
@@ -10610,7 +10631,7 @@ msgstr ""
 #. possible choice for walltype
 #: boxes/generators/wallcaliperholder.py
 msgid "plain reinforced"
-msgstr ""
+msgstr "普通钢筋"
 
 #. possible choice for walltype
 #: boxes/generators/wallcaliperholder.py
@@ -10625,7 +10646,7 @@ msgstr ""
 #. possible choice for walltype
 #: boxes/generators/wallcaliperholder.py
 msgid "french cleat"
-msgstr ""
+msgstr "法国鞋钉"
 
 #. possible choice for walltype
 #: boxes/generators/wallcaliperholder.py
@@ -10998,7 +11019,7 @@ msgstr ""
 #. name of box generator
 #: boxes/generators/wallpinrow.py
 msgid "WallPinRow"
-msgstr ""
+msgstr "墙钉排"
 
 msgid "WallPinRow Settings"
 msgstr "设置"
@@ -11016,7 +11037,7 @@ msgstr ""
 #. parameter name
 #: boxes/generators/wallpinrow.py
 msgid "pinlength"
-msgstr ""
+msgstr "针长度"
 
 #. help for parameter pinlength
 #: boxes/generators/wallpinrow.py

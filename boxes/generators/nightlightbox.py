@@ -53,6 +53,9 @@ class NightLightBox(_TopEdge):
             "--InterPlateSpacing",  action="store", type=float, default=10,
             help="Space between the decorative plates in mm")
         self.argparser.add_argument(
+            "--hooks",  action="store", type=boolarg, default=False,
+            help="add hooks to decorative plates (allowing one sides plates)")
+        self.argparser.add_argument(
             "--Margin",  action="store", type=float, default=0.5,
             help="Margin for moving parts in mm")
         DiffuserPlateLock_group = self.argparser.add_argument_group("Night lightbox diffuser plate lock to prevent unwanted access to the electronics")
@@ -97,11 +100,19 @@ class NightLightBox(_TopEdge):
                         t + self.Margin, -90, t + self.Margin, -90, t + self.Margin, 90, t - self.Margin, 90)
         # right side
         self.polyline(self.PlateVisibleHeight + t*(2 if self.BoxStyle == "minimalist" else 6) + self.Margin, -90,
-                        t + self.Margin/2, 90, t*2 - self.Margin*2, 90)
+                        t + self.Margin/2)
+        if self.hooks:
+            self.polyline(0, -90, t, 90, 0, (90, t), t, (90, t))
+        else:
+            self.polyline(0, 90, t*2 - self.Margin*2, 90)
         # top
-        self.polyline(self.PlateVisibleWidth + t*(6 if self.BoxStyle == "minimalist" else 10), 90)
+        self.polyline(self.PlateVisibleWidth + t*(6 if self.BoxStyle == "minimalist" else 10))
         # left side
-        self.polyline(t*2 - self.Margin*2, 90, t + self.Margin/2, -90,
+        if self.hooks:
+            self.polyline(0, (90, t), t, (90, t), 0, 90, t, -90)
+        else:
+            self.polyline(0, 90, t*2 - self.Margin*2, 90)
+        self.polyline(t + self.Margin/2, -90,
                         self.PlateVisibleHeight + t*(2 if self.BoxStyle == "minimalist" else 6) + self.Margin, 90)
         # move plate
         self.move(self.PlateVisibleWidth + t*(6 if self.BoxStyle == "minimalist" else 10), self.PlateVisibleHeight + t*(4 if self.BoxStyle == "minimalist" else 8), move, label=label)

@@ -166,6 +166,7 @@ class NightLightBox(_TopEdge):
 
     def side(self, ySize, hSize, move=None, label=""):
         t = self.thickness
+        be = self.edges["s"] # bottom edge
         if self.move(ySize + t, hSize + t*4, move, True):
             return
         # rectangular hole for background guiding
@@ -176,10 +177,10 @@ class NightLightBox(_TopEdge):
         # round hole for background lock screw
         self.hole(ySize - self.BackgroundDepth - self.DiffuserPlateThickness/2 - self.Margin/2, t*10, self.DiffuserPlateTLockScrewDiameter/2)
         # bottom
-        self.edges["s"](ySize)
+        be(ySize)
         self.corner(90)
         # right side
-        self.edge(t*4) # stackable feet height, to be replaced with actual parameter
+        self.edge(be.endwidth())
         self.edges["f"](hSize)
         self.corner(90)
         # top
@@ -191,8 +192,9 @@ class NightLightBox(_TopEdge):
             self.polyline(t*2 + self.Margin, -90, self.WoodPlateThickness + self.Margin, -90,
                         t*2 + self.Margin, 90, self.InterPlateSpacing - self.Margin, 90)
         # left side
-        self.edges["f"](hSize)# + t*2)self.corner(90)
-        self.edge(t*4)
+        self.edges["f"](hSize)
+        self.edge(be.startwidth())
+        self.corner(90)
         # move plate
         self.move(ySize + t, hSize + t*8, move, label=label)
 

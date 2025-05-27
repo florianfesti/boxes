@@ -65,11 +65,21 @@ class LazySusan(Boxes):
         self.moveTo(-inside_radius, 5)
         self.drawfloor(angle, inside_radius, outside_radius)
         self.moveTo(outside_radius+5, 0)
-        # 
+
+        #flex wall for outside
         outside_wall = angle * (math.pi / 180) * outside_radius
         self.rectangularWall(outside_wall, h, "eFeF", move="right")
+        # l = 2/3. * outside_radius-inside_radius
+        # r = l/2. - 0.5*t
+        # borders = [10, (outside_wall, outside_wall), 10,1]
+        # self.polygonWalls(borders, h, "f", "f")
 
+        #flex wall for inside
         inside_wall = angle * (math.pi / 180) * inside_radius
         self.rectangularWall(inside_wall, h, "eFeF", move="right")
+        
+        #solid endcap walls
         self.flangedWall(outside_radius-inside_radius,h, "FfFf", move="up" )
         self.flangedWall(outside_radius-inside_radius,h, "FfFf", move="right")
+
+       

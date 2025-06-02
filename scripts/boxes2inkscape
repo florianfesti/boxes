@@ -121,6 +121,7 @@ class Boxes2INX:
             <submenu name="{self.groups_by_name[box.ui_group].title}"/>
         </submenu>
     </effects-menu>
+    <icon>{name}-thumb.svg</icon>
 </effect>
 <script>
     <command location="inx" interpreter="python">boxes_proxy.py</command>

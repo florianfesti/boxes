@@ -10,15 +10,13 @@ This is a configurable gridfinity base.  This
 
 
 Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
-Creation date: 2025-02-24 21:30:05
-Command line (remove spaces between dashes): boxes GridfinityBase - -cut_pads - -sx - -sy - -x - -y - -m - -cut_pads
+Command line (remove spaces between dashes): boxes GridfinityBase - -cut_pads=1 - -panel_x=290 - -panel_y=290 - -size_x=393 - -size_y=600 - -x=0 - -y=0 - -m=0
 -->
 <title>GridfinityBase</title>
 <metadata>
 <rdf:RDF><cc:Work>
 <dc:title>Tray - GridfinityBase</dc:title>
-<dc:date>2025-02-24 21:30:05</dc:date>
-<dc:source>boxes GridfinityBase --cut_pads 1 --panel-x 290 --panel-y 290 --sx 393 --sy 600 --x 0 --y 0 --m 0 --cut_pads 1 --thickness 3</dc:source>
+<dc:source>boxes GridfinityBase --cut_pads=1 --panel_x=290 --panel_y=290 --size_x=393 --size_y=600 --x=0 --y=0 --m=0</dc:source>
 <dc:description>A parameterized Gridfinity base
 
 This is a configurable gridfinity base.  This
@@ -26,8 +24,8 @@ This is a configurable gridfinity base.  This
     &lt;a href="https://www.youtube.com/watch?app=desktop&amp;v=ra_9zU-mnl8"&gt;Zach Freedman's Gridfinity system&lt;/a&gt;
 
 Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
-Command line: boxes GridfinityBase --cut_pads 1 --panel-x 290 --panel-y 290 --sx 393 --sy 600 --x 0 --y 0 --m 0 --cut_pads 1 --thickness 3
-Command line short: boxes GridfinityBase --cut_pads --sx --sy --x --y --m --cut_pads
+Command line: boxes GridfinityBase --cut_pads=1 --panel_x=290 --panel_y=290 --size_x=393 --size_y=600 --x=0 --y=0 --m=0
+Command line short: boxes GridfinityBase --cut_pads=1 --panel_x=290 --panel_y=290 --size_x=393 --size_y=600 --x=0 --y=0 --m=0
 </dc:description>
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">

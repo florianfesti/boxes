@@ -44,6 +44,18 @@ class CoffeeCapsuleHolder(Boxes):
             help="Number of capsules by columns.",
         )
         self.argparser.add_argument(
+            "--lid_size",
+            type=float,
+            default=37,
+            help="diameter of the cup lids (in mm)",
+        )
+        self.argparser.add_argument(
+            "--body_size",
+            type=float,
+            default=30,
+            help="width of the body of the cups at the top (in mm)",
+        )
+        self.argparser.add_argument(
             "--backplate",
             type=boolarg,
             default=True,
@@ -51,9 +63,7 @@ class CoffeeCapsuleHolder(Boxes):
         )
 
     def render(self):
-        self.lid_size = 37
-        self.lid_size_with_margin = 39
-        self.body_size = 30
+        self.lid_size_with_margin = self.lid_size + 2
         self.column_spacing = 5
         self.corner_radius = 3
         self.screw_margin = 6

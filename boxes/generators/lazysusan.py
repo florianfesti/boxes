@@ -37,49 +37,45 @@ class LazySusan(Boxes):
         self.argparser.add_argument(
             "--angle", action="store", type=float, default=90,
             help="angle of the lazy susan")
+        self.argparser.add_argument(
+            "--top",  action="store", type=str, default="hole",
+            choices=["hole", "lid", "closed",],
+            help="style of the top and lid")
 
+    def holeCB(self):
+        angle, inside_radius, outside_radius, h = self.angle, self.inside_radius, self.outside_radius, self.h
+        t = self.thickness
+        s = 0.2 * inside_radius
+        d = t
+        poly = [s-d, (angle, outside_radius-s-d), s-d, 90,
+                outside_radius-inside_radius-2*d, 90,
+                s-d, (-angle, inside_radius-s+d), s-d, 90,
+                outside_radius-inside_radius-2*d, 90]
+        self.moveTo(d, d)
+        self.polyline(*poly)
 
-    def drawfloor(self, angle=None, inside_radius=None, outside_radius=None):
-        with self.saved_context():
-            self.moveTo(inside_radius, 0)
-            self.moveArc(90)
-            self.polyline(0, (angle, inside_radius))
-        
-        with self.saved_context():
-            self.moveTo(outside_radius, 0)
-            self.moveArc(90)
-            self.polyline(0, (angle, outside_radius))
-            self.polyline(0, 90)
-            self.edges["f"](outside_radius-inside_radius)
-
-        with self.saved_context():
-            self.moveTo(inside_radius, 0)
-            self.edges["f"](outside_radius-inside_radius)
             
     def render(self):
-        angle,inside_radius,outside_radius, h = self.angle, self.inside_radius, self.outside_radius, self.h
+        angle, inside_radius, outside_radius, h = self.angle, self.inside_radius, self.outside_radius, self.h
         t = self.thickness
 
         # angle = 30
 
-        self.moveTo(-inside_radius, 5)
-        self.drawfloor(angle, inside_radius, outside_radius)
-        self.moveTo(outside_radius+5, 0)
-
-        #flex wall for outside
-        outside_wall = angle * (math.pi / 180) * outside_radius
-        self.rectangularWall(outside_wall, h, "eFeF", move="right")
-        # l = 2/3. * outside_radius-inside_radius
-        # r = l/2. - 0.5*t
-        # borders = [10, (outside_wall, outside_wall), 10,1]
-        # self.polygonWalls(borders, h, "f", "f")
-
-        #flex wall for inside
-        inside_wall = angle * (math.pi / 180) * inside_radius
-        self.rectangularWall(inside_wall, h, "eFeF", move="right")
+        s = 0.2 * inside_radius
         
-        #solid endcap walls
-        self.flangedWall(outside_radius-inside_radius,h, "FfFf", move="up" )
-        self.flangedWall(outside_radius-inside_radius,h, "FfFf", move="right")
+        poly=[s, (angle, outside_radius-s), s, 90,
+              outside_radius-inside_radius, 90,
+              s, (-angle, inside_radius-s), s, 90,
+              outside_radius-inside_radius, 90]
+        with self.saved_context():
+            self.polygonWall(poly, move="right")
+            if self.top == "closed":
+                self.polygonWall(poly, move="right")
+            else:
+                self.polygonWall(poly, callback=[self.holeCB], move="right")
+            if self.top == "lid":
+                self.polygonWall(poly, edge="E", move="right")
 
-       
+        self.polygonWall(poly, move="up only")
+        self.moveTo(0, t)
+        self.polygonWalls(poly, self.h)

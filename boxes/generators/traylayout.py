@@ -15,7 +15,7 @@
 from __future__ import annotations
 
 import io
-
+import os
 import boxes
 from boxes import *
 from boxes import lids
@@ -102,23 +102,21 @@ You can replace the space characters representing the floor by a "X" to remove t
         self.addSettingsArgs(boxes.edges.FingerJointSettings)
         self.addSettingsArgs(lids.LidSettings)
         self.buildArgParser("h", "hi", "outside", "sx", "sy")
-        if self.UI == "web":
-            self.argparser.add_argument(
-                "--layout", action="store", type=str, default="\n",
-                help="""* Set **sx** and **sy** before editing this!
+        self.argparser.add_argument(
+            "--layout", action="store", type=str, default="\n",
+            help="""* Set **sx** and **sy** before editing this!
 * You can still change measurements afterwards
 * You can replace the hyphens and vertical bars representing the walls
 with a space character to remove the walls.
 * You can replace the space characters representing the floor by a "X"
 to remove the floor for this compartment.
 * Resize text area if necessary.""")
-            self.description = ""
-        else:
+        self.description = ""
+        if self.UI != "web":
             self.argparser.add_argument(
-                "--input", action="store", type=argparse.FileType('r'),
+                "--input", action="store", type=str,
                 default="traylayout.txt",
                 help="layout file")
-            self.layout = None
 
     def vWalls(self, x: int, y: int) -> int:
         """Number of vertical walls at a crossing."""
@@ -152,16 +150,23 @@ to remove the floor for this compartment.
         return (y > 0 and self.floors[y - 1][x]) or (y < len(self.y) and self.floors[y][x])
 
     @restore
-    def edgeAt(self, edge, x, y, length, angle=0):
+    def edgeAt(self, edge, x, y, length, angle=0, corner=None):
         self.moveTo(x, y, angle)
         edge = self.edges.get(edge, edge)
         edge(length)
+        if corner:
+            self.corner(90)
 
     def prepare(self):
         if self.layout:
             self.parse(self.layout.split('\n'))
+        elif os.path.exists(self.input):
+            with open(self.input) as input_file:
+                self.parse(input_file)
+        elif callable(getattr(self, "generate_layout", None)):
+            self.parse(self.generate_layout().split('\n'))
         else:
-            self.parse(self.input)
+            raise RuntimeError("traylayout requires --layout, --input, or implementation of generate_layout")
 
         if self.outside:
             self.x = self.adjustSize(self.x)
@@ -334,7 +339,7 @@ to remove the floor for this compartment.
                                     posy + w + b, self.x[x],
                                     -180)
                         if x == 0 or not self.floors[y][x - 1]:
-                            self.edgeAt("e", posx - w, posy + w + b, w, 0)
+                            self.edgeAt("e", posx, posy + w + b, w, -180, corner=True)
                         elif y == 0 or not self.floors[y - 1][x - 1]:
                             self.edgeAt("e", posx - t, posy + w + b, t, 0)
                         if x == lx - 1 or not self.floors[y][x + 1]:
@@ -347,7 +352,7 @@ to remove the floor for this compartment.
                     elif x == 0 or y == ly or not self.floors[y][x - 1]:
                         self.edgeAt("e", posx - t, posy + t - w - b, t)
                     if x == lx - 1 or y == 0 or not self.floors[y-1][x + 1]:
-                        self.edgeAt("e", posx + self.x[x], posy + t -w - b, w)
+                        self.edgeAt("e", posx + self.x[x], posy + t -w - b, w, corner=True)
                 posx += self.x[x] + self.thickness
             posy += self.y[y - 1] + self.thickness
 
@@ -368,7 +373,7 @@ to remove the floor for this compartment.
                         # Right edge
                         self.edgeAt(e, posx + w + b, posy, self.y[y], 90)
                         if y == 0 or not self.floors[y-1][x-1]:
-                            self.edgeAt("e", posx + w + b, posy + self.y[y], w, 90)
+                            self.edgeAt("e", posx + w + b, posy + self.y[y], w, 90, corner=True)
                         elif x == lx or y == 0 or not self.floors[y - 1][x]:
                             self.edgeAt("e", posx + w + b, posy + self.y[y], t, 90)
                         if y == ly - 1 or not self.floors[y+1][x-1]:
@@ -383,7 +388,7 @@ to remove the floor for this compartment.
                         self.edgeAt("e", posx + t - w - b,
                                     posy + self.y[y] + t, t, -90)
                     if y == ly - 1 or not self.floors[y + 1][x]:
-                        self.edgeAt("e", posx + t - w - b, posy, w, -90)
+                        self.edgeAt("e", posx + t - w - b, posy, w, -90, corner=True)
                 posy += self.y[y] + self.thickness
             if x < lx:
                 posx += self.x[x] + self.thickness

@@ -264,7 +264,7 @@ to remove the floor for this compartment.
 
                     lengths.append(self.y[end])
                     if self.vFloor(x, end) == 0 and self.vFloor(x, end + 1) == 0:
-                        edges.append("EDs"[self.hWalls(x, end + 1)])
+                        edges.append("EDS"[self.hWalls(x, end + 1)])
                     else:
                         edges.append("eCs"[self.hWalls(x, end + 1)])
                     lengths.append(self.thickness)
@@ -275,11 +275,12 @@ to remove the floor for this compartment.
 
                 upper = [{"f": "e",
                           "s": "s",
+                          "S": "s", # abuse for E at bottom
                           "e": "e",
                           "E": "e",
                           "C": "e",
                           "D": "e"}[e] for e in reversed(edges)]
-                edges = ["e" if e == "s" else e for e in edges]
+                edges = ["e" if e == "s" else ("E" if e == "S" else e) for e in edges]
                 self.rectangularWall(sum(lengths), h, [
                     boxes.edges.CompoundEdge(self, edges, lengths),
                     "eFf"[self.hWalls(x, end)],

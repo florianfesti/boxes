@@ -27,7 +27,7 @@ class LazySusan(Boxes):
         self.addSettingsArgs(edges.FingerJointSettings, finger=1.0,space=1.0)
         self.addSettingsArgs(edges.FlexSettings)
 
-        self.buildArgParser(h=30)
+        self.buildArgParser(h=110)
         self.argparser.add_argument(
             "--inside_radius", action="store", type=float, default=40,
             help="inside radius of the lazy susan")

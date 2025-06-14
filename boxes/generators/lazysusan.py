@@ -35,7 +35,7 @@ class LazySusan(Boxes):
             "--outside_radius", action="store", type=float, default=280,
             help="outside radius of the lazy susan")
         self.argparser.add_argument(
-            "--angle", action="store", type=float, default=50,
+            "--angle", action="store", type=float, default=70,
             help="angle of the lazy susan")
         self.argparser.add_argument(
             "--top",  action="store", type=str, default="hole",

@@ -24,7 +24,7 @@ class LazySusan(Boxes):
     def __init__(self) -> None:
         Boxes.__init__(self)
 
-        self.addSettingsArgs(edges.FingerJointSettings, finger=1.0,space=1.0)
+        self.addSettingsArgs(edges.FingerJointSettings)
         self.addSettingsArgs(edges.FlexSettings)
 
         self.buildArgParser(h=110)
@@ -41,18 +41,6 @@ class LazySusan(Boxes):
             "--top",  action="store", type=str, default="hole",
             choices=["hole", "lid", "closed",],
             help="style of the top and lid")
-
-    def holeCB(self):
-        angle, inside_radius, outside_radius, h = self.angle, self.inside_radius, self.outside_radius, self.h
-        t = self.thickness
-        s = 0.2 * inside_radius
-        d = t
-        poly = [s-d, (angle, outside_radius-s-d), s-d, 90,
-                outside_radius-inside_radius-2*d, 90,
-                s-d, (-angle, inside_radius-s+d), s-d, 90,
-                outside_radius-inside_radius-2*d, 90]
-        self.moveTo(d, d)
-        self.polyline(*poly)
 
     def drawfloor(self, angle=None, inside_radius=None, outside_radius=None):
         with self.saved_context():
@@ -123,11 +111,11 @@ class LazySusan(Boxes):
         
         #solid endcap walls
         self.moveTo(inside_wall+10,0)
-        self.drawWall(outside_radius-inside_radius, h, "FFeF")
+        self.drawWall(outside_radius-inside_radius+2*t, h, "FFeF")
 
         self.moveTo(outside_radius-inside_radius+10, 0)
         # self.flangedWall(outside_radius-inside_radius,h, "Ffef", move="up",label="end cap" )
-        self.drawWall(outside_radius-inside_radius, h, "FFeF")
+        self.drawWall(outside_radius-inside_radius+2*t, h, "FFeF")
         # self.flangedWall(outside_radius-inside_radius,h, "Ffef", move="right",label="end cap")
 
         # # self.edges["X"](50, h=50)

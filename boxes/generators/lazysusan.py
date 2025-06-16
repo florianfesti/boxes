@@ -111,11 +111,11 @@ class LazySusan(Boxes):
         
         #solid endcap walls
         self.moveTo(inside_wall+10,0)
-        self.drawWall(outside_radius-inside_radius+2*t, h, "FFeF")
+        self.drawWall(outside_radius-inside_radius+2*t, h, "fFeF")
 
         self.moveTo(outside_radius-inside_radius+10, 0)
         # self.flangedWall(outside_radius-inside_radius,h, "Ffef", move="up",label="end cap" )
-        self.drawWall(outside_radius-inside_radius+2*t, h, "FFeF")
+        self.drawWall(outside_radius-inside_radius+2*t, h, "fFeF")
         # self.flangedWall(outside_radius-inside_radius,h, "Ffef", move="right",label="end cap")
 
         # # self.edges["X"](50, h=50)

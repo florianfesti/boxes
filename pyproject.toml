@@ -36,3 +36,6 @@ boxes_proxy = 'boxes.scripts.boxes_proxy:main'
 Homepage = "https://hackaday.io/project/10649-boxespy"
 Repository = "https://github.com/florianfesti/boxes"
 Documentation = "https://florianfesti.github.io/boxes/html/index.html"
+
+[tool.codespell]
+ignore-words-list = "ded,te,pathes,reencode,ontop,alledges"

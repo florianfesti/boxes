@@ -17,7 +17,7 @@ from boxes import *
 
 
 class DiceBox(Boxes):
-    """Box with lid and integraded hinge for storing dice"""
+    """Box with lid and integrated hinge for storing dice."""
 
     ui_group = "Box"
 

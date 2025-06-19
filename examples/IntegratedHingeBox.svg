@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <svg height="726.90mm" viewBox="0.0 0.0 137.85 726.90" width="137.85mm" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <!--
-IntegratedHingeBox - Box with lid and integraded hinge
+IntegratedHingeBox - Box with lid and integrated hinge.
 
 Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes IntegratedHingeBox
@@ -11,7 +11,7 @@ Command line (remove spaces between dashes): boxes IntegratedHingeBox
 <rdf:RDF><cc:Work>
 <dc:title>Box - IntegratedHingeBox</dc:title>
 <dc:source>boxes IntegratedHingeBox</dc:source>
-<dc:description>Box with lid and integraded hinge
+<dc:description>Box with lid and integrated hinge.
 
 Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes IntegratedHingeBox

@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <svg height="308.91mm" viewBox="0.0 0.0 587.22 308.91" width="587.22mm" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <!--
-RoundedRegularBox - Regular polygone box with vertical edges rounded
+RoundedRegularBox - Regular polygon box with rounded vertical edges.
 
 
 
@@ -17,7 +17,7 @@ Command line (remove spaces between dashes): boxes RoundedRegularBox
 <rdf:RDF><cc:Work>
 <dc:title>FlexBox - RoundedRegularBox</dc:title>
 <dc:source>boxes RoundedRegularBox</dc:source>
-<dc:description>Regular polygone box with vertical edges rounded
+<dc:description>Regular polygon box with rounded vertical edges.
 
 
 ![Lids off](static/samples/RoundedRegularBox2.jpg)

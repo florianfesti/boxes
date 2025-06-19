@@ -103,6 +103,8 @@ repos:
     hooks:
       - id: codespell
         exclude: ^(boxes|locale|po|static)/ # todo folder boxes
+        additional_dependencies:
+          - tomli
 
   - repo: local
     hooks:

@@ -47,19 +47,14 @@ repos:
     rev: v1.16.1
     hooks:
       - id: mypy
-        args: [ '--ignore-missing-imports' ]
         files: '^boxes/.*\.py$'
       - id: mypy
-        args: [ '--ignore-missing-imports' ]
         files: '^documentation/src/boxes2rst.py$'
       - id: mypy
-        args: [ '--ignore-missing-imports' ]
         files: '^scripts/boxes2inkscape$'
       - id: mypy
-        args: [ '--ignore-missing-imports' ]
         files: '^scripts/boxes2pot$'
       - id: mypy
-        args: [ '--ignore-missing-imports' ]
         files: '^setup.py$'
 
   - repo: https://github.com/rstcheck/rstcheck

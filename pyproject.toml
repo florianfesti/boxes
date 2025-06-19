@@ -39,3 +39,14 @@ Documentation = "https://florianfesti.github.io/boxes/html/index.html"
 
 [tool.codespell]
 ignore-words-list = "ded,te,pathes,reencode,ontop,alledges"
+
+[tool.mypy]
+extra_checks = true
+ignore_missing_imports = true
+strict_bytes = true
+strict_equality = true
+warn_redundant_casts = true
+#warn_return_any = true
+warn_unreachable = true
+warn_unused_configs = true
+warn_unused_ignores = true

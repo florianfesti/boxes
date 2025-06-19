@@ -20,9 +20,6 @@ from dataclasses import dataclass, fields
 from boxes import BoolArg, Boxes, Color, edges
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-logger.addHandler(logging.StreamHandler())
-
 
 @dataclass
 class Dimensions:

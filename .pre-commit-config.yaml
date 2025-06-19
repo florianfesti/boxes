@@ -32,7 +32,7 @@ repos:
       - id: text-unicode-replacement-char
 
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.19.0
+    rev: v3.20.0
     hooks:
       - id: pyupgrade
         args: [ --py39-plus ]
@@ -43,22 +43,8 @@ repos:
       - id: autoflake
         args: [ --remove-all-unused-imports, --in-place, --ignore-pass-statements, ]
 
-#  - repo: https://github.com/pycqa/isort
-#    rev: 5.13.2
-#    hooks:
-#      - id: isort
-
-  # A lot todo to pass test.
-  #- repo: https://github.com/PyCQA/flake8
-  #  rev: 6.1.0
-  #  hooks:
-  #    - id: flake8
-  #      additional_dependencies: [ flake8-bugbear ]
-  #      args: [ '--extend-ignore=E402,E501,E201,E202,E203,E221,E225,E231,E261,E266,E302,E305' ]
-  #      # additional_dependencies: [ flake8-bugbear, flake8-docstrings ]
-
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.13.0
+    rev: v1.16.1
     hooks:
       - id: mypy
         args: [ '--ignore-missing-imports' ]
@@ -68,26 +54,16 @@ repos:
         files: '^documentation/src/boxes2rst.py$'
       - id: mypy
         args: [ '--ignore-missing-imports' ]
-        files: '^scripts/boxes$'
-      - id: mypy
-        args: [ '--ignore-missing-imports' ]
         files: '^scripts/boxes2inkscape$'
       - id: mypy
         args: [ '--ignore-missing-imports' ]
         files: '^scripts/boxes2pot$'
       - id: mypy
         args: [ '--ignore-missing-imports' ]
-        files: '^scripts/boxes_proxy.py$'
-      - id: mypy
-        args: [ '--ignore-missing-imports' ]
-        additional_dependencies: [ 'types-Markdown' ]
-        files: '^scripts/boxesserver$'
-      - id: mypy
-        args: [ '--ignore-missing-imports' ]
         files: '^setup.py$'
 
   - repo: https://github.com/rstcheck/rstcheck
-    rev: v6.2.4
+    rev: v6.2.5
     hooks:
       - id: rstcheck
         args: [ "--report-level=error", "--ignore-directives=autoclass,automethod,automodule"]
@@ -99,7 +75,7 @@ repos:
       - id: shellcheck
 
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.3.0
+    rev: v2.4.1
     hooks:
       - id: codespell
         exclude: ^(boxes|locale|po|static)/ # todo folder boxes

@@ -17,7 +17,7 @@ from boxes import *
 
 
 class IntegratedHingeBox(Boxes):
-    """Box with lid and integraded hinge"""
+    """Box with lid and integrated hinge."""
 
     ui_group = "Box"
 

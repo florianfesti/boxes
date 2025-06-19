@@ -24,8 +24,8 @@ Tray insert with extra margin for that perfect fit.
 You can specify the grid sizes with the standard `(sx, sy)` format, which allows nice
 variable rows and columns.  If you  check the `outside` box, the full outside of the
 tray insert ends up being the sum of all the sx/sy values.  However, if you want a
-consistent cell size, and uncheck outside, then the overall dimensinos end up
-larger by `(n-1)*thickenss`, to make space for your walls.
+consistent cell size, and uncheck outside, then the overall dimensions end up
+larger by `(n-1)*thickness`, to make space for your walls.
 
 You can specify the `x` and `y` parameters if you like, just make them larger than
 what the sum of `(sx, sy)` would end up with, and the walls be automatically extended to

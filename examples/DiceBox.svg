@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <svg height="312.40mm" viewBox="0.0 0.0 230.73 312.40" width="230.73mm" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <!--
-DiceBox - Box with lid and integraded hinge for storing dice
+DiceBox - Box with lid and integrated hinge for storing dice.
 
 Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes DiceBox
@@ -11,7 +11,7 @@ Command line (remove spaces between dashes): boxes DiceBox
 <rdf:RDF><cc:Work>
 <dc:title>Box - DiceBox</dc:title>
 <dc:source>boxes DiceBox</dc:source>
-<dc:description>Box with lid and integraded hinge for storing dice
+<dc:description>Box with lid and integrated hinge for storing dice.
 
 Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes DiceBox

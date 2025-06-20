@@ -101,7 +101,7 @@ dependency is added it needs to be added in all these places:
 
 If it is a Python module it also needs to be added:
 
-* *requirements.txt* or *requirements_dev.txt*
+* *requirements.txt*
 * *pyproject.toml*
 * *documentation/src/install.rst* (unless a Python module)
 * RST files in *documentation/src/install/*

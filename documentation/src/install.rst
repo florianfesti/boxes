@@ -12,14 +12,14 @@ Requirements
 Python
 ......
 
-Boxes.py is implemented in Python 3. For supported minor version see :code:`setup.py`.
+Boxes.py is implemented in Python 3. For supported minor version see `pyproject.toml <../../pyproject.toml>`_.
 
 Python modules
 ..............
 
 Boxes.py need a set of Python modules:
 
-.. include:: ../../requirements.txt
+.. literalinclude:: ../../requirements.txt
 
 When using a distribution the packages will typically be name be :code:`python-MODULE` or :code:`python3-MODULE`
 
@@ -36,8 +36,12 @@ Python modules for development
 
 For development (e.g. running the test suite and generating the documentation) the following modules are also needed:
 
-.. include:: ../../requirements_dev.txt
+.. literalinclude:: ../../pyproject.toml
+   :language: toml
+   :start-after: [project.optional-dependencies]
+   :end-before: [tool.setuptools.dynamic]
 
+They can be installed by :code:`pip install .[dev]` for development and :code:`pip install .[doc]` for documentation.
 
 Sphinx
 ......

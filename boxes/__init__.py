@@ -1616,7 +1616,7 @@ class Boxes:
             self.ctx.line_to(*lines[0])
         self.ctx.restore()
 
-    def qrcode(self, content, box_size=1.0, color=Color.ETCHING, move=None):
+    def qrcode(self, content: str, box_size: float = 1.0, color=Color.ETCHING, move: str | None = None):
         q = qrcode.QRCode(image_factory=BoxesQrCodeFactory, box_size=box_size*10)
         q.add_data(content)
         m = q.get_matrix()

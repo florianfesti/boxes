@@ -107,7 +107,7 @@ class Sphere(Boxes):
         for i in numpy.linspace(u_start, u_stop, N + 1):
             u = i
             u_offset = u + normalDistance * math.sin(self.calculateNormalAngle(u))
-            x_offset = direction * (self.calculateXOfGore(u) + normalDistance * math.cos(self.calculateNormalAngle(u))) # could be replaced by self.calculateXofOffsetGore
+            x_offset = direction * (self.calculateXOfGore(u) + normalDistance * math.cos(self.calculateNormalAngle(u)))
             points.append((x_offset, u_offset))
         if includeFinalTurn:
             if(isRight):

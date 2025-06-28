@@ -1,0 +1,21 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: scripts/Dockerfile
+    command:
+      - /app/env/bin/gunicorn
+      - --reload
+      - -b
+      - "[::]:8000"
+      - -w
+      - "2"
+      - scripts.boxesserver
+    environment:
+      STATIC_URL: /static
+    volumes:
+      - /app/env
+      - /app/scripts
+      - ./:/app
+    ports:
+      - 4455:8000

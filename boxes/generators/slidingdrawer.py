@@ -8,7 +8,7 @@ class SlidingDrawer(Boxes):
 
     def __init__(self) -> None:
         Boxes.__init__(self)
-        self.buildArgParser(x=60, y=100, h=30, outside='true')
+        self.buildArgParser(x=60, y=100, h=30, hi=0, outside='true')
         self.addSettingsArgs(edges.FingerJointSettings, finger=2.0, space=2.0)
         self.addSettingsArgs(edges.GroovedSettings, width=0.4)
 
@@ -22,6 +22,7 @@ class SlidingDrawer(Boxes):
         x = self.adjustSize(x)
         y = self.adjustSize(y)
         h = self.adjustSize(h)
+        hi = h if not self.hi else self.adjustSize(self.hi)
 
         t = self.thickness
         p = self.play * t
@@ -35,11 +36,15 @@ class SlidingDrawer(Boxes):
         x2 = x - (2*t + 2*p)
         y2 = y - (2*t + 2*p)
         h2 = h - (t + 2*p)
+        hi = hi - (t + 2*p)
+        e1 = edges.CompoundEdge(self, "FE", (hi, h2-hi)) if hi != h2 else "F"
+        e2 = edges.CompoundEdge(self, "EF", (h2-hi, hi)) if hi != h2 else "F"
 
-        self.rectangularWall(x2, h2, "FFzF", label="in box wall", move="right")
-        self.rectangularWall(y2, h2, "ffef", label="in box wall", move="up")
-        self.rectangularWall(y2, h2, "ffef", label="in box wall")
-        self.rectangularWall(x2, h2, "FFeF", label="in box wall", move="left up")
+        self.rectangularWall(x2, hi, "FFeF", label="in box wall", move="right")
+        self.rectangularWall(y2, hi, "ffef", label="in box wall", move="up")
+        self.rectangularWall(y2, hi, "ffef", label="in box wall")
+        self.rectangularWall(x2, h2, ("F",e1, "z", e2),  label="in box wall",
+                             move="left up")
         self.rectangularWall(y2, x2, "FfFf", label="in box bottom", move="up")
 
         self.rectangularWall(y, x, "FFFe", label="out box bottom", move="right")

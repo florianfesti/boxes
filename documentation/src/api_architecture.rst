@@ -75,7 +75,7 @@ Turtle graphics
 There are a few turtle graphics commands that do the actual
 drawing. Corners with an positive angle (going counter clockwise)
 close the part while negative angles (going clockwise) create protrusions.
-This is inversed for holes which need to be drawn clockwise.
+This is inverted for holes which need to be drawn clockwise.
 
 Getting this directions right is important to make the burn correction
 (aka kerf) work properly.

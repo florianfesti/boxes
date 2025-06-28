@@ -19,7 +19,11 @@ from boxes import *
 class SkadisBoard(Boxes):
     """Customizable Ikea like pegboard"""
 
-    ui_group = "Misc"
+    description = """Best cut from 5mm material to match the original. Use the included washers to mount. The board needs space towards the wall for hooks to go into.
+
+You can use boxes and holders from the "WallMounted" group with "skadis" as "walltype". Note that these generators do not have any support to pick the right width(s). Inner distance between slots are 35 + n * 40 mm. It is recommended to cut the acceessories from 4 mm material. Then 36 + n * 40 mm should be used for inner widths. Deselect "outside" where available to be able to deal with inner measurements."""
+
+    ui_group = "WallMounted"
 
     def __init__(self) -> None:
         Boxes.__init__(self)
@@ -41,4 +45,5 @@ class SkadisBoard(Boxes):
 
     def render(self):
         self.roundedPlate((self.columns+1) * 20, (self.rows+1)*20, edge="e", r=8,
-                          extend_corners=False, callback=[self.CB])
+                          extend_corners=False, callback=[self.CB], move="up")
+        self.partsMatrix(8, 4, "up", self.parts.disc, 15, 5)

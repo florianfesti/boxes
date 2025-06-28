@@ -1183,19 +1183,34 @@ class Boxes:
         self.ctx.rotate(angle)
 
     def move(self, x, y, where, before=False, label=""):
-        """Intended to be used by parts
-        where can be combinations of "up" or "down", "left" or "right", "only",
-        "mirror" and "rotated"
-        when "only" is included the move is only done when before is True
-        "mirror" will flip the part along the y-axis
-        "rotated" draws the parts rotated 90 counter clockwise
-        The function returns whether actual drawing of the part
+        """
+        Intended to be used by parts to implement the move parameter.
+
+        The part needs to call this function once before drawing with
+        before=True (and skip drawing if it returns True) and once after the
+        drawing. The function returns whether actual drawing of the part
         should be omitted.
+
+        ``where`` can be a combination of the following values:
+
+        * "up" / "down"
+        * "left" / "right"
+        * "mirror"
+        * "rotated"
+        * "only"
+
+        "down" and "left" move before drawing, while "up" and "right" move
+        after drawing.
+
+        "mirror" will flip the part along the y-axis; "rotated" draws the
+        parts rotated 90 degrees counter clockwise; when "only" is included
+        the move is only done when ``before`` is True
 
         :param x: width of part
         :param y: height of part
         :param where: which direction to move
         :param before:  (Default value = False) called before or after part being drawn
+        :return: whether drawing the part should be skipped
         """
         if not where:
             where = ""
@@ -1601,7 +1616,7 @@ class Boxes:
             self.ctx.line_to(*lines[0])
         self.ctx.restore()
 
-    def qrcode(self, content, box_size=1.0, color=Color.ETCHING, move=None):
+    def qrcode(self, content: str, box_size: float = 1.0, color=Color.ETCHING, move: str | None = None):
         q = qrcode.QRCode(image_factory=BoxesQrCodeFactory, box_size=box_size*10)
         q.add_data(content)
         m = q.get_matrix()
@@ -2417,10 +2432,32 @@ class Boxes:
         """
         Rectangular wall for all kind of box like objects
 
+        The callback is called for each edge in counter-clockwise order with
+        the current position at the start of the edge. The position is
+        independent of the width of the edge (positive y move to the "inside"
+        of the wall, negative y move over the edge).
+
+        ignore_widths extends adjacent edges to cover for the width. The
+        diagram below shows where edges are extended for each number. Note
+        that for edges from two parts to still match this needs to be done
+        on both sides and both parts need to use same edge or at least an
+        edge with the same width.
+
+        ::
+
+             4--3
+            5    2
+            |    |
+            6    1
+             7--0
+
+        e.g. if four rectangularWalls use "s" edges on the bottom, the side
+        edges can be extended to the bottom with [1, 6].
+
         :param x: width
         :param y: height
         :param edges:  (Default value = "eeee") bottom, right, top, left
-        :param ignore_widths: list of edge_widths added to adjacent edge
+        :param ignore_widths:  (Default value = []) list of edge_widths added to adjacent edge
         :param holesMargin:  (Default value = None)
         :param holesSettings:  (Default value = None)
         :param bedBolts:  (Default value = None)

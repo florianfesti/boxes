@@ -65,6 +65,11 @@ class HalfStackableEdge(edges.StackableEdge):
 class NotesHolder(Boxes):
     """Box for holding a stack of paper, coasters etc"""
 
+    description = """If the feet of the `Stackable` `bottom_edge`
+don't fit on the front (and back) walls you can make them smaller by
+reducing `width` and/or increasing `angle` in the `Settings for
+Stackable Edges`. Reducing the `opening` will also give more space for
+the feet."""
     ui_group = "Box"
 
     def __init__(self) -> None:
@@ -122,6 +127,7 @@ class NotesHolder(Boxes):
                 # front walls
                 if self.opening == 0.0 or (side and not self.back_openings):
                     self.rectangularWall(x, h, [b, "f", "e", "f"],
+                                         callback=[self.fingerHoleCB(sx, h)],
                                          ignore_widths=[1, 6], move="right")
                 else:
                     self.rectangularWall(sx[0] * (1-o/100) / 2, h,

@@ -48,7 +48,7 @@ The top part (roof) consists of the the following elements for a N sided dispens
   * The bracket is also "U" shaped and a bit wider than the spacer. This is glued to the
   bottom of the spacer and holds the cage (bottom part).
 
-The bottom part (cage) consists of the follwoing elements:
+The bottom part (cage) consists of the following elements:
 
   * The ceiling is N sided with the central refill hole and N smaller holes into which
   the poles are fitted.
@@ -63,7 +63,7 @@ Other parts needed for assembly:
   * A hook (e.g. M5x50mm)
   * A washer to distribute the load of the hook to the support piece
   * One or two nuts to secure the hook
-  * Optional, a pice of wire mesh
+  * Optional, a piece of wire mesh
 
 Assembly:
 

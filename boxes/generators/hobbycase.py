@@ -35,9 +35,6 @@ Slots can be populated by:
 
     def __init__(self) -> None:
         super().__init__()
-        self.debug = None
-        self.add_rails = True
-        self.add_cover = True
         self.addSettingsArgs(boxes.edges.FingerJointSettings)
         self.argparser.add_argument("--unit_d", action="store", type=float, default=128, help="Depth of single unit")
         self.argparser.add_argument("--unit_h", action="store", type=float, default=50, help="Height of single unit")
@@ -46,6 +43,7 @@ Slots can be populated by:
         self.argparser.add_argument("--shelves_n", action="store", type=argparseSections, default="2:3:2", help="How many shelves should each column have eg. 2:3:2. Use integers only!")
         self.argparser.add_argument("--add_rails", action="store", type=boolarg, default=True, help="Should rails be generated for slots unpopulated by shelves?")
         self.argparser.add_argument("--add_cover", action="store", type=boolarg, default=True, help="Should cover for the case be generated?")
+        self.argparser.add_argument("--inset_shelves", action="store", type=boolarg, default=True, help="Should the inner dividers and shelves be inset from the front edge?")
         self.addSettingsArgs(boxes.edges.StackableSettings, angle=90, width=0.0, height=2.0)
 
 
@@ -64,7 +62,7 @@ Slots can be populated by:
         self.railsets = [self.rows - 1 - shelve for shelve in self.shelves_n]
 
         self.inside_depth = self.unit_d
-        self.outside_depth = self.inside_depth + 2 * self.thickness
+        self.outside_depth = self.unit_d if not self.inset_shelves else self.unit_d + 2 * self.thickness
 
         s = self.edgesettings.get("FingerJoint", {})
         s["width"] = 2.0
@@ -150,11 +148,7 @@ Slots can be populated by:
         self.cut_double_wall_holes(self.inside_h)
 
     # Render
-    def render(self) -> None:
-        if self.debug:
-            self.spacing = 0
-        else:
-            self.spacing = 10
+    def render(self):
         self.prepare()
         self.base_plate()
         self.shelves()

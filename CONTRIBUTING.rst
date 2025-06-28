@@ -2,8 +2,13 @@
 Contributing to Boxes.py
 ========================
 
-You are thinking about contributing to Boxes.py? That's great!
-Boxes.py is designed to be re-used and extended.
+You are thinking about contributing to the Boxes.py project? This page
+is about the technical aspects of contributing to the project with
+code or improvements. If you'd rather donate some money have a look at
+:ref:`giveback`.
+
+Still here? That's great! Boxes.py is designed to be reused and extended.
+
 
 This document gives you some guidelines how your contribution is most
 likely to impact the development and your changes are most likely to
@@ -96,7 +101,7 @@ dependency is added it needs to be added in all these places:
 
 If it is a Python module it also needs to be added:
 
-* *requirements.txt* or *requirements_dev.txt*
+* *requirements.txt*
 * *pyproject.toml*
 * *documentation/src/install.rst* (unless a Python module)
 * RST files in *documentation/src/install/*
@@ -169,6 +174,13 @@ To serve website, run :code:`scripts/boxesserver` script.
 You can set the BOXES_GENERATOR_PATH environment variable to add
 custom generators if you cannot easily copy them in the sources /
 system installation.
+
+Alternatively you can use Docker Compose to run the server locally.
+* Install Docker and Docker Compose
+* Run :code:`docker-compose up`
+* Open the web browser and go to http://localhost:4455
+This will start the server and enable hot reload so your changes will
+be visible immediately.
 
 Reporting bugs
 --------------

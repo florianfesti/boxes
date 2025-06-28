@@ -83,7 +83,7 @@ class DisplayShelf(Boxes):
             self.moveTo(0, self.edges["h"].startwidth())
 
         if (h - abs(hs) -  3*t * (self.num - 1)) < 0:
-            raise ValueError("Need more hight to fit shelves")
+            raise ValueError("Need more height to fit shelves")
         for i in range(self.num):
             pos_x = abs(0.5 * t * math.sin(a))
             pos_y = hs - math.cos(a) * 0.5 * t + i * (h - abs(hs)) / (self.num - 0.5) + b_offs

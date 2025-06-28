@@ -3,6 +3,14 @@
 <!--
 NotesHolder - Box for holding a stack of paper, coasters etc
 
+
+If the feet of the `Stackable` `bottom_edge`
+don't fit on the front (and back) walls you can make them smaller by
+reducing `width` and/or increasing `angle` in the `Settings for
+Stackable Edges`. Reducing the `opening` will also give more space for
+the feet.
+
+
 Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes NotesHolder
 -->
@@ -12,6 +20,12 @@ Command line (remove spaces between dashes): boxes NotesHolder
 <dc:title>Box - NotesHolder</dc:title>
 <dc:source>boxes NotesHolder</dc:source>
 <dc:description>Box for holding a stack of paper, coasters etc
+
+If the feet of the `Stackable` `bottom_edge`
+don't fit on the front (and back) walls you can make them smaller by
+reducing `width` and/or increasing `angle` in the `Settings for
+Stackable Edges`. Reducing the `opening` will also give more space for
+the feet.
 
 Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes NotesHolder

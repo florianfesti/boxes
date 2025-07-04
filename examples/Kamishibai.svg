@@ -38,7 +38,7 @@ Kamishibai - Kamishibai butai (japanese image theatre)
     on the other half so that the key can be attached easily enough, but it should not fal off either)
     10. You should now be able to close and open all the doors
     Usage recommendations:
-    1. Add your paper sheets fron one side or the other (normally you leave either left or right closed,
+    1. Add your paper sheets from one side or the other (normally you leave either left or right closed,
     depending on which is more comfortable for you)
     2. Thick paper is easier to handle ; if you print on a home printer, use the thickest you printer can
     print (probably around 200 grams per square meter) ; if you want extra quality, go to a printing shop
@@ -97,7 +97,7 @@ Command line (remove spaces between dashes): boxes Kamishibai
     on the other half so that the key can be attached easily enough, but it should not fal off either)
     10. You should now be able to close and open all the doors
     Usage recommendations:
-    1. Add your paper sheets fron one side or the other (normally you leave either left or right closed,
+    1. Add your paper sheets from one side or the other (normally you leave either left or right closed,
     depending on which is more comfortable for you)
     2. Thick paper is easier to handle ; if you print on a home printer, use the thickest you printer can
     print (probably around 200 grams per square meter) ; if you want extra quality, go to a printing shop
@@ -372,12 +372,12 @@ Command line short: boxes Kamishibai
 </g>
 <g id="p-10" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 219.000 1390.600 V 1392.000 C 219.000 1392.100 219.100 1392.000 219.000 1392.000 H 216.200 C 216.100 1392.000 216.200 1392.100 216.200 1392.000 V 1389.200 C 216.200 1389.100 216.100 1389.200 216.200 1389.200 H 219.000 C 219.100 1389.200 219.000 1389.100 219.000 1389.200 V 1390.600 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="4px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 121.200 1388.600 )">side pannel inner</text><path d="M 222.200 1405.600 V 1375.600 C 222.200 1375.545 222.155 1375.500 222.100 1375.500 H 20.100 C 20.045 1375.500 20.000 1375.545 20.000 1375.600 V 1405.600 C 20.000 1405.655 20.045 1405.700 20.100 1405.700 H 222.100 C 222.155 1405.700 222.200 1405.655 222.200 1405.600" stroke="rgb(0,0,0)" stroke-width="0.20" />
+  <text dominant-baseline="hanging" font-size="4px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 121.200 1388.600 )">side panel inner</text><path d="M 222.200 1405.600 V 1375.600 C 222.200 1375.545 222.155 1375.500 222.100 1375.500 H 20.100 C 20.045 1375.500 20.000 1375.545 20.000 1375.600 V 1405.600 C 20.000 1405.655 20.045 1405.700 20.100 1405.700 H 222.100 C 222.155 1405.700 222.200 1405.655 222.200 1405.600" stroke="rgb(0,0,0)" stroke-width="0.20" />
   <path d="M 24.600 1389.200 H 26.000 C 26.100 1389.200 26.000 1389.100 26.000 1389.200 V 1392.000 C 26.000 1392.100 26.100 1392.000 26.000 1392.000 H 23.200 C 23.100 1392.000 23.200 1392.100 23.200 1392.000 V 1389.200 C 23.200 1389.100 23.100 1389.200 23.200 1389.200 H 24.600 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />
 </g>
 <g id="p-11" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 219.000 1358.900 V 1360.300 C 219.000 1360.400 219.100 1360.300 219.000 1360.300 H 216.200 C 216.100 1360.300 216.200 1360.400 216.200 1360.300 V 1357.500 C 216.200 1357.400 216.100 1357.500 216.200 1357.500 H 219.000 C 219.100 1357.500 219.000 1357.400 219.000 1357.500 V 1358.900 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="4px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 121.200 1356.900 )">side pannel inner</text><path d="M 222.200 1373.900 V 1343.900 C 222.200 1343.845 222.155 1343.800 222.100 1343.800 H 20.100 C 20.045 1343.800 20.000 1343.845 20.000 1343.900 V 1373.900 C 20.000 1373.955 20.045 1374.000 20.100 1374.000 H 222.100 C 222.155 1374.000 222.200 1373.955 222.200 1373.900" stroke="rgb(0,0,0)" stroke-width="0.20" />
+  <text dominant-baseline="hanging" font-size="4px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 121.200 1356.900 )">side panel inner</text><path d="M 222.200 1373.900 V 1343.900 C 222.200 1343.845 222.155 1343.800 222.100 1343.800 H 20.100 C 20.045 1343.800 20.000 1343.845 20.000 1343.900 V 1373.900 C 20.000 1373.955 20.045 1374.000 20.100 1374.000 H 222.100 C 222.155 1374.000 222.200 1373.955 222.200 1373.900" stroke="rgb(0,0,0)" stroke-width="0.20" />
   <path d="M 24.600 1357.500 H 26.000 C 26.100 1357.500 26.000 1357.400 26.000 1357.500 V 1360.300 C 26.000 1360.400 26.100 1360.300 26.000 1360.300 H 23.200 C 23.100 1360.300 23.200 1360.400 23.200 1360.300 V 1357.500 C 23.200 1357.400 23.100 1357.500 23.200 1357.500 H 24.600 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />
 </g>
 <g id="p-12" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
@@ -393,12 +393,12 @@ Command line short: boxes Kamishibai
 </g>
 <g id="p-15" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 219.000 1277.100 V 1278.500 C 219.000 1278.600 219.100 1278.500 219.000 1278.500 H 216.200 C 216.100 1278.500 216.200 1278.600 216.200 1278.500 V 1275.700 C 216.200 1275.600 216.100 1275.700 216.200 1275.700 H 219.000 C 219.100 1275.700 219.000 1275.600 219.000 1275.700 V 1277.100 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="4px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 121.200 1275.100 )">side pannel inner</text><path d="M 222.200 1292.100 V 1262.100 C 222.200 1262.045 222.155 1262.000 222.100 1262.000 H 20.100 C 20.045 1262.000 20.000 1262.045 20.000 1262.100 V 1292.100 C 20.000 1292.155 20.045 1292.200 20.100 1292.200 H 222.100 C 222.155 1292.200 222.200 1292.155 222.200 1292.100" stroke="rgb(0,0,0)" stroke-width="0.20" />
+  <text dominant-baseline="hanging" font-size="4px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 121.200 1275.100 )">side panel inner</text><path d="M 222.200 1292.100 V 1262.100 C 222.200 1262.045 222.155 1262.000 222.100 1262.000 H 20.100 C 20.045 1262.000 20.000 1262.045 20.000 1262.100 V 1292.100 C 20.000 1292.155 20.045 1292.200 20.100 1292.200 H 222.100 C 222.155 1292.200 222.200 1292.155 222.200 1292.100" stroke="rgb(0,0,0)" stroke-width="0.20" />
   <path d="M 24.600 1275.700 H 26.000 C 26.100 1275.700 26.000 1275.600 26.000 1275.700 V 1278.500 C 26.000 1278.600 26.100 1278.500 26.000 1278.500 H 23.200 C 23.100 1278.500 23.200 1278.600 23.200 1278.500 V 1275.700 C 23.200 1275.600 23.100 1275.700 23.200 1275.700 H 24.600 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />
 </g>
 <g id="p-16" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 219.000 1245.400 V 1246.800 C 219.000 1246.900 219.100 1246.800 219.000 1246.800 H 216.200 C 216.100 1246.800 216.200 1246.900 216.200 1246.800 V 1244.000 C 216.200 1243.900 216.100 1244.000 216.200 1244.000 H 219.000 C 219.100 1244.000 219.000 1243.900 219.000 1244.000 V 1245.400 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="4px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 121.200 1243.400 )">side pannel inner</text><path d="M 222.200 1260.400 V 1230.400 C 222.200 1230.345 222.155 1230.300 222.100 1230.300 H 20.100 C 20.045 1230.300 20.000 1230.345 20.000 1230.400 V 1260.400 C 20.000 1260.455 20.045 1260.500 20.100 1260.500 H 222.100 C 222.155 1260.500 222.200 1260.455 222.200 1260.400" stroke="rgb(0,0,0)" stroke-width="0.20" />
+  <text dominant-baseline="hanging" font-size="4px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 121.200 1243.400 )">side panel inner</text><path d="M 222.200 1260.400 V 1230.400 C 222.200 1230.345 222.155 1230.300 222.100 1230.300 H 20.100 C 20.045 1230.300 20.000 1230.345 20.000 1230.400 V 1260.400 C 20.000 1260.455 20.045 1260.500 20.100 1260.500 H 222.100 C 222.155 1260.500 222.200 1260.455 222.200 1260.400" stroke="rgb(0,0,0)" stroke-width="0.20" />
   <path d="M 24.600 1244.000 H 26.000 C 26.100 1244.000 26.000 1243.900 26.000 1244.000 V 1246.800 C 26.000 1246.900 26.100 1246.800 26.000 1246.800 H 23.200 C 23.100 1246.800 23.200 1246.900 23.200 1246.800 V 1244.000 C 23.200 1243.900 23.100 1244.000 23.200 1244.000 H 24.600 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />
 </g>
 <g id="p-17" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">

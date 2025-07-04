@@ -4,7 +4,7 @@ requires = ["setuptools >= 63.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-dynamic = ["dependencies", "optional-dependencies"]
+dynamic = ["dependencies"]
 name = 'boxes'
 version = '1.2'
 requires-python = '>=3.9'
@@ -23,9 +23,18 @@ classifiers = [ # https://pypi.python.org/pypi?%3Aaction=list_classifiers
   "Topic :: Scientific/Engineering",
 ]
 
+[project.optional-dependencies]
+dev = [
+  "lxml",
+  "mypy",
+  "pre-commit",
+  "pytest>=8.1.1",
+  "types-Markdown"
+]
+doc = ["sphinx>=8.0.2"]
+
 [tool.setuptools.dynamic]
 dependencies = {file=["requirements.txt"]}
-optional-dependencies = {dev = { file = ["requirements_dev.txt"] }}
 
 [project.scripts]
 boxes = 'boxes.scripts.boxes_main:main'
@@ -36,3 +45,17 @@ boxes_proxy = 'boxes.scripts.boxes_proxy:main'
 Homepage = "https://hackaday.io/project/10649-boxespy"
 Repository = "https://github.com/florianfesti/boxes"
 Documentation = "https://florianfesti.github.io/boxes/html/index.html"
+
+[tool.codespell]
+ignore-words-list = "ded,te,pathes,reencode,ontop,alledges"
+
+[tool.mypy]
+extra_checks = true
+ignore_missing_imports = true
+strict_bytes = true
+strict_equality = true
+warn_redundant_casts = true
+#warn_return_any = true
+warn_unreachable = true
+warn_unused_configs = true
+warn_unused_ignores = true

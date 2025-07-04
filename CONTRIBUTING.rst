@@ -7,7 +7,7 @@ is about the technical aspects of contributing to the project with
 code or improvements. If you'd rather donate some money have a look at
 :ref:`giveback`.
 
-Still here? That's great! Boxes.py is designed to be re-used and extended.
+Still here? That's great! Boxes.py is designed to be reused and extended.
 
 
 This document gives you some guidelines how your contribution is most
@@ -101,7 +101,7 @@ dependency is added it needs to be added in all these places:
 
 If it is a Python module it also needs to be added:
 
-* *requirements.txt* or *requirements_dev.txt*
+* *requirements.txt*
 * *pyproject.toml*
 * *documentation/src/install.rst* (unless a Python module)
 * RST files in *documentation/src/install/*

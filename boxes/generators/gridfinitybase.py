@@ -120,7 +120,7 @@ class GridfinityBase(Boxes):
             raise ValueError('either --size_y or --y must be provided')
 
         if self.size_x == 0:
-            # if we are producting a minimally sized base size_x will be zero
+            # if we are producing a minimally sized base size_x will be zero
             self.size_x = self.x*self.pitch
         else:
             if self.x == 0:
@@ -131,7 +131,7 @@ class GridfinityBase(Boxes):
             self.size_x = max(self.size_x, self.x*self.pitch)
 
         if self.size_y == 0:
-            # if we are producting a minimally sized base size_y will be zero
+            # if we are producing a minimally sized base size_y will be zero
             self.size_y = self.y*self.pitch
         else:
             if self.y == 0:

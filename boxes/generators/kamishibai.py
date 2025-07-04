@@ -55,7 +55,7 @@ class Kamishibai(_TopEdge):
     on the other half so that the key can be attached easily enough, but it should not fal off either)
     10. You should now be able to close and open all the doors
     Usage recommendations:
-    1. Add your paper sheets fron one side or the other (normally you leave either left or right closed,
+    1. Add your paper sheets from one side or the other (normally you leave either left or right closed,
     depending on which is more comfortable for you)
     2. Thick paper is easier to handle ; if you print on a home printer, use the thickest you printer can
     print (probably around 200 grams per square meter) ; if you want extra quality, go to a printing shop
@@ -107,11 +107,11 @@ class Kamishibai(_TopEdge):
             help="Back extra depth (for adding buttons for example), in multiples of thickness ; set to 0 to let the system calculate the smallest one")
         self.argparser.add_argument(
             "--PegsWidthMargin",  action="store", type=float, default=0.5,
-            help="Margin for the pegs width in mm ; set to a lower value if the pieces are forced together, a higher value if the pieces slide easily into eachother (using screws or glue to assemble)")
+            help="Margin for the pegs width in mm ; set to a lower value if the pieces are forced together, a higher value if the pieces slide easily into each other (using screws or glue to assemble)")
         front_group = self.argparser.add_argument_group("Kamishibai front cover")
         front_group.add_argument(
             "--FrontCoverStyle",  action="store", type=str, default="two-part lid with hinge eyes (both ends)",
-            choices=["slide-on lid", "two-part lid with hinge eyes (both ends)", "three-part lid, higes not provided"],
+            choices=["slide-on lid", "two-part lid with hinge eyes (both ends)", "three-part lid, hinges not provided"],
             help="style of the front cover")
         front_group.add_argument(
             "--FrontExtraDepth",  action="store", type=int, default=4,
@@ -190,7 +190,7 @@ class Kamishibai(_TopEdge):
             self.fingerHolesAt(self.thickness*1.5, self.thickness*0, hi)
             self.fingerHolesAt(self.thickness*2.5 + wi, self.thickness*0, hi)
         else :
-            # hinge holes for 3 pane pannel
+            # hinge holes for 3 pane panel
             if ((self.HingeHolesDiameter > 0) and (isFront and self.FrontCoverStyle == "three-part lid, higes not provided") or (not isFront and self.BackCoverStyle == "three-part lid, higes not provided")) :
                 posx = self.thickness
                 for x in self.HingeHolesBoxSeparation:
@@ -288,7 +288,7 @@ class Kamishibai(_TopEdge):
                                         or (self.FrontCoverStyle == "three-part lid, higes not provided" and not isTop)):
                 self.fingerHolesAt(wi/2 - self.thickness * 4, di + self.thickness * (self.BackExtraDepth + self.FrontExtraDepth + 2.5), self.thickness*16, 0)
 
-            # finger holes for front and back if neccessary #TODO update all this section...
+            # finger holes for front and back if necessary #TODO update all this section...
             #self.fingerHolesAt(self.thickness*2, self.thickness * (self.BackExtraDepth + 2.5), wi + self.thickness*4,0)
             self.fingerHolesAt(self.thickness*2, self.thickness * (self.BackExtraDepth + 2.5), self.thickness*(self.LockScrewDistanceFromBorder - 3) - self.LockScrewDiameter,0)
             self.fingerHolesAt(self.thickness*(self.LockScrewDistanceFromBorder - 1) +  self.LockScrewDiameter, self.thickness * (self.BackExtraDepth + 2.5), wi/2 - self.thickness*(self.LockScrewDistanceFromBorder - 5) - self.LockScrewDiameter*2,0)
@@ -302,7 +302,7 @@ class Kamishibai(_TopEdge):
                 self.fingerHolesAt(wi - self.thickness*(self.LockScrewDistanceFromBorder - 9) + self.LockScrewDiameter, di + self.thickness * (self.BackExtraDepth + 3.5), self.thickness*(self.LockScrewDistanceFromBorder - 3) - self.LockScrewDiameter,0)
 
         else :
-            # finger holes for front and back if neccessary
+            # finger holes for front and back if necessary
             self.fingerHolesAt(self.thickness*2, self.thickness * (self.BackExtraDepth + 2.5), wi + self.thickness*4,0)
             if self.FrontExtraDepth > 0 :
                 self.fingerHolesAt(self.thickness*2, di + self.thickness * (self.BackExtraDepth + 3.5), wi + self.thickness*4,0)
@@ -334,7 +334,7 @@ class Kamishibai(_TopEdge):
         # hole for handle
         if (isTop and self.HandleThickness > 0 and self.HandleWidth > 0) :
             self.rectangularHole(self.thickness*4 + wi/2 - self.HandleWidth/2 - self.HandleMargin/2, self.thickness * (self.BackExtraDepth + 3 - self.HandleThickness/2) + di/2 - self.HandleMargin/2, self.HandleWidth + self.HandleMargin, self.thickness*self.HandleThickness + self.HandleMargin, 0, False, False)
-        # hinge holes for 3 pane pannel
+        # hinge holes for 3 pane panel
         if (isTop and (self.HingeHolesDiameter > 0) and (self.FrontCoverStyle == "three-part lid, higes not provided") and (self.HandleThickness > 0)) :
             posx=self.thickness*3
             for x in self.HingeHolesBoxSeparation:
@@ -415,7 +415,7 @@ class Kamishibai(_TopEdge):
         self.move(wi + self.thickness*8, di + self.thickness * (self.FrontExtraDepth + self.BackExtraDepth + 6) + (self.thickness*3 if self.FrontCoverStyle == "two-part lid with hinge eyes (both ends)" else 0), move, label=label)
 
     def boxFrontSideCallback (self, hi) :
-        # hinge holes for 3 pane pannel
+        # hinge holes for 3 pane panel
         if ((self.HingeHolesDiameter > 0) and (self.FrontCoverStyle == "three-part lid, higes not provided")) :
             posy=0
             for y in self.HingeHolesBoxSeparation:
@@ -531,9 +531,9 @@ class Kamishibai(_TopEdge):
             self.rectangularWall(wi, hi, "lmen", callback = [lambda:self.rectangularHole(wi/2, self.thickness*3.5, self.thickness, self.thickness),
                                             lambda:self.rectangularHole(hi - self.thickness*5.5, wi/2, self.thickness, self.thickness)],move=move, label=label)
             self.rectangularWall(wi - self.Margin, hi - self.thickness*6, "eeee", callback = [lambda:self.rectangularHole(wi/2 - self.Margin/2, self.thickness*1.5, self.thickness, self.thickness),
-                                            lambda:self.rectangularHole(hi - self.thickness*7.5, wi/2 - self.Margin/2, self.thickness, self.thickness)],move=move, label="side pannel inner")
+                                            lambda:self.rectangularHole(hi - self.thickness*7.5, wi/2 - self.Margin/2, self.thickness, self.thickness)],move=move, label="side panel inner")
             self.rectangularWall(wi - self.Margin, hi - self.thickness*6, "eeee", callback = [lambda:self.rectangularHole(wi/2 - self.Margin/2, self.thickness*1.5, self.thickness, self.thickness),
-                                            lambda:self.rectangularHole(hi - self.thickness*7.5, wi/2 - self.Margin/2, self.thickness, self.thickness)],move=move, label="side pannel inner")
+                                            lambda:self.rectangularHole(hi - self.thickness*7.5, wi/2 - self.Margin/2, self.thickness, self.thickness)],move=move, label="side panel inner")
             self.rectangularWall (self.thickness + self.PegsWidthMargin, self.thickness * 3, "eeee", move=move, label="")
             self.rectangularWall (self.thickness + self.PegsWidthMargin, self.thickness * 3, "eeee", move=move, label="")
         # back or front (with key holder if necessary)
@@ -580,7 +580,7 @@ class Kamishibai(_TopEdge):
     def coverPanel3Side (self, wi, hi, lockStyle, move=None, label=""):
         if self.move(wi/2 + self.thickness*2, hi *3/4 + self.thickness*2, move, True):
             return
-        # hinge holes for 3 pane pannel
+        # hinge holes for 3 pane panel
         if (self.HingeHolesDiameter > 0) :
             posy=0
             for y in self.HingeHolesCoverSeparation:
@@ -617,7 +617,7 @@ class Kamishibai(_TopEdge):
         elif lockStyle == "simple" :
             self.hole((wi + self.thickness*2)/2, hi/2 - self.thickness*2.5, self.thickness*2)
             self.rectangularHole((wi + self.thickness*2)/2, hi/2 - self.thickness*2.5, self.thickness, self.thickness, 0, color=Color.MAGENTA)
-        # hinge holes for 3 pane pannel
+        # hinge holes for 3 pane panel
         if (self.HingeHolesDiameter > 0)  :
             posx=0
             for x in self.HingeHolesCoverSeparation:
@@ -652,7 +652,7 @@ class Kamishibai(_TopEdge):
             return
         self.parts.disc(self.thickness*10, dwidth=0.8, callback=lambda:self.rectangularHole(0, 0, self.thickness, self.thickness))
         self.move(self.thickness*11, self.thickness*11, move, label="lock internal")
-        # discs attachement
+        # discs attachment
         self.rectangularWall(self.thickness*4, self.thickness + self.PegsWidthMargin, "eeee", move=move)
 
     def lockExtra (self, move=None):
@@ -676,7 +676,7 @@ class Kamishibai(_TopEdge):
             return
         self.parts.disc(self.thickness*8 - self.Margin, dwidth=0.8, callback=lambda:self.rectangularHole(0, 0, self.thickness, self.thickness))
         self.move(self.thickness*8 - self.Margin, self.thickness*8 - self.Margin, move, label="lock locker")
-        # discs attachement
+        # discs attachment
         self.rectangularWall(self.thickness*5, self.thickness + self.PegsWidthMargin, "eeee", move=move)
 
     def keyHoles(self, centerHoleLength, isRotated=False):
@@ -713,7 +713,7 @@ class Kamishibai(_TopEdge):
             return
         self.parts.disc(self.thickness*15, dwidth=12/15, callback=lambda:self.keyHoles(0, isInnerLockRorated))
         self.move(self.thickness*15, self.thickness*15, move, label="lock internal")
-        # discs attachement
+        # discs attachment
         self.rectangularWall(self.thickness*4, self.thickness + self.PegsWidthMargin, "eeee", move=move)
         self.rectangularWall(self.thickness*4, self.thickness + self.PegsWidthMargin, "eeee", move=move)
         # key

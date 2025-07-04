@@ -19,7 +19,7 @@ import boxes
 
 
 class RoundedRegularBox(boxes.Boxes):
-    """Regular polygone box with vertical edges rounded"""
+    """Regular polygon box with rounded vertical edges."""
 
     description = """
 ![Lids off](static/samples/RoundedRegularBox2.jpg)

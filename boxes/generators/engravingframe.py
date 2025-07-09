@@ -133,9 +133,10 @@ class EngravingFrame(Boxes):
 
         self.rectangularHole(self.thickness * 1.5, self.thickness * 1.5, self.thickness + self.Margin, self.thickness + self.Margin)
 
-        self.polyline(self.L * math.tan(self.a) + self.thickness * 2 + self.Margin, 90, self.thickness, 90,
-                        self.L * math.tan(self.a)/2, -90, self.thickness, -90, self.L * math.tan(self.a)/2, 90, self.thickness, 90,
-                        self.L * math.tan(self.a) + self.thickness * 2 + self.Margin, 90, self.thickness * 3, 90)
+        self.polyline(self.L * math.tan(self.a) + self.thickness * 2 + self.Margin, 90, self.thickness + self.burn/2, 90,
+                        self.L * math.tan(self.a)/2, -90, self.thickness - self.burn, -90, self.L * math.tan(self.a)/2, 90,
+                        self.thickness + self.burn/2, 90, self.L * math.tan(self.a) + self.thickness * 2 + self.Margin, 90,
+                        self.thickness * 3, 90)
 
         # move plate
         self.move(self.L * math.tan(self.a) + self.thickness * 2 + self.Margin, self.thickness * 3, move, label=label)
@@ -144,11 +145,11 @@ class EngravingFrame(Boxes):
         if self.move(self.H/math.cos(self.a), self.H * math.tan(self.a) + self.thickness * 2, move, True):
             return
 
-        self.polyline(self.L, 90, self.L * math.tan(self.a)/2, -90, self.thickness, -90, self.L * math.tan(self.a)/2, 90,
-                        self.thickness + self.H * math.tan(self.a) * math.sin(self.a), 90 + self.BackSupportAngle)
+        self.polyline(self.L + self.burn/2, 90, self.L * math.tan(self.a)/2, -90, self.thickness - self.burn, -90, self.L * math.tan(self.a)/2, 90,
+                        self.thickness + self.H * math.tan(self.a) * math.sin(self.a) + self.burn/2, 90 + self.BackSupportAngle)
         self.edges["f"](self.H * math.tan(self.a) + self.thickness * 2)
-        self.polyline(0, 90, self.thickness*3, 90, self.thickness, -90, self.thickness, -90, self.thickness, 90,
-                        self.H - self.thickness*7, 90, self.thickness, -90, self.thickness, -90, self.thickness, 90, self.thickness,
+        self.polyline(0, 90, self.thickness*3 + self.burn/2, 90, self.thickness, -90, self.thickness - self.burn, -90, self.thickness, 90,
+                        self.H - self.thickness*7 + self.burn, 90, self.thickness, -90, self.thickness - self.burn, -90, self.thickness, 90, self.thickness + self.burn/2,
                         [90, self.thickness], self.thickness, 90 - self.BackSupportAngle)
 
         # move plate
@@ -158,8 +159,9 @@ class EngravingFrame(Boxes):
         if self.move(length + self.Margin + self.thickness*6, self.thickness * 2, move, True):
             return
 
-        self.polyline(length + self.Margin + self.thickness*6, [180, self.thickness], self.thickness, 90, self.thickness, -90, self.thickness, -90, self.thickness, 90,
-                        length + self.Margin + self.thickness * 2, 90, self.thickness, -90, self.thickness, -90, self.thickness, 90, self.thickness,
+        self.polyline(length + self.Margin + self.thickness*6, [180, self.thickness], self.thickness + self.burn/2, 90, self.thickness, -90,
+                        self.thickness - self.burn, -90, self.thickness, 90, length + self.Margin + self.thickness * 2 + self.burn, 90,
+                        self.thickness, -90, self.thickness - self.burn, -90, self.thickness, 90, self.thickness + self.burn/2,
                         [180, self.thickness])
 
         # move plate

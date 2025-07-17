@@ -105,9 +105,9 @@ class WallBackEdge(WallEdge):
 
     def _joint(self, length):
         t = self.settings.thickness
-        self.step(t)
+        self.step(self.edges["F"].startwidth())
         self.edges["F"](length)
-        self.step(-t)
+        self.step(-self.edges["F"].endwidth())
 
     def margin(self) -> float:
         return self.settings.thickness

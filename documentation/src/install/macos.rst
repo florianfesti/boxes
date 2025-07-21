@@ -31,7 +31,7 @@ General
 
    .. code::
 
-      pip3 install Markdown affine shapely
+      pip3 install Markdown affine shapely qrcode
 
 4. Download Boxes.py via Git:
 

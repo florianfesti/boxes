@@ -31,9 +31,9 @@ Values:
 
 * relative (in multiples of thickness)
 
-  * height : 4.0 : height of the brim (if any)
-  * play : 0.1 : play when sliding the lid on (if applicable)
-  * handle_height : 8.0 : height of the handle (if applicable)
+  * height : 4.0 : height of the brim in multiples of thickness (if any)
+  * play : 0.1 : play when sliding the lid on in multiples of thickness (if applicable)
+  * handle_height : 8.0 : height of the handle in multiples of thickness (if applicable)
     """
     absolute_params = {
         "style": ("none", "flat", "chest", "overthetop", "ontop"),

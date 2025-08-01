@@ -105,5 +105,5 @@ class UBox(_TopEdge):
         self.U(x, y, r, t3, move="left only")
         self.Uwall(x, y, h, r, [t2, t4], move="up", label=_("wall"))
 
-        self.drawLid(x, h, self.top_edge)
-        self.lid(x, h, self.top_edge)
+        self.drawLid(h, x, self.top_edge)
+        self.lid(x, h, self.top_edge) # keep chest lid aligned with U

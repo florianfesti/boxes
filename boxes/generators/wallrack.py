@@ -83,6 +83,10 @@ class WallRack(Boxes):
         else:
             total_height = sum(self.sh[:-1]) + back_height
 
+        for h in self.sh if self.full_height_top else self.sh[:-1]:
+            if h < back_height:
+                raise ValueError(f"Sections in sh must be at least wall_height * back_height = {back_height} tall. {h} found.")
+
         be = "e" if self.flat_bottom and self.side_edges == "F" else "E"
         if be == "E" and self.full_height_top:
             total_height -= t

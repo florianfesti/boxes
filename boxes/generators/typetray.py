@@ -155,13 +155,13 @@ class TypeTray(_TopEdge):
         posx = -0.5 * self.thickness
         for x in self.sx[:-1]:
             posx += x + self.thickness
-            self.fingerHolesAt(posx, 0, self.hi)
+            self.fingerHolesAt(posx, 0, min(self.h, self.hi))
 
     def yHoles(self):
         posy = -0.5 * self.thickness
         for y in self.sy[:-1]:
             posy += y + self.thickness
-            self.fingerHolesAt(posy, 0, self.hi)
+            self.fingerHolesAt(posy, 0, min(self.h, self.hi))
 
     def gripHole(self):
         if not self.gw:
@@ -284,16 +284,18 @@ class TypeTray(_TopEdge):
         # Inner walls
 
         be = "f" if b != "e" else "e"
+        le = "f" if self.hi <= self.h else edges.CompoundEdge(self, "ef", [self.hi-self.h, self.h])
+        re = "f" if self.hi <= self.h else edges.CompoundEdge(self, "fe", [self.h, self.hi-self.h])
 
         ######
         for i in range(len(self.sy) - 1):
 
-            e = [edges.SlottedEdge(self, self.sx, be), "f",
-                 edges.SlottedEdge(self, self.sx[::-1], "A", slots=0.5 * hi), "f"]
+            e = [edges.SlottedEdge(self, self.sx, be), re,
+                 edges.SlottedEdge(self, self.sx[::-1], "A", slots=0.5 * hi), le]
 
             if self.closedtop and sameh:
-                e = [edges.SlottedEdge(self, self.sx, be), "f",
-                     edges.SlottedEdge(self, self.sx[::-1], "f", slots=0.5 * hi), "f"]
+                e = [edges.SlottedEdge(self, self.sx, be), re,
+                     edges.SlottedEdge(self, self.sx[::-1], "f", slots=0.5 * hi), le]
 
             self.rectangularWall(x, hi, e, move="up", callback=[self.textCB],
                                  label=f"inner x {i+1}")
@@ -355,8 +357,8 @@ class TypeTray(_TopEdge):
         # inner walls
         for i in range(len(self.sx) - 1):
             e = [edges.SlottedEdge(self, self.sy, be, slots=0.5 * hi),
-                 "f", "e", "f"]
+                 re, "e", le]
             if self.closedtop and sameh:
-                e = [edges.SlottedEdge(self, self.sy, be, slots=0.5 * hi),"f",
-                     edges.SlottedEdge(self, self.sy[::-1], "f"), "f"]
+                e = [edges.SlottedEdge(self, self.sy, be, slots=0.5 * hi), re,
+                     edges.SlottedEdge(self, self.sy[::-1], "f"), le]
             self.rectangularWall(y, hi, e, move="up", label=f"inner y {i+1}")

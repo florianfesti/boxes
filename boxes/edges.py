@@ -1736,13 +1736,13 @@ class ChestHingePin(BaseEdge):
             middle_segment = [l + 2 * t, ]
             draw_rest_of_edge = lambda: None
 
-        poly = [0, -90, s + p - pinh, -90, t, 90, pinh, 90, ]
+        poly = [0, -90, self.settings.play + s + p - pinh, -90, t, 90, pinh, 90, ]
         self.polyline(*poly)
         draw_rest_of_edge()
         self.polyline(*(middle_segment + list(reversed(poly))))
 
     def margin(self) -> float:
-        return (self.settings.pin_height + self.settings.hinge_strength)
+        return (self.settings.play + self.settings.pin_height + self.settings.hinge_strength)
 
 
 class ChestHingeFront(Edge):

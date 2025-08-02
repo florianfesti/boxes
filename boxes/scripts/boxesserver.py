@@ -694,8 +694,12 @@ class BServer:
             if not isinstance(e, ValueError):
                 print("Exception during rendering:")
                 traceback.print_exc()
-            start_response("500 Internal Server Error", headers)
-            return self.genPageError(name, e, lang)
+            if render == "4" and isinstance(e, ValueError):
+                start_response(status, box.formats.http_headers["svg"])
+                return self.genPageErrorSVG(name, e, lang)
+            else:
+                start_response("500 Internal Server Error", headers)
+                return self.genPageError(name, e, lang)
 
         http_headers = box.formats.http_headers.get(box.format, [('Content-type', 'application/unknown; charset=utf-8')])[:]
         # Prevent crawlers.

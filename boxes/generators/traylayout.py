@@ -172,6 +172,8 @@ to remove the floor for this compartment.
                 self.hi = self.adjustSize(self.hi, e2=False)
 
         self.hi = self.hi or self.h
+        if self.hi > self.h:
+            raise ValueError("hi can't be bigger that h!")
         self.edges["s"] = boxes.edges.Slot(self, self.hi / 2.0)
         self.edges["C"] = boxes.edges.CrossingFingerHoleEdge(self, self.hi)
         self.edges["D"] = boxes.edges.CrossingFingerHoleEdge(self, self.hi, outset=self.thickness)

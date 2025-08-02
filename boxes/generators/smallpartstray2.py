@@ -166,7 +166,7 @@ If there are no inner front to back walls just add everything to one side wall a
         floors = [self.sy[0]- hi - slot + t2, slot]
         self.rectangularWall(
             x, floors[0], "ffef",
-            callback=[self.fingerHolesCB(self.sx, self.sy[0]-dy)],
+            callback=[self.fingerHolesCB(self.sx, floors[0])],
             move="up", label="floor back side")
         for y_ in self.sy[1:]:
             self.rectangularWall(

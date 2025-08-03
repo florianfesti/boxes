@@ -139,11 +139,11 @@ def main() -> None:
     args, extra = parser.parse_known_args()
     if args.generator and (args.examples or args.list):
         parser.error("cannot combine --generator with other commands")
-    
+
     # if debug is True set logging level
     if args.debug:
         logging.getLogger().setLevel(logging.DEBUG)
-    
+
     # Handle various actions
     if args.version:
         print_version()

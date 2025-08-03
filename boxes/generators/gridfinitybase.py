@@ -230,7 +230,7 @@ class GridfinityBase(Boxes):
             # if both size_y and y were provided, y takes precedence
             self.size_y = max(self.size_y, self.y*self.pitch)
 
-        
+
         self.exact_size = ((self.size_x == self.x*self.pitch) and (self.size_y == self.y*self.pitch))
 
         # make tabs for refined bases if:
@@ -483,7 +483,7 @@ class GridfinityBase(Boxes):
             shift_x += margin
             shift_y += margin
 
-        
+
             self.rectangularWall(x, h, [b, sideedge, t1, sideedge],
                                 ignore_widths=[1, 6], move="right")
             self.rectangularWall(y, h, [b, "f", t2, "f"],

@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg height="140.90mm" viewBox="0.0 0.0 131.50 140.90" width="131.50mm" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<!--
+TriangularWall - Simple wall with options for different edges
+
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
+Command line (remove spaces between dashes): boxes TriangularWall
+-->
+<title>TriangularWall</title>
+<metadata>
+<rdf:RDF><cc:Work>
+<dc:title>Part - TriangularWall</dc:title>
+<dc:source>boxes TriangularWall</dc:source>
+<dc:description>Simple wall with options for different edges
+
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
+Command line: boxes TriangularWall
+Command line short: boxes TriangularWall
+</dc:description>
+</cc:Work></rdf:RDF></metadata>
+<g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
+  <path d="M 10.000 130.900 H 110.000 V 120.900 H 10.000 V 130.900 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
+  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.000 122.900 )">100.0mm, burn:0.10mm</text>
+</g>
+<g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
+  <path d="M 21.404 110.200 H 121.404 C 121.459 110.200 121.504 110.155 121.504 110.100 V 10.100 C 121.504 10.045 121.459 10.000 121.404 10.000 C 118.765 10.000 116.151 10.520 113.712 11.530 C 111.274 12.540 109.058 14.021 107.191 15.887 L 27.191 95.887 C 25.325 97.754 23.844 99.969 22.834 102.408 C 21.824 104.847 21.304 107.460 21.304 110.100 C 21.304 110.155 21.349 110.200 21.404 110.200 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
+</g>
+</svg>

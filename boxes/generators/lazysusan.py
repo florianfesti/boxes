@@ -100,13 +100,14 @@ class LazySusan(Boxes):
         outside_wall = angle * (math.pi / 180) * outside_radius
         # self.rectangularWall(outside_wall, h, "eFeF", move="right",label="Outside Wall")
         # # self.edges["X"](-outside_wall, h=h)
-        self.drawFlexWall(outside_wall, h)
-        
+        self.drawFlexWall(outside_wall, h+t)
+        # I think this will slide the outside wall down
         
         #flex wall for inside
         self.moveTo(outside_wall+10, 0)
         inside_wall = angle * (math.pi / 180) * inside_radius
-        self.drawFlexWall(inside_wall, h)
+        self.drawFlexWall(inside_wall, h+t)
+        # I think this will slide the outside wall down
         # self.rectangularWall(inside_wall, h, "eFeF", move="right",label="Inside Wall")
         
         #solid endcap walls

@@ -12,7 +12,7 @@ import numpy as np
 
 def draw_path_on_ctx(ctx: Context, path: svg.path.Path):
     """Draw an SVG path into the current context.
-    
+
     This transforms the points according to the current context, but otherwise
     should just add the commands from the path into the output.
     """
@@ -49,7 +49,7 @@ def path_centre(path: svg.path.Path) -> tuple[float, float]:
 
 def load_path_from_svg(filename: str) -> svg.path.Path:
     """Load a path from an SVG file.
-    
+
     This assumes there is a single path in the file, as is true for OpenSCAD
     exports.
     """

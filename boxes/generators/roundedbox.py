@@ -56,14 +56,18 @@ With lid:
     def latch(self, move=None):
         t = self.thickness
         p = .05 * t
-        if self.move(8*t, 3*t, move, True):
+        l = 9*t
+        if self.move(l, 3*t, move, True):
             return
 
-        self.polyline(8*t, 90, 1.5*t-p, 90, 3*t, -90, 2*t+p, 90,
+        r = t / 2**0.5
+        self.polyline(l, 90, 1.5*t, 45, 0, (90, r), 0, 45,
+                      t, -90, 4*t, 180, 4*t, 90,
+                      t-p, 90, 3*t, -90, 2*t+p, 90,
                       2*t, 90, 2*t+p, -90,
-                      2.75*t, 45, t/4*2**0.5, 45, 1.25*t-p)
+                      2.75*t, 45, t/4*2**0.5, 45, 1.25*t-p, 90)
 
-        self.move(8*t, 3*t, move)
+        self.move(l, 3*t, move)
 
     def latch_positions(self, x, y, r, callback):
         d = (1-0.5*2**0.5) * r
@@ -107,8 +111,10 @@ With lid:
             self.moveTo(-r)
             self.latch_positions(
                 lx, ly, r,
-                lambda: self.rectangularHole(0, 1.5*t,
-                                             1.1*t, 4*t, center_y=False))
+                lambda: (
+                    self.rectangularHole(0, 1.5*t, 1.1*t, 4*t, center_y=False),
+                    self.rectangularHole(0, 7*t, 1.1*t, 0.7*t),
+                    self.rectangularHole(0, 9*t, 1.1*t, 0.7*t)))
 
     def latches(self):
         t = self.thickness

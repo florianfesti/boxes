@@ -54,6 +54,26 @@ With lid:
             choices=["hole", "lid", "closed", "lid_with_latches"],
             help="style of the top and lid")
 
+    def latch(self, move=None):
+        t = self.thickness
+        p = .05 * t
+        if self.move(8*t, 3*t, move, True):
+            return
+
+        self.polyline(8*t, 90, 1.5*t-p, 90, 3*t, -90, 2*t+p, 90,
+                      2*t, 90, 2*t+p, -90,
+                      2.75*t, 45, t/4*2**0.5, 45, 1.25*t-p)
+
+        self.move(8*t, 3*t, move)
+
+    def latch_positions(self, x, y, r, callback):
+        d = (1-0.5*2**0.5) * r
+        for l in (x, y, x, y):
+            with self.saved_context():
+                self.moveTo(+d, d, -45)
+                callback()
+            self.moveTo(l+2*r, 0, 90)
+
     @property
     def hole_dr(self):
         dr = 2*self.thickness
@@ -63,6 +83,7 @@ With lid:
 
     def top_hole(self):
         t = self.thickness
+        p = 0.05*t
         x, y, r = self.x, self.y, self.radius
 
         dr = self.hole_dr
@@ -82,71 +103,38 @@ With lid:
             self.corner(90, r)
 
         if self.top == "lid_with_latches":
-            # We end up where we started, so move up further to the
-            # centre of the radiused corner
-            self.moveTo(0, r)  # Note r=self.radius-dr
-            self.screw_slots(lx, ly, 3.3/2)
-
-    @boxes.holeCol
-    def screw_slots(self, lx, ly, r):
-        """Make four slots with rounded ends, at the four corners.
-
-        These slots allow screws to slide along them, to move the latches
-        in and out.
-        """
-        for l in (lx, ly, lx, ly):
-            self.moveTo(0, 0, 45)
-            self.moveTo(0, -r)
-            self.corner(180, r)
-            self.edge(2*self.thickness)
-            self.corner(180, r)
-            self.edge(2*self.thickness)
-            self.moveTo(0, r, -45)
-            self.moveTo(l, 0, 90)
-
-    def screw_clearance_slots(self):
-        t = self.thickness
-        x, y, r = self.x, self.y, self.radius
-
-        self.moveTo(0, r + t)
-        self.screw_slots(x - 2*r, y - 2*r, 5)
+            # We end up where we started
+            # go to "corner" of the hole
+            self.moveTo(-r)
+            self.latch_positions(
+                lx, ly, r,
+                lambda: self.rectangularHole(0, 1.5*t,
+                                             1.1*t, 4*t, center_y=False))
 
     def latches(self):
-        """Screw holes for tapping on latches"""
         t = self.thickness
-        x, y, r = self.x - 4*t, self.y - 4*t, self.radius - 2*t
+        x, y, r = self.x, self.y, self.radius
+        r_extra = self.edges[self.edge_style].spacing()
+        dr = self.hole_dr
+        self.moveTo(dr-r, dr+r_extra)
 
-        # we end up at(r, 0), where the curve joins the edge
-        for l in [y-2*r, x-2*r, y-2*r, x-2*r]:
-            self.hole(0, r, d=2.5)
-            # This will cut a finger out of the corner
-            self.moveTo(0, 0, 45)
-            self.edge(40)
-            self.corner(180, r/sqrt(2))
-            self.edge(40)
-            self.moveTo(0, 0, -135)
-            self.moveTo(l, 0, 180)
+        if r > dr:
+            r -= dr
+        else:
+            r = 0
 
-    def latch_screw_slots(self):
-        """Slots for the screws to slide in"""
-        t = self.thickness
-        # This will be on the "top" plate with the hole, so it's
-        # actually bigger than nominal by t in all directions.
-        x, y, r = self.x + 2*t, self.y + 2*t, self.radius + t
-        screw_r = 3.3/2
+        lx = x - 2*r - 2*dr
+        ly = y - 2*r - 2*dr
 
-        # we end up at(r, 0), where the curve joins the edge
-        for l in [y-2*r, x-2*r, y-2*r, x-2*r]:
-            # This will cut a slot, and move from one end of the
-            # curve to the other
-            self.moveTo(0, r, 45)
-            self.moveTo(-2*t, -screw_r)
-            self.edge(2*t)
-            self.corner(180, screw_r)
-            self.edge(2*t)
-            self.corner(180, screw_r)
-            self.moveTo(0, 0, -45)
-            self.moveTo(l, 0, 90)
+        self.latch_positions(
+            lx, ly, r,
+            lambda: (
+                self.rectangularHole(0, 1.5*t, t, 2*t, center_y=False),
+                self.rectangularHole(0, 0.5*t,
+                                     7*t, 11*t, r=7*t, center_y=False),
+                self.hole(0, 7*t, d=5*t),
+                self.rectangularHole(0, 0.5*t,
+                                     7*t, 13*t, r=7*t, center_y=False)))
 
     def cb(self, nr):
         h = 0.5 * self.thickness
@@ -204,20 +192,14 @@ With lid:
                                   r+r_extra,
                                   "e", wallpieces=self.wallpieces,
                                   extend_corners=False, move="right",
-                                  callback=[self.screw_clearance_slots] if self.top == "lid_with_latches" else None)
-
-            # A plate with the latches.
-            if self.top == "lid_with_latches":
-                dr = self.hole_dr
-                if r < dr:
-                    raise ValueError("Latches only work with radius > %f." % dr)
-                self.roundedPlate(x - 2*dr, y - 2*dr, r - dr, "e", wallpieces=self.wallpieces,
-                                  extend_corners=False, move="right",
-                                  callback=[self.latches])
+                                  callback=[self.latches] if self.top == "lid_with_latches" else None)
 
         # I don't know what this plate is for!
         self.roundedPlate(x, y, r, es, wallpieces=self.wallpieces, move="up only")
 
         # This is the wall (i.e. the vertical part)
         self.surroundingWall(x, y, r, h, pe, pe, pieces=self.wallpieces,
-                             callback=self.cb)
+                             callback=self.cb, move="up")
+        if self.top == "lid_with_latches":
+            for i in range(4):
+                self.latch(move="right")

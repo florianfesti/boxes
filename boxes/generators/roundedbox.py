@@ -131,10 +131,10 @@ With lid:
             lambda: (
                 self.rectangularHole(0, 1.5*t, t, 2*t, center_y=False),
                 self.rectangularHole(0, 0.5*t,
-                                     7*t, 11*t, r=7*t, center_y=False),
-                self.hole(0, 7*t, d=5*t),
+                                     7*t, 12*t, r=7*t, center_y=False),
+                self.hole(0, 8.5*t, d=5*t),
                 self.rectangularHole(0, 0.5*t,
-                                     7*t, 13*t, r=7*t, center_y=False)))
+                                     7*t, 14*t, r=7*t, center_y=False)))
 
     def cb(self, nr):
         h = 0.5 * self.thickness

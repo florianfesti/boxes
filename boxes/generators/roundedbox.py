@@ -64,7 +64,7 @@ With lid:
         self.polyline(l, 90, 1.5*t, 45, 0, (90, r), 0, 45,
                       t, -90, 4*t, 180, 4*t, 90,
                       t-p, 90, 3*t, -90, 2*t+p, 90,
-                      2*t, 90, 2*t+p, -90,
+                      3*t, 90, t, 90, t, -90, t+p, -90,
                       2.75*t, 45, t/4*2**0.5, 45, 1.25*t-p, 90)
 
         self.move(l, 3*t, move)
@@ -134,12 +134,12 @@ With lid:
         self.latch_positions(
             lx, ly, r,
             lambda: (
-                self.rectangularHole(0, 1.5*t, t, 2*t, center_y=False),
-                self.rectangularHole(0, 0.5*t,
-                                     7*t, 12*t, r=7*t, center_y=False),
+                self.rectangularHole(0, 0.5*t, t, 3*t, center_y=False),
+                self.rectangularHole(0, -0.5*t,
+                                     7*t, 13*t, r=7*t, center_y=False),
                 self.hole(0, 8.5*t, d=5*t),
-                self.rectangularHole(0, 0.5*t,
-                                     7*t, 14*t, r=7*t, center_y=False)))
+                self.rectangularHole(0, -0.5*t,
+                                     7*t, 15*t, r=7*t, center_y=False)))
 
     def cb(self, nr):
         h = 0.5 * self.thickness
@@ -199,7 +199,7 @@ With lid:
                                   extend_corners=False, move="right",
                                   callback=[self.latches] if self.top == "lid_with_latches" else None)
 
-        # I don't know what this plate is for!
+        # This doesn't make a new plate, it just puts the wall in the right place
         self.roundedPlate(x, y, r, es, wallpieces=self.wallpieces, move="up only")
 
         # This is the wall (i.e. the vertical part)

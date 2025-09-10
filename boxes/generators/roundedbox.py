@@ -60,7 +60,7 @@ With lid:
     def latch(self, move=None):
         t = self.thickness
         p = .05 * t
-        l = 9*t
+        l = 10*t
         if self.move(l, 3*t, move, True):
             return
 
@@ -69,7 +69,7 @@ With lid:
                       t, -90, 4*t, 180, 4*t, 90,
                       t-p, 90, 3*t, -90, 2*t+p, 90,
                       3*t, 90, t, 90, t, -90, t+p, -90,
-                      2.75*t, 45, t/4*2**0.5, 45, 1.25*t-p, 90)
+                      3.75*t, 45, t/4*2**0.5, 45, 1.25*t-p, 90)
 
         self.move(l, 3*t, move)
 
@@ -120,9 +120,9 @@ With lid:
             self.latch_positions(
                 lx, ly, r,
                 lambda: (
-                    self.rectangularHole(0, 1.5*t, 1.1*t, 4*t, center_y=False),
-                    self.rectangularHole(0, 7*t, 1.1*t, 0.7*t),
-                    self.rectangularHole(0, 9*t, 1.1*t, 0.7*t)))
+                    self.rectangularHole(0, 2.5*t, 1.1*t, 4*t, center_y=False),
+                    self.rectangularHole(0, 8*t, 1.1*t, 0.7*t),
+                    self.rectangularHole(0, 10*t, 1.1*t, 0.7*t)))
 
     def latches(self):
         t = self.thickness
@@ -142,11 +142,11 @@ With lid:
         self.latch_positions(
             lx, ly, r,
             lambda: (
-                self.rectangularHole(0, 0.5*t, t, 3*t, center_y=False),
-                self.rectangularHole(0, -0.5*t,
+                self.rectangularHole(0, 1.5*t, t, 3*t, center_y=False),
+                self.rectangularHole(0, 0.5*t,
                                      7*t, 13*t, r=7*t, center_y=False),
-                self.hole(0, 8.5*t, d=5*t),
-                self.rectangularHole(0, -0.5*t,
+                self.hole(0, 9.5*t, d=5*t),
+                self.rectangularHole(0, 0.5*t,
                                      7*t, 15*t, r=7*t, center_y=False)))
 
     def cb(self, nr):

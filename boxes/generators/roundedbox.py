@@ -50,7 +50,11 @@ With lid:
             help="edge type for top and bottom edges")
         self.argparser.add_argument(
             "--top",  action="store", type=str, default="hole",
-            choices=["hole", "lid", "closed", "lid_with_latches"],
+            choices=["hole", "lid", "lid_with_latches", "closed"],
+            help="style of the top and lid")
+        self.argparser.add_argument(
+            "--bottom",  action="store", type=str, default="closed",
+            choices=["closed", "hole", "lid", "lid_with_latches"],
             help="style of the top and lid")
 
     def latch(self, move=None):
@@ -84,7 +88,11 @@ With lid:
             dr = self.thickness
         return dr
 
-    def top_hole(self):
+    def top_hole(self, style):
+
+        if style == "closed":
+            return
+
         t = self.thickness
         p = 0.05*t
         x, y, r = self.x, self.y, self.radius
@@ -105,7 +113,7 @@ With lid:
             self.edge(l)
             self.corner(90, r)
 
-        if self.top == "lid_with_latches":
+        if style == "lid_with_latches":
             # We end up where we started
             # go to "corner" of the hole
             self.moveTo(-r)
@@ -151,6 +159,7 @@ With lid:
 
     def render(self):
 
+        _ = self.translations.gettext
         x, y, sh, r = self.x, self.y, self.sh, self.radius
 
         if self.outside:
@@ -178,33 +187,37 @@ With lid:
             ec = True
 
         with self.saved_context():
-            # This plate is the base of the box
-            self.roundedPlate(x, y, r, es, wallpieces=self.wallpieces,
-                              extend_corners=ec, move="right")
             # These are the inner shelves
             for dh in self.sh[:-1]:
                 self.roundedPlate(x, y, r, "f", wallpieces=self.wallpieces,
+                                  label=_("inner shelf"),
                                   extend_corners=False, move="right")
-            # This is the top plate (which has a hole in it, if requested)
-            self.roundedPlate(x, y, r, es, wallpieces=self.wallpieces,
-                              extend_corners=ec, move="right",
-                              callback=[self.top_hole] if self.top != "closed" else None)
-            # An additional plate for the lid, if requested
-            if self.top in ["lid", "lid_with_latches"]:
-                r_extra = self.edges[self.edge_style].spacing()
-                self.roundedPlate(x+2*r_extra,
-                                  y+2*r_extra,
-                                  r+r_extra,
-                                  "e", wallpieces=self.wallpieces,
-                                  extend_corners=False, move="right",
-                                  callback=[self.latches] if self.top == "lid_with_latches" else None)
 
-        # This doesn't make a new plate, it just puts the wall in the right place
+            for name, style in ((_("bottom"), self.bottom),
+                                (_("top"), self.top)):
+                # This is the top/bottom plate (which has a hole in it, if requested)
+                self.roundedPlate(
+                    x, y, r, es, wallpieces=self.wallpieces,
+                    extend_corners=ec, move="right",
+                    label=name,
+                    callback=[lambda: self.top_hole(style)])
+                # An additional plate for the lid, if requested
+                if style in ["lid", "lid_with_latches"]:
+                    r_extra = self.edges[self.edge_style].spacing()
+                    self.roundedPlate(
+                        x+2*r_extra, y+2*r_extra, r+r_extra,
+                        "e", wallpieces=self.wallpieces,
+                        label=_("%s lid") % name,
+                        extend_corners=False, move="right",
+                        callback=[self.latches] if style == "lid_with_latches" else None)
+
+        # Move up one row
         self.roundedPlate(x, y, r, es, wallpieces=self.wallpieces, move="up only")
 
         # This is the wall (i.e. the vertical part)
         self.surroundingWall(x, y, r, h, pe, pe, pieces=self.wallpieces,
                              callback=self.cb, move="up")
-        if self.top == "lid_with_latches":
-            for i in range(4):
-                self.latch(move="right")
+        for style in (self.top, self.bottom):
+            if style == "lid_with_latches":
+                for i in range(4):
+                    self.latch(move="right")

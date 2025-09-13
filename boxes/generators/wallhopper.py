@@ -29,7 +29,7 @@ Bottom panel, sloped front panel and label panel (if enabled).
     def __init__(self) -> None:
         super().__init__()
 
-        self.buildArgParser(x=80, h=150)
+        self.buildArgParser(sx="80", h=150)
 
         self.argparser.add_argument(
             "--hopper_depth",  action="store", type=float, default=50,
@@ -53,6 +53,17 @@ Bottom panel, sloped front panel and label panel (if enabled).
             "--label_ratio",  action="store", type=float, default=0.2,
             help="Fraction of the label of the dispenser")
 
+    def wallCB(self, sx, l, wall=False):
+        def CB():
+            t = self.thickness
+            posx = -0.5*t
+            for x in sx[:-1]:
+                posx += x + t
+                if wall:
+                    self.wallHolesAt(posx, 0, l, 90)
+                else:
+                    self.fingerHolesAt(posx, 0, l, 90)
+        return CB
 
     def render(self):
         self.generateWallEdges() # creates the aAbBcCdD| edges
@@ -65,7 +76,7 @@ Bottom panel, sloped front panel and label panel (if enabled).
         lr = self.label_ratio if self.label_ratio < 1 else 0.999
         t = self.thickness
 
-        x = self.x
+        x = sum(self.sx) + self.thickness * (len(self.sx) - 1)
         h = self.h
 
         # Check that sa generates a valid dispenser
@@ -114,26 +125,35 @@ Bottom panel, sloped front panel and label panel (if enabled).
 
         with self.saved_context():
             # Bottom panel with finger joints
-            self.rectangularWall(x, hd+df, "ffGf", label="bottom", move="up")
+            self.rectangularWall(x, hd+df, "ffGf",
+                                 callback=[self.wallCB(self.sx, hd+df)],
+                                 label="bottom", move="up")
 
             if self.label:
                 # Sloped front with label area
-                self.rectangularWall(x, sl,
-                                   "gfkf", label="slope", move="up")
+                self.rectangularWall(x, sl, "gfkf",
+                                     callback=[self.wallCB(self.sx, sl)],
+                                     label="slope", move="up")
                 # Label panel
-                self.rectangularWall(x, dh*lr,
-                                   "Kfef", label="label", move="up")
+                self.rectangularWall(x, dh*lr, "Kfef",
+                                     callback=[self.wallCB(self.sx, dh*lr)],
+                                     label="label", move="up")
             else:
                 # Sloped front without label
-                self.rectangularWall(x, sl,
-                                   "gfef", label="slope", move="up")
+                self.rectangularWall(x, sl, "gfef",
+                                     callback=[self.wallCB(self.sx, sl)],
+                                     label="slope", move="up")
             # Back panel with wall mount edges
-            self.rectangularWall(x, h, "hCec", label="back", move="up")
+            self.rectangularWall(x, h, "hCec",
+                                 callback=[self.wallCB(self.sx, h, True)],
+                                 label="back", move="up")
             # Front panel of hopper
-            self.rectangularWall(x, h-dh, "efef", label="front", move="up")
+            self.rectangularWall(x, h-dh, "efef",
+                                 callback=[self.wallCB(self.sx, h-dh)],
+                                 label="front", move="up")
 
         # Non drawn spacer to move wall pieces to the right
-        self.rectangularWall(self.x, 3, "DDDD", label="movement", move="right only")
+        self.rectangularWall(x, 3, "DDDD", label="movement", move="right only")
 
 
         sideEdges = [
@@ -151,3 +171,5 @@ Bottom panel, sloped front panel and label panel (if enabled).
 
         self.polygonWall(sideEdges, "ehhhehebe",correct_corners=False, label="left", move="up")
         self.polygonWall(sideEdges, "ehhhehebe",correct_corners=False, label="right", move="up mirror")
+        for i in range(len(self.sx)-1):
+            self.polygonWall(sideEdges, "efffefebe",correct_corners=False, label="divider", move="up")

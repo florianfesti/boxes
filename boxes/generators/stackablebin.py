@@ -47,13 +47,22 @@ class StackableBin(Boxes):
         self.addSettingsArgs(edges.StackableSettings, bottom_stabilizers=2.4)
         self.addSettingsArgs(edges.FingerJointSettings, surroundingspaces=0.5)
         self.buildArgParser("outside")
-        self.buildArgParser(x=70, h=50)
+        self.buildArgParser(sx="70", h=50)
         self.argparser.add_argument(
             "--d", action="store", type=float, default=100,
             help="bin (d)epth")
         self.argparser.add_argument(
             "--front", action="store", type=float, default=0.4,
             help="fraction of bin height covered with slope")
+
+    def wallCB(self, sx, l):
+        def CB():
+            t = self.thickness
+            posx = -0.5*t
+            for x in sx[:-1]:
+                posx += x + t
+                self.fingerHolesAt(posx, 0, l, 90)
+        return CB
 
     def render(self):
 
@@ -67,18 +76,27 @@ class StackableBin(Boxes):
         angledsettings.edgeObjects(self, chars="gGH")
 
         if self.outside:
-            self.x = self.adjustSize(self.x)
+            self.sx = self.adjustSize(self.sx)
             self.h = self.adjustSize(self.h, "s", "S")
             self.d = self.adjustSize(self.d, "h", "b")
 
+        x = sum(self.sx) + self.thickness * (len(self.sx) - 1)
 
         with self.saved_context():
-            self.rectangularWall(self.x, self.d, "ffGf", label="bottom", move="up")
-            self.rectangularWall(self.x, self.h, "hfef", label="back", move="up ")
-            self.rectangularWall(self.x, self.h*self.front*2**0.5, "gFeF", label="retainer", move="up")
-            self.rectangularWall(self.x, 3, "EEEE", label="for label (optional)")
+            self.rectangularWall(x, self.d, "ffGf",
+                                 callback=[self.wallCB(self.sx, self.d)],
+                                 label="bottom", move="up")
+            self.rectangularWall(x, self.h, "hfef",
+                                 callback=[self.wallCB(self.sx, self.h)],
+                                 label="back", move="up ")
+            self.rectangularWall(x, self.h*self.front*2**0.5, "gFeF",
+                                 callback=[self.wallCB(self.sx, self.h*self.front*2**0.5)],
+                                 label="retainer", move="up")
+            self.rectangularWall(x, 3, "EEEE", label="for label (optional)")
 
-        self.rectangularWall(self.x, 3, "EEEE", label="movement", move="right only")
+        self.rectangularWall(x, 3, "EEEE", label="movement", move="right only")
 
         self.rectangularWall(self.d, self.h, "shSb", label="left", move="up")
         self.rectangularWall(self.d, self.h, "shSb", label="right", move="mirror up")
+        for i in range(len(self.sx)-1):
+            self.rectangularWall(self.d, self.h, "ffSb", label="left", move="up")

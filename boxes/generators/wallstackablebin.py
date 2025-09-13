@@ -102,7 +102,7 @@ Bottom panel, sloped front panel and label panel (if enabled).
         self.addSettingsArgs(edges.StackableSettings, bottom_stabilizers=2.4)
 
         self.buildArgParser("outside")
-        self.buildArgParser(x=90, h=130, y=150)
+        self.buildArgParser(sx="90", h=130, y=150)
 
         self.argparser.add_argument(
             "--front", action="store", type=float, default=0.3,
@@ -117,6 +117,18 @@ Bottom panel, sloped front panel and label panel (if enabled).
         self.argparser.add_argument(
             "--label_height", action="store", type=float, default=0.2,
             help="fraction of bin height covered with label (if label is enabled)")
+
+    def wallCB(self, sx, l, wall=False):
+        def CB():
+            t = self.thickness
+            posx = -0.5*t
+            for x in sx[:-1]:
+                posx += x + t
+                if wall:
+                    self.wallHolesAt(posx, 0, l, 90)
+                else:
+                    self.fingerHolesAt(posx, 0, l, 90)
+        return CB
 
     def render(self):
         # Generate standard wall mounting edges (A-D and vertical separator |)
@@ -138,32 +150,48 @@ Bottom panel, sloped front panel and label panel (if enabled).
 
         # Adjust dimensions if outside measurements specified
         if self.outside:
-            self.x = self.adjustSize(self.x)
+            self.sx = self.adjustSize(self.sx)
             self.h = self.adjustSize(self.h, "s", "S")
             self.y = self.adjustSize(self.y, "h", "b")
 
+        x = sum(self.sx) + self.thickness * (len(self.sx) - 1)
+
         with self.saved_context():
             # Bottom panel with finger joints
-            self.rectangularWall(self.x, self.y, "ffGf", label="bottom", move="up")
+            self.rectangularWall(x, self.y, "ffGf",
+                                 callback=[self.wallCB(self.sx, self.y)],
+                                 label="bottom", move="up")
 
+            hs = self.h*self.front/math.cos(math.radians(self.angle))
             if self.label:
                 # Sloped front with label area
-                self.rectangularWall(self.x, self.h*self.front/math.cos(math.radians(self.angle)),
-                                   "gFkF", label="slope", move="up")
+                self.rectangularWall(
+                    x, hs, "gFkF",
+                    callback=[self.wallCB(self.sx, hs)],
+                    label="slope", move="up")
                 # Label panel
-                self.rectangularWall(self.x, self.h*self.label_height,
-                                   "KFeF", label="label", move="up")
+                self.rectangularWall(
+                    x, self.h*self.label_height, "KFeF",
+                    callback=[self.wallCB(self.sx, self.h*self.label_height)],
+                    label="label", move="up")
             else:
                 # Sloped front without label
-                self.rectangularWall(self.x, self.h*self.front/math.cos(math.radians(self.angle)),
-                                   "gFeF", label="slope", move="up")
+                self.rectangularWall(
+                    x, hs, "gFeF",
+                    callback=[self.wallCB(self.sx, hs)],
+                    label="slope", move="up")
 
             # Back panel with wall mount edges
-            self.rectangularWall(self.x, self.h, "hCec", label="back", move="up")
+            self.rectangularWall(x, self.h, "hCec",
+                                 callback=[self.wallCB(self.sx, self.h, True)],
+                                 label="back", move="up")
 
         # Non drawn spacer to move wall pieces to the right
-        self.rectangularWall(self.x, 3, "DDDD", label="movement", move="right only")
+        self.rectangularWall(x, 3, "DDDD", label="movement", move="right only")
 
         # Side panels with wall mount and stackable edges
         self.rectangularWall(self.y, self.h, "sBSj", label="left side", move="up")
         self.rectangularWall(self.y, self.h, "sBSj", label="right side", move="mirror up")
+
+        for i in range(len(self.sx)-1):
+            self.rectangularWall(self.y, self.h, "fBSj", label="dividers", move="up")

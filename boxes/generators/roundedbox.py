@@ -143,8 +143,8 @@ With lid:
             lx, ly, r,
             lambda: (
                 self.rectangularHole(0, 1.5*t, t, 3*t, center_y=False),
-                self.rectangularHole(0, 0.5*t,
-                                     7*t, 13*t, r=7*t, center_y=False),
+                self.rectangularHole(0, 0.55*t,
+                                     6.95*t, 12.95*t, r=7*t, center_y=False),
                 self.hole(0, 9.5*t, d=5*t),
                 self.rectangularHole(0, 0.5*t,
                                      7*t, 15*t, r=7*t, center_y=False)))

@@ -124,6 +124,32 @@ With lid:
                     self.rectangularHole(0, 8*t, 1.1*t, 0.7*t),
                     self.rectangularHole(0, 10*t, 1.1*t, 0.7*t)))
 
+    @boxes.holeCol
+    def latch_holes(self):
+        """The holes cut out of one latch slider."""
+        t = self.thickness
+        self.rectangularHole(0, 1.5*t, t, 3*t, center_y=False)
+        self.hole(0, 9.5*t, d=5*t),
+
+    @boxes.holeCol
+    def latch_slider(self):
+        """The sliding piece that actuates the latch."""
+        t = self.thickness
+        self.rectangularHole(0, 0.55*t,
+                             6.95*t, 12.95*t,
+                             r=7*t, center_y=False,
+                             color=boxes.Color.CUT[1]),
+
+    @boxes.holeCol
+    def latch_cutout(self):
+        """The hole in which the latch_slider sits."""
+        t = self.thickness
+        self.rectangularHole(0, 0.5*t,
+                             7*t, 15*t,
+                             r=7*t, center_y=False,
+                             color=boxes.Color.CUT[2])
+
+
     def latches(self):
         t = self.thickness
         x, y, r = self.x, self.y, self.radius
@@ -142,12 +168,9 @@ With lid:
         self.latch_positions(
             lx, ly, r,
             lambda: (
-                self.rectangularHole(0, 1.5*t, t, 3*t, center_y=False),
-                self.rectangularHole(0, 0.55*t,
-                                     6.95*t, 12.95*t, r=7*t, center_y=False),
-                self.hole(0, 9.5*t, d=5*t),
-                self.rectangularHole(0, 0.5*t,
-                                     7*t, 15*t, r=7*t, center_y=False)))
+                self.latch_holes(),
+                self.latch_slider(),
+                self.latch_cutout()))
 
     def cb(self, nr):
         h = 0.5 * self.thickness
@@ -157,7 +180,17 @@ With lid:
             h += dh
             self.fingerHolesAt(0, h, l, 0)
 
+    def cut_order(self):
+        self.move(self.reference, 10, "down", before=True)
+        self.text("cut order:", self.reference + 25, 5,
+                        fontsize=6, align="middle center", color=boxes.Color.ANNOTATIONS)
+        for i, col in enumerate(boxes.Color.CUT[:3] + [boxes.Color.OUTER_CUT]):
+            self.text(f"{i}", self.reference + 50 + 10 * i, 5,
+                            fontsize=6, align="middle center", color=col)
+        self.move(self.reference, 10, "up", before=False)
+
     def render(self):
+        self.cut_order()
 
         _ = self.translations.gettext
         x, y, sh, r = self.x, self.y, self.sh, self.radius

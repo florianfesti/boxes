@@ -128,6 +128,8 @@ different options:
   radius untouched.
 * ``backarc`` naive implementation with inverted arcs connection the
   straight lines.
+* ``dogbone`` reserved for dogbone-style corners (requires radius via
+  ``--R`` or ``--D``)
 
 See also :doc:`burn correction details <api_burn>`
 

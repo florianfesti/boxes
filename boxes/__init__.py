@@ -379,8 +379,14 @@ class Boxes:
             help="print reference rectangle with given length (in mm)(zero to disable) [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#reference)")
         defaultgroup.add_argument(
             "--inner_corners", action="store", type=str, default="loop",
-            choices=["loop", "corner", "backarc"],
+            choices=["loop", "corner", "backarc", "dogbone"],
             help="style for inner corners [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#inner-corners)")
+        defaultgroup.add_argument(
+            "--R", action="store", type=float, default=None,
+            help="radius for dogbone inner corners (in mm)")
+        defaultgroup.add_argument(
+            "--D", action="store", type=float, default=None,
+            help="diameter for dogbone inner corners (in mm)")
         defaultgroup.add_argument(
             "--burn", action="store", type=float, default=0.1,
             help='burn correction (in mm)(bigger values for tighter fit) [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#burn)')
@@ -578,7 +584,31 @@ class Boxes:
         self.metadata["cli"] = "boxes " + self.__class__.__name__ + " " + " ".join(cliQuote(arg) for arg in args)
         self.metadata["cli"] = self.metadata["cli"].strip()
 
-        for key, value in vars(self.argparser.parse_args(args=args)).items():
+        parsed_args = self.argparser.parse_args(args=args)
+
+        dogbone_radius = None
+        if getattr(parsed_args, "inner_corners", "loop") == "dogbone":
+            R = getattr(parsed_args, "R", None)
+            D = getattr(parsed_args, "D", None)
+
+            if R is None and D is None:
+                self.argparser.error("dogbone inner corners require --R or --D")
+
+            if R is not None:
+                if R <= 0:
+                    self.argparser.error("--R must be greater than zero")
+                dogbone_radius = R
+
+            if D is not None:
+                if D <= 0:
+                    self.argparser.error("--D must be greater than zero")
+                inferred_radius = D / 2.0
+                if dogbone_radius is None:
+                    dogbone_radius = inferred_radius
+                elif abs(dogbone_radius - inferred_radius) > 1e-9:
+                    self.argparser.error("--R and --D specify different radii")
+
+        for key, value in vars(parsed_args).items():
             default = self.argparser.get_default(key)
 
             # treat edge settings separately
@@ -589,6 +619,8 @@ class Boxes:
             setattr(self, key, value)
             if value != default:
                 self.non_default_args[key] = value
+
+        self.dogbone_radius = dogbone_radius
 
         # Change file ending to format if not given explicitly
         fileFormat = getattr(self, "format", "svg")
@@ -782,7 +814,7 @@ class Boxes:
         self.surface.set_metadata(self.metadata)
 
         self.surface.flush()
-        data = self.surface.finish(self.inner_corners)
+        data = self.surface.finish(self.inner_corners, getattr(self, "dogbone_radius", None))
 
         data = self.formats.convert(data, self.format)
         return data

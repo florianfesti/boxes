@@ -841,6 +841,10 @@ msgstr "角落"
 msgid "backarc"
 msgstr "弧后"
 
+#. possible choice for inner_corners
+msgid "dogbone"
+msgstr "dogbone"
+
 #. parameter name
 msgid "burn"
 msgstr "激光补偿"

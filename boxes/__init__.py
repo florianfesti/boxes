@@ -379,7 +379,7 @@ class Boxes:
             help="print reference rectangle with given length (in mm)(zero to disable) [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#reference)")
         defaultgroup.add_argument(
             "--inner_corners", action="store", type=str, default="loop",
-            choices=["loop", "corner", "backarc"],
+            choices=["loop", "corner", "backarc", "dogbone"],
             help="style for inner corners [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#inner-corners)")
         defaultgroup.add_argument(
             "--burn", action="store", type=float, default=0.1,

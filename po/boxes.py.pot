@@ -826,6 +826,10 @@ msgstr ""
 msgid "backarc"
 msgstr ""
 
+#. possible choice for inner_corners
+msgid "dogbone"
+msgstr ""
+
 #. parameter name
 msgid "burn"
 msgstr ""

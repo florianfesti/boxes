@@ -209,6 +209,10 @@ class Path:
         if inner_corners == "backarc":
             return
 
+        if inner_corners == "dogbone":
+            # TODO: Implement dogbone inner corner drawing logic here.
+            return
+
         for (i, p) in enumerate(self.path):
             if p[0] == "C" and i > 1 and i < len(self.path) - 1:
                 if self.path[i - 1][0] == "L" and self.path[i + 1][0] == "L":

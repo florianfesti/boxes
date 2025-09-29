@@ -382,6 +382,12 @@ class Boxes:
             choices=["loop", "corner", "backarc", "dogbone"],
             help="style for inner corners [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#inner-corners)")
         defaultgroup.add_argument(
+            "--R", action="store", type=float, default=None,
+            help="radius for dogbone inner corners (in mm)")
+        defaultgroup.add_argument(
+            "--D", action="store", type=float, default=None,
+            help="diameter for dogbone inner corners (in mm)")
+        defaultgroup.add_argument(
             "--burn", action="store", type=float, default=0.1,
             help='burn correction (in mm)(bigger values for tighter fit) [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#burn)')
 
@@ -578,7 +584,13 @@ class Boxes:
         self.metadata["cli"] = "boxes " + self.__class__.__name__ + " " + " ".join(cliQuote(arg) for arg in args)
         self.metadata["cli"] = self.metadata["cli"].strip()
 
-        for key, value in vars(self.argparser.parse_args(args=args)).items():
+        parsed_args = self.argparser.parse_args(args=args)
+
+        if getattr(parsed_args, "inner_corners", "loop") == "dogbone":
+            if getattr(parsed_args, "R", None) is None and getattr(parsed_args, "D", None) is None:
+                self.argparser.error("dogbone inner corners require --R or --D")
+
+        for key, value in vars(parsed_args).items():
             default = self.argparser.get_default(key)
 
             # treat edge settings separately

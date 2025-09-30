@@ -205,27 +205,161 @@ class Path:
                 if invert_y:
                     c[3] *= Affine.scale(1, -1)
 
-    def faster_edges(self, inner_corners):
+    def faster_edges(self, inner_corners, dogbone_radius=None):
         if inner_corners == "backarc":
             return
 
-        for (i, p) in enumerate(self.path):
-            if p[0] == "C" and i > 1 and i < len(self.path) - 1:
-                if self.path[i - 1][0] == "L" and self.path[i + 1][0] == "L":
+        if inner_corners == "dogbone":
+            if dogbone_radius is None or dogbone_radius <= 0:
+                return
+
+            radius = float(dogbone_radius)
+            offset = math.sqrt(2.0) * radius
+
+            if offset < EPS:
+                return
+
+            def _normalize(vx, vy):
+                length = math.hypot(vx, vy)
+                if length < EPS:
+                    return None
+                return (vx / length, vy / length)
+
+            def _rotate_cw(vx, vy):
+                return (vy, -vx)
+
+            def _rotate_ccw(vx, vy):
+                return (-vy, vx)
+
+            i = 0
+            while i < len(self.path):
+                p = self.path[i]
+                if (
+                    p[0] == "C"
+                    and i > 1
+                    and i < len(self.path) - 1
+                    and self.path[i - 1][0] == "L"
+                    and self.path[i + 1][0] == "L"
+                ):
                     p11 = self.path[i - 2][1:3]
                     p12 = self.path[i - 1][1:3]
                     p21 = p[1:3]
                     p22 = self.path[i + 1][1:3]
-                    if (((p12[0]-p21[0])**2 + (p12[1]-p21[1])**2) >
-                        self.params["lw"]**2):
+                    lines_intersect, ox, oy = line_intersection((p11, p12), (p21, p22))
+                    if not lines_intersect:
+                        i += 1
                         continue
-                    lines_intersect, x, y = line_intersection((p11, p12), (p21, p22))
-                    if lines_intersect:
-                        self.path[i - 1] = ("L", x, y)
-                        if inner_corners == "loop":
-                            self.path[i] = ("C", x, y, *p12, *p21)
-                        else:
-                            self.path[i] =  ("L", x, y)
+
+                    prev_len = math.hypot(ox - p11[0], oy - p11[1])
+                    next_len = math.hypot(p22[0] - ox, p22[1] - oy)
+                    if prev_len <= offset + EPS or next_len <= offset + EPS:
+                        i += 1
+                        continue
+
+                    d_prev = _normalize(ox - p11[0], oy - p11[1])
+                    d_next = _normalize(p22[0] - ox, p22[1] - oy)
+                    if d_prev is None or d_next is None:
+                        i += 1
+                        continue
+
+                    dot = d_prev[0] * d_next[0] + d_prev[1] * d_next[1]
+                    if abs(dot) > 1e-3:
+                        i += 1
+                        continue
+
+                    turn = d_prev[0] * d_next[1] - d_prev[1] * d_next[0]
+                    if abs(turn) < 1e-9:
+                        i += 1
+                        continue
+
+                    if turn > 0:
+                        inward = (-d_prev[1], d_prev[0])
+                        inward = (inward[0] + -d_next[1], inward[1] + d_next[0])
+                    else:
+                        inward = (d_prev[1], -d_prev[0])
+                        inward = (inward[0] + d_next[1], inward[1] + -d_next[0])
+
+                    n_in = _normalize(*inward)
+                    if n_in is None:
+                        i += 1
+                        continue
+
+                    n_out = (-n_in[0], -n_in[1])
+
+                    cx, cy = ox + n_out[0] * radius, oy + n_out[1] * radius
+                    sx, sy = ox - d_prev[0] * offset, oy - d_prev[1] * offset
+                    ex, ey = ox + d_next[0] * offset, oy + d_next[1] * offset
+
+                    rad_start = (sx - cx, sy - cy)
+                    rad_end = (ex - cx, ey - cy)
+                    if (
+                        math.hypot(*rad_start) < EPS
+                        or math.hypot(*rad_end) < EPS
+                    ):
+                        i += 1
+                        continue
+
+                    mid_cw_vec = _rotate_cw(*rad_start)
+                    mid_ccw_vec = _rotate_ccw(*rad_start)
+                    mid_cw = (cx + mid_cw_vec[0], cy + mid_cw_vec[1])
+                    mid_ccw = (cx + mid_ccw_vec[0], cy + mid_ccw_vec[1])
+                    score_cw = (mid_cw[0] - ox) * n_out[0] + (mid_cw[1] - oy) * n_out[1]
+                    score_ccw = (mid_ccw[0] - ox) * n_out[0] + (mid_ccw[1] - oy) * n_out[1]
+                    orientation = -1 if score_cw >= score_ccw else 1
+
+                    theta_start = math.atan2(rad_start[1], rad_start[0])
+                    theta_end = math.atan2(rad_end[1], rad_end[0])
+                    if orientation == 1:
+                        while theta_end <= theta_start:
+                            theta_end += 2 * math.pi
+                    else:
+                        while theta_end >= theta_start:
+                            theta_end -= 2 * math.pi
+
+                    delta = theta_end - theta_start
+                    segments = max(1, int(math.ceil(abs(delta) / (math.pi / 2))))
+                    new_segments: list[tuple[float, ...]] = []
+                    for seg in range(segments):
+                        t0 = theta_start + delta * (seg / segments)
+                        t1 = theta_start + delta * ((seg + 1) / segments)
+                        k = 4.0 / 3.0 * math.tan((t1 - t0) / 4.0)
+                        cos0, sin0 = math.cos(t0), math.sin(t0)
+                        cos1, sin1 = math.cos(t1), math.sin(t1)
+                        p0x, p0y = cx + radius * cos0, cy + radius * sin0
+                        p3x, p3y = cx + radius * cos1, cy + radius * sin1
+                        c1x = p0x - k * radius * sin0
+                        c1y = p0y + k * radius * cos0
+                        c2x = p3x + k * radius * sin1
+                        c2y = p3y - k * radius * cos1
+                        new_segments.append((p3x, p3y, c1x, c1y, c2x, c2y))
+
+                    self.path[i - 1] = ("L", sx, sy)
+                    self.path[i : i + 1] = [
+                        ("C", px, py, c1x, c1y, c2x, c2y)
+                        for (px, py, c1x, c1y, c2x, c2y) in new_segments
+                    ]
+                    i += len(new_segments)
+                    continue
+
+                i += 1
+        else:
+            for (i, p) in enumerate(self.path):
+                if p[0] == "C" and i > 1 and i < len(self.path) - 1:
+                    if self.path[i - 1][0] == "L" and self.path[i + 1][0] == "L":
+                        p11 = self.path[i - 2][1:3]
+                        p12 = self.path[i - 1][1:3]
+                        p21 = p[1:3]
+                        p22 = self.path[i + 1][1:3]
+                        if (((p12[0]-p21[0])**2 + (p12[1]-p21[1])**2) >
+                            self.params["lw"]**2):
+                            continue
+                        lines_intersect, x, y = line_intersection((p11, p12), (p21, p22))
+                        if lines_intersect:
+                            self.path[i - 1] = ("L", x, y)
+                            if inner_corners == "loop":
+                                self.path[i] = ("C", x, y, *p12, *p21)
+                            else:
+                                self.path[i] =  ("L", x, y)
         # filter duplicates
         if len(self.path) > 1: # no need to find duplicates if only one element in path
             self.path = [p for n, p in enumerate(self.path) if p != self.path[n-1]]
@@ -487,7 +621,7 @@ class SVGSurface(Surface):
         m.tail = '\n'
         root.insert(0, m)
 
-    def finish(self, inner_corners="loop"):
+    def finish(self, inner_corners="loop", dogbone_radius=None):
         extents = self._adjust_coordinates()
         w = extents.width * self.scale
         h = extents.height * self.scale
@@ -525,7 +659,7 @@ class SVGSurface(Surface):
                 x, y = 0, 0
                 start = None
                 last = None
-                path.faster_edges(inner_corners)
+                path.faster_edges(inner_corners, dogbone_radius)
                 for c in path.path:
                     x0, y0 = x, y
                     C, x, y = c[0:3]
@@ -637,7 +771,7 @@ class PSSurface(Surface):
             desc += f'%%SettingsUrl short: {md["url_short"].replace("&render=1", "")}\n'
         return desc
 
-    def finish(self, inner_corners="loop"):
+    def finish(self, inner_corners="loop", dogbone_radius=None):
 
         extents = self._adjust_coordinates()
         w = extents.width
@@ -681,7 +815,7 @@ class PSSurface(Surface):
             for j, path in enumerate(part.pathes):
                 p = []
                 x, y = 0, 0
-                path.faster_edges(inner_corners)
+                path.faster_edges(inner_corners, dogbone_radius)
 
                 for c in path.path:
                     x0, y0 = x, y
@@ -770,7 +904,7 @@ class LBRN2Surface(Surface):
         8,  # Colors.OUTER_CUT    (WHITE)   --> Lightburn C08 (grey)
         ]
 
-    def finish(self, inner_corners="loop"):
+    def finish(self, inner_corners="loop", dogbone_radius=None):
         if self.dbg: print("LBRN2 save")
         extents = self._adjust_coordinates()
         w = extents.width * self.scale
@@ -843,7 +977,7 @@ class LBRN2Surface(Surface):
                 C = ""
                 start = None
                 last = None
-                path.faster_edges(inner_corners)
+                path.faster_edges(inner_corners, dogbone_radius)
                 num = 0
                 cnt = 1
                 end = len(path.path) - 1

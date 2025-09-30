@@ -826,6 +826,26 @@ msgstr ""
 msgid "backarc"
 msgstr ""
 
+#. possible choice for inner_corners
+msgid "dogbone"
+msgstr ""
+
+#. parameter name
+msgid "R"
+msgstr ""
+
+#. help for parameter R
+msgid "radius for dogbone inner corners (in mm)"
+msgstr ""
+
+#. parameter name
+msgid "D"
+msgstr ""
+
+#. help for parameter D
+msgid "diameter for dogbone inner corners (in mm)"
+msgstr ""
+
 #. parameter name
 msgid "burn"
 msgstr ""

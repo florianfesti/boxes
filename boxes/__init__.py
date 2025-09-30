@@ -585,10 +585,28 @@ class Boxes:
         self.metadata["cli"] = self.metadata["cli"].strip()
 
         parsed_args = self.argparser.parse_args(args=args)
-
+        
+        dogbone_radius = None
         if getattr(parsed_args, "inner_corners", "loop") == "dogbone":
-            if getattr(parsed_args, "R", None) is None and getattr(parsed_args, "D", None) is None:
+            R = getattr(parsed_args, "R", None)
+            D = getattr(parsed_args, "D", None)
+
+            if R is None and D is None:
                 self.argparser.error("dogbone inner corners require --R or --D")
+
+            if R is not None:
+                if R <= 0:
+                    self.argparser.error("--R must be greater than zero")
+                dogbone_radius = R
+
+            if D is not None:
+                if D <= 0:
+                    self.argparser.error("--D must be greater than zero")
+                inferred_radius = D / 2.0
+                if dogbone_radius is None:
+                    dogbone_radius = inferred_radius
+                elif abs(dogbone_radius - inferred_radius) > 1e-9:
+                    self.argparser.error("--R and --D specify different radii")
 
         for key, value in vars(parsed_args).items():
             default = self.argparser.get_default(key)
@@ -601,6 +619,8 @@ class Boxes:
             setattr(self, key, value)
             if value != default:
                 self.non_default_args[key] = value
+
+        self.dogbone_radius = dogbone_radius
 
         # Change file ending to format if not given explicitly
         fileFormat = getattr(self, "format", "svg")
@@ -794,7 +814,7 @@ class Boxes:
         self.surface.set_metadata(self.metadata)
 
         self.surface.flush()
-        data = self.surface.finish(self.inner_corners)
+        data = self.surface.finish(self.inner_corners, getattr(self, "dogbone_radius", None))
 
         data = self.formats.convert(data, self.format)
         return data

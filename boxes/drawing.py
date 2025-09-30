@@ -284,7 +284,10 @@ class Path:
                         i += 1
                         continue
 
-                    cx, cy = ox + n_in[0] * radius, oy + n_in[1] * radius
+
+                    n_out = (-n_in[0], -n_in[1])
+
+                    cx, cy = ox + n_out[0] * radius, oy + n_out[1] * radius
                     sx, sy = ox - d_prev[0] * offset, oy - d_prev[1] * offset
                     ex, ey = ox + d_next[0] * offset, oy + d_next[1] * offset
 
@@ -301,8 +304,8 @@ class Path:
                     mid_ccw_vec = _rotate_ccw(*rad_start)
                     mid_cw = (cx + mid_cw_vec[0], cy + mid_cw_vec[1])
                     mid_ccw = (cx + mid_ccw_vec[0], cy + mid_ccw_vec[1])
-                    score_cw = (mid_cw[0] - ox) * n_in[0] + (mid_cw[1] - oy) * n_in[1]
-                    score_ccw = (mid_ccw[0] - ox) * n_in[0] + (mid_ccw[1] - oy) * n_in[1]
+                    score_cw = (mid_cw[0] - ox) * n_out[0] + (mid_cw[1] - oy) * n_out[1]
+                    score_ccw = (mid_ccw[0] - ox) * n_out[0] + (mid_ccw[1] - oy) * n_out[1]
                     orientation = -1 if score_cw >= score_ccw else 1
 
                     theta_start = math.atan2(rad_start[1], rad_start[0])

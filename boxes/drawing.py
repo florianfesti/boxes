@@ -284,6 +284,7 @@ class Path:
                         i += 1
                         continue
 
+
                     n_out = (-n_in[0], -n_in[1])
 
                     cx, cy = ox + n_out[0] * radius, oy + n_out[1] * radius

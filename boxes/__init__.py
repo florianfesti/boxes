@@ -585,7 +585,7 @@ class Boxes:
         self.metadata["cli"] = self.metadata["cli"].strip()
 
         parsed_args = self.argparser.parse_args(args=args)
-
+        
         dogbone_radius = None
         if getattr(parsed_args, "inner_corners", "loop") == "dogbone":
             R = getattr(parsed_args, "R", None)

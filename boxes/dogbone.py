@@ -12,17 +12,15 @@ from boxes.vectors import (
     vorthogonal,
     vscalmul,
 )
-
 PathLike = MutableSequence[Any]
 Vector = tuple[float, float]
 Point = tuple[float, float]
 
 
-def kappa_gamma(gamma_degrees: float) -> float:
-    """Return kappa(gamma) = sqrt(2) + (1 + sqrt(2)) * tan(gamma - 45 degrees)."""
+def dogbone_clearance(radius: float) -> float:
+    """Return c = R * (1 + sqrt(2)/2 + sqrt(5/2 - sqrt(2)))."""
     sqrt2 = math.sqrt(2.0)
-    angle = math.radians(gamma_degrees - 45.0)
-    return sqrt2 + (1.0 + sqrt2) * math.tan(angle)
+    return radius * (1.0 + sqrt2 / 2.0 + math.sqrt(2.5 - sqrt2))
 
 
 def apply_dogbone(
@@ -42,15 +40,46 @@ def apply_dogbone(
     if radius <= 0:
         return False
 
-    offset = math.sqrt(2.0) * radius
+    sqrt2 = math.sqrt(2.0)
+    offset = sqrt2 * radius
     if offset < eps:
         return False
+
+    sqrt_inner = math.sqrt(2.5 - sqrt2)
+    clearance = dogbone_clearance(radius)
+    prev_clearance = clearance - radius
+    end_offset_next = (radius / 2.0) * (sqrt2 / 2.0 - 1.0)
+    end_offset_prev = (radius / 2.0) * (sqrt2 + sqrt_inner)
 
     def _normalize(vec: Vector) -> Vector | None:
         if vlength(vec) < eps:
             return None
         return normalize_vec(vec)
 
+    from boxes.drawing import Context, Surface
+
+    def arc_segments(center: Point, start: Point, end: Point, orientation: int) -> list[tuple[float, ...]]:
+        radius = vlength(vdiff(center, start))
+        if radius < eps or vlength(vdiff(center, end)) < eps:
+            return []
+        angle_start = math.atan2(start[1] - center[1], start[0] - center[0])
+        angle_end = math.atan2(end[1] - center[1], end[0] - center[0])
+        full_turn = 2.0 * math.pi
+        if orientation > 0:
+            while angle_end <= angle_start + eps:
+                angle_end += full_turn
+        else:
+            while angle_end >= angle_start - eps:
+                angle_end -= full_turn
+        surface = Surface()
+        ctx = Context(surface)
+        ctx.move_to(*start)
+        (ctx.arc if orientation > 0 else ctx.arc_negative)(center[0], center[1], radius, angle_start, angle_end)
+        ctx.stroke()
+        parts = surface.parts
+        if not parts or not parts[0].pathes:
+            return []
+        return [tuple(cmd) for cmd in parts[0].pathes[-1].path if cmd[0] == 'C']
     i = 0
     while i < len(path):
         segment = path[i]
@@ -106,12 +135,40 @@ def apply_dogbone(
                 i += 1
                 continue
 
-            center = vadd(corner, vscalmul(n_in, radius))
-            start_point = vadd(corner, vscalmul(d_prev, -offset))
-            end_point = vadd(corner, vscalmul(d_next, offset))
+            axis_prev = (-d_prev[0], -d_prev[1])
+            axis_next = d_next
 
-            rad_start = vdiff(center, start_point)
-            rad_end = vdiff(center, end_point)
+            center = vadd(corner, vscalmul(n_in, radius))
+            main_end = vadd(corner, vscalmul(d_next, offset))
+            transition_point = vadd(
+                corner,
+                vadd(
+                    vscalmul(axis_next, end_offset_next),
+                    vscalmul(axis_prev, end_offset_prev),
+                ),
+            )
+            axis_prev_post = axis_next
+            axis_next_post = axis_prev
+            transition_point_next = vadd(
+                corner,
+                vadd(
+                    vscalmul(axis_next_post, end_offset_next),
+                    vscalmul(axis_prev_post, end_offset_prev),
+                ),
+            )
+            new_arc_start = vadd(corner, vscalmul(axis_prev, prev_clearance))
+            new_arc_center = vadd(
+                corner,
+                vadd(vscalmul(axis_prev, prev_clearance), vscalmul(axis_next, -radius)),
+            )
+            new_arc_end = vadd(corner, vscalmul(axis_prev_post, prev_clearance))
+            new_arc_center_next = vadd(
+                corner,
+                vadd(vscalmul(axis_prev_post, prev_clearance), vscalmul(axis_next_post, -radius)),
+            )
+
+            rad_start = vdiff(center, transition_point)
+            rad_end = vdiff(center, main_end)
             if vlength(rad_start) < eps or vlength(rad_end) < eps:
                 i += 1
                 continue
@@ -121,41 +178,28 @@ def apply_dogbone(
             score_cw = dotproduct(vdiff(corner, mid_cw), n_in)
             score_ccw = dotproduct(vdiff(corner, mid_ccw), n_in)
             orientation = 1 if score_cw >= score_ccw else -1
+            orientation2 = -orientation
 
-            theta_start = math.atan2(rad_start[1], rad_start[0])
-            theta_end = math.atan2(rad_end[1], rad_end[0])
-            if orientation == 1:
-                while theta_end <= theta_start:
-                    theta_end += 2 * math.pi
-            else:
-                while theta_end >= theta_start:
-                    theta_end -= 2 * math.pi
+            pre_segments = arc_segments(new_arc_center, new_arc_start, transition_point, orientation2)
+            if not pre_segments:
+                i += 1
+                continue
 
-            delta = theta_end - theta_start
-            segments = max(1, int(math.ceil(abs(delta) / (math.pi / 2.0))))
+            main_segments = arc_segments(center, transition_point, transition_point_next, orientation)
+            if not main_segments:
+                i += 1
+                continue
 
-            new_segments: list[tuple[float, ...]] = []
-            for seg_idx in range(segments):
-                t0 = theta_start + delta * (seg_idx / segments)
-                t1 = theta_start + delta * ((seg_idx + 1) / segments)
-                k = 4.0 / 3.0 * math.tan((t1 - t0) / 4.0)
+            post_segments = arc_segments(new_arc_center_next, transition_point_next, new_arc_end, orientation2)
+            if not post_segments:
+                i += 1
+                continue
 
-                cos0, sin0 = math.cos(t0), math.sin(t0)
-                cos1, sin1 = math.cos(t1), math.sin(t1)
+            combined_segments = pre_segments + main_segments + post_segments
 
-                p0x, p0y = center[0] + radius * cos0, center[1] + radius * sin0
-                p3x, p3y = center[0] + radius * cos1, center[1] + radius * sin1
-
-                c1x = p0x - k * radius * sin0
-                c1y = p0y + k * radius * cos0
-                c2x = p3x + k * radius * sin1
-                c2y = p3y - k * radius * cos1
-
-                new_segments.append(("C", p3x, p3y, c1x, c1y, c2x, c2y))
-
-            path[i - 1] = ("L", start_point[0], start_point[1])
-            path[i : i + 1] = new_segments
-            i += len(new_segments)
+            path[i - 1] = ("L", new_arc_start[0], new_arc_start[1])
+            path[i : i + 1] = combined_segments
+            i += len(combined_segments)
             continue
 
         i += 1

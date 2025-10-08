@@ -12,6 +12,8 @@ from boxes.vectors import (
     vorthogonal,
     vscalmul,
 )
+
+# Utilities for inserting dogbone reliefs into tool paths.
 PathLike = MutableSequence[Any]
 Vector = tuple[float, float]
 Point = tuple[float, float]
@@ -19,6 +21,7 @@ Point = tuple[float, float]
 
 def dogbone_clearance(radius: float) -> float:
     """Return c = R * (1 + sqrt(2)/2 + sqrt(5/2 - sqrt(2)))."""
+    # Closed form of the clearance distance used by Boxes.py.
     sqrt2 = math.sqrt(2.0)
     return radius * (1.0 + sqrt2 / 2.0 + math.sqrt(2.5 - sqrt2))
 
@@ -45,6 +48,7 @@ def apply_dogbone(
     if offset < eps:
         return False
 
+    # These offsets define where the auxiliary arcs start and end relative to the corner.
     sqrt_inner = math.sqrt(2.5 - sqrt2)
     clearance = dogbone_clearance(radius)
     prev_clearance = clearance - radius
@@ -56,30 +60,34 @@ def apply_dogbone(
             return None
         return normalize_vec(vec)
 
-    from boxes.drawing import Context, Surface
+    def _normalize_angles(start_angle: float, end_angle: float, orientation: int) -> tuple[float, float]:
+        if orientation > 0:
+            while end_angle <= start_angle + eps:
+                end_angle += 2 * math.pi
+        else:
+            while end_angle >= start_angle - eps:
+                end_angle -= 2 * math.pi
+        return start_angle, end_angle
 
-    def arc_segments(center: Point, start: Point, end: Point, orientation: int) -> list[tuple[float, ...]]:
+    def _arc_command(center: Point, start: Point, end: Point, orientation: int) -> list[Any] | None:
         radius = vlength(vdiff(center, start))
         if radius < eps or vlength(vdiff(center, end)) < eps:
-            return []
-        angle_start = math.atan2(start[1] - center[1], start[0] - center[0])
-        angle_end = math.atan2(end[1] - center[1], end[0] - center[0])
-        full_turn = 2.0 * math.pi
-        if orientation > 0:
-            while angle_end <= angle_start + eps:
-                angle_end += full_turn
-        else:
-            while angle_end >= angle_start - eps:
-                angle_end -= full_turn
-        surface = Surface()
-        ctx = Context(surface)
-        ctx.move_to(*start)
-        (ctx.arc if orientation > 0 else ctx.arc_negative)(center[0], center[1], radius, angle_start, angle_end)
-        ctx.stroke()
-        parts = surface.parts
-        if not parts or not parts[0].pathes:
-            return []
-        return [tuple(cmd) for cmd in parts[0].pathes[-1].path if cmd[0] == 'C']
+            return None
+        start_angle = math.atan2(start[1] - center[1], start[0] - center[0])
+        end_angle = math.atan2(end[1] - center[1], end[0] - center[0])
+        start_angle, end_angle = _normalize_angles(start_angle, end_angle, orientation)
+        return [
+            "A",
+            end[0],
+            end[1],
+            center[0],
+            center[1],
+            radius,
+            start_angle,
+            end_angle,
+            orientation,
+        ]
+
     i = 0
     while i < len(path):
         segment = path[i]
@@ -90,6 +98,7 @@ def apply_dogbone(
             and path[i - 1][0] == "L"
             and path[i + 1][0] == "L"
         ):
+            # Work on inner corners expressed as line-curve-line.
             p11 = path[i - 2][1:3]
             p12 = path[i - 1][1:3]
             p21 = segment[1:3]
@@ -106,7 +115,7 @@ def apply_dogbone(
 
             prev_len = vlength(prev_vec)
             next_len = vlength(next_vec)
-            if prev_len <= offset + eps or next_len <= offset + eps:
+            if prev_len <= eps or next_len <= eps:
                 i += 1
                 continue
 
@@ -116,6 +125,7 @@ def apply_dogbone(
                 i += 1
                 continue
 
+            # Skip corners that are not approximately orthogonal.
             if abs(dotproduct(d_prev, d_next)) > 1e-3:
                 i += 1
                 continue
@@ -135,6 +145,7 @@ def apply_dogbone(
                 i += 1
                 continue
 
+            # Precompute axes to place the transition and finishing arcs.
             axis_prev = (-d_prev[0], -d_prev[1])
             axis_next = d_next
 
@@ -180,26 +191,24 @@ def apply_dogbone(
             orientation = 1 if score_cw >= score_ccw else -1
             orientation2 = -orientation
 
-            pre_segments = arc_segments(new_arc_center, new_arc_start, transition_point, orientation2)
-            if not pre_segments:
+            pre_arc = _arc_command(new_arc_center, new_arc_start, transition_point, orientation2)
+            if pre_arc is None:
                 i += 1
                 continue
 
-            main_segments = arc_segments(center, transition_point, transition_point_next, orientation)
-            if not main_segments:
+            main_arc = _arc_command(center, transition_point, transition_point_next, orientation)
+            if main_arc is None:
                 i += 1
                 continue
 
-            post_segments = arc_segments(new_arc_center_next, transition_point_next, new_arc_end, orientation2)
-            if not post_segments:
+            post_arc = _arc_command(new_arc_center_next, transition_point_next, new_arc_end, orientation2)
+            if post_arc is None:
                 i += 1
                 continue
 
-            combined_segments = pre_segments + main_segments + post_segments
-
-            path[i - 1] = ("L", new_arc_start[0], new_arc_start[1])
-            path[i : i + 1] = combined_segments
-            i += len(combined_segments)
+            path[i - 1] = ["L", new_arc_start[0], new_arc_start[1]]
+            path[i : i + 1] = [pre_arc, main_arc, post_arc]
+            i += 3
             continue
 
         i += 1

@@ -19,7 +19,8 @@ import shutil
 import subprocess
 import tempfile
 import io
-from boxes.drawing import Context, DXFSurface, LBRN2Surface, PSSurface, SVGSurface
+from boxes.drawing import Context, LBRN2Surface, PSSurface, SVGSurface
+from boxes.dxf import DXFSurface
 
 
 class Formats:

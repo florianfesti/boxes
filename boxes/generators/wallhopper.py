@@ -168,8 +168,19 @@ Bottom panel, sloped front panel and label panel (if enabled).
             wh, 90,              # Width of an 'h' edge to close the box
             ]
 
+        middleEdges = [
+            t, 0,                # nudge along by thickness
+            hd+df, 90-a,   # hopper depth + dispenser flat, then rotate slope angle with a radius of an 'h' edge
+            sl, a,         # slope length, then rotate back to vertical with a radius of an 'h' edge
+            dh*lr, b,            # label height, then rotate to the angle between label and dispenser
+            tl, -b,              # top slope length, then rotate back to vertical
+            h-dh, 90,            # Additional hopper height, then rotate to horizontal
+            hd+t, 90,              # Hopper depth + 'h' edge width + thickness, then rotate to vertical
+            h, 0,                # Wall edge to the bottom
+            0, 90,              # Width of an 'h' edge to close the box
+            ]
 
         self.polygonWall(sideEdges, "ehhhehebe",correct_corners=False, label="left", move="up")
         self.polygonWall(sideEdges, "ehhhehebe",correct_corners=False, label="right", move="up mirror")
         for i in range(len(self.sx)-1):
-            self.polygonWall(sideEdges, "efffefebe",correct_corners=False, label="divider", move="up")
+            self.polygonWall(middleEdges, "efffefebe",correct_corners=False, label="divider", move="up")

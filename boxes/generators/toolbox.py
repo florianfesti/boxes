@@ -54,18 +54,18 @@ class CustomCabinetHingeEdge(edges.BaseEdge):
             self.edge(length, tabs=2)
             return
 
-        inner_span = max(0.0, handle_width - handle_thickness - 0.5)
+        inner_span = max(0.0, handle_width - handle_thickness)
         required = 2 * handle_thickness + inner_span
         if length < required:
             # Not enough room for the custom profile, fall back to simple spacing
             self.edge(length, tabs=2)
             return
 
-        edges_spacing = max(0.0, (length - required) / 2.0)
+        edges_spacing = max(0.0, (length - required - 0.5) / 2.0)
 
         self.edge(edges_spacing)
         finger_edge(handle_thickness)
-        self.edge(inner_span)
+        self.edge(inner_span + 0.5)
         finger_edge(handle_thickness)
         self.edge(edges_spacing)
 

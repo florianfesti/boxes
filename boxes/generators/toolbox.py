@@ -69,7 +69,6 @@ class CustomCabinetHingeEdge(edges.BaseEdge):
         finger_edge(handle_thickness)
         self.edge(edges_spacing)
 
-
     def _should_use_custom_spacing(self, length: float) -> bool:
         handle_width = getattr(self.boxes, "handle_width", None)
         if handle_width is None:
@@ -257,6 +256,26 @@ class Handle:
         b.ctx.stroke()
 
         b.move(self.width, self.height, move, label=label)
+
+
+class Latche:
+
+    def __init__(self, boxes, settings=None, width: float = 50, height: float = 50) -> None:
+        super().__init__(boxes, settings)
+        self.width = width
+        self.height = height
+
+    def render(self, move: str = "", label: str = "Handle"):
+        b = self.boxes
+        w = self.width
+        h = self.height
+        mt = self.settings.thickness
+
+
+
+
+        b.move(self.width, self.height, move, label=label)
+    
 
 
 class ToolBox(Boxes):

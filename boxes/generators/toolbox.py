@@ -211,7 +211,10 @@ class CustomCabinetHingeEdge(edges.BaseEdge):
         self.moveTo(max(e, 2 * t))
         for i in range(n):
             self.hole(0, e, b / 2.0)
-            self.polyline(*[0, (180, e), 0, -90, t, 90, t, -90, t, -90, t, 90, t, 90, t, (90, t)] + corner)
+            
+            self.corner(180,4.5)
+            self.moveTo(0,0,-90)
+            self.polyline(*[ t-self.burn, 90, t, -90, t, -90, t, 90, t, 90, t, (90, t)] + corner + [self.burn])
             self.moveTo(self.boxes.spacing, 4 * e + 3 * t + self.boxes.spacing, 180)
             if i % 2:
                 self.moveTo(2 * max(e, 2 * t) + 2 * self.boxes.spacing)

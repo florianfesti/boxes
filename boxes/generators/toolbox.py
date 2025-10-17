@@ -14,23 +14,69 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import math
+
 from boxes import *
 
 
-class CustomCabinetHingeEdge(edges.CabinetHingeEdge):
-    """Cabinet hinge edge with adjustable straight section between fingers."""
+class CustomCabinetHingeEdge(edges.BaseEdge):
+    """Edge with cabinet hinges and customizable spacing segments."""
 
-    
+    char = "u"
+    description = "Edge with cabinet hinges"
 
-    def _space_segment(self, first: bool, t: float, p: float) -> list[float]:
-        base_length = t + 2 * p 
-        base_length = max(0.0, base_length)
-        if first and not self.top:
-            return [-90, base_length, 90]
-        return [90, base_length, 90]
+    def __init__(self, boxes, settings=None, top: bool = False, angled: bool = False) -> None:
+        super().__init__(boxes, settings)
+        self.top = top
+        self.angled = angled
+        self.char = "uUvV"[bool(top) + 2 * bool(angled)]
 
-    # override the mangled helper used by the base class
-    def _CabinetHingeEdge__poly(self):
+    def startwidth(self) -> float:
+        return self.settings.thickness if self.top and self.angled else 0.0
+
+    def _hinge_spacing_segment(self, length: float, index: int, total: int, total_length: float) -> None:
+        """Draw the straight segment that spaces hinge modules.
+
+        ``index`` can be ``-1`` for the leading segment and ``total`` for the trailing one.
+        """
+        if length <= 0:
+            return
+
+        if self.char != "u":
+            self.edge(length, tabs=2)
+            return
+
+        finger_edge = self.boxes.edges.get('F')
+        handle_width = getattr(self.boxes, "handle_width", None)
+        handle_thickness = getattr(self.boxes, "handle_thickness", None)
+
+        if finger_edge is None or handle_width is None or handle_thickness is None:
+            self.edge(length, tabs=2)
+            return
+
+        inner_span = max(0.0, handle_width - handle_thickness - 0.5)
+        required = 2 * handle_thickness + inner_span
+        if length < required:
+            # Not enough room for the custom profile, fall back to simple spacing
+            self.edge(length, tabs=2)
+            return
+
+        edges_spacing = max(0.0, (length - required) / 2.0)
+
+        self.edge(edges_spacing)
+        finger_edge(handle_thickness)
+        self.edge(inner_span)
+        finger_edge(handle_thickness)
+        self.edge(edges_spacing)
+
+
+    def _should_use_custom_spacing(self, length: float) -> bool:
+        handle_width = getattr(self.boxes, "handle_width", None)
+        if handle_width is None:
+            return True
+        return length > handle_width
+
+    def __poly(self):
         n = self.settings.eyes_per_hinge
         p = self.settings.play
         e = self.settings.eye
@@ -40,26 +86,138 @@ class CustomCabinetHingeEdge(edges.CabinetHingeEdge):
         if self.settings.style == "outside" and self.angled:
             e = t
         elif self.angled and not self.top:
+            # move hinge up to leave space for lid
             e -= t
 
         if self.top:
+            # start with space
             poly = [spacing, 90, e + p]
         else:
+            # start with hinge eye
             poly = [spacing + p, 90, e + p, 0]
-
         for i in range(n):
             if (i % 2) ^ self.top:
-                poly += self._space_segment(i == 0, t, p)
+                # space
+                if i == 0:
+                    poly += [-90, t + 2 * p, 90]
+                else:
+                    poly += [90, t + 2 * p, 90]
             else:
+                # hinge eye
                 poly += [t - p, -90, t, -90, t - p]
 
         if (n % 2) ^ self.top:
+            # stopped with hinge eye
             poly += [0, e + p, 90, p + spacing]
         else:
+            # stopped with space
             poly[-1:] = [-90, e + p, 90, spacing]
 
         width = (t + p) * n + p + 2 * spacing
+
         return poly, width
+
+    def __call__(self, l, **kw):
+        n = self.settings.eyes_per_hinge
+        p = self.settings.play
+        e = self.settings.eye
+        t = self.settings.thickness
+        hn = self.settings.hinges
+
+        poly, width = self.__poly()
+
+        if self.settings.style == "outside" and self.angled:
+            e = t
+        elif self.angled and not self.top:
+            # move hinge up to leave space for lid
+            e -= t
+
+        hn = min(hn, int(l // width))
+
+        if hn == 1:
+            lead = (l - width) / 2
+            if self._should_use_custom_spacing(lead):
+                self._hinge_spacing_segment(lead, -1, hn, l)
+            else:
+                self.edge(lead, tabs=2)
+
+        for j in range(hn):
+            for i in range(n):
+                if not (i % 2) ^ self.top:
+                    self.rectangularHole(self.settings.spacing + 0.5 * t + p + i * (t + p), e + 2.5 * t, t, t)
+            self.polyline(*poly)
+            if j < (hn - 1):
+                segment = (l - hn * width) / (hn - 1)
+                if self._should_use_custom_spacing(segment):
+                    self._hinge_spacing_segment(segment, j, hn, l)
+                else:
+                    self.edge(segment, tabs=2)
+
+        if hn == 1:
+            tail = (l - width) / 2
+            if self._should_use_custom_spacing(tail):
+                self._hinge_spacing_segment(tail, hn, hn, l)
+            else:
+                self.edge(tail, tabs=2)
+
+    def parts(self, move=None) -> None:
+        e, b = self.settings.eye, self.settings.bore
+        t = self.settings.thickness
+
+        n = self.settings.eyes_per_hinge * self.settings.hinges
+        pairs = n // 2 + 2 * (n % 2)
+
+        if self.settings.style == "outside":
+            th = 2 * e + 4 * t
+            tw = n * (max(3 * t, 2 * e) + self.boxes.spacing)
+        else:
+            th = 4 * e + 3 * t + self.boxes.spacing
+            tw = max(e, 2 * t) * pairs
+
+        if self.move(tw, th, move, True, label="hinges"):
+            return
+
+        if self.settings.style == "outside":
+            ax = max(t / 2, e - t)
+            self.moveTo(t + ax)
+            for i in range(n):
+                if self.angled:
+                    if i > n // 2:
+                        l = 4 * t + ax
+                    else:
+                        l = 5 * t + ax
+                else:
+                    l = 3 * t + e
+                self.hole(0, e, b / 2.0)
+                da = math.asin((t - ax) / e)
+                dad = math.degrees(da)
+                dy = e * (1 - math.cos(da))
+                self.polyline(0, (180 - dad, e), 0, (-90 + dad), dy + l - e, (90, t))
+                self.polyline(0, 90, t, -90, t, 90, t, 90, t, -90, t, -90, t,
+                              90, t, 90, (ax + t) - e, -90, l - 3 * t, (90, e))
+                self.moveTo(2 * max(e, 1.5 * t) + self.boxes.spacing)
+
+            self.move(tw, th, move, label="hinges")
+            return
+
+        if e <= 2 * t:
+            if self.angled:
+                corner = [2 * e - t, (90, 2 * t - e), 0, -90, t, (90, e)]
+            else:
+                corner = [2 * e, (90, 2 * t)]
+        else:
+            a = math.asin(2 * t / e)
+            ang = math.degrees(a)
+            corner = [e * (1 - math.cos(a)) + 2 * t, -90 + ang, 0, (180 - ang, e)]
+        self.moveTo(max(e, 2 * t))
+        for i in range(n):
+            self.hole(0, e, b / 2.0)
+            self.polyline(*[0, (180, e), 0, -90, t, 90, t, -90, t, -90, t, 90, t, 90, t, (90, t)] + corner)
+            self.moveTo(self.boxes.spacing, 4 * e + 3 * t + self.boxes.spacing, 180)
+            if i % 2:
+                self.moveTo(2 * max(e, 2 * t) + 2 * self.boxes.spacing)
+
+        self.move(th, tw, move, label="hinges")
 
 
 class Handle:
@@ -156,9 +314,9 @@ as internal or external measurements."""
     def open(self) -> None:
         super().open()
         self._override_cabinet_hinge_edges()
-
+    
     def _override_cabinet_hinge_edges(self) -> None:
-        base_edge = self.edges.get('U')
+        base_edge = self.edges.get('u')
         if base_edge is None:
             return
         settings = base_edge.settings

@@ -82,31 +82,31 @@ as internal or external measurements."""
             action="store",
             type=bool,
             default=True,
-            help="add handle")
+            help="gera a peca de alca (True/False)")
         self.argparser.add_argument(
             "--handle-height",
             action="store",
             type=float,
             default=70,
-            help="")
+            help="altura total da alca em mm")
         self.argparser.add_argument(
             "--handle_width",
             action="store",
             type=float,
             default=100,
-            help="")
+            help="largura total da alca em mm")
         self.argparser.add_argument(
             "--handle_thickness",
             action="store",
             type=float,
             default=30,
-            help="")
+            help="espessura (largura do perfil) da alca em mm")
         self.argparser.add_argument(
             "--handle_gap",
             action="store",
             type=float,
             default=30,
-            help="")
+            help="abertura central da alca (gap) em mm")
         
 
     def render(self) -> None:

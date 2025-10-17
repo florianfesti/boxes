@@ -17,6 +17,51 @@
 from boxes import *
 
 
+class CustomCabinetHingeEdge(edges.CabinetHingeEdge):
+    """Cabinet hinge edge with adjustable straight section between fingers."""
+
+    
+
+    def _space_segment(self, first: bool, t: float, p: float) -> list[float]:
+        base_length = t + 2 * p 
+        base_length = max(0.0, base_length)
+        if first and not self.top:
+            return [-90, base_length, 90]
+        return [90, base_length, 90]
+
+    # override the mangled helper used by the base class
+    def _CabinetHingeEdge__poly(self):
+        n = self.settings.eyes_per_hinge
+        p = self.settings.play
+        e = self.settings.eye
+        t = self.settings.thickness
+        spacing = self.settings.spacing
+
+        if self.settings.style == "outside" and self.angled:
+            e = t
+        elif self.angled and not self.top:
+            e -= t
+
+        if self.top:
+            poly = [spacing, 90, e + p]
+        else:
+            poly = [spacing + p, 90, e + p, 0]
+
+        for i in range(n):
+            if (i % 2) ^ self.top:
+                poly += self._space_segment(i == 0, t, p)
+            else:
+                poly += [t - p, -90, t, -90, t - p]
+
+        if (n % 2) ^ self.top:
+            poly += [0, e + p, 90, p + spacing]
+        else:
+            poly[-1:] = [-90, e + p, 90, spacing]
+
+        width = (t + p) * n + p + 2 * spacing
+        return poly, width
+
+
 class Handle:
     """Custom handle profile."""
 
@@ -107,7 +152,19 @@ as internal or external measurements."""
             type=float,
             default=30,
             help="abertura central da alca (gap) em mm")
-        
+
+    def open(self) -> None:
+        super().open()
+        self._override_cabinet_hinge_edges()
+
+    def _override_cabinet_hinge_edges(self) -> None:
+        base_edge = self.edges.get('U')
+        if base_edge is None:
+            return
+        settings = base_edge.settings
+        for top, angled in ((False, False), (True, False), (False, True), (True, True)):
+            edge = CustomCabinetHingeEdge(self, settings, top=top, angled=angled)
+            self.addPart(edge)
 
     def render(self) -> None:
 

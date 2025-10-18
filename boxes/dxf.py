@@ -174,7 +174,14 @@ class DXFSurface(Surface):
                     continue
                 arc = self._cubic_to_arc(current, cmd)
                 if arc:
-                    center, radius, start_angle_deg, end_angle_deg, is_full_circle = arc
+                    (
+                        center,
+                        radius,
+                        start_angle_deg,
+                        end_angle_deg,
+                        orientation,
+                        is_full_circle,
+                    ) = arc
                     if is_full_circle:
                         flush_pending_arc()
                         entities.extend(self._circle_entity(center, radius))
@@ -186,7 +193,7 @@ class DXFSurface(Surface):
                             radius,
                             math.radians(start_angle_deg),
                             math.radians(end_angle_deg),
-                            1,
+                            orientation,
                         )
                     current = (cmd[1], cmd[2])
                     continue
@@ -332,7 +339,9 @@ class DXFSurface(Surface):
                 end_angle -= 2.0 * math.pi
         return start_angle, end_angle
 
-    def _cubic_to_arc(self, start: tuple[float, float], cmd: Sequence[float]) -> tuple[tuple[float, float], float, float, float, bool] | None:
+    def _cubic_to_arc(
+        self, start: tuple[float, float], cmd: Sequence[float]
+    ) -> tuple[tuple[float, float], float, float, float, int, bool] | None:
         end = (cmd[1], cmd[2])
         ctrl1 = (cmd[3], cmd[4])
         ctrl2 = (cmd[5], cmd[6])
@@ -377,13 +386,18 @@ class DXFSurface(Surface):
                 points_equal(start[0], start[1], end[0], end[1])
                 and math.isclose(abs(sweep), 2.0 * math.pi, abs_tol=1e-6)
             )
-            if orientation < 0:
-                start_angle, end_angle = end_angle, start_angle
             start_angle_deg = math.degrees(start_angle)
             end_angle_deg = math.degrees(end_angle)
             start_angle_deg = self._format_angle(start_angle_deg)
             end_angle_deg = self._format_angle(end_angle_deg)
-            return center, radius_start, start_angle_deg, end_angle_deg, is_full_circle
+            return (
+                center,
+                radius_start,
+                start_angle_deg,
+                end_angle_deg,
+                orientation,
+                is_full_circle,
+            )
         return None
 
     def _text_entity(self, cmd):

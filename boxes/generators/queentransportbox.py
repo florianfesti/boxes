@@ -18,6 +18,7 @@ from boxes.generators.drillbox import DrillBox
 from boxes.lids import LidSettings
 
 class Cutout:
+    """Base class for cutouts"""
     DIMENSIONS = (0.0, 0.0)
 
     @staticmethod
@@ -26,6 +27,29 @@ class Cutout:
 
     def cutout(self, box, x, y, layer=0, color=Color.INNER_CUT):
         pass
+
+
+class RoundCutout(Cutout):
+    RADIUS = 12.0 / 2.0
+    DIMENSIONS = (RADIUS * 2.0, RADIUS * 2.0)
+
+    def cutout(self, box, x, y, layer=0, color=Color.INNER_CUT):
+        """
+        Fügt den runden Käfig-Ausschnitt in die Platte ein.
+        cx, cy = Mittelpunkt der Aussparung
+        """
+
+        if layer != 0:
+            with box.saved_context():
+                box.set_source_color(color)
+                fx, fy = self.transform_point(0.0, 0.0, x, y)
+                box.circle(fx, fy, self.RADIUS)
+
+
+class NicotIncubatorCageCutout(RoundCutout):
+    """Nicot incubator cage"""
+    RADIUS = 21.35 / 2.0
+    DIMENSIONS = (RADIUS * 2.0, RADIUS * 2.0)
 
 
 class PolygonCutout(Cutout):
@@ -40,7 +64,6 @@ class PolygonCutout(Cutout):
         cx, cy = Mittelpunkt der Aussparung
         """
         p = box.ctx
-
 
         with box.saved_context():
             box.set_source_color(color)
@@ -68,7 +91,8 @@ class SingleLayerPolygonCutout(PolygonCutout):
         return self.PTS[0]
 
 
-class QueenCageCutout(SingleLayerPolygonCutout):
+class NicotTransportCageCutout(SingleLayerPolygonCutout):
+    """Nicot transport and introduction cage"""
     DIMENSIONS = (36.2, 15.5)
     PTS = ((
             (-7.425925777777778, -6.722116592592595),
@@ -100,6 +124,52 @@ class QueenCageCutout(SingleLayerPolygonCutout):
             (-7.425925777777778, -6.722116592592595)
     ),)
 
+class NicotHatchingCageCutout(Cutout):
+    """Nicot hatching cage (drawn from provided SVG path)"""
+    # approximate size from SVG viewBox (mm)
+    DIMENSIONS = (27.0, 27.0)
+
+    # SVG path data and transform (from the provided SVG)
+    _segments = [('M', (-9.721000000000004, -8.771999999999998)),
+                 ('L', (-10.155346182387007, -8.265839332298988)),
+                 ('C', (-13.886551020012014, -3.6821541920039706, -14.084879200641005, 2.832221276653023, -10.639422029363011, 7.634389722454024)),
+                 ('L', (-13.888039878829005, 10.883002977682018)),
+                 ('L', (-10.873861961053002, 13.897185158154024)),
+                 ('L', (-7.625244111587008, 10.648571902926015)),
+                 ('L', (-7.201256192106008, 10.944120092323026)),
+                 ('C', (-1.3706305347910046, 14.78343744577301, 6.446125932330986, 13.377937282497022, 10.574118665392987, 7.747997846391023)),
+                 ('C', (13.498296778466994, 3.7572195214790085, 13.925493259226002, -1.5399073009179816, 11.678636480890987, -5.947701805147979)),
+                 ('C', (12.248662344696001, -7.575763913767979, 11.834613878094999, -9.385966038929986, 10.614878655487004, -10.605702986505982)),
+                 ('C', (9.395143432878982, -11.825439934081977, 7.584941893271996, -12.239490960695981, 5.956878978515, -11.669467399319963)),
+                 ('C', (0.6772758573989961, -14.36253149263198, -5.7526862178120055, -13.174189825958983, -9.721000000000004, -8.771999999999998))]
+
+
+    def cutout(self, box, x, y, layer=0, color=Color.INNER_CUT):
+        if layer == 0:
+            return
+
+        with box.saved_context() as ctx:
+            box.set_source_color(color)
+            #
+            ctx.translate(x, y)
+            CMDS = {'M': ctx.move_to, 'L': ctx.line_to, 'C': ctx.curve_to}
+            for command, params in self._segments:
+                CMDS[command](*params)
+            ctx.stroke()
+
+
+class NicotHatchingAndIncubatorCageCutout(Cutout):
+    """Nicot hatching and incubator cage (combination of both cutouts)"""
+    DIMENSIONS = (27.0, 27.0)
+
+    def cutout(self, box, x, y, layer=0, color=Color.INNER_CUT):
+        if layer == 0:
+            return
+        if layer == 1:
+            NicotIncubatorCageCutout().cutout(box, x, y, layer, color)
+        else:
+            NicotHatchingCageCutout().cutout(box, x, y, layer, color)
+
 
 class QueenTransportBox(DrillBox):
     """A simple Box"""
@@ -108,7 +178,7 @@ class QueenTransportBox(DrillBox):
 
     ui_group = "Box"
 
-    CUTOUT_DIMENSIONS = (36.2, 15.5)
+    CUTOUTS = (NicotTransportCageCutout, NicotHatchingCageCutout, NicotIncubatorCageCutout, NicotHatchingAndIncubatorCageCutout)
 
     def __init__(self) -> None:
         Boxes.__init__(self)
@@ -123,12 +193,33 @@ class QueenTransportBox(DrillBox):
             "--top_edge", action="store",
             type=ArgparseEdgeType("eStG"), choices=list("eStG"),
             default="e", help="edge type for top edge")
-        self.buildArgParser(sx="5:45*3:5", sy="5:25*3:5", sh="25:75", bottom_edge="s")
+        self.argparser.add_argument(
+            "--bottom_edge", action="store",
+            type=ArgparseEdgeType("Fhsše"), choices=list("Fhsše"),
+            default="s",
+            help="edge type for bottom edge")
+        self.buildArgParser(sx="5:45*3:5", sy="5:30*3:5", sh="25:75")
+        # add cutout selection based on CUTOUTS; use class names as keys and first docline as descriptions
+        cutout_choices = [c.__name__.removesuffix('Cutout') for c in self.CUTOUTS]
+        cutout_descriptions = "; ".join(
+            f"{c.__name__}: {((c.__doc__ or '').strip().splitlines()[0]) if (c.__doc__ or '').strip() else ''}"
+            for c in self.CUTOUTS
+        )
+        self.argparser.add_argument(
+            "--cutout", action="store",
+            choices=cutout_choices, default=cutout_choices[0],
+            help=f"select cutout type.")
+
+    def get_cutout(self, cutout_name):
+        for cutout_class in self.CUTOUTS:
+            if cutout_class.__name__.removesuffix('Cutout') == cutout_name:
+                return cutout_class()
+        raise ValueError(f"Cutout '{cutout_name}' not found.")
 
     def cutouts(self, layer=0):
         y = 0
         d = 1.
-        cutout = QueenCageCutout()
+        cutout = self.get_cutout(self.cutout)
         for dy in self.sy:
             x = 0
             for dx in self.sx:
@@ -161,11 +252,10 @@ class QueenTransportBox(DrillBox):
             x, h, [b, "f", t4, "F"],
             ignore_widths=[1, 6],
             callback=[lambda: self.sideholes(x)], move="left up", label='Back')
-        if b != "e":
+        if b not in "eš":
             self.rectangularWall(
                 x, y, "ffff", callback=[lambda: self.cutouts(layer=0)], move="up", label=f'Bottom Layer')
         for layer in range(1, len(self.sh)):
             self.rectangularWall(
                 x, y, "ffff", callback=[lambda: self.cutouts(layer)], move="up", label=f'Layer {layer}')
         self.lid(x, y, self.top_edge)
-

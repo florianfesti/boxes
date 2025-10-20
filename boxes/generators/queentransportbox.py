@@ -14,8 +14,7 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
-from boxes.generators.drillbox import DrillBox
-from boxes.lids import LidSettings
+from boxes.lids import LidSettings, _TopEdge
 
 class Cutout:
     """Base class for cutouts"""
@@ -171,8 +170,8 @@ class NicotHatchingAndIncubatorCageCutout(Cutout):
             NicotHatchingCageCutout().cutout(box, x, y, layer, color)
 
 
-class QueenTransportBox(DrillBox):
-    """A simple Box"""
+class QueenTransportBox(_TopEdge):
+    """Box for Bee Queen Transport Cages"""
 
     description = "Queen Transport Box"
 
@@ -183,8 +182,7 @@ class QueenTransportBox(DrillBox):
     def __init__(self) -> None:
         Boxes.__init__(self)
 
-        self.addSettingsArgs(edges.FingerJointSettings,
-                             space=3, finger=3, surroundingspaces=1)
+        self.addSettingsArgs(edges.FingerJointSettings)
         self.addSettingsArgs(edges.RoundedTriangleEdgeSettings, outset=1)
         self.addSettingsArgs(edges.StackableSettings)
         self.addSettingsArgs(edges.MountingSettings)
@@ -199,6 +197,22 @@ class QueenTransportBox(DrillBox):
             default="s",
             help="edge type for bottom edge")
         self.buildArgParser(sx="5:45*3:5", sy="5:30*3:5", sh="25:75")
+        self.argparser.add_argument(
+            "--aw", action="store", type=float,
+            default="3.0",
+            help="""air hole slot width in mm""")
+        self.argparser.add_argument(
+            "--ah", action="store", type=argparseSections,
+            default="70:20",
+            help="""air hole sections bottom to top in mm""")
+        self.argparser.add_argument(
+            "--ax", action="store", type=argparseSections,
+            default="10:20:10:20:10:20:10",
+            help="""air hole sections sections left to right in %% of the box width""")
+        self.argparser.add_argument(
+            "--ay", action="store", type=argparseSections,
+            default="20:60:20",
+            help="""air hole sections back to front in %% of the box depth""")
         # add cutout selection based on CUTOUTS; use class names as keys and first docline as descriptions
         cutout_choices = [c.__name__.removesuffix('Cutout') for c in self.CUTOUTS]
         cutout_descriptions = "; ".join(
@@ -228,6 +242,27 @@ class QueenTransportBox(DrillBox):
                 x += dx
             y += dy
 
+    def sideholes(self, l):
+        t = self.thickness
+        h = -0.5 * t
+        for d in self.sh[:-1]:
+            h += d + t
+            self.fingerHolesAt(0, h, l, angle=0)
+
+    def airholes(self, l, sections):
+        aw = self.aw
+        total = sum(sections)
+        pl = l / 100.
+        y = 0.0
+        with self.saved_context():
+            self.ctx.rotate(math.pi / -2.0)
+            for h in self.ah:
+                y += h
+                px = 0.0
+                for n, s in enumerate(sections):
+                    if n % 2 == 1:
+                        self.rectangularHole(px * pl - l, y, pl * s, aw, aw/2., False, True)
+                    px += s
 
     def render(self):
         x = sum(self.sx)
@@ -238,20 +273,20 @@ class QueenTransportBox(DrillBox):
         t1, t2, t3, t4 = self.topEdges(self.top_edge)
 
         self.rectangularWall(
-            x, h, [b, "f", t1, "F"],
+            x, h, [b, "F", t1, "F"],
             ignore_widths=[1, 6],
-            callback=[lambda: self.sideholes(x)], move="right", label='Front')
+            callback=[lambda: self.sideholes(x), lambda: self.airholes(x, self.ax)], move="right", label='Front')
         self.rectangularWall(
-            y, h, [b, "f", t2, "F"], callback=[lambda: self.sideholes(y)],
+            y, h, [b, "f", t2, "f"], callback=[lambda: self.sideholes(y), lambda: self.airholes(y, self.ay)],
             ignore_widths=[1, 6],
             move="up", label='Left')
         self.rectangularWall(
-            y, h, [b, "f", t3, "F"], callback=[lambda: self.sideholes(y)],
+            y, h, [b, "f", t3, "f"], callback=[lambda: self.sideholes(y), lambda: self.airholes(y, self.ay)],
             ignore_widths=[1, 6], label='Right')
         self.rectangularWall(
-            x, h, [b, "f", t4, "F"],
+            x, h, [b, "F", t4, "F"],
             ignore_widths=[1, 6],
-            callback=[lambda: self.sideholes(x)], move="left up", label='Back')
+            callback=[lambda: self.sideholes(x), lambda: self.airholes(x, self.ax)], move="left up", label='Back')
         if b not in "eš":
             self.rectangularWall(
                 x, y, "ffff", callback=[lambda: self.cutouts(layer=0)], move="up", label=f'Bottom Layer')

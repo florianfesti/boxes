@@ -14,8 +14,10 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
-from boxes.lids import LidSettings, _TopEdge
+from boxes.lids import Lid, LidSettings, _TopEdge
 import math
+from typing import Callable
+
 
 class Cutout:
     """Base class for cutouts"""
@@ -145,6 +147,24 @@ class NicotHatchingCageCutout(PathCutout):
                  ('C', (0.6772758573989961, -14.36253149263198, -5.7526862178120055, -13.174189825958983, -9.721000000000004, -8.771999999999998))]
 
 
+class QueenIconCutout(PathCutout):
+    """Queen icon cutout"""
+    DIMENSIONS = (15.0, 20.0)
+    OFFSET = (.0, .0)
+    SEGMENTS = [
+        ('M', (-3.5199821254479957, -19.554555322781)),
+        ('C', (-1.2212902709599973, -20.130959379479997, 1.1545373766940017, -20.254740010287, 3.442930288329002, -19.761324673172)),
+        ('M', (-4.844601064814999, -15.067697009435001)),
+        ('C', (-2.342845091005998, -16.313946098292, 2.056228212466003, -16.379638143983, 4.739185999557005, -15.325128031231003)),
+        ('M', (-5.583195659980998, -9.777711425401996)),
+        ('C', (-3.081439686171997, -11.023960514258995, 3.0723671595430027, -11.046323794814, 5.447123850295004, -10.089758921374997)),
+        ('M', (-4.533512678464, -0.19006043812299822)),
+        ('C', (-1.7570439918369978, 0.7333670927660023, 1.735536057332002, 0.5179142988190009, 4.533558190164005, -0.39594736434199973)),
+        ('M', (-5.713181153999997, -4.238612117900001)),
+        ('C', (-2.640814733044998, -5.814817832635001, 2.5596268992210014, -6.029822646622996, 5.920411092209999, -4.628799807549999)),
+    ]
+
+
 class AirHolesForNicotTransportCageCutout(Cutout):
     """Air hole cutout"""
     DIMENSIONS = NicotHatchingCageCutout.DIMENSIONS
@@ -163,7 +183,7 @@ class AirHolesForNicotTransportCageCutout(Cutout):
 
 
 class HexHolesCutout(Cutout):
-    """Nicot incubator cage"""
+    """Hexagonal hole pattern cutout"""
     DIMENSIONS = (20., 20.)
     RADIUS = 10.
     OFFSET = (0., 0.)
@@ -192,6 +212,45 @@ class HexHolesCutout(Cutout):
                     lx, ly = cx, cy
 
 
+class GiantHexHoleCutout(Cutout):
+    """Giant hexagonal hole pattern cutout"""
+    DIMENSIONS = (20., 20.)
+    RADIUS = 10.
+    OFFSET = (0., 0.)
+    IRADIUS = 1.5
+    NUMBER = 6
+
+    def __init__(self, number=None, w=None, h=None):
+        if number is not None:
+            self.number = number
+        elif w is not None or h is not None:
+            if w is not None:
+                nw = int(w / (2.5 * self.IRADIUS))
+            else:
+                nw = float('inf')
+            if h is not None:
+                nh = int(h / (math.sqrt(3) * 2.5 * self.IRADIUS))
+            else:
+                nh = float('inf')
+            self.number = min(nw, nh)
+
+    def cutout(self, box, x, y, color=Color.INNER_CUT):
+        with box.saved_context() as ctx:
+            box.set_source_color(color)
+            ctx.translate(x, y)
+            ctx.translate(*self.OFFSET)
+            draw = lambda x, y: box.regularPolygonHole(x, y, self.IRADIUS, a=30)
+            number = self.number - 1
+            length = number * 2.5 * self.IRADIUS
+            a = math.radians(120)
+            cx = length * math.cos(a)
+            cy = length * math.sin(a)
+            dx = self.IRADIUS * 2.5
+            for _ in range(6):
+                for row in range(number):
+                    draw(cx + dx * row, cy)
+                ctx.rotate(math.radians(60))
+
 class AirHolesForNicotIncubatorCageCutout(HexHolesCutout):
     """Nicot incubator cage"""
     RADIUS = NicotIncubatorCageCutout.RADIUS * 0.8
@@ -200,6 +259,13 @@ class AirHolesForNicotIncubatorCageCutout(HexHolesCutout):
     IRADIUS = 2.
     LEVELS = 2
 
+class AirHolesCover(HexHolesCutout):
+    """Nicot incubator cage"""
+    RADIUS = NicotIncubatorCageCutout.RADIUS * 0.8
+    DIMENSIONS = NicotIncubatorCageCutout.DIMENSIONS
+    OFFSET = (0., 0.)
+    IRADIUS = 2.
+    LEVELS = 2
 
 class AirHolesForNicotHatchingCageCutout(HexHolesCutout):
     """Nicot incubator cage"""
@@ -209,6 +275,42 @@ class AirHolesForNicotHatchingCageCutout(HexHolesCutout):
     IRADIUS = 2.
     LEVELS = 3
 
+
+class QueenTransportBoxLidSettings(LidSettings):
+    """Lid settings for Queen Transport Box"""
+    absolute_params = LidSettings.absolute_params.copy() | {"cover": ("none", "airholes", "queenicon", "queenicon_airholes"), "queeniconscale": 75.}
+
+
+class QueenTransportBoxLid(Lid):
+
+    def handleCB(self, x: float, y: float) -> Callable:
+        if self.handle == 'none':
+            airholes = self.cover in ("airholes", "queenicon_airholes")
+            queenicon = self.cover in ("queenicon", "queenicon_airholes")
+            return self.render_cover(x, y, airholes, queenicon)
+        else:
+            return super().handleCB(x, y)
+
+    def render_cover(self, x: float, y: float, airholes: bool, queenicon: bool) -> Callable:
+        def cover():
+            if airholes:
+                with self.saved_context() as ctx:
+                    ctx.translate(.5 * x, .5 * y)
+                    cutout = AirHolesCover()
+                    dx = .5 * x - 2. * cutout.RADIUS
+                    dy = .5 * y - 2. * cutout.RADIUS
+                    cutout.cutout(self, dx, dy)
+                    cutout.cutout(self, dx, -dy)
+                    cutout.cutout(self, -dx, -dy)
+                    cutout.cutout(self, -dx, dy)
+
+            if queenicon:
+                with self.saved_context() as ctx:
+                    k = self.settings.queeniconscale / 100.
+                    cutout = GiantHexHoleCutout(w=k*x, h=k*y)
+                    cutout.cutout(self, .5 * x, .5 * y)
+                    QueenIconCutout().cutout(self, .5 * x, .5 * y, color=Color.CYAN)
+        return cover
 
 class QueenTransportBox(_TopEdge):
     """Box for Bee Queen Transport Cages"""
@@ -223,11 +325,16 @@ class QueenTransportBox(_TopEdge):
     CHOICES = dict(top_edge="eStG", bottom_edge="Fhsše")
     LIDSETTINGS = dict(style="overthetop")
 
+    def _buildObjects(self):
+        super()._buildObjects()
+        self.lidSettings = QueenTransportBoxLidSettings(self.thickness, True, **self.edgesettings.get("QueenTransportBoxLid", {}))
+        self.lid = QueenTransportBoxLid(self, self.lidSettings)
+
+
     def __init__(self) -> None:
         Boxes.__init__(self)
-
         self.addSettingsArgs(edges.FingerJointSettings)
-        self.addSettingsArgs(LidSettings, **self.LIDSETTINGS)
+        self.addSettingsArgs(QueenTransportBoxLidSettings, **self.LIDSETTINGS)
         self.addSettingsArgs(edges.StackableSettings)
         self.argparser.add_argument(
             "--top_edge", action="store",
@@ -338,7 +445,7 @@ class QueenTransportBox(_TopEdge):
         with self.saved_context():
             if b not in "eš":
                 self.rectangularWall(
-                    x, y, "ffff", callback=[lambda: self.cutouts(layer=0)], label=f'Bottom Layer')
+                    x, y, "ffff", callback=[lambda: self.cutouts(layer=0)], move="up", label=f'Bottom Layer')
             for layer in range(1, len(self.sh)):
                 self.rectangularWall(
                     x, y, "ffff", callback=[lambda: self.cutouts(layer)], move="up", label=f'Layer {layer}')

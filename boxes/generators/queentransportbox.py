@@ -15,6 +15,7 @@
 
 from boxes import *
 from boxes.lids import LidSettings, _TopEdge
+import math
 
 class Cutout:
     """Base class for cutouts"""
@@ -46,8 +47,6 @@ class PolygonCutout(Cutout):
         Fügt den Käfig-Ausschnitt (aus SVG umgewandelt) in die Platte ein.
         cx, cy = Mittelpunkt der Aussparung
         """
-        p = box.ctx
-
         with box.saved_context() as ctx:
             box.set_source_color(color)
             ctx.translate(x, y)
@@ -55,11 +54,11 @@ class PolygonCutout(Cutout):
                 ipts = iter(self.PTS)
                 # Move to first transformed point, then line_to the rest
                 px, py = next(ipts)
-                p.move_to(px, py)
+                ctx.move_to(px, py)
                 for px, py in ipts:
-                    p.line_to(px, py)
+                    ctx.line_to(px, py)
 
-                p.stroke()
+                ctx.stroke()
 
 
 class PathCutout(Cutout):
@@ -245,7 +244,7 @@ class QueenTransportBox(_TopEdge):
         self.buildArgParser(sx=self.DEFAULT["sx"], sy=self.DEFAULT["sy"], sh=self.DEFAULT["sh"])
         self.argparser.add_argument(
             "--aw", action="store", type=float,
-            default=str(self.DEFAULT["aw"]),
+            default=self.DEFAULT["aw"],
             help="""air hole slot width in mm""")
         self.argparser.add_argument(
             "--ah", action="store", type=argparseSections,
@@ -281,11 +280,10 @@ class QueenTransportBox(_TopEdge):
         raise ValueError(f"Cutout '{cutout_name}' not found.")
 
     def cutouts(self, layer=0):
-        y = 0
-        d = 1.
+        y = 0.
         cutout = self.get_cutout(getattr(self, f"layer{layer}"))
         for dy in self.sy:
-            x = 0
+            x = 0.
             for dx in self.sx:
                 if dx > cutout.DIMENSIONS[0] and dy > cutout.DIMENSIONS[1]:
                     cutout.cutout(self, x + dx / 2., y + dy / 2.)

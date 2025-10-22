@@ -87,6 +87,23 @@ much smaller it is than its nominal size. The burn value should be
 around half of the difference. To test the fit for several values at
 once you can use the **BurnTest** generator in the "Parts and Samples" section.
 
+space
+.....
+
+The space parameter defines the spacing between parts.
+
+It is given in multiples of the material thickness (default: 0.5).
+An optional absolute offset in millimetres can be appended after a colon.
+For example ``0.5:2`` means ``0.5 * thickness + 2 mm``.
+
+Internally, the renderer adds twice the ``burn`` value to the computed spacing to compensate for the laser kerf.
+
+For output formats such as LightBurn (which can add kerf automatically and
+merge touching edges to avoid duplicate cuts), set ``burn`` to ``0`` and set
+absolute offset to the real kerf, e.g. ``0:0.1`` (meaning ``0 * thickness + 0.1 mm``).
+Make sure to enable the cut optimisation "Remove overlapping lines" in LightBurn
+with a distance at least as large as the kerf.
+
 format
 ......
 

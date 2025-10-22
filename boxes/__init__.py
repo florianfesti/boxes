@@ -384,6 +384,14 @@ class Boxes:
         defaultgroup.add_argument(
             "--burn", action="store", type=float, default=0.1,
             help='burn correction (in mm)(bigger values for tighter fit) [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#burn)')
+        def space_type(x):
+            try:
+                return (float(x), 0.)
+            except ValueError:
+                return tuple(float(v.strip()) for v in x.split(":"))
+        defaultgroup.add_argument(
+            "--space", action="store", type=space_type, default="0.5",
+            help='space around parts (multiples of thickness [: extra space in mm]) [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#spacing)')
 
     @contextmanager
     def saved_context(self):
@@ -432,7 +440,7 @@ class Boxes:
             self.ctx.set_line_width(max(2 * self.burn, 0.05))
             self.set_source_color(Color.BLACK)
 
-        self.spacing = 2 * self.burn + 0.5 * self.thickness
+        self.spacing = 2 * self.burn + self.space[0] * self.thickness + self.space[1]
         self.set_font("sans-serif")
         self._buildObjects()
         if self.reference and self.format != 'svg_Ponoko':

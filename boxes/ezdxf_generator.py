@@ -6,7 +6,7 @@ from typing import Iterable, Sequence
 
 import ezdxf
 from ezdxf import units
-from ezdxf.math import Vec3, Bezier4P, bezier_to_bspline
+from ezdxf.math import Vec3
 
 from boxes.test_path import Test_Path
 
@@ -14,10 +14,11 @@ Command = Sequence[object]
 
 
 class EZDXFBuilder:
-    """Utility that translates drawing commands into DXF entities using ezdxf."""
+    """Render drawing commands into DXF entities using ezdxf."""
 
     _POINT_TOL = 1e-6
-    _ARC_DEVIATION_FACTOR = 2e-3
+    _ARC_TOL = 1e-3
+    _FULL_CIRCLE_TOL = 1e-2
 
     def __init__(self, *, layer: str = "0", lineweight: float | None = None) -> None:
         self.doc = ezdxf.new("R2010", setup=True)
@@ -47,9 +48,42 @@ class EZDXFBuilder:
             + p3 * (t ** 3)
         )
 
+    def _approximate_cubic(self, p0: Vec3, p1: Vec3, p2: Vec3, p3: Vec3, steps: int = 16) -> list[Vec3]:
+        points = [p0]
+        for step in range(1, steps):
+            t = step / steps
+            points.append(self._evaluate_cubic(p0, p1, p2, p3, t))
+        points.append(p3)
+        return points
+
+    @staticmethod
+    def _line_segment(start: Vec3, end: Vec3) -> dict[str, Vec3]:
+        return {"type": "line", "start": start, "end": end}
+
+    @staticmethod
+    def _arc_sweep(segment: dict) -> float:
+        if segment["orientation"] > 0:
+            return segment["end_angle"] - segment["start_angle"]
+        return segment["start_angle"] - segment["end_angle"]
+
+    @classmethod
+    def _arc_start_point(cls, segment: dict) -> Vec3:
+        return cls._point_on_arc(segment["center"], segment["radius"], segment["start_angle"])
+
+    @classmethod
+    def _arc_end_point(cls, segment: dict) -> Vec3:
+        return cls._point_on_arc(segment["center"], segment["radius"], segment["end_angle"])
+
+    @staticmethod
+    def _point_on_arc(center: Vec3, radius: float, angle: float) -> Vec3:
+        return Vec3(
+            center.x + radius * math.cos(angle),
+            center.y + radius * math.sin(angle),
+            0.0,
+        )
+
     @classmethod
     def _try_cubic_as_arc(cls, start: Vec3, ctrl1: Vec3, ctrl2: Vec3, end: Vec3):
-        # Reject degenerate curves with minimal length.
         span = (end - start).magnitude
         if span <= cls._POINT_TOL:
             return None
@@ -73,19 +107,17 @@ class EZDXFBuilder:
         if abs(radius_start - radius_end) > max(radius_start, 1.0) * 1e-3:
             return None
 
-        # Ensure tangents are perpendicular to radius, within tolerance.
         if abs((start - center).dot(t_start)) > max(radius_start, 1.0) * 1e-3:
             return None
         if abs((end - center).dot(t_end)) > max(radius_start, 1.0) * 1e-3:
             return None
 
-        # Sample deviation from fitted circle.
         max_dev = 0.0
         for t in (0.25, 0.5, 0.75):
             point = cls._evaluate_cubic(start, ctrl1, ctrl2, end, t)
             deviation = abs((point - center).magnitude - radius_start)
             max_dev = max(max_dev, deviation)
-        if max_dev > max(radius_start, 1.0) * cls._ARC_DEVIATION_FACTOR:
+        if max_dev > max(radius_start, 1.0) * cls._ARC_TOL:
             return None
 
         r0 = start - center
@@ -94,6 +126,7 @@ class EZDXFBuilder:
         if abs(cross) <= max(radius_start, 1.0) * 1e-6:
             return None
         orientation = 1 if cross > 0 else -1
+
         start_angle = math.atan2(r0.y, r0.x)
         end_angle = math.atan2(r1.y, r1.x)
         if orientation > 0:
@@ -107,138 +140,240 @@ class EZDXFBuilder:
         if sweep <= 1e-3:
             return None
 
-        is_full_circle = (
+        full_circle = (
             (end - start).magnitude <= max(radius_start, 1.0) * 1e-3
-            and abs(sweep - 2.0 * math.pi) <= 1e-2
+            and abs(sweep - 2.0 * math.pi) <= cls._FULL_CIRCLE_TOL
         )
         return {
+            "type": "arc",
             "center": center,
             "radius": radius_start,
             "start_angle": start_angle,
             "end_angle": end_angle,
             "orientation": orientation,
-            "full_circle": is_full_circle,
+            "start": start,
+            "end": end,
+            "full_circle": full_circle,
         }
+
+    def _segments_form_circle(self, segments: list[dict]) -> dict | None:
+        if not segments:
+            return None
+        if len(segments) == 1 and segments[0]["type"] == "arc" and segments[0]["full_circle"]:
+            arc = segments[0]
+            return {"center": arc["center"], "radius": arc["radius"]}
+        if any(seg["type"] != "arc" for seg in segments):
+            return None
+        center = segments[0]["center"]
+        radius = segments[0]["radius"]
+        orientation = segments[0]["orientation"]
+        tol = max(radius, 1.0) * self._ARC_TOL
+        sweep = 0.0
+        start_point = segments[0]["start"]
+        prev_end = start_point
+        for seg in segments:
+            if seg["orientation"] != orientation:
+                return None
+            if (seg["center"] - center).magnitude > tol:
+                return None
+            if abs(seg["radius"] - radius) > tol:
+                return None
+            if (seg["start"] - prev_end).magnitude > tol:
+                return None
+            sweep += self._arc_sweep(seg)
+            prev_end = seg["end"]
+        if (prev_end - start_point).magnitude > tol:
+            return None
+        if abs(abs(sweep) - 2.0 * math.pi) > self._FULL_CIRCLE_TOL:
+            return None
+        return {"center": center, "radius": radius}
+
+    def _emit_circle(self, center: Vec3, radius: float) -> None:
+        self.msp.add_circle(
+            (center.x, center.y),
+            radius,
+            dxfattribs=self.entity_attribs,
+        )
+
+    def _emit_polyline(self, segments: list[dict]) -> None:
+        if not segments:
+            return
+        vertices: list[list[float]] = []
+        tol = self._POINT_TOL
+
+        def add_vertex(point: Vec3, bulge: float) -> None:
+            if vertices:
+                last = Vec3(vertices[-1][0], vertices[-1][1], 0.0)
+                if (point - last).magnitude <= tol:
+                    vertices[-1][2] = bulge
+                    return
+            vertices.append([point.x, point.y, bulge])
+
+        for idx, seg in enumerate(segments):
+            if seg["type"] == "line":
+                start = seg["start"]
+                end = seg["end"]
+                if (end - start).magnitude <= tol:
+                    continue
+                if not vertices:
+                    add_vertex(start, 0.0)
+                vertices[-1][2] = 0.0
+                add_vertex(end, 0.0)
+            elif seg["type"] == "arc":
+                start = seg["start"]
+                end = seg["end"]
+                if (end - start).magnitude <= tol and not seg["full_circle"]:
+                    continue
+                if not vertices:
+                    add_vertex(start, 0.0)
+                sweep = self._arc_sweep(seg)
+                bulge = math.tan(abs(sweep) / 4.0)
+                if seg["orientation"] < 0:
+                    bulge = -bulge
+                vertices[-1][2] = bulge
+                add_vertex(end, 0.0)
+            else:
+                raise ValueError(f"Unsupported segment type in polyline: {seg['type']}")
+
+        if len(vertices) < 2:
+            return
+        start_pt = Vec3(vertices[0][0], vertices[0][1], 0.0)
+        end_pt = Vec3(vertices[-1][0], vertices[-1][1], 0.0)
+        is_closed = (end_pt - start_pt).magnitude <= tol
+        if is_closed:
+            vertices.pop()  # closing flag already handles closing edge
+
+        self.msp.add_lwpolyline(
+            [tuple(v) for v in vertices],
+            format="xyb",
+            close=is_closed,
+            dxfattribs=self.entity_attribs,
+        )
+
+    def _emit_texts(self, texts: list[tuple]) -> None:
+        if not texts:
+            return
+        align_map = {
+            "left": "LEFT",
+            "middle": "CENTER",
+            "end": "RIGHT",
+        }
+        for x, y, text, params in texts:
+            if not text:
+                continue
+            height = float(params.get("fs", 2.0))
+            alignment = align_map.get(params.get("align", "left"), "LEFT")
+            text_entity = self.msp.add_text(
+                text,
+                dxfattribs={
+                    "height": height,
+                    "layer": self.layer,
+                },
+            )
+            text_entity.dxf.insert = (x, y, 0.0)
+            if alignment != "LEFT":
+                halign_codes = {"CENTER": 1, "RIGHT": 2}
+                text_entity.dxf.halign = halign_codes.get(alignment, 0)
+                text_entity.dxf.align_point = (x, y, 0.0)
+
+    def _flush_block(self, segments: list[dict], texts: list[tuple]) -> None:
+        if not segments:
+            self._emit_texts(texts)
+            return
+        circle = self._segments_form_circle(segments)
+        if circle:
+            self._emit_circle(circle["center"], circle["radius"])
+        else:
+            self._emit_polyline(segments)
+        self._emit_texts(texts)
 
     def add_commands(self, commands: Iterable[Command]) -> None:
         current_point: Vec3 | None = None
-        for raw in commands:
-            if not raw:
+        segments: list[dict] = []
+        texts: list[tuple] = []
+
+        def flush():
+            self._flush_block(segments, texts)
+            segments.clear()
+            texts.clear()
+
+        for cmd in commands:
+            if not cmd:
                 continue
-            code = raw[0]
-            if code == "M":
-                current_point = self._vec(raw[1], raw[2])
-            elif code == "L":
-                end_point = self._vec(raw[1], raw[2])
-                if current_point is not None:
-                    self.msp.add_line(current_point, end_point, dxfattribs=self.entity_attribs)
-                current_point = end_point
-            elif code == "C":
+            letter = cmd[0]
+            if letter == "M":
+                flush()
+                current_point = self._vec(cmd[1], cmd[2])
+            elif letter == "L":
                 if current_point is None:
-                    raise ValueError("Bezier segment without a defined starting point.")
-                end_point = self._vec(raw[1], raw[2])
-                ctrl1 = self._vec(raw[3], raw[4])
-                ctrl2 = self._vec(raw[5], raw[6])
-                if (
-                    (end_point - current_point).magnitude <= self._POINT_TOL
-                    and (ctrl1 - current_point).magnitude <= self._POINT_TOL
-                    and (ctrl2 - current_point).magnitude <= self._POINT_TOL
-                ):
-                    current_point = end_point
-                    continue
+                    raise ValueError("Line command without a starting point.")
+                end_point = self._vec(cmd[1], cmd[2])
+                if (end_point - current_point).magnitude > self._POINT_TOL:
+                    segments.append(self._line_segment(current_point, end_point))
+                current_point = end_point
+            elif letter == "C":
+                if current_point is None:
+                    raise ValueError("Cubic command without a starting point.")
+                end_point = self._vec(cmd[1], cmd[2])
+                ctrl1 = self._vec(cmd[3], cmd[4])
+                ctrl2 = self._vec(cmd[5], cmd[6])
                 arc = self._try_cubic_as_arc(current_point, ctrl1, ctrl2, end_point)
                 if arc:
-                    start_deg = math.degrees(arc["start_angle"])
-                    end_deg = math.degrees(arc["end_angle"])
-                    center_tuple = (arc["center"].x, arc["center"].y)
-                    attribs = dict(self.entity_attribs)
-                    if arc["full_circle"]:
-                        self.msp.add_circle(center_tuple, arc["radius"], dxfattribs=attribs)
-                    else:
-                        self.msp.add_arc(
-                            center_tuple,
-                            arc["radius"],
-                            start_angle=start_deg,
-                            end_angle=end_deg,
-                            is_counter_clockwise=arc["orientation"] > 0,
-                            dxfattribs=attribs,
-                        )
+                    segments.append(arc)
                 else:
-                    bezier = Bezier4P((current_point, ctrl1, ctrl2, end_point))
-                    nurbs = bezier_to_bspline([bezier])
-                    spline_entity = self.msp.add_spline(dxfattribs=self.entity_attribs)
-                    spline_entity.apply_construction_tool(nurbs)
+                    points = self._approximate_cubic(current_point, ctrl1, ctrl2, end_point)
+                    for idx in range(1, len(points)):
+                        start = points[idx - 1]
+                        end = points[idx]
+                        if (end - start).magnitude > self._POINT_TOL:
+                            segments.append(self._line_segment(start, end))
                 current_point = end_point
-            elif code == "A":
-                end_point = self._vec(raw[1], raw[2])
-                center = self._vec(raw[3], raw[4])
-                radius = abs(float(raw[5]))
-                start_param = float(raw[6])
-                end_param = float(raw[7])
-                orientation = int(raw[8])
-
-                start_point = self._vec(
-                    center.x + radius * math.cos(start_param),
-                    center.y + radius * math.sin(start_param),
-                )
+            elif letter == "A":
                 if current_point is None:
-                    current_point = start_point
-                elif math.hypot(current_point.x - start_point.x, current_point.y - start_point.y) > 1e-4:
-                    current_point = start_point
-
-                start_angle_deg = math.degrees(math.atan2(current_point.y - center.y, current_point.x - center.x))
-                end_angle_deg = math.degrees(math.atan2(end_point.y - center.y, end_point.x - center.x))
-
-                sweep = end_param - start_param
-                if orientation < 0:
-                    sweep = -sweep
-                    start_angle_deg, end_angle_deg = end_angle_deg, start_angle_deg
-
-                is_full_circle = (
-                    math.hypot(end_point.x - start_point.x, end_point.y - start_point.y) <= 1e-4
-                    and math.isclose(abs(sweep), 2.0 * math.pi, rel_tol=1e-6)
-                )
-
-                center_tuple = (center.x, center.y)
-                if is_full_circle:
-                    self.msp.add_circle(center_tuple, radius, dxfattribs=self.entity_attribs)
+                    raise ValueError("Arc command without a starting point.")
+                end_point = self._vec(cmd[1], cmd[2])
+                center = self._vec(cmd[3], cmd[4])
+                radius = abs(float(cmd[5]))
+                start_angle = math.atan2(current_point.y - center.y, current_point.x - center.x)
+                end_angle = math.atan2(end_point.y - center.y, end_point.x - center.x)
+                orientation = int(cmd[8])
+                if orientation > 0:
+                    while end_angle <= start_angle:
+                        end_angle += 2.0 * math.pi
                 else:
-                    self.msp.add_arc(
-                        center_tuple,
-                        radius,
-                        start_angle=start_angle_deg,
-                        end_angle=end_angle_deg,
-                        dxfattribs=self.entity_attribs,
-                    )
-                current_point = end_point
-            elif code == "T":
-                text = raw[4]
-                if not text:
-                    continue
-                x, y = float(raw[1]), float(raw[2])
-                params = raw[5] if len(raw) > 5 else {}
-                height = float(params.get("fs", 2.0))
-                align = params.get("align", "left")
-                align_map = {
-                    "left": "LEFT",
-                    "middle": "CENTER",
-                    "end": "RIGHT",
-                }
-                text_entity = self.msp.add_text(
-                    text,
-                    dxfattribs={
-                        "height": height,
-                        "layer": self.layer,
-                    },
+                    while end_angle >= start_angle:
+                        end_angle -= 2.0 * math.pi
+
+                sweep_param = float(cmd[7]) - float(cmd[6])
+                if orientation < 0:
+                    sweep_param = -sweep_param
+                is_full_circle = (
+                    math.hypot(end_point.x - current_point.x, end_point.y - current_point.y) <= 1e-4
+                    and math.isclose(abs(sweep_param), 2.0 * math.pi, rel_tol=1e-6)
                 )
-                text_entity.dxf.insert = (x, y, 0.0)
-                alignment = align_map.get(align, "LEFT")
-                if alignment != "LEFT":
-                    halign_codes = {"CENTER": 1, "RIGHT": 2}
-                    text_entity.dxf.halign = halign_codes.get(alignment, 0)
-                    text_entity.dxf.align_point = (x, y, 0.0)
+                segments.append(
+                    {
+                        "type": "arc",
+                        "center": center,
+                        "radius": radius,
+                        "start_angle": start_angle,
+                        "end_angle": end_angle,
+                        "orientation": orientation if orientation != 0 else 1,
+                        "start": current_point,
+                        "end": end_point,
+                        "full_circle": is_full_circle,
+                    }
+                )
+                current_point = end_point
+            elif letter == "T":
+                x, y = float(cmd[1]), float(cmd[2])
+                text = cmd[4]
+                params = cmd[5] if len(cmd) > 5 else {}
+                texts.append((x, y, text, params))
             else:
-                raise ValueError(f"Unsupported drawing command: {code}")
+                raise ValueError(f"Unsupported drawing command: {letter}")
+
+        flush()
 
     def save(self, output: str | Path) -> Path:
         output_path = Path(output)

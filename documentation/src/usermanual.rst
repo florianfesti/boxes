@@ -87,10 +87,10 @@ much smaller it is than its nominal size. The burn value should be
 around half of the difference. To test the fit for several values at
 once you can use the **BurnTest** generator in the "Parts and Samples" section.
 
-space
-.....
+spacing
+.......
 
-The space parameter defines the spacing between parts.
+The spacing parameter defines the spacing between parts.
 
 It is given in multiples of the material thickness (default: 0.5).
 An optional absolute offset in millimetres can be appended after a colon.

@@ -186,7 +186,7 @@ class NicotHatchingCageCutout(PathCutout):
 class QueenIconCutout(MultiPathCutout):
     """Queen icon cutout"""
     DIMENSIONS = (56.59, 47.)
-    OFFSET = (-28.295, 23.5-1.)
+    OFFSET = (-28.295, 23.5-2.)
     SEGMENTS_BEEBODY = [
         ('M', (36.173954, -1.204572)),
         ('C', (35.517052, -1.456605, 34.539562, -2.115699, 32.831482, -3.46267)),
@@ -509,8 +509,8 @@ class QueenIconCutout(MultiPathCutout):
 
 
 class AirHolesForNicotTransportCageCutout(Cutout):
-    """Air hole cutout"""
-    DIMENSIONS = NicotHatchingCageCutout.DIMENSIONS
+    """Air hole cutout for Nicot transport cage"""
+    DIMENSIONS = NicotTransportCageCutout.DIMENSIONS
     SIZE = (25., 3.)
     OFFSET = (0., -1.250)
 
@@ -577,6 +577,12 @@ class GiantHexHoleCutout(Cutout):
                 nh = float('inf')
             self.number = min(nw, nh)
 
+    def get_circumcircle(self):
+        return 2.5 * self.IRADIUS * (self.number - 1)
+
+    def get_incircle(self):
+        return 2.5 * self.IRADIUS * (self.number - 2)
+
     def cutout(self, box, x, y, color=Color.INNER_CUT):
         with box.saved_context() as ctx:
             box.set_source_color(color)
@@ -595,7 +601,7 @@ class GiantHexHoleCutout(Cutout):
                 ctx.rotate(math.radians(60))
 
 class AirHolesForNicotIncubatorCageCutout(HexHolesCutout):
-    """Nicot incubator cage"""
+    """Air hole cutout for Nicot incubator cage"""
     RADIUS = NicotIncubatorCageCutout.RADIUS * 0.8
     DIMENSIONS = NicotIncubatorCageCutout.DIMENSIONS
     OFFSET = (0., 0.)
@@ -603,7 +609,7 @@ class AirHolesForNicotIncubatorCageCutout(HexHolesCutout):
     LEVELS = 2
 
 class AirHolesCover(HexHolesCutout):
-    """Nicot incubator cage"""
+    """Air hole cutout for lid cover"""
     RADIUS = NicotIncubatorCageCutout.RADIUS * 0.8
     DIMENSIONS = NicotIncubatorCageCutout.DIMENSIONS
     OFFSET = (0., 0.)
@@ -611,7 +617,7 @@ class AirHolesCover(HexHolesCutout):
     LEVELS = 2
 
 class AirHolesForNicotHatchingCageCutout(HexHolesCutout):
-    """Nicot incubator cage"""
+    """Air hole cutout for Nicot hatching cage"""
     DIMENSIONS = NicotHatchingCageCutout.DIMENSIONS
     RADIUS = min(NicotHatchingCageCutout.DIMENSIONS) / 2.
     OFFSET = (0., 0.)
@@ -652,8 +658,8 @@ class QueenTransportBoxLid(Lid):
                     k = self.settings.queeniconscale / 100.
                     cutout = GiantHexHoleCutout(w=k*x, h=k*y)
                     cutout.cutout(self, .5 * x, .5 * y)
-                    k *= .5
-                    QueenIconCutout(w=k*x, h=k*y).cutout(self, .5 * x, .5 * y)
+                    r = 2. * .7 * cutout.get_incircle()
+                    QueenIconCutout(w=r, h=r).cutout(self, .5 * x, .5 * y)
         return cover
 
 class QueenTransportBox(_TopEdge):

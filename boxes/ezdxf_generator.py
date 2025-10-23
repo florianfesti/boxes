@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import math
 from pathlib import Path
-from typing import Iterable, Sequence
+from typing import Any, Iterable, Literal, Sequence, TypedDict
 
 import ezdxf
 from ezdxf import units
@@ -11,6 +11,34 @@ from ezdxf.math import Vec3
 from boxes.test_path import Test_Path
 
 Command = Sequence[object]
+
+
+class LineSegment(TypedDict):
+    type: Literal["line"]
+    start: Vec3
+    end: Vec3
+
+
+class ArcSegment(TypedDict):
+    type: Literal["arc"]
+    center: Vec3
+    radius: float
+    start_angle: float
+    end_angle: float
+    orientation: int
+    start: Vec3
+    end: Vec3
+    full_circle: bool
+
+
+class CircleSummary(TypedDict):
+    center: Vec3
+    radius: float
+
+
+Segment = LineSegment | ArcSegment
+TextParams = dict[str, Any]
+TextSpec = tuple[float, float, str, TextParams]
 
 
 class EZDXFBuilder:
@@ -32,7 +60,8 @@ class EZDXFBuilder:
 
     @staticmethod
     def _lineweight_to_hundredths(value: float) -> int:
-        return max(0, int(round(value * 100.0)))
+        hundredths = int(round(value * 100.0))
+        return min(211, max(0, hundredths))
 
     @staticmethod
     def _vec(x: float, y: float) -> Vec3:
@@ -57,21 +86,45 @@ class EZDXFBuilder:
         return points
 
     @staticmethod
-    def _line_segment(start: Vec3, end: Vec3) -> dict[str, Vec3]:
+    def _line_segment(start: Vec3, end: Vec3) -> LineSegment:
         return {"type": "line", "start": start, "end": end}
 
     @staticmethod
-    def _arc_sweep(segment: dict) -> float:
+    def _arc_segment(
+        *,
+        center: Vec3,
+        radius: float,
+        start_angle: float,
+        end_angle: float,
+        orientation: int,
+        start: Vec3,
+        end: Vec3,
+        full_circle: bool,
+    ) -> ArcSegment:
+        return {
+            "type": "arc",
+            "center": center,
+            "radius": radius,
+            "start_angle": start_angle,
+            "end_angle": end_angle,
+            "orientation": orientation,
+            "start": start,
+            "end": end,
+            "full_circle": full_circle,
+        }
+
+    @staticmethod
+    def _arc_sweep(segment: ArcSegment) -> float:
         if segment["orientation"] > 0:
             return segment["end_angle"] - segment["start_angle"]
         return segment["start_angle"] - segment["end_angle"]
 
     @classmethod
-    def _arc_start_point(cls, segment: dict) -> Vec3:
+    def _arc_start_point(cls, segment: ArcSegment) -> Vec3:
         return cls._point_on_arc(segment["center"], segment["radius"], segment["start_angle"])
 
     @classmethod
-    def _arc_end_point(cls, segment: dict) -> Vec3:
+    def _arc_end_point(cls, segment: ArcSegment) -> Vec3:
         return cls._point_on_arc(segment["center"], segment["radius"], segment["end_angle"])
 
     @staticmethod
@@ -83,7 +136,7 @@ class EZDXFBuilder:
         )
 
     @classmethod
-    def _try_cubic_as_arc(cls, start: Vec3, ctrl1: Vec3, ctrl2: Vec3, end: Vec3):
+    def _try_cubic_as_arc(cls, start: Vec3, ctrl1: Vec3, ctrl2: Vec3, end: Vec3) -> ArcSegment | None:
         span = (end - start).magnitude
         if span <= cls._POINT_TOL:
             return None
@@ -144,29 +197,30 @@ class EZDXFBuilder:
             (end - start).magnitude <= max(radius_start, 1.0) * 1e-3
             and abs(sweep - 2.0 * math.pi) <= cls._FULL_CIRCLE_TOL
         )
-        return {
-            "type": "arc",
-            "center": center,
-            "radius": radius_start,
-            "start_angle": start_angle,
-            "end_angle": end_angle,
-            "orientation": orientation,
-            "start": start,
-            "end": end,
-            "full_circle": full_circle,
-        }
+        return cls._arc_segment(
+            center=center,
+            radius=radius_start,
+            start_angle=start_angle,
+            end_angle=end_angle,
+            orientation=orientation,
+            start=start,
+            end=end,
+            full_circle=full_circle,
+        )
 
-    def _segments_form_circle(self, segments: list[dict]) -> dict | None:
+    def _segments_form_circle(self, segments: list[Segment]) -> CircleSummary | None:
         if not segments:
             return None
-        if len(segments) == 1 and segments[0]["type"] == "arc" and segments[0]["full_circle"]:
-            arc = segments[0]
-            return {"center": arc["center"], "radius": arc["radius"]}
+        first = segments[0]
+        if first["type"] != "arc":
+            return None
+        if len(segments) == 1 and first["full_circle"]:
+            return {"center": first["center"], "radius": first["radius"]}
         if any(seg["type"] != "arc" for seg in segments):
             return None
-        center = segments[0]["center"]
-        radius = segments[0]["radius"]
-        orientation = segments[0]["orientation"]
+        center = first["center"]
+        radius = first["radius"]
+        orientation = first["orientation"]
         tol = max(radius, 1.0) * self._ARC_TOL
         sweep = 0.0
         start_point = segments[0]["start"]
@@ -195,7 +249,7 @@ class EZDXFBuilder:
             dxfattribs=self.entity_attribs,
         )
 
-    def _emit_polyline(self, segments: list[dict]) -> None:
+    def _emit_polyline(self, segments: list[Segment]) -> None:
         if not segments:
             return
         vertices: list[list[float]] = []
@@ -250,7 +304,7 @@ class EZDXFBuilder:
             dxfattribs=self.entity_attribs,
         )
 
-    def _emit_texts(self, texts: list[tuple]) -> None:
+    def _emit_texts(self, texts: list[TextSpec]) -> None:
         if not texts:
             return
         align_map = {
@@ -276,7 +330,7 @@ class EZDXFBuilder:
                 text_entity.dxf.halign = halign_codes.get(alignment, 0)
                 text_entity.dxf.align_point = (x, y, 0.0)
 
-    def _flush_block(self, segments: list[dict], texts: list[tuple]) -> None:
+    def _flush_block(self, segments: list[Segment], texts: list[TextSpec]) -> None:
         if not segments:
             self._emit_texts(texts)
             return
@@ -289,8 +343,8 @@ class EZDXFBuilder:
 
     def add_commands(self, commands: Iterable[Command]) -> None:
         current_point: Vec3 | None = None
-        segments: list[dict] = []
-        texts: list[tuple] = []
+        segments: list[Segment] = []
+        texts: list[TextSpec] = []
 
         def flush():
             self._flush_block(segments, texts)
@@ -352,23 +406,22 @@ class EZDXFBuilder:
                     and math.isclose(abs(sweep_param), 2.0 * math.pi, rel_tol=1e-6)
                 )
                 segments.append(
-                    {
-                        "type": "arc",
-                        "center": center,
-                        "radius": radius,
-                        "start_angle": start_angle,
-                        "end_angle": end_angle,
-                        "orientation": orientation if orientation != 0 else 1,
-                        "start": current_point,
-                        "end": end_point,
-                        "full_circle": is_full_circle,
-                    }
+                    self._arc_segment(
+                        center=center,
+                        radius=radius,
+                        start_angle=start_angle,
+                        end_angle=end_angle,
+                        orientation=orientation if orientation != 0 else 1,
+                        start=current_point,
+                        end=end_point,
+                        full_circle=is_full_circle,
+                    )
                 )
                 current_point = end_point
             elif letter == "T":
                 x, y = float(cmd[1]), float(cmd[2])
                 text = cmd[4]
-                params = cmd[5] if len(cmd) > 5 else {}
+                params: TextParams = dict(cmd[5]) if len(cmd) > 5 and isinstance(cmd[5], dict) else {}
                 texts.append((x, y, text, params))
             else:
                 raise ValueError(f"Unsupported drawing command: {letter}")

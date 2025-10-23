@@ -1606,6 +1606,30 @@ class Boxes:
                           y * 0.5 * holedistance,
                           0.5 * diameter)
 
+    @restore
+    def stepper_28byj_48(self, front=True, screwholes=2, x=0, y=0, angle=0):
+        """Draw holes for mounting a 28byj_48 stepper motor
+
+        :param front: mount with motor in the hole (or with shaft in the hole)
+        :param screwholes: diameter of the screw holes (zero for none)
+        :param x:  (Default value = 0)
+        :param y:  (Default value = 0)
+        :param angle:  (Default value = 0)
+        """
+
+        self.moveTo(x, y, angle)
+        self.hole(-35/2, -8, d=screwholes)
+        self.hole(35/2, -8, d=screwholes)
+
+        if front:
+            self.hole(0, 0, d=9)
+        else:
+            self.moveTo(0, 6.2-self.burn, 0)
+            tab = 3+(1-2**-0.5)*14.2
+            self.polyline(0, (-135, 14.2), 0, 45, tab, -90, 14.2*2**0.5,
+                          -90, tab, 45, 0, (-135, 14.2))
+
+
     def drawPoints(self, lines, kerfdir=1, close=True):
 
         if not lines:

@@ -680,7 +680,6 @@ class QueenTransportBox(_TopEdge):
         self.lidSettings = QueenTransportBoxLidSettings(self.thickness, True, **self.edgesettings.get("QueenTransportBoxLid", {}))
         self.lid = QueenTransportBoxLid(self, self.lidSettings)
 
-
     def __init__(self) -> None:
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings)
@@ -777,27 +776,44 @@ class QueenTransportBox(_TopEdge):
         b = self.bottom_edge
         t_left, t_back, t_right, t_front = self.topEdges(self.top_edge)
 
+        # Walls
+        with self.saved_context():
+            self.rectangularWall(
+                x, h, [b, "F", t_back, "F"],
+                ignore_widths=[1, 6],
+                callback=[lambda: self.sideholes(x), lambda: self.airholes(x, self.ax)],
+                move="right", label='Back')
+            self.rectangularWall(
+                x, h, [b, "F", t_front, "F"],
+                ignore_widths=[1, 6],
+                callback=[lambda: self.sideholes(x), lambda: self.airholes(x, self.ax)],
+                move="right", label='Front')
+            self.rectangularWall(
+                y, h, [b, "f", t_left, "f"],
+                ignore_widths=[1, 6],
+                callback=[lambda: self.sideholes(y), lambda: self.airholes(y, self.ay)],
+                move="right", label='Left')
+            self.rectangularWall(
+                y, h, [b, "f", t_right, "f"],
+                ignore_widths=[1, 6],
+                callback=[lambda: self.sideholes(y), lambda: self.airholes(y, self.ay)],
+                move="right", label='Right')
+
+        # Move up
         self.rectangularWall(
             x, h, [b, "F", t_back, "F"],
             ignore_widths=[1, 6],
-            callback=[lambda: self.sideholes(x), lambda: self.airholes(x, self.ax)], move="right", label='Back')
-        self.rectangularWall(
-            y, h, [b, "f", t_left, "f"], callback=[lambda: self.sideholes(y), lambda: self.airholes(y, self.ay)],
-            ignore_widths=[1, 6],
-            move="up", label='Left')
-        self.rectangularWall(
-            y, h, [b, "f", t_right, "f"], callback=[lambda: self.sideholes(y), lambda: self.airholes(y, self.ay)],
-            ignore_widths=[1, 6], label='Right')
-        self.rectangularWall(
-            x, h, [b, "F", t_front, "F"],
-            ignore_widths=[1, 6],
-            callback=[lambda: self.sideholes(x), lambda: self.airholes(x, self.ax)], move="left up", label='Front')
-        with self.saved_context():
-            if b not in "eš":
-                self.rectangularWall(
-                    x, y, "ffff", callback=[lambda: self.cutouts(layer=0)], move="up", label=f'Bottom Layer')
-            for layer in range(1, len(self.sh)):
-                self.rectangularWall(
-                    x, y, "ffff", callback=[lambda: self.cutouts(layer)], move="up", label=f'Layer {layer}')
-        self.rectangularWall(x, y, "ffff", move="right only")
+            move="up only")
+
+        # Inner Layers
+        if b not in "eš":
+            self.rectangularWall(
+                x, y, "ffff", callback=[lambda: self.cutouts(layer=0)],
+                move="right", label=f'Bottom Layer')
+        for layer in range(1, len(self.sh)):
+            self.rectangularWall(
+                x, y, "ffff", callback=[lambda: self.cutouts(layer)],
+                move="right", label=f'Layer {layer}')
+
+        # Lid
         self.lid(x, y, self.top_edge)

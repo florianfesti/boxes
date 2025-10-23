@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Any, MutableSequence
 
 from affine import Affine
-from boxes.dxf import DXFSurface
+from boxes.dxf_generator import DXFSurface
 from boxes.drawing import SVGSurface
 
 PathLike = MutableSequence[MutableSequence[Any]]

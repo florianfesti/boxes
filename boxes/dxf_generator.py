@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import io
+import logging
 import math
 from pathlib import Path
 from typing import Any, Iterable, Literal, Sequence, TypedDict
@@ -7,10 +9,16 @@ from typing import Any, Iterable, Literal, Sequence, TypedDict
 import ezdxf
 from ezdxf import units
 from ezdxf.math import Vec3
-
-from boxes.test_path import Test_Path
+from .drawing import Surface
 
 Command = Sequence[object]
+
+__all__ = ["EZDXFBuilder", "DXFSurface", "export_test_path_ezdxf"]
+
+
+_ezdxf_logger = logging.getLogger("ezdxf")
+_ezdxf_logger.setLevel(logging.ERROR)
+_ezdxf_logger.propagate = False
 
 
 class LineSegment(TypedDict):
@@ -51,12 +59,35 @@ class EZDXFBuilder:
     def __init__(self, *, layer: str = "0", lineweight: float | None = None) -> None:
         self.doc = ezdxf.new("R2010", setup=True)
         self.doc.units = units.MM
+        self.doc.header["$INSUNITS"] = units.MM
+        self.doc.header["$MEASUREMENT"] = 1
         self.msp = self.doc.modelspace()
         self.layer = layer
         lw_value = self._lineweight_to_hundredths(lineweight) if lineweight is not None else None
         self.entity_attribs = {"layer": layer}
         if lw_value is not None:
             self.entity_attribs["lineweight"] = lw_value
+
+    def set_lineweight(self, value: float | None) -> None:
+        """Update the current entity lineweight in hundredths of millimeters."""
+        if value is None or value <= 0.0:
+            self.entity_attribs.pop("lineweight", None)
+            return
+        self.entity_attribs["lineweight"] = self._lineweight_to_hundredths(value)
+
+    def set_extents(self, xmin: float, ymin: float, xmax: float, ymax: float) -> None:
+        """Write drawing extents to the DXF header."""
+        self.doc.header["$EXTMIN"] = (float(xmin), float(ymin), 0.0)
+        self.doc.header["$EXTMAX"] = (float(xmax), float(ymax), 0.0)
+
+    def to_buffer(self) -> io.BytesIO:
+        """Return the DXF document encoded into an in-memory buffer."""
+        stream = io.StringIO()
+        self.doc.write(stream)
+        data = self.doc.encode(stream.getvalue())
+        buffer = io.BytesIO(data)
+        buffer.seek(0)
+        return buffer
 
     @staticmethod
     def _lineweight_to_hundredths(value: float) -> int:
@@ -436,9 +467,32 @@ class EZDXFBuilder:
 
 
 def export_test_path_ezdxf(output: str | Path = "test_path_ezdxf.dxf") -> Path:
+    from boxes.test_path import Test_Path
+
     builder = EZDXFBuilder(lineweight=0.1)
     builder.add_commands(Test_Path)
     return builder.save(output)
+
+
+class DXFSurface(Surface):
+    """Surface capable of producing DXF output via EZDXFBuilder."""
+
+    scale = 1.0
+    invert_y = False
+
+    def finish(self, inner_corners: str = "loop", dogbone_radius=None):
+        extents = self.prepare_paths(inner_corners, dogbone_radius)
+        builder = EZDXFBuilder()
+        builder.set_extents(extents.xmin, extents.ymin, extents.xmax, extents.ymax)
+        for part in self.parts:
+            if not part.pathes:
+                continue
+            for path in part.pathes:
+                if not path.path:
+                    continue
+                builder.set_lineweight(path.params.get("lw"))
+                builder.add_commands(path.path)
+        return builder.to_buffer()
 
 
 if __name__ == "__main__":

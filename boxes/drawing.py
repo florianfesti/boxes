@@ -1,5 +1,4 @@
 from __future__ import annotations
-
 import codecs
 import io
 import math
@@ -888,10 +887,6 @@ showpage
         )
         data.seek(0)
         return data
-
-
-from .dxf import DXFSurface  # noqa: E402
-
 
 class LBRN2Surface(Surface):
 

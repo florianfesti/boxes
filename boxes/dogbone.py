@@ -5,7 +5,6 @@ from typing import Any, Callable, MutableSequence
 
 from boxes.vectors import (
     dotproduct,
-    normalize as normalize_vec,
     vadd,
     vdiff,
     vlength,
@@ -19,6 +18,12 @@ Vector = tuple[float, float]
 Point = tuple[float, float]
 
 TAU = math.tau
+SQRT2 = math.sqrt(2.0)
+SQRT_INNER = math.sqrt(2.5 - SQRT2)
+DOGBONE_CLEARANCE_FACTOR = 1.0 + SQRT2 / 2.0 + SQRT_INNER
+DOGBONE_PREV_CLEARANCE_FACTOR = DOGBONE_CLEARANCE_FACTOR - 1.0
+END_OFFSET_NEXT_FACTOR = 0.5 * (SQRT2 / 2.0 - 1.0)
+END_OFFSET_PREV_FACTOR = 0.5 * (SQRT2 + SQRT_INNER)
 
 
 def _normalize_angles(start: float, end: float, orientation: int, eps: float) -> tuple[float, float]:
@@ -78,8 +83,7 @@ def _circle_intersections(center_a: Point, radius_a: float, center_b: Point, rad
 def dogbone_clearance(radius: float) -> float:
     """Return c = R * (1 + sqrt(2)/2 + sqrt(5/2 - sqrt(2)))."""
     # Closed form of the clearance distance used by Boxes.py.
-    sqrt2 = math.sqrt(2.0)
-    return radius * (1.0 + sqrt2 / 2.0 + math.sqrt(2.5 - sqrt2))
+    return radius * DOGBONE_CLEARANCE_FACTOR
 
 
 def apply_dogbone(
@@ -99,22 +103,20 @@ def apply_dogbone(
     if radius <= 0:
         return False
 
-    sqrt2 = math.sqrt(2.0)
-    offset = sqrt2 * radius
+    offset = SQRT2 * radius
     if offset < eps:
         return False
 
     # These offsets define where the auxiliary arcs start and end relative to the corner.
-    sqrt_inner = math.sqrt(2.5 - sqrt2)
-    clearance = dogbone_clearance(radius)
-    prev_clearance = clearance - radius
-    end_offset_next = (radius / 2.0) * (sqrt2 / 2.0 - 1.0)
-    end_offset_prev = (radius / 2.0) * (sqrt2 + sqrt_inner)
+    prev_clearance = radius * DOGBONE_PREV_CLEARANCE_FACTOR
+    end_offset_next = radius * END_OFFSET_NEXT_FACTOR
+    end_offset_prev = radius * END_OFFSET_PREV_FACTOR
 
     def _normalize(vec: Vector) -> Vector | None:
-        if vlength(vec) < eps:
+        length = vlength(vec)
+        if length < eps:
             return None
-        return normalize_vec(vec)
+        return (vec[0] / length, vec[1] / length)
 
     def _arc_command(center: Point, start: Point, end: Point, orientation: int) -> list[Any] | None:
         radius = vlength(vdiff(center, start))
@@ -160,12 +162,6 @@ def apply_dogbone(
             prev_vec = vdiff(p11, corner)
             next_vec = vdiff(corner, p22)
 
-            prev_len = vlength(prev_vec)
-            next_len = vlength(next_vec)
-            if prev_len <= eps or next_len <= eps:
-                i += 1
-                continue
-
             d_prev = _normalize(prev_vec)
             d_next = _normalize(next_vec)
             if d_prev is None or d_next is None:
@@ -183,10 +179,7 @@ def apply_dogbone(
                 continue
 
             sign = 1.0 if turn > 0.0 else -1.0
-            inward = vadd(
-                vscalmul(vorthogonal(d_prev), sign),
-                vscalmul(vorthogonal(d_next), sign),
-            )
+            inward = vscalmul(vadd(vorthogonal(d_prev), vorthogonal(d_next)), sign)
             n_in = _normalize(inward)
             if n_in is None:
                 i += 1
@@ -205,13 +198,11 @@ def apply_dogbone(
                     vscalmul(axis_prev, end_offset_prev),
                 ),
             )
-            axis_prev_post = axis_next
-            axis_next_post = axis_prev
             transition_point_next = vadd(
                 corner,
                 vadd(
-                    vscalmul(axis_next_post, end_offset_next),
-                    vscalmul(axis_prev_post, end_offset_prev),
+                    vscalmul(axis_prev, end_offset_next),
+                    vscalmul(axis_next, end_offset_prev),
                 ),
             )
             new_arc_start = vadd(corner, vscalmul(axis_prev, prev_clearance))
@@ -219,10 +210,10 @@ def apply_dogbone(
                 corner,
                 vadd(vscalmul(axis_prev, prev_clearance), vscalmul(axis_next, -radius)),
             )
-            new_arc_end = vadd(corner, vscalmul(axis_prev_post, prev_clearance))
+            new_arc_end = vadd(corner, vscalmul(axis_next, prev_clearance))
             new_arc_center_next = vadd(
                 corner,
-                vadd(vscalmul(axis_prev_post, prev_clearance), vscalmul(axis_next_post, -radius)),
+                vadd(vscalmul(axis_next, prev_clearance), vscalmul(axis_prev, -radius)),
             )
 
             rad_start = vdiff(center, transition_point)
@@ -266,9 +257,30 @@ def apply_dogbone(
 
 def _trim_overlaps(path: PathLike, eps: float) -> None:
     overlaps: list[dict[str, Any]] = []
+    overlap_positions: dict[int, int] = {}
     arcs_since_line: list[dict[str, Any]] = []
     line_state: dict[str, Any] | None = None
     current: Point | None = None
+    first_right_arcs: list[dict[str, Any]] = []
+    capture_first_right_arcs = False
+    first_line_active = False
+    subpath_start: Point | None = None
+    subpath_move_index: int | None = None
+    first_line_state: dict[str, Any] | None = None
+    first_left_arc_indices: set[int] = set()
+    move_targets: dict[int, Point] = {}
+
+    def update_best(line_data: dict[str, Any] | None, candidate: dict[str, Any] | None) -> None:
+        if line_data is None or candidate is None:
+            return
+        best = line_data.get("best")
+        if best is None or candidate["score"] < best["score"]:
+            line_data["best"] = candidate
+
+    def consider_right_arc(line_data: dict[str, Any] | None, right_arc: dict[str, Any]) -> None:
+        if line_data is None or not line_data.get("left_arcs"):
+            return
+        update_best(line_data, evaluate_candidate(line_data, right_arc))
 
     def evaluate_candidate(line_data: dict[str, Any], right_arc: dict[str, Any]) -> dict[str, Any] | None:
         best: dict[str, Any] | None = None
@@ -306,18 +318,67 @@ def _trim_overlaps(path: PathLike, eps: float) -> None:
                     best = candidate
         return best
 
-    def finalize_line_state() -> None:
-        nonlocal line_state
-        if line_state and line_state.get("best"):
-            overlaps.append(line_state["best"])
+    def record_overlap(candidate: dict[str, Any]) -> None:
+        line_idx = candidate["line_index"]
+        existing_pos = overlap_positions.get(line_idx)
+        if existing_pos is None:
+            overlap_positions[line_idx] = len(overlaps)
+            overlaps.append(candidate)
+        else:
+            existing = overlaps[existing_pos]
+            if candidate["score"] < existing["score"]:
+                overlaps[existing_pos] = candidate
+
+    def finalize_line_state(close_subpath: bool = False) -> None:
+        nonlocal line_state, first_line_state
+        if (
+            close_subpath
+            and line_state
+            and first_right_arcs
+            and subpath_start is not None
+        ):
+            end = line_state["end"]
+            if abs(end[0] - subpath_start[0]) <= eps and abs(end[1] - subpath_start[1]) <= eps:
+                wrap_left_arcs = line_state["left_arcs"]
+                if first_line_state and wrap_left_arcs:
+                    for arc in wrap_left_arcs:
+                        idx = arc["index"]
+                        if idx not in first_left_arc_indices:
+                            first_line_state["left_arcs"].append(arc)
+                            first_left_arc_indices.add(idx)
+                    for right_arc in first_right_arcs:
+                        consider_right_arc(first_line_state, right_arc)
+                for right_arc in first_right_arcs:
+                    consider_right_arc(line_state, right_arc)
+        if line_state:
+            best_candidate = line_state.get("best")
+            if best_candidate:
+                if close_subpath and subpath_move_index is not None:
+                    move_targets[subpath_move_index] = best_candidate["point"]
+                record_overlap(best_candidate)
+        if close_subpath and first_line_state:
+            best_candidate = first_line_state.get("best")
+            if best_candidate:
+                record_overlap(best_candidate)
+        if close_subpath:
+            first_right_arcs.clear()
+            first_line_state = None
+            first_left_arc_indices.clear()
         line_state = None
 
     for index, segment in enumerate(path):
         code = segment[0]
         if code == "M":
-            finalize_line_state()
+            finalize_line_state(close_subpath=True)
             current = (segment[1], segment[2])
             arcs_since_line = []
+            subpath_start = current
+            subpath_move_index = index
+            first_right_arcs.clear()
+            first_line_active = False
+            capture_first_right_arcs = False
+            first_line_state = None
+            first_left_arc_indices.clear()
         elif code == "L":
             finalize_line_state()
             start = current if current is not None else (segment[1], segment[2])
@@ -326,11 +387,19 @@ def _trim_overlaps(path: PathLike, eps: float) -> None:
                 "index": index,
                 "start": start,
                 "end": end,
-                "left_arcs": arcs_since_line.copy(),
+                "left_arcs": arcs_since_line,
                 "best": None,
             }
             arcs_since_line = []
             current = end
+            if not first_line_active:
+                first_line_active = True
+                capture_first_right_arcs = True
+                first_line_state = line_state
+                first_left_arc_indices.clear()
+                first_left_arc_indices.update(arc["index"] for arc in line_state["left_arcs"])
+            else:
+                capture_first_right_arcs = False
         elif code == "A":
             if current is None:
                 current = (segment[1], segment[2])
@@ -345,15 +414,22 @@ def _trim_overlaps(path: PathLike, eps: float) -> None:
                 "orientation": int(segment[8]),
             }
             arcs_since_line.append(arc_info)
-            if line_state and line_state["left_arcs"]:
-                candidate = evaluate_candidate(line_state, arc_info)
-                if candidate and (line_state["best"] is None or candidate["score"] < line_state["best"]["score"]):
-                    line_state["best"] = candidate
+            if capture_first_right_arcs:
+                first_right_arcs.append(arc_info)
+            consider_right_arc(line_state, arc_info)
             current = arc_info["end"]
+        elif code == "Z":
+            finalize_line_state(close_subpath=True)
+            current = subpath_start
+            arcs_since_line = []
+            first_line_active = False
+            capture_first_right_arcs = False
+            first_line_state = None
+            first_left_arc_indices.clear()
         else:
             current = (segment[1], segment[2]) if len(segment) >= 3 else current
 
-    finalize_line_state()
+    finalize_line_state(close_subpath=True)
     if not overlaps:
         return
 
@@ -368,29 +444,23 @@ def _trim_overlaps(path: PathLike, eps: float) -> None:
         point = overlap["point"]
         left_targets[left_idx] = point
         line_targets[line_idx] = point
-        for idx in range(left_idx + 1, right_idx):
-            if idx != line_idx:
-                skip_indices.add(idx)
+        skip_indices.update(idx for idx in range(left_idx + 1, right_idx) if idx != line_idx)
 
     updated_path: PathLike = []
     for idx, segment in enumerate(path):
         if idx in skip_indices:
             continue
         cmd = segment.copy()
-        if idx in line_targets and cmd[0] == "L":
-            px, py = line_targets[idx]
-            cmd[1], cmd[2] = px, py
-        if idx in left_targets and cmd[0] == "A":
-            px, py = left_targets[idx]
-            cmd[1], cmd[2] = px, py
+        for targets, expected_code in ((move_targets, "M"), (line_targets, "L"), (left_targets, "A")):
+            target = targets.get(idx)
+            if target is not None and cmd[0] == expected_code:
+                cmd[1], cmd[2] = target
         updated_path.append(cmd)
 
     current_point: Point | None = None
     for segment in updated_path:
         code = segment[0]
-        if code == "M":
-            current_point = (segment[1], segment[2])
-        elif code == "L":
+        if code in {"M", "L"}:
             current_point = (segment[1], segment[2])
         elif code == "A":
             if current_point is None:

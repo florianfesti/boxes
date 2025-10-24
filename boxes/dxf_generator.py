@@ -4,7 +4,7 @@ import io
 import logging
 import math
 from pathlib import Path
-from typing import Any, Iterable, Literal, Sequence, TypedDict
+from typing import Any, Iterable, Literal, Sequence, TypedDict, cast
 
 import ezdxf
 from ezdxf import units
@@ -119,6 +119,172 @@ class EZDXFBuilder:
     @staticmethod
     def _line_segment(start: Vec3, end: Vec3) -> LineSegment:
         return {"type": "line", "start": start, "end": end}
+
+    def _points_close(self, a: Vec3, b: Vec3, *, tol: float | None = None) -> bool:
+        threshold = self._POINT_TOL if tol is None else tol
+        return (a - b).magnitude <= threshold
+
+    def _vectors_collinear(
+        self, v1: Vec3, v2: Vec3, *, tol: float | None = None, allow_reverse: bool = False
+    ) -> bool:
+        threshold = self._POINT_TOL if tol is None else tol
+        len1 = v1.magnitude
+        len2 = v2.magnitude
+        if len1 <= threshold or len2 <= threshold:
+            return True
+        cross = abs(v1.x * v2.y - v1.y * v2.x)
+        max_len = max(len1, len2, 1e-9)
+        if cross > threshold * max_len:
+            return False
+        norm = len1 * len2
+        if norm <= threshold * threshold:
+            return True
+        cosine = v1.dot(v2) / norm
+        angle_tol = min(1e-6, threshold / max_len)
+        if allow_reverse:
+            return abs(cosine) >= 1.0 - angle_tol
+        return cosine >= -angle_tol
+
+    def _merge_line_run_once(self, run: Sequence[LineSegment]) -> tuple[list[LineSegment], bool]:
+        if not run:
+            return [], False
+        merged: list[LineSegment] = []
+        tol = self._POINT_TOL
+        changed = False
+        for segment in run:
+            start = segment["start"]
+            end = segment["end"]
+            if (end - start).magnitude <= tol:
+                changed = True
+                continue
+            if merged:
+                prev = merged[-1]
+                v_prev = prev["end"] - prev["start"]
+                v_curr = end - start
+                tol_vec = max(v_prev.magnitude, v_curr.magnitude, 1.0) * self._POINT_TOL
+                if self._points_close(prev["end"], start, tol=tol_vec):
+                    if self._vectors_collinear(v_prev, v_curr, tol=tol_vec):
+                        merged[-1] = self._line_segment(prev["start"], end)
+                        changed = True
+                        continue
+            merged.append(self._line_segment(start, end))
+
+        if len(merged) <= 1:
+            return merged, changed
+
+        first = merged[0]
+        last = merged[-1]
+        v_first = first["end"] - first["start"]
+        v_last = last["end"] - last["start"]
+        tol_vec = max(v_first.magnitude, v_last.magnitude, 1.0) * self._POINT_TOL
+        share_both = (
+            (
+                self._points_close(first["start"], last["start"], tol=tol_vec)
+                and self._points_close(first["end"], last["end"], tol=tol_vec)
+            )
+            or (
+                self._points_close(first["start"], last["end"], tol=tol_vec)
+                and self._points_close(first["end"], last["start"], tol=tol_vec)
+            )
+        )
+        if share_both:
+            merged.pop()
+            changed = True
+            return merged, changed
+        if self._points_close(first["start"], last["end"], tol=tol_vec):
+            if (
+                v_first.magnitude > tol
+                and v_last.magnitude > tol
+                and self._vectors_collinear(v_last, v_first, tol=tol_vec, allow_reverse=True)
+            ):
+                merged[0] = self._line_segment(last["start"], first["end"])
+                merged.pop()
+                changed = True
+        elif self._points_close(first["end"], last["start"], tol=tol_vec):
+            if (
+                v_first.magnitude > tol
+                and v_last.magnitude > tol
+                and self._vectors_collinear(v_first, v_last, tol=tol_vec, allow_reverse=True)
+            ):
+                merged[-1] = self._line_segment(first["start"], last["end"])
+                merged.pop(0)
+                changed = True
+        return merged, changed
+
+    def _merge_line_run(self, run: Sequence[LineSegment]) -> tuple[list[LineSegment], bool]:
+        current = list(run)
+        overall_changed = False
+        while True:
+            current, changed = self._merge_line_run_once(current)
+            overall_changed = overall_changed or changed
+            if not changed:
+                break
+        return current, overall_changed
+
+    def _merge_line_segments_once(self, segments: Sequence[Segment]) -> tuple[list[Segment], bool]:
+        merged: list[Segment] = []
+        line_run: list[LineSegment] = []
+        changed = False
+
+        def flush_run() -> None:
+            nonlocal changed
+            if not line_run:
+                return
+            merged_run, run_changed = self._merge_line_run(line_run)
+            if run_changed:
+                changed = True
+            merged.extend(merged_run)
+            line_run.clear()
+
+        for segment in segments:
+            if segment["type"] == "line":
+                line_run.append(cast(LineSegment, segment))
+            else:
+                flush_run()
+                merged.append(segment)
+        flush_run()
+        return merged, changed
+
+    def _merge_line_segments(self, segments: Sequence[Segment]) -> list[Segment]:
+        if not segments:
+            return []
+        merged, changed = self._merge_line_segments_once(segments)
+        if len(merged) >= 2 and merged[0]["type"] == "line" and merged[-1]["type"] == "line":
+            first = cast(LineSegment, merged[0])
+            last = cast(LineSegment, merged[-1])
+            v_first = first["end"] - first["start"]
+            v_last = last["end"] - last["start"]
+            tol_vec = max(v_first.magnitude, v_last.magnitude, 1.0) * self._POINT_TOL
+            same_direction = self._points_close(first["start"], last["start"], tol=tol_vec) and self._points_close(
+                first["end"], last["end"], tol=tol_vec
+            )
+            opposite_direction = self._points_close(first["start"], last["end"], tol=tol_vec) and self._points_close(
+                first["end"], last["start"], tol=tol_vec
+            )
+            if same_direction or opposite_direction:
+                merged = list(merged[:-1])
+                return self._merge_line_segments(merged)
+            if self._points_close(first["start"], last["end"], tol=tol_vec) and self._vectors_collinear(
+                v_last, v_first, tol=tol_vec, allow_reverse=True
+            ):
+                new_seg = self._line_segment(last["start"], first["end"])
+                if not self._points_close(new_seg["start"], new_seg["end"], tol=tol_vec):
+                    merged = [new_seg] + list(merged[1:-1])
+                else:
+                    merged = list(merged[1:-1])
+                return self._merge_line_segments(merged)
+            if self._points_close(first["end"], last["start"], tol=tol_vec) and self._vectors_collinear(
+                v_first, v_last, tol=tol_vec, allow_reverse=True
+            ):
+                new_seg = self._line_segment(first["start"], last["end"])
+                if not self._points_close(new_seg["start"], new_seg["end"], tol=tol_vec):
+                    merged = [new_seg] + list(merged[1:-1])
+                else:
+                    merged = list(merged[1:-1])
+                return self._merge_line_segments(merged)
+        if not changed:
+            return merged
+        return self._merge_line_segments(merged)
 
     @staticmethod
     def _arc_segment(
@@ -283,6 +449,7 @@ class EZDXFBuilder:
     def _emit_polyline(self, segments: list[Segment]) -> None:
         if not segments:
             return
+        segments = self._merge_line_segments(segments)
         vertices: list[list[float]] = []
         tol = self._POINT_TOL
 

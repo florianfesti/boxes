@@ -286,6 +286,117 @@ class EZDXFBuilder:
             return merged
         return self._merge_line_segments(merged)
 
+    def _merge_arc_segments(self, segments: Sequence[Segment]) -> list[Segment]:
+        merged: list[Segment] = []
+        pending: ArcSegment | None = None
+        pending_start_angle = 0.0
+        sweep_acc = 0.0
+
+        def start_pending(arc: ArcSegment) -> None:
+            nonlocal pending, pending_start_angle, sweep_acc
+            pending = self._arc_segment(
+                center=arc["center"],
+                radius=arc["radius"],
+                start_angle=arc["start_angle"],
+                end_angle=arc["end_angle"],
+                orientation=arc["orientation"],
+                start=arc["start"],
+                end=arc["end"],
+                full_circle=arc["full_circle"],
+            )
+            pending_start_angle = arc["start_angle"]
+            sweep_acc = self._arc_sweep(arc)
+
+        def flush_pending() -> None:
+            nonlocal pending, sweep_acc, pending_start_angle
+            if pending is None:
+                return
+            tol = max(pending["radius"], 1.0) * self._ARC_TOL
+            if (
+                not pending["full_circle"]
+                and self._points_close(pending["start"], pending["end"], tol=tol)
+                and abs(sweep_acc - 2.0 * math.pi) <= self._FULL_CIRCLE_TOL
+            ):
+                pending = self._arc_segment(
+                    center=pending["center"],
+                    radius=pending["radius"],
+                    start_angle=pending["start_angle"],
+                    end_angle=pending["end_angle"],
+                    orientation=pending["orientation"],
+                    start=pending["start"],
+                    end=pending["end"],
+                    full_circle=True,
+                )
+            pending_start_angle = 0.0
+            merged.append(pending)
+            pending = None
+            sweep_acc = 0.0
+
+        for segment in segments:
+            if segment["type"] != "arc":
+                flush_pending()
+                merged.append(segment)
+                continue
+
+            arc = cast(ArcSegment, segment)
+            if arc["full_circle"]:
+                flush_pending()
+                merged.append(
+                    self._arc_segment(
+                        center=arc["center"],
+                        radius=arc["radius"],
+                        start_angle=arc["start_angle"],
+                        end_angle=arc["end_angle"],
+                        orientation=arc["orientation"],
+                        start=arc["start"],
+                        end=arc["end"],
+                        full_circle=True,
+                    )
+                )
+                continue
+
+            if pending is None:
+                start_pending(arc)
+                continue
+
+            tol = max(pending["radius"], arc["radius"], 1.0) * self._ARC_TOL
+            centers_close = (arc["center"] - pending["center"]).magnitude <= tol
+            radii_close = abs(arc["radius"] - pending["radius"]) <= tol
+            contiguous = self._points_close(pending["end"], arc["start"], tol=tol)
+            same_orientation = arc["orientation"] == pending["orientation"]
+            next_sweep = sweep_acc + self._arc_sweep(arc)
+
+            if (
+                centers_close
+                and radii_close
+                and contiguous
+                and same_orientation
+                and next_sweep <= 2.0 * math.pi + self._FULL_CIRCLE_TOL
+            ):
+                sweep_acc = next_sweep
+                orientation = pending["orientation"]
+                if orientation > 0:
+                    end_angle = pending_start_angle + sweep_acc
+                else:
+                    end_angle = pending_start_angle - sweep_acc
+                pending = self._arc_segment(
+                    center=pending["center"],
+                    radius=pending["radius"],
+                    start_angle=pending_start_angle,
+                    end_angle=end_angle,
+                    orientation=orientation,
+                    start=pending["start"],
+                    end=arc["end"],
+                    full_circle=pending["full_circle"] or arc["full_circle"],
+                )
+                continue
+
+            flush_pending()
+            start_pending(arc)
+
+        flush_pending()
+        return merged
+
     @staticmethod
     def _arc_segment(
         *,
@@ -532,11 +643,12 @@ class EZDXFBuilder:
         if not segments:
             self._emit_texts(texts)
             return
-        circle = self._segments_form_circle(segments)
+        merged_segments = self._merge_arc_segments(segments)
+        circle = self._segments_form_circle(merged_segments)
         if circle:
             self._emit_circle(circle["center"], circle["radius"])
         else:
-            self._emit_polyline(segments)
+            self._emit_polyline(merged_segments)
         self._emit_texts(texts)
 
     def add_commands(self, commands: Iterable[Command]) -> None:

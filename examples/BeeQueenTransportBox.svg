@@ -37,15 +37,15 @@ FAQ:
  - No cutouts or air holes are visible on my box?
    Make sure the section sizes defined by `sx` and `sy` are large enough to fit the cage dimensions as otherwise
    these sections are taken as margins.
-    
-![Multiple Bee Queen Transport Boxes](static/samples/BeeQueenTransportBoxes.jpg) 
+  
+![Multiple Bee Queen Transport Boxes](static/samples/BeeQueenTransportBoxes.jpg)
 
 
     
 
 
 Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
-Creation date: 2025-10-25 22:56:06
+Creation date: 2025-10-25 23:04:54
 Command line (remove spaces between dashes): boxes BeeQueenTransportBox '- -sx=5:45*3:5' '- -sy=5:25*3:5' - -sh=25:75 - -ah=70:20 - -ax=10:20:10:20:10:20:10 - -ay=20:60:20
 Url: http://localhost:8000/BeeQueenTransportBox?FingerJoint_style=rectangular&FingerJoint_surroundingspaces=2.0&FingerJoint_bottom_lip=0.0&FingerJoint_edge_width=1.0&FingerJoint_extra_length=0.0&FingerJoint_finger=2.0&FingerJoint_play=0.0&FingerJoint_space=2.0&FingerJoint_width=1.0&BeeQueenTransportBoxLid_cover=none&BeeQueenTransportBoxLid_handle=none&BeeQueenTransportBoxLid_queeniconscale=75.0&BeeQueenTransportBoxLid_style=overthetop&BeeQueenTransportBoxLid_handle_height=8.0&BeeQueenTransportBoxLid_height=4.0&BeeQueenTransportBoxLid_play=0.1&Stackable_angle=60&Stackable_bottom_stabilizers=0.0&Stackable_height=2.0&Stackable_holedistance=1.0&Stackable_width=4.0&top_edge=e&bottom_edge=s&sx=5%3A45*3%3A5&sy=5%3A25*3%3A5&sh=25%3A75&aw=3.0&ah=70%3A20&ax=10%3A20%3A10%3A20%3A10%3A20%3A10&ay=20%3A60%3A20&layer2=None&layer1=NicotTransportCage&layer0=None&thickness=3.0&format=svg&tabs=0.0&qr_code=0&debug=0&labels=0&labels=1&reference=100.0&inner_corners=loop&burn=0.1&language=None&render=2
 Url short: http://localhost:8000/BeeQueenTransportBox?sx=5%3A45*3%3A5&sy=5%3A25*3%3A5&sh=25%3A75&ah=70%3A20&ax=10%3A20%3A10%3A20%3A10%3A20%3A10&ay=20%3A60%3A20
@@ -56,7 +56,7 @@ SettingsUrl short: http://localhost:8000/BeeQueenTransportBox?sx=5%3A45*3%3A5&sy
 <metadata>
 <rdf:RDF><cc:Work>
 <dc:title>Beekeeping - BeeQueenTransportBox</dc:title>
-<dc:date>2025-10-25 22:56:06</dc:date>
+<dc:date>2025-10-25 23:04:54</dc:date>
 <dc:source>http://localhost:8000/BeeQueenTransportBox?FingerJoint_style=rectangular&amp;FingerJoint_surroundingspaces=2.0&amp;FingerJoint_bottom_lip=0.0&amp;FingerJoint_edge_width=1.0&amp;FingerJoint_extra_length=0.0&amp;FingerJoint_finger=2.0&amp;FingerJoint_play=0.0&amp;FingerJoint_space=2.0&amp;FingerJoint_width=1.0&amp;BeeQueenTransportBoxLid_cover=none&amp;BeeQueenTransportBoxLid_handle=none&amp;BeeQueenTransportBoxLid_queeniconscale=75.0&amp;BeeQueenTransportBoxLid_style=overthetop&amp;BeeQueenTransportBoxLid_handle_height=8.0&amp;BeeQueenTransportBoxLid_height=4.0&amp;BeeQueenTransportBoxLid_play=0.1&amp;Stackable_angle=60&amp;Stackable_bottom_stabilizers=0.0&amp;Stackable_height=2.0&amp;Stackable_holedistance=1.0&amp;Stackable_width=4.0&amp;top_edge=e&amp;bottom_edge=s&amp;sx=5%3A45*3%3A5&amp;sy=5%3A25*3%3A5&amp;sh=25%3A75&amp;aw=3.0&amp;ah=70%3A20&amp;ax=10%3A20%3A10%3A20%3A10%3A20%3A10&amp;ay=20%3A60%3A20&amp;layer2=None&amp;layer1=NicotTransportCage&amp;layer0=None&amp;thickness=3.0&amp;format=svg&amp;tabs=0.0&amp;qr_code=0&amp;debug=0&amp;labels=0&amp;labels=1&amp;reference=100.0&amp;inner_corners=loop&amp;burn=0.1&amp;language=None&amp;render=2</dc:source>
 <dc:source>http://localhost:8000/BeeQueenTransportBox?sx=5%3A45*3%3A5&amp;sy=5%3A25*3%3A5&amp;sh=25%3A75&amp;ah=70%3A20&amp;ax=10%3A20%3A10%3A20%3A10%3A20%3A10&amp;ay=20%3A60%3A20</dc:source>
 <dc:description>Box to hold Bee Queen Transport Cages
@@ -94,8 +94,8 @@ FAQ:
  - No cutouts or air holes are visible on my box?
    Make sure the section sizes defined by `sx` and `sy` are large enough to fit the cage dimensions as otherwise
    these sections are taken as margins.
-    
-![Multiple Bee Queen Transport Boxes](static/samples/BeeQueenTransportBoxes.jpg) 
+  
+![Multiple Bee Queen Transport Boxes](static/samples/BeeQueenTransportBoxes.jpg)
 
 
     

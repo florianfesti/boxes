@@ -1,3 +1,6 @@
+# Copyright (C) 2025 Martin Scharrer <martin.scharrer@web.de>
+#
+# Starting point was Drillbox by Florian Festi:
 # Copyright (C) 2013-2014 Florian Festi
 #
 #   This program is free software: you can redistribute it and/or modify
@@ -26,7 +29,6 @@ class Cutout:
     def cutout(self, box, x, y, color=Color.INNER_CUT):
         pass
 
-
 class CircleCutout(Cutout):
     RADIUS = 12.0 / 2.0
     DIMENSIONS = (RADIUS * 2.0, RADIUS * 2.0)
@@ -39,7 +41,6 @@ class CircleCutout(Cutout):
         with box.saved_context():
             box.set_source_color(color)
             box.circle(x, y, self.RADIUS)
-
 
 class PolygonCutout(Cutout):
     PTS = ( (0.0, 0.0), )
@@ -61,7 +62,6 @@ class PolygonCutout(Cutout):
                     ctx.line_to(px, py)
 
                 ctx.stroke()
-
 
 class PathCutout(Cutout):
     """General SVG path cutout. Supports M(oveTo), L(ineTo), C(urveTo) commands."""
@@ -85,7 +85,6 @@ class PathCutout(Cutout):
             for command, params in self.SEGMENTS:
                 CMDS[command](*params)
             ctx.stroke()
-
 
 class MultiPathCutout(PathCutout):
     COLORS = [Color.INNER_CUT]
@@ -126,12 +125,10 @@ class MultiPathCutout(PathCutout):
 class NoneCutout(Cutout):
     """No cutout"""
 
-
 class NicotIncubatorCageCutout(CircleCutout):
     """Nicot incubator cage"""
     RADIUS = 21.35 / 2.0
     DIMENSIONS = (RADIUS * 2.0, RADIUS * 2.0)
-
 
 class NicotTransportCageCutout(PathCutout):
     """Nicot transport and introduction cage"""
@@ -181,7 +178,6 @@ class NicotHatchingCageCutout(PathCutout):
                  ('C', (12.248662344696001, -7.575763913767979, 11.834613878094999, -9.385966038929986, 10.614878655487004, -10.605702986505982)),
                  ('C', (9.395143432878982, -11.825439934081977, 7.584941893271996, -12.239490960695981, 5.956878978515, -11.669467399319963)),
                  ('C', (0.6772758573989961, -14.36253149263198, -5.7526862178120055, -13.174189825958983, -9.721000000000004, -8.771999999999998))]
-
 
 class QueenIconCutout(MultiPathCutout):
     """Queen icon cutout"""
@@ -507,7 +503,6 @@ class QueenIconCutout(MultiPathCutout):
                 SEGMENTS_BEEBODY, SEGMENTS_CROWN, SEGMENTS_WING_RIGHT, SEGMENTS_WING_LEFT,  # Outlines
                 SEGMENTS_WING_RIGHT_INNER, SEGMENTS_WING_LEFT_INNER, SEGMENTS_RINGS]        # Outlines
 
-
 class AirHolesForNicotTransportCageCutout(Cutout):
     """Air hole cutout for Nicot transport cage"""
     DIMENSIONS = NicotTransportCageCutout.DIMENSIONS
@@ -523,7 +518,6 @@ class AirHolesForNicotTransportCageCutout(Cutout):
             ox, oy = self.OFFSET
             box.rectangularHole(x + ox, y + oy - h, l, h, h/2., True, True)
             box.rectangularHole(x + ox, y + oy + h, l, h, h/2., True, True)
-
 
 class HexHolesCutout(Cutout):
     """Hexagonal hole pattern cutout"""
@@ -553,7 +547,6 @@ class HexHolesCutout(Cutout):
                 for cx, cy in cxy:
                     draw(r * (cx + lx), r * (cy + ly), self.IRADIUS)
                     lx, ly = cx, cy
-
 
 class GiantHexHoleCutout(Cutout):
     """Giant hexagonal hole pattern cutout"""
@@ -624,13 +617,12 @@ class AirHolesForNicotHatchingCageCutout(HexHolesCutout):
     IRADIUS = 2.
     LEVELS = 3
 
-
-class QueenTransportBoxLidSettings(LidSettings):
+class BeeQueenTransportBoxLidSettings(LidSettings):
     """Lid settings for Queen Transport Box"""
     absolute_params = LidSettings.absolute_params.copy() | {"cover": ("none", "airholes", "queenicon", "queenicon_airholes"), "queeniconscale": 75.}
 
-
-class QueenTransportBoxLid(Lid):
+class BeeQueenTransportBoxLid(Lid):
+    """Lid for Queen Transport Box with optional air holes and queen icon cutout"""
 
     def handleCB(self, x: float, y: float) -> Callable:
         if self.handle == 'none':
@@ -662,10 +654,47 @@ class QueenTransportBoxLid(Lid):
                     QueenIconCutout(w=r, h=r).cutout(self, .5 * x, .5 * y)
         return cover
 
-class QueenTransportBox(_TopEdge):
-    """Box for Bee Queen Transport Cages"""
+class BeeQueenTransportBox(_TopEdge):
+    """Box to hold Bee Queen Transport Cages"""
 
-    description = "Queen Transport Box"
+    description = """
+Box to hold Bee Queen Transport Cages like the Nicot transport and introduction cage and size compatible cages 
+but also for round Nicot hatching cages as well as Nicot incubator cages.
+
+The number of cages per box can be adjusted by changing the sections using `sx` and `sy` parameters.
+Sections to small for the cage dimensions can be used as margins.
+
+Multiple inner layers can be defined using the section parameter `sh`.
+Usually the cage cutout is on layer 1 with an underlaying bottom layer without cutouts or air holes.
+For three layers the cutout can be selected using the `layer0`, `layer1` and `layer2` parameters.
+Users need to ensure to match the layers and section sizes to each other! 
+
+Air holes can be added to the box sides using the section parameters `ah`, `ax` and `ay`.
+Their height is defined by `ah` and their position by dividing the box sides into 
+sections using `ax` (left to right) and `ay` (back to front). Even sections are margins, odd sections are holes.
+The air hole width is defined by `aw`. The default value is 3mm which is bee tight.
+A value of 4.2mm would make it passable by working bees but still tight for queens.
+A value of 5.2mm would make it passable by working bees and queens but still tight for drones.
+
+A special lid is provided which can have air holes and a bee queen icon for decoration.
+
+Examples:
+
+ - [3x3 Nicot transport cages including lid with air holes and queen icon](BeeQueenTransportBox?FingerJoint_style=rectangular&FingerJoint_surroundingspaces=2.0&FingerJoint_bottom_lip=0.0&FingerJoint_edge_width=1.0&FingerJoint_extra_length=0.0&FingerJoint_finger=2.0&FingerJoint_play=0.0&FingerJoint_space=2.0&FingerJoint_width=1.0&BeeQueenTransportBoxLid_cover=queenicon_airholes&BeeQueenTransportBoxLid_handle=none&BeeQueenTransportBoxLid_queeniconscale=75.0&BeeQueenTransportBoxLid_style=overthetop&BeeQueenTransportBoxLid_handle_height=8.0&BeeQueenTransportBoxLid_height=4.0&BeeQueenTransportBoxLid_play=0.1&Stackable_angle=60&Stackable_bottom_stabilizers=0.0&Stackable_height=2.0&Stackable_holedistance=1.0&Stackable_width=4.0&top_edge=e&bottom_edge=s&sx=5%3A45*3%3A5&sy=5%3A25*3%3A5&sh=25%3A75&aw=3.0&ah=70%3A20&ax=10%3A20%3A10%3A20%3A10%3A20%3A10&ay=20%3A60%3A20&layer2=None&layer1=NicotTransportCage&layer0=AirHolesForNicotTransportCage&thickness=3.0&format=svg&tabs=0.0&qr_code=0&debug=0&labels=0&labels=1&reference=100.0&inner_corners=loop&burn=0.1&language=None&render=0)
+ - [3x10 Nicot transport cages including lid with air holes and queen icon](BeeQueenTransportBox?FingerJoint_style=rectangular&FingerJoint_surroundingspaces=2.0&FingerJoint_bottom_lip=0.0&FingerJoint_edge_width=1.0&FingerJoint_extra_length=0.0&FingerJoint_finger=2.0&FingerJoint_play=0.0&FingerJoint_space=2.0&FingerJoint_width=1.0&BeeQueenTransportBoxLid_cover=queenicon_airholes&BeeQueenTransportBoxLid_handle=none&BeeQueenTransportBoxLid_queeniconscale=75.0&BeeQueenTransportBoxLid_style=overthetop&BeeQueenTransportBoxLid_handle_height=8.0&BeeQueenTransportBoxLid_height=4.0&BeeQueenTransportBoxLid_play=0.1&Stackable_angle=60&Stackable_bottom_stabilizers=0.0&Stackable_height=2.0&Stackable_holedistance=1.0&Stackable_width=4.0&top_edge=e&bottom_edge=s&sx=5%3A45*3%3A5&sy=5%3A25*10%3A5&sh=25%3A75&aw=3.0&ah=70%3A20&ax=10%3A20%3A10%3A20%3A10%3A20%3A10&ay=20%3A60%3A20&layer2=None&layer1=NicotTransportCage&layer0=AirHolesForNicotTransportCage&thickness=3.0&format=svg&tabs=0.0&qr_code=0&debug=0&labels=0&labels=1&reference=100.0&inner_corners=loop&burn=0.1&language=None&render=0)
+ - [4x6 Combination Nicot hatching cages plus incubator cages](BeeQueenTransportBox?FingerJoint_style=rectangular&FingerJoint_surroundingspaces=2.0&FingerJoint_bottom_lip=0.0&FingerJoint_edge_width=1.0&FingerJoint_extra_length=0.0&FingerJoint_finger=2.0&FingerJoint_play=0.0&FingerJoint_space=2.0&FingerJoint_width=1.0&BeeQueenTransportBoxLid_cover=queenicon_airholes&BeeQueenTransportBoxLid_handle=none&BeeQueenTransportBoxLid_queeniconscale=75.0&BeeQueenTransportBoxLid_style=overthetop&BeeQueenTransportBoxLid_handle_height=8.0&BeeQueenTransportBoxLid_height=4.0&BeeQueenTransportBoxLid_play=0.1&Stackable_angle=60&Stackable_bottom_stabilizers=0.0&Stackable_height=2.0&Stackable_holedistance=1.0&Stackable_width=4.0&top_edge=e&bottom_edge=s&sx=5%3A30*6%3A5&sy=5%3A30*4%3A5&sh=0%3A95&aw=3.0&ah=60%3A20&ax=10%3A20%3A10%3A20%3A10%3A20%3A10&ay=20%3A60%3A20&layer2=None&layer1=NicotHatchingCage&layer0=NicotIncubatorCage&thickness=3.0&format=svg&tabs=0.0&qr_code=0&debug=0&labels=0&labels=1&reference=100.0&inner_corners=loop&burn=0.1&language=None&render=0)  
+    The bottom layer acts as a rest for the hatching cages but is also a fit for the incubator cages.
+
+FAQ:
+
+ - No cutouts or air holes are visible on my box?  
+   Make sure the section sizes defined by `sx` and `sy` are large enough to fit the cage dimensions as otherwise
+   these sections are taken as margins.
+    
+![Multiple Bee Queen Transport Boxes](static/samples/BeeQueenTransportBoxes.jpg) 
+
+
+    """
 
     ui_group = "Box"
 
@@ -677,13 +706,13 @@ class QueenTransportBox(_TopEdge):
 
     def _buildObjects(self):
         super()._buildObjects()
-        self.lidSettings = QueenTransportBoxLidSettings(self.thickness, True, **self.edgesettings.get("QueenTransportBoxLid", {}))
-        self.lid = QueenTransportBoxLid(self, self.lidSettings)
+        self.lidSettings = BeeQueenTransportBoxLidSettings(self.thickness, True, **self.edgesettings.get("BeeQueenTransportBoxLid", {}))
+        self.lid = BeeQueenTransportBoxLid(self, self.lidSettings)
 
     def __init__(self) -> None:
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings)
-        self.addSettingsArgs(QueenTransportBoxLidSettings, **self.LIDSETTINGS)
+        self.addSettingsArgs(BeeQueenTransportBoxLidSettings, **self.LIDSETTINGS)
         self.addSettingsArgs(edges.StackableSettings)
         self.argparser.add_argument(
             "--top_edge", action="store",
@@ -709,7 +738,7 @@ class QueenTransportBox(_TopEdge):
         self.argparser.add_argument(
             "--ax", action="store", type=argparseSections,
             default=self.DEFAULT["ax"],
-            help="""air hole sections sections left to right in %% of the box width""")
+            help="""air hole sections left to right in %% of the box width""")
         self.argparser.add_argument(
             "--ay", action="store", type=argparseSections,
             default=self.DEFAULT["ay"],

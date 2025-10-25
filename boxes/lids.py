@@ -334,6 +334,9 @@ class _TopEdge(Boxes):
         elif top_edge == "v":
             self.rectangularWall(x, y, "VEEE", move="up", label="lid top")
             self.edges["v"].parts(move="up")
+        elif top_edge == "E":
+            self.rectangularWall(x, y, "EEEE", move="up", label="lid top")
+            self.rectangularWall(x, y, "eeee", move="up", label="lid top")
         else:
             return False
         return True

@@ -14,9 +14,10 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
+from boxes.lids import _TopEdge
 
 
-class Shadowbox(Boxes):
+class Shadowbox(_TopEdge):
     """The frame and spacers necessary to display a shadowbox / lightbox."""
 
     description = """
@@ -52,6 +53,11 @@ See the diagram below for dimensions.
         self.argparser.add_argument(
             "--casejoinery", action="store", type=boolarg, default=True,
             help="whether or not to join sides to front plate (disable if doing manual joins on fancy wood)")
+        self.argparser.add_argument(
+            "--back_edge", action="store",
+            type=ArgparseEdgeType("eEfFh"), choices=list("eEfFh"),
+            default="e",
+            help="edge type for back edge (and back wall)")
 
     def render(self):
         x, y = self.x, self.y
@@ -103,13 +109,19 @@ See the diagram below for dimensions.
             top_edge = 'f'
         else:
             top_edge = 'e'
-        self.rectangularWall(x, height, f"ef{top_edge}f", move="up")
-        self.rectangularWall(x, height, f"ef{top_edge}f", move="up")
-        self.rectangularWall(y, height, f"eF{top_edge}F", move="up")
-        self.rectangularWall(y, height, f"eF{top_edge}F", move="up")
+        self.rectangularWall(
+            x, height, f"{self.back_edge}f{top_edge}f", move="up")
+        self.rectangularWall(
+            x, height, f"{self.back_edge}f{top_edge}f", move="up")
+        self.rectangularWall(
+            y, height, f"{self.back_edge}F{top_edge}F", move="up")
+        self.rectangularWall(
+            y, height, f"{self.back_edge}F{top_edge}F", move="up")
 
         # led strip holder
         self.rectangularWall(x - 2*t, 10, "efef", move="up")
         self.rectangularWall(x - 2*t, 10, "efef", move="up")
         self.rectangularWall(y - 2*t, 10, "eFeF", move="up")
         self.rectangularWall(y - 2*t, 10, "eFeF", move="up")
+
+        self.drawLid(x, y, self.back_edge)

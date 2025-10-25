@@ -692,7 +692,7 @@ FAQ:
  - No cutouts or air holes are visible on my box?
    Make sure the section sizes defined by `sx` and `sy` are large enough to fit the cage dimensions as otherwise
    these sections are taken as margins.
-  
+
 ![Multiple Bee Queen Transport Boxes](static/samples/BeeQueenTransportBoxes.jpg)
 
 

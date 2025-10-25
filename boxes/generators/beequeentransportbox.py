@@ -19,7 +19,8 @@
 from boxes import *
 from boxes.lids import Lid, LidSettings, _TopEdge
 import math
-from typing import Callable, Sequence
+from typing import Callable
+from collections.abc import Sequence
 
 
 class Cutout:
@@ -692,7 +693,7 @@ FAQ:
    Make sure the section sizes defined by `sx` and `sy` are large enough to fit the cage dimensions as otherwise
    these sections are taken as margins.
     
-![Multiple Bee Queen Transport Boxes](static/samples/BeeQueenTransportBoxes.jpg) 
+![Multiple Bee Queen Transport Boxes](static/samples/BeeQueenTransportBoxes.jpg)
 
 
     """
@@ -701,7 +702,7 @@ FAQ:
 
     CUTOUTS = (NicotTransportCageCutout, NicotHatchingCageCutout, NicotIncubatorCageCutout, AirHolesForNicotTransportCageCutout, AirHolesForNicotIncubatorCageCutout, AirHolesForNicotHatchingCageCutout, NoneCutout)
     LAYERS = (NoneCutout, NicotTransportCageCutout, NoneCutout)
-    DEFAULT = dict(sx="5:45*3:5", sy="5:30*3:5", sh="25:75", aw=3.0, ah="70:20", ax="10:20:10:20:10:20:10", ay="20:60:20", bottom_edge="s", top_edge="e")
+    DEFAULT = dict(sx="5:45*3:5", sy="5:25*3:5", sh="25:75", aw=3.0, ah="70:20", ax="10:20:10:20:10:20:10", ay="20:60:20", bottom_edge="s", top_edge="e")
     CHOICES = dict(top_edge="eStG", bottom_edge="Fhsše")
     LIDSETTINGS = dict(style="overthetop")
 

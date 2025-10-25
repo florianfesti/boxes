@@ -696,7 +696,7 @@ FAQ:
 
     """
 
-    ui_group = "Box"
+    ui_group = "Beekeeping"
 
     CUTOUTS = (NicotTransportCageCutout, NicotHatchingCageCutout, NicotIncubatorCageCutout, AirHolesForNicotTransportCageCutout, AirHolesForNicotIncubatorCageCutout, AirHolesForNicotHatchingCageCutout, NoneCutout)
     LAYERS = (NoneCutout, NicotTransportCageCutout, NoneCutout)

@@ -841,6 +841,26 @@ msgstr "角落"
 msgid "backarc"
 msgstr "弧后"
 
+#. possible choice for inner_corners
+msgid "dogbone"
+msgstr "dogbone"
+
+#. parameter name
+msgid "R"
+msgstr "R"
+
+#. help for parameter R
+msgid "radius for dogbone inner corners (in mm)"
+msgstr "dogbone 内角的半径（毫米）"
+
+#. parameter name
+msgid "D"
+msgstr "D"
+
+#. help for parameter D
+msgid "diameter for dogbone inner corners (in mm)"
+msgstr "dogbone 内角的直径（毫米）"
+
 #. parameter name
 msgid "burn"
 msgstr "激光补偿"

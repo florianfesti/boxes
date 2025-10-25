@@ -19,7 +19,7 @@
 from boxes import *
 from boxes.lids import Lid, LidSettings, _TopEdge
 import math
-from typing import Callable
+from typing import Callable, Sequence
 
 
 class Cutout:
@@ -70,7 +70,7 @@ class PathCutout(Cutout):
     OFFSET = (0., 0.)
 
     # SVG path data and transform (from the provided SVG)
-    SEGMENTS = [('M', (0., 0.)),
+    SEGMENTS: Sequence[tuple[str, tuple[float, ...]]] = [('M', (0., 0.)),
                  ('L', (0., 0.)),
                  ('C', (0., 0., 0., 0., 0., 0.))
                ]
@@ -88,8 +88,9 @@ class PathCutout(Cutout):
 
 class MultiPathCutout(PathCutout):
     COLORS = [Color.INNER_CUT]
-    SCALE = (1., 1.)
-    DIMENSIONS = (100., 100.)
+    SCALE: tuple[float, float] = (1., 1.)
+    DIMENSIONS: tuple[float, float] = (100., 100.)
+    MULTI_SEGMENTS: Sequence[Sequence[tuple[str, tuple[float, ...]]]] = []
 
     def __init__(self, w=None, h=None):
         hs = ws = float('inf')
@@ -107,10 +108,10 @@ class MultiPathCutout(PathCutout):
             colors = self.COLORS
         elif isinstance(color[0], (float, int)):
             colors = [color]
-        if len(colors) < len(self.SEGMENTS):
+        if len(colors) < len(self.MULTI_SEGMENTS):
             colors = list(colors) + [colors[-1]] * (len(self.SEGMENTS) - len(colors))
 
-        for color, segments in zip(colors, self.SEGMENTS):
+        for color, segments in zip(colors, self.MULTI_SEGMENTS):
             with box.saved_context() as ctx:
                 box.set_source_color(color)
                 #
@@ -499,7 +500,7 @@ class QueenIconCutout(MultiPathCutout):
               Color.ETCHING, Color.ETCHING,  # Filled lighter
               Color.YELLOW  # Outlines
               ]
-    SEGMENTS = [SEGMENTS_BEEBODY + SEGMENTS_BEEBODY_CIRCLE, SEGMENTS_CROWN, SEGMENTS_WING_RIGHT, SEGMENTS_WING_LEFT,  # Fillings
+    MULTI_SEGMENTS = [SEGMENTS_BEEBODY + SEGMENTS_BEEBODY_CIRCLE, SEGMENTS_CROWN, SEGMENTS_WING_RIGHT, SEGMENTS_WING_LEFT,  # Fillings
                 SEGMENTS_BEEBODY, SEGMENTS_CROWN, SEGMENTS_WING_RIGHT, SEGMENTS_WING_LEFT,  # Outlines
                 SEGMENTS_WING_RIGHT_INNER, SEGMENTS_WING_LEFT_INNER, SEGMENTS_RINGS]        # Outlines
 
@@ -658,7 +659,7 @@ class BeeQueenTransportBox(_TopEdge):
     """Box to hold Bee Queen Transport Cages"""
 
     description = """
-Box to hold Bee Queen Transport Cages like the Nicot transport and introduction cage and size compatible cages 
+Box to hold Bee Queen Transport Cages like the Nicot transport and introduction cage and size compatible cages
 but also for round Nicot hatching cages as well as Nicot incubator cages.
 
 The number of cages per box can be adjusted by changing the sections using `sx` and `sy` parameters.
@@ -667,10 +668,10 @@ Sections to small for the cage dimensions can be used as margins.
 Multiple inner layers can be defined using the section parameter `sh`.
 Usually the cage cutout is on layer 1 with an underlaying bottom layer without cutouts or air holes.
 For three layers the cutout can be selected using the `layer0`, `layer1` and `layer2` parameters.
-Users need to ensure to match the layers and section sizes to each other! 
+Users need to ensure to match the layers and section sizes to each other!
 
 Air holes can be added to the box sides using the section parameters `ah`, `ax` and `ay`.
-Their height is defined by `ah` and their position by dividing the box sides into 
+Their height is defined by `ah` and their position by dividing the box sides into
 sections using `ax` (left to right) and `ay` (back to front). Even sections are margins, odd sections are holes.
 The air hole width is defined by `aw`. The default value is 3mm which is bee tight.
 A value of 4.2mm would make it passable by working bees but still tight for queens.
@@ -682,12 +683,12 @@ Examples:
 
  - [3x3 Nicot transport cages including lid with air holes and queen icon](BeeQueenTransportBox?FingerJoint_style=rectangular&FingerJoint_surroundingspaces=2.0&FingerJoint_bottom_lip=0.0&FingerJoint_edge_width=1.0&FingerJoint_extra_length=0.0&FingerJoint_finger=2.0&FingerJoint_play=0.0&FingerJoint_space=2.0&FingerJoint_width=1.0&BeeQueenTransportBoxLid_cover=queenicon_airholes&BeeQueenTransportBoxLid_handle=none&BeeQueenTransportBoxLid_queeniconscale=75.0&BeeQueenTransportBoxLid_style=overthetop&BeeQueenTransportBoxLid_handle_height=8.0&BeeQueenTransportBoxLid_height=4.0&BeeQueenTransportBoxLid_play=0.1&Stackable_angle=60&Stackable_bottom_stabilizers=0.0&Stackable_height=2.0&Stackable_holedistance=1.0&Stackable_width=4.0&top_edge=e&bottom_edge=s&sx=5%3A45*3%3A5&sy=5%3A25*3%3A5&sh=25%3A75&aw=3.0&ah=70%3A20&ax=10%3A20%3A10%3A20%3A10%3A20%3A10&ay=20%3A60%3A20&layer2=None&layer1=NicotTransportCage&layer0=AirHolesForNicotTransportCage&thickness=3.0&format=svg&tabs=0.0&qr_code=0&debug=0&labels=0&labels=1&reference=100.0&inner_corners=loop&burn=0.1&language=None&render=0)
  - [3x10 Nicot transport cages including lid with air holes and queen icon](BeeQueenTransportBox?FingerJoint_style=rectangular&FingerJoint_surroundingspaces=2.0&FingerJoint_bottom_lip=0.0&FingerJoint_edge_width=1.0&FingerJoint_extra_length=0.0&FingerJoint_finger=2.0&FingerJoint_play=0.0&FingerJoint_space=2.0&FingerJoint_width=1.0&BeeQueenTransportBoxLid_cover=queenicon_airholes&BeeQueenTransportBoxLid_handle=none&BeeQueenTransportBoxLid_queeniconscale=75.0&BeeQueenTransportBoxLid_style=overthetop&BeeQueenTransportBoxLid_handle_height=8.0&BeeQueenTransportBoxLid_height=4.0&BeeQueenTransportBoxLid_play=0.1&Stackable_angle=60&Stackable_bottom_stabilizers=0.0&Stackable_height=2.0&Stackable_holedistance=1.0&Stackable_width=4.0&top_edge=e&bottom_edge=s&sx=5%3A45*3%3A5&sy=5%3A25*10%3A5&sh=25%3A75&aw=3.0&ah=70%3A20&ax=10%3A20%3A10%3A20%3A10%3A20%3A10&ay=20%3A60%3A20&layer2=None&layer1=NicotTransportCage&layer0=AirHolesForNicotTransportCage&thickness=3.0&format=svg&tabs=0.0&qr_code=0&debug=0&labels=0&labels=1&reference=100.0&inner_corners=loop&burn=0.1&language=None&render=0)
- - [4x6 Combination Nicot hatching cages plus incubator cages](BeeQueenTransportBox?FingerJoint_style=rectangular&FingerJoint_surroundingspaces=2.0&FingerJoint_bottom_lip=0.0&FingerJoint_edge_width=1.0&FingerJoint_extra_length=0.0&FingerJoint_finger=2.0&FingerJoint_play=0.0&FingerJoint_space=2.0&FingerJoint_width=1.0&BeeQueenTransportBoxLid_cover=queenicon_airholes&BeeQueenTransportBoxLid_handle=none&BeeQueenTransportBoxLid_queeniconscale=75.0&BeeQueenTransportBoxLid_style=overthetop&BeeQueenTransportBoxLid_handle_height=8.0&BeeQueenTransportBoxLid_height=4.0&BeeQueenTransportBoxLid_play=0.1&Stackable_angle=60&Stackable_bottom_stabilizers=0.0&Stackable_height=2.0&Stackable_holedistance=1.0&Stackable_width=4.0&top_edge=e&bottom_edge=s&sx=5%3A30*6%3A5&sy=5%3A30*4%3A5&sh=0%3A95&aw=3.0&ah=60%3A20&ax=10%3A20%3A10%3A20%3A10%3A20%3A10&ay=20%3A60%3A20&layer2=None&layer1=NicotHatchingCage&layer0=NicotIncubatorCage&thickness=3.0&format=svg&tabs=0.0&qr_code=0&debug=0&labels=0&labels=1&reference=100.0&inner_corners=loop&burn=0.1&language=None&render=0)  
+ - [4x6 Combination Nicot hatching cages plus incubator cages](BeeQueenTransportBox?FingerJoint_style=rectangular&FingerJoint_surroundingspaces=2.0&FingerJoint_bottom_lip=0.0&FingerJoint_edge_width=1.0&FingerJoint_extra_length=0.0&FingerJoint_finger=2.0&FingerJoint_play=0.0&FingerJoint_space=2.0&FingerJoint_width=1.0&BeeQueenTransportBoxLid_cover=queenicon_airholes&BeeQueenTransportBoxLid_handle=none&BeeQueenTransportBoxLid_queeniconscale=75.0&BeeQueenTransportBoxLid_style=overthetop&BeeQueenTransportBoxLid_handle_height=8.0&BeeQueenTransportBoxLid_height=4.0&BeeQueenTransportBoxLid_play=0.1&Stackable_angle=60&Stackable_bottom_stabilizers=0.0&Stackable_height=2.0&Stackable_holedistance=1.0&Stackable_width=4.0&top_edge=e&bottom_edge=s&sx=5%3A30*6%3A5&sy=5%3A30*4%3A5&sh=0%3A95&aw=3.0&ah=60%3A20&ax=10%3A20%3A10%3A20%3A10%3A20%3A10&ay=20%3A60%3A20&layer2=None&layer1=NicotHatchingCage&layer0=NicotIncubatorCage&thickness=3.0&format=svg&tabs=0.0&qr_code=0&debug=0&labels=0&labels=1&reference=100.0&inner_corners=loop&burn=0.1&language=None&render=0)
     The bottom layer acts as a rest for the hatching cages but is also a fit for the incubator cages.
 
 FAQ:
 
- - No cutouts or air holes are visible on my box?  
+ - No cutouts or air holes are visible on my box?
    Make sure the section sizes defined by `sx` and `sy` are large enough to fit the cage dimensions as otherwise
    these sections are taken as margins.
     
@@ -756,7 +757,7 @@ FAQ:
             self.argparser.add_argument(
                 f"--layer{layer}", action="store",
                 choices=cutout_choices, default=default,
-                help=f"select cutout type for layer {layer}{" (bottom)" if layer == 0 else ""}." )
+                help=f"select cutout type for layer {layer}{' (bottom)' if layer == 0 else ''}." )
 
     def get_cutout(self, cutout_name):
         for cutout_class in self.CUTOUTS:

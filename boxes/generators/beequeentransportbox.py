@@ -110,7 +110,7 @@ class MultiPathCutout(PathCutout):
         elif isinstance(color[0], (float, int)):
             colors = [color]
         if len(colors) < len(self.MULTI_SEGMENTS):
-            colors = list(colors) + [colors[-1]] * (len(self.SEGMENTS) - len(colors))
+            colors = list(colors) + [colors[-1]] * (len(self.MULTI_SEGMENTS) - len(colors))
 
         for color, segments in zip(colors, self.MULTI_SEGMENTS):
             with box.saved_context() as ctx:
@@ -499,7 +499,8 @@ class QueenIconCutout(MultiPathCutout):
     ]
     COLORS = [Color.ETCHING_DEEP, Color.ETCHING_DEEP,  # Filled darker
               Color.ETCHING, Color.ETCHING,  # Filled lighter
-              Color.YELLOW  # Outlines
+              Color.YELLOW, Color.YELLOW, Color.YELLOW, Color.YELLOW,  # Outlines
+              Color.YELLOW, Color.YELLOW, Color.YELLOW
               ]
     MULTI_SEGMENTS = [SEGMENTS_BEEBODY + SEGMENTS_BEEBODY_CIRCLE, SEGMENTS_CROWN, SEGMENTS_WING_RIGHT, SEGMENTS_WING_LEFT,  # Fillings
                 SEGMENTS_BEEBODY, SEGMENTS_CROWN, SEGMENTS_WING_RIGHT, SEGMENTS_WING_LEFT,  # Outlines

@@ -703,7 +703,7 @@ FAQ:
 
     CUTOUTS = (NicotTransportCageCutout, NicotHatchingCageCutout, NicotIncubatorCageCutout, AirHolesForNicotTransportCageCutout, AirHolesForNicotIncubatorCageCutout, AirHolesForNicotHatchingCageCutout, NoneCutout)
     LAYERS = (NoneCutout, NicotTransportCageCutout, AirHolesForNicotTransportCageCutout)
-    DEFAULT = dict(sx="5:45*3:5", sy="5:25*3:5", sh="25:75", aw=3.0, ah="70:20", ax="10:20:10:20:10:20:10", ay="20:60:20", bottom_edge="s", top_edge="e")
+    DEFAULT = dict(sx="5:45*3:5", sy="5:25*3:5", sh="12:80", aw=3.0, ah="50:25", ax="10:20:10:20:10:20:10", ay="20:60:20", bottom_edge="s", top_edge="e")
     CHOICES = dict(top_edge="eStG", bottom_edge="Fhsše")
     LIDSETTINGS = dict(style="overthetop")
 

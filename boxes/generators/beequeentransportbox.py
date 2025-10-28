@@ -622,20 +622,30 @@ class AirHolesForNicotHatchingCageCutout(HexHolesCutout):
 
 class BeeQueenTransportBoxLidSettings(LidSettings):
     """Lid settings for Queen Transport Box"""
-    absolute_params = LidSettings.absolute_params.copy() | {"cover": ("none", "airholes", "queenicon", "queenicon_airholes"), "queeniconscale": 75.}
+    absolute_params = LidSettings.absolute_params.copy() | {
+        "cover": ("none", "airholes", "queenicon", "queenicon_airholes"),
+        "queenicon_scale": 75.,
+        "queenicon_angle": (0, 90),
+    }
 
 class BeeQueenTransportBoxLid(Lid):
     """Lid for Queen Transport Box with optional air holes and queen icon cutout"""
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.ncb = 0
+
     def handleCB(self, x: float, y: float) -> Callable:
-        if self.handle == 'none':
+        if self.handle == 'none' and self.style != 'chest':
             airholes = self.cover in ("airholes", "queenicon_airholes")
-            queenicon = self.cover in ("queenicon", "queenicon_airholes")
-            return self.render_cover(x, y, airholes, queenicon)
+            queeniconholes = self.cover in ("queenicon", "queenicon_airholes")
+            queenicon = queeniconholes and (self.settings.style != 'flat' or self.ncb > 0)  # Not on bottom layer of flat lid
+            self.ncb += 1
+            return self.render_cover(x, y, airholes, queenicon, queeniconholes)
         else:
             return super().handleCB(x, y)
 
-    def render_cover(self, x: float, y: float, airholes: bool, queenicon: bool) -> Callable:
+    def render_cover(self, x: float, y: float, airholes: bool, queenicon: bool, queeniconholes: bool) -> Callable:
         def cover():
             if airholes:
                 with self.saved_context() as ctx:
@@ -648,13 +658,19 @@ class BeeQueenTransportBoxLid(Lid):
                     cutout.cutout(self, -dx, -dy)
                     cutout.cutout(self, -dx, dy)
 
-            if queenicon:
+            if queenicon or queeniconholes:
                 with self.saved_context() as ctx:
-                    k = self.settings.queeniconscale / 100.
+                    ctx.translate(.5 * x, .5 * y)
+                    a = self.settings.queenicon_angle
+                    if a:
+                        ctx.rotate(a/180 * math.pi)
+                    k = self.settings.queenicon_scale / 100.
                     cutout = GiantHexHoleCutout(w=k*x, h=k*y)
-                    cutout.cutout(self, .5 * x, .5 * y)
-                    r = 2. * .7 * cutout.get_incircle()
-                    QueenIconCutout(w=r, h=r).cutout(self, .5 * x, .5 * y)
+                    if queeniconholes:
+                        cutout.cutout(self, 0., 0.)
+                    if queenicon:
+                        r = 2. * .7 * cutout.get_incircle()
+                        QueenIconCutout(w=r, h=r).cutout(self, 0., 0.)
         return cover
 
 class BeeQueenTransportBox(_TopEdge):
@@ -683,9 +699,9 @@ A special lid is provided which can have air holes and a bee queen icon for deco
 
 Examples:
 
- - [3x3 Nicot transport cages including lid with air holes and queen icon](BeeQueenTransportBox?FingerJoint_style=rectangular&FingerJoint_surroundingspaces=2.0&FingerJoint_bottom_lip=0.0&FingerJoint_edge_width=1.0&FingerJoint_extra_length=0.0&FingerJoint_finger=2.0&FingerJoint_play=0.0&FingerJoint_space=2.0&FingerJoint_width=1.0&BeeQueenTransportBoxLid_cover=queenicon_airholes&BeeQueenTransportBoxLid_handle=none&BeeQueenTransportBoxLid_queeniconscale=75.0&BeeQueenTransportBoxLid_style=overthetop&BeeQueenTransportBoxLid_handle_height=8.0&BeeQueenTransportBoxLid_height=4.0&BeeQueenTransportBoxLid_play=0.1&Stackable_angle=60&Stackable_bottom_stabilizers=0.0&Stackable_height=2.0&Stackable_holedistance=1.0&Stackable_width=4.0&top_edge=e&bottom_edge=s&sx=5%3A45*3%3A5&sy=5%3A25*3%3A5&sh=25%3A75&aw=3.0&ah=70%3A20&ax=10%3A20%3A10%3A20%3A10%3A20%3A10&ay=20%3A60%3A20&layer2=None&layer1=NicotTransportCage&layer0=AirHolesForNicotTransportCage&thickness=3.0&format=svg&tabs=0.0&qr_code=0&debug=0&labels=0&labels=1&reference=100.0&inner_corners=loop&burn=0.1&language=None&render=0)
- - [3x10 Nicot transport cages including lid with air holes and queen icon](BeeQueenTransportBox?FingerJoint_style=rectangular&FingerJoint_surroundingspaces=2.0&FingerJoint_bottom_lip=0.0&FingerJoint_edge_width=1.0&FingerJoint_extra_length=0.0&FingerJoint_finger=2.0&FingerJoint_play=0.0&FingerJoint_space=2.0&FingerJoint_width=1.0&BeeQueenTransportBoxLid_cover=queenicon_airholes&BeeQueenTransportBoxLid_handle=none&BeeQueenTransportBoxLid_queeniconscale=75.0&BeeQueenTransportBoxLid_style=overthetop&BeeQueenTransportBoxLid_handle_height=8.0&BeeQueenTransportBoxLid_height=4.0&BeeQueenTransportBoxLid_play=0.1&Stackable_angle=60&Stackable_bottom_stabilizers=0.0&Stackable_height=2.0&Stackable_holedistance=1.0&Stackable_width=4.0&top_edge=e&bottom_edge=s&sx=5%3A45*3%3A5&sy=5%3A25*10%3A5&sh=25%3A75&aw=3.0&ah=70%3A20&ax=10%3A20%3A10%3A20%3A10%3A20%3A10&ay=20%3A60%3A20&layer2=None&layer1=NicotTransportCage&layer0=AirHolesForNicotTransportCage&thickness=3.0&format=svg&tabs=0.0&qr_code=0&debug=0&labels=0&labels=1&reference=100.0&inner_corners=loop&burn=0.1&language=None&render=0)
- - [4x6 Combination Nicot hatching cages plus incubator cages](BeeQueenTransportBox?FingerJoint_style=rectangular&FingerJoint_surroundingspaces=2.0&FingerJoint_bottom_lip=0.0&FingerJoint_edge_width=1.0&FingerJoint_extra_length=0.0&FingerJoint_finger=2.0&FingerJoint_play=0.0&FingerJoint_space=2.0&FingerJoint_width=1.0&BeeQueenTransportBoxLid_cover=queenicon_airholes&BeeQueenTransportBoxLid_handle=none&BeeQueenTransportBoxLid_queeniconscale=75.0&BeeQueenTransportBoxLid_style=overthetop&BeeQueenTransportBoxLid_handle_height=8.0&BeeQueenTransportBoxLid_height=4.0&BeeQueenTransportBoxLid_play=0.1&Stackable_angle=60&Stackable_bottom_stabilizers=0.0&Stackable_height=2.0&Stackable_holedistance=1.0&Stackable_width=4.0&top_edge=e&bottom_edge=s&sx=5%3A30*6%3A5&sy=5%3A30*4%3A5&sh=0%3A95&aw=3.0&ah=60%3A20&ax=10%3A20%3A10%3A20%3A10%3A20%3A10&ay=20%3A60%3A20&layer2=None&layer1=NicotHatchingCage&layer0=NicotIncubatorCage&thickness=3.0&format=svg&tabs=0.0&qr_code=0&debug=0&labels=0&labels=1&reference=100.0&inner_corners=loop&burn=0.1&language=None&render=0)
+ - [3x3 Nicot transport cages including lid with air holes and queen icon](BeeQueenTransportBox?FingerJoint_style=rectangular&FingerJoint_surroundingspaces=2.0&FingerJoint_bottom_lip=0.0&FingerJoint_edge_width=1.0&FingerJoint_extra_length=0.0&FingerJoint_finger=2.0&FingerJoint_play=0.0&FingerJoint_space=2.0&FingerJoint_width=1.0&BeeQueenTransportBoxLid_cover=queenicon_airholes&BeeQueenTransportBoxLid_handle=none&BeeQueenTransportBoxLid_queenicon_scale=75.0&BeeQueenTransportBoxLid_style=overthetop&BeeQueenTransportBoxLid_handle_height=8.0&BeeQueenTransportBoxLid_height=4.0&BeeQueenTransportBoxLid_play=0.1&Stackable_angle=60&Stackable_bottom_stabilizers=0.0&Stackable_height=2.0&Stackable_holedistance=1.0&Stackable_width=4.0&top_edge=e&bottom_edge=s&sx=5%3A45*3%3A5&sy=5%3A25*3%3A5&sh=25%3A75&aw=3.0&ah=70%3A20&ax=10%3A20%3A10%3A20%3A10%3A20%3A10&ay=20%3A60%3A20&layer2=None&layer1=NicotTransportCage&layer0=AirHolesForNicotTransportCage&thickness=3.0&format=svg&tabs=0.0&qr_code=0&debug=0&labels=0&labels=1&reference=100.0&inner_corners=loop&burn=0.1&language=None&render=0)
+ - [3x10 Nicot transport cages including lid with air holes and queen icon](BeeQueenTransportBox?FingerJoint_style=rectangular&FingerJoint_surroundingspaces=2.0&FingerJoint_bottom_lip=0.0&FingerJoint_edge_width=1.0&FingerJoint_extra_length=0.0&FingerJoint_finger=2.0&FingerJoint_play=0.0&FingerJoint_space=2.0&FingerJoint_width=1.0&BeeQueenTransportBoxLid_cover=queenicon_airholes&BeeQueenTransportBoxLid_handle=none&BeeQueenTransportBoxLid_queenicon_scale=75.0&BeeQueenTransportBoxLid_style=overthetop&BeeQueenTransportBoxLid_handle_height=8.0&BeeQueenTransportBoxLid_height=4.0&BeeQueenTransportBoxLid_play=0.1&Stackable_angle=60&Stackable_bottom_stabilizers=0.0&Stackable_height=2.0&Stackable_holedistance=1.0&Stackable_width=4.0&top_edge=e&bottom_edge=s&sx=5%3A45*3%3A5&sy=5%3A25*10%3A5&sh=25%3A75&aw=3.0&ah=70%3A20&ax=10%3A20%3A10%3A20%3A10%3A20%3A10&ay=20%3A60%3A20&layer2=None&layer1=NicotTransportCage&layer0=AirHolesForNicotTransportCage&thickness=3.0&format=svg&tabs=0.0&qr_code=0&debug=0&labels=0&labels=1&reference=100.0&inner_corners=loop&burn=0.1&language=None&render=0)
+ - [4x6 Combination Nicot hatching cages plus incubator cages](BeeQueenTransportBox?FingerJoint_style=rectangular&FingerJoint_surroundingspaces=2.0&FingerJoint_bottom_lip=0.0&FingerJoint_edge_width=1.0&FingerJoint_extra_length=0.0&FingerJoint_finger=2.0&FingerJoint_play=0.0&FingerJoint_space=2.0&FingerJoint_width=1.0&BeeQueenTransportBoxLid_cover=queenicon_airholes&BeeQueenTransportBoxLid_handle=none&BeeQueenTransportBoxLid_queenicon_scale=75.0&BeeQueenTransportBoxLid_style=overthetop&BeeQueenTransportBoxLid_handle_height=8.0&BeeQueenTransportBoxLid_height=4.0&BeeQueenTransportBoxLid_play=0.1&Stackable_angle=60&Stackable_bottom_stabilizers=0.0&Stackable_height=2.0&Stackable_holedistance=1.0&Stackable_width=4.0&top_edge=e&bottom_edge=s&sx=5%3A30*6%3A5&sy=5%3A30*4%3A5&sh=0%3A95&aw=3.0&ah=60%3A20&ax=10%3A20%3A10%3A20%3A10%3A20%3A10&ay=20%3A60%3A20&layer2=None&layer1=NicotHatchingCage&layer0=NicotIncubatorCage&thickness=3.0&format=svg&tabs=0.0&qr_code=0&debug=0&labels=0&labels=1&reference=100.0&inner_corners=loop&burn=0.1&language=None&render=0)
     The bottom layer acts as a rest for the hatching cages but is also a fit for the incubator cages.
 
 FAQ:

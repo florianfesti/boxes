@@ -3,7 +3,7 @@
 ci:
   autofix_prs: true
   autoupdate_schedule: quarterly
-exclude: '\.svg$'
+exclude: '^(documentation/src/static|scripts/boxes|scripts/boxes_proxy.py|scripts/boxesserver|.*\.svg)$'
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0

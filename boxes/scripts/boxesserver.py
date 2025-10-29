@@ -735,7 +735,7 @@ def get_qrcode(url, format):
 def main() -> None:
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("--host", default="localhost")
+    parser.add_argument("--host", default="")
     parser.add_argument("--port", type=int, default=8000)
     parser.add_argument("--url_prefix", default="",
                         help="URL path to Boxes.py instance")
@@ -754,7 +754,7 @@ def main() -> None:
     fc.start()
 
     httpd = make_server(args.host, args.port, boxserver.serve)
-    print(f"BoxesServer serving on http://{args.host}:{args.port}/...")
+    print(f"BoxesServer serving on http://{args.host if args.host else '*'}:{args.port}/...")
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:

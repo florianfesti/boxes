@@ -162,7 +162,33 @@ class NicotTransportCageCutout(PathCutout):
         ('L', (24.805031, 29.625)),
         ('L', (24.805031, 27.125)),
         ('L', (40.305031, 27.125))
+    ]
 
+class ChinaTransportCageCutout(PathCutout):
+    """Chinese transport and introduction cage"""
+    DIMENSIONS = (40.7, 18.05)
+    OFFSET = (-27., -61.)
+    SEGMENTS = [
+        ('M', (36.167301, 51.97501)),
+        ('C', (36.167301, 52.527294, 36.391159, 52.97501, 36.667301, 52.97501)),
+        ('C', (36.943443, 52.97501, 37.167301, 52.527294, 37.167301, 51.97501)),
+        ('L', (47.349998, 51.97501)),
+        ('L', (47.349998, 55.812176)),
+        ('L', (45.75, 56.325001)),
+        ('L', (45.502274, 58.083897)),
+        ('L', (44.488647, 58.621784)),
+        ('L', (43.511353, 70.024994)),
+        ('L', (10.820847, 70.024994)),
+        ('L', (10.488647, 70.024994)),
+        ('L', (9.511353, 58.621784)),
+        ('L', (8.497734, 58.083897)),
+        ('L', (8.25, 56.325001)),
+        ('L', (6.650002, 55.812176)),
+        ('L', (6.650002, 51.97501)),
+        ('L', (16.832703, 51.97501)),
+        ('C', (16.832703, 52.527294, 17.056561, 52.97501, 17.332703, 52.97501)),
+        ('C', (17.608845, 52.97501, 17.832703, 52.527294, 17.832695, 51.97501)),
+        ('L', (36.167301, 51.97501)),
     ]
 
 class NicotHatchingCageCutout(PathCutout):
@@ -522,6 +548,12 @@ class AirHolesForNicotTransportCageCutout(Cutout):
             box.rectangularHole(x + ox, y + oy - h, l, h, h/2., True, True)
             box.rectangularHole(x + ox, y + oy + h, l, h, h/2., True, True)
 
+
+class AirHolesForChinaTransportCageCutout(AirHolesForNicotTransportCageCutout):
+    DIMENSIONS = ChinaTransportCageCutout.DIMENSIONS
+    OFFSET = (0., 0.)
+
+
 class HexHolesCutout(Cutout):
     """Hexagonal hole pattern cutout"""
     DIMENSIONS = (20., 20.)
@@ -717,7 +749,9 @@ FAQ:
 
     ui_group = "Beekeeping"
 
-    CUTOUTS = (NicotTransportCageCutout, NicotHatchingCageCutout, NicotIncubatorCageCutout, AirHolesForNicotTransportCageCutout, AirHolesForNicotIncubatorCageCutout, AirHolesForNicotHatchingCageCutout, NoneCutout)
+    CUTOUTS = (NicotTransportCageCutout, NicotHatchingCageCutout, NicotIncubatorCageCutout, ChinaTransportCageCutout,
+               AirHolesForNicotTransportCageCutout, AirHolesForNicotIncubatorCageCutout, AirHolesForNicotHatchingCageCutout, AirHolesForChinaTransportCageCutout,
+               NoneCutout)
     LAYERS = (NoneCutout, NicotTransportCageCutout, AirHolesForNicotTransportCageCutout)
     DEFAULT = dict(sx="5:45*3:5", sy="5:25*3:5", sh="12:80", aw=3.0, ah="50:25", ax="10:20:10:20:10:20:10", ay="20:60:20", bottom_edge="s", top_edge="e")
     CHOICES = dict(top_edge="eStG", bottom_edge="Fhsše")

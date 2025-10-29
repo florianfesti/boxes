@@ -26,9 +26,26 @@ from collections.abc import Sequence
 class Cutout:
     """Base class for cutouts"""
     DIMENSIONS = (0.0, 0.0)
+    HEIGHT = 0.0
 
     def cutout(self, box, x, y, color=Color.INNER_CUT):
         pass
+
+    def sideview(self, box, x, y, front_not_side=True, color=Color.ANNOTATIONS):
+        h = self.HEIGHT
+        if h:
+            w = 0.5 * self.DIMENSIONS[0 if front_not_side else 1]
+            with box.saved_context() as ctx:
+                box.set_source_color(color)
+                ctx.translate(x, y)
+                ctx.move_to(-w, 0)
+                ctx.move_to(-w, 0)
+                ctx.move_to(-w, 0)
+                ctx.line_to(-w, h)
+                ctx.line_to(w, h)
+                ctx.line_to(w, 0)
+                ctx.line_to(-w, 0)
+                ctx.stroke()
 
 class CircleCutout(Cutout):
     RADIUS = 12.0 / 2.0
@@ -131,10 +148,12 @@ class NicotIncubatorCageCutout(CircleCutout):
     """Nicot incubator cage"""
     RADIUS = 21.35 / 2.0
     DIMENSIONS = (RADIUS * 2.0, RADIUS * 2.0)
+    HEIGHT = 53.
 
 class NicotTransportCageCutout(PathCutout):
     """Nicot transport and introduction cage"""
     DIMENSIONS = (36.2, 15.5)
+    HEIGHT = 80.0
     OFFSET = (-32.555031,-21.874992)
     SEGMENTS = [
         ('M', (40.305031, 27.125)),
@@ -168,6 +187,7 @@ class ChinaTransportCageCutout(PathCutout):
     """Chinese transport and introduction cage"""
     DIMENSIONS = (40.7, 18.05)
     OFFSET = (-27., -61.)
+    HEIGHT = 90.
     SEGMENTS = [
         ('M', (36.167301, 51.97501)),
         ('C', (36.167301, 52.527294, 36.391159, 52.97501, 36.667301, 52.97501)),
@@ -194,6 +214,7 @@ class ChinaTransportCageCutout(PathCutout):
 class NicotHatchingCageCutout(PathCutout):
     """Nicot hatching cage"""
     DIMENSIONS = (27.0, 27.0)
+    HEIGHT = 70.
     SEGMENTS = [('M', (-9.721000000000004, -8.771999999999998)),
                  ('L', (-10.155346182387007, -8.265839332298988)),
                  ('C', (-13.886551020012014, -3.6821541920039706, -14.084879200641005, 2.832221276653023, -10.639422029363011, 7.634389722454024)),
@@ -811,7 +832,7 @@ FAQ:
                 choices=cutout_choices, default=default,
                 help=f"select cutout type for layer {layer}{' (bottom)' if layer == 0 else ''}." )
 
-    def get_cutout(self, cutout_name):
+    def get_cutout(self, cutout_name) -> Cutout:
         for cutout_class in self.CUTOUTS:
             if cutout_class.__name__.removesuffix('Cutout') == cutout_name:
                 return cutout_class()
@@ -841,14 +862,30 @@ FAQ:
         pl = l / 100.
         y = 0.0
         with self.saved_context():
-            self.ctx.rotate(math.pi / -2.0)
             for h in self.ah:
                 y += h
                 px = 0.0
                 for n, s in enumerate(sections):
                     if n % 2 == 1:
-                        self.rectangularHole(px * pl - l, y, pl * s, aw, aw/2., False, True)
+                        self.rectangularHole(px * pl, y, pl * s, aw, aw/2., False, True)
                     px += s
+
+    def debugview(self, front_not_side=True):
+        """Draw front and side views of the cages so the user can ensure proper spacing"""
+        if self.debug:
+            if self.bottom_edge == 's':
+                h = 0.
+                layer = self.layer1
+            else:
+                h = self.thickness + self.sh[0]
+                layer = self.layer0
+            cutout = self.get_cutout(layer)
+            cx = cutout.DIMENSIONS[0 if front_not_side else 1]
+            x = 0.
+            for dx in (self.sx if front_not_side else self.sy):
+                if dx > cx:
+                    cutout.sideview(self, x + dx / 2., h, front_not_side)
+                x += dx
 
     def render(self):
         x = sum(self.sx)
@@ -863,22 +900,22 @@ FAQ:
             self.rectangularWall(
                 x, h, [b, "F", t_back, "F"],
                 ignore_widths=[1, 6],
-                callback=[lambda: self.sideholes(x), lambda: self.airholes(x, self.ax)],
+                callback=[lambda: (self.sideholes(x), self.airholes(x, self.ax), self.debugview(True))],
                 move="right", label='Back')
             self.rectangularWall(
                 x, h, [b, "F", t_front, "F"],
                 ignore_widths=[1, 6],
-                callback=[lambda: self.sideholes(x), lambda: self.airholes(x, self.ax)],
+                callback=[lambda: (self.sideholes(x), self.airholes(x, self.ax), self.debugview(True))],
                 move="right", label='Front')
             self.rectangularWall(
                 y, h, [b, "f", t_left, "f"],
                 ignore_widths=[1, 6],
-                callback=[lambda: self.sideholes(y), lambda: self.airholes(y, self.ay)],
+                callback=[lambda: (self.sideholes(y), self.airholes(y, self.ay), self.debugview(False))],
                 move="right", label='Left')
             self.rectangularWall(
                 y, h, [b, "f", t_right, "f"],
                 ignore_widths=[1, 6],
-                callback=[lambda: self.sideholes(y), lambda: self.airholes(y, self.ay)],
+                callback=[lambda: (self.sideholes(y), self.airholes(y, self.ay), self.debugview(False))],
                 move="right", label='Right')
 
         # Move up

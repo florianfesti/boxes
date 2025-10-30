@@ -19,6 +19,10 @@ from boxes import *
 class ConcaveKnob(Boxes):
     """Round knob serrated outside for better gripping"""
 
+    description = """
+![Six fluted variant](static/samples/ConcaveKnob-2.jpg)
+"""
+
     ui_group = "Part"
 
     def __init__(self) -> None:

@@ -19,6 +19,10 @@ from boxes import *
 class WavyKnob(Boxes):
     """Round knob serrated outside for better gripping"""
 
+    description = """
+![Bottom view](static/samples/WavyKnob-2.jpg)
+"""
+    
     ui_group = "Part"
 
     def __init__(self) -> None:

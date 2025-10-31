@@ -375,6 +375,10 @@ class Boxes:
             "--labels", action="store", type=boolarg, default=True,
             help="label the parts (where available)")
         defaultgroup.add_argument(
+            "--label_format", action="store", type=str, default="label",
+            choices=["label", "measurements", "label (measurements)"],
+            help="information to include as label on parts")
+        defaultgroup.add_argument(
             "--reference", action="store", type=float, default=100.0,
             help="print reference rectangle with given length (in mm)(zero to disable) [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#reference)")
         defaultgroup.add_argument(
@@ -452,7 +456,7 @@ class Boxes:
             else:
                 self.text(f"{self.reference:.1f}mm, burn:{self.burn:.2f}mm", self.reference / 2.0, 5,
                           fontsize=6, align="middle center", color=Color.ANNOTATIONS)
-            self.move(self.reference, 10, "up")
+            self.move(self.reference, 10, "up", label=False)
             if self.qr_code:
                 self.renderQrCode()
             self.ctx.stroke()
@@ -725,6 +729,25 @@ class Boxes:
             return [s * factor for s in l]
         except TypeError:
             return l - walls
+
+    def formatLabel(self, label: str | bool, width, height):
+        # Allows passing False to skip labeling
+        if label == False:
+            return
+
+        label_format = getattr(self, "label_format", "label")
+        measurements = f"({width:.2f}mm x {height:.2f}mm)"
+
+        if label_format == "label":
+            return label
+        elif label_format == "measurements":
+            return measurements
+        elif label_format == "label (measurements)":
+            if not label:
+                return measurements
+            return f"{label}\n{measurements}"
+        else:
+            raise ValueError("Unknown label format", label_format)
 
     def render(self):
         """Implement this method in your subclass.
@@ -1226,6 +1249,7 @@ class Boxes:
         terms = where.split()
         dontdraw = before and "only" in terms
 
+        width, height = x, y
         x += self.spacing
         y += self.spacing
 
@@ -1245,8 +1269,10 @@ class Boxes:
         if not before:
             # restore position
             self.ctx.restore()
-            if self.labels and label:
-                self.text(label, x/2, y/2, align="middle center", color=Color.ANNOTATIONS, fontsize=4)
+            if self.labels:
+                contents = self.formatLabel(label, width, height)
+                if contents:
+                    self.text(contents, x/2, y/2, align="middle center", color=Color.ANNOTATIONS, fontsize=4)
             self.ctx.stroke()
 
         for term in terms:

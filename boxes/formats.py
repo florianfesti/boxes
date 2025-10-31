@@ -20,6 +20,7 @@ import subprocess
 import tempfile
 import io
 from boxes.drawing import Context, LBRN2Surface, PSSurface, SVGSurface
+from boxes.dxf_generator import DXFSurface
 
 
 class Formats:
@@ -27,14 +28,13 @@ class Formats:
     pstoedit_candidates = ["/usr/bin/pstoedit", "pstoedit", r"C:\Program Files\pstoedit\pstoedit.exe", "pstoedit.exe"]
     ps2pdf_candidates = ["/usr/bin/ps2pdf", "ps2pdf", "ps2pdf.exe"]
 
-    _BASE_FORMATS = ['svg', 'svg_Ponoko', 'ps', 'lbrn2']
+    _BASE_FORMATS = ['svg', 'svg_Ponoko', 'ps', 'lbrn2', 'dxf']
 
     formats = {
         "svg": None,
         "svg_Ponoko": None,
         "ps": None,
         "lbrn2": None,
-        "dxf": "{pstoedit} -flat 0.1 -f dxf:-mm {input} {output}",
         "gcode": "{pstoedit} -f gcode {input} {output}",
         "plt": "{pstoedit} -f hpgl {input} {output}",
         # "ai": "{pstoedit} -f ps2ai",
@@ -64,13 +64,16 @@ class Formats:
                 break
 
     def getFormats(self):
+        available = set(self._BASE_FORMATS)
         if self.pstoedit:
-            return sorted(self.formats.keys())
-        return self._BASE_FORMATS
+            available.update(self.formats.keys())
+        return sorted(available)
 
     def getSurface(self, fmt):
         if fmt in ("svg", "svg_Ponoko"):
             surface = SVGSurface()
+        elif fmt == "dxf":
+            surface = DXFSurface()
         elif fmt == "lbrn2":
             surface = LBRN2Surface()
         else:

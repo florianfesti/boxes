@@ -3,7 +3,6 @@ from __future__ import annotations
 import io
 import logging
 import math
-from pathlib import Path
 from typing import Any, Iterable, Literal, Sequence, TypedDict, cast
 
 import ezdxf
@@ -428,22 +427,6 @@ class EZDXFBuilder:
         return segment["start_angle"] - segment["end_angle"]
 
     @classmethod
-    def _arc_start_point(cls, segment: ArcSegment) -> Vec3:
-        return cls._point_on_arc(segment["center"], segment["radius"], segment["start_angle"])
-
-    @classmethod
-    def _arc_end_point(cls, segment: ArcSegment) -> Vec3:
-        return cls._point_on_arc(segment["center"], segment["radius"], segment["end_angle"])
-
-    @staticmethod
-    def _point_on_arc(center: Vec3, radius: float, angle: float) -> Vec3:
-        return Vec3(
-            center.x + radius * math.cos(angle),
-            center.y + radius * math.sin(angle),
-            0.0,
-        )
-
-    @classmethod
     def _try_cubic_as_arc(cls, start: Vec3, ctrl1: Vec3, ctrl2: Vec3, end: Vec3) -> ArcSegment | None:
         span = (end - start).magnitude
         if span <= cls._POINT_TOL:
@@ -738,17 +721,8 @@ class EZDXFBuilder:
 
         flush()
 
-    def save(self, output: str | Path) -> Path:
-        output_path = Path(output)
-        output_path.parent.mkdir(parents=True, exist_ok=True)
-        self.doc.saveas(output_path)
-        return output_path
-
 class DXFSurface(Surface):
     """Surface capable of producing DXF output via EZDXFBuilder."""
-
-    scale = 1.0
-    invert_y = False
 
     def finish(self, inner_corners: str = "loop", dogbone_radius=None):
         try:

@@ -3,14 +3,15 @@ from __future__ import annotations
 import io
 import logging
 import math
-from typing import Any, Iterable, Literal, Sequence, TypedDict, cast
+from typing import Any, Literal, TypedDict, Union, cast
+from collections.abc import Iterable, MutableMapping, Sequence
 
 import ezdxf
 from ezdxf import units
 from ezdxf.math import Vec3
 from .drawing import Surface
 
-Command = Sequence[object]
+Command = Sequence[Any]
 
 __all__ = ["EZDXFBuilder", "DXFSurface"]
 
@@ -43,7 +44,7 @@ class CircleSummary(TypedDict):
     radius: float
 
 
-Segment = LineSegment | ArcSegment
+Segment = Union[LineSegment, ArcSegment]
 TextParams = dict[str, Any]
 TextSpec = tuple[float, float, str, TextParams]
 
@@ -58,12 +59,13 @@ class EZDXFBuilder:
     def __init__(self, *, layer: str = "0", lineweight: float | None = None) -> None:
         self.doc = ezdxf.new("R2010", setup=True)
         self.doc.units = units.MM
-        self.doc.header["$INSUNITS"] = units.MM
-        self.doc.header["$MEASUREMENT"] = 1
+        header = cast(MutableMapping[str, Any], self.doc.header)
+        header["$INSUNITS"] = units.MM
+        header["$MEASUREMENT"] = 1
         self.msp = self.doc.modelspace()
         self.layer = layer
         lw_value = self._lineweight_to_hundredths(lineweight) if lineweight is not None else None
-        self.entity_attribs = {"layer": layer}
+        self.entity_attribs: dict[str, Any] = {"layer": layer}
         if lw_value is not None:
             self.entity_attribs["lineweight"] = lw_value
 
@@ -237,7 +239,7 @@ class EZDXFBuilder:
 
         for segment in segments:
             if segment["type"] == "line":
-                line_run.append(cast(LineSegment, segment))
+                line_run.append(segment)
             else:
                 flush_run()
                 merged.append(segment)
@@ -249,8 +251,8 @@ class EZDXFBuilder:
             return []
         merged, changed = self._merge_line_segments_once(segments)
         if len(merged) >= 2 and merged[0]["type"] == "line" and merged[-1]["type"] == "line":
-            first = cast(LineSegment, merged[0])
-            last = cast(LineSegment, merged[-1])
+            first = merged[0]
+            last = merged[-1]
             v_first = first["end"] - first["start"]
             v_last = last["end"] - last["start"]
             tol_vec = max(v_first.magnitude, v_last.magnitude, 1.0) * self._POINT_TOL
@@ -266,18 +268,18 @@ class EZDXFBuilder:
             if self._points_close(first["start"], last["end"], tol=tol_vec) and self._vectors_collinear(
                 v_last, v_first, tol=tol_vec, allow_reverse=True
             ):
-                new_seg = self._line_segment(last["start"], first["end"])
-                if not self._points_close(new_seg["start"], new_seg["end"], tol=tol_vec):
-                    merged = [new_seg] + list(merged[1:-1])
+                replacement_first: Segment = self._line_segment(last["start"], first["end"])
+                if not self._points_close(replacement_first["start"], replacement_first["end"], tol=tol_vec):
+                    merged = [replacement_first, *merged[1:-1]]
                 else:
                     merged = list(merged[1:-1])
                 return self._merge_line_segments(merged)
             if self._points_close(first["end"], last["start"], tol=tol_vec) and self._vectors_collinear(
                 v_first, v_last, tol=tol_vec, allow_reverse=True
             ):
-                new_seg = self._line_segment(first["start"], last["end"])
-                if not self._points_close(new_seg["start"], new_seg["end"], tol=tol_vec):
-                    merged = [new_seg] + list(merged[1:-1])
+                replacement_second: Segment = self._line_segment(first["start"], last["end"])
+                if not self._points_close(replacement_second["start"], replacement_second["end"], tol=tol_vec):
+                    merged = [replacement_second, *merged[1:-1]]
                 else:
                     merged = list(merged[1:-1])
                 return self._merge_line_segments(merged)
@@ -337,7 +339,7 @@ class EZDXFBuilder:
                 merged.append(segment)
                 continue
 
-            arc = cast(ArcSegment, segment)
+            arc: ArcSegment = segment
             if arc["full_circle"]:
                 flush_pending()
                 merged.append(
@@ -505,28 +507,30 @@ class EZDXFBuilder:
         first = segments[0]
         if first["type"] != "arc":
             return None
-        if len(segments) == 1 and first["full_circle"]:
-            return {"center": first["center"], "radius": first["radius"]}
-        if any(seg["type"] != "arc" for seg in segments):
-            return None
-        center = first["center"]
-        radius = first["radius"]
-        orientation = first["orientation"]
+        first_arc: ArcSegment = first
+        if len(segments) == 1 and first_arc["full_circle"]:
+            return {"center": first_arc["center"], "radius": first_arc["radius"]}
+        center = first_arc["center"]
+        radius = first_arc["radius"]
+        orientation = first_arc["orientation"]
         tol = max(radius, 1.0) * self._ARC_TOL
         sweep = 0.0
-        start_point = segments[0]["start"]
+        start_point = first_arc["start"]
         prev_end = start_point
-        for seg in segments:
-            if seg["orientation"] != orientation:
+        for segment in segments:
+            if segment["type"] != "arc":
                 return None
-            if (seg["center"] - center).magnitude > tol:
+            arc: ArcSegment = segment
+            if arc["orientation"] != orientation:
                 return None
-            if abs(seg["radius"] - radius) > tol:
+            if (arc["center"] - center).magnitude > tol:
                 return None
-            if (seg["start"] - prev_end).magnitude > tol:
+            if abs(arc["radius"] - radius) > tol:
                 return None
-            sweep += self._arc_sweep(seg)
-            prev_end = seg["end"]
+            if (arc["start"] - prev_end).magnitude > tol:
+                return None
+            sweep += self._arc_sweep(arc)
+            prev_end = arc["end"]
         if (prev_end - start_point).magnitude > tol:
             return None
         if abs(abs(sweep) - 2.0 * math.pi) > self._FULL_CIRCLE_TOL:
@@ -647,23 +651,23 @@ class EZDXFBuilder:
         for cmd in commands:
             if not cmd:
                 continue
-            letter = cmd[0]
+            letter = str(cmd[0])
             if letter == "M":
                 flush()
-                current_point = self._vec(cmd[1], cmd[2])
+                current_point = self._vec(float(cmd[1]), float(cmd[2]))
             elif letter == "L":
                 if current_point is None:
                     raise ValueError("Line command without a starting point.")
-                end_point = self._vec(cmd[1], cmd[2])
+                end_point = self._vec(float(cmd[1]), float(cmd[2]))
                 if (end_point - current_point).magnitude > self._POINT_TOL:
                     segments.append(self._line_segment(current_point, end_point))
                 current_point = end_point
             elif letter == "C":
                 if current_point is None:
                     raise ValueError("Cubic command without a starting point.")
-                end_point = self._vec(cmd[1], cmd[2])
-                ctrl1 = self._vec(cmd[3], cmd[4])
-                ctrl2 = self._vec(cmd[5], cmd[6])
+                end_point = self._vec(float(cmd[1]), float(cmd[2]))
+                ctrl1 = self._vec(float(cmd[3]), float(cmd[4]))
+                ctrl2 = self._vec(float(cmd[5]), float(cmd[6]))
                 arc = self._try_cubic_as_arc(current_point, ctrl1, ctrl2, end_point)
                 if arc:
                     segments.append(arc)
@@ -678,8 +682,8 @@ class EZDXFBuilder:
             elif letter == "A":
                 if current_point is None:
                     raise ValueError("Arc command without a starting point.")
-                end_point = self._vec(cmd[1], cmd[2])
-                center = self._vec(cmd[3], cmd[4])
+                end_point = self._vec(float(cmd[1]), float(cmd[2]))
+                center = self._vec(float(cmd[3]), float(cmd[4]))
                 radius = abs(float(cmd[5]))
                 start_angle = math.atan2(current_point.y - center.y, current_point.x - center.x)
                 end_angle = math.atan2(end_point.y - center.y, end_point.x - center.x)
@@ -713,7 +717,7 @@ class EZDXFBuilder:
                 current_point = end_point
             elif letter == "T":
                 x, y = float(cmd[1]), float(cmd[2])
-                text = cmd[4]
+                text = str(cmd[4])
                 params: TextParams = dict(cmd[5]) if len(cmd) > 5 and isinstance(cmd[5], dict) else {}
                 texts.append((x, y, text, params))
             else:
@@ -726,7 +730,7 @@ class DXFSurface(Surface):
 
     def finish(self, inner_corners: str = "loop", dogbone_radius=None):
         try:
-            prepare_paths = super().prepare_paths  # type: ignore[attr-defined]
+            prepare_paths = super().prepare_paths  # type: ignore[misc]
         except AttributeError:
             extents = self._prepare_paths_for_dxf(inner_corners, dogbone_radius)
         else:

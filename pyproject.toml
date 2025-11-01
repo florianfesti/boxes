@@ -7,7 +7,7 @@ build-backend = "setuptools.build_meta"
 dynamic = ["dependencies"]
 name = 'boxes'
 version = '1.2'
-requires-python = '>=3.9'
+requires-python = '>=3.10'
 description = 'Boxes generator for laser cutters'
 maintainers = [ { name = 'Florian Festi', email='florian@festi.info' } ]
 readme = "README.rst"

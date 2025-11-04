@@ -21,7 +21,9 @@ class BottleStack(Boxes):
 
     description = """When rendered with the "double" option the parts with the double slots get connected the shorter beams in the asymmetrical slots.
 
-Without the "double" option the stand is a bit more narrow.
+Without the "double" option the stand is a bit narrower.
+
+![Empty stack](static/samples/BottleStack-2.jpg)
 """
 
     ui_group = "Misc"
@@ -41,8 +43,6 @@ Without the "double" option the stand is a bit more narrow.
         self.argparser.add_argument(
             "--double",  action="store", type=boolarg, default=True,
             help="two pieces that can be combined to up to double the width")
-
-
 
     def front(self, h_sides, offset=0, move=None):
         t = self.thickness

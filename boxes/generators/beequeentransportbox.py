@@ -19,7 +19,7 @@
 from boxes import *
 from boxes.lids import Lid, LidSettings, _TopEdge
 import math
-from typing import Callable
+from collections.abc import Callable
 from collections.abc import Sequence
 
 
@@ -255,6 +255,24 @@ class NicotHatchingCageCutout(PathCutout):
                  ('C', (12.248662344696001, -7.575763913767979, 11.834613878094999, -9.385966038929986, 10.614878655487004, -10.605702986505982)),
                  ('C', (9.395143432878982, -11.825439934081977, 7.584941893271996, -12.239490960695981, 5.956878978515, -11.669467399319963)),
                  ('C', (0.6772758573989961, -14.36253149263198, -5.7526862178120055, -13.174189825958983, -9.721000000000004, -8.771999999999998))]
+
+class JZsBZsCageCutout(Cutout):
+    RADIUS = 12.5 / 2
+    DIMENSIONS = (29.0, 16.0)
+    HEIGHT = 66.0
+    OFFSET = (6.6, 0.)
+
+    def cutout(self, box, x, y, color=Color.INNER_CUT, color2=Color.ANNOTATIONS):
+        """
+        Fügt den runden Käfig-Ausschnitt in die Platte ein.
+        cx, cy = Mittelpunkt der Aussparung
+        """
+        with box.saved_context():
+            with box.saved_context() as ctx:
+                box.set_source_color(color)
+                box.circle(x + self.OFFSET[0], y + self.OFFSET[1], self.RADIUS)
+                box.rectangularHole(x, y, self.DIMENSIONS[0], self.DIMENSIONS[1], self.DIMENSIONS[1]/2, color=color2)
+
 
 class QueenIconCutout(MultiPathCutout):
     """Queen icon cutout"""
@@ -493,7 +511,7 @@ class QueenIconCutout(MultiPathCutout):
         ('L', (27.064407, -2.178616)),
         ('L', (27.151291, -2.153452)),
         ('L', (27.198547, -2.096003)),
-        ('L', (28.036758, --0.000134)),
+        ('L', (28.036758, 0.000134)),
         ('L', (28.874969, -2.096003)),
         ('L', (28.92247, -2.153688)),
         ('L', (29.009583, -2.178614)),
@@ -784,6 +802,7 @@ Examples:
  - [3x10 Nicot transport cages including lid with air holes and queen icon](BeeQueenTransportBox?FingerJoint_style=rectangular&FingerJoint_surroundingspaces=2.0&FingerJoint_bottom_lip=0.0&FingerJoint_edge_width=1.0&FingerJoint_extra_length=0.0&FingerJoint_finger=2.0&FingerJoint_play=0.0&FingerJoint_space=2.0&FingerJoint_width=1.0&BeeQueenTransportBoxLid_cover=queenicon_airholes&BeeQueenTransportBoxLid_handle=none&BeeQueenTransportBoxLid_queenicon_scale=75.0&BeeQueenTransportBoxLid_style=overthetop&BeeQueenTransportBoxLid_handle_height=8.0&BeeQueenTransportBoxLid_height=4.0&BeeQueenTransportBoxLid_play=0.1&Stackable_angle=60&Stackable_bottom_stabilizers=0.0&Stackable_height=2.0&Stackable_holedistance=1.0&Stackable_width=4.0&top_edge=e&bottom_edge=s&sx=5%3A45*3%3A5&sy=5%3A25*10%3A5&sh=25%3A75&aw=3.0&ah=70%3A20&ax=10%3A20%3A10%3A20%3A10%3A20%3A10&ay=20%3A60%3A20&layer2=None&layer1=NicotTransportCage&layer0=AirHolesForNicotTransportCage&thickness=3.0&format=svg&tabs=0.0&qr_code=0&debug=0&labels=0&labels=1&reference=100.0&inner_corners=loop&burn=0.1&language=None&render=0)
  - [4x6 Combination Nicot hatching cages plus incubator cages](BeeQueenTransportBox?FingerJoint_style=rectangular&FingerJoint_surroundingspaces=2.0&FingerJoint_bottom_lip=0.0&FingerJoint_edge_width=1.0&FingerJoint_extra_length=0.0&FingerJoint_finger=2.0&FingerJoint_play=0.0&FingerJoint_space=2.0&FingerJoint_width=1.0&BeeQueenTransportBoxLid_cover=queenicon_airholes&BeeQueenTransportBoxLid_handle=none&BeeQueenTransportBoxLid_queenicon_scale=75.0&BeeQueenTransportBoxLid_style=overthetop&BeeQueenTransportBoxLid_handle_height=8.0&BeeQueenTransportBoxLid_height=4.0&BeeQueenTransportBoxLid_play=0.1&Stackable_angle=60&Stackable_bottom_stabilizers=0.0&Stackable_height=2.0&Stackable_holedistance=1.0&Stackable_width=4.0&top_edge=e&bottom_edge=s&sx=5%3A30*6%3A5&sy=5%3A30*4%3A5&sh=0%3A95&aw=3.0&ah=60%3A20&ax=10%3A20%3A10%3A20%3A10%3A20%3A10&ay=20%3A60%3A20&layer2=None&layer1=NicotHatchingCage&layer0=NicotIncubatorCage&thickness=3.0&format=svg&tabs=0.0&qr_code=0&debug=0&labels=0&labels=1&reference=100.0&inner_corners=loop&burn=0.1&language=None&render=0)
     The bottom layer acts as a rest for the hatching cages but is also a fit for the incubator cages.
+ - [3x3 JZsBZs cages including lid with queen icon](http://localhost:8000/BeeQueenTransportBox?FingerJoint_style=rectangular&FingerJoint_surroundingspaces=2.0&FingerJoint_bottom_lip=0.0&FingerJoint_edge_width=1.0&FingerJoint_extra_length=0.0&FingerJoint_finger=2.0&FingerJoint_play=0.0&FingerJoint_space=2.0&FingerJoint_width=1.0&BeeQueenTransportBoxLid_cover=queenicon&BeeQueenTransportBoxLid_handle=none&BeeQueenTransportBoxLid_queenicon_angle=0&BeeQueenTransportBoxLid_queenicon_scale=75.0&BeeQueenTransportBoxLid_style=overthetop&BeeQueenTransportBoxLid_handle_height=8.0&BeeQueenTransportBoxLid_height=4.0&BeeQueenTransportBoxLid_play=0.1&Stackable_angle=60&Stackable_bottom_stabilizers=0.0&Stackable_height=2.0&Stackable_holedistance=1.0&Stackable_width=4.0&top_edge=e&bottom_edge=s&sx=5%3A35*3%3A5&sy=5%3A22*3%3A5&sh=8%3A60&aw=3.0&ah=30%3A25&ax=9.5%3A20%3A10.5%3A20%3A10.5%3A20%3A9.5&ay=11%3A20%3A9%3A20%3A9%3A20&layer2=None&layer1=JZsBZsCage&layer0=None&render=0)
 
 FAQ:
 
@@ -798,7 +817,7 @@ FAQ:
 
     ui_group = "Beekeeping"
 
-    CUTOUTS = (NicotTransportCageCutout, NicotHatchingCageCutout, NicotIncubatorCageCutout, PlastmixTransportCageCutout, ChinaTransportCageCutout,
+    CUTOUTS = (NicotTransportCageCutout, NicotHatchingCageCutout, NicotIncubatorCageCutout, PlastmixTransportCageCutout, ChinaTransportCageCutout, JZsBZsCageCutout,
                AirHolesForNicotTransportCageCutout, AirHolesForNicotIncubatorCageCutout, AirHolesForNicotHatchingCageCutout, AirHolesForChinaTransportCageCutout,
                NoneCutout)
     LAYERS = (NoneCutout, NicotTransportCageCutout, AirHolesForNicotTransportCageCutout)

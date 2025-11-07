@@ -754,7 +754,7 @@ def main() -> None:
     fc.start()
 
     httpd = make_server(args.host, args.port, boxserver.serve)
-    print(f"BoxesServer serving on {args.host}:{args.port}...")
+    print(f"BoxesServer serving on http://{args.host if args.host else '*'}:{args.port}/...")
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:

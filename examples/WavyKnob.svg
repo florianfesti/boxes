@@ -3,6 +3,12 @@
 <!--
 WavyKnob - Round knob serrated outside for better gripping
 
+
+
+![Bottom view](static/samples/WavyKnob-2.jpg)
+
+
+
 Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes WavyKnob
 -->
@@ -12,6 +18,10 @@ Command line (remove spaces between dashes): boxes WavyKnob
 <dc:title>Part - WavyKnob</dc:title>
 <dc:source>boxes WavyKnob</dc:source>
 <dc:description>Round knob serrated outside for better gripping
+
+
+![Bottom view](static/samples/WavyKnob-2.jpg)
+
 
 Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes WavyKnob

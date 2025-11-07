@@ -3,6 +3,12 @@
 <!--
 ConcaveKnob - Round knob serrated outside for better gripping
 
+
+
+![Six fluted variant](static/samples/ConcaveKnob-2.jpg)
+
+
+
 Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line (remove spaces between dashes): boxes ConcaveKnob
 -->
@@ -12,6 +18,10 @@ Command line (remove spaces between dashes): boxes ConcaveKnob
 <dc:title>Part - ConcaveKnob</dc:title>
 <dc:source>boxes ConcaveKnob</dc:source>
 <dc:description>Round knob serrated outside for better gripping
+
+
+![Six fluted variant](static/samples/ConcaveKnob-2.jpg)
+
 
 Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
 Command line: boxes ConcaveKnob

@@ -95,11 +95,130 @@ function initPage(num_hide = null) {
     for (let el of t) initThumbnail(el);
 }
 
+
+
+function dogboneRowFromCell(cellId) {
+    const cell = document.getElementById(cellId);
+    if (!cell) {
+        return null;
+    }
+    return cell.parentElement;
+}
+
+function updateDogboneInputs(mode) {
+    const showRadius = mode === "radius";
+    const showDiameter = mode === "diameter";
+    const radiusRow = dogboneRowFromCell("R_id");
+    const diameterRow = dogboneRowFromCell("D_id");
+    const radiusInput = document.getElementById("R");
+    const diameterInput = document.getElementById("D");
+
+    if (radiusRow) {
+        radiusRow.style.display = showRadius ? "" : "none";
+    }
+    if (radiusInput) {
+        radiusInput.disabled = !showRadius;
+    }
+    if (diameterRow) {
+        diameterRow.style.display = showDiameter ? "" : "none";
+    }
+    if (diameterInput) {
+        diameterInput.disabled = !showDiameter;
+    }
+}
+
+function ensureDogboneMeasurementRow() {
+    let row = document.getElementById("dogbone_measurement_row");
+    if (row) {
+        return row;
+    }
+    const radiusCell = document.getElementById("R_id");
+    if (!radiusCell) {
+        return null;
+    }
+    const radiusRow = radiusCell.parentElement;
+    if (!radiusRow || !radiusRow.parentElement) {
+        return null;
+    }
+
+    row = document.createElement("tr");
+    row.id = "dogbone_measurement_row";
+
+    const labelCell = document.createElement("td");
+    labelCell.id = "dogbone_measurement_id";
+    const label = document.createElement("label");
+    label.setAttribute("for", "dogbone_measurement_select");
+    label.textContent = "Dogbone input";
+    labelCell.appendChild(label);
+    row.appendChild(labelCell);
+
+    const inputCell = document.createElement("td");
+    const select = document.createElement("select");
+    select.id = "dogbone_measurement_select";
+    select.setAttribute("aria-labeledby", "dogbone_measurement_id dogbone_measurement_description");
+    select.innerHTML = "<option value=\"radius\">Radius</option><option value=\"diameter\">Diameter</option>";
+    inputCell.appendChild(select);
+    row.appendChild(inputCell);
+
+    const descriptionCell = document.createElement("td");
+    descriptionCell.id = "dogbone_measurement_description";
+    descriptionCell.textContent = "Choose whether to enter the radius or the diameter for dogbone corners.";
+    row.appendChild(descriptionCell);
+
+    radiusRow.parentElement.insertBefore(row, radiusRow);
+
+    const radiusInput = document.getElementById("R");
+    const diameterInput = document.getElementById("D");
+    if (diameterInput && diameterInput.value && !(radiusInput && radiusInput.value)) {
+        select.value = "diameter";
+    }
+
+    select.addEventListener("change", () => {
+        updateDogboneInputs(select.value);
+        refreshPreview();
+    });
+
+    return row;
+}
+
+function toggleDogboneFields() {
+    const select = document.getElementById("inner_corners");
+    if (!select) {
+        return;
+    }
+
+    if (select.value !== "dogbone") {
+        const measurementRow = document.getElementById("dogbone_measurement_row");
+        if (measurementRow) {
+            measurementRow.style.display = "none";
+        }
+        updateDogboneInputs("none");
+        return;
+    }
+
+    const measurementRow = ensureDogboneMeasurementRow();
+    if (measurementRow) {
+        measurementRow.style.display = "";
+    }
+
+    const measurementSelect = document.getElementById("dogbone_measurement_select");
+    const mode = measurementSelect ? measurementSelect.value || "radius" : "radius";
+
+    updateDogboneInputs(mode);
+}
+
+
+
 function initArgsPage(num_hide = null) {
     initPage(num_hide);
     const i = document.querySelectorAll("td > input, td > select, td > textarea");
     for (let el of i) {
 	el.addEventListener("change", refreshPreview);
+    }
+    const innerCorners = document.getElementById("inner_corners");
+    if (innerCorners) {
+        innerCorners.addEventListener("change", toggleDogboneFields);
+        toggleDogboneFields();
     }
     refreshPreview();
     document.getElementById("preview_chk").addEventListener("change", togglePreview);

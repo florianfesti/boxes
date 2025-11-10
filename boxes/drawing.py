@@ -1,5 +1,4 @@
 from __future__ import annotations
-
 import codecs
 import io
 import math
@@ -9,8 +8,80 @@ from xml.etree import ElementTree as ET
 from affine import Affine
 
 from boxes.extents import Extents
+from boxes.dogbone import apply_dogbone
 
 EPS = 1e-4
+
+
+def normalize_arc_angles(start_angle: float, end_angle: float, orientation: int) -> tuple[float, float]:
+    if orientation > 0:
+        while end_angle <= start_angle + EPS:
+            end_angle += 2 * math.pi
+    else:
+        while end_angle >= start_angle - EPS:
+            end_angle -= 2 * math.pi
+    return start_angle, end_angle
+
+
+def arc_to_cubic_segments(cx: float, cy: float, radius: float, start_angle: float, end_angle: float) -> list[list[float]]:
+    delta = end_angle - start_angle
+    if abs(delta) < 1e-12:
+        return []
+    segments = max(1, int(math.ceil(abs(delta) / (math.pi / 2.0))))
+    result: list[list[float]] = []
+    for seg_idx in range(segments):
+        t0 = start_angle + delta * (seg_idx / segments)
+        t1 = start_angle + delta * ((seg_idx + 1) / segments)
+        k = 4.0 / 3.0 * math.tan((t1 - t0) / 4.0)
+
+        cos0, sin0 = math.cos(t0), math.sin(t0)
+        cos1, sin1 = math.cos(t1), math.sin(t1)
+
+        p0x = cx + radius * cos0
+        p0y = cy + radius * sin0
+        p3x = cx + radius * cos1
+        p3y = cy + radius * sin1
+
+        c1x = p0x - k * radius * sin0
+        c1y = p0y + k * radius * cos0
+        c2x = p3x + k * radius * sin1
+        c2y = p3y - k * radius * cos1
+
+        result.append(['C', p3x, p3y, c1x, c1y, c2x, c2y])
+    return result
+
+
+def angle_on_arc(angle: float, start: float, end: float, orientation: int) -> float | None:
+    full_turn = 2 * math.pi
+    if orientation > 0:
+        k = math.ceil((start - angle) / full_turn)
+        candidate = angle + full_turn * k
+        if start - EPS <= candidate <= end + EPS:
+            return candidate
+    else:
+        k = math.floor((start - angle) / full_turn)
+        candidate = angle + full_turn * k
+        if end - EPS <= candidate <= start + EPS:
+            return candidate
+    return None
+
+
+def expand_path_arcs(commands):
+    expanded = []
+    current = None
+    for cmd in commands:
+        letter = cmd[0]
+        if letter == 'A':
+            _, ex, ey, cx, cy, radius, start_angle, end_angle, orientation = cmd
+            segments = arc_to_cubic_segments(cx, cy, radius, start_angle, end_angle)
+            for seg in segments:
+                expanded.append(seg)
+            current = (ex, ey)
+        else:
+            expanded.append(cmd)
+            if letter != 'T':
+                current = (cmd[1], cmd[2])
+    return expanded
 PADDING = 10
 
 RANDOMIZE_COLORS = False  # enable to ease check for continuity of paths
@@ -75,6 +146,12 @@ class Surface:
         self.transform(self.scale, m, self.invert_y)
 
         return Extents(0, 0, extents.width * self.scale, extents.height * self.scale)
+
+    def prepare_paths(self, inner_corners, dogbone_radius=None):
+        for part in self.parts:
+            for path in part.pathes:
+                path.faster_edges(inner_corners, dogbone_radius)
+        return self._adjust_coordinates()
 
     def render(self, renderer):
         renderer.init(**self.args)
@@ -190,42 +267,98 @@ class Path:
                     for y in (0, h):
                         x_, y_ = m * (x, y)
                         e.add(x_, y_)
+            elif p[0] == 'A':
+                _, _, _, cx, cy, radius, ang_start, ang_end, orientation = p
+                radius = abs(radius)
+                angles = {ang_start, ang_end}
+                for base in (0.0, math.pi / 2.0, math.pi, 3.0 * math.pi / 2.0):
+                    candidate = angle_on_arc(base, ang_start, ang_end, orientation)
+                    if candidate is not None:
+                        angles.add(candidate)
+                for angle in angles:
+                    px = cx + radius * math.cos(angle)
+                    py = cy + radius * math.sin(angle)
+                    e.add(px, py)
         return e
 
     def transform(self, f, m, invert_y=False):
         self.params["lw"] *= f
-        for c in self.path:
+        current = None
+        for idx, c in enumerate(self.path):
+            if isinstance(c, tuple):
+                c = list(c)
+                self.path[idx] = c
             C = c[0]
+            if C == "M":
+                c[1], c[2] = m * (c[1], c[2])
+                current = (c[1], c[2])
+                continue
             c[1], c[2] = m * (c[1], c[2])
-            if C == 'C':
+            if C == 'L':
+                current = (c[1], c[2])
+            elif C == 'C':
                 c[3], c[4] = m * (c[3], c[4])
                 c[5], c[6] = m * (c[5], c[6])
-            if C == "T":
+                current = (c[1], c[2])
+            elif C == 'A':
+                cx0, cy0 = c[3], c[4]
+                r0 = c[5]
+                start0 = c[6]
+                end0 = c[7]
+                orient0 = c[8]
+                c[3], c[4] = m * (cx0, cy0)
+                c[5] = abs(r0) * f
+                cx, cy = c[3], c[4]
+                radius = c[5]
+                if current is None:
+                    sx0 = cx0 + abs(r0) * math.cos(start0)
+                    sy0 = cy0 + abs(r0) * math.sin(start0)
+                    current = m * (sx0, sy0)
+                start_vec = (current[0] - cx, current[1] - cy)
+                end_vec = (c[1] - cx, c[2] - cy)
+                start_angle = math.atan2(start_vec[1], start_vec[0])
+                end_angle = math.atan2(end_vec[1], end_vec[0])
+                cross = start_vec[0] * end_vec[1] - start_vec[1] * end_vec[0]
+                if abs(cross) < EPS:
+                    orientation = 1 if orient0 >= 0 else -1
+                else:
+                    orientation = 1 if cross > 0 else -1
+                start_angle, end_angle = normalize_arc_angles(start_angle, end_angle, orientation)
+                c[6], c[7], c[8] = start_angle, end_angle, orientation
+                current = (c[1], c[2])
+            elif C == "T":
                 c[3] = m * c[3]
                 if invert_y:
                     c[3] *= Affine.scale(1, -1)
+            else:
+                current = (c[1], c[2])
 
-    def faster_edges(self, inner_corners):
+    def faster_edges(self, inner_corners, dogbone_radius=None):
         if inner_corners == "backarc":
             return
 
-        for (i, p) in enumerate(self.path):
-            if p[0] == "C" and i > 1 and i < len(self.path) - 1:
-                if self.path[i - 1][0] == "L" and self.path[i + 1][0] == "L":
-                    p11 = self.path[i - 2][1:3]
-                    p12 = self.path[i - 1][1:3]
-                    p21 = p[1:3]
-                    p22 = self.path[i + 1][1:3]
-                    if (((p12[0]-p21[0])**2 + (p12[1]-p21[1])**2) >
-                        self.params["lw"]**2):
-                        continue
-                    lines_intersect, x, y = line_intersection((p11, p12), (p21, p22))
-                    if lines_intersect:
-                        self.path[i - 1] = ("L", x, y)
-                        if inner_corners == "loop":
-                            self.path[i] = ("C", x, y, *p12, *p21)
-                        else:
-                            self.path[i] =  ("L", x, y)
+        if inner_corners == "dogbone":
+            if not apply_dogbone(self.path, dogbone_radius, EPS, line_intersection):
+                return
+
+        else:
+            for (i, p) in enumerate(self.path):
+                if p[0] == "C" and i > 1 and i < len(self.path) - 1:
+                    if self.path[i - 1][0] == "L" and self.path[i + 1][0] == "L":
+                        p11 = self.path[i - 2][1:3]
+                        p12 = self.path[i - 1][1:3]
+                        p21 = p[1:3]
+                        p22 = self.path[i + 1][1:3]
+                        if (((p12[0]-p21[0])**2 + (p12[1]-p21[1])**2) >
+                            self.params["lw"]**2):
+                            continue
+                        lines_intersect, x, y = line_intersection((p11, p12), (p21, p22))
+                        if lines_intersect:
+                            self.path[i - 1] = ("L", x, y)
+                            if inner_corners == "loop":
+                                self.path[i] = ("C", x, y, *p12, *p21)
+                            else:
+                                self.path[i] =  ("L", x, y)
         # filter duplicates
         if len(self.path) > 1: # no need to find duplicates if only one element in path
             self.path = [p for n, p in enumerate(self.path) if p != self.path[n-1]]
@@ -487,8 +620,8 @@ class SVGSurface(Surface):
         m.tail = '\n'
         root.insert(0, m)
 
-    def finish(self, inner_corners="loop"):
-        extents = self._adjust_coordinates()
+    def finish(self, inner_corners="loop", dogbone_radius=None):
+        extents = self.prepare_paths(inner_corners, dogbone_radius)
         w = extents.width * self.scale
         h = extents.height * self.scale
 
@@ -525,8 +658,8 @@ class SVGSurface(Surface):
                 x, y = 0, 0
                 start = None
                 last = None
-                path.faster_edges(inner_corners)
-                for c in path.path:
+                commands = expand_path_arcs(path.path)
+                for c in commands:
                     x0, y0 = x, y
                     C, x, y = c[0:3]
                     if C == "M":
@@ -637,9 +770,9 @@ class PSSurface(Surface):
             desc += f'%%SettingsUrl short: {md["url_short"].replace("&render=1", "")}\n'
         return desc
 
-    def finish(self, inner_corners="loop"):
+    def finish(self, inner_corners="loop", dogbone_radius=None):
 
-        extents = self._adjust_coordinates()
+        extents = self.prepare_paths(inner_corners, dogbone_radius)
         w = extents.width
         h = extents.height
 
@@ -681,9 +814,9 @@ class PSSurface(Surface):
             for j, path in enumerate(part.pathes):
                 p = []
                 x, y = 0, 0
-                path.faster_edges(inner_corners)
+                commands = path.path
 
-                for c in path.path:
+                for c in commands:
                     x0, y0 = x, y
                     C, x, y = c[0:3]
                     if C == "M":
@@ -694,6 +827,14 @@ class PSSurface(Surface):
                         x1, y1, x2, y2 = c[3:]
                         p.append(
                             f"{x1:.3f} {y1:.3f} {x2:.3f} {y2:.3f} {x:.3f} {y:.3f} curveto"
+                        )
+                    elif C == "A":
+                        cx, cy, radius, start_angle, end_angle, orientation = c[3], c[4], c[5], c[6], c[7], c[8]
+                        start_deg = math.degrees(start_angle)
+                        end_deg = math.degrees(end_angle)
+                        cmd = "arc" if orientation > 0 else "arcn"
+                        p.append(
+                            f"{cx:.3f} {cy:.3f} {radius:.3f} {start_deg:.6f} {end_deg:.6f} {cmd}"
                         )
                     elif C == "T":
                         m, text, params = c[3:]
@@ -770,9 +911,9 @@ class LBRN2Surface(Surface):
         8,  # Colors.OUTER_CUT    (WHITE)   --> Lightburn C08 (grey)
         ]
 
-    def finish(self, inner_corners="loop"):
+    def finish(self, inner_corners="loop", dogbone_radius=None):
         if self.dbg: print("LBRN2 save")
-        extents = self._adjust_coordinates()
+        extents = self.prepare_paths(inner_corners, dogbone_radius)
         w = extents.width * self.scale
         h = extents.height * self.scale
 
@@ -843,24 +984,24 @@ class LBRN2Surface(Surface):
                 C = ""
                 start = None
                 last = None
-                path.faster_edges(inner_corners)
+                commands = expand_path_arcs(path.path)
                 num = 0
                 cnt = 1
-                end = len(path.path) - 1
+                end = len(commands) - 1
                 if self.dbg:
-                    for c in path.path:
+                    for c in commands:
                         print ("6",num, c)
                         num += 1
                     num = 0
 
-                c = path.path[num]
+                c = commands[num]
                 C, x, y = c[0:3]
                 if self.dbg:
                     print("end:", end)
-                while num < end or (C == "T" and num <= end):  # len(path.path):
+                while num < end or (C == "T" and num <= end):  # len(commands):
                     if self.dbg:
                         print("0", num)
-                    c = path.path[num]
+                    c = commands[num]
                     if self.dbg: print("first: ", num, c)
 
                     C, x, y = c[0:3]
@@ -880,9 +1021,9 @@ class LBRN2Surface(Surface):
                         # do something with M
                         done = False
                         bspline = False
-                        while done == False and num < end:  # len(path.path):
+                        while done == False and num < end:  # len(commands):
                             num += 1
-                            c = path.path[num]
+                            c = commands[num]
                             if self.dbg: print ("next: ",num, c)
                             C, x, y = c[0:3]
                             if C == "M":

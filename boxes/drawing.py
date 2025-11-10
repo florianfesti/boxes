@@ -1028,7 +1028,7 @@ class LBRN2Surface(Surface):
                             C, x, y = c[0:3]
                             if C == "M":
                                 if start and points_equal(start[1], start[2], x0, y0):
-                                    pl.text = "LineClosed"
+                                    pl.text += f"L{cnt-1} 0"
                                 start = c
                                 cnt = 1
                                 if self.dbg: print ("next, because M")
@@ -1056,6 +1056,8 @@ class LBRN2Surface(Surface):
                         if start and points_equal(start[1], start[2], x0, y0):
                                 if bspline == False:
                                     pl.text = "LineClosed"
+                                else:
+                                    pl.text += f"L{cnt-1} 0"
                         start = c
                         if self.dbg: print ("2", num)
                     elif C == "T":

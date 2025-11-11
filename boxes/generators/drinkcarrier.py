@@ -18,7 +18,7 @@ class DrinkCarrier(Boxes):
     info = "A carrier for up to X number of drinks (Even Numbers Only) with a central handle and double base."
 
     # Assign to a UI group
-    ui_group = boxes.generators.ui_groups_by_name["Misc"]
+    ui_group = "Misc"
 
     # DEFINE PARAMETERS in __init__
     def __init__(self) -> None:

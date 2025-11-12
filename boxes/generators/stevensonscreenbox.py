@@ -115,9 +115,9 @@ class StevensonScreenBox(Boxes):
         # We'll make vertical walls at the top of the Stevenson Screen to take up any slack.
         # These will have a minimum height, let's guesstimate t*7.
         # They'll be inset by 1.5*t, so we can use finger holes to mount them.
-        min_vertical = t*3
-        front_h = h1 - np.sin(top_slope) * 2*t
-        back_h = h
+        min_vertical = t*2
+        front_h = h1 - np.sin(top_slope) * 2*t - t
+        back_h = h - t
         front_slats = self.calculate_slat_geometry(front_h - min_vertical)
         back_slats = self.calculate_slat_geometry(back_h - min_vertical)
 

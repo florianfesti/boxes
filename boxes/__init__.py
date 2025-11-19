@@ -505,6 +505,7 @@ class Boxes:
         * floats: x, y, h, hi
         * argparseSections: sx, sy, sh
         * ArgparseEdgeType: bottom_edge, top_edge
+          * pass default as single char or choices as string (first is default)
         * boolarg: outside
         * str (selection): nema_mount
         """
@@ -564,17 +565,25 @@ class Boxes:
                     "--hole_dD", action="store", type=argparseSections, default=default,
                     help="mounting hole diameter (shaft:head) in mm [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#mounting-holes)")
             elif arg == "bottom_edge":
+                choices = "Fhse"
                 if default is None: default = "h"
+                if len(default) > 1:
+                    choices = default
+                    default = choices[0]
                 self.argparser.add_argument(
                     "--bottom_edge", action="store",
-                    type=ArgparseEdgeType("Fhse"), choices=list("Fhse"),
+                    type=ArgparseEdgeType(choices), choices=list(choices),
                     default=default,
                     help="edge type for bottom edge")
             elif arg == "top_edge":
+                choices = "efFhcESŠikvLtGyY"
                 if default is None: default = "e"
+                if len(default) > 1:
+                    choices = default
+                    default = choices[0]
                 self.argparser.add_argument(
                     "--top_edge", action="store",
-                    type=ArgparseEdgeType("efFhcESŠikvLtGyY"), choices=list("efFhcESŠikvfLtGyY"),
+                    type=ArgparseEdgeType(choices), choices=list(choices),
                     default=default, help="edge type for top edge")
             elif arg == "outside":
                 if default is None: default = True

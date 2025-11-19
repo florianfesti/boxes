@@ -25,7 +25,7 @@ class DrinkCarrier(Boxes):
         Boxes.__init__(self)
         self.argparser.set_defaults(spacing="2.0")
         self.addSettingsArgs(edges.FingerJointSettings)
-        self.buildArgParser(x=300.0, y=200.0)
+        self.buildArgParser(x=300.0, y=200.0, bottom_edge="hsF", top_edge="Fh")
 
         # Add our own custom parameters
         self.argparser.add_argument(
@@ -147,11 +147,11 @@ class DrinkCarrier(Boxes):
                              label="Base Support Plate", callback=base_support_callback)
 
         # --- Part 3: Top Plate ---
-        self.rectangularWall(x, y, edges="FFFF", move="up",
+        self.rectangularWall(x, y, edges=self.top_edge * 4, move="up",
                              label="Top Plate", callback=top_plate_callback)
 
         # --- Part 4 & 5: Side Walls (Full Height) (x2) ---
-        side_edges = "fFfF"
+        side_edges = self.bottom_edge + "FfF"
         self.rectangularWall(x, total_wall_height, edges=side_edges, move="up",
                              label="Side Wall", callback=side_wall_callback)
         # --- FIX: Added callback to the second wall ---
@@ -160,7 +160,7 @@ class DrinkCarrier(Boxes):
 
         # --- Part 6 & 7: End Walls (Full Height) (x2) ---
         # Replaces the 4 End Wall Halves
-        end_edges = "fFfF" # Fingers on all 4 sides
+        end_edges = self.bottom_edge + "FfF" # Fingers on all 4 sides
         self.rectangularWall(y, total_wall_height, edges=end_edges, move="up",
                              label="End Wall", callback=end_wall_callback)
         self.rectangularWall(y, total_wall_height, edges=end_edges, move="up",

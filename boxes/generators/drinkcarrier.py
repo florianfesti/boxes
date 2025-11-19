@@ -23,7 +23,6 @@ class DrinkCarrier(Boxes):
     # DEFINE PARAMETERS in __init__
     def __init__(self) -> None:
         Boxes.__init__(self)
-        self.argparser.set_defaults(spacing="2.0")
         self.addSettingsArgs(edges.FingerJointSettings)
         self.buildArgParser(x=300.0, y=200.0, bottom_edge="hsF", top_edge="Fh")
 
@@ -135,8 +134,9 @@ class DrinkCarrier(Boxes):
         def end_wall_callback(part_edge_num):
             if part_edge_num == 0:
                 # Add horizontal finger slots for Base Support Plate
-                self.fingerHolesAt(0, base_support_h, y, 0)
+                self.fingerHolesAt(0, base_support_h+0.5*thickness, y, 0)
                 # Add vertical slot for the Center Handle to pass through
+                self.fingerHolesAt(y/2, base_support_h-thickness, box_h, 90)
 
         # --- Part 1: Bottom Plate (Solid) ---
         self.rectangularWall(x, y, edges="ffff", move="up",
@@ -167,9 +167,10 @@ class DrinkCarrier(Boxes):
                              label="End Wall", callback=end_wall_callback)
 
         # --- Part 8: Center Handle ---
-        if self.move(handle_width_internal, handle_h, "up", before=True, label="Center Handle"):
+        if self.move(x+2*thickness, handle_h, "up", before=True, label="Center Handle"):
             return
 
+        self.moveTo(2*thickness, thickness)
         handle_slot_y = handle_h - (handle_slot_height / 2) - (thickness * 2)
         self.rectangularHole(
             handle_width_internal / 2, handle_slot_y, handle_slot_width, handle_slot_height,
@@ -177,11 +178,14 @@ class DrinkCarrier(Boxes):
         )
 
         self.edges["f"](handle_width_internal)
-        self.corner(90)
-        self.edge(handle_h - handle_r)
-        self.corner(90, handle_r)
-        self.edge(handle_width_internal - (2 * handle_r))
-        self.corner(90, handle_r)
-        self.edge(handle_h - handle_r)
-        self.corner(99) # 90 degree corner to finish
-        self.move(handle_width_internal, handle_h, "up", label="Center Handle")
+        self.polyline(0, 90, base_support_h + thickness, -90, thickness, 90)
+        self.edges["f"](box_h - thickness)
+        self.polyline(0, 90, thickness, -90,
+                      handle_h - total_wall_height - handle_r, (90, handle_r),
+                      handle_width_internal - (2 * handle_r),
+                      (90, handle_r), handle_h - total_wall_height - handle_r,
+                      -90, thickness, 90)
+        self.edges["f"](box_h  - thickness)
+        self.polyline(0, 90, thickness, -90, base_support_h + thickness, 90)
+
+        self.move(x+2*thickness, handle_h, "up", label="Center Handle")

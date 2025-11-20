@@ -15,7 +15,7 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from boxes import Boxes, edges
+from boxes import Boxes, edges, boolarg
 from boxes.Color import Color
 
 
@@ -113,18 +113,19 @@ plastic Nicot cell cup block (CNE2).
         # Custom UI parameters
         ap = self.argparser
         ap.add_argument("--d", type=float, default=17.0, help="Diameter of top hole [mm]")
+        for name in ("front", "back", "left", "right"):
+            ap.add_argument(f"--holes_{name}", type=boolarg, default=True,
+                            help=f"create holes on the {name}")
 
-        self.addSettingsArgs(BeeQueenCageFrontWallSettings)
-        self.addSettingsArgs(BeeQueenCageBackWallSettings)
-        self.addSettingsArgs(BeeQueenCageLeftWallSettings)
-        self.addSettingsArgs(BeeQueenCageRightWallSettings)
-        self.addSettingsArgs(BeeQueenCageBottomWallSettings)
-        self.addSettingsArgs(BeeQueenCagePlugSettings)
+        self.addSettingsArgs(BeeQueenCageWallSettings)
 
     def airholes(self, w, h, label):
         if label == "Top":
             self.render_top(w, h)
-        else:
+        elif label == "Bottom":
+            pass
+        elif getattr(self, f"holes_{label.lower()}"):
+            label = ""
             g = getattr(self, f"BeeQueenCage{label}Wall_airhole_width", 0)
             dg = getattr(self, f"BeeQueenCage{label}Wall_airhole_separation", 0)
             r = getattr(self, f"BeeQueenCage{label}Wall_radius", 0)

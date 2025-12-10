@@ -20,3 +20,4 @@ venv/
 tracker.log
 *.isorted
 .DS_Store
+.venv/

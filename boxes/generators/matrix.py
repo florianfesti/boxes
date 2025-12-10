@@ -56,8 +56,8 @@ class Matrix(Boxes):
 
     led_width: int
     led_height: int
-    pysical_led_y: int
-    pysical_led_x: int
+    physical_led_x: int
+    physical_led_y: int
 
     distance_between_leds: float
     plexiglass_thicknes: float
@@ -98,19 +98,19 @@ class Matrix(Boxes):
         )
 
         self.argparser.add_argument(
-            "--pysical_led_y",
+            "--physical_led_x",
             action="store",
             type=int,
             default=160,
-            help="Width of the LED matrix pcb in mm",
+            help="Width (X) of the LED matrix PCB in mm",
         )
 
         self.argparser.add_argument(
-            "--pysical_led_x",
+            "--physical_led_y",
             action="store",
             type=int,
             default=160,
-            help="Height of the LED matrix pcb in mm",
+            help="Height (Y) of the LED matrix PCB in mm",
         )
 
         self.argparser.add_argument(
@@ -214,8 +214,8 @@ class Matrix(Boxes):
         self.fingerHolesAt(0, h, length, angle=0)
 
     def draw_led_grid(self):
-        space_per_led_x = self.pysical_led_x / self.led_width
-        space_per_led_y = self.pysical_led_y / self.led_height
+        space_per_led_x = self.physical_led_x / self.led_width
+        space_per_led_y = self.physical_led_y / self.led_height
         for x in range(self.led_width):
             for y in range(self.led_height):
                 self.rectangularHole(
@@ -234,9 +234,9 @@ class Matrix(Boxes):
 
     def create_mounting_holes(self):
         if self.mounting_holes:
-            pos_x = (self.pysical_led_x + 2 * self.matrix_front_frame_border_offset) / 2
+            pos_x = (self.physical_led_x + 2 * self.matrix_front_frame_border_offset) / 2
             pos_y = (
-                (self.pysical_led_y + 2 * self.matrix_front_frame_border_offset) * 3 / 4
+                (self.physical_led_y + 2 * self.matrix_front_frame_border_offset) * 3 / 4
             )
             self.rectangularHole(
                 x=pos_x,
@@ -255,8 +255,8 @@ class Matrix(Boxes):
 
     def render(self):
         x, y, h = (
-            self.pysical_led_x + 2 * self.matrix_front_frame_border_offset,
-            self.pysical_led_y + 2 * self.matrix_front_frame_border_offset,
+            self.physical_led_x + 2 * self.matrix_front_frame_border_offset,
+            self.physical_led_y + 2 * self.matrix_front_frame_border_offset,
             self.h,
         )
 
@@ -274,7 +274,7 @@ class Matrix(Boxes):
             label="Wall 1",
             callback=[
                 lambda: self.matrix_back_sideholes(
-                    self.pysical_led_x + 2 * self.matrix_front_frame_border_offset
+                    self.physical_led_x + 2 * self.matrix_front_frame_border_offset
                 )
             ],
         )
@@ -287,7 +287,7 @@ class Matrix(Boxes):
             label="Wall 2",
             callback=[
                 lambda: self.matrix_back_sideholes(
-                    self.pysical_led_x + 2 * self.matrix_front_frame_border_offset
+                    self.physical_led_y + 2 * self.matrix_front_frame_border_offset
                 )
             ],
         )
@@ -300,7 +300,7 @@ class Matrix(Boxes):
             label="Wall 4",
             callback=[
                 lambda: self.matrix_back_sideholes(
-                    self.pysical_led_y + 2 * self.matrix_front_frame_border_offset
+                    self.physical_led_y + 2 * self.matrix_front_frame_border_offset
                 )
             ],
         )
@@ -313,7 +313,7 @@ class Matrix(Boxes):
             label="Wall 3",
             callback=[
                 lambda: self.matrix_back_sideholes(
-                    self.pysical_led_y + 2 * self.matrix_front_frame_border_offset
+                    self.physical_led_x + 2 * self.matrix_front_frame_border_offset
                 )
             ],
         )
@@ -327,8 +327,8 @@ class Matrix(Boxes):
             label="Top",
             callback=[
                 lambda: self.draw_frame(
-                    sizex=self.pysical_led_x,
-                    sizey=self.pysical_led_y,
+                    sizex=self.physical_led_x,
+                    sizey=self.physical_led_y,
                     posx=self.matrix_front_frame_border_offset,
                     posy=self.matrix_front_frame_border_offset,
                 )

@@ -6985,22 +6985,22 @@ msgstr ""
 
 #. parameter name
 #: boxes/generators/matrix.py
-msgid "pysical_led_y"
+msgid "physical_led_x"
 msgstr ""
 
-#. help for parameter pysical_led_y
+#. help for parameter physical_led_x
 #: boxes/generators/matrix.py
-msgid "Width of the LED matrix pcb in mm"
+msgid "Width (X) of the LED matrix PCB in mm"
 msgstr ""
 
 #. parameter name
 #: boxes/generators/matrix.py
-msgid "pysical_led_x"
+msgid "physical_led_y"
 msgstr ""
 
-#. help for parameter pysical_led_x
+#. help for parameter physical_led_y
 #: boxes/generators/matrix.py
-msgid "Height of the LED matrix pcb in mm"
+msgid "Height (Y) of the LED matrix PCB in mm"
 msgstr ""
 
 #. parameter name

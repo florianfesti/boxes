@@ -128,7 +128,7 @@ def example_output_fname_formatter(box_type, name, box_idx, metadata, box_args):
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter, description=__doc__)
+    parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter, description=__doc__, add_help=False)
     parser.allow_abbrev = False
     parser.add_argument("--generator", type=str, default=None)
     parser.add_argument("--id", type=str, default=None, help="ignored")
@@ -136,6 +136,7 @@ def main() -> None:
     parser.add_argument("--version", action="store_true", default=False)
     parser.add_argument("--list", action="store_true", default=False, help="List available generators.")
     parser.add_argument("--examples", action="store_true", default=False, help='Generates an SVG for every generator into the "examples" folder.')
+    parser.add_argument("--help", action="store_true", default=False)
     args, extra = parser.parse_known_args()
     if args.generator and (args.examples or args.list):
         parser.error("cannot combine --generator with other commands")
@@ -154,8 +155,15 @@ def main() -> None:
     else:
         if args.generator:
             name = args.generator
-        else:
+        elif extra:
             name = extra.pop(0).lower()
+        elif args.help:
+            parser.print_help()
+            sys.exit(0)
+        if args.help:
+            extra.append("--help")
+        if args.debug:
+            extra.append("--debug")
         run_generator(name, extra)
 
 if __name__ == '__main__':

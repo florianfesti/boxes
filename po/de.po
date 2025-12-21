@@ -1050,6 +1050,81 @@ msgstr "Randabstand"
 msgid "Distance of the screw holes from the wall in mm"
 msgstr "Abstand der Montagelöchern zu den Rändern, in mm"
 
+#. parameter name
+#: boxes/generators/electronicsbox.py
+msgid "ventilation holes"
+msgstr "Lüftungsöffnungen"
+
+#. help for parameter ventilation
+#: boxes/generators/electronicsbox.py
+msgid "Ventilation hole pattern"
+msgstr "Muster der Lüftungsöffnungen"
+
+#. possible choice for ventilation
+#: boxes/generators/electronicsbox.py
+msgid "hex"
+msgstr "Sechseck"
+
+#. parameter name
+#: boxes/generators/electronicsbox.py
+msgid "ventilation_size"
+msgstr "Größe der Lüftungsöffnungen"
+
+#. help for parameter ventilation_size
+#: boxes/generators/electronicsbox.py
+msgid "Size of ventilation holes"
+msgstr "Größe der Lüftungsöffnungen"
+
+#. parameter name
+#: boxes/generators/electronicsbox.py
+msgid "ventilation_spacing"
+msgstr "Abstand der Lüftungsöffnungen"
+
+#. help for parameter ventilation_spacing
+#: boxes/generators/electronicsbox.py
+msgid "Spacing of ventilation holes"
+msgstr "Abstand zwischen Lüftungsöffnungen"
+
+#. parameter name
+#: boxes/generators/electronicsbox.py
+msgid "ventilation_border"
+msgstr "Rand um Lüftungsöffnungen"
+
+#. help for parameter ventilation_border
+#: boxes/generators/electronicsbox.py
+msgid "Border around ventilation area in mm"
+msgstr "Rand um den Lüftungsbereich in mm"
+
+#. parameter name
+#: boxes/generators/electronicsbox.py
+msgid "ventilation_style"
+msgstr "Stil der Lüftungsöffnungen"
+
+#. help for parameter ventilation_style
+#: boxes/generators/electronicsbox.py
+msgid "Hole style for hex pattern"
+msgstr "Lochform für Sechseck-Muster"
+
+#. possible choice for ventilation_style
+#: boxes/generators/electronicsbox.py
+msgid "round"
+msgstr "rund"
+
+#. possible choice for ventilation_style
+#: boxes/generators/electronicsbox.py
+msgid "square"
+msgstr "Quadrat"
+
+#. possible choice for ventilation_style
+#: boxes/generators/electronicsbox.py
+msgid "hexagon"
+msgstr "Sechseck"
+
+#. possible choice for ventilation_style
+#: boxes/generators/electronicsbox.py
+msgid "octagon"
+msgstr "Achteck"
+
 #. description of FlexBox
 #: boxes/generators/flexbox.py
 msgid "Box with living hinge and round corners"

@@ -44,6 +44,25 @@ class ElectronicsBox(Boxes):
             "--holedist", action="store", type=float, default=7.,
             help="Distance of the screw holes from the wall in mm")
 
+        # Ventilation
+        self.argparser.add_argument(
+            "--ventilation", action="store", type=str, default="none",
+            choices=["none", "hbar", "vbar", "hex"],
+            help="Ventilation pattern")
+        self.argparser.add_argument(
+            "--ventilation_size", action="store", type=float, default=3.,
+            help="Size of ventilation holes")
+        self.argparser.add_argument(
+            "--ventilation_spacing", action="store", type=float, default=6.,
+            help="Spacing of ventilation holes")
+        self.argparser.add_argument(
+            "--ventilation_border", action="store", type=float, default=15.,
+            help="Border around ventilation area in mm")
+        self.argparser.add_argument(
+            "--ventilation_style", action="store", type=str, default="hexagon",
+            choices=["round", "triangle", "square", "hexagon", "octagon"],
+            help="Hole style for hex pattern")
+
     def wallxCB(self):
         t = self.thickness
         self.fingerHolesAt(0, self.h-1.5*t, self.triangle, 0)
@@ -54,6 +73,35 @@ class ElectronicsBox(Boxes):
         self.fingerHolesAt(0, self.h-1.5*t, self.triangle, 0)
         self.fingerHolesAt(self.y, self.h-1.5*t, self.triangle, 180)
 
+    def ventilationCB(self):
+        """Draw ventilation pattern on the lid"""
+        if self.ventilation == "none":
+            return
+
+        x, y = self.x, self.y
+
+        # Calculate minimum margin to clear corner mounting holes
+        # Holes are at (trh, trh) with diameter d2
+        hole_clearance = self.trh + self.d2 / 2 + 1  # 1mm extra clearance
+        margin = max(self.ventilation_border, hole_clearance)
+
+        border = [
+            (margin, margin),
+            (x - margin, margin),
+            (x - margin, y - margin),
+            (margin, y - margin),
+        ]
+
+        self.fillHoles(
+            pattern=self.ventilation,
+            border=border,
+            max_radius=self.ventilation_size / 2,
+            hspace=self.ventilation_spacing,
+            bspace=0,
+            bar_length=max(x, y) - 2 * margin,  # Ignored for non-hbar/vbar
+            style=self.ventilation_style,       # Ignored for hbar/vbar
+        )
+
     def render(self):
 
         t = self.thickness
@@ -62,7 +110,7 @@ class ElectronicsBox(Boxes):
         d1, d2, d3 =self.d1, self.d2, self.d3
         hd = self.holedist
         tr = self.triangle
-        trh = tr / 3.
+        self.trh = trh = tr / 3.
 
         if self.outside:
             self.x = x = self.adjustSize(x)
@@ -88,8 +136,20 @@ class ElectronicsBox(Boxes):
                              callback=[
                     lambda:self.hole(hd, hd, d=d3)] * 4, move='up',
                     label="Bottom")
+
+        def lidCornerCB():
+            self.hole(trh, trh, d=d2)
+
+        def lidCornerCBWithVentilation():
+            lidCornerCB()
+            self.ventilationCB()
+
         self.rectangularWall(x, y, callback=[
-            lambda:self.hole(trh, trh, d=d2)] * 4, move='up', label="Top")
+            lidCornerCBWithVentilation,
+            lidCornerCB,
+            lidCornerCB,
+            lidCornerCB,
+        ], move='up', label="Top")
 
         self.rectangularTriangle(tr, tr, "ffe", num=4,
             callback=[None, lambda: self.hole(trh, trh, d=d1)])

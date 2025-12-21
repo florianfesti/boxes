@@ -1035,6 +1035,91 @@ msgstr "holedist"
 msgid "Distance of the screw holes from the wall in mm"
 msgstr "Distance of the screw holes from the wall in mm"
 
+#. parameter name
+#: boxes/generators/electronicsbox.py
+msgid "ventilation"
+msgstr "ventilation"
+
+#. help for parameter ventilation
+#: boxes/generators/electronicsbox.py
+msgid "Ventilation pattern"
+msgstr "Ventilation pattern"
+
+#. possible choice for ventilation
+#: boxes/generators/electronicsbox.py
+msgid "hbar"
+msgstr "horizontal bars"
+
+#. possible choice for ventilation
+#: boxes/generators/electronicsbox.py
+msgid "vbar"
+msgstr "vertical bars"
+
+#. possible choice for ventilation
+#: boxes/generators/electronicsbox.py
+msgid "hex"
+msgstr "hexagonal"
+
+#. parameter name
+#: boxes/generators/electronicsbox.py
+msgid "ventilation_size"
+msgstr "ventilation hole size"
+
+#. help for parameter ventilation_size
+#: boxes/generators/electronicsbox.py
+msgid "Size of ventilation holes"
+msgstr "Size of ventilation holes"
+
+#. parameter name
+#: boxes/generators/electronicsbox.py
+msgid "ventilation_spacing"
+msgstr "ventilation hole spacing"
+
+#. help for parameter ventilation_spacing
+#: boxes/generators/electronicsbox.py
+msgid "Spacing of ventilation holes"
+msgstr "Spacing of ventilation holes"
+
+#. parameter name
+#: boxes/generators/electronicsbox.py
+msgid "ventilation_border"
+msgstr "border around ventilation area"
+
+#. help for parameter ventilation_border
+#: boxes/generators/electronicsbox.py
+msgid "Border around ventilation area in mm"
+msgstr "Border around ventilation area in mm"
+
+#. parameter name
+#: boxes/generators/electronicsbox.py
+msgid "ventilation_style"
+msgstr "ventilation style"
+
+#. help for parameter ventilation_style
+#: boxes/generators/electronicsbox.py
+msgid "Hole style for hex pattern"
+msgstr "Hole style for hex pattern"
+
+#. possible choice for ventilation_style
+#: boxes/generators/electronicsbox.py
+msgid "round"
+msgstr "round"
+
+#. possible choice for ventilation_style
+#: boxes/generators/electronicsbox.py
+msgid "square"
+msgstr "square"
+
+#. possible choice for ventilation_style
+#: boxes/generators/electronicsbox.py
+msgid "hexagon"
+msgstr "hexagon"
+
+#. possible choice for ventilation_style
+#: boxes/generators/electronicsbox.py
+msgid "octagon"
+msgstr "octagon"
+
 #. description of FlexBox
 #: boxes/generators/flexbox.py
 msgid "Box with living hinge and round corners"

@@ -481,7 +481,7 @@ msgstr "Beidseitig"
 
 #. possible choice for spring
 msgid "none"
-msgstr "none"
+msgstr "keine"
 
 #. possible choice for spring
 msgid "left"

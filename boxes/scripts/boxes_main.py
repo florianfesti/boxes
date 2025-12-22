@@ -10,6 +10,7 @@ import gettext
 import os
 import sys
 import argparse
+import logging
 from pathlib import Path
 
 try:
@@ -168,7 +169,6 @@ def main() -> None:
 
 if __name__ == '__main__':
     # Setup basic logging
-    import logging
     logging.basicConfig(level=logging.INFO)
 
     main()

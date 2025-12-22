@@ -157,7 +157,7 @@ def main() -> None:
             name = args.generator
         elif extra:
             name = extra.pop(0).lower()
-        elif args.help:
+        else:
             parser.print_help()
             sys.exit(0)
         if args.help:

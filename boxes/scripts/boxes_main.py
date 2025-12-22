@@ -132,7 +132,7 @@ def main() -> None:
     parser.allow_abbrev = False
     parser.add_argument("--generator", type=str, default=None)
     parser.add_argument("--id", type=str, default=None, help="ignored")
-    parser.add_argument("--debug", action="store_true", default=False)
+    parser.add_argument("--debug", type=boxes.boolarg, default=False)
     parser.add_argument("--version", action="store_true", default=False)
     parser.add_argument("--list", action="store_true", default=False, help="List available generators.")
     parser.add_argument("--examples", action="store_true", default=False, help='Generates an SVG for every generator into the "examples" folder.')
@@ -163,7 +163,7 @@ def main() -> None:
         if args.help:
             extra.append("--help")
         if args.debug:
-            extra.append("--debug")
+            extra.extend(["--debug", "1"])
         run_generator(name, extra)
 
 if __name__ == '__main__':

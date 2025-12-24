@@ -25,7 +25,7 @@ class BeeQueenCageWallSettings(edges.Settings):
     NAME = None
     PREFIX = None
 
-    params = {
+    absolute_params = {
         "airhole_width": (3.0, float, "width of air holes (0 for no holes) [mm]"),
         "airhole_separation": (1.5, float, "distance between air holes [mm]"),
         "radius": (1.0, float, "corner radius of air holes [mm]"),
@@ -33,6 +33,23 @@ class BeeQueenCageWallSettings(edges.Settings):
         "bottom_margin": (22.0, float, "distance of air holes on bottom side [mm]"),
         "side_margin": (4.0, float, "side distance of air holes [mm]"),
     }
+
+    def __init__(self, thickness, relative: bool = True, **kw) -> None:
+        self.values = {}
+        for name, (value, t, description) in self.absolute_params.items():
+            if isinstance(value, tuple):
+                value = value[0]
+            if type(value) not in (bool, int, float, str):
+                raise ValueError("Type not supported: %r", value)
+            self.values[name] = value
+
+        self.thickness = thickness
+        factor = 1.0
+        if relative:
+            factor = thickness
+        for name, (value, t, description) in self.relative_params.items():
+            self.values[name] = value * factor
+        self.setValues(thickness, relative, **kw)
 
     @classmethod
     def parserArguments(cls, parser, prefix=None, **defaults):
@@ -42,7 +59,8 @@ class BeeQueenCageWallSettings(edges.Settings):
         group = parser.add_argument_group(name)
         group.prefix = prefix
 
-        for name, (default, t, description) in cls.params.items():
+        for name, (default, t, description) in (sorted(cls.absolute_params.items()) +
+                                                sorted(cls.relative_params.items())):
             aname = name.replace(" ", "_")
             group.add_argument(f"--{prefix}_{aname}",
                                type=t,
@@ -50,36 +68,10 @@ class BeeQueenCageWallSettings(edges.Settings):
                                choices=None,
                                help=description)
 
-
-class BeeQueenCageFrontWallSettings(BeeQueenCageWallSettings):
-    """ Settings for front wall of BeeQueenCage
-    """
-
-
-class BeeQueenCageBackWallSettings(BeeQueenCageWallSettings):
-    """ Settings for back wall of BeeQueenCage
-    """
-
-
-class BeeQueenCageLeftWallSettings(BeeQueenCageWallSettings):
-    """ Settings for left wall of BeeQueenCage
-    """
-
-
-class BeeQueenCageRightWallSettings(BeeQueenCageWallSettings):
-    """ Settings for right wall of BeeQueenCage
-    """
-
-
-class BeeQueenCageBottomWallSettings(BeeQueenCageWallSettings):
-    """ Settings for bottom wall of BeeQueenCage
-    """
-
-
 class BeeQueenCagePlugSettings(BeeQueenCageWallSettings):
     """ Settings for plug of BeeQueenCage
     """
-    params = {
+    absolute_params = {
         'diameter_top': (25.0, float, "diameter of top part of the plug (0 for no plug) [mm]"),
         'diameter_bottom': (17.0, float,
                             "diameter of bottom part of the plug (Should correspondent to hole diameter) [mm]"),
@@ -126,12 +118,12 @@ plastic Nicot cell cup block (CNE2).
             pass
         elif getattr(self, f"holes_{label.lower()}"):
             label = ""
-            g = getattr(self, f"BeeQueenCage{label}Wall_airhole_width", 0)
-            dg = getattr(self, f"BeeQueenCage{label}Wall_airhole_separation", 0)
-            r = getattr(self, f"BeeQueenCage{label}Wall_radius", 0)
-            tm = getattr(self, f"BeeQueenCage{label}Wall_top_margin", 0)
-            bm = getattr(self, f"BeeQueenCage{label}Wall_bottom_margin", 0)
-            sm = getattr(self, f"BeeQueenCage{label}Wall_side_margin", 0)
+            g = self.wallSettings.airhole_width
+            dg = self.wallSettings.airhole_separation
+            r = self.wallSettings.radius
+            tm = self.wallSettings.top_margin
+            bm = self.wallSettings.bottom_margin
+            sm = self.wallSettings.side_margin
 
             k = g + dg  # pitch of holes
             num_holes = int((h - tm - bm + dg / 2) / k)  # number of holes over height
@@ -151,9 +143,9 @@ plastic Nicot cell cup block (CNE2).
 
     def render_plug(self):
         """ Render round plug for the bee queen cage"""
-        dt = getattr(self, "BeeQueenCagePlug_diameter_top", 0)
-        db = getattr(self, "BeeQueenCagePlug_diameter_bottom", 0)
-        di = getattr(self, "BeeQueenCagePlug_diameter_inner", 0)
+        dt = self.plugSettings.diameter_top
+        db = self.plugSettings.diameter_bottom
+        di = self.plugSettings.diameter_inner
 
         if dt > 0 and db > 0:
             with self.saved_context():
@@ -162,6 +154,11 @@ plastic Nicot cell cup block (CNE2).
                 self.parts.disc(db, label="Plug\nBottom", callback=None if di == 0 else lambda: self.hole(0, 0, d=di))
 
     def render(self):
+        self.plugSettings = BeeQueenCagePlugSettings(
+            self.thickness, True, **self.edgesettings.get("BeeQueenCagePlug", {}))
+        self.wallSettings = BeeQueenCageWallSettings(
+            self.thickness, True, **self.edgesettings.get("BeeQueenCageWall", {}))
+
         ox, oy, oh = x, y, h = self.x, self.y, self.h
 
         if self.outside:

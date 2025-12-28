@@ -15,7 +15,8 @@
 from __future__ import annotations
 
 import io
-import os
+from pathlib import Path
+
 import boxes
 from boxes import *
 from boxes import lids
@@ -158,8 +159,8 @@ to remove the floor for this compartment.
     def prepare(self):
         if self.layout:
             self.parse(self.layout.split('\n'))
-        elif os.path.exists(self.input):
-            with open(self.input) as input_file:
+        elif Path(self.input).exists():
+            with Path(self.input).open() as input_file:
                 self.parse(input_file)
         elif callable(getattr(self, "generate_layout", None)):
             self.parse(self.generate_layout().split('\n'))

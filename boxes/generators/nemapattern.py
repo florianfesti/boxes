@@ -26,7 +26,7 @@ class NemaPattern(Boxes):
         self.addSettingsArgs(edges.FingerJointSettings)
         self.argparser.add_argument(
             "--size", action="store", type=int, default=8,
-            choices=list(sorted(self.nema_sizes.keys())),
+            choices=sorted(self.nema_sizes.keys()),
             help="Nema size of the motor")
         self.argparser.add_argument(
             "--screwholes", action="store", type=float, default=0.0,

@@ -549,6 +549,7 @@ class SVGSurface(Surface):
                         )
                     elif C == "T":
                         m, text, params = c[3:]
+                        m: Affine = m
                         m = m * Affine.translation(0, -params['fs'])
                         tm = " ".join(f"{m[i]:.3f}" for i in (0, 3, 1, 4, 2, 5))
                         font, bold, italic = params['ff']
@@ -924,6 +925,7 @@ class LBRN2Surface(Surface):
                         #C = ""
                         if self.dbg: print ("3", num)
                         m, text, params = c[3:]
+                        m: Affine = m
                         m = m * Affine.translation(0, params['fs'])
                         if self.dbg: print ("T: ",x, y, c)
                         num += 1

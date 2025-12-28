@@ -8,8 +8,6 @@ You need a LED stripe that is wound through all segments in an S pattern and the
 
 Adding a diffuser on top or at the bottom of the segment holes will probably enhance the visuals. Just using paper may be enough.
 
-There is currently not a lot of space for electronics and this generator is still untested. Good luck!
-
 
 
 Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
@@ -18,15 +16,13 @@ Command line (remove spaces between dashes): boxes SevenSegmentClock
 <title>SevenSegmentClock</title>
 <metadata>
 <rdf:RDF><cc:Work>
-<dc:title>Unstable - SevenSegmentClock</dc:title>
+<dc:title>Misc - SevenSegmentClock</dc:title>
 <dc:source>boxes SevenSegmentClock</dc:source>
 <dc:description>Seven segment clock build with LED stripe
 
 You need a LED stripe that is wound through all segments in an S pattern and then continuing to the next digit while the stripe being upright on its side. Selecting *debug* gives a better idea how things fit together.
 
 Adding a diffuser on top or at the bottom of the segment holes will probably enhance the visuals. Just using paper may be enough.
-
-There is currently not a lot of space for electronics and this generator is still untested. Good luck!
 
 
 Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)

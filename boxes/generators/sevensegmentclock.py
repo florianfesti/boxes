@@ -24,12 +24,9 @@ class SevenSegmentClock(SevenSegmentPattern):
     description = """You need a LED stripe that is wound through all segments in an S pattern and then continuing to the next digit while the stripe being upright on its side. Selecting *debug* gives a better idea how things fit together.
 
 Adding a diffuser on top or at the bottom of the segment holes will probably enhance the visuals. Just using paper may be enough.
-
-There is currently not a lot of space for electronics and this generator is still untested. Good luck!
 """
 
     ui_group = "Misc"
-    ui_group = "Unstable"
 
     def __init__(self):
         Boxes.__init__(self)

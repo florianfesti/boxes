@@ -358,7 +358,7 @@ class Context:
 
     def fill(self):
         self._xy = (0, 0)
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def set_font(self, style, bold=False, italic=False):
         if style not in ("serif", "sans-serif", "monospaced"):

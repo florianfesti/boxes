@@ -628,7 +628,7 @@ class Gears():
 ##        undercut = int(ceil(undercut_min_teeth( angle )))
 ##        needs_undercut = teeth < undercut #? no longer needed ?
         if have_undercut(teeth, angle, 1.0):
-            min_teeth = int(ceil(undercut_min_teeth(angle, 1.0)))
+            min_teeth = ceil(undercut_min_teeth(angle, 1.0))
             min_angle = undercut_min_angle(teeth, 1.0) + .1
             max_k = undercut_max_k(teeth, angle)
             msg = "Undercut Warning: This gear (%d teeth) will not work well.\nTry tooth count of %d or more,\nor a pressure angle of %.1f [deg] or more,\nor try a profile shift of %d %%.\nOr other decent combinations." % (teeth, min_teeth, min_angle, int(100.*max_k)-100.)

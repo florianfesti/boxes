@@ -26,7 +26,7 @@ class NemaMount(Boxes):
         self.addSettingsArgs(edges.FingerJointSettings)
         self.argparser.add_argument(
             "--size", action="store", type=int, default=8,
-            choices=list(sorted(self.nema_sizes.keys())),
+            choices=sorted(self.nema_sizes.keys()),
             help="Nema size of the motor")
 
     def render(self):

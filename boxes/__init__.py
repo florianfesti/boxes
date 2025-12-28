@@ -558,7 +558,7 @@ class Boxes:
                 if default is None: default = 23
                 self.argparser.add_argument(
                     "--nema_mount", action="store",
-                    type=int, choices=list(sorted(self.nema_sizes.keys())),
+                    type=int, choices=sorted(self.nema_sizes.keys()),
                     default=default, help="NEMA size of motor")
             else:
                 raise ValueError("No default for argument", arg)

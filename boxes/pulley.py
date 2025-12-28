@@ -84,7 +84,7 @@ class Pulley:
 
     @classmethod
     def getProfiles(cls):
-        return list(sorted(cls.teeth.keys()))
+        return sorted(cls.teeth.keys())
 
     def diameter(self, teeth, profile):
         if self.spacing[profile][0]:

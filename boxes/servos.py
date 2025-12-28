@@ -33,7 +33,7 @@ class EyeEdge(boxes.edges.FingerHoleEdge):
         angle = math.degrees(a)
         self.polyline(0, -angle, l, (2 * angle, r), l, -angle, 0)
 
-    def startwidth(self) -> float:
+    def startWidth(self) -> float:
         return self.fingerHoles.settings.thickness
 
     def margin(self) -> float:

@@ -29,7 +29,7 @@ class MotorEdge(edges.BaseEdge):
 
 
 class OutsetEdge(edges.OutSetEdge):
-    def startwidth(self) -> float:
+    def startWidth(self) -> float:
         return 20.0
 
 

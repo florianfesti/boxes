@@ -137,7 +137,7 @@ The lids needs to be glued. For the bayonet lid all outside rings attach to the 
         fingers_bottom = self.bottom in ("closed", "hole", "angled hole",
                                          "round lid", "angled lid2")
 
-        t_ = self.edges["G"].startwidth()
+        t_ = self.edges["G"].startWidth()
         bottom_edge = ('y' if fingers_bottom else 'e')
         top_edge = ('z' if fingers_top else 'e')
         d_top = max(0, -t_ * math.sin(math.radians(a)))

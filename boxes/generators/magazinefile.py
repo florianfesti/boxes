@@ -44,7 +44,7 @@ class MagazineFile(Boxes):
 
         top_edge = self.edges.get(top_edge, top_edge)
 
-        e_w = self.edges["F"].startwidth()
+        e_w = self.edges["F"].startWidth()
         self.moveTo(3, 3)
         self.edge(e_w)
         self.edges["F"](w)

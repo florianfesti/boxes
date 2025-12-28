@@ -292,7 +292,7 @@ Assembly:
 
         self.moveTo(0, edges[1].margin())
         for i, l in enumerate((finger_padding, x, finger_padding, y, x+2*finger_padding, y)):
-            self.cc(callback, i, y=edges[i].startwidth() + self.burn)
+            self.cc(callback, i, y=edges[i].startWidth() + self.burn)
             e1, e2 = edges[i], edges[i + 1]
 
             edges[i](l)

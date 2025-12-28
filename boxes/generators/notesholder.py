@@ -29,16 +29,16 @@ class USlotEdge(Edge):
         d = length * (1-o/100) / 2
         r = min(3*self.thickness, (l-2*d)/2)
         self.edges[self.e](d)
-        self.step(-self.edges[self.e].endwidth())
+        self.step(-self.edges[self.e].endWidth())
         self.polyline(0, 90, 0, (-90, r), l-2*d-2*r, (-90, r), 0, 90)
-        self.step(self.edges[self.e].startwidth())
+        self.step(self.edges[self.e].startWidth())
         self.edges[self.e](d)
 
     def margin(self) -> float:
         return self.edges[self.e].margin()
 
-    def startwidth(self):
-        return self.edges[self.e].startwidth()
+    def startWidth(self):
+        return self.edges[self.e].startWidth()
 
 class HalfStackableEdge(edges.StackableEdge):
 
@@ -59,7 +59,7 @@ class HalfStackableEdge(edges.StackableEdge):
         self.boxes.corner(-p * s.angle, r)
         self.boxes.edge(length - 1 * s.width - 2 * l)
 
-    def endwidth(self) -> float:
+    def endWidth(self) -> float:
         return self.settings.holedistance + self.settings.thickness
 
 class NotesHolder(Boxes):
@@ -117,7 +117,7 @@ the feet."""
             b3 = b
 
         b4 = Edge(self, None)
-        b4.startwidth = lambda: b3.startwidth()
+        b4.startWidth = lambda: b3.startWidth()
 
 
         for side in range(2):
@@ -160,7 +160,7 @@ the feet."""
             outer_edge = "h" if self.bottom_edge == "f" else "f"
             font_edge = back_edge = outer_edge
             u_edge = USlotEdge(self, o, outer_edge)
-            outer_width = self.edges[outer_edge].startwidth()
+            outer_width = self.edges[outer_edge].startWidth()
             if self.opening > 0.0:
                 front_edge = CompoundEdge(
                     self,

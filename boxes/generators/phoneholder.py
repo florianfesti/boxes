@@ -264,7 +264,7 @@ class SideEdge(edges.BaseEdge):
         self.polyline(0, -90, self.thickness, 90)
         self.edges["F"](tab_end)
 
-    def startwidth(self) -> float:
+    def startWidth(self) -> float:
         return self.boxes.thickness
 
 

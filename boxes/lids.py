@@ -234,7 +234,7 @@ class Lid:
         if self.move(tw, th, move, True, label=label):
             return
 
-        self.cc(callback, 0, self.edges["A"].startwidth()+self.burn)
+        self.cc(callback, 0, self.edges["A"].startWidth()+self.burn)
         self.edges["A"](3*t)
         self.edges["X"](l, y+2*t)
         self.edges["A"](3*t)
@@ -242,7 +242,7 @@ class Lid:
         self.cc(callback, 1)
         self.edge(y+2*t)
         self.corner(90)
-        self.cc(callback, 2, self.edges["A"].startwidth()+self.burn)
+        self.cc(callback, 2, self.edges["A"].startWidth()+self.burn)
         self.edges["A"](3*t)
         self.edge(l)
         self.edges["A"](3*t)

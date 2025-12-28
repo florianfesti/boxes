@@ -88,7 +88,7 @@ Bottom panel, sloped front panel and label panel (if enabled).
             a = maxsa
 
         # Get the width of the 'h' edge
-        wh = self.edges["h"].startwidth()
+        wh = self.edges["h"].startWidth()
 
         # Check that ratios are valid
         if not self.label:

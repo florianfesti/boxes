@@ -143,7 +143,7 @@ pieces or as a single piece that continues at the back.
         # y walls
 
         # outer walls - left/right
-        f = edges.CompoundEdge(self, "fE", [h+self.edges[b].startwidth(), t+margin_vertical])
+        f = edges.CompoundEdge(self, "fE", [h+self.edges[b].startWidth(), t+margin_vertical])
         self.rectangularWall(y, h+t+margin_vertical, [b, f, tside, "f"], callback=[self.yHoles, ],
                              ignore_widths=[1,5,6],
                              move="up", label="left side")

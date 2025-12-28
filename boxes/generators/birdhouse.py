@@ -47,7 +47,7 @@ class BirdHouse(Boxes):
 
         self.moveTo(edges[-2].spacing())
         for i in range(7):
-            self.cc(callback, i, y=self.burn+edges[i].startwidth())
+            self.cc(callback, i, y=self.burn+edges[i].startWidth())
             edges[i](lengths[i])
             self.edgeCorner(edges[i], edges[i+1], angles[i])
 
@@ -68,8 +68,8 @@ class BirdHouse(Boxes):
         self.corner(90, overhang)
         edges[1](h + 2*t)
         self.edgeCorner(edges[1], edges[2])
-        self.fingerHolesAt(overhang + 0.5*t, edges[2].startwidth(), h, 90)
-        self.fingerHolesAt(x + overhang + 1.5*t, edges[2].startwidth(), h, 90)
+        self.fingerHolesAt(overhang + 0.5*t, edges[2].startWidth(), h, 90)
+        self.fingerHolesAt(x + overhang + 1.5*t, edges[2].startWidth(), h, 90)
         edges[2](x + 2*t + 2*overhang)
         self.edgeCorner(edges[2], edges[3])
         edges[3](h + 2*t)

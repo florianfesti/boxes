@@ -23,7 +23,7 @@ class DinRailEdge(edges.FingerHoleEdge):
         self.width = width
         self.offset = offset
 
-    def startwidth(self) -> float:
+    def startWidth(self) -> float:
         return 8 + self.settings.thickness
 
     def __call__(self, length, bedBolts=None, bedBoltSettings=None, **kw):

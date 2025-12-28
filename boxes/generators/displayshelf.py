@@ -80,7 +80,7 @@ class DisplayShelf(Boxes):
         b_offs = self.bottom_distance
         h = self.h - b_offs - self.top_distance
         if self.slope_top and self.include_bottom:
-            self.moveTo(0, self.edges["h"].startwidth())
+            self.moveTo(0, self.edges["h"].startWidth())
 
         if (h - abs(hs) -  3*t * (self.num - 1)) < 0:
             raise ValueError("Need more height to fit shelves")
@@ -113,7 +113,7 @@ class DisplayShelf(Boxes):
         self.front = front = height - vertical_cut
 
         edges = 'he' if self.include_bottom else 'ee'
-        le = self.edges['h'].startwidth() if self.include_bottom else self.edges['e'].startwidth()
+        le = self.edges['h'].startWidth() if self.include_bottom else self.edges['e'].startWidth()
         edges += 'f' if self.include_front else 'e'
         edges += 'eefe' if self.include_back else 'eeee'
         borders = [width, 90, le, 0, front, 90 - self.angle, hypotenuse, self.angle, top, 90, height, 0, le, 90]
@@ -197,7 +197,7 @@ class DisplayShelf(Boxes):
         thickness = self.thickness
 
         if self.outside:
-            bottom = thickness + self.edges["h"].startwidth() if self.include_bottom else True
+            bottom = thickness + self.edges["h"].startWidth() if self.include_bottom else True
             self.sx = sx = self.adjustSize(sx, bottom)
             self.y = y = self.adjustSize(y, self.include_back, self.include_front)
 

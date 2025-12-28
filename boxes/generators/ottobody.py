@@ -112,8 +112,8 @@ class OttoBody(Boxes):
 
         t = self.thickness
 
-        hx = self.edges["O"].startwidth()
-        hx2 = self.edges["P"].startwidth()
+        hx = self.edges["O"].startWidth()
+        hx2 = self.edges["P"].startWidth()
 
         e1 = edges.CompoundEdge(self, "Fe", (h-hx, hx))
         e2 = edges.CompoundEdge(self, "eF", (hx, h-hx))

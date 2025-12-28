@@ -92,7 +92,7 @@ Start with putting the slots of the inner walls together. Be especially careful 
         edges[0](y+2*t)
         self.edgeCorner(edges[0], "e")
         self.edge(fh)
-        self.step(edges[1].startwidth() - t)
+        self.step(edges[1].startWidth() - t)
         edges[1](sh[-1]+eh)
         self.edgeCorner(edges[1], "e")
         for i in range(len(sy)-1, 0, -1):
@@ -106,7 +106,7 @@ Start with putting the slots of the inner walls together. Be especially careful 
         self.polyline(sy[0])
         self.edgeCorner("e", edges[2])
         edges[2](sh[0]+eh)
-        self.step(t - edges[2].endwidth())
+        self.step(t - edges[2].endWidth())
         self.polyline(fh)
         self.edgeCorner("e", edges[0])
 
@@ -187,7 +187,7 @@ Start with putting the slots of the inner walls together. Be especially careful 
         self.corner(-90)
         self.edgeCorner("e", edges[0], 90)
 
-        self.moveTo(0, self.burn+edges[0].startwidth(), 0)
+        self.moveTo(0, self.burn+edges[0].startWidth(), 0)
 
         for i in range(1, len(sx)):
             posx = sum(sx[:i]) + i*t - 0.5 * t

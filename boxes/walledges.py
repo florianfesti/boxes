@@ -95,7 +95,7 @@ class WallJoinedEdge(WallEdge):
         self.edges["f"](length)
         self.step(t)
 
-    def startwidth(self) -> float:
+    def startWidth(self) -> float:
         return self.settings.thickness
 
 class WallBackEdge(WallEdge):
@@ -105,9 +105,9 @@ class WallBackEdge(WallEdge):
 
     def _joint(self, length):
         t = self.settings.thickness
-        self.step(self.edges["F"].startwidth())
+        self.step(self.edges["F"].startWidth())
         self.edges["F"](length)
-        self.step(-self.edges["F"].endwidth())
+        self.step(-self.edges["F"].endWidth())
 
     def margin(self) -> float:
         return self.settings.thickness
@@ -160,7 +160,7 @@ class WallHoleEdge(WallHoles):
                 px, dist, length, angle)
         self.edge(length, tabs=2)
 
-    def startwidth(self) -> float:
+    def startWidth(self) -> float:
         """ """
         return self.wallHoles.settings.edge_width + self.settings.thickness
 

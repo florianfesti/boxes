@@ -81,8 +81,8 @@ class UBox(_TopEdge):
             if edges[0] in (self.edges["i"], self.edges["k"]):
                 # hinged lids, mimic ignor_widths
                 self.edgeCorner("e", e[nr])
-                e[nr](h + self.edges["F"].startwidth() +
-                      self.edges["F"].endwidth())
+                e[nr](h + self.edges["F"].startWidth() +
+                      self.edges["F"].endWidth())
                 self.edgeCorner(e[nr], "e")
             else:
                 self.edgeCorner("F", e[nr])

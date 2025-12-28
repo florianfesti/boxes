@@ -19,14 +19,14 @@ from boxes import *
 class CornerEdge(edges.Edge):
     char = "C"
 
-    def startwidth(self) -> float:
+    def startWidth(self) -> float:
         return self.boxes.thickness * math.tan(math.radians(90-22.5))
 
     def __call__(self, length, bedBolts=None, bedBoltSettings=None, **kw):
         with self.saved_context():
             self.ctx.stroke()
             self.set_source_color(Color.RED)
-            self.moveTo(0, self.startwidth())
+            self.moveTo(0, self.startWidth())
             self.edge(length)
             self.ctx.stroke()
             self.set_source_color(Color.BLACK)

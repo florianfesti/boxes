@@ -71,7 +71,7 @@ class BarrierEdge(edges.BaseEdge):
         self.corner(90,self.thickness/2)
         self.edge(0.2*length)
 
-    def startwidth(self) -> float:
+    def startWidth(self) -> float:
         return self.boxes.thickness
 
 class CanStorage(Boxes):

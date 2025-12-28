@@ -99,16 +99,16 @@ When turned by 90°, it can be also used to create a bottle holder.
 
         self.moveTo(edges[-1].spacing(), edges[0].margin())
         for i, l in [(0, w), (1, h2)]:
-            self.cc(callback, i, y=edges[i].startwidth() + self.burn)
+            self.cc(callback, i, y=edges[i].startWidth() + self.burn)
             edges[i](l)
             self.edgeCorner(edges[i], edges[i + 1], 90)
 
         self.corner(angle)
-        self.cc(callback, i, y=edges[2].startwidth() + self.burn)
+        self.cc(callback, i, y=edges[2].startWidth() + self.burn)
         edges[2](w / math.cos(a))
         self.corner(-angle)
         self.edgeCorner(edges[2], edges[2 + 1], 90)
-        self.cc(callback, i, y=edges[3].startwidth() + self.burn)
+        self.cc(callback, i, y=edges[3].startWidth() + self.burn)
         edges[3](h1)
         self.edgeCorner(edges[3], edges[3 + 1], 90)
 

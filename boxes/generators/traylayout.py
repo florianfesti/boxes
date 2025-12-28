@@ -302,7 +302,7 @@ to remove the floor for this compartment.
         lx = len(self.x)
         ly = len(self.y)
         t = self.thickness
-        w = self.edges["F"].startwidth()
+        w = self.edges["F"].startWidth()
         b = self.burn
         t2 = self.thickness / 2.0
 

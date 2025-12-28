@@ -5,6 +5,7 @@ from typing import Any, IO
 
 import qrcode.image.base
 import qrcode.image.svg
+from typing_extensions import override
 
 
 class BoxesQrCodeFactory(qrcode.image.base.BaseImage):
@@ -23,9 +24,20 @@ class BoxesQrCodeFactory(qrcode.image.base.BaseImage):
         # Save the unit size, for example the default box_size of 10 is '1mm'.
         self.unit_size = self.units(self.box_size)
 
+    @override
     def drawrect(self, row: float, col: float) -> None:
         self.ctx.rectangle(*self._rect(row, col))
         self._img.append(self._rect(row, col))
+
+    @override
+    def save(self, stream: IO[bytes], kind: str | None = None) -> None:
+        self.check_kind(kind=kind)
+        self._write(stream)
+
+    @override
+    def new_image(self, **kwargs: Any) -> Any:
+        self._img: list[Any] = []
+        return self._img
 
     def units(self, pixels: Any, text: bool = True) -> Decimal | str:
         """
@@ -36,16 +48,8 @@ class BoxesQrCodeFactory(qrcode.image.base.BaseImage):
             return units
         return f'{units}mm'
 
-    def save(self, stream: IO[bytes], kind: str | None = None) -> None:
-        self.check_kind(kind=kind)
-        self._write(stream)
-
     def to_string(self) -> str:
         return f"".join(self._img)
-
-    def new_image(self, **kwargs: Any) -> Any:
-        self._img = []  # type: ignore
-        return self._img
 
     def _rect(self, row: float, col: float) -> tuple[float, float, float, float]:
         size = self.box_size / 10

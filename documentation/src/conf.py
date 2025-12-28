@@ -3,11 +3,11 @@
 # For the full list of built-in configuration values, see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
-import os
 import sys
 from datetime import datetime
+from pathlib import Path
 
-sys.path.append(os.path.abspath('../..'))
+sys.path.append(Path(__file__).resolve().parent.parent.__str__())
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information

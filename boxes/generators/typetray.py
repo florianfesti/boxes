@@ -12,6 +12,7 @@
 #
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from pathlib import Path
 
 from boxes import *
 from boxes import Color, edges
@@ -243,7 +244,7 @@ class TypeTray(_TopEdge):
             self.textcontent = self.label_text.split("\r\n")
         else:
             if self.label_file:
-                with open(self.label_file) as f:
+                with Path(self.label_file).open() as f:
                     self.textcontent = f.readlines()
         self.textnumber = 0
 

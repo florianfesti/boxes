@@ -14,13 +14,13 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import os.path
 import sys
+from pathlib import Path
 
 try:
     import boxes.generators
 except ImportError:
-    sys.path.append(os.path.dirname(__file__) + "/../..")
+    sys.path.append(Path(__file__).resolve().parent.parent.__str__())
     import boxes.generators
 
 
@@ -34,7 +34,8 @@ class Boxes2rst:
             self.groups_by_name.get(box.ui_group, self.groups_by_name["Misc"]).add(box)
 
     def write(self, targetFile: str) -> None:
-        with open(targetFile, "w") as f:
+        pathToImages: Path = Path(__file__).resolve().parent.parent / "static" / "samples"
+        with Path(targetFile).open("w") as f:
             for name, group in self.groups_by_name.items():
                 f.write(f"{name}\n----------------\n\n")
                 for box in group.generators:
@@ -42,7 +43,7 @@ class Boxes2rst:
                     f.write("\n..........................................\n\n")
                     f.write(f"\n\n.. autoclass:: {box.__class__.__module__}.{box.__class__.__name__}")
                     f.write("\n\n")
-                    if os.path.exists(f"../../static/samples/{box.__class__.__name__}.jpg"):
+                    if (pathToImages / f"{box.__class__.__name__}.jpg").exists():
                         f.write(f".. image:: ../../static/samples/{box.__class__.__name__}.jpg\n\n")
 
 

@@ -21,7 +21,7 @@ import re
 from abc import ABC, abstractmethod
 from typing import Any, final
 
-from typing_extensions import deprecated
+from typing_extensions import deprecated, override
 
 from boxes import gears
 
@@ -82,7 +82,11 @@ class BoltPolicy(ABC):
     (fingers of a finger joint)
     """
 
-    def drawbolt(self, pos) -> bool:
+    @deprecated("Use CamelCase drawBolt() instead.")
+    def drawbolt(self, pos: int) -> bool:
+        return self.drawBolt(pos)
+
+    def drawBolt(self, pos: int) -> bool:
         """Add a bolt to this segment?
 
         :param pos: number of the finger
@@ -121,6 +125,7 @@ class Bolts(BoltPolicy):
     def __init__(self, bolts: int = 1) -> None:
         self.bolts = bolts
 
+    @override
     def numFingers(self, numFingers: int) -> int:
         if self.bolts % 2:
             self.fingers = self._even(numFingers)
@@ -129,7 +134,8 @@ class Bolts(BoltPolicy):
 
         return self.fingers
 
-    def drawBolt(self, pos):
+    @override
+    def drawBolt(self, pos: int) -> bool:
         """
         Return if this finger needs a bolt
 

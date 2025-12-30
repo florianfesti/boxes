@@ -54,13 +54,13 @@ class Crate(Boxes):
 
     def frontHandleHole(self):
         self.handleHole(self.x)
-        
+
     def sideHandleHole(self):
         self.handleHole(self.y)
 
     def render(self):
         x, y, h = self.x, self.y, self.h
-        
+
         self.rectangularWall(y, x, "ffff", move="up", label="Bottom")
 
         if self.MakeStackable:
@@ -72,7 +72,6 @@ class Crate(Boxes):
 
         self.rectangularWall(y, h, sideEdges, callback=[None, None, self.sideHandleHole, None], move="up", label="side1")
         self.rectangularWall(y, h, sideEdges, callback=[None, None, self.sideHandleHole, None], move="up", label="side2")
-        
+
         self.rectangularWall(x, h, frontEdges, callback=[None, None, self.frontHandleHole, None], move="right", label="front")
         self.rectangularWall(x, h, frontEdges, callback=[None, None, self.frontHandleHole, None], label="back")
-       

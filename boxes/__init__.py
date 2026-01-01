@@ -207,6 +207,33 @@ def argparseSections(s):
 
     return result
 
+def argparseInts(s):
+    """
+    Parse sections parameter
+
+    :param s: string to parse
+    """
+
+    result = []
+
+    s = re.split(r"\s|:", s)
+
+    try:
+        for part in s:
+            m = re.match(r"^(\d+\*(\d+))$", part)
+            if m:
+                n = int(m.group(1))
+                result.extend([int(m.group(1))] * n)
+                continue
+            result.append(int(part))
+    except ValueError:
+        raise argparse.ArgumentTypeError("Don't understand list of ints")
+
+    if not result:
+        result.append(0)
+
+    return result
+
 class ArgparseEdgeType:
     """argparse type to select from a set of edge types"""
 

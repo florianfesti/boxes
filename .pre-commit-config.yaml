@@ -48,7 +48,7 @@ repos:
     hooks:
       - id: mypy
         files: '^boxes/.*\.py$'
-        additional_dependencies: [ "types-PyYAML" ]
+        additional_dependencies: [ "types-PyYAML", "types-markdown" ]
       - id: mypy
         files: '^documentation/src/boxes2rst.py$'
       - id: mypy

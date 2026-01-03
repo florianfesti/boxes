@@ -132,7 +132,7 @@ class Sphere(Boxes):
     def calculateTangentAngle(self, u):                                                                              #derivatives of u (goreHeigth) and x (cos(pi * i) * a * pi)
         return math.atan2(self.gore_heigth, math.cos(math.pi * (u / self.gore_heigth)) * math.pi * self.halfBellyLens) #atan2 to prevent division by 0 and quadrant (opposite sides not possible now)
 
-    def normalCompensation(self, u):                                            #So the offset can be drawn up to the same horizonal line as the equivalent u of the gore
+    def normalCompensation(self, u): # So the offset can be drawn up to the same horizontal line as the equivalent u of the gore
         return math.sin(self.calculateNormalAngle(u)) * self.tab_width
 
     def calculateXofTopAndGoreIntersection(self):

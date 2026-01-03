@@ -55,7 +55,7 @@ A simple round clock for mounting a classical clock mechanism behind it, with th
             help="Style of the hour numbers")
         self.argparser.add_argument(
             "--FontSize",  action="store", type=float, default=0.12,
-            help="Hight of the hour numbers as fraction of the dial radius")
+            help="Height of the hour numbers as fraction of the dial radius")
 
     def roman(self, i : int):
         if i > 8:

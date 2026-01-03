@@ -73,7 +73,7 @@ repos:
     rev: v2.4.1
     hooks:
       - id: codespell
-        exclude: ^(boxes|locale|po|static)/ # todo folder boxes
+        exclude: ^(locale|po|static)/
         additional_dependencies:
           - tomli
 

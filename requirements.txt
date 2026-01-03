@@ -1,6 +1,10 @@
 affine>=2.0
 markdown
+PyYAML
 qrcode>=7.3.1
+rectpack
 setuptools
 shapely>=1.8.2
+sphinx
+svgpathtools
 typing_extensions>=4.5.0

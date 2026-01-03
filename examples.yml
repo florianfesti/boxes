@@ -1,0 +1,56 @@
+Boxes:
+  - box_type: __ALL__
+    skipGenerators: [ GridfinityTrayLayout, TrayLayout, TrayLayoutFile, TypeTray, Edges ]
+    brokenGenerators: []
+  - box_type: GridfinityTrayLayout
+    args:
+      h: 6u
+      nx: 3
+      ny: 3
+      gen_pads: 0
+      layout: |2
+         ,> 62.625mm
+         | ,> 62.625mm
+        +-+-+
+        | | |  62.625mm
+        +-+-+
+        | | |  62.625mm
+        +-+-+
+  - box_type: TrayLayout
+    args:
+      h: 50
+      layout: |2
+         ,> 25.00mm
+         | ,> 25.00mm
+         | | ,> 25.00mm
+        +-+-+-+
+        | | | |  25.00mm
+        +-+-+-+
+        | | | |  25.00mm
+        +-+-+-+
+        | | | |  25.00mm
+        +-+-+-+
+  - box_type: GridfinityBase
+    args:
+      base_type: refined
+      size_x: 300
+      size_y: 300
+      x: 0
+      y: 0
+  - box_type: GridfinityBase
+    args:
+      base_type: refined
+      x: 5
+      y: 5
+      h: 0
+  - box_type: GridfinityBase
+    name: GridfinityBaseSplit
+    args:
+      cut_pads: 1
+      panel_x: 290
+      panel_y: 290
+      size_x: 393
+      size_y: 600
+      x: 0
+      y: 0
+      m: 0

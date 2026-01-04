@@ -39,57 +39,57 @@ class FlexBox3(Boxes):
             "--c", action="store", type=float, default=1.0,
             dest="d", help="clearance of the lid")
 
-    def flexBoxSide(self, x, y, r, callback=None, move=None):
+    def flexBoxSide(self, y, z, r, callback=None, move=None):
         t = self.thickness
-        if self.move(x+2*t, y+t, move, True):
+        if self.move(y+2*t, z+t, move, True):
             return
 
         self.moveTo(t, t)
         self.cc(callback, 0)
-        self.edges["f"](x)
+        self.edges["f"](y)
         self.corner(90, 0)
         self.cc(callback, 1)
-        self.edges["f"](y - r)
+        self.edges["f"](z - r)
         self.corner(90, r)
         self.cc(callback, 2)
-        self.edge(x - r)
+        self.edge(y - r)
         self.corner(90, 0)
         self.cc(callback, 3)
-        self.edges["f"](y)
+        self.edges["f"](z)
         self.corner(90)
 
-        self.move(x+2*t, y+t, move)
+        self.move(y+2*t, z+t, move)
 
     def surroundingWall(self, move=None):
         x, y, z, r, d = self.x, self.y, self.z, self.radius, self.d
         t = self.thickness
 
-        tw = x + y - 2*r + self.c4 + 2*t + t
-        th = z + 4*t + 2*d
+        tw = y + z - 2*r + self.c4 + 2*t + t
+        th = x + 4*t + 2*d
 
         if self.move(tw, th, move, True):
             return
 
         self.moveTo(t, d + t)
 
-        self.edges["F"](y - r, False)
-        self.edges["X"](self.c4, z + 2 * t)
+        self.edges["F"](z - r, False)
+        self.edges["X"](self.c4, x + 2 * t)
         self.corner(-90)
         self.edge(d)
         self.corner(90)
-        self.edges["f"](x - r + t)
+        self.edges["f"](y - r + t)
         self.corner(90)
-        self.edges["f"](z + 2 * t + 2 * d)
+        self.edges["f"](x + 2 * t + 2 * d)
         self.corner(90)
-        self.edges["f"](x - r + t)
+        self.edges["f"](y - r + t)
         self.corner(90)
         self.edge(d)
         self.corner(-90)
         self.edge(self.c4)
-        self.edges["F"](y - r)
+        self.edges["F"](z - r)
         self.corner(90)
         self.edge(t)
-        self.edges["f"](z)
+        self.edges["f"](x)
         self.edge(t)
         self.corner(90)
 
@@ -102,7 +102,7 @@ class FlexBox3(Boxes):
 
         if r < h:
             r2 = r + t
-            base_l = x + 2 * t
+            base_l = y + 2 * t
             if self.move(h+t, base_l+t, move, True):
                 return
 
@@ -112,14 +112,14 @@ class FlexBox3(Boxes):
         else:
             a = math.acos((r-h)/(r+t))
             ang = math.degrees(a)
-            base_l = x + (r+t) * math.sin(a) - r + t
+            base_l = y + (r+t) * math.sin(a) - r + t
             if self.move(h+t, base_l+t, move, True):
                 return
 
             self.corner(90-ang)
             self.corner(ang, r+t)
 
-        self.edges["F"](x - r + t)
+        self.edges["F"](y - r + t)
         self.edgeCorner("F", "f")
         self.edges["g"](h)
         self.edgeCorner("f", "e")
@@ -135,14 +135,14 @@ class FlexBox3(Boxes):
             self.z = self.adjustSize(self.z)
 
         x, y, z, d, h = self.x, self.y, self.z, self.d, self.h
-        r = self.radius = self.radius or min(x, y) / 2.0
+        r = self.radius = self.radius or min(y, z) / 2.0
         thickness = self.thickness
 
         self.c4 = c4 = math.pi * r * 0.5 * 0.95
         self.latchsize = 8 * thickness
 
-        width = 2 * x + y - 2 * r + c4 + 14 * thickness + 3 * h  # lock
-        height = y + z + 8 * thickness
+        width = 2 * y + z - 2 * r + c4 + 14 * thickness + 3 * h  # lock
+        height = x + z + 8 * thickness
 
 
         s = edges.FingerJointSettings(self.thickness, finger=1.,
@@ -151,13 +151,13 @@ class FlexBox3(Boxes):
 
         with self.saved_context():
             self.surroundingWall(move="right")
-            self.rectangularWall(x, z, edges="FFFF", move="right")
-            self.rectangularWall(h, z + 2 * (d + self.thickness), edges="GeGF", move="right")
+            self.rectangularWall(y, x, edges="FFFF", move="right")
+            self.rectangularWall(h, x + 2 * (d + self.thickness), edges="GeGF", move="right")
             self.lidSide(move="right")
             self.lidSide(move="mirror right")
 
         self.surroundingWall(move="up only")
 
-        self.flexBoxSide(x, y, r, move="right")
-        self.flexBoxSide(x, y, r, move="mirror right")
-        self.rectangularWall(z, y, edges="fFeF")
+        self.flexBoxSide(y, z, r, move="right")
+        self.flexBoxSide(y, z, r, move="mirror right")
+        self.rectangularWall(x, z, edges="fFeF")

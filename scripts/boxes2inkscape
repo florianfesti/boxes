@@ -118,7 +118,7 @@ class Boxes2INX:
     <object-type>all</object-type>
     <effects-menu>
         <submenu name="Boxes.py">
-            <submenu name="{self.groups_by_name[box.ui_group].title}"/>
+            <submenu name="{self.groups_by_name.get(box.ui_group, self.groups_by_name["Misc"]).title}"/>
         </submenu>
     </effects-menu>
     <icon>{name}-thumb.svg</icon>

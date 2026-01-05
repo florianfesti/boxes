@@ -6,7 +6,7 @@ ci:
 exclude: '^(documentation/src/static|scripts/boxes|scripts/boxes_proxy.py|scripts/boxesserver|.*\.svg)$'
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v6.0.0
     hooks:
       - id: trailing-whitespace
       - id: end-of-file-fixer
@@ -32,10 +32,10 @@ repos:
       - id: text-unicode-replacement-char
 
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.20.0
+    rev: v3.21.2
     hooks:
       - id: pyupgrade
-        args: [ --py39-plus ]
+        args: [ --py310-plus ]
 
   - repo: https://github.com/PyCQA/autoflake
     rev: v2.3.1
@@ -44,7 +44,7 @@ repos:
         args: [ --remove-all-unused-imports, --in-place, --ignore-pass-statements, ]
 
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.16.1
+    rev: v1.18.2
     hooks:
       - id: mypy
         files: '^boxes/.*\.py$'
@@ -65,7 +65,7 @@ repos:
         additional_dependencies: [ sphinx ]
 
   - repo: https://github.com/shellcheck-py/shellcheck-py
-    rev: v0.10.0.1
+    rev: v0.11.0.1
     hooks:
       - id: shellcheck
 

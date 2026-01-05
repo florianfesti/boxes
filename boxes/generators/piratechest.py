@@ -51,7 +51,7 @@ class PirateChest(Boxes):
         if (n < 3):
             raise ValueError("number of sides on the lid must be greater or equal to 3 (got %i)" % n)
 
-        hy = self.edges["O"].startwidth()
+        hy = self.edges["O"].startWidth()
         h -= hy
         if (h < 0):
             raise ValueError("box to low to allow for hinge (%i)" % h)

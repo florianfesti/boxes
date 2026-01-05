@@ -43,7 +43,7 @@ class WallCaliper(_WallMountedBox):
             return
 
         self.moveTo(self.edges["b"].margin())
-        self.polyline(self.edges["b"].startwidth()+4*t+hc, (90, 2*t), h/2-2*t, (180, 1.5*t), 0.25*h,
+        self.polyline(self.edges["b"].startWidth()+4*t+hc, (90, 2*t), h/2-2*t, (180, 1.5*t), 0.25*h,
                       -90, hc, -90, 0.75*h-2*t, (90, 2*t), 2*t, 90)
 
         self.edges["b"](h)

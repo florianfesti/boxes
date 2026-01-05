@@ -206,7 +206,7 @@ To remove the panel you have to press in the four tabs at the side. It is easies
         self.moveTo(t, 0)
         bottom(borders[0])
         self.corner(90)
-        self.edges["f"](borders[2]+bottom.endwidth()-d1)
+        self.edges["f"](borders[2]+bottom.endWidth()-d1)
         self.edge(d1)
         self.corner(borders[3])
         if self.removable_panel:
@@ -225,9 +225,9 @@ To remove the panel you have to press in the four tabs at the side. It is easies
         if self.removable_backwall:
             self.rectangularHole(self.latchpos, 1.55*t, 1.1*t, 1.1*t)
             self.edge(borders[-2]-t)
-            self.edges["f"](t+bottom.startwidth())
+            self.edges["f"](t+bottom.startWidth())
         else:
-            self.edges["f"](borders[-2]+bottom.startwidth())
+            self.edges["f"](borders[-2]+bottom.startWidth())
         self.corner(borders[-1])
 
         self.move(tw, th, move, label=label)

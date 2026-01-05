@@ -76,10 +76,10 @@ The latches lock in place when closed. To open them they need to be pressed in a
 
         for move in ("right", "mirror right"):
             re = edges.CompoundEdge(self, ("f", "e"),
-                                    (bottom.endwidth()+t, h-t))
+                                    (bottom.endWidth()+t, h-t))
             if self.double_door:
                 le = edges.CompoundEdge(self, ("e", "f"),
-                                        (h-t, bottom.endwidth()+t))
+                                        (h-t, bottom.endWidth()+t))
             else:
                 le = "f"
             self.rectangularWall( # side

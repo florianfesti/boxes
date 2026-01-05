@@ -180,7 +180,7 @@ class NightLightBox(_TopEdge):
         be(ySize)
         self.corner(90)
         # right side
-        self.edge(be.endwidth())
+        self.edge(be.endWidth())
         self.edges["f"](hSize)
         self.corner(90)
         # top
@@ -193,7 +193,7 @@ class NightLightBox(_TopEdge):
                         t*2 + self.Margin, 90, self.InterPlateSpacing - self.Margin, 90)
         # left side
         self.edges["f"](hSize)
-        self.edge(be.startwidth())
+        self.edge(be.startWidth())
         self.corner(90)
         # move plate
         self.move(ySize + t, hSize + t*8, move, label=label)

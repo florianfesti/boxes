@@ -42,8 +42,8 @@ class IntegratedHingeBox(Boxes):
 
         t = self.thickness
 
-        hy = self.edges["O"].startwidth()
-        hy2 = self.edges["P"].startwidth()
+        hy = self.edges["O"].startWidth()
+        hy2 = self.edges["P"].startWidth()
 
         e1 = edges.CompoundEdge(self, "Fe", (h-hy, hy))
         e2 = edges.CompoundEdge(self, "eF", (hy, h-hy))

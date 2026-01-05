@@ -64,7 +64,7 @@ class AngledBox(Boxes):
                     self.corner(360.0/(2*n + 2))
 
         for i, l in enumerate(([lx] + ([side] * n))* 2):
-            self.cc(callback, i, 0, edge.startwidth() + self.burn)
+            self.cc(callback, i, 0, edge.startWidth() + self.burn)
             edge(l)
             self.edgeCorner(edge, edge, 360.0/(2*n + 2))
 

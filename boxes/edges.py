@@ -19,7 +19,9 @@ import inspect
 import math
 import re
 from abc import ABC, abstractmethod
-from typing import Any
+from typing import Any, final
+
+from typing_extensions import deprecated, override
 
 from boxes import gears
 
@@ -80,7 +82,11 @@ class BoltPolicy(ABC):
     (fingers of a finger joint)
     """
 
-    def drawbolt(self, pos) -> bool:
+    @deprecated("Use CamelCase drawBolt() instead.")
+    def drawbolt(self, pos: int) -> bool:
+        return self.drawBolt(pos)
+
+    def drawBolt(self, pos: int) -> bool:
         """Add a bolt to this segment?
 
         :param pos: number of the finger
@@ -119,6 +125,7 @@ class Bolts(BoltPolicy):
     def __init__(self, bolts: int = 1) -> None:
         self.bolts = bolts
 
+    @override
     def numFingers(self, numFingers: int) -> int:
         if self.bolts % 2:
             self.fingers = self._even(numFingers)
@@ -127,7 +134,8 @@ class Bolts(BoltPolicy):
 
         return self.fingers
 
-    def drawBolt(self, pos):
+    @override
+    def drawBolt(self, pos: int) -> bool:
         """
         Return if this finger needs a bolt
 
@@ -313,12 +321,22 @@ class BaseEdge(ABC):
     def __call__(self, length, **kw):
         pass
 
+    @deprecated("Use CamelCase startWidth() instead.")
+    @final
     def startwidth(self) -> float:
+        return self.startWidth()
+
+    @deprecated("Use CamelCase endWidth() instead.")
+    @final
+    def endwidth(self) -> float:
+        return self.endWidth()
+
+    def startWidth(self) -> float:
         """Amount of space the beginning of the edge is set below the inner space of the part """
         return 0.0
 
-    def endwidth(self) -> float:
-        return self.startwidth()
+    def endWidth(self) -> float:
+        return self.startWidth()
 
     def margin(self) -> float:
         """Space needed right of the starting point"""
@@ -326,7 +344,7 @@ class BaseEdge(ABC):
 
     def spacing(self) -> float:
         """Space the edge needs outside of the inner space of the part"""
-        return self.startwidth() + self.margin()
+        return self.startWidth() + self.margin()
 
     def startAngle(self) -> float:
         """Not yet supported"""
@@ -369,7 +387,7 @@ class OutSetEdge(Edge):
     description = "Straight Edge (outset by thickness)"
     positive = True
 
-    def startwidth(self) -> float:
+    def startWidth(self) -> float:
         return self.settings if self.settings is not None else self.boxes.thickness
 
 
@@ -438,7 +456,7 @@ class MountingEdge(BaseEdge):
             return 2.75 * self.boxes.thickness + self.settings.d_head
         return 0.0
 
-    def startwidth(self) -> float:
+    def startWidth(self) -> float:
         if self.settings.style == MountingSettings.PARAM_EXT:
             return 2.5 * self.boxes.thickness + self.settings.d_head
         return 0.0
@@ -751,24 +769,24 @@ class CompoundEdge(BaseEdge):
         self.lengths = lengths
         self.length = sum(lengths)
 
-    def startwidth(self) -> float:
-        return self.types[0].startwidth()
+    def startWidth(self) -> float:
+        return self.types[0].startWidth()
 
-    def endwidth(self) -> float:
-        return self.types[-1].endwidth()
+    def endWidth(self) -> float:
+        return self.types[-1].endWidth()
 
     def margin(self) -> float:
-        return max(e.margin() + e.startwidth() for e in self.types) - self.types[0].startwidth()
+        return max(e.margin() + e.startWidth() for e in self.types) - self.types[0].startWidth()
 
     def __call__(self, length, **kw):
         if length and abs(length - self.length) > 1E-5:
             raise ValueError("Wrong length for CompoundEdge")
-        lastwidth = self.types[0].startwidth()
+        lastwidth = self.types[0].startWidth()
 
         for e, l in zip(self.types, self.lengths):
-            self.step(e.startwidth() - lastwidth)
+            self.step(e.startWidth() - lastwidth)
             e(l)
-            lastwidth = e.endwidth()
+            lastwidth = e.endWidth()
 
 
 #############################################################################
@@ -809,11 +827,11 @@ class SlottedEdge(BaseEdge):
         self.sections = sections
         self.slots = slots
 
-    def startwidth(self) -> float:
-        return self.edge.startwidth()
+    def startWidth(self) -> float:
+        return self.edge.startWidth()
 
-    def endwidth(self) -> float:
-        return self.edge.endwidth()
+    def endWidth(self) -> float:
+        return self.edge.endWidth()
 
     def margin(self) -> float:
         return self.edge.margin()
@@ -1021,7 +1039,7 @@ class FingerJointEdge(BaseEdge, FingerJointBase):
             return widths[0] - widths[1]
         return 0.0
 
-    def startwidth(self) -> float:
+    def startWidth(self) -> float:
         widths = self.fingerLength(self.settings.angle)
         return widths[self.positive]
 
@@ -1108,7 +1126,7 @@ class FingerHoleEdge(BaseEdge):
                 self.rectangularWall(length - 1.05 * self.boxes.thickness, h)
         self.edge(length, tabs=2)
 
-    def startwidth(self) -> float:
+    def startWidth(self) -> float:
         return self.fingerHoles.settings.edge_width + self.settings.thickness
 
     def margin(self) -> float:
@@ -1134,7 +1152,7 @@ class CrossingFingerHoleEdge(Edge):
         self.fingerHoles(length / 2.0, self.outset + self.burn, self.height)
         super().__call__(length)
 
-    def startwidth(self) -> float:
+    def startWidth(self) -> float:
         return self.outset
 
 
@@ -1224,7 +1242,7 @@ class StackableBaseEdge(BaseEdge):
     def _height(self):
         return self.settings.height + self.settings.holedistance + self.settings.thickness
 
-    def startwidth(self) -> float:
+    def startWidth(self) -> float:
         return self._height() if self.bottom else 0
 
     def margin(self) -> float:
@@ -1272,7 +1290,7 @@ class StackableHoleEdgeTop(StackableBaseEdge):
     description = "Stackable edge with finger holes (top)"
     bottom = False
 
-    def startwidth(self) -> float:
+    def startWidth(self) -> float:
         return self.settings.thickness + self.settings.holedistance
 
     def __call__(self, length, **kw):
@@ -1443,12 +1461,12 @@ class HingePin(BaseEdge):
         self.char = "EIJK"[layout]
         self.description = self.description + ('', ' (start)', ' (end)', ' (both ends)')[layout]
 
-    def startwidth(self) -> float:
+    def startWidth(self) -> float:
         if self.layout & 1:
             return 0.0
         return self.settings.outset * self.boxes.thickness
 
-    def endwidth(self) -> float:
+    def endWidth(self) -> float:
         if self.layout & 2:
             return 0.0
         return self.settings.outset * self.boxes.thickness
@@ -1657,12 +1675,12 @@ class ChestHinge(BaseEdge):
             return 0.0
         return 1 * (self.settings.pin_height + self.settings.hinge_strength)
 
-    def startwidth(self) -> float:
+    def startWidth(self) -> float:
         if self.reversed:
             return self.settings.pin_height + self.settings.hinge_strength
         return 0.0
 
-    def endwidth(self) -> float:
+    def endWidth(self) -> float:
         if self.reversed:
             return 0.0
         return self.settings.pin_height + self.settings.hinge_strength
@@ -1702,12 +1720,12 @@ class ChestHingeTop(ChestHinge):
             self.polyline(*poly)
             draw_rest_of_edge()
 
-    def startwidth(self) -> float:
+    def startWidth(self) -> float:
         if self.reversed:
             return self.settings.play + self.settings.pin_height + self.settings.hinge_strength
         return 0.0
 
-    def endwidth(self) -> float:
+    def endWidth(self) -> float:
         if self.reversed:
             return 0.0
         return self.settings.play + self.settings.pin_height + self.settings.hinge_strength
@@ -1750,7 +1768,7 @@ class ChestHingeFront(Edge):
 
     char = "Q"
 
-    def startwidth(self) -> float:
+    def startWidth(self) -> float:
         return self.settings.pin_height + self.settings.hinge_strength
 
 
@@ -1811,7 +1829,7 @@ class CabinetHingeEdge(BaseEdge):
         self.angled = angled
         self.char = "uUvV"[bool(top) + 2 * bool(angled)]
 
-    def startwidth(self) -> float:
+    def startWidth(self) -> float:
         return self.settings.thickness if self.top and self.angled else 0.0
 
     def __poly(self):
@@ -2051,12 +2069,12 @@ class LidRight(BaseEdge):
             p = list(reversed(p))
         self.polyline(*p)
 
-    def startwidth(self) -> float:
+    def startWidth(self) -> float:
         if self.rightside:  # or self.settings.second_pin:
             return self.boxes.thickness
         return 0.0
 
-    def endwidth(self) -> float:
+    def endWidth(self) -> float:
         if not self.rightside:  # or self.settings.second_pin:
             return self.boxes.thickness
         return 0.0
@@ -2112,10 +2130,10 @@ class LidSideRight(BaseEdge):
             self.rectangularHole(holex, holey, 0.4 * t, t + 2 * s)
         self.polyline(*p)
 
-    def startwidth(self) -> float:
+    def startWidth(self) -> float:
         return self.boxes.thickness + self.settings.edge_width if self.rightside else -self.settings.play / 2
 
-    def endwidth(self) -> float:
+    def endWidth(self) -> float:
         return self.boxes.thickness + self.settings.edge_width if not self.rightside else -self.settings.play / 2
 
     def margin(self) -> float:
@@ -2248,7 +2266,7 @@ class ClickEdge(ClickConnector):
     char = "C"
     description = "Click on (top)"
 
-    def startwidth(self) -> float:
+    def startWidth(self) -> float:
         return self.boxes.thickness
 
     def margin(self) -> float:
@@ -2577,7 +2595,7 @@ class RoundedTriangleEdge(Edge):
 class RoundedTriangleFingerHolesEdge(RoundedTriangleEdge):
     char = "T"
 
-    def startwidth(self) -> float:
+    def startWidth(self) -> float:
         return self.settings.thickness
 
     def __call__(self, length, **kw):

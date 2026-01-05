@@ -53,8 +53,8 @@ class WallRollHolder(_WallMountedBox):
 
         self.moveTo(0, self.edges["B"].margin())
         self.edges["B"](h)
-        self.fingerHolesAt(-(a/2+3*t), self.burn+self.edges["B"].endwidth(), d/2, 90)
-        self.polyline(0, 90, self.edges["B"].endwidth() + d/2,
+        self.fingerHolesAt(-(a/2+3*t), self.burn+self.edges["B"].endWidth(), d/2, 90)
+        self.polyline(0, 90, self.edges["B"].endWidth() + d/2,
                       (90, a/2 + 3*t))
 
         r = a/2 + 3*t
@@ -64,7 +64,7 @@ class WallRollHolder(_WallMountedBox):
         self.corner(alpha, r)
         self.edge(((h-2*r)**2+(d/2)**2)**0.5)
         self.corner(90-alpha, r)
-        self.edge(self.edges["B"].startwidth())
+        self.edge(self.edges["B"].startWidth())
         self.corner(90)
 
         self.move(tw, th, move)

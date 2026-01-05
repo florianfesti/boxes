@@ -39,7 +39,7 @@ class SlotEdge(edges.Edge):
         else:
             raise ValueError("Box is too small and has too many corners to work properly")
 
-    def startwidth(self) -> float:
+    def startWidth(self) -> float:
         return self.settings.thickness
 
 

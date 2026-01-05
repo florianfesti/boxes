@@ -6,7 +6,9 @@ BottleStack - Stack bottles in a fridge
 
 When rendered with the "double" option the parts with the double slots get connected the shorter beams in the asymmetrical slots.
 
-Without the "double" option the stand is a bit more narrow.
+Without the "double" option the stand is a bit narrower.
+
+![Empty stack](static/samples/BottleStack-2.jpg)
 
 
 
@@ -22,7 +24,9 @@ Command line (remove spaces between dashes): boxes BottleStack
 
 When rendered with the "double" option the parts with the double slots get connected the shorter beams in the asymmetrical slots.
 
-Without the "double" option the stand is a bit more narrow.
+Without the "double" option the stand is a bit narrower.
+
+![Empty stack](static/samples/BottleStack-2.jpg)
 
 
 Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)

@@ -43,6 +43,35 @@ A simple round clock for mounting a classical clock mechanism behind it, with th
         self.argparser.add_argument(
             "--NeedlesAxisHoleDiameter",  action="store", type=float, default=8.0,
             help="Diameter of the needles axis hole in mm")
+        self.argparser.add_argument(
+            "--HourLines",  action="store", type=float, default=0.08,
+            help="Length of the hour lines as fraction of the dial radius")
+        self.argparser.add_argument(
+            "--MinuteLines",  action="store", type=float, default=0.04,
+            help="Length of the minute lines as fraction of the dial radius")
+        self.argparser.add_argument(
+            "--NumberStyle",  action="store", type=str, default="Roman",
+            choices=("None", "Arabic", "Roman"),
+            help="Style of the hour numbers")
+        self.argparser.add_argument(
+            "--FontSize",  action="store", type=float, default=0.12,
+            help="Hight of the hour numbers as fraction of the dial radius")
+
+    def roman(self, i : int):
+        if i > 8:
+            r = "X"
+            i -= 10
+        elif i > 3:
+            r = "V"
+            i -= 5
+        else:
+            r = ""
+
+        if i >= 0:
+            r += "I" * i
+        else:
+            r = "I" * -i + r
+        return r
 
     def mainPlate(self, move=None, label=""):
         t = self.thickness
@@ -66,6 +95,36 @@ A simple round clock for mounting a classical clock mechanism behind it, with th
         #main shape
         self.circle(Re, Re, Re)
 
+
+        # etchings
+
+        # ring location
+        self.set_source_color(Color.ETCHING)
+        self.circle(Re, Re, r=Ri)
+
+        # dial design
+
+        self.moveTo(Re, Re)
+        fontsize = self.FontSize * Ri
+        for i in range(60):
+            with self.saved_context():
+                self.moveTo(0, 0, i*360/60)
+                self.moveTo(Ri, 0, 180)
+                self.set_source_color(Color.ETCHING)
+                if i % 5:
+                    self.edge(self.MinuteLines*Ri)
+                else:
+                    self.edge(self.HourLines*Ri)
+                    if self.NumberStyle != "None":
+                        self.moveTo(fontsize*0.7, 0, -i*6-180)
+                        nr = int(14-(i/5))%12+1
+                        if self.NumberStyle == "Roman":
+                            nr = self.roman(nr)
+                        else:
+                            nr = str(nr)
+                        self.text(nr, y=-0.1*fontsize, align="middle center",
+                                  fontsize=fontsize, color=Color.ETCHING)
+        self.ctx.stroke()
         # move plate
         self.move(Re*2, Re*2, move, label=label)
 

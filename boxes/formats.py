@@ -35,6 +35,10 @@ class Formats:
         "svg_Ponoko": None,
         "ps": None,
         "lbrn2": None,
+<<<<<<< HEAD
+=======
+        "legacy.dxf": "{pstoedit} -flat 0.1 -f dxf:-mm {input} {output}",
+>>>>>>> 4f34f201aa342eebb890f044667ecb88608b9e2a
         "gcode": "{pstoedit} -f gcode {input} {output}",
         "plt": "{pstoedit} -f hpgl {input} {output}",
         # "ai": "{pstoedit} -f ps2ai",
@@ -47,6 +51,7 @@ class Formats:
         "ps": [('Content-type', 'application/postscript')],
         "lbrn2": [('Content-type', 'application/lbrn2')],
         "dxf": [('Content-type', 'image/vnd.dxf')],
+        "legacy.dxf": [('Content-type', 'image/vnd.dxf')],
         "plt": [('Content-type', ' application/vnd.hp-hpgl')],
         "gcode": [('Content-type', 'text/plain; charset=utf-8')],
 

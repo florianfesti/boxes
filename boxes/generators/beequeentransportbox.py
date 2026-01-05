@@ -783,7 +783,7 @@ The number of cages per box can be adjusted by changing the sections using `sx` 
 Sections to small for the cage dimensions can be used as margins.
 
 Multiple inner layers can be defined using the section parameter `sh`.
-Usually the cage cutout is on layer 1 with an underlaying bottom layer without cutouts or air holes.
+Usually the cage cutout is on layer 1 with an underlying bottom layer without cutouts or air holes.
 For three layers the cutout can be selected using the `layer0`, `layer1` and `layer2` parameters.
 Users need to ensure to match the layers and section sizes to each other!
 

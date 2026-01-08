@@ -33,30 +33,30 @@ class FlexBox4(Boxes):
             "--latchsize", action="store", type=float, default=8,
             help="size of latch in multiples of thickness")
 
-    def flexBoxSide(self, x, y, r, callback=None, move=None):
+    def flexBoxSide(self, y, h, r, callback=None, move=None):
         t = self.thickness
 
-        if self.move(x+2*t, y+t, move, True):
+        if self.move(y+2*t, h+t, move, True):
             return
 
         self.moveTo(t, t)
 
         self.cc(callback, 0)
-        self.edges["f"](x)
+        self.edges["f"](y)
         self.corner(90, 0)
         self.cc(callback, 1)
-        self.edges["f"](y - r)
+        self.edges["f"](h - r)
         self.corner(90, r)
         self.cc(callback, 2)
-        self.edge(x - 2 * r)
+        self.edge(y - 2 * r)
         self.corner(90, r)
         self.cc(callback, 3)
-        self.edges["e"](y - r - self.latchsize)
+        self.edges["e"](h - r - self.latchsize)
         self.cc(callback, 4)
         self.latch(self.latchsize)
         self.corner(90)
 
-        self.move(x+2*t, y+t, move)
+        self.move(y+2*t, h+t, move)
 
     def surroundingWall(self, move=None):
         x, y, h, r = self.x, self.y, self.h, self.radius
@@ -64,33 +64,33 @@ class FlexBox4(Boxes):
 
         t = self.thickness
 
-        tw, th = 2*c4 + 2*y + x - 4*r + 2*t, h + 2.5*t
+        tw, th = 2*c4 + 2*h + y - 4*r + 2*t, x + 2.5*t
 
         if self.move(tw, th, move, True):
             return
 
         self.moveTo(t, 0.25*t)
 
-        self.edges["F"](y - r, False)
-        if (x - 2 * r < self.thickness):
-            self.edges["X"](2 * c4 + x - 2 * r, h + 2 * self.thickness)
+        self.edges["F"](h - r, False)
+        if (y - 2 * r < self.thickness):
+            self.edges["X"](2 * c4 + y - 2 * r, x + 2 * self.thickness)
         else:
-            self.edges["X"](c4, h + 2 * self.thickness)
-            self.edge(x - 2 * r)
-            self.edges["X"](c4, h + 2 * self.thickness)
+            self.edges["X"](c4, x + 2 * self.thickness)
+            self.edge(y - 2 * r)
+            self.edges["X"](c4, x + 2 * self.thickness)
 
-        self.edge(y - r - self.latchsize)
+        self.edge(h - r - self.latchsize)
         self.latch(self.latchsize, False, extra_length=t)
-        self.edge(h + 2 * self.thickness)
+        self.edge(x + 2 * self.thickness)
         self.latch(self.latchsize, False, True, extra_length=t)
-        self.edge(y - r - self.latchsize)
+        self.edge(h - r - self.latchsize)
         self.edge(c4)
-        self.edge(x - 2 * r)
+        self.edge(y - 2 * r)
         self.edge(c4)
-        self.edges["F"](y - r)
+        self.edges["F"](h - r)
         self.corner(90)
         self.edge(self.thickness)
-        self.edges["f"](h)
+        self.edges["f"](x)
         self.edge(self.thickness)
         self.corner(90)
 
@@ -103,13 +103,13 @@ class FlexBox4(Boxes):
             self.h = self.adjustSize(self.h)
 
         self.latchsize *= self.thickness
-        self.radius = self.radius or min(self.x / 2.0, self.y - self.latchsize)
-        self.radius = min(self.radius, self.x / 2.0)
-        self.radius = min(self.radius, max(0, self.y - self.latchsize))
+        self.radius = self.radius or min(self.y / 2.0, self.h - self.latchsize)
+        self.radius = min(self.radius, self.y / 2.0)
+        self.radius = min(self.radius, max(0, self.h - self.latchsize))
         self.c4 = c4 = math.pi * self.radius * 0.5
 
 
         self.surroundingWall(move="up")
-        self.flexBoxSide(self.x, self.y, self.radius, move="right")
-        self.flexBoxSide(self.x, self.y, self.radius, move="mirror right")
-        self.rectangularWall(self.x, self.h, edges="FeFF")
+        self.flexBoxSide(self.y, self.h, self.radius, move="right")
+        self.flexBoxSide(self.y, self.h, self.radius, move="mirror right")
+        self.rectangularWall(self.y, self.x, edges="FeFF")

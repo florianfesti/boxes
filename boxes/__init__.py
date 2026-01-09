@@ -384,6 +384,9 @@ class Boxes:
         defaultgroup.add_argument(
             "--burn", action="store", type=float, default=0.1,
             help='burn correction (in mm)(bigger values for tighter fit) [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#burn)')
+        defaultgroup.add_argument(
+            "--line_width", action="store", type=(lambda x: float('NaN') if x == "" else float(x)), default="",
+            help='line width for SVG preview and export (in mm) (default: 2x burn but at least 0.05) [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#line-width)')
         def spacing_type(x):
             try:
                 return (float(x), 0.)
@@ -437,7 +440,10 @@ class Boxes:
             self.ctx.set_line_width(0.01)
             self.set_source_color(Color.BLUE)
         else:
-            self.ctx.set_line_width(max(2 * self.burn, 0.05))
+            line_width = self.line_width
+            if line_width != line_width:  # check for NaN (default)
+                line_width = max(2 * self.burn, 0.05)
+            self.ctx.set_line_width(line_width)
             self.set_source_color(Color.BLACK)
 
         self.spacing = 2 * self.burn + self.spacing[0] * self.thickness + self.spacing[1]

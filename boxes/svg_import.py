@@ -19,14 +19,27 @@ def draw_path_on_ctx(ctx: Context, path: svg.path.Path):
     for seg in path:
         if isinstance(seg, svg.path.Move):
             ctx.move_to(seg.end.real, seg.end.imag)
-        if isinstance(seg, svg.path.Close) or isinstance(seg, svg.path.Line):
+        elif isinstance(seg, svg.path.Close) or isinstance(seg, svg.path.Line):
             ctx.line_to(seg.end.real, seg.end.imag)
+        elif isinstance(seg, svg.path.Arc):
+            raise NotImplementedError
+            # xc, yc, radius, angle1, angle2, direction
+            #ctx._arc(seg.arc, seg.sweep)
         elif isinstance(seg, svg.path.CubicBezier):
             ctx.curve_to(
                 seg.control1.real,
                 seg.control1.imag,
                 seg.control2.real,
                 seg.control2.imag,
+                seg.end.real,
+                seg.end.imag,
+            )
+        elif isinstance(seg, svg.path.QuadraticBezier):
+            ctx.curve_to(
+                seg.control.real,
+                seg.control.imag,
+                seg.control.real,
+                seg.control.imag,
                 seg.end.real,
                 seg.end.imag,
             )

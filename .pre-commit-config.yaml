@@ -44,7 +44,7 @@ repos:
         args: [ --remove-all-unused-imports, --in-place, --ignore-pass-statements, ]
 
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.18.2
+    rev: v1.19.1
     hooks:
       - id: mypy
         files: '^boxes/.*\.py$'

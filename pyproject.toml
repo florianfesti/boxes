@@ -1,6 +1,5 @@
-
 [build-system]
-requires = ["setuptools >= 63.0"]
+requires = ["setuptools >= 77.0.3"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -12,12 +11,12 @@ description = 'Boxes generator for laser cutters'
 maintainers = [ { name = 'Florian Festi', email='florian@festi.info' } ]
 readme = "README.rst"
 keywords = ["boxes", "box", "generator", "svg", "laser cutter"]
+license = "GPL-3.0-or-later"
 classifiers = [ # https://pypi.python.org/pypi?%3Aaction=list_classifiers
   "Development Status :: 5 - Production/Stable",
   "Environment :: Console",
   "Environment :: Web Environment",
   "Intended Audience :: Manufacturing",
-  "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
   "Programming Language :: Python :: 3",
   "Topic :: Multimedia :: Graphics :: Editors :: Vector-Based",
   "Topic :: Scientific/Engineering",

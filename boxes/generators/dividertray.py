@@ -38,7 +38,7 @@ class SlotSettings(edges.Settings):
 
     * absolute
       * depth : 20 : depth of the slot in mm
-      * angle : 0 : angle at which slots are generated, in degrees. 0° is vertical.
+      * angle : 0 : angle at which slots are generated, in degrees. 0° is vertical.
       * radius : 2 : radius of the slot entrance in mm
       * extra_slack : 0.2 : extra slack (in addition to thickness and kerf) to help insert dividers in mm"""
 

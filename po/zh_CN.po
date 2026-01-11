@@ -8550,7 +8550,7 @@ msgstr ""
 
 #. help for parameter angle
 #: boxes/generators/phoneholder.py
-msgid "angle at which the phone stands, in degrees. 0° is vertical."
+msgid "angle at which the phone stands, in degrees. 0° is vertical."
 msgstr "手机所处的角度，单位为度。0°是垂直的。"
 
 #. help for parameter bottom_margin

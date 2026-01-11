@@ -61,8 +61,7 @@ repos:
     rev: v6.2.5
     hooks:
       - id: rstcheck
-        args: [ "--report-level=error", "--ignore-directives=autoclass,automethod,automodule"]
-        additional_dependencies: [ sphinx ]
+        additional_dependencies: [ 'rstcheck[sphinx,toml]' ]
 
   - repo: https://github.com/shellcheck-py/shellcheck-py
     rev: v0.11.0.1

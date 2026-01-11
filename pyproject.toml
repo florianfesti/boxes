@@ -59,3 +59,11 @@ warn_redundant_casts = true
 warn_unreachable = true
 warn_unused_configs = true
 warn_unused_ignores = true
+
+[tool.rstcheck]
+report_level = "ERROR"
+ignore_directives = [
+  "autoclass",
+  "automethod",
+  "automodule",
+]

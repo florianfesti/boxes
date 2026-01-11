@@ -8029,7 +8029,7 @@ msgstr ""
 
 #. help for parameter angle
 #: boxes/generators/phoneholder.py
-msgid "angle at which the phone stands, in degrees. 0° is vertical."
+msgid "angle at which the phone stands, in degrees. 0° is vertical."
 msgstr ""
 
 #. help for parameter bottom_margin

@@ -62,7 +62,7 @@ class PhoneHolder(Boxes):
             "--angle",
             type=float,
             default=25,
-            help="angle at which the phone stands, in degrees. 0° is vertical.",
+            help="angle at which the phone stands, in degrees. 0° is vertical.",
         )
         self.argparser.add_argument(
             "--bottom_margin",

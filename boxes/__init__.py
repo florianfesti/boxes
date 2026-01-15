@@ -356,21 +356,12 @@ class Boxes:
             "--thickness", action="store", type=float, default=3.0,
             help="thickness of the material (in mm) [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#thickness)")
         defaultgroup.add_argument(
-            "--output", action="store", type=str, default="box.svg",
-            help="name of resulting file")
+            "--burn", action="store", type=float, default=0.1,
+            help='burn correction (in mm)(bigger values for tighter fit) [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#burn)')
         defaultgroup.add_argument(
             "--format", action="store", type=str, default="svg",
             choices=self.formats.getFormats(),
             help="format of resulting file [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#format)")
-        defaultgroup.add_argument(
-            "--tabs", action="store", type=float, default=0.0,
-            help="width of tabs holding the parts in place (in mm)(not supported everywhere) [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#tabs)")
-        defaultgroup.add_argument(
-            "--qr_code", action="store", type=boolarg, default=False,
-            help="Add a QR Code with link or command line to the generated output")
-        defaultgroup.add_argument(
-            "--debug", action="store", type=boolarg, default=False,
-            help="print surrounding boxes for some structures [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#debug)")
         defaultgroup.add_argument(
             "--labels", action="store", type=boolarg, default=True,
             help="label the parts (where available)")
@@ -378,12 +369,18 @@ class Boxes:
             "--reference", action="store", type=float, default=100.0,
             help="print reference rectangle with given length (in mm)(zero to disable) [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#reference)")
         defaultgroup.add_argument(
+            "--tabs", action="store", type=float, default=0.0,
+            help="width of tabs holding the parts in place (in mm)(not supported everywhere) [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#tabs)")
+        defaultgroup.add_argument(
+            "--qr_code", action="store", type=boolarg, default=False,
+            help="Add a QR Code with link or command line to the generated output")
+        defaultgroup.add_argument(
             "--inner_corners", action="store", type=str, default="loop",
             choices=["loop", "corner", "backarc"],
             help="style for inner corners [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#inner-corners)")
         defaultgroup.add_argument(
-            "--burn", action="store", type=float, default=0.1,
-            help='burn correction (in mm)(bigger values for tighter fit) [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#burn)')
+            "--output", action="store", type=str, default="box.svg",
+            help="name of resulting file")
         def spacing_type(x):
             try:
                 return (float(x), 0.)
@@ -392,6 +389,9 @@ class Boxes:
         defaultgroup.add_argument(
             "--spacing", action="store", type=spacing_type, default="0.5",
             help='spacing around parts (multiples of thickness [: extra space in mm]) [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#spacing)')
+        defaultgroup.add_argument(
+            "--debug", action="store", type=boolarg, default=False,
+            help="print surrounding boxes for some structures [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#debug)")
 
     @contextmanager
     def saved_context(self):

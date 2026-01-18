@@ -331,8 +331,8 @@ to remove the floor for this compartment.
                 else:
                     e = "e"
 
-                if y < ly and self.floors[y][x]:
-                    if y > 0 and self.floors[y - 1][x]:
+                if self.floors[y][x]:
+                    if self.floors[y - 1][x]:
                         # Inside Wall
                         if self.hwalls[y][x]:
                             self.fingerHolesAt(posx, posy + t2, self.x[x], angle=0)
@@ -341,20 +341,20 @@ to remove the floor for this compartment.
                         self.edgeAt(e, posx + self.x[x],
                                     posy + w + b, self.x[x],
                                     -180)
-                        if x == 0 or not self.floors[y][x - 1]:
+                        if not self.floors[y][x - 1]:
                             self.edgeAt("e", posx, posy + w + b, w, -180, corner=True)
-                        elif y == 0 or not self.floors[y - 1][x - 1]:
+                        elif not self.floors[y - 1][x - 1]:
                             self.edgeAt("e", posx - t, posy + w + b, t, 0)
-                        if x == lx - 1 or not self.floors[y][x + 1]:
+                        if not self.floors[y][x + 1]:
                             self.edgeAt("e", posx + self.x[x], posy + w + b, w, 0)
-                elif y > 0 and self.floors[y - 1][x]:
+                elif self.floors[y - 1][x]:
                     # Bottom Edge
                     self.edgeAt(e, posx, posy - b + t - w, self.x[x])
-                    if x == 0 or not self.floors[y-1][x - 1]:
+                    if not self.floors[y-1][x - 1]:
                         self.edgeAt("e", posx - w, posy + t - w - b, w)
-                    elif x == 0 or y == ly or not self.floors[y][x - 1]:
+                    elif not self.floors[y][x - 1]:
                         self.edgeAt("e", posx - t, posy + t - w - b, t)
-                    if x == lx - 1 or y == 0 or not self.floors[y-1][x + 1]:
+                    if not self.floors[y-1][x + 1]:
                         self.edgeAt("e", posx + self.x[x], posy + t -w - b, w, corner=True)
                 posx += self.x[x] + self.thickness
             posy += self.y[y - 1] + self.thickness
@@ -367,30 +367,30 @@ to remove the floor for this compartment.
                     e = "F"
                 else:
                     e = "e"
-                if x > 0 and self.floors[y][x - 1]:
-                    if x < lx and self.floors[y][x]:
+                if self.floors[y][x - 1]:
+                    if self.floors[y][x]:
                         # Inside wall
                         if self.vwalls[y][x]:
                             self.fingerHolesAt(posx + t2, posy, self.y[y])
                     else:
                         # Right edge
                         self.edgeAt(e, posx + w + b, posy, self.y[y], 90)
-                        if y == 0 or not self.floors[y-1][x-1]:
+                        if not self.floors[y-1][x-1]:
                             self.edgeAt("e", posx + w + b, posy + self.y[y], w, 90, corner=True)
-                        elif x == lx or y == 0 or not self.floors[y - 1][x]:
+                        elif not self.floors[y - 1][x]:
                             self.edgeAt("e", posx + w + b, posy + self.y[y], t, 90)
-                        if y == ly - 1 or not self.floors[y+1][x-1]:
+                        if not self.floors[y+1][x-1]:
                             self.edgeAt("e", posx + w + b, posy - w, w, 90)
-                elif x < lx and self.floors[y][x]:
+                elif self.floors[y][x]:
                     # Left edge
                     self.edgeAt(e, posx + t - w - b, posy + self.y[y], self.y[y], -90)
-                    if y == 0 or not self.floors[y - 1][x]:
+                    if not self.floors[y - 1][x]:
                         self.edgeAt("e", posx + t - w - b,
                                     posy + self.y[y] + w, w, -90)
-                    elif x == 0 or y == 0 or not self.floors[y - 1][x - 1]:
+                    elif not self.floors[y - 1][x - 1]:
                         self.edgeAt("e", posx + t - w - b,
                                     posy + self.y[y] + t, t, -90)
-                    if y == ly - 1 or not self.floors[y + 1][x]:
+                    if not self.floors[y + 1][x]:
                         self.edgeAt("e", posx + t - w - b, posy, w, -90, corner=True)
                 posy += self.y[y] + self.thickness
             if x < lx:
@@ -479,6 +479,12 @@ to remove the floor for this compartment.
         self.hwalls = hwalls
         self.vwalls = vwalls
         self.floors = floors
+        # Add row of no floor to the right and bottom
+        # to avoid special casing the borders
+        # Will also show up as index -1
+        for l in floors:
+            l.append(False)
+        floors.append([False] * (lx+1))
 
     def render(self) -> None:
         self.prepare()

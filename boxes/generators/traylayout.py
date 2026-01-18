@@ -151,12 +151,15 @@ to remove the floor for this compartment.
         return (y > 0 and self.floors[y - 1][x]) or (y < len(self.y) and self.floors[y][x])
 
     @restore
-    def edgeAt(self, edge, x, y, length, angle=0, corner=None):
+    def edgeAt(self, edge, x, y, length, angle=0):
         self.moveTo(x, y, angle)
         edge = self.edges.get(edge, edge)
         edge(length)
-        if corner:
-            self.corner(90)
+
+    @restore
+    def cornerAt(self, x, y, length, angle=0):
+        self.moveTo(x, y, angle)
+        self.polyline(length, 90, length)
 
     def prepare(self):
         if self.layout:
@@ -341,21 +344,22 @@ to remove the floor for this compartment.
                         self.edgeAt(e, posx + self.x[x],
                                     posy + w + b, self.x[x],
                                     -180)
-                        if not self.floors[y][x - 1]:
-                            self.edgeAt("e", posx, posy + w + b, w, -180, corner=True)
-                        elif not self.floors[y - 1][x - 1]:
-                            self.edgeAt("e", posx - t, posy + w + b, t, 0)
-                        if not self.floors[y][x + 1]:
-                            self.edgeAt("e", posx + self.x[x], posy + w + b, w, 0)
+
+                        if not self.floors[y - 1][x - 1] and not self.floors[y][x - 1]:
+                            self.cornerAt(posx, posy + w + b, w, 180) # top left corner
+                        if not self.floors[y - 1][x + 1] and not self.floors[y][x + 1]:
+                            self.cornerAt(posx + self.x[x] + w + b, posy, w, 90) # top right corner
+                        if not self.floors[y - 1][x - 1] and self.floors[y][x - 1]:
+                            self.edgeAt("e", posx - t, posy + w + b, t, 0) # top edge under wall
                 elif self.floors[y - 1][x]:
                     # Bottom Edge
                     self.edgeAt(e, posx, posy - b + t - w, self.x[x])
-                    if not self.floors[y-1][x - 1]:
-                        self.edgeAt("e", posx - w, posy + t - w - b, w)
-                    elif not self.floors[y][x - 1]:
-                        self.edgeAt("e", posx - t, posy + t - w - b, t)
-                    if not self.floors[y-1][x + 1]:
-                        self.edgeAt("e", posx + self.x[x], posy + t -w - b, w, corner=True)
+                    if not self.floors[y - 1][x - 1] and not self.floors[y][x - 1]:
+                        self.cornerAt(posx - w -b, posy + t , w, -90) # bottom left corner
+                    if not self.floors[y - 1][x + 1] and not self.floors[y][x + 1]:
+                        self.cornerAt(posx + self.x[x], posy + t - w - b, w, 0) # bottom right corner
+                    if self.floors[y - 1][x - 1] and not self.floors[y][x - 1]:
+                        self.edgeAt("e", posx - t, posy + t - w - b, t) # bottom edge under wall
                 posx += self.x[x] + self.thickness
             posy += self.y[y - 1] + self.thickness
 
@@ -375,23 +379,14 @@ to remove the floor for this compartment.
                     else:
                         # Right edge
                         self.edgeAt(e, posx + w + b, posy, self.y[y], 90)
-                        if not self.floors[y-1][x-1]:
-                            self.edgeAt("e", posx + w + b, posy + self.y[y], w, 90, corner=True)
-                        elif not self.floors[y - 1][x]:
-                            self.edgeAt("e", posx + w + b, posy + self.y[y], t, 90)
-                        if not self.floors[y+1][x-1]:
-                            self.edgeAt("e", posx + w + b, posy - w, w, 90)
+                        if self.floors[y-1][x-1] and not self.floors[y - 1][x]:
+                            self.edgeAt("e", posx + w + b, posy + self.y[y], t, 90) # right edge under wall
                 elif self.floors[y][x]:
                     # Left edge
                     self.edgeAt(e, posx + t - w - b, posy + self.y[y], self.y[y], -90)
-                    if not self.floors[y - 1][x]:
-                        self.edgeAt("e", posx + t - w - b,
-                                    posy + self.y[y] + w, w, -90)
-                    elif not self.floors[y - 1][x - 1]:
+                    if self.floors[y - 1][x] and not self.floors[y - 1][x - 1]:
                         self.edgeAt("e", posx + t - w - b,
                                     posy + self.y[y] + t, t, -90)
-                    if not self.floors[y + 1][x]:
-                        self.edgeAt("e", posx + t - w - b, posy, w, -90, corner=True)
                 posy += self.y[y] + self.thickness
             if x < lx:
                 posx += self.x[x] + self.thickness

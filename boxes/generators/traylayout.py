@@ -181,8 +181,6 @@ to remove the floor for this compartment.
                 self.hi = self.adjustSize(self.hi, e2=False)
 
         self.hi = self.hi or self.h
-        if self.hi > self.h:
-            raise ValueError("hi can't be bigger that h!")
         self.edges["s"] = boxes.edges.Slot(self, self.hi / 2.0)
         self.edges["C"] = boxes.edges.CrossingFingerHoleEdge(self, self.hi)
         self.edges["D"] = boxes.edges.CrossingFingerHoleEdge(self, self.hi, outset=self.thickness)
@@ -190,18 +188,30 @@ to remove the floor for this compartment.
     def walls(self, move=None):
         lx = len(self.x)
         ly = len(self.y)
-        # t = self.thickness
-        # b = self.burn
-        # t2 = self.thickness / 2.0
+
+        if self.hi > self.h:
+            # if hi is bigger limit finger joints at the outside to h
+            le_f = boxes.edges.CompoundEdge(self, "ef", [self.hi-self.h, self.h])
+            re_f = boxes.edges.CompoundEdge(self, "fe", [self.h, self.hi-self.h])
+            le_F = boxes.edges.CompoundEdge(self, "eF", [self.hi-self.h, self.h])
+            re_F = boxes.edges.CompoundEdge(self, "Fe", [self.h, self.hi-self.h])
+        else:
+            le_f = re_f = "f"
+            le_F = re_F = "F"
 
         self.ctx.save()
 
         # Horizontal Walls
         for y in range(ly + 1):
             if y == 0 or y == ly:
+                # limit finger holes to h on the outside
                 h = self.h
+                self.edges["C"].height = min(self.h, self.hi)
+                self.edges["D"].height = min(self.h, self.hi)
             else:
                 h = self.hi
+                self.edges["C"].height = self.hi
+                self.edges["D"].height = self.hi
 
             start = 0
             end = 0
@@ -235,24 +245,30 @@ to remove the floor for this compartment.
                 # remove last "slot"
                 lengths.pop()
                 edges.pop()
+                le = le_f if start == 0 and y not in (0, ly) else "f"
+                re = re_f if end == lx and y not in (0, ly) else "f"
                 self.rectangularWall(sum(lengths), h, [
                     boxes.edges.CompoundEdge(self, edges, lengths),
-                    "f" if self.vWalls(end, y) else "e",
+                    re if self.vWalls(end, y) else "e",
                     "e",
-                    "f" if self.vWalls(start, y) else "e"],
+                    le if self.vWalls(start, y) else "e"],
                                      move="right")
                 start = end
 
         self.ctx.restore()
-        self.rectangularWall(10, h, "ffef", move="up only")
+        self.rectangularWall(10, max(self.h, self.hi), "ffef", move="up only")
         self.ctx.save()
 
         # Vertical Walls
         for x in range(lx + 1):
             if x == 0 or x == lx:
                 h = self.h
+                self.edges["C"].height = min(self.h, self.hi)
+                self.edges["D"].height = min(self.h, self.hi)
             else:
                 h = self.hi
+                self.edges["C"].height = self.hi
+                self.edges["D"].height = self.hi
             start = 0
             end = 0
 
@@ -292,16 +308,18 @@ to remove the floor for this compartment.
                           "C": "e",
                           "D": "e"}[e] for e in reversed(edges)]
                 edges = ["e" if e == "s" else ("E" if e == "S" else e) for e in edges]
+                les = ["e", le_F, le_f] if start == 0 and x not in (0, lx) else "eFf"
+                res = ["e", re_F, re_f] if end == ly and x not in (0, lx) else "eFf"
                 self.rectangularWall(sum(lengths), h, [
                     boxes.edges.CompoundEdge(self, edges, lengths),
-                    "eFf"[self.hWalls(x, end)],
+                    res[self.hWalls(x, end)],
                     boxes.edges.CompoundEdge(self, upper, list(reversed(lengths))),
-                    "eFf"[self.hWalls(x, start)]],
+                    les[self.hWalls(x, start)]],
                                      move="right")
                 start = end
 
         self.ctx.restore()
-        self.rectangularWall(10, h, "ffef", move="up only")
+        self.rectangularWall(10, max(self.h, self.hi), "ffef", move="up only")
 
     def base_plate(self, callback=None, move=None):
         lx = len(self.x)

@@ -14,9 +14,9 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from dataclasses import dataclass
-import functools
+pass
 import numpy as np
-from boxes import Boxes, restore, Color
+from boxes import Boxes, restore
 from boxes import edges
 from boxes.edges import Settings
 
@@ -36,7 +36,7 @@ class StevensonScreenSettings(Settings):
     * absolute
       * angle : 45 : The angle the slats make with horizontal
       * overlap : 0.1 : The fraction of each slat that overlaps
-    
+
     * relative
       * depth : 5 : The size of the slats, in multiples of thickness
     """
@@ -77,7 +77,7 @@ class StevensonScreenBox(Boxes):
         angle = self.slat_angle
         overlap = self.slat_overlap
         depth = self.slat_depth * t
-        
+
         # First, calculate the bounding box of a slat at its angle
         bbox_h = t*np.cos(angle) + depth*np.sin(angle)
         bbox_w = t*np.sin(angle) + depth*np.cos(angle)
@@ -92,7 +92,7 @@ class StevensonScreenBox(Boxes):
             pitch=pitch,
             h = n * pitch * (1-overlap) + overlap * pitch
         )
-    
+
     @restore
     def slat_finger_holes(self, slats: SlatGeometry, h: float):
         # This mounts the slats to the sides, including the small
@@ -122,7 +122,7 @@ class StevensonScreenBox(Boxes):
         back_slats = self.calculate_slat_geometry(back_h - min_vertical)
 
         def side_cb():
-            # Draw holes for the 
+            # Draw holes for the
             self.slat_finger_holes(back_slats, back_h)
             self.moveTo(self.x, 0)
             self.ctx.scale(-1, 1)
@@ -142,14 +142,14 @@ class StevensonScreenBox(Boxes):
                 self.rectangularWall(y, slat_d, "efef", move="up", label="front slat")
             for i in range(back_slats.n):
                 self.rectangularWall(y, slat_d, "efef", move="up", label="back slat")
-                
+
             # Now the top parts of the front and back
             front_vertical_h = front_h - front_slats.h
             back_vertical_h = back_h - back_slats.h
             self.rectangularWall(y, front_vertical_h, "efef", move="up", label="front")
             self.rectangularWall(y, back_vertical_h, "efef", move="up", label="back")
         #self.rectangularWall(y, back_vertical_h, "efef", move="right only")
-        
+
         #with self.saved_context():
             # The roof
             self.flangedWall(y, x/np.cos(top_slope), "eFeF", flanges=[t, t, t, t], r=t, move="up", label="top")

@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg height="125.63mm" viewBox="0.0 0.0 120.12 125.63" width="120.12mm" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<!--
+SkadisStand - Feet for a Skadis board so it can stand on its own
+
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
+Command line (remove spaces between dashes): boxes SkadisStand
+-->
+<title>SkadisStand</title>
+<metadata>
+<rdf:RDF><cc:Work>
+<dc:title>WallMounted - SkadisStand</dc:title>
+<dc:source>boxes SkadisStand</dc:source>
+<dc:description>Feet for a Skadis board so it can stand on its own
+
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
+Command line: boxes SkadisStand
+Command line short: boxes SkadisStand
+</dc:description>
+</cc:Work></rdf:RDF></metadata>
+<g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
+  <path d="M 10.024 115.629 H 110.024 V 105.629 H 10.024 V 115.629 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
+  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.024 107.629 )">100.0mm, burn:0.10mm</text>
+</g>
+<g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
+  <path d="M 10.024 103.929 H 108.524 C 108.805 103.929 109.081 103.855 109.324 103.714 C 109.567 103.574 109.769 103.372 109.910 103.129 C 110.050 102.885 110.124 102.610 110.124 102.329 V 95.329 C 110.124 95.048 110.050 94.772 109.910 94.529 C 109.769 94.285 109.567 94.083 109.324 93.943 C 109.081 93.803 108.805 93.729 108.524 93.729 H 52.869 C 49.669 93.729 46.517 92.957 43.680 91.480 C 40.842 90.003 38.402 87.863 36.567 85.243 C 34.732 82.622 33.556 79.598 33.139 76.426 C 32.721 73.254 33.074 70.029 34.169 67.022 L 53.279 14.517 C 53.375 14.253 53.400 13.969 53.351 13.692 C 53.302 13.415 53.182 13.157 53.001 12.941 C 52.821 12.726 52.587 12.562 52.323 12.466 L 45.745 10.072 C 45.481 9.976 45.196 9.951 44.920 10.000 C 44.643 10.049 44.384 10.169 44.169 10.350 C 43.954 10.531 43.790 10.765 43.694 11.028 L 32.271 42.414 C 32.236 42.508 32.365 42.448 32.271 42.414 L 28.136 40.909 C 28.084 40.890 28.027 40.917 28.008 40.969 L 24.588 50.366 C 24.569 50.418 24.596 50.475 24.647 50.494 L 28.782 51.999 C 28.876 52.033 28.816 51.905 28.782 51.999 L 18.590 80.002 C 18.556 80.096 18.684 80.036 18.590 80.002 L 14.455 78.497 C 14.403 78.478 14.346 78.505 14.327 78.557 L 10.907 87.954 C 10.888 88.006 10.915 88.063 10.967 88.082 L 15.101 89.587 C 15.195 89.621 15.135 89.493 15.101 89.587 L 11.715 98.890 L 10.005 103.588 C 10.000 103.603 9.998 103.619 10.000 103.635 C 10.002 103.651 10.008 103.667 10.017 103.680 C 10.026 103.693 10.039 103.704 10.053 103.711 C 10.067 103.719 10.083 103.722 10.099 103.722" stroke="rgb(0,0,0)" stroke-width="0.20" />
+</g>
+</svg>

@@ -2663,7 +2663,7 @@ class Boxes:
         edges = [self.edges.get(e, e) for e in edges]
 
         overallwidth = w + edges[-1].spacing() + edges[1].spacing()
-        overallheight = max(h0, h1) + edges[0].spacing()
+        overallheight = max(h0, h1) + edges[0].spacing() + edges[2].spacing()
 
         if self.move(overallwidth, overallheight, move, before=True):
             return

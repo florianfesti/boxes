@@ -189,15 +189,20 @@ to remove the floor for this compartment.
         lx = len(self.x)
         ly = len(self.y)
 
+        le_f = re_f = ole_f = ore_f = "f"
+        le_F = re_F = ole_F = ore_F = "F"
         if self.hi > self.h:
             # if hi is bigger limit finger joints at the outside to h
             le_f = boxes.edges.CompoundEdge(self, "ef", [self.hi-self.h, self.h])
             re_f = boxes.edges.CompoundEdge(self, "fe", [self.h, self.hi-self.h])
             le_F = boxes.edges.CompoundEdge(self, "eF", [self.hi-self.h, self.h])
             re_F = boxes.edges.CompoundEdge(self, "Fe", [self.h, self.hi-self.h])
-        else:
-            le_f = re_f = "f"
-            le_F = re_F = "F"
+        elif self.hi < self.h:
+            # if hi is smaller limit the fingerjoint in the outside walls to hi
+            ole_f = boxes.edges.CompoundEdge(self, "Ef", [self.h-self.hi, self.hi])
+            ore_f = boxes.edges.CompoundEdge(self, "fE", [self.hi, self.h-self.hi])
+            ole_F = boxes.edges.CompoundEdge(self, "EF", [self.h-self.hi, self.hi])
+            ore_F = boxes.edges.CompoundEdge(self, "FE", [self.hi, self.h-self.hi])
 
         self.ctx.save()
 
@@ -245,8 +250,8 @@ to remove the floor for this compartment.
                 # remove last "slot"
                 lengths.pop()
                 edges.pop()
-                le = le_f if start == 0 and y not in (0, ly) else "f"
-                re = re_f if end == lx and y not in (0, ly) else "f"
+                le = le_f if start == 0 and y not in (0, ly) else (ole_f if start > 0 and y in (0, ly) else "f")
+                re = re_f if end == lx and y not in (0, ly) else (ore_f if end < lx and y in (0, ly) else "f")
                 self.rectangularWall(sum(lengths), h, [
                     boxes.edges.CompoundEdge(self, edges, lengths),
                     re if self.vWalls(end, y) else "e",
@@ -308,8 +313,10 @@ to remove the floor for this compartment.
                           "C": "e",
                           "D": "e"}[e] for e in reversed(edges)]
                 edges = ["e" if e == "s" else ("E" if e == "S" else e) for e in edges]
-                les = ["e", le_F, le_f] if start == 0 and x not in (0, lx) else "eFf"
-                res = ["e", re_F, re_f] if end == ly and x not in (0, lx) else "eFf"
+                les = ["e", le_F, le_f] if start == 0 and x not in (0, lx) else (
+                    ["e", ole_F, ole_f] if start > 0 and x in (0, lx) else "eFf")
+                res = ["e", re_F, re_f] if end == ly and x not in (0, lx) else (
+                    ["e", ore_F, ore_f] if end < ly and x in (0, lx) else "eFf")
                 self.rectangularWall(sum(lengths), h, [
                     boxes.edges.CompoundEdge(self, edges, lengths),
                     res[self.hWalls(x, end)],

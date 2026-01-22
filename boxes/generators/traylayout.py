@@ -185,6 +185,16 @@ to remove the floor for this compartment.
         self.edges["C"] = boxes.edges.CrossingFingerHoleEdge(self, self.hi)
         self.edges["D"] = boxes.edges.CrossingFingerHoleEdge(self, self.hi, outset=self.thickness)
 
+    def wallLabelsCB(self, start, end, row, x=True):
+        if not self.labels:
+            return
+        sx = self.x if x else self.y
+        posx = 0
+        for pos in range(start, end):
+            posx += sx[pos] / 2
+            self.text(f"x {pos+1}/{row+1}" if x else f"y {row+1}/{pos+1}", posx, 0, color=Color.ANNOTATIONS, align="center", fontsize=2*self.thickness)
+            posx += sx[pos] / 2 + self.thickness
+
     def walls(self, move=None):
         lx = len(self.x)
         ly = len(self.y)
@@ -257,6 +267,7 @@ to remove the floor for this compartment.
                     re if self.vWalls(end, y) else "e",
                     "e",
                     le if self.vWalls(start, y) else "e"],
+                                     callback=[lambda: self.wallLabelsCB(start, end, y)],
                                      move="right")
                 start = end
 
@@ -322,6 +333,7 @@ to remove the floor for this compartment.
                     res[self.hWalls(x, end)],
                     boxes.edges.CompoundEdge(self, upper, list(reversed(lengths))),
                     les[self.hWalls(x, start)]],
+                                     callback=[lambda: self.wallLabelsCB(start, end, x, x=False)],
                                      move="right")
                 start = end
 
@@ -358,7 +370,14 @@ to remove the floor for this compartment.
                     e = "F"
                 else:
                     e = "e"
-
+                if self.labels:
+                    self.text(
+                        f"x {x+1}/{y+1}",
+                        posx+self.x[x]/2,
+                        posy + (t if y > 0 else 0),
+                        color=Color.ANNOTATIONS,
+                        align=("center" if y>0 else "center top"),
+                        fontsize=2*self.thickness)
                 if self.floors[y][x]:
                     if self.floors[y - 1][x]:
                         # Inside Wall
@@ -396,6 +415,15 @@ to remove the floor for this compartment.
                     e = "F"
                 else:
                     e = "e"
+                if self.labels:
+                    self.text(
+                        f"y {x+1}/{y+1}",
+                        posx+ (t if x < lx else 0),
+                        posy+self.y[y]/2,
+                        color=Color.ANNOTATIONS,
+                        angle=-90,
+                        align=("center" if x < lx else "center top"),
+                        fontsize=2*self.thickness)
                 if self.floors[y][x - 1]:
                     if self.floors[y][x]:
                         # Inside wall

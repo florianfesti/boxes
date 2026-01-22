@@ -564,6 +564,7 @@ class SVGSurface(Surface):
                         t.set("font-size", f"{params['fs']}px")
                         t.set("text-anchor", params.get('align', 'left'))
                         t.set("dominant-baseline", 'hanging')
+                        t.tail = "\n  "
                     else:
                         print("Unknown", c)
 

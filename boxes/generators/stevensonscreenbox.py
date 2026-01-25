@@ -79,18 +79,18 @@ class StevensonScreenBox(Boxes):
         depth = self.slat_depth * t
 
         # First, calculate the bounding box of a slat at its angle
-        bbox_h = t*np.cos(angle) + depth*np.sin(angle)
-        bbox_w = t*np.sin(angle) + depth*np.cos(angle)
+        bbox_h = t*np.cos(np.radians(angle)) + depth*np.sin(np.radians(angle))
+        bbox_w = t*np.sin(np.radians(angle)) + depth*np.cos(np.radians(angle))
 
         # That sets the pitch, once we shrink by the overlap
         pitch = bbox_h * (1-overlap)
-        n = max_h // pitch
+        n = (max_h-bbox_h) // pitch + 1
 
         return SlatGeometry(
             reduced_depth=bbox_w,
             n=int(n),
             pitch=pitch,
-            h = n * pitch * (1-overlap) + overlap * pitch
+            h = n * pitch # height on the outside including the top gap
         )
 
     @restore
@@ -117,7 +117,7 @@ class StevensonScreenBox(Boxes):
         # They'll be inset by 1.5*t, so we can use finger holes to mount them.
         min_vertical = t*2
         front_h = h1 - np.sin(top_slope) * 2*t - t
-        back_h = h - t
+        back_h = h
         front_slats = self.calculate_slat_geometry(front_h - min_vertical)
         back_slats = self.calculate_slat_geometry(back_h - min_vertical)
 

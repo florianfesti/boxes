@@ -66,7 +66,8 @@ class StevensonScreenBox(Boxes):
         self.addSettingsArgs(edges.FingerJointSettings)
         self.addSettingsArgs(StevensonScreenSettings, prefix="slat")
         self.buildArgParser("x", "y", "h")
-        self.argparser.add_argument("--top_slope", default=6, help="The angle of the roof")
+        self.argparser.add_argument("--bottom_width", default=50.0, type=float, help="Width of the bottom (x direction) (in mm)")
+        self.argparser.add_argument("--top_slope", default=6.0, type=float, help="The angle of the roof")
 
     @property
     def front_h(self):
@@ -122,6 +123,8 @@ class StevensonScreenBox(Boxes):
         back_slats = self.calculate_slat_geometry(back_h - min_vertical)
 
         def side_cb():
+            self.fingerHolesAt((self.x - self.bottom_width)/2, 2.5*self.thickness, self.bottom_width, 0)
+            self.fingerHolesAt(self.x/2, 3*self.thickness, 3*self.thickness, 90)
             # Draw holes for the
             self.slat_finger_holes(back_slats, back_h)
             self.moveTo(self.x, 0)
@@ -129,11 +132,26 @@ class StevensonScreenBox(Boxes):
             self.slat_finger_holes(front_slats, front_h)
 
         with self.saved_context():
-            self.trapezoidWall(x, h, h1, "fefe", move="up", label="left", callback=[side_cb])
-            self.trapezoidWall(x, h, h1, "fefe", move="mirror up", label="right", callback=[side_cb])
+            self.trapezoidWall(x, h, h1, "eefe", move="up", label="left", callback=[side_cb])
+            self.trapezoidWall(x, h, h1, "eefe", move="mirror up", label="right", callback=[side_cb])
 
-            self.rectangularWall(x, y, "FeFe", move="up", label="bottom")
-        self.rectangularWall(x, y, "FeFe", move="right only")
+            self.rectangularWall(self.bottom_width, y, "eeee",
+                                 callback=[lambda: (self.rectangularHole(self.bottom_width/2, 1.5*t, 1.1*t, 1.1*t),
+                                                    self.hole(1.5*t, 1.5*t, d=2),
+                                                    self.hole(self.bottom_width-1.5*t, 1.5*t, d=2)), None]*2,
+                                 move="up", label="bottom")
+            for i in range(2):
+                self.polygonWall([self.bottom_width, 90, 1.5*t, (90, 1.5*t),
+                                  self.bottom_width-3*t, (90, 1.5*t), 1.5*t, 90],
+                                 "feee",
+                                 callback=[lambda: (self.rectangularHole(self.bottom_width/2, 1.5*t, t, t),
+                                                    self.hole(1.5*t, 1.5*t, d=3),
+                                                    self.hole(self.bottom_width-1.5*t, 1.5*t, d=3))],
+                                 move="up")
+            for i in range(2):
+                self.polygonWall([3*t, 90, t, 45, 2*2**.5*t, 45, t, 90, t, -90, 1.5*t, (180, 0.5*t), 1.5*t, -90, t, 90], "f" + "e"*10, move="right")
+
+        self.rectangularWall(x, y, "fefe", move="right only")
 
         with self.saved_context():
             # Make the slats

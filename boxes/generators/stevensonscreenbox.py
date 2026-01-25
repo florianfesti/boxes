@@ -102,7 +102,7 @@ class StevensonScreenBox(Boxes):
         depth = self.slat_depth * t
         for i in range(slats.n):
             with self.saved_context():
-                self.moveTo(0, i * slats.pitch, self.slat_angle)
+                self.moveTo(t, i * slats.pitch, self.slat_angle)
                 self.fingerHolesAt(0, t/2, depth, 0)
         self.fingerHolesAt(1.5*t, slats.h, h - slats.h, 90)
 

@@ -15,6 +15,37 @@
 
 from boxes import *
 
+class ShortFingerEdge(edges.Edge):
+    def __init__(self, boxes, lmargin, rmargin, thickness):
+        super().__init__(boxes, settings=None)
+        self.lmargin = lmargin
+        self.rmargin = rmargin
+        self.thickness = thickness
+
+    def __call__(self, length, **kw):
+        usable = length - (self.rmargin + self.lmargin)
+
+        # left flat
+        self.boxes.edges["e"](self.lmargin)
+        # finger joint in the middle
+        self.boxes.edges["F"](usable)
+        # right flat
+        self.boxes.edges["e"](self.rmargin)
+
+    def spacing(self):
+        # tell boxes.py this edge occupies normal space
+        return self.boxes.edges["F"].spacing()
+
+    def margin(self):
+        return self.boxes.edge["F"].margin()
+
+    def startWidth(self) -> float:
+        """Amount of space the beginning of the edge is set below the inner space of the part """
+        return self.thickness
+
+    def endWidth(self) -> float:
+        return self.startWidth()
+
 
 class Ramp(Boxes):
     """Ramp for accessibility purposes
@@ -28,6 +59,14 @@ class Ramp(Boxes):
     def __init__(self) -> None:
         Boxes.__init__(self)
 
+        self.argparser.add_argument(
+            "--n",
+            action="store",
+            type=int,
+            default=0,
+            help="Number of reinforcement triangle inside"
+        )
+
         # Uncomment the settings for the edge types you use
         # use keyword args to set default values
         self.addSettingsArgs(edges.FingerJointSettings)
@@ -37,6 +76,7 @@ class Ramp(Boxes):
     def render(self):
         # adjust to the variables you want in the local scope
         x, y, h = self.x, self.y, self.h
+        n = self.n
         t = self.thickness
 
         # Calculating the angle of steepness, bit complicated due to material thickness.
@@ -75,10 +115,16 @@ class Ramp(Boxes):
         tx = y - t - t * math.sin(a) - t / math.tan(a)
         ty = h - t - t * math.tan(a) - t * math.cos(a)
         tz = (tx**2+ty**2)**0.5
-        self.rectangularTriangle(tx, ty, move="right")
+
+        self.edges["k"] = ShortFingerEdge(self, lmargin=t / math.sin(a), rmargin=t / math.cos(a), thickness=t)
+        self.edges["K"] = ShortFingerEdge(self, rmargin=t / math.sin(a), lmargin=t / math.cos(a), thickness=t)
+
+        for i in range(n+2):
+            self.rectangularTriangle(tx, ty, move="up", edges="fff", label=f"Triangle {i}")
 
         # Rectangular parts of the prism is easier
-        self.rectangularWall(x, ty+t, move="up")
-        self.rectangularWall(x, tx, move="up")
-        self.rectangularWall(x, tz + t / math.sin(a) + t / math.cos(a), move="up")
+        self.rectangularWall(x, ty+t, move="up", edges="FFfF", label="Vertical Wall")
+        self.rectangularWall(x, tx, move="up", edges="fFfF", label="Bottom")
+
+        self.rectangularWall(x, tz + t / math.sin(a) + t / math.cos(a), move="up", edges="FKFk", label="Diagonal")
 

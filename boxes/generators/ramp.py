@@ -121,9 +121,11 @@ class Ramp(Boxes):
         self.edges["k"] = CompoundEdge(self, "EFE", [t / math.sin(a), tz, t / math.cos(a)])
         self.edges["K"] = CompoundEdge(self, "EFE", [t / math.cos(a), tz, t / math.sin(a)])
         # Drawing triangular sides
-        for i in range(2):
-            self.rectangularTriangle(tx, ty, move="up", edges="fff", label=f"Side {i}")
+        self.rectangularTriangle(tx, ty, move="up", edges="fff", label=f"Side {0}", num=2)
 
+        # Drawing triangular reinforcement (inside)
+        for i in range(n):
+            self.rectangularTriangle(tx, ty, move="up", edges="ffe", label=f"Inside {i}")
 
         # Rectangular parts of the prism is easier
         self.rectangularWall(x, ty, edges="FFeF", move="up", label="Vertical Wall")

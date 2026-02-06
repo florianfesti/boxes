@@ -14,6 +14,8 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
+from boxes.edges import CompoundEdge
+
 
 class ShortFingerEdge(edges.Edge):
     def __init__(self, boxes, lmargin, rmargin, thickness):
@@ -116,15 +118,17 @@ class Ramp(Boxes):
         ty = h - t - t * math.tan(a) - t * math.cos(a)
         tz = (tx**2+ty**2)**0.5
 
-        self.edges["k"] = ShortFingerEdge(self, lmargin=t / math.sin(a), rmargin=t / math.cos(a), thickness=t)
-        self.edges["K"] = ShortFingerEdge(self, rmargin=t / math.sin(a), lmargin=t / math.cos(a), thickness=t)
+        self.edges["k"] = CompoundEdge(self, "EFE", [t / math.sin(a), tz, t / math.cos(a)])
+        self.edges["K"] = CompoundEdge(self, "EFE", [t / math.cos(a), tz, t / math.sin(a)])
+        # Drawing triangular sides
+        for i in range(2):
+            self.rectangularTriangle(tx, ty, move="up", edges="fff", label=f"Side {i}")
 
-        for i in range(n+2):
-            self.rectangularTriangle(tx, ty, move="up", edges="fff", label=f"Triangle {i}")
 
         # Rectangular parts of the prism is easier
-        self.rectangularWall(x, ty+t, move="up", edges="FFfF", label="Vertical Wall")
-        self.rectangularWall(x, tx, move="up", edges="fFfF", label="Bottom")
+        self.rectangularWall(x, ty, edges="FFeF", move="up", label="Vertical Wall")
 
-        self.rectangularWall(x, tz + t / math.sin(a) + t / math.cos(a), move="up", edges="FKFk", label="Diagonal")
+        self.rectangularWall(x, tx, move="up", edges="eFfF", label="Bottom")
+
+        self.rectangularWall(x, tz + t / math.sin(a) + t / math.cos(a), move="up", edges="eKek", label="Diagonal")
 

@@ -105,7 +105,6 @@ class StevensonScreenBox(Boxes):
             with self.saved_context():
                 self.moveTo(t, i * slats.pitch, self.slat_angle)
                 self.fingerHolesAt(0, t/2, depth, 0)
-        self.fingerHolesAt(1.5*t, slats.h, h - slats.h, 90)
 
     def render(self):
         x, y, h = self.x, self.y, self.h
@@ -131,9 +130,14 @@ class StevensonScreenBox(Boxes):
             self.ctx.scale(-1, 1)
             self.slat_finger_holes(front_slats, front_h)
 
+        def side_top_cb():
+            l = front_h - front_slats.h
+            self.fingerHolesAt(np.sin(np.radians(top_slope))*l + t, 0, l, 90)
+            self.fingerHolesAt(x/np.cos(np.radians(top_slope)) -t, 0, back_h - back_slats.h, 90)
+
         with self.saved_context():
-            self.trapezoidWall(x, h, h1, "eefe", move="up", label="left", callback=[side_cb])
-            self.trapezoidWall(x, h, h1, "eefe", move="mirror up", label="right", callback=[side_cb])
+            self.trapezoidWall(x, h, h1, "eefe", move="up", label="left", callback=[side_cb, None, side_top_cb])
+            self.trapezoidWall(x, h, h1, "eefe", move="mirror up", label="right", callback=[side_cb, None, side_top_cb])
 
             self.rectangularWall(self.bottom_width, y, "eeee",
                                  callback=[lambda: (self.rectangularHole(self.bottom_width/2, 1.5*t, 1.1*t, 1.1*t),

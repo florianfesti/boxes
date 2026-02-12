@@ -16,7 +16,7 @@
 from dataclasses import dataclass
 pass
 import numpy as np
-from boxes import Boxes, restore
+from boxes import Boxes, restore, Color
 from boxes import edges
 from boxes.edges import Settings
 
@@ -68,10 +68,11 @@ class StevensonScreenBox(Boxes):
         self.buildArgParser("x", "y", "h")
         self.argparser.add_argument("--bottom_width", default=50.0, type=float, help="Width of the bottom (x direction) (in mm)")
         self.argparser.add_argument("--top_slope", default=6.0, type=float, help="The angle of the roof")
+        self.argparser.add_argument("--roof_top", default="finger joints", choices=["finger joints", "glued"], type=str, help="The attachment style of the roof")
 
     @property
     def front_h(self):
-        return self.h + self.x * np.sin(self.top_slope/180*np.pi)
+        return self.h + self.x * np.sin(np.radians(self.top_slope))
 
     def calculate_slat_geometry(self, max_h) -> SlatGeometry:
         t = self.thickness
@@ -106,6 +107,14 @@ class StevensonScreenBox(Boxes):
                 self.moveTo(t, i * slats.pitch, self.slat_angle)
                 self.fingerHolesAt(0, t/2, depth, 0)
 
+    @restore
+    def roofCB(self):
+        self.ctx.stroke()
+        self.set_source_color(Color.ETCHING)
+        self.moveTo(self.thickness, self.thickness, 90)
+        self.edge(self.x/np.cos(np.radians(self.top_slope)))
+        self.ctx.stroke()
+
     def render(self):
         x, y, h = self.x, self.y, self.h
         t = self.thickness
@@ -116,7 +125,7 @@ class StevensonScreenBox(Boxes):
         # These will have a minimum height, let's guesstimate t*7.
         # They'll be inset by 1.5*t, so we can use finger holes to mount them.
         min_vertical = t*2
-        front_h = h1 - np.sin(top_slope) * 2*t - t
+        front_h = h1 - np.sin(np.radians(top_slope)) * 2*t - t
         back_h = h
         front_slats = self.calculate_slat_geometry(front_h - min_vertical)
         back_slats = self.calculate_slat_geometry(back_h - min_vertical)
@@ -136,8 +145,9 @@ class StevensonScreenBox(Boxes):
             self.fingerHolesAt(x/np.cos(np.radians(top_slope)) -t, 0, back_h - back_slats.h, 90)
 
         with self.saved_context():
-            self.trapezoidWall(x, h, h1, "eefe", move="up", label="left", callback=[side_cb, None, side_top_cb])
-            self.trapezoidWall(x, h, h1, "eefe", move="mirror up", label="right", callback=[side_cb, None, side_top_cb])
+            side_edges = "eefe" if self.roof_top == "finger joints" else "eeee"
+            self.trapezoidWall(x, h, h1, side_edges, move="up", label="left", callback=[side_cb, None, side_top_cb])
+            self.trapezoidWall(x, h, h1, side_edges, move="mirror up", label="right", callback=[side_cb, None, side_top_cb])
 
             self.rectangularWall(self.bottom_width, y, "eeee",
                                  callback=[lambda: (self.rectangularHole(self.bottom_width/2, 1.5*t, 1.1*t, 1.1*t),
@@ -174,5 +184,8 @@ class StevensonScreenBox(Boxes):
 
         #with self.saved_context():
             # The roof
-            self.flangedWall(y, x/np.cos(top_slope), "eFeF", flanges=[t, t, t, t], r=t, move="up", label="top")
-        #self.flangedWall(y, x/np.cos(top_slope), "eFeF", flanges=[t, t, t, t], r=t, move="right only")
+            if self.roof_top == "finger joints":
+                self.flangedWall(y, x/np.cos(np.radians(top_slope)), "eFeF", flanges=[t, t, t, t], r=t, move="up", label="top")
+            else:
+                self.flangedWall(y, x/np.cos(np.radians(top_slope)), "eEeE", flanges=[t, t, t, t], r=t,
+                                 callback=[self.roofCB, None, self.roofCB], move="up", label="top")

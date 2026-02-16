@@ -69,24 +69,38 @@ Linkages more complicated than a four bar linkage might need even more pins vari
 
     def plateCB(self):
         x, y, dist = self.x, self.y, self.dist
-        n = int(x//dist) - 1
+        nx = (int(x//dist) // 2) * 2 - 1
+        ny = (int(y//dist) // 2) * 2 - 1
 
-        for pos_y in (2*dist, y/2, y-2*dist):
-            for i in range(n):
-                self.hole(i*dist + (x-n*dist) / 2, pos_y, d=self.diameter)
+        self.moveTo(-self.thickness)
+        for pos_y in (y/2-dist*((ny-1)/2), y/2, y/2+dist*((ny-1)/2)):
+            for i in range(nx):
+                self.hole(i*dist + (x - (nx-1)*dist)/2, pos_y, d=self.diameter)
+        for pos_x in (x/2-dist*(nx-1)/2, x/2, x/2+dist*(nx-1)/2):
+            for i in range(ny):
+                if i in (0, (ny-1)/2, ny-1): continue
+                self.hole(pos_x, i*dist + (y-(ny-1)*dist) / 2, d=self.diameter)
 
     def render(self):
         w = self.width
         l = self.length
+        d = self.diameter
 
-        self.partsMatrix(10, 10, "up", self.parts.disc, w, 0.95*self.diameter)
+        with self.saved_context():
+            self.partsMatrix(8, 8, "right", self.parts.disc, w, 0.95*d)
+            self.partsMatrix(2, 2, "", self.parts.disc, w, callback=lambda: (self.hole(-self.dist/2, 0, d=0.95*d), self.hole(+self.dist/2, 0, d=0.95*d)))
+        self.partsMatrix(8, 8, "up only", self.parts.disc, w)
 
-        for holes in (True, False):
-            self.link(l, holes, "up")
-            self.link(l*3/4, holes, "up")
-            self.link(l/2, holes, "up")
-            self.link(l/3, holes, "up")
-            self.link(l/4, holes, "up")
+        for lengths in ((l, ), (l,), (l*3/4, l/4), (l*3/4, l/4), (l/2, l/2), (l/3, l/3)):
+            with self.saved_context():
+                for length in lengths:
+                    self.link(length, True, "right")
+            self.link(l, False, "up only")
+        for lengths in ((l, ), (l*3/4, l/4), (l/2, l/2), (l/3, l/3)):
+            with self.saved_context():
+                for length in lengths:
+                    self.link(length, False, "right")
+            self.link(l, False, "up only")
 
         self.roundedPlate(self.x, self.y, self.thickness, "e", extend_corners=False,
                           callback=[self.plateCB], move="up")

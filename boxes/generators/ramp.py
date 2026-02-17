@@ -18,9 +18,9 @@ from boxes.edges import CompoundEdge
 
 class Ramp(Boxes):
     """Ramp for accessibility purposes
-    x is the width of the ramp, generaly the width of the step the ramp is built for
-    y is the length of the ramp, will influance the steepness of the ramp
-    h is the height of the step.
+    x is the width of the ramp, generally the width of the step the ramp is built for
+    y is the length of the ramp, will influence the steepness of the ramp
+    h is the height of the ramp.
     """
 
     ui_group = "Misc" # see ./__init__.py for names
@@ -50,8 +50,6 @@ class Ramp(Boxes):
                 self.fingerHolesAt(posx, 0, height)
 
         return CB
-
-
 
     def render(self):
         # adjust to the variables you want in the local scope
@@ -91,12 +89,10 @@ class Ramp(Boxes):
         except RuntimeError:
             raise RuntimeError("Could not calculate the angle")
 
-
         # Calculating triangle part dimensions:
         tx = y - t - t * math.sin(a) - t / math.tan(a)
         ty = h - t - t * math.tan(a) - t * math.cos(a)
         tz = (tx**2+ty**2)**0.5
-
 
         self.edges["k"] = CompoundEdge(self, "EFE", [t / math.sin(a), tz, t / math.cos(a)])
         self.edges["K"] = CompoundEdge(self, "EFE", [t / math.cos(a), tz, t / math.sin(a)])
@@ -107,11 +103,12 @@ class Ramp(Boxes):
         if n:
             self.rectangularTriangle(tx, ty, move="up", edges="ffe", label=f"Inside", num=n)
 
-        # Rectangular parts of the prism is easier
         if n:
-            holes = [((x) / (n+1)) - t] * (n)
+            holes = [(x / (n + 1)) - t] * n
         else:
             holes = []
+
+        # Rectangular parts of the prism are easier
         self.rectangularWall(x, ty, edges="FFeF", move="up", label="Vertical Wall", callback=[self.fingerHolesCB(holes, ty)])
         self.rectangularWall(x, tx, move="up", edges="eFfF", label="Bottom", callback=[self.fingerHolesCB(holes, tx)])
 

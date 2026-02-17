@@ -39,7 +39,7 @@ class ShortFingerEdge(edges.Edge):
         return self.boxes.edges["F"].spacing()
 
     def margin(self):
-        return self.boxes.edge["F"].margin()
+        return self.boxes.edges["F"].margin()
 
     def startWidth(self) -> float:
         """Amount of space the beginning of the edge is set below the inner space of the part """
@@ -73,6 +73,26 @@ class Ramp(Boxes):
         # use keyword args to set default values
         self.addSettingsArgs(edges.FingerJointSettings)
         self.buildArgParser(x=100, y=100, h=100)
+
+    def fingerHolesCB(self, sections, height):
+
+        def CB():
+            posx = -0.5 * self.thickness
+            for x in sections[:-1]:
+                posx += x + self.thickness
+                self.fingerHolesAt(posx, 0, height)
+
+        return CB
+
+    def fingerHoleLineCB(self, posx, posy, sections):
+        def CB():
+            self.moveTo(posx, posy, 90)
+            for l in sections:
+                self.fingerHolesAt(0, 0, l, 0)
+                self.moveTo(l + self.thickness)
+
+        return CB
+
 
 
     def render(self):
@@ -113,10 +133,12 @@ class Ramp(Boxes):
         except RuntimeError:
             raise RuntimeError("Could not calculate the angle")
 
+
         # Calculating triangle part dimensions:
         tx = y - t - t * math.sin(a) - t / math.tan(a)
         ty = h - t - t * math.tan(a) - t * math.cos(a)
         tz = (tx**2+ty**2)**0.5
+
 
         self.edges["k"] = CompoundEdge(self, "EFE", [t / math.sin(a), tz, t / math.cos(a)])
         self.edges["K"] = CompoundEdge(self, "EFE", [t / math.cos(a), tz, t / math.sin(a)])
@@ -124,13 +146,11 @@ class Ramp(Boxes):
         self.rectangularTriangle(tx, ty, move="up", edges="fff", label=f"Side {0}", num=2)
 
         # Drawing triangular reinforcement (inside)
-        for i in range(n):
-            self.rectangularTriangle(tx, ty, move="up", edges="ffe", label=f"Inside {i}")
+        self.rectangularTriangle(tx, ty, move="up", edges="ffe", label=f"Inside", num=n)
 
         # Rectangular parts of the prism is easier
-        self.rectangularWall(x, ty, edges="FFeF", move="up", label="Vertical Wall")
-
-        self.rectangularWall(x, tx, move="up", edges="eFfF", label="Bottom")
+        self.rectangularWall(x, ty, edges="FFeF", move="up", label="Vertical Wall", callback=[self.fingerHolesCB([((x-4*t)/(n))]*n, ty)])
+        self.rectangularWall(x, tx, move="up", edges="eFfF", label="Bottom", callback=[self.fingerHolesCB([((x-4*t)/(n))]*n, tx)])
 
         self.rectangularWall(x, tz + t / math.sin(a) + t / math.cos(a), move="up", edges="eKek", label="Diagonal")
 

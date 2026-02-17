@@ -77,19 +77,10 @@ class Ramp(Boxes):
     def fingerHolesCB(self, sections, height):
 
         def CB():
-            posx = -0.5 * self.thickness
-            for x in sections[:-1]:
+            posx = 0
+            for x in sections[:]:
                 posx += x + self.thickness
                 self.fingerHolesAt(posx, 0, height)
-
-        return CB
-
-    def fingerHoleLineCB(self, posx, posy, sections):
-        def CB():
-            self.moveTo(posx, posy, 90)
-            for l in sections:
-                self.fingerHolesAt(0, 0, l, 0)
-                self.moveTo(l + self.thickness)
 
         return CB
 
@@ -104,7 +95,7 @@ class Ramp(Boxes):
         # Calculating the angle of steepness, bit complicated due to material thickness.
         # Going with Newton-Raphson method
 
-        def solve_angle_newton(H, L, T, a0_deg=45, tol=1e-8, max_iter=50):
+        def solve_angle_newton(H:float, L:float, T:float, a0_deg:float=45, tol:float=1e-8, max_iter=50) -> float:
             def f(a):
                 return L * math.sin(a) - H * math.cos(a) + T * math.cos(2 * a)
 
@@ -143,14 +134,19 @@ class Ramp(Boxes):
         self.edges["k"] = CompoundEdge(self, "EFE", [t / math.sin(a), tz, t / math.cos(a)])
         self.edges["K"] = CompoundEdge(self, "EFE", [t / math.cos(a), tz, t / math.sin(a)])
         # Drawing triangular sides
-        self.rectangularTriangle(tx, ty, move="up", edges="fff", label=f"Side {0}", num=2)
+        self.rectangularTriangle(tx, ty, move="up", edges="fff", label=f"Side", num=2)
 
         # Drawing triangular reinforcement (inside)
-        self.rectangularTriangle(tx, ty, move="up", edges="ffe", label=f"Inside", num=n)
+        if n:
+            self.rectangularTriangle(tx, ty, move="up", edges="ffe", label=f"Inside", num=n)
 
         # Rectangular parts of the prism is easier
-        self.rectangularWall(x, ty, edges="FFeF", move="up", label="Vertical Wall", callback=[self.fingerHolesCB([((x-4*t)/(n))]*n, ty)])
-        self.rectangularWall(x, tx, move="up", edges="eFfF", label="Bottom", callback=[self.fingerHolesCB([((x-4*t)/(n))]*n, tx)])
+        if n:
+            holes = [((x) / (n+1)) - t] * (n)
+        else:
+            holes = []
+        self.rectangularWall(x, ty, edges="FFeF", move="up", label="Vertical Wall", callback=[self.fingerHolesCB(holes, ty)])
+        self.rectangularWall(x, tx, move="up", edges="eFfF", label="Bottom", callback=[self.fingerHolesCB(holes, tx)])
 
         self.rectangularWall(x, tz + t / math.sin(a) + t / math.cos(a), move="up", edges="eKek", label="Diagonal")
 

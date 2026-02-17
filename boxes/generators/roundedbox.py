@@ -50,16 +50,54 @@ With lid:
             help="edge type for top and bottom edges")
         self.argparser.add_argument(
             "--top",  action="store", type=str, default="hole",
-            choices=["hole", "lid", "closed",],
+            choices=["hole", "lid", "lid_with_latches", "closed"],
+            help="style of the top and lid")
+        self.argparser.add_argument(
+            "--bottom",  action="store", type=str, default="closed",
+            choices=["closed", "hole", "lid", "lid_with_latches"],
             help="style of the top and lid")
 
-    def hole(self):
+    def latch(self, move=None):
         t = self.thickness
+        p = .05 * t
+        l = 10*t
+        if self.move(l, 3*t, move, True):
+            return
+
+        r = t / 2**0.5
+        self.polyline(l, 90, 1.5*t, 45, 0, (90, r), 0, 45,
+                      t, -90, 4*t, 180, 4*t, 90,
+                      t-p, 90, 3*t, -90, 2*t+p, 90,
+                      3*t, 90, t, 90, t, -90, t+p, -90,
+                      3.75*t, 45, t/4*2**0.5, 45, 1.25*t-p, 90)
+
+        self.move(l, 3*t, move)
+
+    def latch_positions(self, x, y, r, callback):
+        d = (1-0.5*2**0.5) * r
+        for l in (x, y, x, y):
+            with self.saved_context():
+                self.moveTo(+d, d, -45)
+                callback()
+            self.moveTo(l+2*r, 0, 90)
+
+    @property
+    def hole_dr(self):
+        dr = 2*self.thickness
+        if self.edge_style == "h":
+            dr = self.thickness
+        return dr
+
+    def top_hole(self, style):
+
+        if style == "closed":
+            return
+
+        t = self.thickness
+        p = 0.05*t
         x, y, r = self.x, self.y, self.radius
 
-        dr = 2*t
-        if self.edge_style == "h":
-            dr = t
+        dr = self.hole_dr
 
         if r > dr:
             r -= dr
@@ -75,6 +113,65 @@ With lid:
             self.edge(l)
             self.corner(90, r)
 
+        if style == "lid_with_latches":
+            # We end up where we started
+            # go to "corner" of the hole
+            self.moveTo(-r)
+            self.latch_positions(
+                lx, ly, r,
+                lambda: (
+                    self.rectangularHole(0, 2.5*t, 1.1*t, 4*t, center_y=False),
+                    self.rectangularHole(0, 8*t, 1.1*t, 0.7*t),
+                    self.rectangularHole(0, 10*t, 1.1*t, 0.7*t)))
+
+    @boxes.holeCol
+    def latch_holes(self):
+        """The holes cut out of one latch slider."""
+        t = self.thickness
+        self.rectangularHole(0, 1.5*t, t, 3*t, center_y=False)
+        self.hole(0, 9.5*t, d=5*t),
+
+    @boxes.holeCol
+    def latch_slider(self):
+        """The sliding piece that actuates the latch."""
+        t = self.thickness
+        self.rectangularHole(0, 0.55*t,
+                             6.95*t, 12.95*t,
+                             r=7*t, center_y=False,
+                             color=boxes.Color.CUT[1]),
+
+    @boxes.holeCol
+    def latch_cutout(self):
+        """The hole in which the latch_slider sits."""
+        t = self.thickness
+        self.rectangularHole(0, 0.5*t,
+                             7*t, 15*t,
+                             r=7*t, center_y=False,
+                             color=boxes.Color.CUT[2])
+
+
+    def latches(self):
+        t = self.thickness
+        x, y, r = self.x, self.y, self.radius
+        r_extra = self.edges[self.edge_style].spacing()
+        dr = self.hole_dr
+        self.moveTo(dr-r, dr+r_extra)
+
+        if r > dr:
+            r -= dr
+        else:
+            r = 0
+
+        lx = x - 2*r - 2*dr
+        ly = y - 2*r - 2*dr
+
+        self.latch_positions(
+            lx, ly, r,
+            lambda: (
+                self.latch_holes(),
+                self.latch_slider(),
+                self.latch_cutout()))
+
     def cb(self, nr):
         h = 0.5 * self.thickness
 
@@ -83,8 +180,19 @@ With lid:
             h += dh
             self.fingerHolesAt(0, h, l, 0)
 
-    def render(self):
+    def cut_order(self):
+        self.move(self.reference, 10, "down", before=True)
+        self.text("cut order:", self.reference + 25, 5,
+                        fontsize=6, align="middle center", color=boxes.Color.ANNOTATIONS)
+        for i, col in enumerate(boxes.Color.CUT[:3] + [boxes.Color.OUTER_CUT]):
+            self.text(f"{i}", self.reference + 50 + 10 * i, 5,
+                            fontsize=6, align="middle center", color=col)
+        self.move(self.reference, 10, "up", before=False)
 
+    def render(self):
+        self.cut_order()
+
+        _ = self.translations.gettext
         x, y, sh, r = self.x, self.y, self.sh, self.radius
 
         if self.outside:
@@ -112,23 +220,37 @@ With lid:
             ec = True
 
         with self.saved_context():
-            self.roundedPlate(x, y, r, es, wallpieces=self.wallpieces,
-                              extend_corners=ec, move="right")
+            # These are the inner shelves
             for dh in self.sh[:-1]:
                 self.roundedPlate(x, y, r, "f", wallpieces=self.wallpieces,
-                                  extend_corners=False, move="right")
-            self.roundedPlate(x, y, r, es, wallpieces=self.wallpieces,
-                              extend_corners=ec, move="right",
-                              callback=[self.hole] if self.top != "closed" else None)
-            if self.top == "lid":
-                r_extra = self.edges[self.edge_style].spacing()
-                self.roundedPlate(x+2*r_extra,
-                                  y+2*r_extra,
-                                  r+r_extra,
-                                  "e", wallpieces=self.wallpieces,
+                                  label=_("inner shelf"),
                                   extend_corners=False, move="right")
 
+            for name, style in ((_("bottom"), self.bottom),
+                                (_("top"), self.top)):
+                # This is the top/bottom plate (which has a hole in it, if requested)
+                self.roundedPlate(
+                    x, y, r, es, wallpieces=self.wallpieces,
+                    extend_corners=ec, move="right",
+                    label=name,
+                    callback=[lambda: self.top_hole(style)])
+                # An additional plate for the lid, if requested
+                if style in ["lid", "lid_with_latches"]:
+                    r_extra = self.edges[self.edge_style].spacing()
+                    self.roundedPlate(
+                        x+2*r_extra, y+2*r_extra, r+r_extra,
+                        "e", wallpieces=self.wallpieces,
+                        label=_("%s lid") % name,
+                        extend_corners=False, move="right",
+                        callback=[self.latches] if style == "lid_with_latches" else None)
+
+        # Move up one row
         self.roundedPlate(x, y, r, es, wallpieces=self.wallpieces, move="up only")
 
+        # This is the wall (i.e. the vertical part)
         self.surroundingWall(x, y, r, h, pe, pe, pieces=self.wallpieces,
-                             callback=self.cb)
+                             callback=self.cb, move="up")
+        for style in (self.top, self.bottom):
+            if style == "lid_with_latches":
+                for i in range(4):
+                    self.latch(move="right")

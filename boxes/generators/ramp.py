@@ -15,6 +15,7 @@
 
 from boxes import *
 from boxes.edges import CompoundEdge
+from typing import Callable
 
 class Ramp(Boxes):
     """Ramp for accessibility purposes
@@ -41,11 +42,11 @@ class Ramp(Boxes):
         self.addSettingsArgs(edges.FingerJointSettings)
         self.buildArgParser(x=100, y=100, h=100)
 
-    def fingerHolesCB(self, sections, height):
+    def fingerHolesCB(self, sections:list[float], height:float) -> Callable:
 
         def CB():
             posx = 0
-            for x in sections[:]:
+            for x in sections:
                 posx += x + self.thickness
                 self.fingerHolesAt(posx, 0, height)
 
@@ -60,7 +61,7 @@ class Ramp(Boxes):
         # Calculating the angle of steepness, bit complicated due to material thickness.
         # Going with Newton-Raphson method
 
-        def solve_angle_newton(H:float, L:float, T:float, a0_deg:float=45, tol:float=1e-8, max_iter=50) -> float:
+        def solve_angle_newton(H:float, L:float, T:float, a0_deg:float=45, tol:float=1e-8, max_iter:int=50) -> float:
             def f(a):
                 return L * math.sin(a) - H * math.cos(a) + T * math.cos(2 * a)
 

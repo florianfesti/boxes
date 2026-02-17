@@ -2829,10 +2829,10 @@ class Boxes:
 
                 for direction in (0, 90, 180, 270):
                     if (a > 0 and
-                        angle <= direction and (angle + a) % 360 >= direction):
+                        angle <= direction and (angle + a) >= direction):
                         direction -= 90
                     elif (a < 0 and
-                          angle >= direction and (angle + a) % 360 <= direction):
+                          angle >= direction and (angle + a) <= direction):
                         direction -= 90
                     else:
                         continue

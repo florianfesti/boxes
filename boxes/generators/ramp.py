@@ -16,39 +16,6 @@
 from boxes import *
 from boxes.edges import CompoundEdge
 
-
-class ShortFingerEdge(edges.Edge):
-    def __init__(self, boxes, lmargin, rmargin, thickness):
-        super().__init__(boxes, settings=None)
-        self.lmargin = lmargin
-        self.rmargin = rmargin
-        self.thickness = thickness
-
-    def __call__(self, length, **kw):
-        usable = length - (self.rmargin + self.lmargin)
-
-        # left flat
-        self.boxes.edges["e"](self.lmargin)
-        # finger joint in the middle
-        self.boxes.edges["F"](usable)
-        # right flat
-        self.boxes.edges["e"](self.rmargin)
-
-    def spacing(self):
-        # tell boxes.py this edge occupies normal space
-        return self.boxes.edges["F"].spacing()
-
-    def margin(self):
-        return self.boxes.edges["F"].margin()
-
-    def startWidth(self) -> float:
-        """Amount of space the beginning of the edge is set below the inner space of the part """
-        return self.thickness
-
-    def endWidth(self) -> float:
-        return self.startWidth()
-
-
 class Ramp(Boxes):
     """Ramp for accessibility purposes
     x is the width of the ramp, generaly the width of the step the ramp is built for

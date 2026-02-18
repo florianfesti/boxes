@@ -29,7 +29,7 @@ class Rack19HalfWidth(Boxes):
         t = self.thickness
         z = self.z
         self.x = x = 223 - (2 * t)
-        self.y = y = (self.ru_count * 44.45) - 4.45 - (2 * t)
+        self.y = y = (self.ru_count * 44.45) - 0.787 - (2 * t)
         deepz = self.deepz
 
         # front
@@ -47,8 +47,8 @@ class Rack19HalfWidth(Boxes):
     def rack_holes(self):
         """Rackmount holes."""
         t = self.thickness # pylint: disable=invalid-name
-        self.rectangularHole(6 + t, 10, 10, 6.5, r=3.25)
-        self.rectangularHole(self.y - 6 + t, 10, 10, 6.5, r=3.25)
+        self.rectangularHole(6, 8.5, 6.5, 10, r=3.25)
+        self.rectangularHole(self.y +2*t - 6, 8.5, 6.5, 10, r=3.25)
 
     def util_holes(self):
         """Add holes."""

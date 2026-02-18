@@ -30,7 +30,7 @@ Linkages more complicated than a four bar linkage might need even more pins vari
         Boxes.__init__(self)
 
         self.buildArgParser(x=100, y=100)
-        
+
         self.argparser.add_argument(
             "--diameter",  action="store", type=float, default=3.3,
             help="Diameter of the holes")
@@ -63,7 +63,7 @@ Linkages more complicated than a four bar linkage might need even more pins vari
             self.rectangularHole(l_/2, w/2, l_+d-2*dist, 1.05*d, r=d/2)
             self.hole(0, w/2, d=d)
             self.hole(l_, w/2, d=d)
-            
+
         self.polygonWall((l_, (180, w/2), l_, (180, w/2)), "e",
                          callback=[holesCB if holes else slotCB], move=move)
 
@@ -74,7 +74,7 @@ Linkages more complicated than a four bar linkage might need even more pins vari
         for pos_y in (2*dist, y/2, y-2*dist):
             for i in range(n):
                 self.hole(i*dist + (x-n*dist) / 2, pos_y, d=self.diameter)
-        
+
     def render(self):
         w = self.width
         l = self.length
@@ -87,6 +87,6 @@ Linkages more complicated than a four bar linkage might need even more pins vari
             self.link(l/2, holes, "up")
             self.link(l/3, holes, "up")
             self.link(l/4, holes, "up")
-    
+
         self.roundedPlate(self.x, self.y, self.thickness, "e", extend_corners=False,
                           callback=[self.plateCB], move="up")

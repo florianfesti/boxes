@@ -81,7 +81,7 @@ Start with putting the slots of the inner walls together. Be especially careful 
 
         edges = [self.edges.get(e, e) for e in edges]
 
-        tw = sum(sy) + t * len(sy) + t
+        tw = sum(sy) + t * len(sy) + edges[1].spacing()
         th = max(sh) + eh + fh + edges[0].spacing()
 
         if self.move(tw, th, move, True):

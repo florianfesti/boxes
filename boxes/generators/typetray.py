@@ -82,7 +82,7 @@ class TypeTray(_TopEdge):
             "--gripheight", action="store", type=float, default=30,
             dest="gh", help="height of the grip hole in mm")
         self.argparser.add_argument(
-            "--gripwidth", action="store", type=float, default=70,
+            "--gripwidth", action="store", type=float, default=0,
             dest="gw", help="width of th grip hole in mm (zero for no hole)")
         self.argparser.add_argument(
             "--handle", type=boolarg, default=False, help="add handle to the bottom (changes bottom edge in the front)")

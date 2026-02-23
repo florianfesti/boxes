@@ -261,10 +261,10 @@ class TypeTray(_TopEdge):
 
         # front
         if self.text_at_front:
-            frontCBs = [lambda:(self.textCB(), self.mirrorX(self.xHoles, x)()),
+            frontCBs = [lambda:(self.textCB(), self.xHoles()),
                         None, self.gripHole]
         else:
-            frontCBs = [self.mirrorX(self.xHoles, x), None, self.gripHole]
+            frontCBs = [self.xHoles, None, self.gripHole]
 
         # finger holes at front wall
         if not self.closedtop and \
@@ -306,18 +306,18 @@ class TypeTray(_TopEdge):
         # finger holes at back wall
         if not self.closedtop and \
            self.fingerholes in ("back", "front-and-back"):
-            tb = edges.SlottedEdge(self, self.sx, "A")
+            tb = edges.SlottedEdge(self, self.sx[::-1], "A")
 
         if bh:
             self.rectangularWall(x, h+bh, [b, "f", tb, "f"],
                                  callback=[self.xHoles],
                                  ignore_widths=[],
-                                 move="up", label="back")
+                                 move="mirror up", label="back")
         else:
             self.rectangularWall(x, h, [b, "F", tb, "F"],
                                  callback=[self.xHoles],
                                  ignore_widths=ignore_widths,
-                                 move="up", label="back")
+                                 move="mirror up", label="back")
 
         # top / lid
         if self.closedtop and sameh:

@@ -86,7 +86,7 @@ class StackableBin(Boxes):
             self.rectangularWall(x, self.d, "ffGf",
                                  callback=[self.wallCB(self.sx, self.d)],
                                  label="bottom", move="up")
-            self.rectangularWall(x, self.h, "hfef",
+            self.rectangularWall(x, self.h, "sfSf",
                                  callback=[self.wallCB(self.sx, self.h)],
                                  label="back", move="up ")
             self.rectangularWall(x, self.h*self.front*2**0.5, "gFeF",
@@ -99,4 +99,4 @@ class StackableBin(Boxes):
         self.rectangularWall(self.d, self.h, "shSb", label="left", move="up")
         self.rectangularWall(self.d, self.h, "shSb", label="right", move="mirror up")
         for i in range(len(self.sx)-1):
-            self.rectangularWall(self.d, self.h, "ffSb", label="left", move="up")
+            self.rectangularWall(self.d, self.h, "ffSb", label="divider", move="up")

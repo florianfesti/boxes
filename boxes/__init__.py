@@ -2631,6 +2631,9 @@ class Boxes:
         if len(edges) != 3:
             raise ValueError("two or three edges required")
 
+        if num <= 0:
+            return
+
         r = min(r, x, y)
         a = math.atan2(y-r, float(x-r))
         alpha = math.degrees(a)

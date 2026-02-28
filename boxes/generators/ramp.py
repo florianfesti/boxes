@@ -15,7 +15,7 @@
 
 from boxes import *
 from boxes.edges import CompoundEdge
-from typing import Callable
+from collections.abc import Callable
 
 class Ramp(Boxes):
     """Ramp for accessibility purposes
@@ -101,17 +101,12 @@ class Ramp(Boxes):
         self.rectangularTriangle(tx, ty, move="up", edges="fff", label=f"Side", num=2)
 
         # Drawing triangular reinforcement (inside)
-        if n:
-            self.rectangularTriangle(tx, ty, move="up", edges="ffe", label=f"Inside", num=n)
+        self.rectangularTriangle(tx, ty, move="up", edges="ffe", label=f"Inside", num=n)
 
-        if n:
-            holes = [(x / (n + 1)) - t] * n
-        else:
-            holes = []
+        holes = [(x / (n + 1)) - t] * n
 
         # Rectangular parts of the prism are easier
         self.rectangularWall(x, ty, edges="FFeF", move="up", label="Vertical Wall", callback=[self.fingerHolesCB(holes, ty)])
         self.rectangularWall(x, tx, move="up", edges="eFfF", label="Bottom", callback=[self.fingerHolesCB(holes, tx)])
 
         self.rectangularWall(x, tz + t / math.sin(a) + t / math.cos(a), move="up", edges="eKek", label="Diagonal")
-

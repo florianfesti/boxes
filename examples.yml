@@ -44,6 +44,20 @@ Boxes:
         +-+-+-+
         | |X| |  25.00mm
         +-+-+-+
+  - box_type: TrayLayout
+    name: TrayLayoutHAlt
+    args:
+      h: 50
+      hi: 30
+      h_alt: 20
+      layout: |2
+         ,> 25.00mm
+         | ,> 25.00mm
+        +-+-+
+        | | |  25.00mm
+        + = +
+        | | |  25.00mm
+        +-+-+
   - box_type: GridfinityBase
     args:
       base_type: refined

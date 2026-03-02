@@ -104,6 +104,9 @@ You can replace the space characters representing the floor by a "X" to remove t
         self.addSettingsArgs(lids.LidSettings)
         self.buildArgParser("h", "hi", "outside", "sx", "sy")
         self.argparser.add_argument(
+            "--h_alt", action="store", type=float, default=25.0,
+            help="Alternate inside wall height (mm). Use '=' (horizontal) or ':' (vertical) in layout text.")
+        self.argparser.add_argument(
             "--layout", action="store", type=str, default="\n",
             help="""* Set **sx** and **sy** before editing this!
 * You can still change measurements afterwards
@@ -150,6 +153,28 @@ to remove the floor for this compartment.
             return False
         return (y > 0 and self.floors[y - 1][x]) or (y < len(self.y) and self.floors[y][x])
 
+    def get_hv(self, x: int, y: int) -> float:
+        """Get the height of the vertical wall(s) at crossing (x, y)."""
+        if x == 0 or x == len(self.x):
+            return self.h
+        h_v = 0.0
+        if y > 0 and self.vwalls[y - 1][x]:
+            h_v = max(h_v, self.h_alt if self.vwalls[y - 1][x] == 2 else self.hi)
+        if y < len(self.y) and self.vwalls[y][x]:
+            h_v = max(h_v, self.h_alt if self.vwalls[y][x] == 2 else self.hi)
+        return h_v
+
+    def get_hh(self, x: int, y: int) -> float:
+        """Get the height of the horizontal wall(s) at crossing (x, y)."""
+        if y == 0 or y == len(self.y):
+            return self.h
+        h_h = 0.0
+        if x > 0 and self.hwalls[y][x - 1]:
+            h_h = max(h_h, self.h_alt if self.hwalls[y][x - 1] == 2 else self.hi)
+        if x < len(self.x) and self.hwalls[y][x]:
+            h_h = max(h_h, self.h_alt if self.hwalls[y][x] == 2 else self.hi)
+        return h_h
+
     @restore
     def edgeAt(self, edge, x, y, length, angle=0):
         self.moveTo(x, y, angle)
@@ -180,7 +205,12 @@ to remove the floor for this compartment.
             if self.hi:
                 self.hi = self.adjustSize(self.hi, e2=False)
 
+            h_alt_val = getattr(self, "h_alt", None)
+            if h_alt_val:
+                self.h_alt = self.adjustSize(h_alt_val, e2=False)
+
         self.hi = self.hi or self.h
+        self.h_alt = getattr(self, "h_alt", self.hi)
         self.edges["s"] = boxes.edges.Slot(self, self.hi / 2.0)
         self.edges["C"] = boxes.edges.CrossingFingerHoleEdge(self, self.hi)
         self.edges["D"] = boxes.edges.CrossingFingerHoleEdge(self, self.hi, outset=self.thickness)
@@ -214,26 +244,31 @@ to remove the floor for this compartment.
             ole_F = boxes.edges.CompoundEdge(self, "EF", [self.h-self.hi, self.hi])
             ore_F = boxes.edges.CompoundEdge(self, "FE", [self.hi, self.h-self.hi])
 
+        # Edges for h_alt
+        ale_f = are_f = aole_f = aore_f = "f"
+        ale_F = are_F = aole_F = aore_F = "F"
+        if self.h_alt > self.h:
+            ale_f = boxes.edges.CompoundEdge(self, "ef", [self.h_alt-self.h, self.h])
+            are_f = boxes.edges.CompoundEdge(self, "fe", [self.h, self.h_alt-self.h])
+            ale_F = boxes.edges.CompoundEdge(self, "eF", [self.h_alt-self.h, self.h])
+            are_F = boxes.edges.CompoundEdge(self, "Fe", [self.h, self.h_alt-self.h])
+        elif self.h_alt < self.h:
+            aole_f = boxes.edges.CompoundEdge(self, "Ef", [self.h-self.h_alt, self.h_alt])
+            aore_f = boxes.edges.CompoundEdge(self, "fE", [self.h_alt, self.h-self.h_alt])
+            aole_F = boxes.edges.CompoundEdge(self, "EF", [self.h-self.h_alt, self.h_alt])
+            aore_F = boxes.edges.CompoundEdge(self, "FE", [self.h_alt, self.h-self.h_alt])
+
         self.ctx.save()
 
         # Horizontal Walls
         for y in range(ly + 1):
-            if y == 0 or y == ly:
-                # limit finger holes to h on the outside
-                h = self.h
-                self.edges["C"].height = min(self.h, self.hi)
-                self.edges["D"].height = min(self.h, self.hi)
-            else:
-                h = self.hi
-                self.edges["C"].height = self.hi
-                self.edges["D"].height = self.hi
-
             start = 0
             end = 0
 
             while end < lx:
                 lengths = []
-                edges = []
+                bottom_edges = []
+                top_edges = []
 
                 while start < lx and not self.hwalls[y][start]:
                     start += 1
@@ -241,104 +276,170 @@ to remove the floor for this compartment.
                 if start == lx:
                     break
 
+                if self.hwalls[y][start] == 2:
+                    h = self.h_alt
+                    self.edges["C"].height = self.h_alt
+                    self.edges["D"].height = self.h_alt
+                    self.edges["s"].depth = self.h_alt / 2.0
+                elif y == 0 or y == ly:
+                    h = self.h
+                    self.edges["C"].height = min(self.h, self.hi)
+                    self.edges["D"].height = min(self.h, self.hi)
+                    self.edges["s"].depth = min(self.h, self.hi) / 2.0
+                else:
+                    h = self.hi
+                    self.edges["C"].height = self.hi
+                    self.edges["D"].height = self.hi
+                    self.edges["s"].depth = self.hi / 2.0
+
                 end = start
 
-                while end < lx and self.hwalls[y][end]:
+                while end < lx and self.hwalls[y][end] == self.hwalls[y][start]:
                     if self.hFloor(end, y):
-                        edges.append("f")
+                        bottom_edges.append("f")
                     else:
-                        edges.append("E")
-
+                        bottom_edges.append("E")
+                    top_edges.append("e")
                     lengths.append(self.x[end])
-                    if self.hFloor(end, y) == 0 and self.hFloor(end + 1, y) == 0:
-                        edges.append("EDs"[self.vWalls(end + 1, y)])
-                    else:
-                        edges.append("eCs"[self.vWalls(end + 1, y)])
-                    lengths.append(self.thickness)
+
+                    vw = self.vWalls(end + 1, y)
+                    if vw == 1:
+                        hv = self.get_hv(end + 1, y)
+                        if self.hFloor(end, y) == 0 and self.hFloor(end + 1, y) == 0:
+                            bottom_edges.append(boxes.edges.CrossingFingerHoleEdge(self, hv, outset=self.thickness))
+                        else:
+                            bottom_edges.append(boxes.edges.CrossingFingerHoleEdge(self, hv))
+                        top_edges.append("e")
+                        lengths.append(self.thickness)
+                    elif vw == 2:
+                        hv = self.get_hv(end + 1, y)
+                        if h < hv:
+                            bottom_edges.append("e")
+                            top_edges.append(boxes.edges.Slot(self, h / 2.0))
+                        else:
+                            bottom_edges.append(boxes.edges.Slot(self, hv / 2.0))
+                            top_edges.append("e")
+                        lengths.append(self.thickness)
                     end += 1
 
-                # remove last "slot"
-                lengths.pop()
-                edges.pop()
-                le = le_f if start == 0 and y not in (0, ly) else (ole_f if start > 0 and y in (0, ly) else "f")
-                re = re_f if end == lx and y not in (0, ly) else (ore_f if end < lx and y in (0, ly) else "f")
+                # remove last crossing
+                if vw:
+                    lengths.pop()
+                    bottom_edges.pop()
+                    top_edges.pop()
+
+                if self.hwalls[y][start] == 2:
+                    le = ale_f if start == 0 and y not in (0, ly) else (aole_f if start > 0 and y in (0, ly) else "f")
+                    re = are_f if end == lx and y not in (0, ly) else (aore_f if end < lx and y in (0, ly) else "f")
+                else:
+                    le = le_f if start == 0 and y not in (0, ly) else (ole_f if start > 0 and y in (0, ly) else "f")
+                    re = re_f if end == lx and y not in (0, ly) else (ore_f if end < lx and y in (0, ly) else "f")
+
                 self.rectangularWall(sum(lengths), h, [
-                    boxes.edges.CompoundEdge(self, edges, lengths),
+                    boxes.edges.CompoundEdge(self, bottom_edges, lengths),
                     re if self.vWalls(end, y) else "e",
-                    "e",
+                    boxes.edges.CompoundEdge(self, list(reversed(top_edges)), list(reversed(lengths))),
                     le if self.vWalls(start, y) else "e"],
                                      callback=[lambda: self.wallLabelsCB(start, end, y)],
                                      move="right")
                 start = end
 
         self.ctx.restore()
-        self.rectangularWall(10, max(self.h, self.hi), "ffef", move="up only")
+        self.rectangularWall(10, max(self.h, self.hi, self.h_alt), "ffef", move="up only")
         self.ctx.save()
 
         # Vertical Walls
         for x in range(lx + 1):
-            if x == 0 or x == lx:
-                h = self.h
-                self.edges["C"].height = min(self.h, self.hi)
-                self.edges["D"].height = min(self.h, self.hi)
-            else:
-                h = self.hi
-                self.edges["C"].height = self.hi
-                self.edges["D"].height = self.hi
             start = 0
             end = 0
 
             while end < ly:
                 lengths = []
-                edges = []
+                bottom_edges = []
+                top_edges = []
                 while start < ly and not self.vwalls[start][x]:
                     start += 1
 
                 if start == ly:
                     break
 
+                if self.vwalls[start][x] == 2:
+                    h = self.h_alt
+                    self.edges["C"].height = self.h_alt
+                    self.edges["D"].height = self.h_alt
+                    self.edges["s"].depth = self.h_alt / 2.0
+                elif x == 0 or x == lx:
+                    h = self.h
+                    self.edges["C"].height = min(self.h, self.hi)
+                    self.edges["D"].height = min(self.h, self.hi)
+                    self.edges["s"].depth = min(self.h, self.hi) / 2.0
+                else:
+                    h = self.hi
+                    self.edges["C"].height = self.hi
+                    self.edges["D"].height = self.hi
+                    self.edges["s"].depth = self.hi / 2.0
+
                 end = start
 
-                while end < ly and self.vwalls[end][x]:
+                while end < ly and self.vwalls[end][x] == self.vwalls[start][x]:
                     if self.vFloor(x, end):
-                        edges.append("f")
+                        bottom_edges.append("f")
                     else:
-                        edges.append("E")
-
+                        bottom_edges.append("E")
+                    top_edges.append("e")
                     lengths.append(self.y[end])
-                    if self.vFloor(x, end) == 0 and self.vFloor(x, end + 1) == 0:
-                        edges.append("EDS"[self.hWalls(x, end + 1)])
-                    else:
-                        edges.append("eCs"[self.hWalls(x, end + 1)])
-                    lengths.append(self.thickness)
-                    end += 1
-                # remove last "slot"
-                lengths.pop()
-                edges.pop()
 
-                upper = [{"f": "e",
-                          "s": "s",
-                          "S": "s", # abuse for E at bottom
-                          "e": "e",
-                          "E": "e",
-                          "C": "e",
-                          "D": "e"}[e] for e in reversed(edges)]
-                edges = ["e" if e == "s" else ("E" if e == "S" else e) for e in edges]
-                les = ["e", le_F, le_f] if start == 0 and x not in (0, lx) else (
-                    ["e", ole_F, ole_f] if start > 0 and x in (0, lx) else "eFf")
-                res = ["e", re_F, re_f] if end == ly and x not in (0, lx) else (
-                    ["e", ore_F, ore_f] if end < ly and x in (0, lx) else "eFf")
+                    hw = self.hWalls(x, end + 1)
+                    if hw == 1:
+                        hh = self.get_hh(x, end + 1)
+                        # Vertical walls have fingers on their sides to meet horizontal walls
+                        # So they don't need CrossingFingerHoleEdge themselves.
+                        # Instead, Horizontal walls have CrossingFingerHoleEdge.
+                        # But wait, if it's a T-junction where Vertical meets Horizontal...
+                        # Horizontal has holes in face, Vertical has fingers on side.
+                        # So Vertical wall needs NOTHING on its top/bottom edge for this.
+                        bottom_edges.append("e" if self.vFloor(x, end) == 0 and self.vFloor(x, end + 1) == 0 else "e")
+                        top_edges.append("e")
+                        lengths.append(self.thickness)
+                    elif hw == 2:
+                        hh = self.get_hh(x, end + 1)
+                        if h < hh:
+                            bottom_edges.append("e")
+                            top_edges.append(boxes.edges.Slot(self, h / 2.0))
+                        else:
+                            bottom_edges.append(boxes.edges.Slot(self, hh / 2.0))
+                            top_edges.append("e")
+                        lengths.append(self.thickness)
+                    end += 1
+
+                # remove last crossing
+                if hw:
+                    lengths.pop()
+                    bottom_edges.pop()
+                    top_edges.pop()
+
+                if self.vwalls[start][x] == 2:
+                    les = ["e", ale_F, ale_f] if start == 0 and x not in (0, lx) else (
+                        ["e", aole_F, aole_f] if start > 0 and x in (0, lx) else "eFf")
+                    res = ["e", are_F, are_f] if end == ly and x not in (0, lx) else (
+                        ["e", aore_F, aore_f] if end < ly and x in (0, lx) else "eFf")
+                else:
+                    les = ["e", le_F, le_f] if start == 0 and x not in (0, lx) else (
+                        ["e", ole_F, ole_f] if start > 0 and x in (0, lx) else "eFf")
+                    res = ["e", re_F, re_f] if end == ly and x not in (0, lx) else (
+                        ["e", ore_F, ore_f] if end < ly and x in (0, lx) else "eFf")
+
                 self.rectangularWall(sum(lengths), h, [
-                    boxes.edges.CompoundEdge(self, edges, lengths),
+                    boxes.edges.CompoundEdge(self, bottom_edges, lengths),
                     res[self.hWalls(x, end)],
-                    boxes.edges.CompoundEdge(self, upper, list(reversed(lengths))),
+                    boxes.edges.CompoundEdge(self, list(reversed(top_edges)), list(reversed(lengths))),
                     les[self.hWalls(x, start)]],
                                      callback=[lambda: self.wallLabelsCB(start, end, x, x=False)],
                                      move="right")
                 start = end
 
         self.ctx.restore()
-        self.rectangularWall(10, max(self.h, self.hi), "ffef", move="up only")
+        self.rectangularWall(10, max(self.h, self.hi, self.h_alt), "ffef", move="up only")
 
     def base_plate(self, callback=None, move=None):
         lx = len(self.x)
@@ -464,9 +565,9 @@ to remove the floor for this compartment.
                 for n, c in enumerate(line[:len(x) * 2 + 1]):
                     if n % 2:
                         if c == ' ':
-                            w.append(False)
-                        elif c == '-':
-                            w.append(True)
+                            w.append(0)
+                        elif c in '-=':
+                            w.append(1 if c == '-' else 2)
                         else:
                             pass
                             # raise ValueError(line)
@@ -476,7 +577,7 @@ to remove the floor for this compartment.
                             # raise ValueError(line)
 
                 hwalls.append(w)
-            if line[0] in " |":
+            if line[0] in " |:":
                 w = []
                 f = []
                 for n, c in enumerate(line[:len(x) * 2 + 1]):
@@ -489,15 +590,17 @@ to remove the floor for this compartment.
                             raise ValueError("""Can't parse line %i in layout: expected " ", "x" or "X" for char #%i""" % (nr + 1, n + 1))
                     else:
                         if c == ' ':
-                            w.append(False)
+                            w.append(0)
                         elif c == '|':
-                            w.append(True)
+                            w.append(1)
+                        elif c == ':':
+                            w.append(2)
                         else:
-                            raise ValueError("""Can't parse line %i in layout: expected " ", or "|" for char #%i""" % (nr + 1, n + 1))
+                            raise ValueError("""Can't parse line %i in layout: expected " ", "|", or ":" for char #%i""" % (nr + 1, n + 1))
 
                 floors.append(f)
                 vwalls.append(w)
-                m = re.match(r"([ |][ xX])+[ |]\s*(\d*\.?\d+)\s*mm\s*", line)
+                m = re.match(r"([ |:][ xX])+[ |:]\s*(\d*\.?\d+)\s*mm\s*", line)
                 if not m:
                     raise ValueError("""Can't parse line %i in layout: Can read height of the row""" % (nr + 1))
                 else:

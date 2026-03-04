@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg height="91.30mm" viewBox="0.0 0.0 141.50 91.30" width="141.50mm" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<!--
+GameCounterCoins - Coin-stack game point counter – top disc notch reads score off bottom coin
+
+
+
+A two-piece stacked coin counter for board games.
+
+The **bottom coin** (Piece A) has the score scale engraved around its rim.
+The **top disc** (Piece B) has a notch on its edge: rotate it to align the
+notch with the current score on Piece A below it.
+Both pieces are held together by a central magnet so they spin freely.
+
+Assembly: insert magnet into both pieces → stack face-to-face → enjoy!
+
+
+
+
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
+Command line (remove spaces between dashes): boxes GameCounterCoins
+-->
+<title>GameCounterCoins</title>
+<metadata>
+<rdf:RDF><cc:Work>
+<dc:title>GameAccessory - GameCounterCoins</dc:title>
+<dc:source>boxes GameCounterCoins</dc:source>
+<dc:description>Coin-stack game point counter – top disc notch reads score off bottom coin
+
+
+A two-piece stacked coin counter for board games.
+
+The **bottom coin** (Piece A) has the score scale engraved around its rim.
+The **top disc** (Piece B) has a notch on its edge: rotate it to align the
+notch with the current score on Piece A below it.
+Both pieces are held together by a central magnet so they spin freely.
+
+Assembly: insert magnet into both pieces → stack face-to-face → enjoy!
+
+
+
+Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
+Command line: boxes GameCounterCoins
+Command line short: boxes GameCounterCoins
+</dc:description>
+</cc:Work></rdf:RDF></metadata>
+<g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
+  <path d="M 10.100 81.300 H 110.100 V 71.300 H 10.100 V 81.300 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
+  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 73.300 )">100.0mm, burn:0.10mm</text>
+</g>
+<g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
+  <path d="M 70.200 39.600 C 70.200 33.244 68.188 27.050 64.451 21.908 C 60.715 16.765 55.447 12.937 49.401 10.973 C 43.356 9.009 36.844 9.009 30.799 10.973 C 24.753 12.937 19.485 16.765 15.749 21.908 C 12.012 27.050 10.000 33.244 10.000 39.600 C 10.000 45.956 12.012 52.150 15.749 57.292 C 19.485 62.435 24.753 66.263 30.799 68.227 C 36.844 70.191 43.356 70.191 49.401 68.227 C 55.447 66.263 60.715 62.435 64.451 57.292 C 68.188 52.150 70.200 45.956 70.200 39.600 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
+  <path d="M 42.000 39.600 C 42.000 39.964 41.895 40.321 41.698 40.627 C 41.501 40.934 41.221 41.177 40.889 41.328 C 40.558 41.480 40.190 41.532 39.830 41.481 C 39.469 41.429 39.131 41.274 38.856 41.036 C 38.580 40.797 38.380 40.485 38.277 40.135 C 38.174 39.786 38.174 39.414 38.277 39.065 C 38.380 38.715 38.580 38.403 38.856 38.164 C 39.131 37.926 39.469 37.771 39.830 37.719 C 40.190 37.668 40.558 37.720 40.889 37.872 C 41.221 38.023 41.501 38.266 41.698 38.573 C 41.895 38.879 42.000 39.236 42.000 39.600 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />
+  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 40.100 12.400 )">0</text>
+  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( 0.809 0.588 -0.588 0.809 56.088 17.595 )">1</text>
+  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( 0.309 0.951 -0.951 0.309 65.969 31.195 )">2</text>
+  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( -0.309 0.951 -0.951 -0.309 65.969 48.005 )">3</text>
+  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( -0.809 0.588 -0.588 -0.809 56.088 61.605 )">4</text>
+  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( -1.000 0.000 -0.000 -1.000 40.100 66.800 )">5</text>
+  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( -0.809 -0.588 0.588 -0.809 24.112 61.605 )">6</text>
+  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( -0.309 -0.951 0.951 -0.309 14.231 48.005 )">7</text>
+  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( 0.309 -0.951 0.951 0.309 14.231 31.195 )">8</text>
+  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( 0.809 -0.588 0.588 0.809 24.112 17.595 )">9</text>
+</g>
+<g id="p-2" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
+  <path d="M 131.500 39.800 C 131.500 33.486 129.501 27.334 125.790 22.225 C 122.078 17.117 116.845 13.315 110.840 11.363 C 104.834 9.412 98.366 9.412 92.360 11.363 C 86.355 13.315 81.122 17.117 77.410 22.225 C 73.699 27.334 71.700 33.486 71.700 39.800 C 71.700 46.114 73.699 52.266 77.410 57.375 C 81.122 62.483 86.355 66.285 92.360 68.237 C 98.366 70.188 104.834 70.188 110.840 68.237 C 116.845 66.285 122.078 62.483 125.790 57.375 C 129.501 52.266 131.500 46.114 131.500 39.800 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
+  <path d="M 101.600 12.900 H 100.200 C 100.100 12.900 100.200 13.000 100.200 12.900 V 10.100 C 100.200 10.000 100.100 10.100 100.200 10.100 H 103.000 C 103.100 10.100 103.000 10.000 103.000 10.100 V 12.900 C 103.000 13.000 103.100 12.900 103.000 12.900 H 101.600 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />
+  <path d="M 103.500 39.800 C 103.500 40.164 103.395 40.521 103.198 40.827 C 103.001 41.134 102.721 41.377 102.389 41.528 C 102.058 41.680 101.690 41.732 101.330 41.681 C 100.969 41.629 100.631 41.474 100.356 41.236 C 100.080 40.997 99.880 40.685 99.777 40.335 C 99.674 39.986 99.674 39.614 99.777 39.265 C 99.880 38.915 100.080 38.603 100.356 38.364 C 100.631 38.126 100.969 37.971 101.330 37.919 C 101.690 37.868 102.058 37.920 102.389 38.072 C 102.721 38.223 103.001 38.466 103.198 38.773 C 103.395 39.079 103.500 39.436 103.500 39.800 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />
+</g>
+</svg>

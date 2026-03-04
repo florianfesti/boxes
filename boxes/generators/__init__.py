@@ -45,6 +45,10 @@ ui_groups: list[UIGroup] = [
     UIGroup("Holes", "Hole patterns", image=""),
     UIGroup("Part", "Parts and Samples", image="BurnTest"),
     UIGroup("Misc", image="TrafficLight"),
+    UIGroup("GameAccessory", "Game Accessories (Accessoires de jeux)",
+            description="Laser-cut accessories for board games and tabletop gaming."),
+    UIGroup("Deco", "Decoration & Signage",
+            description="Decorative flat pieces, labels and signs."),
     UIGroup("Unstable", description="Generators are still untested or need manual adjustment to be useful."),
 ]
 

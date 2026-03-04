@@ -24,20 +24,18 @@ from boxes.drawing import Context
 class Label(Boxes):
     """Rectangular label with rounded corners, optional inner border line and engraved text."""
 
-    ui_group = "Misc"
+    ui_group = "Deco"
 
     description = """
 A flat laser-cut label plate.
 
 * **Outer cut** (black / OUTER_CUT): the perimeter of the label with
-  configurable rounded corners.
-* **Inner border** (blue / INNER_CUT, optional): a decorative inset rectangle
-  line parallel to the outer edge, at a configurable distance from it.
+  configurable rounded corners – this is the cut-through line.
+* **Inner border** (blue / INNER_CUT, optional): a decorative inset line
+  parallel to the outer edge – engraved, not cut through.
 * **Text** (green / ETCHING): one line of text engraved inside the label,
   with configurable font, size and alignment.
 
-Designed to be cut and engraved in a single laser job.
-The blue inner border line and the text are engraved (not cut through).
 
 Assembly: none required – this is a single flat piece.
 """
@@ -50,7 +48,7 @@ Assembly: none required – this is a single flat piece.
     border_margin: float = 3.0
     label_text: str = "Label"
     fontsize: float = 10.0
-    font: str = "Arial"
+    font: str = "sans-serif"
     text_align: str = "middle center"
 
     def __init__(self) -> None:
@@ -78,7 +76,8 @@ Assembly: none required – this is a single flat piece.
             "--fontsize", action="store", type=float, default=10.0,
             help="Font size for the engraved text [mm]")
         self.argparser.add_argument(
-            "--font", action="store", type=str, default="Arial",
+            "--font", action="store", type=str, default="sans-serif",
+            choices=["sans-serif", "serif", "monospaced"],
             help="Font family for the engraved text")
         self.argparser.add_argument(
             "--text_align", action="store", type=str, default="middle center",

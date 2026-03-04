@@ -46,7 +46,7 @@ Repository = "https://github.com/florianfesti/boxes"
 Documentation = "https://florianfesti.github.io/boxes/html/index.html"
 
 [tool.codespell]
-ignore-words-list = "ded,te,pathes,reencode,ontop,alledges"
+ignore-words-list = "ded,te,pathes,reencode,ontop,alledges,accessoires,jeux"
 
 [tool.mypy]
 extra_checks = true

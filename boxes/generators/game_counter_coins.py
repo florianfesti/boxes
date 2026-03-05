@@ -44,12 +44,12 @@ Assembly: insert magnet into both pieces → stack face-to-face → enjoy!
     magnet_diameter: float = 4.0
     score_min: int = 0
     score_max: int = 9
-    font_size: int = 8
-    font_invert: bool = False
+    label_radius: float = 0.0
+    label_size: int = 8
+    label_invert: bool = False
     notch_width: float = 15
     notch_depth: float = 0.0
     notch_style: str = "circular"
-    label_radius: float = 0.0
     play: float = 0.2
 
     def __init__(self) -> None:
@@ -68,10 +68,14 @@ Assembly: insert magnet into both pieces → stack face-to-face → enjoy!
             "--score_max", action="store", type=int, default=9,
             help="Maximum score value displayed on Piece A")
         self.argparser.add_argument(
-            "--font_size", action="store", type=int, default=8,
+            "--label_size", action="store", type=int, default=8,
             help="Font size for score numbers engraved on Piece A [mm]")
-        self.argparser.add_argument("--font_invert", action="store", type=boolarg, default=False,
+        self.argparser.add_argument("--label_invert", action="store", type=boolarg, default=False,
                                     help="Invert the font orientation")
+        self.argparser.add_argument(
+            "--label_radius", action="store", type=float, default=0.0,
+            help="Radius at which score numbers are placed on Piece A [mm]. "
+                 "0 = auto (coin_radius − label_size × 0.5)")
         self.argparser.add_argument(
             "--notch_width", action="store", type=float, default=15,
             help="Width of the reading notch on Piece B [mm]")
@@ -83,10 +87,6 @@ Assembly: insert magnet into both pieces → stack face-to-face → enjoy!
             "--notch_style", action="store", type=str, default="circular",
             choices=["circular", "triangular", "oval", "trapezoid"],
             help="Shape of the reading notch on Piece B")
-        self.argparser.add_argument(
-            "--label_radius", action="store", type=float, default=0.0,
-            help="Radius at which score numbers are placed on Piece A [mm]. "
-                 "0 = auto (coin_radius − font_size × 0.5)")
         self.argparser.add_argument(
             "--play", action="store", type=float, default=0.2,
             help="Radial play between the two discs [mm]")
@@ -117,12 +117,12 @@ Assembly: insert magnet into both pieces → stack face-to-face → enjoy!
         angle_step = 360.0 / n
 
 
-        if self.font_invert:
+        if self.label_invert:
             orientation = 180
-            offset_label_radius = self.font_size * 0.4
+            offset_label_radius = self.label_size * 0.4
         else:
             orientation = 0
-            offset_label_radius = self.font_size * 0.6
+            offset_label_radius = self.label_size * 0.6
 
         label_r = self.label_radius if self.label_radius > 0.0 else r - offset_label_radius
 
@@ -135,7 +135,7 @@ Assembly: insert magnet into both pieces → stack face-to-face → enjoy!
             with self.saved_context():
                 self.text(str(score), x=tx, y=ty, angle=-angle_deg + orientation,
                           align="middle center",
-                          fontsize=self.font_size, color=Color.ETCHING)
+                          fontsize=self.label_size, color=Color.ETCHING)
 
         self.move(r * 2, r * 2, move)
 

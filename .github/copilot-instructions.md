@@ -349,7 +349,27 @@ Avoid new dependencies unless strictly necessary.
 
 ---
 
-## 11. Project-specific Conventions
+## 11. Shell & Terminal Rules
+
+The developer's shell is **Windows PowerShell**. Always generate commands for it.
+
+- **Never use Unix-only tools**: `tail`, `head`, `grep`, `cat`, `ls`, `rm`, `cp`, `mv`.
+- To limit output, use PowerShell: `... | Select-Object -Last 30`
+- Join commands with `;` not `&&`.
+- Use `2>&1` for stderr redirect (works in PowerShell too).
+
+---
+
+## 12. Communication Style
+
+- **KISS – Keep It Short and Simple.**
+- No bullet-point walls. One short sentence per item max.
+- Skip restating what was just done. Only say what matters next.
+- No summaries at the end of a response unless the user asks.
+
+---
+
+## 13. Project-specific Conventions
 
 - **No `print()` or `logging.warn()`** in generator code – pre-commit blocks both.
   Use `logging.warning()` if needed (also blocked in generators – tests assert

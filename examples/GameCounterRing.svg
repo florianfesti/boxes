@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<svg height="138.90mm" viewBox="0.0 0.0 317.86 138.90" width="317.86mm" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg height="129.35mm" viewBox="0.0 0.0 221.90 129.35" width="221.90mm" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <!--
 GameCounterRing - Ring-dial game point counter – three concentric pieces cut together
 
@@ -12,16 +12,24 @@ cut in a single laser pass with minimal material waste.
 
 * **Piece A – Outer ring**: the moving frame. Score numbers are engraved
   around the *inner* face. The player spins this disc to select the score.
-* **Piece B – Inner disc**: the fix center, a pointer triangle is
-  engraved at the top.
-* **Piece C – Base disc**: a plain disc the same size as the Outer ring external.
+* **Piece B – Inner disc**: the fixed centre. A pointer is engraved near
+  the top edge to indicate the current score on the ring.
+* **Piece C – Base disc**: a plain disc the same size as the outer ring.
   Piece B is glued to Piece C before assembly. No magnets are used.
 
 **Assembly**
-1. Glue Piece B (arrow) on top of Piece C (base) – an optional small hole can be added to the centre of Piece C and B to help with alignment.
-2. Drop the Piece A (ring) on top of glued B+C .
-3. The ring freely.
+1. Glue Piece B (pointer disc) on top of Piece C (base disc) – an optional
+   small hole at the centre of both pieces helps with alignment.
+2. Drop Piece A (ring) on top of the glued B+C stack.
+3. The ring spins freely.
 4. Spin Piece A to count up / down; Piece B stays fixed.
+
+**Pointer styles**
+
+* ``triangle`` – outlined equilateral-ish triangle pointing toward the ring.
+* ``circle``   – small engraved circle at the top of the disc.
+* ``rectangle`` – outlined rectangle near the top of the disc.
+* ``line``     – single radial line from the disc centre to near the edge.
 
 
 
@@ -43,16 +51,24 @@ cut in a single laser pass with minimal material waste.
 
 * **Piece A – Outer ring**: the moving frame. Score numbers are engraved
   around the *inner* face. The player spins this disc to select the score.
-* **Piece B – Inner disc**: the fix center, a pointer triangle is
-  engraved at the top.
-* **Piece C – Base disc**: a plain disc the same size as the Outer ring external.
+* **Piece B – Inner disc**: the fixed centre. A pointer is engraved near
+  the top edge to indicate the current score on the ring.
+* **Piece C – Base disc**: a plain disc the same size as the outer ring.
   Piece B is glued to Piece C before assembly. No magnets are used.
 
 **Assembly**
-1. Glue Piece B (arrow) on top of Piece C (base) – an optional small hole can be added to the centre of Piece C and B to help with alignment.
-2. Drop the Piece A (ring) on top of glued B+C .
-3. The ring freely.
+1. Glue Piece B (pointer disc) on top of Piece C (base disc) – an optional
+   small hole at the centre of both pieces helps with alignment.
+2. Drop Piece A (ring) on top of the glued B+C stack.
+3. The ring spins freely.
 4. Spin Piece A to count up / down; Piece B stays fixed.
+
+**Pointer styles**
+
+* ``triangle`` – outlined equilateral-ish triangle pointing toward the ring.
+* ``circle``   – small engraved circle at the top of the disc.
+* ``rectangle`` – outlined rectangle near the top of the disc.
+* ``line``     – single radial line from the disc centre to near the edge.
 
 
 Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
@@ -61,35 +77,35 @@ Command line short: boxes GameCounterRing
 </dc:description>
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
-  <path d="M 164.272 119.348 H 264.272 V 109.348 H 164.272 V 119.348 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 214.272 111.348 )">100.0mm, burn:0.10mm</text>
+  <path d="M 10.100 119.348 H 110.100 V 109.348 H 10.100 V 119.348 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
+  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 111.348 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
-  <path d="M 264.372 57.648 C 264.372 47.068 261.023 36.759 254.804 28.200 C 248.585 19.640 239.816 13.269 229.754 10.000 C 219.692 6.731 208.853 6.731 198.790 10.000 C 188.728 13.269 179.959 19.640 173.740 28.200 C 167.522 36.759 164.172 47.068 164.172 57.648 C 164.172 68.228 167.522 78.537 173.740 87.096 C 179.959 95.655 188.728 102.026 198.790 105.296 C 208.853 108.565 219.692 108.565 229.754 105.296 C 239.816 102.026 248.585 95.655 254.804 87.096 C 261.023 78.537 264.372 68.228 264.372 57.648 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <path d="M 245.872 57.648 C 245.872 63.706 244.131 69.636 240.856 74.732 C 237.581 79.828 232.910 83.876 227.399 86.392 C 221.889 88.909 215.771 89.788 209.775 88.926 C 203.779 88.064 198.157 85.497 193.579 81.530 C 189.000 77.563 185.659 72.363 183.952 66.551 C 182.245 60.738 182.245 54.558 183.952 48.745 C 185.659 42.933 189.000 37.733 193.579 33.766 C 198.157 29.799 203.779 27.232 209.775 26.370 C 215.771 25.507 221.889 26.387 227.399 28.904 C 232.910 31.420 237.581 35.467 240.856 40.564 C 244.131 45.660 245.872 51.590 245.872 57.648 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 214.272 14.798 )">0</text>
-  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( 0.956 0.295 -0.295 0.956 226.902 16.702 )">1</text>
-  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( 0.826 0.563 -0.563 0.826 238.410 22.244 )">2</text>
-  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( 0.623 0.782 -0.782 0.623 247.774 30.931 )">3</text>
-  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( 0.365 0.931 -0.931 0.365 254.160 41.993 )">4</text>
-  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( 0.075 0.997 -0.997 0.075 257.002 54.446 )">5</text>
-  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( -0.223 0.975 -0.975 -0.223 256.048 67.183 )">6</text>
-  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( -0.500 0.866 -0.866 -0.500 251.381 79.073 )">7</text>
-  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( -0.733 0.680 -0.680 -0.733 243.418 89.059 )">8</text>
-  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( -0.901 0.434 -0.434 -0.901 232.864 96.254 )">9</text>
-  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( -0.989 0.149 -0.149 -0.989 220.659 100.019 )">10</text>
-  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( -0.989 -0.149 0.149 -0.989 207.886 100.019 )">11</text>
-  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( -0.901 -0.434 0.434 -0.901 195.680 96.254 )">12</text>
-  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( -0.733 -0.680 0.680 -0.733 185.127 89.059 )">13</text>
-  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( -0.500 -0.866 0.866 -0.500 177.163 79.073 )">14</text>
-  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( -0.223 -0.975 0.975 -0.223 172.496 67.183 )">15</text>
-  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( 0.075 -0.997 0.997 0.075 171.542 54.446 )">16</text>
-  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( 0.365 -0.931 0.931 0.365 174.384 41.993 )">17</text>
-  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( 0.623 -0.782 0.782 0.623 180.771 30.931 )">18</text>
-  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( 0.826 -0.563 0.563 0.826 190.134 22.244 )">19</text>
-  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( 0.956 -0.295 0.295 0.956 201.642 16.702 )">20</text>
-  <path d="M 245.972 57.648 C 245.972 50.954 243.853 44.431 239.918 39.015 C 235.983 33.599 230.435 29.568 224.068 27.499 C 217.701 25.431 210.843 25.431 204.476 27.499 C 198.110 29.568 192.561 33.599 188.626 39.015 C 184.691 44.431 182.572 50.954 182.572 57.648 C 182.572 64.342 184.691 70.865 188.626 76.281 C 192.561 81.697 198.110 85.728 204.476 87.796 C 210.843 89.865 217.701 89.865 224.068 87.796 C 230.435 85.728 235.983 81.697 239.918 76.281 C 243.853 70.865 245.972 64.342 245.972 57.648 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <path d="M 214.272 27.248 L 216.272 31.248 M 307.861 43.591 L 306.073 40.013 M 216.272 31.248 H 211.800" stroke="rgb(255,0,255)" stroke-width="0.20" />
-  <path d="M 10.000 81.248 C 10.000 91.828 13.349 102.137 19.568 110.696 C 25.787 119.255 34.556 125.626 44.618 128.896 C 54.681 132.165 65.519 132.165 75.582 128.896 C 85.644 125.626 94.413 119.255 100.632 110.696 C 106.851 102.137 110.200 91.828 110.200 81.248 C 110.200 70.668 106.851 60.359 100.632 51.800 C 94.413 43.240 85.644 36.869 75.582 33.600 C 65.519 30.331 54.681 30.331 44.618 33.600 C 34.556 36.869 25.787 43.240 19.568 51.800 C 13.349 60.359 10.000 70.668 10.000 81.248 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
+  <path d="M 110.200 57.648 C 110.200 47.068 106.851 36.759 100.632 28.200 C 94.413 19.640 85.644 13.269 75.582 10.000 C 65.519 6.731 54.681 6.731 44.618 10.000 C 34.556 13.269 25.787 19.640 19.568 28.200 C 13.349 36.759 10.000 47.068 10.000 57.648 C 10.000 68.228 13.349 78.537 19.568 87.096 C 25.787 95.655 34.556 102.026 44.618 105.296 C 54.681 108.565 65.519 108.565 75.582 105.296 C 85.644 102.026 94.413 95.655 100.632 87.096 C 106.851 78.537 110.200 68.228 110.200 57.648 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
+  <path d="M 91.700 57.648 C 91.700 63.706 89.959 69.636 86.684 74.732 C 83.408 79.828 78.738 83.876 73.227 86.392 C 67.717 88.909 61.599 89.788 55.603 88.926 C 49.607 88.064 43.985 85.497 39.406 81.530 C 34.828 77.563 31.487 72.363 29.780 66.551 C 28.073 60.738 28.073 54.558 29.780 48.745 C 31.487 42.933 34.828 37.733 39.406 33.766 C 43.985 29.799 49.607 27.232 55.603 26.370 C 61.599 25.507 67.717 26.387 73.227 28.904 C 78.738 31.420 83.408 35.467 86.684 40.564 C 89.959 45.660 91.700 51.590 91.700 57.648 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />
+  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 14.798 )">0</text>
+  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( 0.956 0.295 -0.295 0.956 72.730 16.702 )">1</text>
+  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( 0.826 0.563 -0.563 0.826 84.238 22.244 )">2</text>
+  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( 0.623 0.782 -0.782 0.623 93.601 30.931 )">3</text>
+  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( 0.365 0.931 -0.931 0.365 99.988 41.993 )">4</text>
+  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( 0.075 0.997 -0.997 0.075 102.830 54.446 )">5</text>
+  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( -0.223 0.975 -0.975 -0.223 101.876 67.183 )">6</text>
+  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( -0.500 0.866 -0.866 -0.500 97.209 79.073 )">7</text>
+  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( -0.733 0.680 -0.680 -0.733 89.245 89.059 )">8</text>
+  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( -0.901 0.434 -0.434 -0.901 78.692 96.254 )">9</text>
+  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( -0.989 0.149 -0.149 -0.989 66.486 100.019 )">10</text>
+  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( -0.989 -0.149 0.149 -0.989 53.714 100.019 )">11</text>
+  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( -0.901 -0.434 0.434 -0.901 41.508 96.254 )">12</text>
+  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( -0.733 -0.680 0.680 -0.733 30.955 89.059 )">13</text>
+  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( -0.500 -0.866 0.866 -0.500 22.991 79.073 )">14</text>
+  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( -0.223 -0.975 0.975 -0.223 18.324 67.183 )">15</text>
+  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( 0.075 -0.997 0.997 0.075 17.370 54.446 )">16</text>
+  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( 0.365 -0.931 0.931 0.365 20.212 41.993 )">17</text>
+  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( 0.623 -0.782 0.782 0.623 26.599 30.931 )">18</text>
+  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( 0.826 -0.563 0.563 0.826 35.962 22.244 )">19</text>
+  <text dominant-baseline="hanging" font-size="4.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( 0.956 -0.295 0.295 0.956 47.470 16.702 )">20</text>
+  <path d="M 91.800 57.648 C 91.800 50.954 89.681 44.431 85.746 39.015 C 81.811 33.599 76.263 29.568 69.896 27.499 C 63.529 25.431 56.671 25.431 50.304 27.499 C 43.937 29.568 38.389 33.599 34.454 39.015 C 30.519 44.431 28.400 50.954 28.400 57.648 C 28.400 64.342 30.519 70.865 34.454 76.281 C 38.389 81.697 43.937 85.728 50.304 87.796 C 56.671 89.865 63.529 89.865 69.896 87.796 C 76.263 85.728 81.811 81.697 85.746 76.281 C 89.681 70.865 91.800 64.342 91.800 57.648 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
+  <path d="M 60.100 27.248 L 62.100 31.248 H 58.100 L 60.100 27.248 Z" stroke="rgb(0,255,0)" stroke-width="0.20" />
+  <path d="M 211.900 57.648 C 211.900 47.068 208.551 36.759 202.332 28.200 C 196.113 19.640 187.344 13.269 177.282 10.000 C 167.219 6.731 156.381 6.731 146.318 10.000 C 136.256 13.269 127.487 19.640 121.268 28.200 C 115.049 36.759 111.700 47.068 111.700 57.648 C 111.700 68.228 115.049 78.537 121.268 87.096 C 127.487 95.655 136.256 102.026 146.318 105.296 C 156.381 108.565 167.219 108.565 177.282 105.296 C 187.344 102.026 196.113 95.655 202.332 87.096 C 208.551 78.537 211.900 68.228 211.900 57.648 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
 </g>
 </svg>

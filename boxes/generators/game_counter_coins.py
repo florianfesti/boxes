@@ -39,6 +39,7 @@ Assembly: insert magnet into both pieces → stack face-to-face → enjoy!
 """
 
     # Dummy declarations for mypy – overwritten by argparse at runtime.
+    burn: float = 0.1
     coin_radius: float = 30.0
     magnet_diameter: float = 4.0
     score_min: int = 0
@@ -115,28 +116,85 @@ Assembly: insert magnet into both pieces → stack face-to-face → enjoy!
     # Piece B – top disc with reading notch
     # ------------------------------------------------------------------
     def topDisc(self, move: str = "") -> None:
-        """Top disc: outer circle cut + rectangular notch + central magnet hole."""
+        """Top disc: single closed outline with smooth semicircular notch at the top + central magnet hole."""
         r = self.coin_radius - self.play
         md = self.magnet_diameter
-        nw = self.notch_width
-        notch_depth = min(nw, r * 0.4)
+        # Notch is a semicircle of radius nw/2 centred on the rim at 12 o'clock.
+        notch_r = min(self.notch_width / 2.0, r * 0.35)
 
         if self.move(r * 2, r * 2, move, before=True):
             return
 
         ctx = cast(Context, self.ctx)
 
-        # Outer perimeter circle
+        # --- Single closed OUTER_CUT path: disc with smooth semicircular notch ---
+        # All coordinates are in local space; disc centre = (cx, cy) = (r, r).
+        #
+        # IMPORTANT – Y-axis inversion:
+        # SVGSurface applies invert_y=True, which mirrors every arc vertically.
+        # As a result ctx.arc (mathematically CCW) renders CW on screen, and
+        # ctx.arc_negative (math CW) renders CCW on screen.
+        #
+        # In screen space (Y down) "top of disc" = cy - disc_r, angle = +π/2 in
+        # screen convention.  We work in math angles throughout:
+        #   top  = angle +π/2  (cos=0, sin=+1 → point (cx, cy+disc_r) before Y-flip,
+        #                        which maps to (cx, cy-disc_r) after Y-flip ✓)
+        #
+        # Notch endpoints (math angles, Y-flip applied by surface):
+        #   a_right = +π/2 - α   (left  side in screen space after flip)
+        #   a_left  = +π/2 + α   (right side in screen space after flip)
+        # where α = asin(notch_r / disc_r).
+        #
+        # Big arc:  arc_negative (math CW = screen CCW) from a_right → a_left
+        #           going the long way (≈360°-2α) around the disc.
+        # Notch arc: arc (math CCW = screen CW) semicircle going inward.
+        #           Centre at (cx, cy + disc_r·cos α) [before flip → screen top].
+        #           From angle 0 (right notch point) → π (left notch point)
+        #           via the top of the semicircle (= inward toward disc centre).
+
+        cx: float = r
+        cy: float = r
+        burn: float = self.burn
+        disc_r: float = r + burn  # outer cut perimeter includes burn compensation
+
+        alpha: float = math.asin(notch_r / disc_r)
+        a_right: float = math.pi / 2.0 - alpha   # right endpoint angle (math)
+        a_left: float  = math.pi / 2.0 + alpha   # left  endpoint angle (math)
+
+        # Notch semicircle centre: on the disc rim at the very top.
+        # In math coords (before Y-flip) this is (cx, cy + disc_r·cos α).
+        notch_cx: float = cx
+        notch_cy: float = cy + disc_r * math.cos(alpha)
+
         self.set_source_color(Color.OUTER_CUT)
-        self.circle(r, r, r)
+
+        # Move pen to the right notch endpoint on the disc rim.
+        ctx.move_to(
+            cx + disc_r * math.cos(a_right),
+            cy + disc_r * math.sin(a_right),
+        )
+
+        # Big arc: arc_negative (math CW) from a_right → a_left the long way round.
+        # Math CW with decreasing angle: a_right → 0 → -π/2 → -π → … → a_left
+        # (≈ 360° - 2α).  After Y-flip this traces the disc CCW on screen.
+        n_segments: int = 10
+        span: float = 2.0 * math.pi - 2.0 * alpha   # angular span of the big arc
+        da: float = span / n_segments
+        a: float = a_right
+        for _ in range(n_segments):
+            ctx.arc_negative(cx, cy, disc_r, a, a - da)
+            a -= da
+
+        # Notch arc: arc (math CCW) from angle 0 → π.
+        # Math CCW goes 0 → π/2 (topmost = deepest inward point) → π.
+        # After Y-flip this curves inward (toward disc centre) on screen. ✓
+        # Split into two 90° segments to avoid zero-division at exactly 180°.
+        ctx.arc(notch_cx, notch_cy, notch_r, 0.0, math.pi / 2.0)
+        ctx.arc(notch_cx, notch_cy, notch_r, math.pi / 2.0, math.pi)
+
         ctx.stroke()
 
-        # Notch
-        self.set_source_color(Color.INNER_CUT)
-        self.rectangularHole(r, r + r - notch_depth / 2.0,
-                              nw, notch_depth)
-
-        # Central magnet hole – blue (filled pocket)
+        # Central magnet hole
         self.hole(r, r, d=md)
 
         self.move(r * 2, r * 2, move)

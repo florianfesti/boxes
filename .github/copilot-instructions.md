@@ -59,6 +59,30 @@ Never skip it. CI (`precommit.yml`) will block the PR otherwise.
 - All new code in `boxes/` **must** be fully type-annotated.
 - Use `from __future__ import annotations` at the top of every new file.
 - Method signatures must include return types, e.g. `def render(self) -> None:`.
+- Every function body is checked — **annotating only the signature is not enough**; mypy will flag errors inside unannotated bodies too once the signature is typed.
+
+### ⚠️ Mandatory after every code change
+
+After editing **any** file in `boxes/`, always run mypy on the changed files
+**before** running the test suite:
+
+```powershell
+# PowerShell – check only the files you touched
+python -m mypy boxes/drawing.py boxes/generators/mygenerator.py
+
+# Or check the whole package at once
+python -m mypy boxes/
+```
+
+Fix **all** errors and notes before proceeding.  In particular:
+
+- `annotation-unchecked` notes mean a function body is unchecked because the
+  function has no return-type annotation – **add the annotation**.
+- `"None" has no attribute "..."` on `self.ctx` means you must use the
+  already-`cast` local variable (e.g. `ctx`) instead of `self.ctx` directly,
+  since `self.ctx` is typed `Context | None`.
+- Pre-existing errors surfaced by new annotations must be fixed with the
+  narrowest possible suppression: `# type: ignore[<code>]` on the exact line.
 
 ### Python version target
 
@@ -246,13 +270,39 @@ automatically tested by `tests/test_svg.py::TestSVG::test_default_generator`.
 
 The test:
 
-1. Instantiates the generator, calls `parseArgs("")`, then `render()`.
+1. Instantiates the generator, calls `parseArgs("")` → `open()` → `render()` → `close()`.
 2. Checks the output is valid XML.
 3. **Compares byte-for-byte** against the reference SVG in `examples/`.
 
-### Adding / updating the reference SVG
+### ⚠️ Mandatory after every generator or drawing change
 
-After writing or changing a generator, always regenerate its example:
+After **any** change to a generator or to `boxes/drawing.py`, you **must**:
+
+1. Regenerate the affected reference SVG(s):
+
+```python
+from boxes.generators.mygenerator import MyGenerator
+b = MyGenerator()
+b.parseArgs("")
+b.metadata["reproducible"] = True
+b.open()
+b.render()
+data = b.close()
+with open("examples/MyGenerator.svg", "wb") as f:
+    f.write(data.getvalue())
+```
+
+2. Run the full test suite and confirm it passes:
+
+```bash
+python -m pytest tests/test_svg.py -q
+```
+
+Never skip this — the byte-for-byte comparison will catch any unintended output change.
+
+### Adding / updating the reference SVG (bulk)
+
+To regenerate all examples at once:
 
 ```bash
 boxes --examples                # regenerates all examples/

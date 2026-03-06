@@ -19,6 +19,7 @@ from typing import cast
 
 from boxes import *
 from boxes.drawing import Context
+from boxes.fontmanager import discover_fonts
 
 
 class Label(Boxes):
@@ -49,6 +50,8 @@ Assembly: none required – this is a single flat piece.
     label_text: str = "Label"
     fontsize: float = 10.0
     font: str = "sans-serif"
+    font_bold: bool = False
+    font_italic: bool = False
     text_align: str = "middle center"
 
     def __init__(self) -> None:
@@ -77,8 +80,14 @@ Assembly: none required – this is a single flat piece.
             help="Font size for the engraved text [mm]")
         self.argparser.add_argument(
             "--font", action="store", type=str, default="sans-serif",
-            choices=["sans-serif", "serif", "monospaced"],
+            choices=discover_fonts(),
             help="Font family for the engraved text")
+        self.argparser.add_argument(
+            "--font_bold", action="store", type=boolarg, default=False,
+            help="Use bold font weight")
+        self.argparser.add_argument(
+            "--font_italic", action="store", type=boolarg, default=False,
+            help="Use italic font style")
         self.argparser.add_argument(
             "--text_align", action="store", type=str, default="middle center",
             choices=[
@@ -129,8 +138,9 @@ Assembly: none required – this is a single flat piece.
 
         # ── 2. Outer perimeter cut (OUTER_CUT = black) ──────────────────
         self.set_source_color(Color.OUTER_CUT)
-        self._rounded_rect(w, h, r)
-        ctx.stroke()
+        with self.saved_context():
+            self._rounded_rect(w, h, r)
+            ctx.stroke()
 
         # ── 3. Inner border line (INNER_CUT = blue, optional) ────────────
         if self.inner_border and margin > 0:
@@ -139,11 +149,10 @@ Assembly: none required – this is a single flat piece.
             if iw > 0 and ih > 0:
                 ir = max(0.0, r - margin)
                 self.set_source_color(Color.INNER_CUT)
-                self.moveTo(margin, margin)
-                self._rounded_rect(iw, ih, ir)
-                ctx.stroke()
-                # restore origin for subsequent drawing
-                self.moveTo(-margin, -margin)
+                with self.saved_context():
+                    self.moveTo(margin, margin)
+                    self._rounded_rect(iw, ih, ir)
+                    ctx.stroke()
 
         # ── 4. Engraved text (ETCHING = green) ───────────────────────────
         if self.label_text and self.fontsize > 0:
@@ -164,6 +173,7 @@ Assembly: none required – this is a single flat piece.
             tx = x_positions.get(halign_token, w / 2.0)
             ty = y_positions.get(valign_token, h / 2.0)
 
+            ctx.set_font(self.font, bold=self.font_bold, italic=self.font_italic)
             self.text(
                 self.label_text,
                 x=tx,
@@ -172,7 +182,6 @@ Assembly: none required – this is a single flat piece.
                 align=align,
                 fontsize=self.fontsize,
                 color=Color.ETCHING,
-                font=self.font,
             )
 
         # ── 5. Finalise move ─────────────────────────────────────────────

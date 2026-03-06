@@ -9,6 +9,7 @@ from xml.etree import ElementTree as ET
 from affine import Affine
 
 from boxes.extents import Extents
+from boxes.fontmanager import BUILTIN_FONTS, font_as_data_uri
 
 EPS = 1e-4
 PADDING = 10
@@ -243,9 +244,11 @@ class Context:
         self._mxy = self._m * self._xy
         self._lw = 0
         self._rgb = (0, 0, 0)
-        self._ff = "sans-serif"
+        self._ff: tuple[str, bool, bool] = ("sans-serif", False, False)
         self._fs = 10
         self._last_path = None
+        # names of custom (file-based) fonts actually used in this session
+        self._custom_fonts: set[str] = set()
 
     def _update_bounds_(self, mx, my):
         self._bounds.update(mx, my)
@@ -360,10 +363,12 @@ class Context:
         self._xy = (0, 0)
         raise NotImplementedError
 
-    def set_font(self, style, bold=False, italic=False):
-        if style not in ("serif", "sans-serif", "monospaced"):
-            raise ValueError("Unknown font style")
+    def set_font(self, style: str, bold: bool = False, italic: bool = False) -> None:
+        if style not in BUILTIN_FONTS and font_as_data_uri(style) is None:
+            raise ValueError(f"Unknown font: {style!r}. Add a .ttf/.otf file to boxes/fonts/")
         self._ff = (style, bold, italic)
+        if style not in BUILTIN_FONTS:
+            self._custom_fonts.add(style)
 
     def set_font_size(self, fs):
         self._fs = fs
@@ -415,7 +420,7 @@ class SVGSurface(Surface):
         'monospaced' : '"Courier New", Courier, "Lucida Sans Typewriter"'
     }
 
-    def _addTag(self, parent, tag, text, first=False):
+    def _addTag(self, parent: ET.Element, tag: str, text: str, first: bool = False) -> ET.Element:
         if first:
             t = ET.Element(tag)
         else:
@@ -483,11 +488,11 @@ class SVGSurface(Surface):
             txt += "Url short: %s\n" % md["url_short"]
             txt += "SettingsUrl: %s\n" % md["url"].replace("&render=1", "")
             txt += "SettingsUrl short: %s\n" % md["url_short"].replace("&render=1", "")
-        m = ET.Comment(txt.replace("--", "- -").replace("--", "- -")) # ----
+        m = ET.Comment(txt.replace("--", "- -").replace("--", "- -"))  # type: ignore[assignment]  # ET.Comment typing quirk
         m.tail = '\n'
         root.insert(0, m)
 
-    def finish(self, inner_corners="loop"):
+    def finish(self, inner_corners: str = "loop") -> io.BytesIO:
         extents = self._adjust_coordinates()
         w = extents.width * self.scale
         h = extents.height * self.scale
@@ -513,6 +518,9 @@ class SVGSurface(Surface):
 
         self._add_metadata(svg)
 
+        # Collect custom fonts referenced in text elements so we can embed them.
+        custom_fonts_used: set[str] = set()
+
         for i, part in enumerate(self.parts):
             if not part.pathes:
                 continue
@@ -523,8 +531,8 @@ class SVGSurface(Surface):
             for j, path in enumerate(part.pathes):
                 p = []
                 x, y = 0, 0
-                start = None
-                last = None
+                start: Any = None
+                last: Any = None
                 path.faster_edges(inner_corners)
                 for c in path.path:
                     x0, y0 = x, y
@@ -554,6 +562,12 @@ class SVGSurface(Surface):
                         font, bold, italic = params['ff']
                         fontweight = ("normal", "bold")[bool(bold)]
                         fontstyle = ("normal", "italic")[bool(italic)]
+
+                        # Custom (file-based) fonts are used verbatim; they will
+                        # be backed by an @font-face declaration in <defs>.
+                        # Built-in generic names are left as-is (unchanged behaviour).
+                        if font not in BUILTIN_FONTS:
+                            custom_fonts_used.add(font)
 
                         style = f"font-family: {font} ; font-weight: {fontweight}; font-style: {fontstyle}; fill: {rgb_to_svg_color(*params['rgb'])}"
                         t = ET.SubElement(g, "text",
@@ -585,6 +599,23 @@ class SVGSurface(Surface):
                     t.set("stroke-width", f'{path.params["lw"]:.2f}')
                     t.tail = "\n  "
             t.tail = "\n"
+
+        # Embed custom fonts as base64 @font-face so the SVG is self-contained.
+        if custom_fonts_used:
+            face_rules: list[str] = []
+            for fname in sorted(custom_fonts_used):
+                data_uri = font_as_data_uri(fname)
+                if data_uri:
+                    face_rules.append(
+                        f"@font-face {{ font-family: '{fname}'; src: url('{data_uri}'); }}"
+                    )
+            if face_rules:
+                defs = ET.Element("defs")
+                defs.tail = "\n"
+                style_el = ET.SubElement(defs, "style", type="text/css")
+                style_el.text = "\n" + "\n".join(face_rules) + "\n"
+                svg.insert(0, defs)
+
         reorder_attributes(tree)
         f = io.BytesIO()
         tree.write(f, encoding="utf-8", xml_declaration=True, method="xml")

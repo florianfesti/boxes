@@ -298,9 +298,16 @@ The test:
 
 ### ⚠️ Mandatory after every generator or drawing change
 
-After **any** change to a generator or to `boxes/drawing.py`, you **must**:
+After **any** change to a generator or to `boxes/drawing.py`, you **must**
+always do all three steps — never skip any of them:
 
-1. Regenerate the affected reference SVG(s):
+1. Run mypy on the changed files:
+
+```powershell
+python -m mypy boxes/drawing.py boxes/generators/mygenerator.py
+```
+
+2. **Always** regenerate the reference SVG for every touched generator:
 
 ```python
 from boxes.generators.mygenerator import MyGenerator
@@ -314,13 +321,14 @@ with open("examples/MyGenerator.svg", "wb") as f:
     f.write(data.getvalue())
 ```
 
-2. Run the full test suite and confirm it passes:
+3. Run the full test suite and confirm it passes:
 
-```bash
+```powershell
 python -m pytest tests/test_svg.py -q
 ```
 
-Never skip this — the byte-for-byte comparison will catch any unintended output change.
+Never skip the SVG regeneration — even a stub value change (e.g. `8.0` → `4.0`)
+changes the output and will break the byte-for-byte comparison.
 
 ### Adding / updating the reference SVG (bulk)
 

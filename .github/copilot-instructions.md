@@ -56,10 +56,32 @@ Never skip it. CI (`precommit.yml`) will block the PR otherwise.
 - Configured in `pyproject.toml` under `[tool.mypy]`.
 - `ignore_missing_imports = true` – third-party stubs are not required.
 - `strict_bytes = true`, `strict_equality = true`.
-- All new code in `boxes/` **must** be fully type-annotated.
-- Use `from __future__ import annotations` at the top of every new file.
-- Method signatures must include return types, e.g. `def render(self) -> None:`.
-- Every function body is checked — **annotating only the signature is not enough**; mypy will flag errors inside unannotated bodies too once the signature is typed.
+
+### ⚠️ Typing rules – mandatory in every file
+
+- Always add `from __future__ import annotations` at the top of every new `.py` file.
+- Every function and method **must** have a return type: `def render(self) -> None:`.
+- Every parameter **must** be annotated: `def foo(self, x: float, name: str) -> bool:`.
+- Use built-in generics (Python 3.10+): `list[str]`, `dict[str, int]`, `tuple[int, ...]` — **never** `List`, `Dict`, `Tuple` from `typing`.
+- Use `X | Y` union syntax — **never** `Optional[X]` or `Union[X, Y]`.
+- Use `pathlib.Path | None` instead of `Optional[Path]`.
+- Class-level attributes set by argparse at runtime **must** have a stub declaration with the correct type:
+
+  ```python
+  class MyGenerator(Boxes):
+      my_param: float = 10.0   # mypy stub – value set by argparse
+      name: str = "default"
+  ```
+
+- Use `cast()` from `typing` when narrowing `Context | None` to `Context`:
+
+  ```python
+  from typing import cast
+  ctx = cast(Context, self.ctx)
+  ctx.stroke()   # use ctx, never self.ctx directly after this point
+  ```
+
+- Every function body is checked — annotating only the signature is not enough; mypy will flag errors inside unannotated bodies too once the signature is typed.
 
 ### ⚠️ Mandatory after every code change
 
@@ -425,7 +447,6 @@ The developer's shell is **Windows PowerShell**. Always generate commands for it
   Use `logging.warning()` if needed (also blocked in generators – tests assert
   zero stdout/stderr).
 - **No `eval()`** anywhere – `python-no-eval` hook enforces this.
-- **Type annotations are mandatory** on all public methods and functions.
 - **GPL-3.0-or-later header** must be present in every new `.py` file:
 
   ```python

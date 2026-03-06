@@ -19,7 +19,7 @@ from typing import cast
 
 from boxes import *
 from boxes.drawing import Context
-from boxes.fontmanager import discover_fonts
+from boxes.fontsettings import FontSettings
 
 
 class Label(Boxes):
@@ -48,58 +48,41 @@ Assembly: none required – this is a single flat piece.
     inner_border: bool = True
     border_margin: float = 3.0
     label_text: str = "Label"
-    fontsize: float = 10.0
-    font: str = "sans-serif"
-    font_bold: bool = False
-    font_italic: bool = False
     text_align: str = "middle center"
+    # Font settings – set by FontSettings group (prefix "Font")
+    Font_font: str = "sans-serif"
+    Font_size: float = 10.0
+    Font_bold: bool = False
+    Font_italic: bool = False
 
     def __init__(self) -> None:
         Boxes.__init__(self)
+        self.addSettingsArgs(FontSettings, size=self.Font_size)
 
         self.argparser.add_argument(
-            "--longueur", action="store", type=float, default=110.0,
+            "--longueur", action="store", type=float, default=self.longueur,
             help="Total width of the label [mm]")
         self.argparser.add_argument(
-            "--hauteur", action="store", type=float, default=40.0,
+            "--hauteur", action="store", type=float, default=self.hauteur,
             help="Total height of the label [mm]")
         self.argparser.add_argument(
-            "--radius", action="store", type=float, default=5.0,
+            "--radius", action="store", type=float, default=self.radius,
             help="Corner radius [mm] (0 = sharp corners)")
         self.argparser.add_argument(
-            "--inner_border", action="store", type=boolarg, default=True,
+            "--inner_border", action="store", type=boolarg, default=self.inner_border,
             help="Add an inner border line parallel to the outer edge")
         self.argparser.add_argument(
-            "--border_margin", action="store", type=float, default=3.0,
+            "--border_margin", action="store", type=float, default=self.border_margin,
             help="Distance between the outer cut and the inner border line [mm]")
         self.argparser.add_argument(
-            "--label_text", action="store", type=str, default="Label",
+            "--label_text", action="store", type=str, default=self.label_text,
             help="Text to engrave on the label (leave blank to omit)")
         self.argparser.add_argument(
-            "--fontsize", action="store", type=float, default=10.0,
-            help="Font size for the engraved text [mm]")
-        self.argparser.add_argument(
-            "--font", action="store", type=str, default="sans-serif",
-            choices=discover_fonts(),
-            help="Font family for the engraved text")
-        self.argparser.add_argument(
-            "--font_bold", action="store", type=boolarg, default=False,
-            help="Use bold font weight")
-        self.argparser.add_argument(
-            "--font_italic", action="store", type=boolarg, default=False,
-            help="Use italic font style")
-        self.argparser.add_argument(
-            "--text_align", action="store", type=str, default="middle center",
+            "--text_align", action="store", type=str, default=self.text_align,
             choices=[
-                "middle center",
-                "middle left",
-                "middle right",
-                "top center",
-                "top left",
-                "top right",
-                "bottom center",
-                "bottom left",
-                "bottom right",
+                "middle center", "middle left", "middle right",
+                "top center", "top left", "top right",
+                "bottom center", "bottom left", "bottom right",
             ],
             help="Alignment of the engraved text inside the label")
 
@@ -108,9 +91,7 @@ Assembly: none required – this is a single flat piece.
     # ------------------------------------------------------------------
 
     def _rounded_rect(self, w: float, h: float, r: float) -> None:
-        """Draw a rounded rectangle of width *w* and height *h* with corner
-        radius *r*, starting from the bottom-left corner.  The pen must be
-        positioned at the origin before calling this method."""
+        """Draw a rounded rectangle starting from the bottom-left corner."""
         r = max(0.0, min(r, w / 2.0, h / 2.0))
         self.moveTo(r, 0)
         self.polyline(
@@ -130,7 +111,6 @@ Assembly: none required – this is a single flat piece.
         r = self.radius
         margin = self.border_margin
 
-        # ── 1. Reserve bounding box and move context to origin ──────────
         if self.move(w, h, "right", before=True):
             return
 
@@ -155,32 +135,28 @@ Assembly: none required – this is a single flat piece.
                     ctx.stroke()
 
         # ── 4. Engraved text (ETCHING = green) ───────────────────────────
-        if self.label_text and self.fontsize > 0:
-            align = self.text_align  # e.g. "middle center"
-
-            # Compute text anchor position from alignment tokens
+        if self.label_text and self.Font_size > 0:
+            align = self.text_align
             tokens = align.split()
-            valign_token = tokens[0] if len(tokens) >= 1 else "middle"
+            valign_token = tokens[0] if tokens else "middle"
             halign_token = tokens[1] if len(tokens) >= 2 else "center"
 
-            x_positions = {"left": margin + self.fontsize * 0.3,
+            x_positions = {"left": margin + self.Font_size * 0.3,
                            "center": w / 2.0,
-                           "right": w - margin - self.fontsize * 0.3}
-            y_positions = {"top": h - margin - self.fontsize * 0.1,
+                           "right": w - margin - self.Font_size * 0.3}
+            y_positions = {"top": h - margin - self.Font_size * 0.1,
                            "middle": h / 2.0,
-                           "bottom": margin + self.fontsize * 0.1}
+                           "bottom": margin + self.Font_size * 0.1}
 
             tx = x_positions.get(halign_token, w / 2.0)
             ty = y_positions.get(valign_token, h / 2.0)
 
-            ctx.set_font(self.font, bold=self.font_bold, italic=self.font_italic)
+            ctx.set_font(self.Font_font, bold=self.Font_bold, italic=self.Font_italic)
             self.text(
                 self.label_text,
-                x=tx,
-                y=ty,
-                angle=0,
+                x=tx, y=ty, angle=0,
                 align=align,
-                fontsize=self.fontsize,
+                fontsize=self.Font_size,
                 color=Color.ETCHING,
             )
 

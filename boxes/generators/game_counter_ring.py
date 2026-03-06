@@ -19,6 +19,7 @@ from typing import cast
 
 from boxes import *
 from boxes.drawing import Context
+from boxes.fontsettings import FontSettings
 
 
 class GameCounterRing(Boxes):
@@ -59,7 +60,10 @@ cut in a single laser pass with minimal material waste.
     inner_radius: float = 32.0
     score_min: int = 0
     score_max: int = 20
-    font_size: float = 4.0
+    Font_size: float = 8.0
+    Font_font: str = "sans-serif"
+    Font_bold: bool = False
+    Font_italic: bool = False
     label_radius: float = 0.0
     label_invert: bool = False
     pointer_size: float = 4.0
@@ -69,38 +73,36 @@ cut in a single laser pass with minimal material waste.
 
     def __init__(self) -> None:
         Boxes.__init__(self)
+        self.addSettingsArgs(FontSettings, size=self.Font_size)
 
         self.argparser.add_argument(
-            "--outer_radius", action="store", type=float, default=50.0,
+            "--outer_radius", action="store", type=float, default=self.outer_radius,
             help="Outer radius of the ring frame [mm]")
         self.argparser.add_argument(
-            "--inner_radius", action="store", type=float, default=32.0,
+            "--inner_radius", action="store", type=float, default=self.inner_radius,
             help="Inner radius of the ring / radius of the dial disc [mm]")
         self.argparser.add_argument(
-            "--score_min", action="store", type=int, default=0,
+            "--score_min", action="store", type=int, default=self.score_min,
             help="Minimum score value shown on the ring")
         self.argparser.add_argument(
-            "--score_max", action="store", type=int, default=20,
+            "--score_max", action="store", type=int, default=self.score_max,
             help="Maximum score value shown on the ring")
         self.argparser.add_argument(
-            "--font_size", action="store", type=float, default=4.0,
-            help="Font size for score numbers [mm]")
-        self.argparser.add_argument(
-            "--label_radius", action="store", type=float, default=0.0,
+            "--label_radius", action="store", type=float, default=self.label_radius,
             help="Radius at which score numbers are placed on Piece A [mm]. "
                  "0 = auto (midpoint between inner and outer radii)")
         self.argparser.add_argument(
-            "--label_invert", action="store", type=boolarg, default=False,
+            "--label_invert", action="store", type=boolarg, default=self.label_invert,
             help="Invert the orientation of score number labels")
         self.argparser.add_argument(
-            "--pointer_size", action="store", type=float, default=4.0,
+            "--pointer_size", action="store", type=float, default=self.pointer_size,
             help="Size of the pointer shape engraved on the dial [mm]")
         self.argparser.add_argument(
-            "--pointer_style", action="store", type=str, default="triangle",
+            "--pointer_style", action="store", type=str, default=self.pointer_style,
             choices=["triangle", "circle", "rectangle", "line"],
             help="Shape of the pointer engraved on Piece B")
         self.argparser.add_argument(
-            "--play", action="store", type=float, default=0.3,
+            "--play", action="store", type=float, default=self.play,
             help="Radial clearance between ring inner edge and dial [mm]")
 
     # ------------------------------------------------------------------
@@ -114,12 +116,9 @@ cut in a single laser pass with minimal material waste.
         if n < 1:
             return
         angle_step = 360.0 / n
+        orientation = 180 if self.label_invert else 0
 
-        if self.label_invert:
-            orientation = 180
-        else:
-            orientation = 0
-
+        ctx.set_font(self.Font_font, bold=self.Font_bold, italic=self.Font_italic)
         self.set_source_color(Color.ETCHING)
         for i, score in enumerate(range(self.score_min, self.score_max + 1)):
             angle_deg = i * angle_step
@@ -130,7 +129,7 @@ cut in a single laser pass with minimal material waste.
                 self.text(str(score), x=tx, y=ty,
                           angle=-angle_deg + orientation,
                           align="middle center",
-                          fontsize=self.font_size, color=Color.ETCHING)
+                          fontsize=self.Font_size, color=Color.ETCHING)
         ctx.stroke()
 
     # --- pointer style helpers ----------------------------------------

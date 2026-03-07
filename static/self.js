@@ -1,4 +1,30 @@
 
+/*** Gallery columns per row *****************************/
+
+function applyGalleryCols(n) {
+    // .container: width 996px border-box, padding 10px each side → content 976px.
+    // Gallery lives in a 75%-wide float: floor(976 * 0.75) = 732px.
+    // Each item has margin 5px each side = 10px total horizontal.
+    const containerW = 732;
+    const itemW = Math.floor((containerW - n * 10) / n);
+    document.documentElement.style.setProperty('--gallery-item-width', itemW + 'px');
+}
+
+function setGalleryCols(n) {
+    n = parseInt(n, 10) || 4;
+    localStorage.setItem('gallery-cols', String(n));
+    applyGalleryCols(n);
+    const sel = document.getElementById('gallery-cols-select');
+    if (sel) sel.value = String(n);
+}
+
+function initGalleryCols() {
+    const saved = parseInt(localStorage.getItem('gallery-cols') || '4', 10);
+    applyGalleryCols(saved);
+    const sel = document.getElementById('gallery-cols-select');
+    if (sel) sel.value = String(saved);
+}
+
 /*** Thumbnails ******************************************/
 
 function showThumbnail(img_link) {
@@ -81,6 +107,7 @@ function initThumbnail(el) {
 }
 
 function initPage(num_hide = null) {
+    initGalleryCols();
     const h = document.getElementsByClassName("toggle");
     let i = 0;
     for (let el of h) {

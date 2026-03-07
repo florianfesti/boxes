@@ -438,6 +438,15 @@ class BServer:
         </form>
 """
 
+    def genHTMLColsSelection(self) -> str:
+        """Generates a dropdown to pick how many generator thumbnails appear per row."""
+        return """<select id="gallery-cols-select" title="Generators per row"
+    onchange="setGalleryCols(this.value)">
+  <option value="4">4</option>
+  <option value="5">5</option>
+  <option value="6">6</option>
+</select>"""
+
     def genPagePartHeader(self, lang) -> str:
         _ = lang.gettext
         lang_name = lang.info().get('language', None)
@@ -488,6 +497,7 @@ class BServer:
             result.append(f'    <li class="right">{_("Preview")} <input id="preview_chk" type="checkbox" checked="checked"> </li>\n')
 
         result.append(f'  <li class="right">{self.genHTMLLanguageSelection(lang)}  </li>\n')
+        result.append(f'  <li class="right">{self.genHTMLColsSelection()}  </li>\n')
         return "".join(result)
 
     def genPageError(self, name, e, lang) -> list[bytes]:

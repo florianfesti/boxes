@@ -20,6 +20,8 @@ from typing import cast
 from boxes import *
 from boxes.drawing import Context
 from boxes.fontsettings import FontSettings
+from boxes.notchsettings import NotchSettings
+from boxes.scoresettings import ScoreSettings
 
 
 class GameCounterRing(Boxes):
@@ -58,24 +60,29 @@ cut in a single laser pass with minimal material waste.
     # Dummy declarations for mypy – overwritten by argparse at runtime.
     outer_radius: float = 50.0
     inner_radius: float = 32.0
-    score_min: int = 0
-    score_max: int = 20
+    Score_min: int = 0
+    Score_max: int = 20
+    Score_radius: float = 0.0
+    Score_inv: bool = False
     Font_size: float = 4.0
     Font_font: str = "sans-serif"
     Font_bold: bool = False
     Font_italic: bool = False
-    label_radius: float = 0.0
-    label_invert: bool = False
     pointer_size: float = 4.0
     pointer_style: str = "triangle"
-    notch_outer: bool = False
-    notch_depth: float = 2.0
+    Notch_enabled: bool = False
+    Notch_depth: float = 2.0
+    Notch_shape: str = "symmetric"
+    Notch_rounded: bool = False
+    Notch_radius: float = 0.5
     play: float = 0.3
     burn: float = 0.1
 
     def __init__(self) -> None:
         Boxes.__init__(self)
+        self.addSettingsArgs(ScoreSettings)
         self.addSettingsArgs(FontSettings, size=self.Font_size)
+        self.addSettingsArgs(NotchSettings)
 
         self.argparser.add_argument(
             "--outer_radius", action="store", type=float, default=self.outer_radius,
@@ -84,31 +91,12 @@ cut in a single laser pass with minimal material waste.
             "--inner_radius", action="store", type=float, default=self.inner_radius,
             help="Inner radius of the ring / radius of the dial disc [mm]")
         self.argparser.add_argument(
-            "--score_min", action="store", type=int, default=self.score_min,
-            help="Minimum score value shown on the ring")
-        self.argparser.add_argument(
-            "--score_max", action="store", type=int, default=self.score_max,
-            help="Maximum score value shown on the ring")
-        self.argparser.add_argument(
-            "--label_radius", action="store", type=float, default=self.label_radius,
-            help="Radius at which score numbers are placed on Piece A [mm]. "
-                 "0 = auto (midpoint between inner and outer radii)")
-        self.argparser.add_argument(
-            "--label_invert", action="store", type=boolarg, default=self.label_invert,
-            help="Invert the orientation of score number labels")
-        self.argparser.add_argument(
             "--pointer_size", action="store", type=float, default=self.pointer_size,
             help="Size of the pointer shape engraved on the dial [mm]")
         self.argparser.add_argument(
             "--pointer_style", action="store", type=str, default=self.pointer_style,
             choices=["triangle", "circle", "rectangle", "line"],
             help="Shape of the pointer engraved on Piece B")
-        self.argparser.add_argument(
-            "--notch_outer", action="store", type=boolarg, default=self.notch_outer,
-            help="Add gear-like notches on the outer rim of Piece A (one notch per score value)")
-        self.argparser.add_argument(
-            "--notch_depth", action="store", type=float, default=self.notch_depth,
-            help="Depth of each outer notch [mm]")
         self.argparser.add_argument(
             "--play", action="store", type=float, default=self.play,
             help="Radial clearance between ring inner edge and dial [mm]")
@@ -120,15 +108,15 @@ cut in a single laser pass with minimal material waste.
     def _draw_score_numbers(self, cx: float, cy: float,
                              label_r: float, ctx: Context) -> None:
         """Engrave score numbers evenly around a circle of radius *label_r*."""
-        n = self.score_max - self.score_min + 1
+        n = self.Score_max - self.Score_min + 1
         if n < 1:
             return
         angle_step = 360.0 / n
-        orientation = 180 if self.label_invert else 0
+        orientation = 180 if self.Score_inv else 0
 
         ctx.set_font(self.Font_font, bold=self.Font_bold, italic=self.Font_italic)
         self.set_source_color(Color.ETCHING)
-        for i, score in enumerate(range(self.score_min, self.score_max + 1)):
+        for i, score in enumerate(range(self.Score_min, self.Score_max + 1)):
             angle_deg = i * angle_step
             angle_rad = math.radians(angle_deg)
             tx = cx + label_r * math.sin(angle_rad)
@@ -214,68 +202,144 @@ cut in a single laser pass with minimal material waste.
 
     def _draw_outer_notches(self, cx: float, cy: float,
                              ro: float, ctx: Context) -> None:
-        """Draw the outer perimeter of Piece A with gear-like rectangular notches.
+        """Draw the outer perimeter of Piece A with gear-like notches.
 
-        One notch (tooth gap) is cut per score value, evenly distributed
-        around the full 360°.  The tooth width equals the gap width so the
-        duty cycle is 50 %.  The notch depth is ``self.notch_depth``.
+        One notch (gap) per score value, evenly distributed around 360°.
+        Tooth and gap each occupy half a sector (50 % duty cycle).
+
+        ``Notch_shape``:
+          * ``symmetric`` – straight walls perpendicular to the sector bisector
+            (true rectangular slots, geometrically symmetric).
+          * ``radial``    – walls are radial lines converging toward the centre
+            (the original shape).
+
+        ``Notch_rounded`` adds fillets of radius ``Notch_radius`` at every
+        inner corner of the notch.
         """
-        n = self.score_max - self.score_min + 1
+        n = self.Score_max - self.Score_min + 1
         if n < 1:
             return
 
-        depth = self.notch_depth
-        ri_notch = ro - depth          # bottom of the notch (inner radius)
+        depth   = self.Notch_depth
+        radial  = (self.Notch_shape == "radial")
+        rounded = self.Notch_rounded
+        r_corn  = self.Notch_radius if rounded else 0.0
+        ri      = ro - depth          # inner floor radius (used in radial mode)
 
-        angle_step = 2.0 * math.pi / n   # full sector per score value (tooth + gap)
-        half = angle_step / 2.0           # half sector = tooth half-angle
-        quarter = half / 2.0              # quarter = boundary between tooth and gap
+        angle_step = 2.0 * math.pi / n
+        half       = angle_step / 2.0   # half sector = one tooth + one gap half
+        quarter    = half / 2.0         # tooth spans ±quarter around its centre
 
         self.set_source_color(Color.OUTER_CUT)
-
-        # Start angle: centre of the first tooth, offset so a tooth sits at
-        # the top (π/2 in math coords = pointing up on screen after Y-flip).
         start_angle = math.pi / 2.0
 
-        # Build the path: for each of the n sectors draw  tooth → gap.
-        # A sector spans [start_angle + i*angle_step - half,
-        #                 start_angle + i*angle_step + half]
-        # The tooth occupies the outer half of the sector (±quarter around centre).
-        # The gap  occupies the remaining ±(half - quarter) on each side, at ri_notch.
+        # ── helpers ────────────────────────────────────────────────────────────
 
-        def pt_outer(a: float) -> tuple[float, float]:
-            return (cx + ro * math.cos(a), cy + ro * math.sin(a))
+        def pt_on(r: float, a: float) -> tuple[float, float]:
+            return (cx + r * math.cos(a), cy + r * math.sin(a))
 
-        def pt_inner(a: float) -> tuple[float, float]:
-            return (cx + ri_notch * math.cos(a), cy + ri_notch * math.sin(a))
+        # In symmetric mode the two side walls of a notch are perpendicular to
+        # the bisector of the sector.  The bisector direction at angle `a` is
+        # (cos a, sin a).  A wall at angular position `a` has its foot on the
+        # outer rim at pt_on(ro, a) and its inner end at depth `depth` inward,
+        # moving purely in the −bisector direction.
+        def pt_wall_inner(a: float) -> tuple[float, float]:
+            """Inner end of a symmetric notch side wall at angle `a`."""
+            return (cx + ro * math.cos(a) - depth * math.cos(a),
+                    cy + ro * math.sin(a) - depth * math.sin(a))
+            # simplifies to: (cx + (ro-depth)*cos(a), cy + (ro-depth)*sin(a))
+            # which IS the same as pt_on(ro-depth, a) — so the floor is still
+            # a circular arc, but the *side walls* are radially straight.
+            # True rectangular walls need Cartesian perpendicular offsets:
 
-        # First point: start of first gap (left edge of sector 0)
-        first_a = start_angle - half
-        x0, y0 = pt_inner(first_a)
-        ctx.move_to(x0, y0)
+        # For a *truly* rectangular (Euclidean-symmetric) notch the floor
+        # must be a straight chord perpendicular to the bisector.  We compute
+        # the two inner corners explicitly.
+        def sym_inner_corners(centre_a: float) -> tuple[
+                tuple[float, float], tuple[float, float]]:
+            """Left and right inner corners of a rectangular notch."""
+            # Outer rim points at the tooth edges
+            ox_l, oy_l = pt_on(ro, centre_a - quarter)
+            ox_r, oy_r = pt_on(ro, centre_a + quarter)
+            # Inward direction at centre (bisector unit vector)
+            bx, by = math.cos(centre_a), math.sin(centre_a)
+            # Inner corners: shift each outer corner by depth in −bisector dir
+            il = (ox_l - depth * bx, oy_l - depth * by)
+            ir = (ox_r - depth * bx, oy_r - depth * by)
+            return il, ir
+
+        # ── path construction ──────────────────────────────────────────────────
+
+        # Start point: left outer edge of sector 0's gap (before the first tooth)
+        first_gap_start = start_angle - half
+        ctx.move_to(*pt_on(ro, first_gap_start))
 
         for i in range(n):
-            centre_a = start_angle + i * angle_step
-            gap_start  = centre_a - half        # left edge of sector  (inner)
-            tooth_start = centre_a - quarter    # left edge of tooth   (outer)
-            tooth_end   = centre_a + quarter    # right edge of tooth  (outer)
-            gap_end     = centre_a + half       # right edge of sector (inner)
+            centre_a    = start_angle + i * angle_step
+            tooth_l     = centre_a - quarter   # left  outer edge of tooth
+            tooth_r     = centre_a + quarter   # right outer edge of tooth
+            gap_end     = centre_a + half      # right outer edge of gap
 
-            # --- gap arc at ri_notch from gap_start → tooth_start ---
-            # Use a single arc at the inner radius.
-            ctx.arc(cx, cy, ri_notch, gap_start, tooth_start)
+            if radial:
+                # ── radial walls ────────────────────────────────────────────
+                # Gap arc on outer rim, then step down, tooth arc, step up.
+                if r_corn <= 0.0 or ri <= 0.0:
+                    # Sharp corners
+                    ctx.arc(cx, cy, ro, tooth_l - half, tooth_l)
+                    ctx.line_to(*pt_on(ri, tooth_l))
+                    ctx.arc(cx, cy, ri, tooth_l, tooth_r)
+                    ctx.line_to(*pt_on(ro, tooth_r))
+                else:
+                    da_o = min(r_corn / ro, quarter * 0.45)
+                    da_i = min(r_corn / ri, quarter * 0.45)
+                    # Gap arc to fillet start
+                    ctx.arc(cx, cy, ro, tooth_l - half, tooth_l - da_o)
+                    # Fillet: outer→inner left wall
+                    ctx.curve_to(*pt_on(ri, tooth_l - da_i),
+                                 *pt_on(ri, tooth_l - da_i),
+                                 *pt_on(ri, tooth_l + da_i))
+                    # Floor arc
+                    ctx.arc(cx, cy, ri, tooth_l + da_i, tooth_r - da_i)
+                    # Fillet: inner→outer right wall
+                    ctx.curve_to(*pt_on(ro, tooth_r + da_o),
+                                 *pt_on(ro, tooth_r + da_o),
+                                 *pt_on(ro, tooth_r + da_o))
+            else:
+                # ── symmetric (rectangular) walls ───────────────────────────
+                il, ir = sym_inner_corners(centre_a)
+                if r_corn <= 0.0:
+                    # Gap arc on outer rim
+                    ctx.arc(cx, cy, ro, tooth_l - half, tooth_l)
+                    # Left wall: straight down to inner corner
+                    ctx.line_to(*il)
+                    # Floor: straight line to right inner corner
+                    ctx.line_to(*ir)
+                    # Right wall: straight up to outer rim
+                    ctx.line_to(*pt_on(ro, tooth_r))
+                else:
+                    # Fillet radius capped to 40% of half-tooth-arc-length
+                    max_r = ro * quarter * 0.4
+                    rc = min(r_corn, max_r)
+                    # Unit vectors for left and right walls (inward = −bisector)
+                    bx, by = math.cos(centre_a), math.sin(centre_a)
+                    # Left wall direction (from outer-left toward il): −bisector
+                    # Right wall direction (from ir toward outer-right): +bisector
+                    # Arc offset on outer rim consumed by fillet
+                    da_o = min(rc / ro, quarter * 0.4)
+                    # Gap arc to fillet start
+                    ctx.arc(cx, cy, ro, tooth_l - half, tooth_l - da_o)
+                    # Fillet at outer-left corner (gap→left-wall)
+                    # control + end: move rc inward along bisector from pt_on(ro, tooth_l)
+                    fl_ctrl = (cx + ro * math.cos(tooth_l) - rc * bx,
+                               cy + ro * math.sin(tooth_l) - rc * by)
+                    ctx.curve_to(*fl_ctrl, *fl_ctrl, *il)
+                    # Floor line (il → ir) — add fillet shrinkage if needed
+                    ctx.line_to(*ir)
+                    # Fillet at outer-right corner (right-wall→gap)
+                    fr_ctrl = (cx + ro * math.cos(tooth_r) - rc * bx,
+                               cy + ro * math.sin(tooth_r) - rc * by)
+                    ctx.curve_to(*fr_ctrl, *fr_ctrl, *pt_on(ro, tooth_r + da_o))
 
-            # --- step up to outer radius ---
-            ctx.line_to(*pt_outer(tooth_start))
-
-            # --- tooth arc at ro from tooth_start → tooth_end ---
-            ctx.arc(cx, cy, ro, tooth_start, tooth_end)
-
-            # --- step back down to inner radius ---
-            ctx.line_to(*pt_inner(tooth_end))
-
-        # Close path back to the starting inner point
-        ctx.line_to(x0, y0)
         ctx.stroke()
 
     # ------------------------------------------------------------------
@@ -288,7 +352,7 @@ cut in a single laser pass with minimal material waste.
         ri = self.inner_radius - self.play
 
         # Outer perimeter cut – plain circle or notched gear rim
-        if self.notch_outer:
+        if self.Notch_enabled:
             self._draw_outer_notches(cx, cy, ro, ctx)
         else:
             self.set_source_color(Color.OUTER_CUT)
@@ -299,8 +363,8 @@ cut in a single laser pass with minimal material waste.
         self.hole(cx, cy, r=ri)
 
         # Score numbers – auto or explicit label radius
-        if self.label_radius > 0.0:
-            label_r = self.label_radius
+        if self.Score_radius > 0.0:
+            label_r = self.Score_radius
         else:
             label_r = (ro + ri) / 2.0
         self._draw_score_numbers(cx, cy, label_r, ctx)

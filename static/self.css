@@ -216,20 +216,24 @@ textarea {
     font-family: monospace;
 }
 
+:root {
+    --gallery-item-width: 173px; /* default 4 cols: floor((732-4*10)/4), 732=75% of (996-20px padding, border-box) */
+}
+
 .gallery,
 .gallery_missing {
     display : inline-block;
     text-align : center;
     vertical-align: bottom;
-    width : 200px;
+    width : var(--gallery-item-width);
     margin : 5px;
     margin-top : 15px;
     font-weight: bold;
 }
 
 .gallery img {
-    max-height : 200px;
-    max-width : 200px;
+    max-height : var(--gallery-item-width);
+    max-width : var(--gallery-item-width);
     margin : 5px;
 }
 

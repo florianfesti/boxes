@@ -299,7 +299,7 @@ The test:
 ### ⚠️ Mandatory after every generator or drawing change
 
 After **any** change to a generator or to `boxes/drawing.py`, you **must**
-always do all three steps — never skip any of them:
+always do all four steps — never skip any of them:
 
 1. Run mypy on the changed files:
 
@@ -321,14 +321,20 @@ with open("examples/MyGenerator.svg", "wb") as f:
     f.write(data.getvalue())
 ```
 
-3. Run the full test suite and confirm it passes:
+3. **Always** regenerate the sample JPG and thumbnail for every touched generator:
+
+```powershell
+python scripts/gen_sample_images.py MyGenerator
+```
+
+4. Run the full test suite and confirm it passes:
 
 ```powershell
 python -m pytest tests/test_svg.py -q
 ```
 
-Never skip the SVG regeneration — even a stub value change (e.g. `8.0` → `4.0`)
-changes the output and will break the byte-for-byte comparison.
+Never skip steps 2 or 3 — even a stub value change (e.g. `8.0` → `4.0`)
+changes the SVG output and will break the byte-for-byte comparison.
 
 ### Adding / updating the reference SVG (bulk)
 

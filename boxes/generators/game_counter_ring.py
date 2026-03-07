@@ -60,7 +60,7 @@ cut in a single laser pass with minimal material waste.
     inner_radius: float = 32.0
     score_min: int = 0
     score_max: int = 20
-    Font_size: float = 8.0
+    Font_size: float = 4.0
     Font_font: str = "sans-serif"
     Font_bold: bool = False
     Font_italic: bool = False
@@ -68,6 +68,8 @@ cut in a single laser pass with minimal material waste.
     label_invert: bool = False
     pointer_size: float = 4.0
     pointer_style: str = "triangle"
+    notch_outer: bool = False
+    notch_depth: float = 2.0
     play: float = 0.3
     burn: float = 0.1
 
@@ -101,6 +103,12 @@ cut in a single laser pass with minimal material waste.
             "--pointer_style", action="store", type=str, default=self.pointer_style,
             choices=["triangle", "circle", "rectangle", "line"],
             help="Shape of the pointer engraved on Piece B")
+        self.argparser.add_argument(
+            "--notch_outer", action="store", type=boolarg, default=self.notch_outer,
+            help="Add gear-like notches on the outer rim of Piece A (one notch per score value)")
+        self.argparser.add_argument(
+            "--notch_depth", action="store", type=float, default=self.notch_depth,
+            help="Depth of each outer notch [mm]")
         self.argparser.add_argument(
             "--play", action="store", type=float, default=self.play,
             help="Radial clearance between ring inner edge and dial [mm]")
@@ -204,6 +212,72 @@ cut in a single laser pass with minimal material waste.
         fn = getattr(self, f"_pointer_{style}")
         fn(cx, cy, disc_r, ps, ctx)
 
+    def _draw_outer_notches(self, cx: float, cy: float,
+                             ro: float, ctx: Context) -> None:
+        """Draw the outer perimeter of Piece A with gear-like rectangular notches.
+
+        One notch (tooth gap) is cut per score value, evenly distributed
+        around the full 360°.  The tooth width equals the gap width so the
+        duty cycle is 50 %.  The notch depth is ``self.notch_depth``.
+        """
+        n = self.score_max - self.score_min + 1
+        if n < 1:
+            return
+
+        depth = self.notch_depth
+        ri_notch = ro - depth          # bottom of the notch (inner radius)
+
+        angle_step = 2.0 * math.pi / n   # full sector per score value (tooth + gap)
+        half = angle_step / 2.0           # half sector = tooth half-angle
+        quarter = half / 2.0              # quarter = boundary between tooth and gap
+
+        self.set_source_color(Color.OUTER_CUT)
+
+        # Start angle: centre of the first tooth, offset so a tooth sits at
+        # the top (π/2 in math coords = pointing up on screen after Y-flip).
+        start_angle = math.pi / 2.0
+
+        # Build the path: for each of the n sectors draw  tooth → gap.
+        # A sector spans [start_angle + i*angle_step - half,
+        #                 start_angle + i*angle_step + half]
+        # The tooth occupies the outer half of the sector (±quarter around centre).
+        # The gap  occupies the remaining ±(half - quarter) on each side, at ri_notch.
+
+        def pt_outer(a: float) -> tuple[float, float]:
+            return (cx + ro * math.cos(a), cy + ro * math.sin(a))
+
+        def pt_inner(a: float) -> tuple[float, float]:
+            return (cx + ri_notch * math.cos(a), cy + ri_notch * math.sin(a))
+
+        # First point: start of first gap (left edge of sector 0)
+        first_a = start_angle - half
+        x0, y0 = pt_inner(first_a)
+        ctx.move_to(x0, y0)
+
+        for i in range(n):
+            centre_a = start_angle + i * angle_step
+            gap_start  = centre_a - half        # left edge of sector  (inner)
+            tooth_start = centre_a - quarter    # left edge of tooth   (outer)
+            tooth_end   = centre_a + quarter    # right edge of tooth  (outer)
+            gap_end     = centre_a + half       # right edge of sector (inner)
+
+            # --- gap arc at ri_notch from gap_start → tooth_start ---
+            # Use a single arc at the inner radius.
+            ctx.arc(cx, cy, ri_notch, gap_start, tooth_start)
+
+            # --- step up to outer radius ---
+            ctx.line_to(*pt_outer(tooth_start))
+
+            # --- tooth arc at ro from tooth_start → tooth_end ---
+            ctx.arc(cx, cy, ro, tooth_start, tooth_end)
+
+            # --- step back down to inner radius ---
+            ctx.line_to(*pt_inner(tooth_end))
+
+        # Close path back to the starting inner point
+        ctx.line_to(x0, y0)
+        ctx.stroke()
+
     # ------------------------------------------------------------------
     # Pieces
     # ------------------------------------------------------------------
@@ -213,9 +287,12 @@ cut in a single laser pass with minimal material waste.
         ro = self.outer_radius
         ri = self.inner_radius - self.play
 
-        # Outer perimeter cut
-        self.set_source_color(Color.OUTER_CUT)
-        self.circle(cx, cy, ro)
+        # Outer perimeter cut – plain circle or notched gear rim
+        if self.notch_outer:
+            self._draw_outer_notches(cx, cy, ro, ctx)
+        else:
+            self.set_source_color(Color.OUTER_CUT)
+            self.circle(cx, cy, ro)
 
         # Inner hole cut
         self.set_source_color(Color.INNER_CUT)

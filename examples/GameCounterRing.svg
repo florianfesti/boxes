@@ -15,11 +15,13 @@ cut in a single laser pass with minimal material waste.
 * **Piece B – Inner disc**: the fixed center. A pointer is engraved near
   the top edge to indicate the current score on the ring.
 * **Piece C – Base disc**: a plain disc the same size as the outer ring.
-  Piece B is glued to Piece C before assembly. No magnets are used.
+  Piece B is glued to Piece C before assembly. A central magnet pocket can
+  be cut in both Piece B and Piece C to hold a round magnet or wod stick for alignment.
 
 **Assembly**
-1. Glue Piece B (pointer disc) on top of Piece C (base disc) – an optional
-   small hole at the center of both pieces helps with alignment.
+1. Glue Piece B (pointer disc) on top of Piece C (base disc). If
+   ``magnet_diameter`` > 0, press a round magnet into the central pocket of
+   each piece before gluing.
 2. Drop Piece A (ring) on top of the glued B+C stack.
 3. The ring spins freely.
 4. Spin Piece A to count up / down; Piece B stays fixed.
@@ -54,11 +56,13 @@ cut in a single laser pass with minimal material waste.
 * **Piece B – Inner disc**: the fixed center. A pointer is engraved near
   the top edge to indicate the current score on the ring.
 * **Piece C – Base disc**: a plain disc the same size as the outer ring.
-  Piece B is glued to Piece C before assembly. No magnets are used.
+  Piece B is glued to Piece C before assembly. A central magnet pocket can
+  be cut in both Piece B and Piece C to hold a round magnet or wod stick for alignment.
 
 **Assembly**
-1. Glue Piece B (pointer disc) on top of Piece C (base disc) – an optional
-   small hole at the center of both pieces helps with alignment.
+1. Glue Piece B (pointer disc) on top of Piece C (base disc). If
+   ``magnet_diameter`` &gt; 0, press a round magnet into the central pocket of
+   each piece before gluing.
 2. Drop Piece A (ring) on top of the glued B+C stack.
 3. The ring spins freely.
 4. Spin Piece A to count up / down; Piece B stays fixed.
@@ -94,7 +98,9 @@ Command line short: boxes GameCounterRing
   <text dominant-baseline="hanging" font-size="10.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( 0.951 0.309 -0.309 0.951 67.569 14.518 )">8</text>
   <text dominant-baseline="hanging" font-size="10.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( 0.588 0.809 -0.809 0.588 87.744 29.176 )">9</text>
   <path d="M 86.800 52.893 C 86.800 46.198 84.681 39.676 80.746 34.260 C 76.811 28.844 71.263 24.813 64.896 22.744 C 58.529 20.675 51.671 20.675 45.304 22.744 C 38.937 24.813 33.389 28.844 29.454 34.260 C 25.519 39.676 23.400 46.198 23.400 52.893 C 23.400 59.587 25.519 66.110 29.454 71.525 C 33.389 76.941 38.937 80.972 45.304 83.041 C 51.671 85.110 58.529 85.110 64.896 83.041 C 71.263 80.972 76.811 76.941 80.746 71.525 C 84.681 66.110 86.800 59.587 86.800 52.893 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
+  <path d="M 56.500 52.893 C 56.500 53.161 56.423 53.424 56.278 53.650 C 56.133 53.875 55.926 54.055 55.682 54.166 C 55.437 54.278 55.166 54.317 54.901 54.278 C 54.635 54.240 54.386 54.126 54.183 53.951 C 53.980 53.775 53.832 53.545 53.757 53.287 C 53.681 53.030 53.681 52.756 53.757 52.498 C 53.832 52.241 53.980 52.010 54.183 51.835 C 54.386 51.659 54.635 51.545 54.901 51.507 C 55.166 51.469 55.437 51.508 55.682 51.619 C 55.926 51.731 56.133 51.910 56.278 52.136 C 56.423 52.362 56.500 52.624 56.500 52.893 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />
   <path d="M 55.100 23.093 L 58.100 29.093 H 52.100 L 55.100 23.093 Z" stroke="rgb(0,255,0)" stroke-width="0.20" />
   <path d="M 191.900 52.893 C 191.900 43.368 188.885 34.089 183.287 26.384 C 177.688 18.678 169.795 12.943 160.737 10.000 C 151.679 7.057 141.921 7.057 132.863 10.000 C 123.805 12.943 115.912 18.678 110.313 26.384 C 104.715 34.089 101.700 43.368 101.700 52.893 C 101.700 62.417 104.715 71.697 110.313 79.402 C 115.912 87.107 123.805 92.842 132.863 95.785 C 141.921 98.728 151.679 98.728 160.737 95.785 C 169.795 92.842 177.688 87.107 183.287 79.402 C 188.885 71.697 191.900 62.417 191.900 52.893 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
+  <path d="M 148.200 52.893 C 148.200 53.161 148.123 53.424 147.978 53.650 C 147.833 53.875 147.626 54.055 147.382 54.166 C 147.137 54.278 146.866 54.317 146.601 54.278 C 146.335 54.240 146.086 54.126 145.883 53.951 C 145.680 53.775 145.532 53.545 145.457 53.287 C 145.381 53.030 145.381 52.756 145.457 52.498 C 145.532 52.241 145.680 52.010 145.883 51.835 C 146.086 51.659 146.335 51.545 146.601 51.507 C 146.866 51.469 147.137 51.508 147.382 51.619 C 147.626 51.731 147.833 51.910 147.978 52.136 C 148.123 52.362 148.200 52.624 148.200 52.893 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />
 </g>
 </svg>

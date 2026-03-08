@@ -40,11 +40,13 @@ cut in a single laser pass with minimal material waste.
 * **Piece B – Inner disc**: the fixed center. A pointer is engraved near
   the top edge to indicate the current score on the ring.
 * **Piece C – Base disc**: a plain disc the same size as the outer ring.
-  Piece B is glued to Piece C before assembly. No magnets are used.
+  Piece B is glued to Piece C before assembly. A central magnet pocket can
+  be cut in both Piece B and Piece C to hold a round magnet or wod stick for alignment.
 
 **Assembly**
-1. Glue Piece B (pointer disc) on top of Piece C (base disc) – an optional
-   small hole at the center of both pieces helps with alignment.
+1. Glue Piece B (pointer disc) on top of Piece C (base disc). If
+   ``magnet_diameter`` > 0, press a round magnet into the central pocket of
+   each piece before gluing.
 2. Drop Piece A (ring) on top of the glued B+C stack.
 3. The ring spins freely.
 4. Spin Piece A to count up / down; Piece B stays fixed.
@@ -77,6 +79,7 @@ cut in a single laser pass with minimal material waste.
     crenel_radius: float = 2.0
     play: float = 0.3
     burn: float = 0.1
+    magnet_diameter: float = 3.0
 
     def __init__(self) -> None:
         Boxes.__init__(self)
@@ -107,6 +110,9 @@ cut in a single laser pass with minimal material waste.
         self.argparser.add_argument(
             "--play", action="store", type=float, default=self.play,
             help="Radial clearance between ring inner edge and dial [mm]")
+        self.argparser.add_argument(
+            "--magnet_diameter", action="store", type=float, default=self.magnet_diameter,
+            help="Diameter of the central magnet hole in Piece B and C (0 = no hole) [mm]")
 
     # ------------------------------------------------------------------
     # Internal helpers
@@ -347,20 +353,28 @@ cut in a single laser pass with minimal material waste.
         self._draw_score_numbers(cx, cy, label_r, ctx)
 
     def _piece_b_disc(self, cx: float, cy: float, ctx: Context) -> None:
-        """Piece B – inner disc: outer cut + engraved pointer."""
+        """Piece B – inner disc: outer cut + engraved pointer + optional magnet hole."""
         ri = self.inner_radius - self.play - self.burn
 
         # Outer perimeter cut
         self.set_source_color(Color.OUTER_CUT)
         self.circle(cx, cy, ri)
 
+        # Central magnet hole
+        if self.magnet_diameter > 0.0:
+            self.hole(cx, cy, d=self.magnet_diameter)
+
         # Pointer engraving
         self._draw_pointer(cx, cy, ri, ctx)
 
     def _piece_c_base(self, cx: float, cy: float) -> None:
-        """Piece C – base disc cut (same outer radius as Piece A)."""
+        """Piece C – base disc cut (same outer radius as Piece A) + optional magnet hole."""
         self.set_source_color(Color.OUTER_CUT)
         self.circle(cx, cy, self.outer_radius)
+
+        # Central magnet hole
+        if self.magnet_diameter > 0.0:
+            self.hole(cx, cy, d=self.magnet_diameter)
 
     # ------------------------------------------------------------------
     # Main render

@@ -200,9 +200,9 @@ cut in a single laser pass with minimal material waste.
         fn = getattr(self, f"_pointer_{style}")
         fn(cx, cy, disc_r, ps, ctx)
 
-    def _draw_outer_notches(self, cx: float, cy: float,
-                             ro: float, ctx: Context) -> None:
-        """Draw the outer perimeter of Piece A with gear-like notches.
+    def _draw_outer_crenels(self, cx: float, cy: float,
+                            ro: float, ctx: Context) -> None:
+        """Draw the outer perimeter of Piece A with gear-like crenels.
 
         One notch (gap) per score value, evenly distributed around 360°.
         Tooth and gap each occupy half a sector (50 % duty cycle).
@@ -310,7 +310,7 @@ cut in a single laser pass with minimal material waste.
 
         # Outer perimeter cut – plain circle or notched gear rim
         if self.crenel_enabled:
-            self._draw_outer_notches(cx, cy, ro, ctx)
+            self._draw_outer_crenels(cx, cy, ro, ctx)
         else:
             self.set_source_color(Color.OUTER_CUT)
             self.circle(cx, cy, ro)

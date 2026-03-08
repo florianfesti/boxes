@@ -29,7 +29,9 @@ file so you can pipe it straight into ``git add``.
 from __future__ import annotations
 
 import argparse
+import io
 import sys
+from contextlib import redirect_stdout
 from pathlib import Path
 
 # Allow running from the repo root without installing the package.
@@ -40,8 +42,11 @@ if str(ROOT) not in sys.path:
 import boxes.generators  # noqa: E402  (after sys.path fix)
 
 
-def regen(name: str) -> None:
-    """Regenerate the reference SVG for generator *name*."""
+def regen(name: str) -> bool:
+    """Regenerate the reference SVG for generator *name*.
+
+    Returns True on success, False if the generator does not produce SVG output.
+    """
     all_generators = boxes.generators.getAllBoxGenerators()
     # getAllBoxGenerators keys are full paths like 'boxes.generators.foo.Bar'.
     # Accept both the full key and the short class name.
@@ -56,13 +61,19 @@ def regen(name: str) -> None:
     b = cls()
     b.parseArgs([])
     b.metadata["reproducible"] = True
-    b.open()
-    b.render()
-    data = b.close()
+    with redirect_stdout(io.StringIO()):
+        b.open()
+        b.render()
+        data = b.close()
+
+    if data is None:
+        print(f"  (skipped {name} – no SVG output)", flush=True)
+        return False
 
     out = ROOT / "examples" / f"{name}.svg"
     out.write_bytes(data.getvalue())
-    print(str(out))
+    print(str(out), flush=True)
+    return True
 
 
 def interactive_select() -> list[str]:
@@ -116,8 +127,19 @@ def main() -> None:
     else:
         names = interactive_select()
 
+    ok = skipped = failed = 0
     for name in names:
-        regen(name)
+        try:
+            if regen(name):
+                ok += 1
+            else:
+                skipped += 1
+        except Exception as exc:
+            print(f"  ERROR {name}: {exc}", flush=True)
+            failed += 1
+
+    if len(names) > 1:
+        print(f"\nDone: {ok} regenerated, {skipped} skipped, {failed} failed.")
 
 
 if __name__ == "__main__":

@@ -257,11 +257,15 @@ cut in a single laser pass with minimal material waste.
         # Start on the outer rim at the very beginning of sector 0's gap.
         ctx.move_to(*pt_on(ro, start_angle - half))
 
+        # last_tooth_r tracks where the path ends after each tooth so the
+        # closing gap arc uses the correct start angle.
+        last_tooth_r: float = start_angle - half
+
         for i in range(n):
             center_a = start_angle + i * angle_step
             tooth_l = center_a - quarter  # left  outer edge of tooth
             tooth_r = center_a + quarter  # right outer edge of tooth
-            gap_end = center_a + half  # end of the following gap
+            gap_end = center_a + half     # end of the following gap
 
             if radial:
                 if r_corn <= 0.0 or ri <= 0.0:
@@ -270,6 +274,7 @@ cut in a single laser pass with minimal material waste.
                     ctx.line_to(*pt_on(ri, tooth_l))
                     ctx.arc(cx, cy, ri, tooth_l, tooth_r)
                     ctx.line_to(*pt_on(ro, tooth_r))
+                    last_tooth_r = tooth_r
                 else:
                     da_o = min(r_corn / ro, quarter * 0.45)
                     da_i = min(r_corn / ri, quarter * 0.45)
@@ -281,6 +286,7 @@ cut in a single laser pass with minimal material waste.
                     ctx.curve_to(*pt_on(ro, tooth_r + da_o),
                                  *pt_on(ro, tooth_r + da_o),
                                  *pt_on(ro, tooth_r + da_o))
+                    last_tooth_r = tooth_r + da_o
             else:
                 il, ir = sym_inner_corners(center_a)
                 bx = math.cos(center_a)
@@ -290,6 +296,7 @@ cut in a single laser pass with minimal material waste.
                     ctx.line_to(*il)
                     ctx.line_to(*ir)
                     ctx.line_to(*pt_on(ro, tooth_r))
+                    last_tooth_r = tooth_r
                 else:
                     da_o = min(r_corn / ro, quarter * 0.4)
                     rc = min(r_corn, ro * quarter * 0.4)
@@ -301,11 +308,10 @@ cut in a single laser pass with minimal material waste.
                     fr_ctrl = (cx + ro * math.cos(tooth_r) - rc * bx,
                                cy + ro * math.sin(tooth_r) - rc * by)
                     ctx.curve_to(*fr_ctrl, *fr_ctrl, *pt_on(ro, tooth_r + da_o))
+                    last_tooth_r = tooth_r + da_o
 
-        # Close the path: arc back to the starting point and close.
-        ctx.arc(cx, cy, ro,
-                start_angle + n * angle_step - half,
-                start_angle - half + 2.0 * math.pi)
+        # Close the path: gap arc from the last tooth back to the start point.
+        ctx.arc(cx, cy, ro, last_tooth_r, start_angle - half + 2.0 * math.pi)
         ctx.stroke()
 
     # ------------------------------------------------------------------

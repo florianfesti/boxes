@@ -64,17 +64,17 @@ cut in a single laser pass with minimal material waste.
     score_max: int = 9
     score_radius: float = 0.0
     score_inv: bool = False
-    font_size: float = 10
+    font_size: float = 10.0
     font_font: str = "sans-serif"
     font_bold: bool = False
     font_italic: bool = False
-    pointer_size: float = 6
+    pointer_size: float = 6.0
     pointer_style: str = "triangle"
     crenel_enabled: bool = False
-    crenel_depth: float = 4
+    crenel_depth: float = 4.0
     crenel_shape: str = "symmetric"
     crenel_rounded: bool = True
-    crenel_radius: float = 2
+    crenel_radius: float = 2.0
     play: float = 0.3
     burn: float = 0.1
 

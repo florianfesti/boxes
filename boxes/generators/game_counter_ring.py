@@ -58,31 +58,38 @@ cut in a single laser pass with minimal material waste.
 """
 
     # Dummy declarations for mypy – overwritten by argparse at runtime.
-    outer_radius: float = 50.0
+    outer_radius: float = 45.0
     inner_radius: float = 32.0
     score_min: int = 0
     score_max: int = 9
     score_radius: float = 0.0
     score_inv: bool = False
-    font_size: float = 8
+    font_size: float = 10
     font_font: str = "sans-serif"
     font_bold: bool = False
     font_italic: bool = False
     pointer_size: float = 6
     pointer_style: str = "triangle"
     crenel_enabled: bool = False
-    crenel_depth: float = 2.0
+    crenel_depth: float = 4
     crenel_shape: str = "symmetric"
     crenel_rounded: bool = True
-    crenel_radius: float = 1
+    crenel_radius: float = 2
     play: float = 0.3
     burn: float = 0.1
 
     def __init__(self) -> None:
         Boxes.__init__(self)
-        self.addSettingsArgs(ScoreSettings, prefix="score")
-        self.addSettingsArgs(FontSettings, prefix="font", size=self.font_size)
-        self.addSettingsArgs(CrenelSettings, prefix="crenel")
+        self.addSettingsArgs(ScoreSettings, prefix="score",
+                             min=self.score_min, max=self.score_max,
+                             radius=self.score_radius, inv=self.score_inv)
+        self.addSettingsArgs(FontSettings, prefix="font",
+                             size=self.font_size, font=self.font_font,
+                             bold=self.font_bold, italic=self.font_italic)
+        self.addSettingsArgs(CrenelSettings, prefix="crenel",
+                             enabled=self.crenel_enabled, depth=self.crenel_depth,
+                             shape=self.crenel_shape, rounded=self.crenel_rounded,
+                             radius=self.crenel_radius)
 
         self.argparser.add_argument(
             "--outer_radius", action="store", type=float, default=self.outer_radius,
@@ -106,7 +113,7 @@ cut in a single laser pass with minimal material waste.
     # ------------------------------------------------------------------
 
     def _draw_score_numbers(self, cx: float, cy: float,
-                             label_r: float, ctx: Context) -> None:
+                            label_r: float, ctx: Context) -> None:
         """Engrave score numbers evenly around a circle of radius *label_r*."""
         n = self.score_max - self.score_min + 1
         if n < 1:
@@ -117,7 +124,9 @@ cut in a single laser pass with minimal material waste.
         ctx.set_font(self.font_font, bold=self.font_bold, italic=self.font_italic)
         self.set_source_color(Color.ETCHING)
         for i, score in enumerate(range(self.score_min, self.score_max + 1)):
-            angle_deg = i * angle_step
+            # Add 90° to match the crenel start_angle (π/2) so each label
+            # sits on its tooth rather than on the adjacent gap.
+            angle_deg = i * angle_step + 90.0
             angle_rad = math.radians(angle_deg)
             tx = cx + label_r * math.sin(angle_rad)
             ty = cy + label_r * math.cos(angle_rad)
@@ -133,30 +142,30 @@ cut in a single laser pass with minimal material waste.
     # pointer_size (ps) is the characteristic size in mm.
 
     def _pointer_triangle(self, cx: float, cy: float,
-                           disc_r: float, ps: float, ctx: Context) -> None:
+                          disc_r: float, ps: float, ctx: Context) -> None:
         """Outlined isosceles triangle pointing toward the rim (upward on screen)."""
         # Tip: ps*0.3 inward from the rim; base: ps below the tip.
-        tip_x  = cx
-        tip_y  = cy + disc_r - ps * 0.3
-        bl_x   = cx - ps * 0.5
-        bl_y   = cy + disc_r - ps * 1.3
-        br_x   = cx + ps * 0.5
-        br_y   = cy + disc_r - ps * 1.3
+        tip_x = cx
+        tip_y = cy + disc_r - ps * 0.3
+        bl_x = cx - ps * 0.5
+        bl_y = cy + disc_r - ps * 1.3
+        br_x = cx + ps * 0.5
+        br_y = cy + disc_r - ps * 1.3
 
         self.set_source_color(Color.ETCHING)
         ctx.move_to(tip_x, tip_y)
-        ctx.line_to(br_x,  br_y)
-        ctx.line_to(bl_x,  bl_y)
+        ctx.line_to(br_x, br_y)
+        ctx.line_to(bl_x, bl_y)
         ctx.line_to(tip_x, tip_y)
         ctx.stroke()
 
     def _pointer_circle(self, cx: float, cy: float,
-                         disc_r: float, ps: float, ctx: Context) -> None:
+                        disc_r: float, ps: float, ctx: Context) -> None:
         """Small engraved circle near the top of the disc."""
         # Center of the circle sits ps*0.8 inward from the rim.
         circle_cx = cx
         circle_cy = cy + disc_r - ps * 0.8
-        circle_r  = ps * 0.4
+        circle_r = ps * 0.4
 
         self.set_source_color(Color.ETCHING)
         # self.circle() handles the full 360° arc correctly
@@ -164,11 +173,11 @@ cut in a single laser pass with minimal material waste.
         ctx.stroke()
 
     def _pointer_rectangle(self, cx: float, cy: float,
-                             disc_r: float, ps: float, ctx: Context) -> None:
+                           disc_r: float, ps: float, ctx: Context) -> None:
         """Outlined rectangle near the top of the disc."""
-        hw = ps * 0.5          # half-width
-        h  = ps * 0.8          # height of the rectangle
-        top_y    = cy + disc_r - ps * 0.3
+        hw = ps * 0.5  # half-width
+        h = ps * 0.8  # height of the rectangle
+        top_y = cy + disc_r - ps * 0.3
         bottom_y = top_y - h
 
         self.set_source_color(Color.ETCHING)
@@ -180,11 +189,11 @@ cut in a single laser pass with minimal material waste.
         ctx.stroke()
 
     def _pointer_line(self, cx: float, cy: float,
-                       disc_r: float, ps: float, ctx: Context) -> None:
+                      disc_r: float, ps: float, ctx: Context) -> None:
         """Radial line from disc center toward the rim."""
         # Line starts ps inward from rim and ends ps*0.1 from rim.
         start_y = cy + ps
-        end_y   = cy + disc_r - ps * 0.1
+        end_y = cy + disc_r - ps * 0.1
 
         self.set_source_color(Color.ETCHING)
         ctx.move_to(cx, start_y)
@@ -192,9 +201,9 @@ cut in a single laser pass with minimal material waste.
         ctx.stroke()
 
     def _draw_pointer(self, cx: float, cy: float,
-                       disc_r: float, ctx: Context) -> None:
+                      disc_r: float, ctx: Context) -> None:
         """Dispatch to the selected pointer style."""
-        ps    = self.pointer_size
+        ps = self.pointer_size
         style = self.pointer_style if self.pointer_style in (
             "triangle", "circle", "rectangle", "line") else "triangle"
         fn = getattr(self, f"_pointer_{style}")
@@ -219,15 +228,15 @@ cut in a single laser pass with minimal material waste.
         if n < 1:
             return
 
-        depth   = self.crenel_depth
-        radial  = (self.crenel_shape == "radial")
+        depth = self.crenel_depth
+        radial = (self.crenel_shape == "radial")
         rounded = self.crenel_rounded
-        r_corn  = self.crenel_radius if rounded else 0.0
-        ri      = ro - depth
+        r_corn = self.crenel_radius if rounded else 0.0
+        ri = ro - depth
 
         angle_step = 2.0 * math.pi / n
-        half       = angle_step / 2.0
-        quarter    = half / 2.0
+        half = angle_step / 2.0
+        quarter = half / 2.0
 
         self.set_source_color(Color.OUTER_CUT)
         start_angle = math.pi / 2.0
@@ -236,30 +245,30 @@ cut in a single laser pass with minimal material waste.
             return cx + r * math.cos(a), cy + r * math.sin(a)
 
         def sym_inner_corners(center_a_in: float) -> tuple[
-                tuple[float, float], tuple[float, float]]:
+            tuple[float, float], tuple[float, float]]:
             """Left and right inner corners of a rectangular notch."""
             bx_in = math.cos(center_a_in)
             by_in = math.sin(center_a_in)
             ox_l, oy_l = pt_on(ro, center_a_in - quarter)
             ox_r, oy_r = pt_on(ro, center_a_in + quarter)
             return (ox_l - depth * bx_in, oy_l - depth * by_in), \
-                   (ox_r - depth * bx_in, oy_r - depth * by_in)
+                (ox_r - depth * bx_in, oy_r - depth * by_in)
 
         # Start on the outer rim at the very beginning of sector 0's gap.
         ctx.move_to(*pt_on(ro, start_angle - half))
 
         for i in range(n):
             center_a = start_angle + i * angle_step
-            tooth_l  = center_a - quarter   # left  outer edge of tooth
-            tooth_r  = center_a + quarter   # right outer edge of tooth
-            gap_end  = center_a + half      # end of the following gap
+            tooth_l = center_a - quarter  # left  outer edge of tooth
+            tooth_r = center_a + quarter  # right outer edge of tooth
+            gap_end = center_a + half  # end of the following gap
 
             if radial:
                 if r_corn <= 0.0 or ri <= 0.0:
                     # Gap arc → left wall down → floor arc → right wall up
-                    ctx.arc(cx, cy, ro,  center_a - half, tooth_l)
+                    ctx.arc(cx, cy, ro, center_a - half, tooth_l)
                     ctx.line_to(*pt_on(ri, tooth_l))
-                    ctx.arc(cx, cy, ri,  tooth_l,         tooth_r)
+                    ctx.arc(cx, cy, ri, tooth_l, tooth_r)
                     ctx.line_to(*pt_on(ro, tooth_r))
                 else:
                     da_o = min(r_corn / ro, quarter * 0.45)
@@ -268,7 +277,7 @@ cut in a single laser pass with minimal material waste.
                     ctx.curve_to(*pt_on(ri, tooth_l - da_i),
                                  *pt_on(ri, tooth_l - da_i),
                                  *pt_on(ri, tooth_l + da_i))
-                    ctx.arc(cx, cy, ri, tooth_l + da_i,  tooth_r - da_i)
+                    ctx.arc(cx, cy, ri, tooth_l + da_i, tooth_r - da_i)
                     ctx.curve_to(*pt_on(ro, tooth_r + da_o),
                                  *pt_on(ro, tooth_r + da_o),
                                  *pt_on(ro, tooth_r + da_o))
@@ -283,7 +292,7 @@ cut in a single laser pass with minimal material waste.
                     ctx.line_to(*pt_on(ro, tooth_r))
                 else:
                     da_o = min(r_corn / ro, quarter * 0.4)
-                    rc   = min(r_corn, ro * quarter * 0.4)
+                    rc = min(r_corn, ro * quarter * 0.4)
                     ctx.arc(cx, cy, ro, center_a - half, tooth_l - da_o)
                     fl_ctrl = (cx + ro * math.cos(tooth_l) - rc * bx,
                                cy + ro * math.sin(tooth_l) - rc * by)

@@ -1,4 +1,129 @@
 
+/*** Color Settings **************************************/
+
+const COLOR_STORAGE_KEY = 'boxes-color-settings';
+
+/** Return saved overrides as {ROLE: '#rrggbb'} or {} */
+function loadColorSettings() {
+    try {
+        return JSON.parse(localStorage.getItem(COLOR_STORAGE_KEY) || '{}');
+    } catch (_) {
+        return {};
+    }
+}
+
+/** Persist overrides and flash the status indicator if present. */
+function persistColorSettings(overrides) {
+    localStorage.setItem(COLOR_STORAGE_KEY, JSON.stringify(overrides));
+    const status = document.getElementById('color-settings-status');
+    if (status) {
+        status.style.display = 'inline';
+        clearTimeout(status._hideTimer);
+        status._hideTimer = setTimeout(() => { status.style.display = 'none'; }, 1500);
+    }
+}
+
+/** Called by each select's onchange – auto-save immediately. */
+function onColorChange(sel) {
+    const overrides = loadColorSettings();
+    overrides[sel.dataset.role] = sel.value;
+    persistColorSettings(overrides);
+    updateSwatch(sel);
+}
+
+/** Update the color swatch span next to a select element. */
+function updateSwatch(sel) {
+    const swatch = sel.parentElement.querySelector('.color-swatch');
+    if (swatch) swatch.style.background = sel.value;
+}
+
+/** Settings page – load saved values into selects and swatches on page load. */
+function initColorSettingsPage() {
+    const overrides = loadColorSettings();
+    document.querySelectorAll('select[data-role]').forEach(sel => {
+        const saved = overrides[sel.dataset.role];
+        if (saved) {
+            // Try to select the matching option; fall back silently if not found.
+            const opt = Array.from(sel.options).find(o => o.value === saved);
+            if (opt) sel.value = saved;
+        }
+        // Inject a live swatch next to the select.
+        const swatch = document.createElement('span');
+        swatch.className = 'color-swatch';
+        swatch.style.background = sel.value;
+        sel.insertAdjacentElement('afterend', swatch);
+    });
+}
+
+/** Export current localStorage settings as a downloaded JSON file. */
+function exportColorSettings() {
+    const overrides = loadColorSettings();
+    const blob = new Blob([JSON.stringify(overrides, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'boxes-color-settings.json';
+    a.click();
+    URL.revokeObjectURL(a.href);
+}
+
+/** Import a JSON file and apply it – triggered by the hidden file input. */
+function importColorSettings(input) {
+    const file = input.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        try {
+            const overrides = JSON.parse(e.target.result);
+            persistColorSettings(overrides);
+            // Reload to reflect the imported values in all selects.
+            window.location.reload();
+        } catch (_) {
+            alert('Invalid JSON file.');
+        }
+    };
+    reader.readAsText(file);
+    // Reset so the same file can be re-imported if needed.
+    input.value = '';
+}
+
+/** Settings page – clear localStorage and reload. */
+function resetColorSettings() {
+    localStorage.removeItem(COLOR_STORAGE_KEY);
+    window.location.reload();
+}
+
+/** Inject color overrides as hidden inputs into a form so they travel with every submit. */
+function injectColorHiddenFields(form) {
+    form.querySelectorAll('input[data-color-override]').forEach(el => el.remove());
+    const overrides = loadColorSettings();
+    for (const [role, hex] of Object.entries(overrides)) {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'color_' + role.toLowerCase();
+        input.value = hex;
+        input.setAttribute('data-color-override', '1');
+        form.appendChild(input);
+    }
+}
+
+/** Append color override params to a URL string. */
+function appendColorParams(url) {
+    const overrides = loadColorSettings();
+    const params = Object.entries(overrides)
+        .map(([role, hex]) => 'color_' + role.toLowerCase() + '=' + encodeURIComponent(hex))
+        .join('&');
+    if (!params) return url;
+    return url + (url.includes('?') ? '&' : '?') + params;
+}
+
+/** Called once from initArgsPage – patch form submission and preview refresh. */
+function initColorInjection() {
+    const form = document.querySelector('#arguments');
+    if (!form) return;
+    injectColorHiddenFields(form);
+    form.addEventListener('submit', () => injectColorHiddenFields(form));
+}
+
 /*** Gallery columns per row *****************************/
 
 function applyGalleryCols(n) {
@@ -124,6 +249,7 @@ function initPage(num_hide = null) {
 
 function initArgsPage(num_hide = null) {
     initPage(num_hide);
+    initColorInjection();
     const i = document.querySelectorAll("td > input, td > select, td > textarea");
     for (let el of i) {
 	el.addEventListener("change", refreshPreview);
@@ -144,7 +270,8 @@ function refreshPreview() {
     const formData = new FormData(form);
     formData.set("format", "svg");
 
-    const url = form.action + "?" + new URLSearchParams(formData).toString() + "&render=4";
+    let url = form.action + "?" + new URLSearchParams(formData).toString() + "&render=4";
+    url = appendColorParams(url);
 
     const preview = document.getElementById("preview_img");
     preview.src = url;

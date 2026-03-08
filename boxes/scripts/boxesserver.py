@@ -492,6 +492,7 @@ class BServer:
         links.append(("https://florianfesti.github.io/boxes/html/give_back.html", _("Give Back")))
 
         result = [f'  <li><a href="{url}" target="_blank" rel="noopener">{txt}</a></li>\n' for url, txt in links]
+        result.append(f'  <li><a href="settings">\U0001f3a8 {_("Color Settings")}</a></li>\n')
 
         if preview:
             result.append(f'    <li class="right">{_("Preview")} <input id="preview_chk" type="checkbox" checked="checked"> </li>\n')
@@ -528,6 +529,91 @@ class BServer:
         box.text(_("An error occurred!"))
         box.text(str(e), y=-20, fontsize=7)
         return box.close()
+
+    # ------------------------------------------------------------------
+    # Color-settings page
+    # ------------------------------------------------------------------
+
+    def serveSettings(self, environ, start_response, lang) -> list[bytes]:
+        """Render the /settings page with one color-select row per laser role."""
+        _ = lang.gettext
+        from boxes.Color import Color  # local import to get the live class
+
+        # Build the list of named colors available in the Color class.
+        named_colors: list[tuple[str, str]] = [
+            (name, Color.to_hex(getattr(Color, name)))
+            for name in ("BLACK", "BLUE", "GREEN", "RED", "CYAN",
+                         "YELLOW", "MAGENTA", "WHITE")
+        ]
+
+        rows = []
+        for role, (label, desc) in Color.ROLE_LABELS.items():
+            default_hex = Color.to_hex(getattr(Color, role))
+            options = "\n".join(
+                f'      <option value="{hex_val}"{" selected" if hex_val == default_hex else ""}>'
+                f'{name} ({hex_val})</option>'
+                for name, hex_val in named_colors
+            )
+            rows.append(f"""
+  <tr>
+    <td><label for="color_{role}">{label}</label></td>
+    <td>
+      <select id="color_{role}" data-role="{role}" onchange="onColorChange(this)">
+{options}
+      </select>
+    </td>
+    <td class="color-desc">{desc}</td>
+  </tr>""")
+
+        rows_html = "\n".join(rows)
+        page = f"""{self.genHTMLStart(lang)}
+<head>
+  <title>{_("Color Settings")} – {_("Boxes.py")}</title>
+  {self.genHTMLMeta()}
+  {self.genHTMLCSS()}
+  {self.genHTMLJS()}
+  <style>
+    .color-settings-table {{ border-collapse: collapse; width: 100%; max-width: 760px; }}
+    .color-settings-table td {{ padding: 8px 12px; vertical-align: middle; }}
+    .color-settings-table select {{ padding: 4px 6px; border: 1px solid #ccc; border-radius: 4px; }}
+    .color-swatch {{ display: inline-block; width: 18px; height: 18px; border-radius: 3px; border: 1px solid #888; vertical-align: middle; margin-left: 6px; }}
+    .color-desc {{ color: #555; font-size: 0.9em; }}
+    .settings-actions {{ margin-top: 16px; display: flex; gap: 12px; align-items: center; }}
+    #import-file {{ display: none; }}
+  </style>
+</head>
+<body onload="initColorSettingsPage()">
+<div class="container">
+<div style="width:75%; float:left;">
+{self.genPagePartHeader(lang)}
+<h2>{_("Color Settings")}</h2>
+<p>{_("Choose the SVG stroke color for each laser operation. Changes are saved instantly in your browser.")}</p>
+<table class="color-settings-table">
+  <thead><tr>
+    <th>{_("Role")}</th>
+    <th>{_("Color")}</th>
+    <th>{_("Description")}</th>
+  </tr></thead>
+  <tbody>
+{rows_html}
+  </tbody>
+</table>
+<div class="settings-actions">
+  <button onclick="exportColorSettings()">{_("Export JSON")}</button>
+  <button onclick="document.getElementById('import-file').click()">{_("Import JSON")}</button>
+  <input type="file" id="import-file" accept=".json,application/json" onchange="importColorSettings(this)">
+  <button onclick="resetColorSettings()">{_("Reset to defaults")}</button>
+  <span id="color-settings-status" style="color:green; display:none">{_("Saved.")}</span>
+</div>
+</div>
+<div style="width:5%; float:left;"></div>
+<div class="clear"></div><hr>
+</div>
+</body>
+</html>
+"""
+        start_response("200 OK", [('Content-type', 'text/html; charset=utf-8')])
+        return [page.encode("utf-8")]
 
     def serveStatic(self, environ, start_response):
         filename = environ["PATH_INFO"][len("/static/"):]
@@ -659,6 +745,9 @@ class BServer:
         if not name or name == "Gallery":
             return self.serveGallery(environ, start_response, lang)
 
+        if name == "settings":
+            return self.serveSettings(environ, start_response, lang)
+
         box_cls = self.boxes.get(name, None)
         if not box_cls:
             start_response(status, headers)
@@ -682,7 +771,16 @@ class BServer:
             start_response(status, headers)
             return self.args2html_cached(name, box, lang, "./" + name, defaults=defaults)
 
-        args = ["--" + arg for arg in args if not arg.startswith("render=")]
+        args = ["--" + arg for arg in args if not arg.startswith("render=") and not arg.startswith("color_")]
+        # Collect color overrides sent by the browser (color_ROLE=#rrggbb).
+        raw_args_full = [unquote_plus(arg) for arg in environ.get('QUERY_STRING', '').split("&")]
+        color_overrides: dict[str, str] = {}
+        for arg in raw_args_full:
+            if arg.startswith("color_"):
+                role, _, hex_val = arg[len("color_"):].partition("=")
+                role = role.upper()
+                if role and hex_val:
+                    color_overrides[role] = hex_val
         try:
             box.parseArgs(args)
         except ArgumentParserError as e:
@@ -698,7 +796,16 @@ class BServer:
             box.metadata["url_short"] = filter_url(box.metadata["url"],
                                                    box.non_default_args)
             box.open()
-            box.render()
+            # Apply per-request color overrides, then restore class defaults.
+            from boxes.Color import Color as _Color
+            _saved_colors = {role: list(getattr(_Color, role)) for role in _Color.ROLE_LABELS}
+            if color_overrides:
+                _Color.apply_overrides(color_overrides)
+            try:
+                box.render()
+            finally:
+                for role, val in _saved_colors.items():
+                    setattr(_Color, role, val)
             data = box.close()
         except Exception as e:
             if not isinstance(e, ValueError):

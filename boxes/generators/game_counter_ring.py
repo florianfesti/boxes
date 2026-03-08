@@ -329,10 +329,15 @@ cut in a single laser pass with minimal material waste.
         self.hole(cx, cy, r=ri)
 
         # Score numbers – auto or explicit label radius
+        if self.score_inv:
+            score_offset = -self.font_size * 0.1
+        else:
+            score_offset = +self.font_size * 0.3
+
         if self.score_radius > 0.0:
             label_r = self.score_radius
         else:
-            label_r = (ro + ri) / 2.0
+            label_r = (ro + ri) / 2.0 - score_offset
         self._draw_score_numbers(cx, cy, label_r, ctx)
 
     def _piece_b_disc(self, cx: float, cy: float, ctx: Context) -> None:

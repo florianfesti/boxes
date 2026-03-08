@@ -61,20 +61,20 @@ cut in a single laser pass with minimal material waste.
     outer_radius: float = 50.0
     inner_radius: float = 32.0
     Score_min: int = 0
-    Score_max: int = 20
+    Score_max: int = 9
     Score_radius: float = 0.0
     Score_inv: bool = False
-    Font_size: float = 4.0
+    Font_size: float = 8
     Font_font: str = "sans-serif"
     Font_bold: bool = False
     Font_italic: bool = False
-    pointer_size: float = 4.0
+    pointer_size: float = 6
     pointer_style: str = "triangle"
     Notch_enabled: bool = False
     Notch_depth: float = 2.0
     Notch_shape: str = "symmetric"
-    Notch_rounded: bool = False
-    Notch_radius: float = 0.5
+    Notch_rounded: bool = True
+    Notch_radius: float = 1
     play: float = 0.3
     burn: float = 0.1
 
@@ -210,11 +210,10 @@ cut in a single laser pass with minimal material waste.
         ``Notch_shape``:
           * ``symmetric`` – straight walls perpendicular to the sector bisector
             (true rectangular slots, geometrically symmetric).
-          * ``radial``    – walls are radial lines converging toward the centre
-            (the original shape).
+          * ``radial``    – walls are radial lines converging toward the centre.
 
-        ``Notch_rounded`` adds fillets of radius ``Notch_radius`` at every
-        inner corner of the notch.
+        ``Notch_rounded`` adds fillets of radius ``Notch_radius`` at the four
+        inner corners of each notch.
         """
         n = self.Score_max - self.Score_min + 1
         if n < 1:
@@ -224,122 +223,80 @@ cut in a single laser pass with minimal material waste.
         radial  = (self.Notch_shape == "radial")
         rounded = self.Notch_rounded
         r_corn  = self.Notch_radius if rounded else 0.0
-        ri      = ro - depth          # inner floor radius (used in radial mode)
+        ri      = ro - depth
 
         angle_step = 2.0 * math.pi / n
-        half       = angle_step / 2.0   # half sector = one tooth + one gap half
-        quarter    = half / 2.0         # tooth spans ±quarter around its centre
+        half       = angle_step / 2.0
+        quarter    = half / 2.0
 
         self.set_source_color(Color.OUTER_CUT)
         start_angle = math.pi / 2.0
 
-        # ── helpers ────────────────────────────────────────────────────────────
-
         def pt_on(r: float, a: float) -> tuple[float, float]:
             return (cx + r * math.cos(a), cy + r * math.sin(a))
 
-        # In symmetric mode the two side walls of a notch are perpendicular to
-        # the bisector of the sector.  The bisector direction at angle `a` is
-        # (cos a, sin a).  A wall at angular position `a` has its foot on the
-        # outer rim at pt_on(ro, a) and its inner end at depth `depth` inward,
-        # moving purely in the −bisector direction.
-        def pt_wall_inner(a: float) -> tuple[float, float]:
-            """Inner end of a symmetric notch side wall at angle `a`."""
-            return (cx + ro * math.cos(a) - depth * math.cos(a),
-                    cy + ro * math.sin(a) - depth * math.sin(a))
-            # simplifies to: (cx + (ro-depth)*cos(a), cy + (ro-depth)*sin(a))
-            # which IS the same as pt_on(ro-depth, a) — so the floor is still
-            # a circular arc, but the *side walls* are radially straight.
-            # True rectangular walls need Cartesian perpendicular offsets:
-
-        # For a *truly* rectangular (Euclidean-symmetric) notch the floor
-        # must be a straight chord perpendicular to the bisector.  We compute
-        # the two inner corners explicitly.
         def sym_inner_corners(centre_a: float) -> tuple[
                 tuple[float, float], tuple[float, float]]:
             """Left and right inner corners of a rectangular notch."""
-            # Outer rim points at the tooth edges
+            bx = math.cos(centre_a)
+            by = math.sin(centre_a)
             ox_l, oy_l = pt_on(ro, centre_a - quarter)
             ox_r, oy_r = pt_on(ro, centre_a + quarter)
-            # Inward direction at centre (bisector unit vector)
-            bx, by = math.cos(centre_a), math.sin(centre_a)
-            # Inner corners: shift each outer corner by depth in −bisector dir
-            il = (ox_l - depth * bx, oy_l - depth * by)
-            ir = (ox_r - depth * bx, oy_r - depth * by)
-            return il, ir
+            return (ox_l - depth * bx, oy_l - depth * by), \
+                   (ox_r - depth * bx, oy_r - depth * by)
 
-        # ── path construction ──────────────────────────────────────────────────
-
-        # Start point: left outer edge of sector 0's gap (before the first tooth)
-        first_gap_start = start_angle - half
-        ctx.move_to(*pt_on(ro, first_gap_start))
+        # Start on the outer rim at the very beginning of sector 0's gap.
+        ctx.move_to(*pt_on(ro, start_angle - half))
 
         for i in range(n):
-            centre_a    = start_angle + i * angle_step
-            tooth_l     = centre_a - quarter   # left  outer edge of tooth
-            tooth_r     = centre_a + quarter   # right outer edge of tooth
-            gap_end     = centre_a + half      # right outer edge of gap
+            centre_a = start_angle + i * angle_step
+            tooth_l  = centre_a - quarter   # left  outer edge of tooth
+            tooth_r  = centre_a + quarter   # right outer edge of tooth
+            gap_end  = centre_a + half      # end of the following gap
 
             if radial:
-                # ── radial walls ────────────────────────────────────────────
-                # Gap arc on outer rim, then step down, tooth arc, step up.
                 if r_corn <= 0.0 or ri <= 0.0:
-                    # Sharp corners
-                    ctx.arc(cx, cy, ro, tooth_l - half, tooth_l)
+                    # Gap arc → left wall down → floor arc → right wall up
+                    ctx.arc(cx, cy, ro,  centre_a - half, tooth_l)
                     ctx.line_to(*pt_on(ri, tooth_l))
-                    ctx.arc(cx, cy, ri, tooth_l, tooth_r)
+                    ctx.arc(cx, cy, ri,  tooth_l,         tooth_r)
                     ctx.line_to(*pt_on(ro, tooth_r))
                 else:
                     da_o = min(r_corn / ro, quarter * 0.45)
                     da_i = min(r_corn / ri, quarter * 0.45)
-                    # Gap arc to fillet start
-                    ctx.arc(cx, cy, ro, tooth_l - half, tooth_l - da_o)
-                    # Fillet: outer→inner left wall
+                    ctx.arc(cx, cy, ro, centre_a - half, tooth_l - da_o)
                     ctx.curve_to(*pt_on(ri, tooth_l - da_i),
                                  *pt_on(ri, tooth_l - da_i),
                                  *pt_on(ri, tooth_l + da_i))
-                    # Floor arc
-                    ctx.arc(cx, cy, ri, tooth_l + da_i, tooth_r - da_i)
-                    # Fillet: inner→outer right wall
+                    ctx.arc(cx, cy, ri, tooth_l + da_i,  tooth_r - da_i)
                     ctx.curve_to(*pt_on(ro, tooth_r + da_o),
                                  *pt_on(ro, tooth_r + da_o),
                                  *pt_on(ro, tooth_r + da_o))
             else:
-                # ── symmetric (rectangular) walls ───────────────────────────
                 il, ir = sym_inner_corners(centre_a)
+                bx = math.cos(centre_a)
+                by = math.sin(centre_a)
                 if r_corn <= 0.0:
-                    # Gap arc on outer rim
-                    ctx.arc(cx, cy, ro, tooth_l - half, tooth_l)
-                    # Left wall: straight down to inner corner
+                    ctx.arc(cx, cy, ro, centre_a - half, tooth_l)
                     ctx.line_to(*il)
-                    # Floor: straight line to right inner corner
                     ctx.line_to(*ir)
-                    # Right wall: straight up to outer rim
                     ctx.line_to(*pt_on(ro, tooth_r))
                 else:
-                    # Fillet radius capped to 40% of half-tooth-arc-length
-                    max_r = ro * quarter * 0.4
-                    rc = min(r_corn, max_r)
-                    # Unit vectors for left and right walls (inward = −bisector)
-                    bx, by = math.cos(centre_a), math.sin(centre_a)
-                    # Left wall direction (from outer-left toward il): −bisector
-                    # Right wall direction (from ir toward outer-right): +bisector
-                    # Arc offset on outer rim consumed by fillet
-                    da_o = min(rc / ro, quarter * 0.4)
-                    # Gap arc to fillet start
-                    ctx.arc(cx, cy, ro, tooth_l - half, tooth_l - da_o)
-                    # Fillet at outer-left corner (gap→left-wall)
-                    # control + end: move rc inward along bisector from pt_on(ro, tooth_l)
+                    da_o = min(r_corn / ro, quarter * 0.4)
+                    rc   = min(r_corn, ro * quarter * 0.4)
+                    ctx.arc(cx, cy, ro, centre_a - half, tooth_l - da_o)
                     fl_ctrl = (cx + ro * math.cos(tooth_l) - rc * bx,
                                cy + ro * math.sin(tooth_l) - rc * by)
                     ctx.curve_to(*fl_ctrl, *fl_ctrl, *il)
-                    # Floor line (il → ir) — add fillet shrinkage if needed
                     ctx.line_to(*ir)
-                    # Fillet at outer-right corner (right-wall→gap)
                     fr_ctrl = (cx + ro * math.cos(tooth_r) - rc * bx,
                                cy + ro * math.sin(tooth_r) - rc * by)
                     ctx.curve_to(*fr_ctrl, *fr_ctrl, *pt_on(ro, tooth_r + da_o))
 
+        # Close the path: arc back to the starting point and close.
+        ctx.arc(cx, cy, ro,
+                start_angle + n * angle_step - half,
+                start_angle - half + 2.0 * math.pi)
         ctx.stroke()
 
     # ------------------------------------------------------------------

@@ -19,7 +19,7 @@ from boxes import *
 
 
 def offset_radius_in_square(squareside, angle, outset):
-    """From the centre of a square, rotate by an angle relative to the
+    """From the center of a square, rotate by an angle relative to the
     vertical, move away from the center (down if angle = 0), and then in a
     right angle until the border of the square. Return the length of that last
     segment.

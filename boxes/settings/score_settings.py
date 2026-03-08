@@ -50,7 +50,7 @@ class ScoreSettings(Settings):
 
     absolute_params: dict = {
         "min":    0,
-        "max":    20,
+        "max":    9,
         "radius": 0.0,
         "inv":    False,
     }

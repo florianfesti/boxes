@@ -108,7 +108,7 @@ class Pulley:
         pulley_OD = self.diameter(teeth, profile)
 
         tooth_depth, tooth_width = self.profile_data[profile]
-        tooth_distance_from_centre = ((pulley_OD / 2) ** 2 - ((tooth_width + additional_tooth_width) / 2) ** 2) ** 0.5
+        tooth_distance_from_center = ((pulley_OD / 2) ** 2 - ((tooth_width + additional_tooth_width) / 2) ** 2) ** 0.5
         tooth_width_scale = (tooth_width + additional_tooth_width) / tooth_width
         tooth_depth_scale = ((tooth_depth + additional_tooth_depth) / tooth_depth)
 
@@ -133,7 +133,7 @@ class Pulley:
         points = []
         for i in range(teeth):
             m = [[tooth_width_scale, 0, 0],
-                 [0, tooth_depth_scale, -tooth_distance_from_centre]]
+                 [0, tooth_depth_scale, -tooth_distance_from_center]]
             m = mmul(m, rotm(i * 2 * pi / teeth))
             points.extend(vtransl(pt, m) for pt in self.teeth[profile][1:-1])
 

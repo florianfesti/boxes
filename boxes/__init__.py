@@ -1835,8 +1835,8 @@ class Boxes:
             x_cpl, y_cpl, x_cpr, y_cpr = outerCutPoly.bounds
 
             if self.debug:
-                self.showBorderPoly(list(outerCutPoly.exterior.coords))
-                self.showBorderPoly(list(innerCutPoly.exterior.coords))
+                self.showBorderPoly(list(outerCutPoly.exterior.coordinates))
+                self.showBorderPoly(list(innerCutPoly.exterior.coordinates))
 
             # set startpoint
             y = min_y + bspace + max_radius_y
@@ -1932,7 +1932,7 @@ class Boxes:
             cutPoly = borderPoly.buffer(-1 * (bspace + max_radius - 0.000001), join_style=2)
 
             if self.debug:
-                self.showBorderPoly(list(shrinkPoly.exterior.coords))
+                self.showBorderPoly(list(shrinkPoly.exterior.coordinates))
 
             segment_length = [bar_length / 2, bar_length]
             segment_max = 1

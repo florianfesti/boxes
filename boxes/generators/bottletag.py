@@ -63,7 +63,7 @@ class BottleTag(Boxes):
         self.edge(height - width / 2.0 - r)
         self.corner(90, r)
 
-        # move to centre of hole and cut the inner circle
+        # move to center of hole and cut the inner circle
         self.moveTo(width / 2 - r, height - width / 2)
         with self.saved_context():
             self.moveTo(0, -r_min)

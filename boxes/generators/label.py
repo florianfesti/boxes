@@ -19,7 +19,7 @@ from typing import cast
 
 from boxes import *
 from boxes.drawing import Context
-from boxes.fontsettings import FontSettings
+from boxes.settings.font_settings import FontSettings
 
 
 class Label(Boxes):

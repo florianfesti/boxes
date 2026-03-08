@@ -31,7 +31,7 @@ points **up or down**.
         └──────────────────────────┘
 ```
 
-- Full disc with a **circular cutout** in the centre → a ring shape.
+- Full disc with a **circular cutout** in the center → a ring shape.
 - **Score numbers / tick marks** engraved (ETCHING) around the inner edge at
   regular angular intervals on the visible face.
 - **Magnet pockets** (INNER_CUT) placed symmetrically near the inner edge of
@@ -74,7 +74,7 @@ points **up or down**.
 | Color            | Hex      | Usage in this generator                      |
 |------------------|----------|----------------------------------------------|
 | `OUTER_CUT` (black) | `#000000` | Perimeter cuts — outer ring profile, disc outline |
-| `INNER_CUT` (blue)  | `#0000ff` | Interior cuts — magnet pockets, centre hole  |
+| `INNER_CUT` (blue)  | `#0000ff` | Interior cuts — magnet pockets, center hole  |
 | `ETCHING` (green)   | `#00ff00` | Score numbers, tick marks, pointer arrow     |
 | `ANNOTATIONS` (red) | `#ff0000` | Debug / alignment guides only (not printed)  |
 
@@ -93,7 +93,7 @@ points **up or down**.
 | Argument           | Type  | Default | Description                                      |
 |--------------------|-------|---------|--------------------------------------------------|
 | `--outer_radius`   | float | 60      | Total outer radius of the counter [mm]           |
-| `--inner_radius`   | float | 40      | Radius of the inner disc / centre cutout [mm]    |
+| `--inner_radius`   | float | 40      | Radius of the inner disc / center cutout [mm]    |
 | `--magnet_diameter`| float | 6       | Diameter of cylindrical magnets [mm]             |
 | `--magnet_height`  | float | 2       | Depth of magnet pocket [mm]                      |
 | `--magnet_count`   | int   | 4       | Number of magnets, evenly spaced angularly       |
@@ -102,7 +102,7 @@ points **up or down**.
 | `--play`           | float | 0.3     | Radial gap between ring cutout and disc [mm]     |
 | `--font_size`      | float | 5       | Font size for score numbers [mm]                 |
 | `--pointer_size`   | float | 4       | Height of the pointer triangle on Piece B [mm]   |
-| `--thumb_hole`     | float | 0       | Diameter of optional centre thumb-grip hole [mm] |
+| `--thumb_hole`     | float | 0       | Diameter of optional center thumb-grip hole [mm] |
 
 > `outer_radius` must be > `inner_radius` + material thickness for a valid ring.
 > `inner_radius` must be > `magnet_diameter/2` + margin.
@@ -165,7 +165,7 @@ GameCounterCircular
 │     ├── draw disc outer circle (OUTER_CUT)
 │     ├── draw pointer/arrow at 0° (ETCHING)
 │     ├── place matching magnet holes (INNER_CUT)
-│     └── optional thumb grip hole at centre (INNER_CUT)
+│     └── optional thumb grip hole at center (INNER_CUT)
 │
 └── render()
       ├── outerRing(move="right", label="Piece A – Outer Ring")

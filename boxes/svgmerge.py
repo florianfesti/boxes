@@ -115,9 +115,9 @@ class SvgMerge:
             elif tag in ["polyline", "polygon"]:
                 points = elem.attrib.get("points", "")
                 point_pairs = re.findall(r"[-+]?[0-9]*\.?[0-9]+(?:[eE][-+]?[0-9]+)?", points)
-                coords = list(map(float, point_pairs))
-                xs = coords[::2]
-                ys = coords[1::2]
+                coordinates = list(map(float, point_pairs))
+                xs = coordinates[::2]
+                ys = coordinates[1::2]
                 if xs and ys:
                     update_bbox(xs, ys)
             elif tag == "path":

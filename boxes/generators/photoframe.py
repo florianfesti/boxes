@@ -194,14 +194,14 @@ class Dimensions:
         return self.window_y + 2 * self.frame_h
 
     @property
-    def centre_x(self):
+    def center_x(self):
         """
         Midpoint of the whole frame
         """
         return self.base_x / 2
 
     @property
-    def centre_y(self):
+    def center_y(self):
         """
         Midpoint of the whole frame
         """
@@ -488,7 +488,7 @@ interesting in the last 2mm of a photo anyway.
         border_str = f"Widths {d.frame_w:.0f}x {d.frame_h:.0f}y {d.frame_overlap:.0f} overlap"
         label = f"{dims_str}\n{border_str}"
 
-        callback = [lambda: self.rectangularHole(d.centre_x, d.centre_y, d.window_x, d.window_y)]
+        callback = [lambda: self.rectangularHole(d.center_x, d.center_y, d.window_x, d.window_y)]
         self.rectangularWall(d.base_x, d.base_y, "eeee", callback=callback, move="up", label=label)
 
     def front_split(self):
@@ -527,7 +527,7 @@ interesting in the last 2mm of a photo anyway.
 
         d = self.d
         self.set_source_color(Color.ETCHING)
-        self.rectangular_etching(d.centre_x, d.centre_y, d.photo_x, d.photo_y)
+        self.rectangular_etching(d.center_x, d.center_y, d.photo_x, d.photo_y)
         self.ctx.stroke()
 
     def rectangular_etching(self, x, y, dx, dy, r=0.0, center_x=True, center_y=True):

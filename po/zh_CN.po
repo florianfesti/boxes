@@ -1,17 +1,18 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: boxes.py\n"
+"Project-Id-Version:  boxes.py\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-04-23 20:36+0200\n"
-"PO-Revision-Date: \n"
+"PO-Revision-Date: 2019-01-01 00:00+0000\n"
 "Last-Translator: 裘炯涛 <qiujiongtao@163.com>\n"
-"Language-Team: qiujiongtao@163.com\n"
 "Language: zh_CN\n"
+"Language-Team: qiujiongtao@163.com\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.6\n"
+"Generated-By: Babel 2.18.0\n"
 
 #. e edge description
 #: boxes/edges.py
@@ -571,8 +572,8 @@ msgstr "嗨"
 
 #. help for parameter hi
 msgid ""
-"inner height of inner walls in mm (unless outside selected)(leave to zero for same "
-"as outer walls)"
+"inner height of inner walls in mm (unless outside selected)(leave to zero"
+" for same as outer walls)"
 msgstr "内墙的内部高度，单位为mm（除非选择外部）（与外部墙相同，保留为零）"
 
 #. parameter name
@@ -581,11 +582,12 @@ msgstr "sx"
 
 #. help for parameter sx
 msgid ""
-"sections left to right in mm [🛈](https://florianfesti.github.io/boxes/html/"
-"usermanual.html#section-parameters)"
+"sections left to right in mm "
+"[🛈](https://florianfesti.github.io/boxes/html/usermanual.html#section-"
+"parameters)"
 msgstr ""
-"从左到右，单位为毫米 [🛈](https://florianfesti.github.io/boxes/html/"
-"usermanual.html#section-parameters)"
+"从左到右，单位为毫米 [🛈](https://florianfesti.github.io/boxes/html/usermanual.html"
+"#section-parameters)"
 
 #. parameter name
 msgid "sy"
@@ -593,11 +595,12 @@ msgstr "sy"
 
 #. help for parameter sy
 msgid ""
-"sections back to front in mm [🛈](https://florianfesti.github.io/boxes/html/"
-"usermanual.html#section-parameters)"
+"sections back to front in mm "
+"[🛈](https://florianfesti.github.io/boxes/html/usermanual.html#section-"
+"parameters)"
 msgstr ""
-"从后到前的截面（mm）[🛈](https://florianfesti.github.io/boxes/html/"
-"usermanual.html#section-parameters)"
+"从后到前的截面（mm）[🛈](https://florianfesti.github.io/boxes/html/usermanual.html"
+"#section-parameters)"
 
 #. parameter name
 msgid "sh"
@@ -605,11 +608,12 @@ msgstr ""
 
 #. help for parameter sh
 msgid ""
-"sections bottom to top in mm [🛈](https://florianfesti.github.io/boxes/html/"
-"usermanual.html#section-parameters)"
+"sections bottom to top in mm "
+"[🛈](https://florianfesti.github.io/boxes/html/usermanual.html#section-"
+"parameters)"
 msgstr ""
-"从下到上的截面（mm）[🛈](https://florianfesti.github.io/boxes/html/"
-"usermanual.html#section-parameters)"
+"从下到上的截面（mm）[🛈](https://florianfesti.github.io/boxes/html/usermanual.html"
+"#section-parameters)"
 
 #. parameter name
 msgid "bottom_edge"
@@ -693,11 +697,9 @@ msgstr "外部尺寸"
 
 #. help for parameter outside
 msgid ""
-"treat sizes as outside measurements [🛈](https://florianfesti.github.io/boxes/html/"
-"usermanual.html#outside)"
-msgstr ""
-"从外部测量的尺寸（即包含材料厚度）[🛈](https://florianfesti.github.io/boxes/html/"
-"usermanual.html#outside)"
+"treat sizes as outside measurements "
+"[🛈](https://florianfesti.github.io/boxes/html/usermanual.html#outside)"
+msgstr "从外部测量的尺寸（即包含材料厚度）[🛈](https://florianfesti.github.io/boxes/html/usermanual.html#outside)"
 
 #. parameter name
 msgid "nema_mount"
@@ -716,11 +718,11 @@ msgstr "厚度"
 
 #. help for parameter thickness
 msgid ""
-"thickness of the material (in mm) [🛈](https://florianfesti.github.io/boxes/html/"
-"usermanual.html#thickness)"
+"thickness of the material (in mm) "
+"[🛈](https://florianfesti.github.io/boxes/html/usermanual.html#thickness)"
 msgstr ""
-"材料厚度 (mm) [🛈](https://florianfesti.github.io/boxes/html/"
-"usermanual.html#thickness)"
+"材料厚度 (mm) "
+"[🛈](https://florianfesti.github.io/boxes/html/usermanual.html#thickness)"
 
 #. parameter name
 msgid "format"
@@ -728,10 +730,9 @@ msgstr "格式"
 
 #. help for parameter format
 msgid ""
-"format of resulting file [🛈](https://florianfesti.github.io/boxes/html/"
-"usermanual.html#format)"
-msgstr ""
-"输出格式 [🛈](https://florianfesti.github.io/boxes/html/usermanual.html#format)"
+"format of resulting file "
+"[🛈](https://florianfesti.github.io/boxes/html/usermanual.html#format)"
+msgstr "输出格式 [🛈](https://florianfesti.github.io/boxes/html/usermanual.html#format)"
 
 #. possible choice for format
 msgid "dxf"
@@ -771,11 +772,12 @@ msgstr "切割缝隙"
 
 #. help for parameter tabs
 msgid ""
-"width of tabs holding the parts in place (in mm)(not supported everywhere) [🛈]"
-"(https://florianfesti.github.io/boxes/html/usermanual.html#tabs)"
+"width of tabs holding the parts in place (in mm)(not supported "
+"everywhere) "
+"[🛈](https://florianfesti.github.io/boxes/html/usermanual.html#tabs)"
 msgstr ""
-"固定零件的卡扣宽度（单位：mm）（不是所有地方都支持） [🛈](https://"
-"florianfesti.github.io/boxes/html/usermanual.html#tabs)"
+"固定零件的卡扣宽度（单位：mm）（不是所有地方都支持） "
+"[🛈](https://florianfesti.github.io/boxes/html/usermanual.html#tabs)"
 
 #. parameter name
 msgid "qr_code"
@@ -791,11 +793,11 @@ msgstr "边框"
 
 #. help for parameter debug
 msgid ""
-"print surrounding boxes for some structures [🛈](https://florianfesti.github.io/"
-"boxes/html/usermanual.html#debug)"
+"print surrounding boxes for some structures "
+"[🛈](https://florianfesti.github.io/boxes/html/usermanual.html#debug)"
 msgstr ""
-"添加每一个零件的矩形外框 [🛈](https://florianfesti.github.io/boxes/html/"
-"usermanual.html#debug)"
+"添加每一个零件的矩形外框 "
+"[🛈](https://florianfesti.github.io/boxes/html/usermanual.html#debug)"
 
 #. parameter name
 msgid "labels"
@@ -811,11 +813,11 @@ msgstr "定位框"
 
 #. help for parameter reference
 msgid ""
-"print reference rectangle with given length (in mm)(zero to disable) [🛈](https://"
-"florianfesti.github.io/boxes/html/usermanual.html#reference)"
+"print reference rectangle with given length (in mm)(zero to disable) "
+"[🛈](https://florianfesti.github.io/boxes/html/usermanual.html#reference)"
 msgstr ""
-"添加给定长度的参考矩形，设为0则禁用(mm) [🛈](https://florianfesti.github.io/boxes/"
-"html/usermanual.html#reference)"
+"添加给定长度的参考矩形，设为0则禁用(mm) "
+"[🛈](https://florianfesti.github.io/boxes/html/usermanual.html#reference)"
 
 #. parameter name
 msgid "inner_corners"
@@ -823,8 +825,9 @@ msgstr "内角"
 
 #. help for parameter inner_corners
 msgid ""
-"style for inner corners [🛈](https://florianfesti.github.io/boxes/html/"
-"usermanual.html#inner-corners)"
+"style for inner corners "
+"[🛈](https://florianfesti.github.io/boxes/html/usermanual.html#inner-"
+"corners)"
 msgstr ""
 "内角风格 [🛈](https://florianfesti.github.io/boxes/html/usermanual.html#inner-"
 "corners)"
@@ -847,11 +850,11 @@ msgstr "激光补偿"
 
 #. help for parameter burn
 msgid ""
-"burn correction (in mm)(bigger values for tighter fit) [🛈](https://"
-"florianfesti.github.io/boxes/html/usermanual.html#burn)"
+"burn correction (in mm)(bigger values for tighter fit) "
+"[🛈](https://florianfesti.github.io/boxes/html/usermanual.html#burn)"
 msgstr ""
-"激光校正（毫米）（数值越大，越紧密） [🛈](https://florianfesti.github.io/boxes/html/"
-"usermanual.html#burn)"
+"激光校正（毫米）（数值越大，越紧密） "
+"[🛈](https://florianfesti.github.io/boxes/html/usermanual.html#burn)"
 
 msgid "Settings for Finger Joints"
 msgstr "榫卯结构的设置"
@@ -894,8 +897,8 @@ msgstr "下唇"
 
 #. help for parameter bottom_lip
 msgid ""
-"height of the bottom lips sticking out  (multiples of thickness) FingerHoleEdge "
-"only!"
+"height of the bottom lips sticking out  (multiples of thickness) "
+"FingerHoleEdge only!"
 msgstr "下唇突出的高度（厚度的倍数）指孔仅限边缘！"
 
 #. parameter name for FingerJoint
@@ -963,7 +966,8 @@ msgstr "底部稳定器"
 
 #. help for parameter bottom_stabilizers
 msgid ""
-"height of strips to be glued to the inside of bottom edges (multiples of thickness)"
+"height of strips to be glued to the inside of bottom edges (multiples of "
+"thickness)"
 msgstr "粘合到底边缘内侧的条带高度（厚度的倍数）"
 
 #. parameter name for Stackable
@@ -1206,8 +1210,8 @@ msgstr "一个简单的盒子"
 #. long description of ABox in markdown
 #: boxes/generators/abox.py
 msgid ""
-"This box is kept simple on purpose. If you need more features have a look at the "
-"UniversalBox."
+"This box is kept simple on purpose. If you need more features have a look"
+" at the UniversalBox."
 msgstr "这个盒子是故意保持简单的样式。如果您需要更多功能，请查看通用盒子。"
 
 msgid "ABox Settings"
@@ -1231,48 +1235,64 @@ msgstr ""
 #: boxes/generators/agricolainsert.py
 msgid ""
 "\n"
-"This insert was designed with 3 mm plywood in mind, and should work fine with\n"
+"This insert was designed with 3 mm plywood in mind, and should work fine "
+"with\n"
 "materials around this thickness.\n"
 "\n"
-"This is an insert for the [Agricola Revised Edition](https://boardgamegeek.com/"
-"boardgame/200680/agricola-revised-edition)\n"
-"board game. It is specifically designed around the [Farmers Of The Moor expansion]"
-"(https://boardgamegeek.com/boardgameexpansion/257344/agricola-farmers-moor),\n"
-"and should also store the [5-6 players expansion](https://boardgamegeek.com/"
-"boardgameexpansion/210625/agricola-expansion-5-and-6-players)\n"
-"(not tested, but I tried to take everything into account for it, please inform\n"
+"This is an insert for the [Agricola Revised "
+"Edition](https://boardgamegeek.com/boardgame/200680/agricola-revised-"
+"edition)\n"
+"board game. It is specifically designed around the [Farmers Of The Moor "
+"expansion](https://boardgamegeek.com/boardgameexpansion/257344/agricola-"
+"farmers-moor),\n"
+"and should also store the [5-6 players "
+"expansion](https://boardgamegeek.com/boardgameexpansion/210625/agricola-"
+"expansion-5-and-6-players)\n"
+"(not tested, but I tried to take everything into account for it, please "
+"inform\n"
 "us if you tested it).\n"
 "\n"
-"It can be stored inside the original game box, including the 2 expansions,\n"
+"It can be stored inside the original game box, including the 2 "
+"expansions,\n"
 "with the lid slightly raised.\n"
 "\n"
-"The parts of a given element are mostly generated next to each other vertically.\n"
+"The parts of a given element are mostly generated next to each other "
+"vertically.\n"
 "It should be straightforward to match them.\n"
 "\n"
-"Here are the different elements, from left to right in the generated file.\n"
+"Here are the different elements, from left to right in the generated "
+"file.\n"
 "\n"
 "#### Card tray\n"
 "\n"
-"The cards are all kept in a tray, with paper dividers to sort them easily. When\n"
-"the tray is not full of cards, wood dividers slides in slots in order to keep\n"
+"The cards are all kept in a tray, with paper dividers to sort them "
+"easily. When\n"
+"the tray is not full of cards, wood dividers slides in slots in order to "
+"keep\n"
 "the cards from falling into the empty space.\n"
 "\n"
-"There should be enough space for the main game, Farmers Of The Moor, and the 5-6\n"
+"There should be enough space for the main game, Farmers Of The Moor, and "
+"the 5-6\n"
 "player expansion, but not much more than that.\n"
 "\n"
-"To keep a lower profile, the cards are at a slight angle, and the paper dividers\n"
+"To keep a lower profile, the cards are at a slight angle, and the paper "
+"dividers\n"
 "tabs are horizontal instead of vertical.\n"
-"A small wall keeps the card against one side while the tabs protrude on the\n"
+"A small wall keeps the card against one side while the tabs protrude on "
+"the\n"
 "other side, above the small wall.\n"
 "\n"
 "The wall with the big hole is the sloped one. It goes between the two\n"
-"\"comb-like\" walls first, with its two small holes at the bottom. Then there is a\n"
-"low-height long wall with a sloped edge which should go from the sloped wall to\n"
+"\"comb-like\" walls first, with its two small holes at the bottom. Then "
+"there is a\n"
+"low-height long wall with a sloped edge which should go from the sloped "
+"wall to\n"
 "the other side. You can finish the tray with the last wall at the end.\n"
 "\n"
 "#### Upper level trays\n"
 "\n"
-"4 trays with movable walls are used to store resources. They were designed to\n"
+"4 trays with movable walls are used to store resources. They were "
+"designed to\n"
 "store them in this order:\n"
 "\n"
 "* Stone / Vegetable / Pig / Cow\n"
@@ -1280,11 +1300,14 @@ msgid ""
 "* Wood / Clay\n"
 "* Food / Fire\n"
 "\n"
-"The wall would probably be better if fixed instead of movable, but I would like\n"
-"to test with the 5-6 player expansion to be sure their positions are correct\n"
+"The wall would probably be better if fixed instead of movable, but I "
+"would like\n"
+"to test with the 5-6 player expansion to be sure their positions are "
+"correct\n"
 "with it too.\n"
 "\n"
-"The little feet of the movable wall should be glued. The triangles are put\n"
+"The little feet of the movable wall should be glued. The triangles are "
+"put\n"
 "horizontally, with their bases towards the sides.\n"
 "\n"
 "#### Lower level tray\n"
@@ -1293,22 +1316,30 @@ msgid ""
 "\n"
 "#### Room/Field tiles\n"
 "\n"
-"Two boxes are generated to store the room/field tiles. One for the wood/field,\n"
-"the other for the clay/stone. They are stored with the main opening upside, but\n"
+"Two boxes are generated to store the room/field tiles. One for the "
+"wood/field,\n"
+"the other for the clay/stone. They are stored with the main opening "
+"upside, but\n"
 "I prefer to use them during play with this face on the side.\n"
 "\n"
 "#### Moor/Forest and miscellaneous tiles\n"
 "\n"
-"A box is generated to store the Moor/Forest tiles, and some other tiles such as\n"
+"A box is generated to store the Moor/Forest tiles, and some other tiles "
+"such as\n"
 "the \"multiple resources\" cardboard tokens.\n"
 "\n"
-"The Moor/Forest tiles are at the same height as the Room/Field, and the upper\n"
-"level trays are directly on them. The horse box and player box are slightly\n"
-"lower. This Moor/Forest box have a lowered corner (the one for the miscellaneous\n"
-"tiles). Two cardboard pieces can be stored between the smaller boxes and the\n"
+"The Moor/Forest tiles are at the same height as the Room/Field, and the "
+"upper\n"
+"level trays are directly on them. The horse box and player box are "
+"slightly\n"
+"lower. This Moor/Forest box have a lowered corner (the one for the "
+"miscellaneous\n"
+"tiles). Two cardboard pieces can be stored between the smaller boxes and "
+"the\n"
 "upper level trays (as seen on the picture).\n"
 "\n"
-"Be sure to match the pieces so that the walls with smaller heights are next to\n"
+"Be sure to match the pieces so that the walls with smaller heights are "
+"next to\n"
 "each other.\n"
 "\n"
 "#### Players bit boxes\n"
@@ -1317,13 +1348,16 @@ msgid ""
 "The cardboard bed from Farmers Of The Moor is central to this box.\n"
 "\n"
 "* The fences are stored inside the bed\n"
-"* The bed is placed in the box, with holes to keep it there (and to take less\n"
+"* The bed is placed in the box, with holes to keep it there (and to take "
+"less\n"
 "  height)\n"
 "* The stables are stored in the two corners\n"
-"* The five farmers are stored between the bed and the three walls, alternatively\n"
+"* The five farmers are stored between the bed and the three walls, "
+"alternatively\n"
 "  head up and head down.\n"
 "\n"
-"During assembly, the small bars are put in the middle holes. The two bigger\n"
+"During assembly, the small bars are put in the middle holes. The two "
+"bigger\n"
 "holes at the ends are used for the bed feet. The bar keeps the bed from\n"
 "protruding underneath.\n"
 "\n"
@@ -1333,11 +1367,10 @@ msgstr ""
 "\n"
 "这是[Agricola修订版]的插页(https://boardgamegeek.com/boardgame/200680/agricola-"
 "revised-edition)\n"
-"棋盘游戏。它是专门围绕[摩尔农民扩建]而设计的(https://boardgamegeek.com/"
-"boardgameexpansion/257344/agricola-farmers-moor),\n"
-"还应存储[5-6名玩家的扩展](https://boardgamegeek.com/boardgameexpansion/210625/"
-"agricola-expansion-5-and-6-players)（没有测试，但我试着把一切都考虑在内，如果你测试"
-"了，请通知我们）。\n"
+"棋盘游戏。它是专门围绕[摩尔农民扩建]而设计的(https://boardgamegeek.com/boardgameexpansion/257344"
+"/agricola-farmers-moor),\n"
+"还应存储[5-6名玩家的扩展](https://boardgamegeek.com/boardgameexpansion/210625"
+"/agricola-expansion-5-and-6-players)（没有测试，但我试着把一切都考虑在内，如果你测试了，请通知我们）。\n"
 "\n"
 "它可以存放在原始游戏盒内，包括2个扩展包，盖子稍微抬起。\n"
 "\n"
@@ -1348,17 +1381,15 @@ msgstr ""
 "\n"
 "####卡片托盘\n"
 "\n"
-"卡片都放在一个托盘里，用纸隔板可以很容易地分类。当托盘没有装满卡片时，木制隔板会在插"
-"槽中滑动，以防止卡片落入空白空间。\n"
+"卡片都放在一个托盘里，用纸隔板可以很容易地分类。当托盘没有装满卡片时，木制隔板会在插槽中滑动，以防止卡片落入空白空间。\n"
 "\n"
-"应该有足够的空间来容纳主游戏《摩尔人的农民》和5-6名玩家的扩展，但不会超过这个数"
-"量。\n"
+"应该有足够的空间来容纳主游戏《摩尔人的农民》和5-6名玩家的扩展，但不会超过这个数量。\n"
 "\n"
 "为了保持较低的轮廓，卡片呈轻微角度，纸张分隔标签是水平的，而不是垂直的。\n"
 "一堵小墙将卡片靠在一边，而标签则突出在小墙上方的另一边。\n"
 "\n"
-"有大洞的墙是倾斜的。它首先穿过两个“梳状”的墙壁，底部有两个小孔。然后是一个低高度的长"
-"墙，有一个倾斜的边缘，应该从倾斜的墙延伸到另一侧。你可以用最后一面墙来完成托盘。\n"
+"有大洞的墙是倾斜的。它首先穿过两个“梳状”的墙壁，底部有两个小孔。然后是一个低高度的长墙，有一个倾斜的边缘，应该从倾斜的墙延伸到另一侧。你可以用最后一面墙来完成托盘。"
+"\n"
 "\n"
 "####上层托盘\n"
 "\n"
@@ -1369,8 +1400,7 @@ msgstr ""
 "*木材/粘土\n"
 "*食物/火\n"
 "\n"
-"如果墙是固定的而不是可移动的，可能会更好，但我想用5-6名球员的扩展来测试，以确保他们"
-"的位置也正确。\n"
+"如果墙是固定的而不是可移动的，可能会更好，但我想用5-6名球员的扩展来测试，以确保他们的位置也正确。\n"
 "\n"
 "活动墙的小脚应该用胶水粘上。三角形水平放置，底边朝向两侧。\n"
 "\n"
@@ -1380,16 +1410,15 @@ msgstr ""
 "\n"
 "####房间/场地瓷砖\n"
 "\n"
-"生成两个盒子来存储房间/场地瓷砖。一个用于木材/田地，另一个用于粘土/石头。它们是以主"
-"开口朝上的方式存放的，但我更喜欢在侧面有这张脸的比赛中使用它们。\n"
+"生成两个盒子来存储房间/场地瓷砖。一个用于木材/田地，另一个用于粘土/石头。它们是以主开口朝上的方式存放的，但我更喜欢在侧面有这张脸的比赛中使用它们。"
+"\n"
 "\n"
 "####沼泽/森林和杂瓦\n"
 "\n"
 "生成一个盒子来存储Moor/Forest图块和其他一些图块，如“多种资源”纸板令牌。\n"
 "\n"
-"沼泽/森林瓷砖与房间/场地的高度相同，上层托盘直接放在上面。马箱和玩家箱稍低。这个沼"
-"泽/森林盒子有一个较低的角落（用于放置各种瓷砖的角落）。两块纸板可以存放在较小的箱子"
-"和上层托盘之间（如图所示）。\n"
+"沼泽/森林瓷砖与房间/场地的高度相同，上层托盘直接放在上面。马箱和玩家箱稍低。这个沼泽/森林盒子有一个较低的角落（用于放置各种瓷砖的角落）。两块纸板可以存放在较小的箱子和上层托盘之间（如图所示）。"
+"\n"
 "\n"
 "一定要把这些碎片搭配起来，这样高度较小的墙壁就会彼此相邻。\n"
 "\n"
@@ -1403,8 +1432,7 @@ msgstr ""
 "*马厩被存放在两个角落里\n"
 "*五个农民被安置在床和三堵墙之间，交替地抬头和低头。\n"
 "\n"
-"在装配过程中，将小横杆放在中间的孔中。末端的两个较大的孔用于床脚。酒吧防止床从下面突"
-"出。\n"
+"在装配过程中，将小横杆放在中间的孔中。末端的两个较大的孔用于床脚。酒吧防止床从下面突出。\n"
 "\n"
 
 msgid "AgricolaInsert Settings"
@@ -1423,8 +1451,8 @@ msgstr "Nukit开放式空气净化器的外壳"
 #. long description of AirPurifier in markdown
 #: boxes/generators/airpurifier.py
 msgid ""
-"See [Nukit Open Air Purifier](https://github.com/opennukit/Nukit-Open-Air-"
-"Purifier/)\n"
+"See [Nukit Open Air Purifier](https://github.com/opennukit/Nukit-Open-"
+"Air-Purifier/)\n"
 msgstr ""
 "查看 [Nukit Open Air Purifier](https://github.com/opennukit/Nukit-Open-Air-"
 "Purifier/)\n"
@@ -1604,15 +1632,15 @@ msgstr "洞高度"
 #. help for parameter hole_height
 #: boxes/generators/alledges.py
 msgid ""
-"height of hole(s) in percentage of maximum hole height (handle height - 2 * "
-"material thickness)"
+"height of hole(s) in percentage of maximum hole height (handle height - 2"
+" * material thickness)"
 msgstr "孔的高度占最大孔高度的百分比（手柄高度-2*材料厚度）"
 
 #. help for parameter hole_width
 #: boxes/generators/alledges.py
 msgid ""
-"width of hole(s) in percentage of maximum hole width (width of edge - (n+1) * "
-"material thickness)"
+"width of hole(s) in percentage of maximum hole width (width of edge - "
+"(n+1) * material thickness)"
 msgstr "孔宽度占最大孔宽度的百分比（边缘宽度-（n+1）*材料厚度）"
 
 #. parameter name for HandleEdge
@@ -1623,8 +1651,8 @@ msgstr "在侧面"
 #. help for parameter on_sides
 #: boxes/generators/alledges.py
 msgid ""
-"added to side panels if checked, to front and back otherwise (only used with "
-"top_edge parameter)"
+"added to side panels if checked, to front and back otherwise (only used "
+"with top_edge parameter)"
 msgstr "如果选中，则添加到侧面板，否则添加到正面和背面（仅与top_edge参数一起使用）"
 
 #. help for parameter radius
@@ -1792,8 +1820,8 @@ msgstr "切口类型"
 #. help for parameter cutout_type
 #: boxes/generators/atreus21.py
 msgid ""
-"Shape of the plate cutout: 'castle' allows for modding, and 'simple' is a tighter "
-"and simpler square"
+"Shape of the plate cutout: 'castle' allows for modding, and 'simple' is a"
+" tighter and simpler square"
 msgstr "板切口的形状：“城堡”允许改装，“简单”是一个更紧凑、更简单的正方形"
 
 #. parameter name
@@ -1805,14 +1833,14 @@ msgstr "列定义"
 #: boxes/generators/atreus21.py
 msgid ""
 "Each column is separated by '/', and is in the form 'nb_rows @ offset x "
-"repeat_count'. Nb_rows is the number of rows for this column. The offset is in mm "
-"and optional. Repeat_count is optional and repeats this column multiple times. "
-"Spaces are not important.For example '3x2 / 4@11' means we want 3 columns, the two "
-"first with 3 rows without offset, and the last with 4 rows starting at 11mm high."
+"repeat_count'. Nb_rows is the number of rows for this column. The offset "
+"is in mm and optional. Repeat_count is optional and repeats this column "
+"multiple times. Spaces are not important.For example '3x2 / 4@11' means "
+"we want 3 columns, the two first with 3 rows without offset, and the last"
+" with 4 rows starting at 11mm high."
 msgstr ""
-"每列由“/”分隔，格式为“nb_rows@offset x repeat_count”。Nb_rows是此列的行数。偏移量单"
-"位为毫米，可选。Repeat_count是可选的，可以多次重复此列。空间并不重要。例"
-"如，“3x2/4@11”表示我们需要3列，第一列有3行，没有偏移，最后一列有4行，从11mm高开始。"
+"每列由“/”分隔，格式为“nb_rows@offset x "
+"repeat_count”。Nb_rows是此列的行数。偏移量单位为毫米，可选。Repeat_count是可选的，可以多次重复此列。空间并不重要。例如，“3x2/4@11”表示我们需要3列，第一列有3行，没有偏移，最后一列有4行，从11mm高开始。"
 
 #. name of box generator
 #: boxes/generators/basedbox.py
@@ -1828,8 +1856,10 @@ msgstr "底座上的全封闭盒子"
 #: boxes/generators/basedbox.py
 msgid ""
 "This box is more of a building block than a finished item.\n"
-"Use a vector graphics program (like Inkscape) to add holes or adjust the base\n"
-"plate. The width of the \"brim\" can also be adjusted with the **edge_width**\n"
+"Use a vector graphics program (like Inkscape) to add holes or adjust the "
+"base\n"
+"plate. The width of the \"brim\" can also be adjusted with the "
+"**edge_width**\n"
 " parameter in the **Finger Joints Settings**.\n"
 "\n"
 "See ClosedBox for variant without a base.\n"
@@ -1856,7 +1886,9 @@ msgstr "圆形盒由多层制成，顶部有扭曲"
 
 #. long description of BayonetBox in markdown
 #: boxes/generators/bayonetbox.py
-msgid "Glue together - all outside rings to the bottom, all inside rings to the top."
+msgid ""
+"Glue together - all outside rings to the bottom, all inside rings to the "
+"top."
 msgstr "粘在一起——所有外环都粘在底部，所有内环都粘在顶部。"
 
 msgid "BayonetBox Settings"
@@ -1913,11 +1945,12 @@ msgstr "安装孔径"
 #. help for parameter hole_dD
 #: boxes/generators/bintray.py
 msgid ""
-"mounting hole diameter (shaft:head) in mm [🛈](https://florianfesti.github.io/boxes/"
-"html/usermanual.html#mounting-holes)"
+"mounting hole diameter (shaft:head) in mm "
+"[🛈](https://florianfesti.github.io/boxes/html/usermanual.html#mounting-"
+"holes)"
 msgstr ""
-"安装孔直径（轴：头），单位为毫米[🛈](https://florianfesti.github.io/boxes/html/"
-"usermanual.html#mounting-holes)"
+"安装孔直径（轴：头），单位为毫米[🛈](https://florianfesti.github.io/boxes/html/usermanual.html"
+"#mounting-holes)"
 
 #. parameter name
 #: boxes/generators/bintray.py
@@ -1965,14 +1998,16 @@ msgstr "书架"
 #. description of BookHolder
 #: boxes/generators/bookholder.py
 msgid ""
-"Angled display stand for books, ring files, flyers, postcards, or business cards."
+"Angled display stand for books, ring files, flyers, postcards, or "
+"business cards."
 msgstr "倾斜的展示架，用于书籍、环形文件、传单、明信片或名片。"
 
 #. long description of BookHolder in markdown
 #: boxes/generators/bookholder.py
 msgid ""
 "\n"
-"Smaller versions for postcards (with a small ledge) and for business cards:\n"
+"Smaller versions for postcards (with a small ledge) and for business "
+"cards:\n"
 "\n"
 "![BookHolder minis (front)](static/samples/BookHolder-minis.jpg)\n"
 "\n"
@@ -2079,8 +2114,8 @@ msgstr "将瓶子放在冰箱里"
 #. long description of BottleStack in markdown
 #: boxes/generators/bottlestack.py
 msgid ""
-"When rendered with the \"double\" option the parts with the double slots get "
-"connected the shorter beams in the asymmetrical slots.\n"
+"When rendered with the \"double\" option the parts with the double slots "
+"get connected the shorter beams in the asymmetrical slots.\n"
 "\n"
 "Without the \"double\" option the stand is a bit more narrow.\n"
 msgstr ""
@@ -2222,7 +2257,8 @@ msgid ""
 "x,y,h are the dimensions for the largest sieve,\n"
 "they will be the outer dimensions of the box,\n"
 "the smaller sieves will be nested inside, therefore smaller.\n"
-"Of course 256mm or 384mm (base plate size) are recommended values for x and y,\n"
+"Of course 256mm or 384mm (base plate size) are recommended values for x "
+"and y,\n"
 "but you can use any value you like.\n"
 "\n"
 "Full set of all 5 levels:\n"
@@ -2243,8 +2279,7 @@ msgstr ""
 "一种可堆叠的砖块分拣筛，可嵌套存放。\n"
 "您需要导出所有5个级别，才能获得完整的筛选。\n"
 "如果你觉得你不需要上层，就不要导出它们。\n"
-"x、 y、h是最大筛子的尺寸，它们将是盒子的外部尺寸，较小的筛子将嵌套在里面，因此更"
-"小。\n"
+"x、 y、h是最大筛子的尺寸，它们将是盒子的外部尺寸，较小的筛子将嵌套在里面，因此更小。\n"
 "当然，256mm或384mm（基板尺寸）是x和y的推荐值，但您可以使用任何您喜欢的值。\n"
 "\n"
 "全套5个级别：\n"
@@ -2302,7 +2337,9 @@ msgstr "底部"
 
 #. help for parameter radius
 #: boxes/generators/brick_sorter.py
-msgid "Radius of the corners of the sieve pattern in mm. Enter 30 for circular holes."
+msgid ""
+"Radius of the corners of the sieve pattern in mm. Enter 30 for circular "
+"holes."
 msgstr "筛孔角的半径（mm）。对于圆形孔，输入30。"
 
 #. parameter name
@@ -2329,25 +2366,27 @@ msgstr "测试不同的激光补偿值"
 #: boxes/generators/burntest.py
 msgid ""
 "This generator will make shapes that you can use to select\n"
-"optimal value for burn parameter for other generators. After burning try to\n"
-"attach sides with the same value and use best fitting one on real projects.\n"
+"optimal value for burn parameter for other generators. After burning try "
+"to\n"
+"attach sides with the same value and use best fitting one on real "
+"projects.\n"
 "In this generator set burn in the Default Settings to the lowest value\n"
 "to be tested. To get an idea cut a rectangle with known nominal size and\n"
 "measure the shrinkage due to the width of the laser cut. Now you can\n"
-"measure the burn value that you should use in other generators. It is half\n"
+"measure the burn value that you should use in other generators. It is "
+"half\n"
 "the difference of the overall size as shrinkage is occurring on both\n"
-"sides. You can use the reference rectangle as it is rendered without burn\n"
+"sides. You can use the reference rectangle as it is rendered without burn"
+"\n"
 "correction.\n"
 "\n"
-"See also LBeam that can serve as compact BurnTest and FlexTest for testing flex "
-"settings.\n"
+"See also LBeam that can serve as compact BurnTest and FlexTest for "
+"testing flex settings.\n"
 msgstr ""
-"此生成器将生成形状，您可以使用这些形状为其他生成器的激光切割参数选择最佳值。切割后，"
-"尝试将具有相同值的侧面连接起来，并在实际项目中使用最合适的一面。\n"
-"在此生成器中，将默认设置烧成要测试的最低值。为了得到一个想法，切割一个已知标称尺寸的"
-"矩形，并测量激光切割宽度引起的收缩率。现在，您可以测量应该在其他生成器中使用的切割"
-"值。由于两侧都发生收缩，因此它是整体尺寸差异的一半。您可以在不进行切割校正的情况下使"
-"用渲染的参考矩形。\n"
+"此生成器将生成形状，您可以使用这些形状为其他生成器的激光切割参数选择最佳值。切割后，尝试将具有相同值的侧面连接起来，并在实际项目中使用最合适的一面。"
+"\n"
+"在此生成器中，将默认设置烧成要测试的最低值。为了得到一个想法，切割一个已知标称尺寸的矩形，并测量激光切割宽度引起的收缩率。现在，您可以测量应该在其他生成器中使用的切割值。由于两侧都发生收缩，因此它是整体尺寸差异的一半。您可以在不进行切割校正的情况下使用渲染的参考矩形。"
+"\n"
 "\n"
 "另请参阅LBeam，它可以作为紧凑型BurnTest和FlexTest来测试挠曲设置。\n"
 
@@ -2615,9 +2654,9 @@ msgstr "紧凑型活性炭颗粒过滤器"
 #. long description of CarbonFilter in markdown
 #: boxes/generators/carbonfilter.py
 msgid ""
-"The filter does not include the top rim. You need some rectangular wooden strip "
-"about 2-3cm in size to glue around. The x and y are without this rim and should be "
-"about 5 cm smaller that the nominal size.\n"
+"The filter does not include the top rim. You need some rectangular wooden"
+" strip about 2-3cm in size to glue around. The x and y are without this "
+"rim and should be about 5 cm smaller that the nominal size.\n"
 "\n"
 "The following sizes are currently hard coded:\n"
 "\n"
@@ -2626,21 +2665,21 @@ msgid ""
 "* Char coal width (horizontal): 40mm\n"
 "* Bottom width: 40 + 20 + 40 mm\n"
 "\n"
-"For assembly it is important that all bottom plates are the same way up. This "
-"allows the ribs of adjacent pockets to pass beside each other.\n"
+"For assembly it is important that all bottom plates are the same way up. "
+"This allows the ribs of adjacent pockets to pass beside each other.\n"
 "\n"
 "There are three type of ribs:\n"
 "\n"
 "* Those with staight tops go in the middle of the bottom plates\n"
 "* Those pointier angle go at the outer sides and meet with the side bars\n"
-"* The less pointy go at all other sides of the bottom plates that will end up on "
-"the inside\n"
+"* The less pointy go at all other sides of the bottom plates that will "
+"end up on the inside\n"
 "\n"
-"The last two types of ribs do not have finger joints on the outside but still need "
-"to be glued to the top beam of the adjacent pocket or the left or right side bar.\n"
+"The last two types of ribs do not have finger joints on the outside but "
+"still need to be glued to the top beam of the adjacent pocket or the left"
+" or right side bar.\n"
 msgstr ""
-"过滤器不包括顶部边缘。你需要一些大约2-3cm大小的矩形木条来粘合。x和y没有这个边缘，应"
-"该比标称尺寸小约5cm。\n"
+"过滤器不包括顶部边缘。你需要一些大约2-3cm大小的矩形木条来粘合。x和y没有这个边缘，应该比标称尺寸小约5cm。\n"
 "\n"
 "以下尺寸目前已硬编码：\n"
 "\n"
@@ -2649,8 +2688,7 @@ msgstr ""
 "*木炭宽度（水平）：40mm\n"
 "*底部宽度：40+20+40毫米\n"
 "\n"
-"在组装过程中，确保所有底板的上升方向一致是至关重要的。这允许相邻口袋的肋骨彼此并排通"
-"过。\n"
+"在组装过程中，确保所有底板的上升方向一致是至关重要的。这允许相邻口袋的肋骨彼此并排通过。\n"
 "\n"
 "肋骨有三种类型：\n"
 "\n"
@@ -2698,32 +2736,30 @@ msgstr "用于放卡片的盒子，有多种可调整选项"
 msgid ""
 "\n"
 "### Description\n"
-"Versatile Box for Storage of playing cards. Multiple different styles of storage "
-"are supported, e.g. a flat storage or a trading card deck box style storage. See "
-"images for ideas.\n"
+"Versatile Box for Storage of playing cards. Multiple different styles of "
+"storage are supported, e.g. a flat storage or a trading card deck box "
+"style storage. See images for ideas.\n"
 "\n"
 "#### Building instructions\n"
-"Place inner walls on floor first (if any). Then add the outer walls. Glue the two "
-"walls without finger joins to the inside of the side walls. Make sure there is no "
-"squeeze out on top, as this is going to form the rail for the lid.\n"
+"Place inner walls on floor first (if any). Then add the outer walls. Glue"
+" the two walls without finger joins to the inside of the side walls. Make"
+" sure there is no squeeze out on top, as this is going to form the rail "
+"for the lid.\n"
 "\n"
-"Add the top of the rails to the sides (front open) or to the back and front (right "
-"side open) and the grip rail to the lid.\n"
+"Add the top of the rails to the sides (front open) or to the back and "
+"front (right side open) and the grip rail to the lid.\n"
 "Details of the lid and rails\n"
 "![Details](static/samples/CardBox-detail.jpg)\n"
 "Whole box (early version still missing grip rail on the lid):\n"
 msgstr ""
 "\n"
 "### 说明\n"
-"用于存放扑克牌的多功能盒子。支持多种不同风格的存储，例如平面存储或交易卡箱式存储。请"
-"查看图片以获取想法。\n"
+"用于存放扑克牌的多功能盒子。支持多种不同风格的存储，例如平面存储或交易卡箱式存储。请查看图片以获取想法。\n"
 "\n"
 "#### 建筑说明\n"
-"先将内墙放在地板上（如果有的话）。然后添加外墙。将两面墙粘合到侧墙内侧，不要用手指接"
-"合。确保顶部没有挤压，因为这将形成盖子的轨道。\n"
+"先将内墙放在地板上（如果有的话）。然后添加外墙。将两面墙粘合到侧墙内侧，不要用手指接合。确保顶部没有挤压，因为这将形成盖子的轨道。\n"
 "\n"
-"将扶手顶部添加到侧面（前部打开）或后部和前部（右侧打开），并将抓握扶手添加到盖子"
-"上。\n"
+"将扶手顶部添加到侧面（前部打开）或后部和前部（右侧打开），并将抓握扶手添加到盖子上。\n"
 "盖子和轨道的详细信息\n"
 "![Details](static/samples/CardBox-detail.jpg)\n"
 "整个盒子（早期版本仍缺少盖子上的扶手）：\n"
@@ -2738,7 +2774,9 @@ msgstr "开盖方向"
 
 #. help for parameter openingdirection
 #: boxes/generators/cardbox.py
-msgid "Direction in which the lid slides open. Lid length > Lid width recommended."
+msgid ""
+"Direction in which the lid slides open. Lid length > Lid width "
+"recommended."
 msgstr "盖子滑开的方向。推荐 盖长>盖宽。"
 
 #. parameter name
@@ -2910,9 +2948,10 @@ msgstr "双壁城堡塔"
 #. long description of Castle in markdown
 #: boxes/generators/castle.py
 msgid ""
-"This was done as a table decoration. May be at some point in the future someone "
-"will create a proper castle\n"
-"with towers and gates and walls that can be attached in multiple configurations."
+"This was done as a table decoration. May be at some point in the future "
+"someone will create a proper castle\n"
+"with towers and gates and walls that can be attached in multiple "
+"configurations."
 msgstr ""
 "这是作为餐桌装饰而做的。也许在未来的某个时候，有人会建造一座合适的城堡\n"
 "塔、门和墙可以以多种配置连接。"
@@ -2934,7 +2973,8 @@ msgstr "全封闭的盒子"
 #: boxes/generators/closedbox.py
 msgid ""
 "This box is more of a building block than a finished item.\n"
-"Use a vector graphics program (like Inkscape) to add holes or adjust the base\n"
+"Use a vector graphics program (like Inkscape) to add holes or adjust the "
+"base\n"
 "plate.\n"
 "\n"
 "See BasedBox for variant with a base."
@@ -2965,12 +3005,11 @@ msgstr ""
 #: boxes/generators/coffeecapsulesholder.py
 msgid ""
 "\n"
-"    You can store your coffee capsule near your espresso machine with this. It "
-"works both vertically, or upside down under a shelf.\n"
+"    You can store your coffee capsule near your espresso machine with "
+"this. It works both vertically, or upside down under a shelf.\n"
 msgstr ""
 "\n"
-"你可以用这个把咖啡胶囊放在浓缩咖啡机附近。它既可以垂直工作，也可以在架子下倒置工"
-"作。\n"
+"你可以用这个把咖啡胶囊放在浓缩咖啡机附近。它既可以垂直工作，也可以在架子下倒置工作。\n"
 
 msgid "CoffeeCapsuleHolder Settings"
 msgstr "设置"
@@ -3019,18 +3058,18 @@ msgstr "一个看起来像保险箱的存钱罐。"
 #: boxes/generators/coinbanksafe.py
 msgid ""
 "\n"
-"Make sure not to discard the circle cutouts from the lid, base, and door. They are "
-"all needed.\n"
+"Make sure not to discard the circle cutouts from the lid, base, and door."
+" They are all needed.\n"
 "\n"
 "![Closed](static/samples/CoinBankSafe-closed.jpg)\n"
 "\n"
 "![Open](static/samples/CoinBankSafe-open.jpg)\n"
 "\n"
-"Assemble the locking pins like this: wiggle-disc, number-disc, doorhole-disc, "
-"spacer-disc, D-disc.\n"
+"Assemble the locking pins like this: wiggle-disc, number-disc, doorhole-"
+"disc, spacer-disc, D-disc.\n"
 "Glue the first three in place, but do not glue the last two.\n"
-"Leaving them unglued will allow you change the code, and to remove the pin from the "
-"door.\n"
+"Leaving them unglued will allow you change the code, and to remove the "
+"pin from the door.\n"
 "\n"
 "![Pins](static/samples/CoinBankSafe-pins.jpg)\n"
 "\n"
@@ -3415,7 +3454,9 @@ msgstr "文本距离 x"
 
 #. help for parameter text_distance_x
 #: boxes/generators/typetray.py
-msgid "Distance in X from edge of tray in mm. Has no effect when text is centered."
+msgid ""
+"Distance in X from edge of tray in mm. Has no effect when text is "
+"centered."
 msgstr "距托盘边缘的距离（以毫米为单位）（以X为单位）。文本居中时不起作用。"
 
 #. parameter name
@@ -3731,73 +3772,73 @@ msgstr "带有倾斜面板和检修口的控制台"
 #: boxes/generators/console2.py
 msgid ""
 "\n"
-"This box is designed as a housing for electronic projects. It has hatches that can "
-"be re-opened with simple tools. It intentionally cannot be opened with bare hands - "
-"if build with thin enough material.\n"
+"This box is designed as a housing for electronic projects. It has hatches"
+" that can be re-opened with simple tools. It intentionally cannot be "
+"opened with bare hands - if build with thin enough material.\n"
 "\n"
 "#### Caution\n"
-"There is a chance that the latches of the back wall or the back wall itself "
-"interfere with the front panel or its mounting frame/lips. The generator does not "
-"check for this. So depending on the variant chosen you might need to make the box "
-"deeper (increase y parameter) or the panel angle steeper (increase angle parameter) "
-"until there is enough room.\n"
+"There is a chance that the latches of the back wall or the back wall "
+"itself interfere with the front panel or its mounting frame/lips. The "
+"generator does not check for this. So depending on the variant chosen you"
+" might need to make the box deeper (increase y parameter) or the panel "
+"angle steeper (increase angle parameter) until there is enough room.\n"
 "\n"
-"It's also possible that the frame of the panel interferes with the floor if the hi "
-"parameter is too small.\n"
+"It's also possible that the frame of the panel interferes with the floor "
+"if the hi parameter is too small.\n"
 "\n"
 "#### Assembly instructions\n"
-"The main body is easy to assemble by starting with the floor and then adding the "
-"four walls and (if present) the top piece.\n"
+"The main body is easy to assemble by starting with the floor and then "
+"adding the four walls and (if present) the top piece.\n"
 "\n"
-"If the back wall is removable you need to add the lips and latches. The U-shaped "
-"clamps holding the latches in place need to be clued in place without also gluing "
-"the latches themselves. Make sure the springs on the latches point inwards and the "
-"angled ends point to the side walls as shown here:\n"
+"If the back wall is removable you need to add the lips and latches. The "
+"U-shaped clamps holding the latches in place need to be clued in place "
+"without also gluing the latches themselves. Make sure the springs on the "
+"latches point inwards and the angled ends point to the side walls as "
+"shown here:\n"
 "\n"
 "![Back wall details](static/samples/Console2-backwall-detail.jpg)\n"
 "\n"
-"If the panel is removable you need to add the springs with the tabs to the side "
-"lips. This photo shows the variant which has the panel glued to the frame:\n"
+"If the panel is removable you need to add the springs with the tabs to "
+"the side lips. This photo shows the variant which has the panel glued to "
+"the frame:\n"
 "\n"
 "![Back wall details](static/samples/Console2-panel-detail.jpg)\n"
 "\n"
-"If space is tight you may consider not gluing the cross pieces in place and remove "
-"them after the glue-up. This may prevent the latches of the back wall and the panel "
-"from interfering with each other.\n"
+"If space is tight you may consider not gluing the cross pieces in place "
+"and remove them after the glue-up. This may prevent the latches of the "
+"back wall and the panel from interfering with each other.\n"
 "\n"
-"The variant using finger joints only has the two side lips without the cross bars.\n"
+"The variant using finger joints only has the two side lips without the "
+"cross bars.\n"
 "\n"
 "#### Re-Opening\n"
 "\n"
-"The latches at the back wall lock in place when closed. To open them they need to "
-"be pressed in and can then be moved aside.\n"
+"The latches at the back wall lock in place when closed. To open them they"
+" need to be pressed in and can then be moved aside.\n"
 "\n"
-"To remove the panel you have to press in the four tabs at the side. It is easiest "
-"to push them in and then pull the panel up a little bit so the tabs stay in.\n"
+"To remove the panel you have to press in the four tabs at the side. It is"
+" easiest to push them in and then pull the panel up a little bit so the "
+"tabs stay in.\n"
 msgstr ""
 "\n"
-"这个盒子是为电子项目设计的。它有可以用简单工具重新打开的舱口。如果用足够薄的材料建"
-"造，它故意不能徒手打开。\n"
+"这个盒子是为电子项目设计的。它有可以用简单工具重新打开的舱口。如果用足够薄的材料建造，它故意不能徒手打开。\n"
 "\n"
 "#### 小心\n"
-"后壁的锁扣或后壁本身可能会干扰前面板或其安装框架/唇缘。发电机不会检查这一点。因此，"
-"根据所选的变体，您可能需要使框更深（增加y参数）或面板角度更陡（增加角度参数），直到"
-"有足够的空间。\n"
+"后壁的锁扣或后壁本身可能会干扰前面板或其安装框架/唇缘。发电机不会检查这一点。因此，根据所选的变体，您可能需要使框更深（增加y参数）或面板角度更陡（增加角度参数），直到有足够的空间。"
+"\n"
 "\n"
 "如果hi参数太小，面板的框架也可能与地板发生干涉。\n"
 "\n"
 "#### 装配说明\n"
 "主体易于组装，从地板开始，然后添加四面墙和（如果有的话）顶部。\n"
 "\n"
-"如果后墙是可拆卸的，则需要添加唇缘和锁扣。将锁扣固定到位的U形夹具需要固定到位，而无"
-"需将锁扣本身粘合。确保闩锁上的弹簧指向内侧，倾斜端指向侧壁，如图所示：\n"
+"如果后墙是可拆卸的，则需要添加唇缘和锁扣。将锁扣固定到位的U形夹具需要固定到位，而无需将锁扣本身粘合。确保闩锁上的弹簧指向内侧，倾斜端指向侧壁，如图所示："
+"\n"
 "![Back wall details](static/samples/Console2-backwall-detail.jpg)\n"
-"如果面板是可拆卸的，则需要在侧唇上添加带凸耳的弹簧。这张照片显示了面板粘在框架上的变"
-"体：\n"
+"如果面板是可拆卸的，则需要在侧唇上添加带凸耳的弹簧。这张照片显示了面板粘在框架上的变体：\n"
 "\n"
 "![Back wall details](static/samples/Console2-panel-detail.jpg)\n"
-"如果空间狭小，您可以考虑不将横梁粘合到位，并在粘合后将其拆除。这可以防止后壁和面板的"
-"闩锁相互干扰。\n"
+"如果空间狭小，您可以考虑不将横梁粘合到位，并在粘合后将其拆除。这可以防止后壁和面板的闩锁相互干扰。\n"
 "\n"
 "使用手指关节的变体只有两个侧唇，没有横杆。\n"
 "\n"
@@ -3805,8 +3846,7 @@ msgstr ""
 "\n"
 "后墙的锁扣在关闭时锁定到位。要打开它们，需要将其压入，然后可以将其移到一边。\n"
 "\n"
-"要卸下面板，您必须按下侧面的四个标签。最简单的方法是将它们推入，然后将面板向上拉一"
-"点，这样标签就会留在里面。\n"
+"要卸下面板，您必须按下侧面的四个标签。最简单的方法是将它们推入，然后将面板向上拉一点，这样标签就会留在里面。\n"
 
 msgid "Console2 Settings"
 msgstr "设置"
@@ -3922,8 +3962,8 @@ msgstr "镜像"
 #. help for parameter mirror
 #: boxes/generators/desksign.py
 msgid ""
-"mirrors one of the stand so the same side of the material can be placed on the "
-"outside"
+"mirrors one of the stand so the same side of the material can be placed "
+"on the outside"
 msgstr "将其中一个支架镜像，这样材料的同一侧就可以放在外面"
 
 #. parameter name
@@ -4030,10 +4070,11 @@ msgstr "公平掷骰子的工具"
 #. long description of DiceTower in markdown
 #: boxes/generators/dicetower.py
 msgid ""
-"Feel free to add a shallow ABox as a container for catching the dice so they don't "
-"scatter across the table.\n"
+"Feel free to add a shallow ABox as a container for catching the dice so "
+"they don't scatter across the table.\n"
 "\n"
-"You can also configure the DiceTower and change the number and angle of the ramps.\n"
+"You can also configure the DiceTower and change the number and angle of "
+"the ramps.\n"
 msgstr ""
 "随意添加一个浅的ABox作为接住骰子的容器，这样骰子就不会散落在桌子上。\n"
 "\n"
@@ -4271,8 +4312,8 @@ msgstr "陈列柜"
 #. description of DisplayCase
 #: boxes/generators/displaycase.py
 msgid ""
-"Fully closed box intended to be cut from transparent acrylics and to serve as a "
-"display case."
+"Fully closed box intended to be cut from transparent acrylics and to "
+"serve as a display case."
 msgstr "全封闭的盒子，用于从透明的丙烯酸树脂切割而成，用作展示柜。"
 
 msgid "DisplayCase Settings"
@@ -4405,9 +4446,9 @@ msgstr "分隔托盘-行和分隔器"
 #: boxes/generators/dividertray.py
 msgid ""
 "\n"
-"Adding '0:' at the start of the sy parameter adds a slot at the very back. Adding "
-"':0' at the end of sy adds a slot meeting the bottom at the very front. This is "
-"especially useful if slot angle is set above zero.\n"
+"Adding '0:' at the start of the sy parameter adds a slot at the very "
+"back. Adding ':0' at the end of sy adds a slot meeting the bottom at the "
+"very front. This is especially useful if slot angle is set above zero.\n"
 "\n"
 "There are 4 different sets of dividers rendered:\n"
 "\n"
@@ -4416,11 +4457,11 @@ msgid ""
 "* With tabs of a full wall thickness\n"
 "* One single divider spanning across all columns\n"
 "\n"
-"You will likely need to cut each of the dividers you want multiple times.\n"
+"You will likely need to cut each of the dividers you want multiple times."
+"\n"
 msgstr ""
 "\n"
-"在sy参数的开头添加“0:”会在最后面添加一个插槽。在sy末尾添加“：0”会在最前面添加一个与"
-"底部相接的插槽。如果槽角设置为零以上，这尤其有用。\n"
+"在sy参数的开头添加“0:”会在最后面添加一个插槽。在sy末尾添加“：0”会在最前面添加一个与底部相接的插槽。如果槽角设置为零以上，这尤其有用。\n"
 "\n"
 "渲染了4组不同的分隔线：\n"
 "\n"
@@ -4494,7 +4535,9 @@ msgstr "额外的松弛"
 
 #. help for parameter extra_slack
 #: boxes/generators/dividertray.py
-msgid "extra slack (in addition to thickness and kerf) to help insert dividers in mm"
+msgid ""
+"extra slack (in addition to thickness and kerf) to help insert dividers "
+"in mm"
 msgstr "额外的松弛（除了厚度和切口），以帮助插入以毫米为单位的分隔器"
 
 #. help for parameter radius
@@ -4617,47 +4660,46 @@ msgstr "用于钻机的箱子，每个隔间的高度不同"
 #. long description of DrillStand in markdown
 #: boxes/generators/drillstand.py
 msgid ""
-"Note: `sh` gives the height of the rows front to back. It though should have the "
-"same number of entries as `sy`. These heights are the one on the left side and "
-"increase throughout the row. To have each compartment a bit higher than the "
-"previous one the steps in `sh` should be a bit bigger than `extra_height`.\n"
+"Note: `sh` gives the height of the rows front to back. It though should "
+"have the same number of entries as `sy`. These heights are the one on the"
+" left side and increase throughout the row. To have each compartment a "
+"bit higher than the previous one the steps in `sh` should be a bit bigger"
+" than `extra_height`.\n"
 "\n"
 "Assembly:\n"
 "\n"
 "![Parts](static/samples/DrillStand-drawing.png)\n"
 "\n"
-"Start with putting the slots of the inner walls together. Be especially careful "
-"with adding the bottom. It is always asymmetrical and flush with the right/lower "
-"side while being a little short on the left/higher side to not protrude into the "
-"side wall.\n"
+"Start with putting the slots of the inner walls together. Be especially "
+"careful with adding the bottom. It is always asymmetrical and flush with "
+"the right/lower side while being a little short on the left/higher side "
+"to not protrude into the side wall.\n"
 "\n"
 "|      |      |\n"
 "| ---- | ---- |\n"
-"| ![Assembly inner walls](static/samples/DrillStand-assembly-1.jpg) | ![Assembly "
-"bottom](static/samples/DrillStand-assembly-2.jpg) |\n"
-"| Then add the front and the back wall. | Add the very left and right walls last. "
-"|\n"
-"| ![Assembly front and back](static/samples/DrillStand-assembly-3.jpg) | ![Assembly "
-"side walls](static/samples/DrillStand-assembly-4.jpg) |\n"
+"| ![Assembly inner walls](static/samples/DrillStand-assembly-1.jpg) | "
+"![Assembly bottom](static/samples/DrillStand-assembly-2.jpg) |\n"
+"| Then add the front and the back wall. | Add the very left and right "
+"walls last. |\n"
+"| ![Assembly front and back](static/samples/DrillStand-assembly-3.jpg) | "
+"![Assembly side walls](static/samples/DrillStand-assembly-4.jpg) |\n"
 msgstr ""
-"注意：`sh`表示前后行的高度。不过，它的条目数量应该与“sy”相同。这些高度位于左侧，并在"
-"整排中逐渐增加。为了使每个隔间都比前一个隔间高一点，“sh”中的步骤应该"
-"比“extra_height”大一点。\n"
+"注意：`sh`表示前后行的高度。不过，它的条目数量应该与“sy”相同。这些高度位于左侧，并在整排中逐渐增加。为了使每个隔间都比前一个隔间高一点，“sh”中的步骤应该比“extra_height”大一点。"
+"\n"
 "\n"
 "组装：\n"
 "\n"
 "！[零件]（静态/样本/DrillStand图纸.png）\n"
 "\n"
-"首先将内壁的槽放在一起。添加底部时要特别小心。它总是不对称的，与右侧/下侧齐平，而左"
-"侧/上侧有点短，不会突出到侧壁中。\n"
+"首先将内壁的槽放在一起。添加底部时要特别小心。它总是不对称的，与右侧/下侧齐平，而左侧/上侧有点短，不会突出到侧壁中。\n"
 "\n"
 "|      |      |\n"
 "| ---- | ---- |\n"
-"| ![Assembly inner walls](static/samples/DrillStand-assembly-1.jpg) | ![Assembly "
-"bottom](static/samples/DrillStand-assembly-2.jpg) |\n"
+"| ![Assembly inner walls](static/samples/DrillStand-assembly-1.jpg) | "
+"![Assembly bottom](static/samples/DrillStand-assembly-2.jpg) |\n"
 "|然后添加前墙和后墙。|最后添加左墙和右墙。 |\n"
-"| ![Assembly front and back](static/samples/DrillStand-assembly-3.jpg) | ![Assembly "
-"side walls](static/samples/DrillStand-assembly-4.jpg) |\n"
+"| ![Assembly front and back](static/samples/DrillStand-assembly-3.jpg) | "
+"![Assembly side walls](static/samples/DrillStand-assembly-4.jpg) |\n"
 
 msgid "DrillStand Settings"
 msgstr "设置"
@@ -4856,52 +4898,59 @@ msgstr ""
 msgid ""
 "\n"
 "### Description\n"
-"Fat balls are quite common to feed tits. Here you can build a dispenser that "
-"protects\n"
-"the fat balls from rain and snow. The design was tested using 4mm plywood for the\n"
-"main structural parts. For the spacer of the locking mechanism two layers of 3mm\n"
-"plywood have been stacked. The poles were made from 8mm diameter beech rod and "
-"19cm\n"
-"in length. Some basic consistency checks have been made for different numbers, but\n"
+"Fat balls are quite common to feed tits. Here you can build a dispenser "
+"that protects\n"
+"the fat balls from rain and snow. The design was tested using 4mm plywood"
+" for the\n"
+"main structural parts. For the spacer of the locking mechanism two layers"
+" of 3mm\n"
+"plywood have been stacked. The poles were made from 8mm diameter beech "
+"rod and 19cm\n"
+"in length. Some basic consistency checks have been made for different "
+"numbers, but\n"
 "only the defaults have ever been built.\n"
 "\n"
-"The final dispenser consists of two parts which slide into each other. You can "
-"mount\n"
-"a hook to hang it into a tree. All edges that have angles different from 90 degrees "
-"(chamfers)\n"
-"have engraved guiding lines which indicate the angle. You have to sand the edge "
-"such\n"
+"The final dispenser consists of two parts which slide into each other. "
+"You can mount\n"
+"a hook to hang it into a tree. All edges that have angles different from "
+"90 degrees (chamfers)\n"
+"have engraved guiding lines which indicate the angle. You have to sand "
+"the edge such\n"
 "that the pieces fit together.\n"
 "\n"
 "The top part (roof) consists of the the following elements for a N sided "
 "dispenser:\n"
 "\n"
-"  * The N sided roof bottom plate which supports the roof tiles. It has a central "
-"cut out\n"
-"    which is needed for assembly and on the bottom side an engraved line which "
-"indicates the\n"
+"  * The N sided roof bottom plate which supports the roof tiles. It has a"
+" central cut out\n"
+"    which is needed for assembly and on the bottom side an engraved line "
+"which indicates the\n"
 "    position of the mounting bracket.\n"
 "  * N triangles forming the roof. They also have a small arc at the tip "
 "(roof_hole_diameter)\n"
 "  which acts as a drilling guide if you want to mount a hook.\n"
-"  * The N sided roof support piece which has a central hole for the hook. It is "
-"been mounted\n"
-"  to the roof tiles through the hole in the roof bottom plate to support the roof\n"
+"  * The N sided roof support piece which has a central hole for the hook."
+" It is been mounted\n"
+"  to the roof tiles through the hole in the roof bottom plate to support "
+"the roof\n"
 "  tiles and acts as a mounting plate for the hook.\n"
-"  * Spacer(s); in the reference builds 2 spacers using 3mm plywood have been used. "
-"The spacer\n"
-"  needs to be a bit thicker than the ceiling (see below). That's the smaller\n"
-"  \"U\" shaped part which is glued to the bottom side of the roof bottom plate.\n"
-"  * The bracket is also \"U\" shaped and a bit wider than the spacer. This is glued "
-"to the\n"
+"  * Spacer(s); in the reference builds 2 spacers using 3mm plywood have "
+"been used. The spacer\n"
+"  needs to be a bit thicker than the ceiling (see below). That's the "
+"smaller\n"
+"  \"U\" shaped part which is glued to the bottom side of the roof bottom "
+"plate.\n"
+"  * The bracket is also \"U\" shaped and a bit wider than the spacer. "
+"This is glued to the\n"
 "  bottom of the spacer and holds the cage (bottom part).\n"
 "\n"
 "The bottom part (cage) consists of the follwoing elements:\n"
 "\n"
-"  * The ceiling is N sided with the central refill hole and N smaller holes into "
-"which\n"
+"  * The ceiling is N sided with the central refill hole and N smaller "
+"holes into which\n"
 "  the poles are fitted.\n"
-"  * The N sided floor part with finger joints for the balcony walls and holes for\n"
+"  * The N sided floor part with finger joints for the balcony walls and "
+"holes for\n"
 "  the poles. A central hole to drain rain water can be added as well.\n"
 "  * N balcony walls surrounding the floor.\n"
 "  * N poles that join floor and ceiling (not part of the drawing)\n"
@@ -4918,18 +4967,19 @@ msgid ""
 "\n"
 "  * Sand all chamfers\n"
 "  * Glue balcony walls to the floor\n"
-"  * Glue pairs of roof tiles and use the roof bottom plate as a jig, Hot glue may "
-"be used to\n"
+"  * Glue pairs of roof tiles and use the roof bottom plate as a jig, Hot "
+"glue may be used to\n"
 "    tack the parts.\n"
 "  * Glue all roof tiles to form the roof\n"
 "  * Glue spacer(s) and the bracket into a stack\n"
-"  * Glue roof tiles to the roof bottom plate and attach the support piece\n"
+"  * Glue roof tiles to the roof bottom plate and attach the support piece"
+"\n"
 "  * Glue the stack to the roof bottom plate\n"
 "  * Cut the poles to length\n"
-"  * If you want to use multiple colors paint now, otherwise you also can paint "
-"later\n"
-"  * After painting you may need to get the paint out of the pole holes again using "
-"a drillbit\n"
+"  * If you want to use multiple colors paint now, otherwise you also can "
+"paint later\n"
+"  * After painting you may need to get the paint out of the pole holes "
+"again using a drillbit\n"
 "  * Glue the poles into floor plate and ceiling\n"
 "  * Attach the hanger\n"
 "  * Attach the wire mesh\n"
@@ -4937,24 +4987,18 @@ msgid ""
 msgstr ""
 "\n"
 "###说明\n"
-"喂乳头的肥球很常见。在这里，您可以构建一个分配器，保护脂肪球免受雨雪侵袭。该设计使用"
-"4mm胶合板作为主要结构部件进行了测试。对于锁定机构的垫片，已经堆叠了两层3mm的胶合板。"
-"电杆由直径8毫米、长19厘米的山毛榉杆制成。对不同的数字进行了一些基本的一致性检查，但"
-"只建立了默认值。\n"
+"喂乳头的肥球很常见。在这里，您可以构建一个分配器，保护脂肪球免受雨雪侵袭。该设计使用4mm胶合板作为主要结构部件进行了测试。对于锁定机构的垫片，已经堆叠了两层3mm的胶合板。电杆由直径8毫米、长19厘米的山毛榉杆制成。对不同的数字进行了一些基本的一致性检查，但只建立了默认值。"
 "\n"
-"最终的分配器由两个相互滑动的部分组成。你可以装一个钩子把它挂在树上。所有角度不同于90"
-"度（倒角）的边缘都有雕刻的引导线，指示角度。你必须打磨边缘，使碎片拼凑在一起。\n"
+"\n"
+"最终的分配器由两个相互滑动的部分组成。你可以装一个钩子把它挂在树上。所有角度不同于90度（倒角）的边缘都有雕刻的引导线，指示角度。你必须打磨边缘，使碎片拼凑在一起。"
+"\n"
 "\n"
 "N面分配器的顶部（屋顶）由以下元件组成：\n"
 "\n"
-"*支撑屋顶瓦片的N侧屋顶底板。它有一个组装所需的中央切口，在底部有一条雕刻线，指示安装"
-"支架的位置。\n"
-"*N个三角形构成屋顶。它们的尖端也有一个小弧形（roof_hole_dimeter），如果你想安装钩"
-"子，它可以作为钻孔导向器。\n"
-"*N侧车顶支撑件，其中心有一个钩子孔。它通过屋顶底板上的孔安装在屋顶瓦片上，以支撑屋顶"
-"瓦片，并作为钩子的安装板。\n"
-"*垫片；在参考构建中，使用了2个使用3mm胶合板的垫片。垫片需要比天花板厚一点（见下"
-"文）。这是较小的“U”形部分，粘在屋顶底板的底侧。\n"
+"*支撑屋顶瓦片的N侧屋顶底板。它有一个组装所需的中央切口，在底部有一条雕刻线，指示安装支架的位置。\n"
+"*N个三角形构成屋顶。它们的尖端也有一个小弧形（roof_hole_dimeter），如果你想安装钩子，它可以作为钻孔导向器。\n"
+"*N侧车顶支撑件，其中心有一个钩子孔。它通过屋顶底板上的孔安装在屋顶瓦片上，以支撑屋顶瓦片，并作为钩子的安装板。\n"
+"*垫片；在参考构建中，使用了2个使用3mm胶合板的垫片。垫片需要比天花板厚一点（见下文）。这是较小的“U”形部分，粘在屋顶底板的底侧。\n"
 "*支架也是“U”形的，比垫片宽一点。这是粘在垫片底部并固定笼子（底部）的。\n"
 "\n"
 "底部（笼子）由以下元件组成：\n"
@@ -5144,7 +5188,9 @@ msgstr "屋顶维护间隙"
 
 #. help for parameter roof_maintenance_clearance
 #: boxes/generators/fatballdispenser.py
-msgid "The distance from on bottom corner of the roof to the maintenance hole in mm."
+msgid ""
+"The distance from on bottom corner of the roof to the maintenance hole in"
+" mm."
 msgstr "屋顶底角到维护孔的距离，单位为毫米。"
 
 #. parameter name
@@ -5171,14 +5217,13 @@ msgstr "用于3D打印长丝的两部分卷轴"
 #: boxes/generators/filamentspool.py
 msgid ""
 "\n"
-"Use small nails to properly align the pieces of the bayonet latch. Glue the parts "
-"of the bayonet latch before assembling the \"axle\". The inner parts go at the side "
-"and the outer parts at the inside of the axle.\n"
+"Use small nails to properly align the pieces of the bayonet latch. Glue "
+"the parts of the bayonet latch before assembling the \"axle\". The inner "
+"parts go at the side and the outer parts at the inside of the axle.\n"
 "![opened spool](static/samples/FilamentSpool-2.jpg)"
 msgstr ""
 "\n"
-"使用小钉子正确对齐卡口锁扣的各个部分。在组装“轴”之前，先将卡口锁的零件粘上。内部零件"
-"位于车轴侧面，外部零件位于车轴内侧。\n"
+"使用小钉子正确对齐卡口锁扣的各个部分。在组装“轴”之前，先将卡口锁的零件粘上。内部零件位于车轴侧面，外部零件位于车轴内侧。\n"
 "![opened spool](static/samples/FilamentSpool-2.jpg)"
 
 msgid "FilamentSpool Settings"
@@ -5246,8 +5291,8 @@ msgstr "仿照一本书设计的带活铰链的盒子。"
 #: boxes/generators/flexbook.py
 msgid ""
 "\n"
-"If you have an enclosure, arrange the living hinge to be as close to your extractor "
-"fan as possible.\n"
+"If you have an enclosure, arrange the living hinge to be as close to your"
+" extractor fan as possible.\n"
 "\n"
 "![Open](static/samples/FlexBook-2.jpg)"
 msgstr ""
@@ -5442,7 +5487,8 @@ msgstr "安装孔和切口可满足您的所有神圣需求。"
 #: boxes/generators/frontpanel.py
 msgid ""
 "\n"
-"<script type=\"module\" src=\"https://md-block.verou.me/md-block.js\"></script>\n"
+"<script type=\"module\" src=\"https://md-block.verou.me/md-"
+"block.js\"></script>\n"
 "<md-block>\n"
 "\n"
 "\n"
@@ -5451,7 +5497,8 @@ msgid ""
 "install\n"
 "\n"
 "    The layout can create several types of holes including rectangles,\n"
-"    circles and mounting holes.  The default shows an example layout with all\n"
+"    circles and mounting holes.  The default shows an example layout with"
+" all\n"
 "    currently supported objects.\n"
 "\n"
 "####\n"
@@ -5462,9 +5509,11 @@ msgid ""
 "     w: width\n"
 "     h: height\n"
 "    cr: optional, Corner radius, default=0\n"
-"    cx: optional, Center x.  the x position denotes the center of the rectangle.\n"
+"    cx: optional, Center x.  the x position denotes the center of the "
+"rectangle.\n"
 "        accepts t, T, 1, or other true-like values.\n"
-"    cy: optional, Center y.  the y position denotes the center of the rectangle.\n"
+"    cy: optional, Center y.  the y position denotes the center of the "
+"rectangle.\n"
 "\n"
 "#### outline\n"
 "`rect w h`\n"
@@ -5472,9 +5521,10 @@ msgid ""
 "    w: width\n"
 "    h: height\n"
 "\n"
-"`outline` has a special meaning: You can create multiple panel outlines with one "
-"command.\n"
-"This has the effect of making it easy to manage all the holes on all the sides of\n"
+"`outline` has a special meaning: You can create multiple panel outlines "
+"with one command.\n"
+"This has the effect of making it easy to manage all the holes on all the "
+"sides of\n"
 "your boxes.\n"
 "\n"
 "#### circle\n"
@@ -5501,8 +5551,8 @@ msgid ""
 "     size: size, in mm\n"
 "     text: text to render.  This *must* be in quotation marks\n"
 "    angle: angle (in degrees)\n"
-"    align: string with combinations of (top|middle|bottom) and (left|center|"
-"right),\n"
+"    align: string with combinations of (top|middle|bottom) and "
+"(left|center|right),\n"
 "           separated by '|'.  Default is 'bottom|left'\n"
 "\n"
 "\n"
@@ -5513,12 +5563,14 @@ msgid ""
 "        x: x position (center of shaft)\n"
 "        y: y position (center of shaft)\n"
 "     size: nema size.  One of [8, 11, 14, 16, 17, 23, 24, 34, 42]\n"
-"    screw: screw size, in mm.  Optional.  Default=0, which means the default size\n"
+"    screw: screw size, in mm.  Optional.  Default=0, which means the "
+"default size\n"
 "</md-block>\n"
 "    "
 msgstr ""
 "\n"
-"<script type=\"module\" src=\"https://md-block.verou.me/md-block.js\"></script>\n"
+"<script type=\"module\" src=\"https://md-block.verou.me/md-"
+"block.js\"></script>\n"
 "<md-block>\n"
 "\n"
 "\n"
@@ -5763,12 +5815,12 @@ msgstr "参数化的 Gridfinity 基础"
 msgid ""
 "This is a configurable gridfinity base.  This\n"
 "    design is based on\n"
-"    <a href=\"https://www.youtube.com/watch?app=desktop&v=ra_9zU-mnl8\">Zach "
-"Freedman's Gridfinity system</a>"
+"    <a href=\"https://www.youtube.com/watch?app=desktop&v=ra_9zU-"
+"mnl8\">Zach Freedman's Gridfinity system</a>"
 msgstr ""
 "这是一个可配置的基于网格的盒子。该设计基于\n"
-"    <a href=\"https://www.youtube.com/watch?app=desktop&v=ra_9zU-mnl8\">Zach "
-"Freedman的网格有限系统</a>"
+"    <a href=\"https://www.youtube.com/watch?app=desktop&v=ra_9zU-"
+"mnl8\">Zach Freedman的网格有限系统</a>"
 
 msgid "GridfinityBase Settings"
 msgstr "设置"
@@ -5816,7 +5868,8 @@ msgstr "m"
 #. help for parameter m
 #: boxes/generators/gridfinitybase.py
 msgid ""
-"Extra margin around the gridfinity base to allow it to drop into the carrier (mm)"
+"Extra margin around the gridfinity base to allow it to drop into the "
+"carrier (mm)"
 msgstr "网格有限度基座周围的额外余量，使其能够落入载体中（mm）"
 
 #. parameter name
@@ -5948,14 +6001,12 @@ msgid ""
 "this compartment.\n"
 msgstr ""
 "\n"
-"这是一个通用的网格有限托盘生成器。您可以创建形状有些任意的托盘，或者对简单的网格形托"
-"盘什么都不做。\n"
+"这是一个通用的网格有限托盘生成器。您可以创建形状有些任意的托盘，或者对简单的网格形托盘什么都不做。\n"
 "\n"
 "尺寸会自动计算，以完美地适应网格（如网格基础或任何其他基于网格的基础）。\n"
 "\n"
 "编辑布局文本图形以调整托盘。\n"
-"您可以用空格字符替换代表墙的连字符和垂直条，以删除墙。您可以将代表地板的空格字符替换"
-"为“X”，以删除此隔间的地板。\n"
+"您可以用空格字符替换代表墙的连字符和垂直条，以删除墙。您可以将代表地板的空格字符替换为“X”，以删除此隔间的地板。\n"
 
 msgid "GridfinityTrayLayout Settings"
 msgstr "网格托盘布局设置"
@@ -5968,8 +6019,8 @@ msgstr "高度单位为毫米，或在Gridfinity单位的末尾添加“u”"
 #. help for parameter hi
 #: boxes/generators/gridfinitytraylayout.py
 msgid ""
-"inner height of inner walls in mm (leave to zero for same as outer walls with "
-"optional reduction for stacking)"
+"inner height of inner walls in mm (leave to zero for same as outer walls "
+"with optional reduction for stacking)"
 msgstr "内壁的内部高度，单位为毫米（与外壁相同，保留为零，堆叠时可选择减少）"
 
 #. parameter name
@@ -6049,7 +6100,9 @@ msgstr "用于放置钻头或类似工具的 Gridfinity 盒子"
 
 #. long description of GridfinityDrillBox in markdown
 #: boxes/generators/gridfinitydrillbox.py
-msgid "You need to add a hole pattern to all horizontal layers except the very bottom"
+msgid ""
+"You need to add a hole pattern to all horizontal layers except the very "
+"bottom"
 msgstr "您需要向除最底层之外的所有水平层添加孔图案"
 
 msgid "GridfinityDrillBox Settings"
@@ -6070,10 +6123,12 @@ msgstr "从布局文件生成类型托盘。"
 msgid ""
 "This is a two step process. This is step 2.\n"
 "Edit the layout text graphics to adjust your tray.\n"
-"Put in the sizes for each column and row. You can replace the hyphens and\n"
-"vertical bars representing the walls with a space character to remove the walls.\n"
-"You can replace the space characters representing the floor by a \"X\" to remove "
-"the floor for this compartment.\n"
+"Put in the sizes for each column and row. You can replace the hyphens and"
+"\n"
+"vertical bars representing the walls with a space character to remove the"
+" walls.\n"
+"You can replace the space characters representing the floor by a \"X\" to"
+" remove the floor for this compartment.\n"
 msgstr ""
 "这是一个两步过程。这是第二步。\n"
 "编辑布局文本图形以调整托盘。\n"
@@ -6091,8 +6146,8 @@ msgstr "斜角盒"
 #. description of HalfBox
 #: boxes/generators/halfbox.py
 msgid ""
-"Configurable half of a box which can be: a bookend, a hanging shelf, an angle "
-"clamping jig, ..."
+"Configurable half of a box which can be: a bookend, a hanging shelf, an "
+"angle clamping jig, ..."
 msgstr "可配置的半个盒子，可以是：书架、悬挂架、角夹夹具、……"
 
 #. long description of HalfBox in markdown
@@ -6104,7 +6159,8 @@ msgid ""
 "![HalfBox as hanging shelf](static/samples/HalfBox_Shelf_usage.jpg)\n"
 "\n"
 "* an angle clamping jig:\n"
-"![HalfBox as an angle clamping jig](static/samples/HalfBox_AngleJig_usage.jpg)\n"
+"![HalfBox as an angle clamping "
+"jig](static/samples/HalfBox_AngleJig_usage.jpg)\n"
 "\n"
 "* a bookend:\n"
 "![HalfBox as a bookend](static/samples/HalfBox_Bookend_usage.jpg)\n"
@@ -6118,7 +6174,8 @@ msgstr ""
 "![HalfBox as hanging shelf](static/samples/HalfBox_Shelf_usage.jpg)\n"
 "\n"
 "*角度夹紧夹具：\n"
-"![HalfBox as an angle clamping jig](static/samples/HalfBox_AngleJig_usage.jpg)\n"
+"![HalfBox as an angle clamping "
+"jig](static/samples/HalfBox_AngleJig_usage.jpg)\n"
 "\n"
 "*书挡：\n"
 "![HalfBox as a bookend](static/samples/HalfBox_Bookend_usage.jpg)\n"
@@ -6205,14 +6262,16 @@ msgstr "箱盖由柜体铰链连接"
 #: boxes/generators/hingebox.py
 msgid ""
 "Needs (metal) pins as hinge axles. Pieces of nails will\n"
-"do fine. They need to be cut to length as they are captured as soon as the\n"
+"do fine. They need to be cut to length as they are captured as soon as "
+"the\n"
 "hinges are assembled.\n"
 "\n"
-"Assemble the box and the lid separately. Then insert the axle into the hinges.\n"
-"Then attach the hinges on the inside of the box and then connect them to lid.\n"
+"Assemble the box and the lid separately. Then insert the axle into the "
+"hinges.\n"
+"Then attach the hinges on the inside of the box and then connect them to "
+"lid.\n"
 msgstr ""
-"需要（金属）销作为铰链轴。指甲片会很好。铰链组装后，它们需要被切割成一定长度，因为它"
-"们会被捕获。\n"
+"需要（金属）销作为铰链轴。指甲片会很好。铰链组装后，它们需要被切割成一定长度，因为它们会被捕获。\n"
 "\n"
 "将盒子和盖子分开组装。然后将轴插入铰链。\n"
 "然后将铰链连接到盒子内侧，然后将它们连接到盖子上。\n"
@@ -6238,7 +6297,8 @@ msgstr "自定义布局盒"
 #. description of HobbyCase
 #: boxes/generators/hobbycase.py
 msgid ""
-"A case that can be used in any hobby involving small pieces in need of organizing."
+"A case that can be used in any hobby involving small pieces in need of "
+"organizing."
 msgstr "一个可以用于任何爱好的盒子，涉及需要组织的小作品。"
 
 #. long description of HobbyCase in markdown
@@ -6247,17 +6307,17 @@ msgid ""
 "\n"
 "The hobby case is defined by units, \"cells\" of the case.\n"
 "You define depth, height and widths of the cells.\n"
-"By combining dimensions with number of columns and rows slots for shelves are "
-"generated.\n"
+"By combining dimensions with number of columns and rows slots for shelves"
+" are generated.\n"
 "Slots can be populated by:\n"
 "\n"
-"* shelves (horizontal piece of plywood that covers full width and depth of the "
-"column. You can put anything on them, but they also provide some structural "
-"integrity. It is recommended to have a least one shelve every 2-4 slots (depending "
-"on the unit height)\n"
-"* rails (3 horizontal pieces that stick out of the side and back walls of the "
-"column. They can be used to allow taller things placed on shelves below, but also "
-"some sliding drawers can be put in them.\n"
+"* shelves (horizontal piece of plywood that covers full width and depth "
+"of the column. You can put anything on them, but they also provide some "
+"structural integrity. It is recommended to have a least one shelve every "
+"2-4 slots (depending on the unit height)\n"
+"* rails (3 horizontal pieces that stick out of the side and back walls of"
+" the column. They can be used to allow taller things placed on shelves "
+"below, but also some sliding drawers can be put in them.\n"
 msgstr ""
 "\n"
 "自定义布局盒由多个单元（即箱子的“格子”）定义。\n"
@@ -6265,10 +6325,9 @@ msgstr ""
 "通过将尺寸与列数和行数相结合，可以生成用于搁板的插槽。\n"
 "插槽可以由以下材料填充：\n"
 "\n"
-"* 搁板（一块水平胶合板，覆盖立柱的整个宽度和深度。您可以在其上放置任何物品，同时它们"
-"也提供一定的结构完整性。建议每 2-4 个插槽至少放置一个搁板（取决于单元高度）\n"
-"* 导轨（3 个水平部件，从立柱的侧壁和后壁伸出。它们可以用来将较高的物品放置在下面的搁"
-"板上，也可以放置一些滑动抽屉。\n"
+"* 搁板（一块水平胶合板，覆盖立柱的整个宽度和深度。您可以在其上放置任何物品，同时它们也提供一定的结构完整性。建议每 2-4 "
+"个插槽至少放置一个搁板（取决于单元高度）\n"
+"* 导轨（3 个水平部件，从立柱的侧壁和后壁伸出。它们可以用来将较高的物品放置在下面的搁板上，也可以放置一些滑动抽屉。\n"
 
 msgid "HobbyCase Settings"
 msgstr "设置"
@@ -6449,47 +6508,46 @@ msgstr "拼接面板"
 
 #. description of JointPanel
 #: boxes/generators/jointpanel.py
-msgid "Create pieces larger than your laser cutter by joining them with Dove Tails"
+msgid ""
+"Create pieces larger than your laser cutter by joining them with Dove "
+"Tails"
 msgstr "通过使用Dove Tails将工件连接起来，制作出比激光切割机更大的工件"
 
 #. long description of JointPanel in markdown
 #: boxes/generators/jointpanel.py
 msgid ""
-"This can be used to just create a big panel in a smaller laser cutter. But the "
-"actual use is to split large parts into multiple smaller pieces. Copy the outline "
-"onto the sheet and then use the pieces to cut it into multiple parts that each can "
-"fit your laser cutter. Note that each piece must be cut with the sheet surrounding "
-"it to ensure the burn correction (aka kerf) is correct. Depending on your vector "
-"graphics software you may need to duplicate your part multiple times and then "
-"generate the intersection between one copy and each rectangular part.\n"
+"This can be used to just create a big panel in a smaller laser cutter. "
+"But the actual use is to split large parts into multiple smaller pieces. "
+"Copy the outline onto the sheet and then use the pieces to cut it into "
+"multiple parts that each can fit your laser cutter. Note that each piece "
+"must be cut with the sheet surrounding it to ensure the burn correction "
+"(aka kerf) is correct. Depending on your vector graphics software you may"
+" need to duplicate your part multiple times and then generate the "
+"intersection between one copy and each rectangular part.\n"
 "\n"
-"The Boxes.py drawings assume that the laser is cutting in the center of the line "
-"and the width of the line represents the material that is cut away. Make sure your "
-"changes work the same way and you do not cutting away the kerf.\n"
+"The Boxes.py drawings assume that the laser is cutting in the center of "
+"the line and the width of the line represents the material that is cut "
+"away. Make sure your changes work the same way and you do not cutting "
+"away the kerf.\n"
 "\n"
-"Small dove tails make it easier to fit parts in without problems. Lookout for "
-"pieces cut loose where the dove tails meet the edge of the parts. Move your part if "
-"necessary to avoid dove tails or details of your part colliding in a weird way.\n"
+"Small dove tails make it easier to fit parts in without problems. Lookout"
+" for pieces cut loose where the dove tails meet the edge of the parts. "
+"Move your part if necessary to avoid dove tails or details of your part "
+"colliding in a weird way.\n"
 "\n"
-"For plywood this method works well with a very stiff press fit. Aim for needing a "
-"hammer to join the pieces together. This way they will feel like they have been "
-"welder together.\n"
+"For plywood this method works well with a very stiff press fit. Aim for "
+"needing a hammer to join the pieces together. This way they will feel "
+"like they have been welder together.\n"
 "\n"
 msgstr ""
-"这可以用来在较小的激光切割机上制作一个大面板。但实际用途是将大部件分成多个小部件。将"
-"轮廓复制到纸张上，然后使用这些部分将其切割成多个部分，每个部分都可以适合您的激光切割"
-"机。请注意，每一块都必须用周围的板材切割，以确保烧伤矫正（也称为切口）是正确的。根据"
-"您的矢量图形软件，您可能需要多次复制零件，然后生成一个副本和每个矩形零件之间的交"
-"点。\n"
+"这可以用来在较小的激光切割机上制作一个大面板。但实际用途是将大部件分成多个小部件。将轮廓复制到纸张上，然后使用这些部分将其切割成多个部分，每个部分都可以适合您的激光切割机。请注意，每一块都必须用周围的板材切割，以确保烧伤矫正（也称为切口）是正确的。根据您的矢量图形软件，您可能需要多次复制零件，然后生成一个副本和每个矩形零件之间的交点。"
 "\n"
-"Boxes.py图纸假设激光在线的中心切割，线的宽度表示被切割的材料。确保您的更改以相同的方"
-"式工作，并且不会切掉切口。\n"
 "\n"
-"小鸽子尾巴使零件更容易安装而不会出现问题。小心鸽子尾巴与零件边缘相接处的碎片。必要时"
-"移动你的零件，以避免鸽子尾巴或零件的细节以奇怪的方式碰撞。\n"
+"Boxes.py图纸假设激光在线的中心切割，线的宽度表示被切割的材料。确保您的更改以相同的方式工作，并且不会切掉切口。\n"
 "\n"
-"对于胶合板，这种方法在非常坚硬的压配合下效果很好。目标是需要一把锤子把碎片连接在一"
-"起。这样他们会觉得自己像是在一起焊接。\n"
+"小鸽子尾巴使零件更容易安装而不会出现问题。小心鸽子尾巴与零件边缘相接处的碎片。必要时移动你的零件，以避免鸽子尾巴或零件的细节以奇怪的方式碰撞。\n"
+"\n"
+"对于胶合板，这种方法在非常坚硬的压配合下效果很好。目标是需要一把锤子把碎片连接在一起。这样他们会觉得自己像是在一起焊接。\n"
 "\n"
 
 msgid "JointPanel Settings"
@@ -6519,93 +6577,89 @@ msgstr "日式连环画剧（日式纸戏剧）"
 #: boxes/generators/kamishibai.py
 msgid ""
 "\n"
-"    This is a kamishibai butai (japanese image theatre), with several options for "
-"covering the different\n"
+"    This is a kamishibai butai (japanese image theatre), with several "
+"options for covering the different\n"
 "    holes when put away.\n"
 "    Magenta cuts should be performed before the blue cuts.\n"
-"    The recommended wood thickness is 5 mm at least, particularly if you go for big "
-"sizes (which works\n"
-"    fine with A4 or A3). If you use 3 mm, you should not use the screwing option "
-"(disabled by default),\n"
-"    so you can assemble your box with glue or force the pieces together (using a "
-"bigger burn parameter).\n"
-"    Please note that using the screwing option often means adding feet (which can "
-"be 3D printed for\n"
-"    example). It makes the box easier to mount and unmount for repairing purposes, "
-"and the feet protect\n"
-"    the wood from whatever surface the box is put on. Screws are not compatible "
-"with a small frame\n"
+"    The recommended wood thickness is 5 mm at least, particularly if you "
+"go for big sizes (which works\n"
+"    fine with A4 or A3). If you use 3 mm, you should not use the screwing"
+" option (disabled by default),\n"
+"    so you can assemble your box with glue or force the pieces together "
+"(using a bigger burn parameter).\n"
+"    Please note that using the screwing option often means adding feet "
+"(which can be 3D printed for\n"
+"    example). It makes the box easier to mount and unmount for repairing "
+"purposes, and the feet protect\n"
+"    the wood from whatever surface the box is put on. Screws are not "
+"compatible with a small frame\n"
 "    thickness (i.e. with sheets with a small margin).\n"
 "    For assembling the box, please follow the following steps:\n"
-"    1. Assemble the front side and back side pieces to the front and back of the "
-"front and back panels\n"
+"    1. Assemble the front side and back side pieces to the front and back"
+" of the front and back panels\n"
 "    respectively\n"
-"    2. Assemble the top handle pieces together and insert two of the plates into "
-"the two holes (centered);\n"
-"    then insert the assembled handles into the dansle ceiling and add the two other "
-"plates\n"
+"    2. Assemble the top handle pieces together and insert two of the "
+"plates into the two holes (centered);\n"
+"    then insert the assembled handles into the dansle ceiling and add the"
+" two other plates\n"
 "    3. Insert the front and back panels into the bottom panel\n"
-"    4. Attach the handle between the top of the front and back panels, then add the "
-"top panel but do not\n"
+"    4. Attach the handle between the top of the front and back panels, "
+"then add the top panel but do not\n"
 "    fasten it yet, just keep it loose on top\n"
 "    5. Assemble the locks together to the doors if enabled:\n"
-"       5.1 lock with key : lock front - lock external - plate cut from the door "
-"(also add the door now) -\n"
+"       5.1 lock with key : lock front - lock external - plate cut from "
+"the door (also add the door now) -\n"
 "       lock internal\n"
-"       5.2 lock simple : lock grip - lock external - plate cut from the door (also "
-"add the door now) -\n"
+"       5.2 lock simple : lock grip - lock external - plate cut from the "
+"door (also add the door now) -\n"
 "       lock internal\n"
-"       5.3 small extra locks for top and bottom : lock grip - plate cut from the "
-"door (also add the door\n"
+"       5.3 small extra locks for top and bottom : lock grip - plate cut "
+"from the door (also add the door\n"
 "       now) - lock internal - lock spacer - lock locker\n"
 "    6. Add the hinges to the doors if needed (for two-panes front doors)\n"
 "    7. fasten the top\n"
-"    8. Attach two side panel inner plates to a side panel with the two pegs (use "
-"glue if necessary) and\n"
+"    8. Attach two side panel inner plates to a side panel with the two "
+"pegs (use glue if necessary) and\n"
 "    repeat a second time\n"
-"    9. If you use a lock with key, add the last short peg to the back plate (you "
-"may want to sand it a bit\n"
-"    on the other half so that the key can be attached easily enough, but it should "
-"not fal off either)\n"
+"    9. If you use a lock with key, add the last short peg to the back "
+"plate (you may want to sand it a bit\n"
+"    on the other half so that the key can be attached easily enough, but "
+"it should not fal off either)\n"
 "    10. You should now be able to close and open all the doors\n"
 "    Usage recommendations:\n"
-"    1. Add your paper sheets fron one side or the other (normally you leave either "
-"left or right closed,\n"
+"    1. Add your paper sheets fron one side or the other (normally you "
+"leave either left or right closed,\n"
 "    depending on which is more comfortable for you)\n"
-"    2. Thick paper is easier to handle ; if you print on a home printer, use the "
-"thickest you printer can\n"
-"    print (probably around 200 grams per square meter) ; if you want extra quality, "
-"go to a printing shop\n"
+"    2. Thick paper is easier to handle ; if you print on a home printer, "
+"use the thickest you printer can\n"
+"    print (probably around 200 grams per square meter) ; if you want "
+"extra quality, go to a printing shop\n"
 "    and ask them for 300 grams per square meter printing\n"
 "    3. You can also buy virgin drawing paper to write your own stories\n"
-"    4. If you decided to go for the lock with key, you can ask one of the "
-"participants to unlock the box,\n"
+"    4. If you decided to go for the lock with key, you can ask one of the"
+" participants to unlock the box,\n"
 "    it really helps in immersing into toe story\n"
-"    5. If you need a kamishibai for showing images during a guided tour, you may "
-"choose to use the\n"
-"    one-panel front, and use transparent acrylic for the back and front panels to "
-"keep you sheets\n"
-"    protected from light rain ; you may need to cut the box from a rain-resistant "
-"material\n"
+"    5. If you need a kamishibai for showing images during a guided tour, "
+"you may choose to use the\n"
+"    one-panel front, and use transparent acrylic for the back and front "
+"panels to keep you sheets\n"
+"    protected from light rain ; you may need to cut the box from a rain-"
+"resistant material\n"
 "    (outside-compatible plywood or acrylic)\n"
 "    "
 msgstr ""
 "\n"
 "这是一个日式连环画剧（日式纸戏剧），在收起时有几种覆盖不同孔洞的选择。\n"
 "洋红色切割应在蓝色切割之前进行。\n"
-"建议的木材厚度至少为5毫米，特别是如果你选择大尺寸（A4或A3可以很好地使用）。如果使用"
-"3mm，则不应使用螺钉选项（默认禁用），\n"
+"建议的木材厚度至少为5毫米，特别是如果你选择大尺寸（A4或A3可以很好地使用）。如果使用3mm，则不应使用螺钉选项（默认禁用），\n"
 "所以你可以用胶水组装你的盒子，或者把碎片压在一起（使用更大的燃烧参数）。\n"
-"请注意，使用螺钉选项通常意味着增加脚部（例如，可以3D打印）。它使盒子更容易安装和拆卸"
-"以进行维修，脚部也能保护\n"
+"请注意，使用螺钉选项通常意味着增加脚部（例如，可以3D打印）。它使盒子更容易安装和拆卸以进行维修，脚部也能保护\n"
 "螺钉与小框架厚度（即边缘较小的板材）不兼容。\n"
 "组装盒子时，请按照以下步骤操作：\n"
 "1.将前侧片和后侧片分别安装到前后面板的前后\n"
-"2.将顶部手柄件组装在一起，将其中两块板插入两个孔中（居中）；然后将组装好的把手插入天"
-"花板，并添加另外两块板\n"
+"2.将顶部手柄件组装在一起，将其中两块板插入两个孔中（居中）；然后将组装好的把手插入天花板，并添加另外两块板\n"
 "3.将前后面板插入底板\n"
-"4.将手柄连接在前后面板的顶部之间，然后添加顶部面板，但不要拧紧，只需在顶部保持松散即"
-"可\n"
+"4.将手柄连接在前后面板的顶部之间，然后添加顶部面板，但不要拧紧，只需在顶部保持松散即可\n"
 "5.如果启用，将锁组装到车门上：\n"
 "5.1带钥匙的锁：锁前-锁外-从门上切下的板（现在也添加了门）-锁内\n"
 "5.2锁简单：锁把手-锁外部-从门上切下的板（现在也添加了门）-锁内部\n"
@@ -6613,19 +6667,15 @@ msgstr ""
 "6.如果需要，在门上添加铰链（适用于两扇窗格前门）\n"
 "7.固定顶部\n"
 "8.用两个钉子将两个侧板内板连接到侧板上（必要时使用胶水），并重复第二次\n"
-"9.如果您使用带钥匙的锁，请将最后一个短钉添加到背板上（您可能想在另一半上撒一点沙子，"
-"这样钥匙就可以很容易地连接起来，但也不应该脱落）\n"
+"9.如果您使用带钥匙的锁，请将最后一个短钉添加到背板上（您可能想在另一半上撒一点沙子，这样钥匙就可以很容易地连接起来，但也不应该脱落）\n"
 "10.你现在应该可以关上和打开所有的门了\n"
 "使用建议：\n"
 "1.从一侧或另一侧添加纸张（通常您会将左侧或右侧关闭，具体取决于哪一侧更舒适）\n"
-"2.厚纸更容易处理；如果你在家用打印机上打印，请使用打印机能打印的最厚的打印机（大约每"
-"平方米200克）；如果你想要额外的质量，去印刷厂\n"
+"2.厚纸更容易处理；如果你在家用打印机上打印，请使用打印机能打印的最厚的打印机（大约每平方米200克）；如果你想要额外的质量，去印刷厂\n"
 "并要求他们每平方米打印300克\n"
 "3.你也可以购买原始画纸来写自己的故事\n"
-"4.如果你决定用钥匙开锁，你可以让其中一名参与者打开盒子，这真的有助于沉浸在脚趾故事"
-"中\n"
-"5.如果你需要一个kamishibai在导游期间展示图像，你可以选择使用单面板的正面，并在背面和"
-"正面使用透明的丙烯酸来保持你的床单\n"
+"4.如果你决定用钥匙开锁，你可以让其中一名参与者打开盒子，这真的有助于沉浸在脚趾故事中\n"
+"5.如果你需要一个kamishibai在导游期间展示图像，你可以选择使用单面板的正面，并在背面和正面使用透明的丙烯酸来保持你的床单\n"
 "防止小雨；您可能需要用防雨材料（外部兼容的胶合板或丙烯酸）切割盒子\n"
 "    "
 
@@ -6699,7 +6749,9 @@ msgstr "手柄厚度"
 
 #. help for parameter HandleThickness
 #: boxes/generators/kamishibai.py
-msgid "Thickness of the top handle in multiples of thickness (Set to 0 for no handle)"
+msgid ""
+"Thickness of the top handle in multiples of thickness (Set to 0 for no "
+"handle)"
 msgstr "顶部手柄的厚度是厚度的倍数（设置为0表示没有手柄）"
 
 #. parameter name
@@ -6710,8 +6762,8 @@ msgstr "手柄宽度"
 #. help for parameter HandleWidth
 #: boxes/generators/kamishibai.py
 msgid ""
-"Width of the top handle in mm (Set to 0 for no handle) ; the SheetStackDepth should "
-"be at least 4 x thickness more"
+"Width of the top handle in mm (Set to 0 for no handle) ; the "
+"SheetStackDepth should be at least 4 x thickness more"
 msgstr "顶部手柄的宽度，单位为毫米（无手柄时设置为0）；板材堆叠深度应至少增加4倍厚度"
 
 #. parameter name
@@ -6732,8 +6784,8 @@ msgstr "背部额外深度"
 #. help for parameter BackExtraDepth
 #: boxes/generators/kamishibai.py
 msgid ""
-"Back extra depth (for adding buttons for example), in multiples of thickness ; set "
-"to 0 to let the system calculate the smallest one"
+"Back extra depth (for adding buttons for example), in multiples of "
+"thickness ; set to 0 to let the system calculate the smallest one"
 msgstr "背部额外深度（例如用于添加按钮），以厚度的倍数表示；设置为0，让系统计算最小值"
 
 #. parameter name
@@ -6744,12 +6796,10 @@ msgstr "桩柱宽度裕度"
 #. help for parameter PegsWidthMargin
 #: boxes/generators/kamishibai.py
 msgid ""
-"Margin for the pegs width in mm ; set to a lower value if the pieces are forced "
-"together, a higher value if the pieces slide easily into eachother (using screws or "
-"glue to assemble)"
-msgstr ""
-"栓钉宽度的边距，单位为毫米；如果工件被压在一起，则设置为较低的值，如果工件很容易相互"
-"滑动（使用螺钉或胶水组装），则设置较高的值"
+"Margin for the pegs width in mm ; set to a lower value if the pieces are "
+"forced together, a higher value if the pieces slide easily into eachother"
+" (using screws or glue to assemble)"
+msgstr "栓钉宽度的边距，单位为毫米；如果工件被压在一起，则设置为较低的值，如果工件很容易相互滑动（使用螺钉或胶水组装），则设置较高的值"
 
 msgid "Kamishibai front cover"
 msgstr "日式连环画剧封面"
@@ -6787,8 +6837,9 @@ msgstr "前部额外深度"
 #. help for parameter FrontExtraDepth
 #: boxes/generators/kamishibai.py
 msgid ""
-"Front extra depth (for attaching hinges for example), in multiples of thickness ; "
-"set to 0 to ignore or let the system calculate the smallest one"
+"Front extra depth (for attaching hinges for example), in multiples of "
+"thickness ; set to 0 to ignore or let the system calculate the smallest "
+"one"
 msgstr "前部额外深度（例如用于连接铰链），厚度的倍数；设置为0忽略或让系统计算最小值"
 
 #. parameter name
@@ -6862,8 +6913,8 @@ msgstr "铰链孔盖分离"
 #. help for parameter HingeHolesCoverSeparation
 #: boxes/generators/kamishibai.py
 msgid ""
-"separation of the cover holes from one another's center in mm (section parameter "
-"type) ; the first item is the distance from the border"
+"separation of the cover holes from one another's center in mm (section "
+"parameter type) ; the first item is the distance from the border"
 msgstr "盖孔彼此中心的间距，单位为毫米（截面参数类型）；第一项是与边界的距离"
 
 #. parameter name
@@ -6874,8 +6925,8 @@ msgstr "铰链孔盒分离"
 #. help for parameter HingeHolesBoxSeparation
 #: boxes/generators/kamishibai.py
 msgid ""
-"separation of the box holes from one another's center in mm (section parameter "
-"type) ; the first item is the distance from the border"
+"separation of the box holes from one another's center in mm (section "
+"parameter type) ; the first item is the distance from the border"
 msgstr "箱孔彼此中心的间距，单位为毫米（截面参数类型）；第一项是与边界的距离"
 
 msgid "Screws parameters for attaching the pieces together"
@@ -6948,7 +6999,9 @@ msgstr "锁紧螺钉与边框的距离"
 
 #. help for parameter LockScrewDistanceFromBorder
 #: boxes/generators/kamishibai.py
-msgid "Distance of the screw axis from the side border (in multiples of thickness)"
+msgid ""
+"Distance of the screw axis from the side border (in multiples of "
+"thickness)"
 msgstr "螺杆轴与侧边的距离（以厚度的倍数表示）"
 
 #. parameter name
@@ -6959,8 +7012,8 @@ msgstr "锁紧螺钉额外脚螺钉直径"
 #. help for parameter LockScrewExtraFeetScewDiameter
 #: boxes/generators/kamishibai.py
 msgid ""
-"Diameter of the screw holes for extra feet at the corners, in mm (set to 0 for no "
-"screws)"
+"Diameter of the screw holes for extra feet at the corners, in mm (set to "
+"0 for no screws)"
 msgstr "拐角处额外支脚的螺孔直径，单位为毫米（无螺钉时设置为0）"
 
 #. parameter name
@@ -6971,8 +7024,8 @@ msgstr "锁紧螺钉与边框的额外距离"
 #. help for parameter LockScrewExtraFeetDistanceFromBorder
 #: boxes/generators/kamishibai.py
 msgid ""
-"Distance from the border for the axis of the extra feet at the corners, in mm (set "
-"to 0 for no screws)"
+"Distance from the border for the axis of the extra feet at the corners, "
+"in mm (set to 0 for no screws)"
 msgstr "与拐角处额外支脚轴线边界的距离，单位为毫米（无螺钉时设置为0）"
 
 #. name of box generator
@@ -6988,8 +7041,8 @@ msgstr "带钥匙或类似小物品挂钩的壁柜"
 #. long description of KeyHolder in markdown
 #: boxes/generators/keyholder.py
 msgid ""
-"Example for a KeyHolder with a slightly larger backplate and 8 hooks. This uses 6mm "
-"plywood for extra stability.\n"
+"Example for a KeyHolder with a slightly larger backplate and 8 hooks. "
+"This uses 6mm plywood for extra stability.\n"
 "\n"
 "Closeup:\n"
 "\n"
@@ -7103,8 +7156,7 @@ msgstr "可定制的机械键盘."
 msgid ""
 "Note that top layers use a different material thickness according to the "
 "top1_thickness and top2_thickness (if enabled)."
-msgstr ""
-"请注意，顶层根据top1_thickness和top2_thickness（如果启用）使用不同的材料厚度。"
+msgstr "请注意，顶层根据top1_thickness和top2_thickness（如果启用）使用不同的材料厚度。"
 
 msgid "Keypad Settings"
 msgstr "键盘设置"
@@ -7117,8 +7169,8 @@ msgstr "顶部1厚度"
 #. help for parameter top1_thickness
 #: boxes/generators/keypad.py
 msgid ""
-"thickness of the button hold layer, cherry like switches need 1.5mm or smaller to "
-"snap in"
+"thickness of the button hold layer, cherry like switches need 1.5mm or "
+"smaller to snap in"
 msgstr "按钮固定层的厚度，樱桃状开关需要1.5mm或更小的厚度才能卡入"
 
 #. parameter name
@@ -7139,7 +7191,8 @@ msgstr "顶部2厚度"
 #. help for parameter top2_thickness
 #: boxes/generators/keypad.py
 msgid ""
-"thickness of the hotplug layer, CPG151101S11 hotswap sockets need 1.2mm to 1.5mm"
+"thickness of the hotplug layer, CPG151101S11 hotswap sockets need 1.2mm "
+"to 1.5mm"
 msgstr "热插拔层的厚度，CPG151101S11热插拔插座需要1.2mm至1.5mm"
 
 #. name of box generator
@@ -7188,8 +7241,8 @@ msgstr "地面偏移"
 #. help for parameter ground_offset
 #: boxes/generators/laptopstand.py
 msgid ""
-"desired height between bottom of laptop and ground at lowest point (front of laptop "
-"stand)"
+"desired height between bottom of laptop and ground at lowest point (front"
+" of laptop stand)"
 msgstr "笔记本电脑底部与最低点（笔记本电脑支架前部）之间的理想高度"
 
 #. parameter name
@@ -7217,7 +7270,8 @@ msgstr "把材料夹在刀台上的夹子"
 msgid ""
 "You need a tension spring of the proper length to make the clamp work.\n"
 "Increase extraheight to get more space for the spring and to make the\n"
-"sliding mechanism less likely to bind. You may need to add some wax on the\n"
+"sliding mechanism less likely to bind. You may need to add some wax on "
+"the\n"
 "parts sliding on each other to reduce friction.\n"
 msgstr ""
 "你需要一个长度合适的拉簧才能使夹具工作。\n"
@@ -7330,11 +7384,11 @@ msgstr "台式电源采用Makita 18V电池或笔记本电源供电"
 #: boxes/generators/makitapowersupply.py
 msgid ""
 "\n"
-"Vitamins: DSP5005 (or similar) power supply, two banana sockets, two 4.8mm flat "
-"terminals with flat soldering tag\n"
+"Vitamins: DSP5005 (or similar) power supply, two banana sockets, two "
+"4.8mm flat terminals with flat soldering tag\n"
 "\n"
-"To allow powering by laptop power supply: flip switch, Lenovo round socket (or "
-"adjust right  hole for different socket)\n"
+"To allow powering by laptop power supply: flip switch, Lenovo round "
+"socket (or adjust right  hole for different socket)\n"
 msgstr ""
 "\n"
 "维生素：DSP5005（或类似）电源，两个香蕉插座，两个4.8毫米带扁平焊接标签的扁平端子\n"
@@ -7399,16 +7453,19 @@ msgstr "WS2812b矩阵外壳"
 msgid ""
 "## Simple WS2812b matrix enclosure\n"
 "    WS2812b matrix enclosure for cheap chinease prebuild led matrixes.\n"
-"    This design assumes that the distance between the leds is equal in both "
-"directions.\n"
+"    This design assumes that the distance between the leds is equal in "
+"both directions.\n"
 "\n"
 "    There are several parts to this design:\n"
 "    - The inner frame to hold the pcb in place\n"
-"    - The front frame to hold a sandwich of plexiglass, spacer and the pcb\n"
+"    - The front frame to hold a sandwich of plexiglass, spacer and the "
+"pcb\n"
 "    - The plexiglass to protect and diffuse the leds.\n"
-"        You may add car tint foil to the plexiglass to achieve a black look\n"
+"        You may add car tint foil to the plexiglass to achieve a black "
+"look\n"
 "    - The spacer to keep the plexiglass from touching the leds\n"
-"    - The back box with an optional mounting hole. Please add a hole for the\n"
+"    - The back box with an optional mounting hole. Please add a hole for "
+"the\n"
 "        power supply to the side panels and the power and data cables\n"
 "        through the led mount frame with your favorite svg editor.\n"
 "    - The side panels with finger joints to hold everything together\n"
@@ -7419,34 +7476,34 @@ msgid ""
 "    3. Insert the pcb, the spacers and the plexiglass\n"
 "    4. Close the front frame\n"
 "    5. Insert electronics in the back box\n"
-"        (for example a USB C port on the side panel, a esp32 with wled firmware)\n"
+"        (for example a USB C port on the side panel, a esp32 with wled "
+"firmware)\n"
 "    6. Close the back box\n"
 "\n"
-"    The inner frame and spacer should keep everything in place without the need for "
-"glue.\n"
+"    The inner frame and spacer should keep everything in place without "
+"the need for glue.\n"
 "    If you are using multiple modules,\n"
 "    you can add the layout parameters, so that the inner frame adjusts "
 "accordingly.\n"
 "\n"
-"    Please Note: if you are creating a large matrix build of multiple individual "
-"modules,\n"
-"    you need to enter absolute values across all modules for all parameters.\n"
+"    Please Note: if you are creating a large matrix build of multiple "
+"individual modules,\n"
+"    you need to enter absolute values across all modules for all "
+"parameters.\n"
 "    Please cut the plane labeled \"Plexiglass\" out of plexiglass :)\n"
-"    You can use a different thickness for the plexiglass, but make sure to adjust "
-"the settings accordingly.\n"
+"    You can use a different thickness for the plexiglass, but make sure "
+"to adjust the settings accordingly.\n"
 "    "
 msgstr ""
 "##简单的WS2812b矩阵外壳\n"
-"WS2812b矩阵外壳，适用于廉价的中文预制led矩阵。这种设计假设LED之间的距离在两个方向上"
-"相等。\n"
+"WS2812b矩阵外壳，适用于廉价的中文预制led矩阵。这种设计假设LED之间的距离在两个方向上相等。\n"
 "\n"
 "这个设计有几个部分：\n"
 "-用于固定pcb的内部框架\n"
 "-前框架容纳有机玻璃、垫片和pcb的三明治\n"
 "-有机玻璃保护和扩散LED。您可以在有机玻璃上添加汽车色箔，以实现黑色外观\n"
 "-防止有机玻璃接触LED的垫片\n"
-"-带有可选安装孔的后箱。请使用您最喜欢的svg编辑器，通过led安装框架为侧面板的电源以及"
-"电源和数据电缆添加一个孔。\n"
+"-带有可选安装孔的后箱。请使用您最喜欢的svg编辑器，通过led安装框架为侧面板的电源以及电源和数据电缆添加一个孔。\n"
 "-带有手指关节的侧板，可将所有东西固定在一起\n"
 "\n"
 "组装：\n"
@@ -7460,9 +7517,7 @@ msgstr ""
 "内部框架和垫片应使所有东西保持原位，而不需要胶水。\n"
 "如果使用多个模块，可以添加布局参数，以便内部框架相应地调整。\n"
 "\n"
-"请注意：如果您要创建多个单独模块的大型矩阵构建，则需要为所有参数输入所有模块的绝对"
-"值。请将标有“有机玻璃”的平面从有机玻璃中切割出来：）您可以为有机玻璃使用不同的厚度，"
-"但请确保相应地调整设置。"
+"请注意：如果您要创建多个单独模块的大型矩阵构建，则需要为所有参数输入所有模块的绝对值。请将标有“有机玻璃”的平面从有机玻璃中切割出来：）您可以为有机玻璃使用不同的厚度，但请确保相应地调整设置。"
 
 msgid "Matrix Settings"
 msgstr "设置"
@@ -7515,8 +7570,8 @@ msgstr "点阵屏后框边框"
 #. help for parameter matrix_back_frame_border
 #: boxes/generators/matrix.py
 msgid ""
-"Border of the back frame bo keep the pcb in blace but allow for air flow and cable "
-"management"
+"Border of the back frame bo keep the pcb in blace but allow for air flow "
+"and cable management"
 msgstr ""
 
 #. parameter name
@@ -7537,8 +7592,8 @@ msgstr "led之间的距离"
 #. help for parameter distance_between_leds
 #: boxes/generators/matrix.py
 msgid ""
-"Distance of the color dividers. Make sure your machine is able to cut thin "
-"structures."
+"Distance of the color dividers. Make sure your machine is able to cut "
+"thin structures."
 msgstr "分色器的距离。确保您的机器能够切割薄结构。"
 
 #. help for parameter h
@@ -7732,8 +7787,8 @@ msgstr "开关"
 #. help for parameter switch
 #: boxes/generators/microrack.py
 msgid ""
-"adds an additional vertical segment to hold the switch in place, works best w/ --"
-"stable"
+"adds an additional vertical segment to hold the switch in place, works "
+"best w/ --stable"
 msgstr "添加一个附加的垂直段以将开关保持在适当的位置，在w/--稳固下工作最佳"
 
 #. name of box generator
@@ -7790,8 +7845,8 @@ msgstr "带有创意激光切割板的简单装饰灯"
 #. long description of NightLightBox in markdown
 #: boxes/generators/nightlightbox.py
 msgid ""
-"This is a simple light box with a closed compartment for electronics and the "
-"backlighting."
+"This is a simple light box with a closed compartment for electronics and "
+"the backlighting."
 msgstr "这是一个简单的灯箱，有一个封闭的隔间，用于电子设备和背光。"
 
 msgid "NightLightBox Settings"
@@ -7893,7 +7948,8 @@ msgid "Margin for moving parts in mm"
 msgstr "运动部件的余量（mm）"
 
 msgid ""
-"Night lightbox diffuser plate lock to prevent unwanted access to the electronics"
+"Night lightbox diffuser plate lock to prevent unwanted access to the "
+"electronics"
 msgstr "夜灯箱扩散板锁，防止意外接触电子设备"
 
 #. parameter name
@@ -7947,13 +8003,12 @@ msgstr "背部额外孔"
 #. help for parameter BackExtraHoles
 #: boxes/generators/nightlightbox.py
 msgid ""
-"extra holes for connectors or buttons ; enter one line per hole ; first parameter "
-"chould be R for rectangle or C for circle ; then X and Y position for the center of "
-"the hole, and then the X and Y size of the rectangle or the circle diameter, all in "
-"mm ; parameters should be separated by spaces"
-msgstr ""
-"连接器或按钮的额外孔；每个孔输入一条线；第一个参数可以是矩形的R或圆形的C；然后是孔中"
-"心的X和Y位置，然后是矩形的X和Y尺寸或圆直径，单位都是毫米；参数应以空格分隔"
+"extra holes for connectors or buttons ; enter one line per hole ; first "
+"parameter chould be R for rectangle or C for circle ; then X and Y "
+"position for the center of the hole, and then the X and Y size of the "
+"rectangle or the circle diameter, all in mm ; parameters should be "
+"separated by spaces"
+msgstr "连接器或按钮的额外孔；每个孔输入一条线；第一个参数可以是矩形的R或圆形的C；然后是孔中心的X和Y位置，然后是矩形的X和Y尺寸或圆直径，单位都是毫米；参数应以空格分隔"
 
 #. name of box generator
 #: boxes/generators/notesholder.py
@@ -7973,9 +8028,7 @@ msgid ""
 "reducing `width` and/or increasing `angle` in the `Settings for\n"
 "Stackable Edges`. Reducing the `opening` will also give more space for\n"
 "the feet."
-msgstr ""
-"如果“可堆叠”“bottom_edge”的脚部不适合前墙（和后墙），您可以通过在“可堆叠边缘设置”中"
-"减小“宽度”和/或增加“角度”来使它们变小。减少“开口”也将为脚提供更多空间。"
+msgstr "如果“可堆叠”“bottom_edge”的脚部不适合前墙（和后墙），您可以通过在“可堆叠边缘设置”中减小“宽度”和/或增加“角度”来使它们变小。减少“开口”也将为脚提供更多空间。"
 
 msgid "NotesHolder Settings"
 msgstr "便签盒设置"
@@ -8104,7 +8157,8 @@ msgstr "口型比"
 #. help for parameter mouthratio
 #: boxes/generators/organpipe.py
 msgid ""
-"mouth to circumference ratio (0.1 to 0.45). Determines the width to depth ratio"
+"mouth to circumference ratio (0.1 to 0.45). Determines the width to depth"
+" ratio"
 msgstr "口与周长比（0.1至0.45）。 确定宽深比"
 
 #. parameter name
@@ -8369,20 +8423,20 @@ msgid ""
 "\n"
 "This box is made of paper.\n"
 "\n"
-"There is marks in the \"outside leftover paper\" to help see where to fold\n"
-"(cutting with tabs helps use them). The cut is very precise, and could be too tight "
-"if misaligned when glued. A plywood box (such as a simple TypeTray) of the same "
-"size is a great guide during folding and gluing. Just fold the box against it. "
-"Accurate quick and easy.\n"
+"There is marks in the \"outside leftover paper\" to help see where to "
+"fold\n"
+"(cutting with tabs helps use them). The cut is very precise, and could be"
+" too tight if misaligned when glued. A plywood box (such as a simple "
+"TypeTray) of the same size is a great guide during folding and gluing. "
+"Just fold the box against it. Accurate quick and easy.\n"
 "\n"
 "A paper creaser (or bone folder) is also useful.\n"
 msgstr ""
 "\n"
 "这个盒子是纸做的。\n"
 "\n"
-"“外部剩余纸张”上有标记，以帮助查看折叠位置（用标签切割有助于使用它们）。切割非常精"
-"确，如果粘合时错位，可能会太紧。在折叠和粘合过程中，相同尺寸的胶合板箱（如简单的"
-"TypeTray）是一个很好的指导。只需将盒子折叠起来。准确、快速、简单。\n"
+"“外部剩余纸张”上有标记，以帮助查看折叠位置（用标签切割有助于使用它们）。切割非常精确，如果粘合时错位，可能会太紧。在折叠和粘合过程中，相同尺寸的胶合板箱（如简单的TypeTray）是一个很好的指导。只需将盒子折叠起来。准确、快速、简单。"
+"\n"
 "\n"
 "纸张折痕机（或骨夹）也很有用。\n"
 
@@ -8397,8 +8451,8 @@ msgstr ""
 #. help for parameter design
 #: boxes/generators/paperbox.py
 msgid ""
-"different design for paper consumption optimization. The tuckbox also has locking "
-"cut for its lid."
+"different design for paper consumption optimization. The tuckbox also has"
+" locking cut for its lid."
 msgstr "优化纸张消耗的不同设计。储物盒的盖子也有锁定切口。"
 
 #. possible choice for design
@@ -8499,15 +8553,16 @@ msgstr ""
 #: boxes/generators/phoneholder.py
 msgid ""
 "\n"
-"    This phone stand holds your phone between two tabs, with access to its\n"
-"    bottom, in order to connect a charger, headphones, and also not to obstruct\n"
+"    This phone stand holds your phone between two tabs, with access to "
+"its\n"
+"    bottom, in order to connect a charger, headphones, and also not to "
+"obstruct\n"
 "    the mic.\n"
 "\n"
 "    Default values are currently based on Galaxy S7.\n"
 msgstr ""
 "\n"
-"此手机支架将您的手机放在两个标签之间，可以接触到其底部，以便连接充电器、耳机，也不会"
-"遮挡麦克风。\n"
+"此手机支架将您的手机放在两个标签之间，可以接触到其底部，以便连接充电器、耳机，也不会遮挡麦克风。\n"
 "\n"
 "默认值当前基于Galaxy S7。\n"
 
@@ -8542,11 +8597,10 @@ msgstr "手机厚度"
 #. help for parameter phone_depth
 #: boxes/generators/phoneholder.py
 msgid ""
-"Depth of the phone. Used by the bottom support holding the phone, and the side tabs "
-"depth as well. Should be at least your material thickness for assembly reasons."
-msgstr ""
-"手机的深度。用于支撑手机的底部支架，以及侧标签的深度。出于组装原因，应至少为材料厚"
-"度。"
+"Depth of the phone. Used by the bottom support holding the phone, and the"
+" side tabs depth as well. Should be at least your material thickness for "
+"assembly reasons."
+msgstr "手机的深度。用于支撑手机的底部支架，以及侧标签的深度。出于组装原因，应至少为材料厚度。"
 
 #. help for parameter angle
 #: boxes/generators/phoneholder.py
@@ -8576,8 +8630,8 @@ msgstr ""
 #. help for parameter bottom_support_spacing
 #: boxes/generators/phoneholder.py
 msgid ""
-"Spacing between the two bottom support. Choose a value big enough for the charging "
-"cable, without getting in the way of other ports."
+"Spacing between the two bottom support. Choose a value big enough for the"
+" charging cable, without getting in the way of other ports."
 msgstr "两个底部支撑之间的间距。为充电电缆选择一个足够大的值，而不会妨碍其他端口。"
 
 #. name of box generator
@@ -8589,8 +8643,8 @@ msgstr "相框"
 #: boxes/generators/photoframe.py
 msgid ""
 "\n"
-"3-layer photo frame with a slot at the top to slide matboard/acrylic/glass over the "
-"photo after glue-up.\n"
+"3-layer photo frame with a slot at the top to slide "
+"matboard/acrylic/glass over the photo after glue-up.\n"
 msgstr ""
 "\n"
 "三层相框，顶部有一个插槽，可以在粘合后将床板/丙烯酸/玻璃滑到照片上。\n"
@@ -8603,10 +8657,12 @@ msgid ""
 "\n"
 "Selected excellent features:\n"
 "\n"
-"* easy to change the photo after glue-up, without disassembling the frame\n"
-"* calculates the ideal matting size for your photo based on ancient Greek "
-"mathematics\n"
-"* can make the frame in one piece or split into 4 pieces to save material\n"
+"* easy to change the photo after glue-up, without disassembling the frame"
+"\n"
+"* calculates the ideal matting size for your photo based on ancient Greek"
+" mathematics\n"
+"* can make the frame in one piece or split into 4 pieces to save material"
+"\n"
 "* can make a frame to fit the piece of glass/acrylic you already have\n"
 "* adds a hole for hanging the frame on the wall\n"
 "\n"
@@ -8617,45 +8673,46 @@ msgid ""
 "\n"
 "## How to frame things like a pro\n"
 "\n"
-"There are 1 or 2 things that you can't change when framing: the size of the "
-"artwork\n"
+"There are 1 or 2 things that you can't change when framing: the size of "
+"the artwork\n"
 "and the size of the glass. So we generate everything else to fit those "
 "measurements.\n"
 "\n"
 "Set `x` and `y` to the dimensions of the actual artwork.\n"
 "\n"
 "* If your photo has a border, measure inside it.\n"
-"* If your photo does not have a border, still measure the actual artwork. Don't "
-"reduce the dimensions to allow for mounting. We do that separately.\n"
+"* If your photo does not have a border, still measure the actual artwork."
+" Don't reduce the dimensions to allow for mounting. We do that "
+"separately.\n"
 "\n"
-"A real pro measures the photo, calculates the matting, and cuts the glass to fit "
-"the matting.\n"
-"We will assume that you are not in fact a real pro, and can't be trusted with a "
-"glass cutter.\n"
-"So measure your glass and we'll calculate the matting to suit it. If you aren't "
-"using glass,\n"
-"we'll calculate the matting size based on \"golden ratio of areas\" like the pros "
-"do. Everyone\n"
+"A real pro measures the photo, calculates the matting, and cuts the glass"
+" to fit the matting.\n"
+"We will assume that you are not in fact a real pro, and can't be trusted "
+"with a glass cutter.\n"
+"So measure your glass and we'll calculate the matting to suit it. If you "
+"aren't using glass,\n"
+"we'll calculate the matting size based on \"golden ratio of areas\" like "
+"the pros do. Everyone\n"
 "will think your frame is perfect, but they won't know why.\n"
 "\n"
-"Matting is just cardboard. Its jobs are to keep the glass off the photo, provide a "
-"clean border around the artwork,\n"
-"and make the whole thing look fancy. You can attach the photo to the matting or to "
-"the back of the frame.\n"
-"Either way, the matting conceals all sorts of sins like bad cuts, glue marks, or "
-"mounting with blue painter's tape.\n"
-"Matting also lets you reuse the frame for different sized photos. Just generate a "
-"new mat with the same glass dimensions.\n"
+"Matting is just cardboard. Its jobs are to keep the glass off the photo, "
+"provide a clean border around the artwork,\n"
+"and make the whole thing look fancy. You can attach the photo to the "
+"matting or to the back of the frame.\n"
+"Either way, the matting conceals all sorts of sins like bad cuts, glue "
+"marks, or mounting with blue painter's tape.\n"
+"Matting also lets you reuse the frame for different sized photos. Just "
+"generate a new mat with the same glass dimensions.\n"
 "\n"
-"The hole in the matting is smaller than the photo. This is so the photo doesn't "
-"fall out.\n"
-"Even if your photo has a border, the hole needs to be a bit smaller than the "
-"photo,\n"
+"The hole in the matting is smaller than the photo. This is so the photo "
+"doesn't fall out.\n"
+"Even if your photo has a border, the hole needs to be a bit smaller than "
+"the photo,\n"
 "or you will struggle to line up the photo without the edges showing.\n"
-"Recommended overlaps are given in the settings. Don't worry about \"losing\" too "
-"much of the photo.\n"
-"The matting will make the photo look bigger and more important. There's never "
-"anything\n"
+"Recommended overlaps are given in the settings. Don't worry about "
+"\"losing\" too much of the photo.\n"
+"The matting will make the photo look bigger and more important. There's "
+"never anything\n"
 "interesting in the last 2mm of a photo anyway.\n"
 msgstr ""
 "\n"
@@ -8676,28 +8733,21 @@ msgstr ""
 "\n"
 "##如何像专业人士那样构建事物\n"
 "\n"
-"在装裱时，有一两件事你不能改变：艺术品的大小和玻璃的大小。因此，我们生成其他所有内容"
-"以适应这些测量。\n"
+"在装裱时，有一两件事你不能改变：艺术品的大小和玻璃的大小。因此，我们生成其他所有内容以适应这些测量。\n"
 "\n"
 "将“x”和“y”设置为实际艺术品的尺寸。\n"
 "\n"
 "*如果你的照片有边框，请在里面测量。\n"
-"*如果你的照片没有边框，仍然要测量实际的艺术品。不要为了装裱而缩小尺寸。我们分别这样"
-"做。\n"
+"*如果你的照片没有边框，仍然要测量实际的艺术品。不要为了装裱而缩小尺寸。我们分别这样做。\n"
 "\n"
-"真正的专业人士会测量照片，计算遮片，并切割玻璃以适应遮片。我们会假设你实际上不是一个"
-"真正的专业人士，不能信任你使用玻璃切割机。\n"
+"真正的专业人士会测量照片，计算遮片，并切割玻璃以适应遮片。我们会假设你实际上不是一个真正的专业人士，不能信任你使用玻璃切割机。\n"
 " \n"
 "\n"
-"床垫只是硬纸板。它的工作是让玻璃远离照片，在艺术品周围提供一个干净的边框，让整个东西"
-"看起来很花哨。您可以将照片附着到垫子或相框背面。无论哪种方式，垫子都掩盖了各种罪恶，"
-"比如糟糕的切割、胶痕或用蓝色油漆胶带镶嵌。Matting还允许您为不同大小的照片重复使用框"
-"架。只需生成一个具有相同玻璃尺寸的新垫子。\n"
+"床垫只是硬纸板。它的工作是让玻璃远离照片，在艺术品周围提供一个干净的边框，让整个东西看起来很花哨。您可以将照片附着到垫子或相框背面。无论哪种方式，垫子都掩盖了各种罪恶，比如糟糕的切割、胶痕或用蓝色油漆胶带镶嵌。Matting还允许您为不同大小的照片重复使用框架。只需生成一个具有相同玻璃尺寸的新垫子。"
 "\n"
-"垫子上的洞比照片上的小。这样照片就不会掉下来了。即使你的照片有边框，洞也需要比照片小"
-"一点，否则你很难在没有边框的情况下排列照片。设置中给出了建议的重叠。不要担心“丢失”太"
-"多照片。垫子会让照片看起来更大、更重要。无论如何，照片的最后2毫米都没有什么有趣的东"
-"西。\n"
+"\n"
+"垫子上的洞比照片上的小。这样照片就不会掉下来了。即使你的照片有边框，洞也需要比照片小一点，否则你很难在没有边框的情况下排列照片。设置中给出了建议的重叠。不要担心“丢失”太多照片。垫子会让照片看起来更大、更重要。无论如何，照片的最后2毫米都没有什么有趣的东西。"
+"\n"
 
 msgid "PhotoFrame Settings"
 msgstr "相框设置"
@@ -8828,12 +8878,12 @@ msgid ""
 "Do not assemble sides before attaching the lid!\n"
 "    Hinge of the lid has to be placed first because it is impossible\n"
 "    to get it in position without removing the side wall. The lid can\n"
-"    be a bit tricky to assemble. Keep track of how the parts fit together.\n"
+"    be a bit tricky to assemble. Keep track of how the parts fit "
+"together.\n"
 "    Part with label \"lid back\" is placed in the hinges"
 msgstr ""
 "在安装盖子之前，不要组装侧面！\n"
-"必须先放置盖子的铰链，因为不拆除侧壁就无法将其就位。盖子的组装可能有点棘手。跟踪零件"
-"是如何装配在一起的。带有“后盖”标签的零件被放置在铰链中"
+"必须先放置盖子的铰链，因为不拆除侧壁就无法将其就位。盖子的组装可能有点棘手。跟踪零件是如何装配在一起的。带有“后盖”标签的零件被放置在铰链中"
 
 msgid "PirateChest Settings"
 msgstr "设置"
@@ -8857,13 +8907,13 @@ msgstr "带传送带动作的披萨铲"
 #: boxes/generators/pizzashovel.py
 msgid ""
 "\n"
-"You need (permanent) baking paper to create the conveyor. With that you can pick up "
-"and put down the pizza by moving the handle attached to the belt.\n"
+"You need (permanent) baking paper to create the conveyor. With that you "
+"can pick up and put down the pizza by moving the handle attached to the "
+"belt.\n"
 "    "
 msgstr ""
 "\n"
-"你需要（永久）烘焙纸来制作传送带。有了这个，你可以通过移动皮带上的把手来拿起和放下披"
-"萨。\n"
+"你需要（永久）烘焙纸来制作传送带。有了这个，你可以通过移动皮带上的把手来拿起和放下披萨。\n"
 "    "
 
 msgid "PizzaShovel Settings"
@@ -8892,8 +8942,8 @@ msgstr "顶部孔"
 #. help for parameter top_holes
 #: boxes/generators/pizzashovel.py
 msgid ""
-"Diameter of the screw holes in the bottom of the pusher - where the screws pass "
-"through"
+"Diameter of the screw holes in the bottom of the pusher - where the "
+"screws pass through"
 msgstr "推杆底部螺丝孔的直径——螺丝穿过的地方"
 
 #. parameter name
@@ -8904,7 +8954,8 @@ msgstr "底部孔"
 #. help for parameter bottom_holes
 #: boxes/generators/pizzashovel.py
 msgid ""
-"Diameter of the screw holes in the bottom of the pusher - where the screws hold"
+"Diameter of the screw holes in the bottom of the pusher - where the "
+"screws hold"
 msgstr "推杆底部螺丝孔的直径——螺丝固定处"
 
 #. parameter name
@@ -8988,10 +9039,9 @@ msgstr "平衡力差行星齿轮（尚未正常工作）"
 #. long description of Planetary2 in markdown
 #: boxes/generators/planetary2.py
 msgid ""
-"Still has issues. The middle planetary gears set must not have a mashing sun gear "
-"as it can't be a proper gear set."
-msgstr ""
-"仍然存在问题。中间的行星齿轮组不能有一个捣碎的太阳轮，因为它不能是一个合适的齿轮组。"
+"Still has issues. The middle planetary gears set must not have a mashing "
+"sun gear as it can't be a proper gear set."
+msgstr "仍然存在问题。中间的行星齿轮组不能有一个捣碎的太阳轮，因为它不能是一个合适的齿轮组。"
 
 msgid "Planetary2 Settings"
 msgstr "行星2设置"
@@ -9529,11 +9579,11 @@ msgstr "以正多边形为基础的框"
 #. long description of RegularBox in markdown
 #: boxes/generators/regularbox.py
 msgid ""
-"For short side walls that don't fit a connecting finger reduce *surroundingspaces* "
-"and *finger* in the Finger Joint Settings.\n"
+"For short side walls that don't fit a connecting finger reduce "
+"*surroundingspaces* and *finger* in the Finger Joint Settings.\n"
 "\n"
-"The lids needs to be glued. For the bayonet lid all outside rings attach to the "
-"bottom, all inside rings to the top.\n"
+"The lids needs to be glued. For the bayonet lid all outside rings attach "
+"to the bottom, all inside rings to the top.\n"
 msgstr ""
 "对于不适合连接手指的短侧壁，请在“手指关节设置”中减少*周围空间*和*手指*。\n"
 "\n"
@@ -9995,17 +10045,17 @@ msgstr "你的皇家游戏"
 #. long description of RoyalGame in markdown
 #: boxes/generators/royalgame.py
 msgid ""
-"Most of the blue lines need to be engraved by cutting with high speed and low "
-"power. But there are three blue holes that actually need to be cut: The grip hole "
-"in the lid and two tiny rectangles on the top and bottom for the lid to grip into.\n"
+"Most of the blue lines need to be engraved by cutting with high speed and"
+" low power. But there are three blue holes that actually need to be cut: "
+"The grip hole in the lid and two tiny rectangles on the top and bottom "
+"for the lid to grip into.\n"
 "\n"
 "![Lid Details](static/samples/RoyalGame-2.jpg)\n"
 "\n"
 "![All pieces](static/samples/RoyalGame-3.jpg)\n"
 "\n"
 msgstr ""
-"大多数蓝线需要通过高速低功率切割来雕刻。但实际上需要切割三个蓝色孔：盖子上的抓握孔和"
-"顶部和底部的两个小矩形，供盖子抓握。\n"
+"大多数蓝线需要通过高速低功率切割来雕刻。但实际上需要切割三个蓝色孔：盖子上的抓握孔和顶部和底部的两个小矩形，供盖子抓握。\n"
 "\n"
 "![Lid Details](static/samples/RoyalGame-2.jpg)\n"
 "\n"
@@ -10028,13 +10078,13 @@ msgstr "七段数码管的镂空图案和墙壁"
 #. long description of SevenSegmentPattern in markdown
 #: boxes/generators/sevensegment.py
 msgid ""
-"This pattern is indented to be used with a LED stripe that is wound through all "
-"segments in an S pattern while the stripe being upright on its side. It can also be "
-"used with small pieces of LED stripes connected with short wires for large enough "
-"sizes.\n"
+"This pattern is indented to be used with a LED stripe that is wound "
+"through all segments in an S pattern while the stripe being upright on "
+"its side. It can also be used with small pieces of LED stripes connected "
+"with short wires for large enough sizes.\n"
 msgstr ""
-"这种图案是缩进的，与LED条带一起使用，LED条带以S图案缠绕在所有部分上，同时条带侧面直"
-"立。它也可以与用短线连接的小块LED条一起使用，以获得足够大的尺寸。\n"
+"这种图案是缩进的，与LED条带一起使用，LED条带以S图案缠绕在所有部分上，同时条带侧面直立。它也可以与用短线连接的小块LED条一起使用，以获得足够大的尺寸。"
+"\n"
 
 msgid "SevenSegmentPattern Settings"
 msgstr "设置"
@@ -10067,18 +10117,19 @@ msgstr "七段式时钟，带LED条带"
 #. long description of SevenSegmentClock in markdown
 #: boxes/generators/sevensegmentclock.py
 msgid ""
-"You need a LED stripe that is wound through all segments in an S pattern and then "
-"continuing to the next digit while the stripe being upright on its side. Selecting "
-"*debug* gives a better idea how things fit together.\n"
+"You need a LED stripe that is wound through all segments in an S pattern "
+"and then continuing to the next digit while the stripe being upright on "
+"its side. Selecting *debug* gives a better idea how things fit together."
 "\n"
-"Adding a diffuser on top or at the bottom of the segment holes will probably "
-"enhance the visuals. Just using paper may be enough.\n"
 "\n"
-"There is currently not a lot of space for electronics and this generator is still "
-"untested. Good luck!\n"
+"Adding a diffuser on top or at the bottom of the segment holes will "
+"probably enhance the visuals. Just using paper may be enough.\n"
+"\n"
+"There is currently not a lot of space for electronics and this generator "
+"is still untested. Good luck!\n"
 msgstr ""
-"你需要一个LED条带，它以S图案缠绕在所有部分上，然后在条带侧面直立的情况下继续到下一个"
-"数字。选择*debug*可以更好地了解事物是如何组合在一起的。\n"
+"你需要一个LED条带，它以S图案缠绕在所有部分上，然后在条带侧面直立的情况下继续到下一个数字。选择*debug*可以更好地了解事物是如何组合在一起的。"
+"\n"
 "\n"
 "在分段孔的顶部或底部添加扩散器可能会增强视觉效果。仅仅使用纸张可能就足够了。\n"
 "\n"
@@ -10112,8 +10163,9 @@ msgstr "显示阴影框/灯箱所需的框架和垫片。"
 msgid ""
 "\n"
 "The frame needed to build a shadowbox from paper cutouts.\n"
-"The cutout used in the photographs can be downloaded [here](https://3axis.co/laser-"
-"cut-my-neighbor-totoro-3d-lightbox-lamp-cdr-file/eoxldrxo/).\n"
+"The cutout used in the photographs can be downloaded "
+"[here](https://3axis.co/laser-cut-my-neighbor-totoro-3d-lightbox-lamp-"
+"cdr-file/eoxldrxo/).\n"
 "\n"
 "See the diagram below for dimensions.\n"
 "\n"
@@ -10168,10 +10220,9 @@ msgstr "纸张层框架的高度"
 #. help for parameter extraheight
 #: boxes/generators/shadowbox.py
 msgid ""
-"cumulative height of your paper layers, play between frames, the LED strip, battery/"
-"wiring, anything else you want to fit in the case"
-msgstr ""
-"纸张层的累积高度、框架之间的间隙、LED灯带、电池/接线、您想放在箱子里的任何其他东西"
+"cumulative height of your paper layers, play between frames, the LED "
+"strip, battery/wiring, anything else you want to fit in the case"
+msgstr "纸张层的累积高度、框架之间的间隙、LED灯带、电池/接线、您想放在箱子里的任何其他东西"
 
 #. parameter name
 #: boxes/generators/shadowbox.py
@@ -10181,8 +10232,8 @@ msgstr "细木工制品"
 #. help for parameter casejoinery
 #: boxes/generators/shadowbox.py
 msgid ""
-"whether or not to join sides to front plate (disable if doing manual joins on fancy "
-"wood)"
+"whether or not to join sides to front plate (disable if doing manual "
+"joins on fancy wood)"
 msgstr "是否将侧面连接到前板（如果在花式木材上进行手动连接，则禁用）"
 
 #. name of box generator
@@ -10309,47 +10360,48 @@ msgstr "侧门外壳"
 #. description of SideDoorHousing
 #: boxes/generators/sidedoorhousing.py
 msgid ""
-"Box with service hatches on either one or both of the sides that are locked with "
-"latches"
+"Box with service hatches on either one or both of the sides that are "
+"locked with latches"
 msgstr "箱子的一侧或两侧都有检修口，并用闩锁锁住"
 
 #. long description of SideDoorHousing in markdown
 #: boxes/generators/sidedoorhousing.py
 msgid ""
 "\n"
-"This box is designed as a housing for electronic projects but could be used for "
-"other purposes. It has hatches that can be re-opened with simple tools. If built "
-"from thin enough material, it intentionally cannot be opened with bare hands.\n"
+"This box is designed as a housing for electronic projects but could be "
+"used for other purposes. It has hatches that can be re-opened with simple"
+" tools. If built from thin enough material, it intentionally cannot be "
+"opened with bare hands.\n"
 "\n"
 "The hatches are on the x sides.\n"
 "\n"
 "#### Assembly instructions\n"
 "The main body is easy to assemble:\n"
-"1. Starting with the floor and then add the four walls (for any removable sides, "
-"the wall will just be a small part on the base )\n"
+"1. Starting with the floor and then add the four walls (for any removable"
+" sides, the wall will just be a small part on the base )\n"
 "2. Add the top piece\n"
 "\n"
 "For the removable walls:\n"
 "1. Add the lips to the removable walls\n"
-"2. Sit the latches in place (it is importand to make sure the springs on the "
-"latches point inwards and the angled ends point to the side walls. See image "
-"below)\n"
-"3. Glue the U-shaped clamps in place (it is important **not** to glue the latches)\n"
+"2. Sit the latches in place (it is importand to make sure the springs on "
+"the latches point inwards and the angled ends point to the side walls. "
+"See image below)\n"
+"3. Glue the U-shaped clamps in place (it is important **not** to glue the"
+" latches)\n"
 "\n"
 "![Wall details](static/samples/SideDoorHousing.jpg)\n"
 "\n"
 "\n"
 "#### Re-Opening\n"
 "\n"
-"The latches lock in place when closed. To open them they need to be pressed in and "
-"can then be moved aside.\n"
+"The latches lock in place when closed. To open them they need to be "
+"pressed in and can then be moved aside.\n"
 "\n"
 "![Closed Box](static/samples/SideDoorHousing-2.jpg)\n"
 "\n"
 msgstr ""
 "\n"
-"这个盒子被设计成电子项目的外壳，但也可以用于其他目的。它有可以用简单工具重新打开的舱"
-"口。如果由足够薄的材料制成，它故意不能徒手打开。\n"
+"这个盒子被设计成电子项目的外壳，但也可以用于其他目的。它有可以用简单工具重新打开的舱口。如果由足够薄的材料制成，它故意不能徒手打开。\n"
 "\n"
 "舱口在x边。\n"
 "\n"
@@ -10395,7 +10447,8 @@ msgstr "侧铰链箱"
 #. description of SideHingeBox
 #: boxes/generators/sidehingebox.py
 msgid ""
-"Box, with an hinge that does not protrude from the back of the box, and a latch."
+"Box, with an hinge that does not protrude from the back of the box, and a"
+" latch."
 msgstr "盒子，有一个不从盒子后面伸出的铰链和一个锁扣。"
 
 #. long description of SideHingeBox in markdown
@@ -10403,13 +10456,14 @@ msgstr "盒子，有一个不从盒子后面伸出的铰链和一个锁扣。"
 msgid ""
 "\n"
 "This box is another take on a hinge box.\n"
-"The hinges doesn't protrude from the box, but the sides needs double walls.\n"
+"The hinges doesn't protrude from the box, but the sides needs double "
+"walls.\n"
 "When opened, 2 sides are opening, improving access inside the box.\n"
-"An optional latch is included, based on a mechanical switch and a 3D printed "
-"button.\n"
+"An optional latch is included, based on a mechanical switch and a 3D "
+"printed button.\n"
 "The latch is one-way: the box can be closed freely\n"
-"(this side of the button is angled, and totally smooth since it's the printing bed "
-"surface),\n"
+"(this side of the button is angled, and totally smooth since it's the "
+"printing bed surface),\n"
 "but can't be inadvertently opened.\n"
 msgstr ""
 "\n"
@@ -10417,8 +10471,7 @@ msgstr ""
 "铰链没有从盒子里伸出，但侧面需要双层墙。\n"
 "打开时，两个侧面都打开，改善了盒子内部的通道。\n"
 "包括一个基于机械开关和3D打印按钮的可选锁扣。\n"
-"锁扣是单向的：盒子可以自由关闭（按钮的这一侧是倾斜的，因为它是印刷床表面，所以完全光"
-"滑），但不能无意中打开。\n"
+"锁扣是单向的：盒子可以自由关闭（按钮的这一侧是倾斜的，因为它是印刷床表面，所以完全光滑），但不能无意中打开。\n"
 
 msgid "SideHingeBox Settings"
 msgstr "侧铰链箱设置"
@@ -10456,8 +10509,8 @@ msgstr ""
 #. help for parameter cherrymx_latches
 #: boxes/generators/sidehingebox.py
 msgid ""
-"add one or two latches, based on 3D printing and a cherry mx compatible mechanical "
-"keyboard switch"
+"add one or two latches, based on 3D printing and a cherry mx compatible "
+"mechanical keyboard switch"
 msgstr "添加一个或两个基于3D打印和樱桃mx兼容的机械键盘开关的锁扣"
 
 #. name of box generator
@@ -10522,22 +10575,20 @@ msgstr "可定制的宜家式钉板"
 #. long description of SkadisBoard in markdown
 #: boxes/generators/skadis.py
 msgid ""
-"Best cut from 5mm material to match the original. Use the included washers to "
-"mount. The board needs space towards the wall for hooks to go into.\n"
+"Best cut from 5mm material to match the original. Use the included "
+"washers to mount. The board needs space towards the wall for hooks to go "
+"into.\n"
 "\n"
-"You can use boxes and holders from the \"WallMounted\" group with \"skadis\" as "
-"\"walltype\". Note that these generators do not have any support to pick the right "
-"width(s). Inner distance between slots are 35 + n * 40 mm. It is recommended to cut "
-"the acceessories from 4 mm material. Then 36 + n * 40 mm should be used for inner "
-"widths. Deselect \"outside\" where available to be able to deal with inner "
-"measurements."
+"You can use boxes and holders from the \"WallMounted\" group with "
+"\"skadis\" as \"walltype\". Note that these generators do not have any "
+"support to pick the right width(s). Inner distance between slots are 35 +"
+" n * 40 mm. It is recommended to cut the acceessories from 4 mm material."
+" Then 36 + n * 40 mm should be used for inner widths. Deselect "
+"\"outside\" where available to be able to deal with inner measurements."
 msgstr ""
-"最好用5mm材料切割，以匹配原始材料。使用随附的垫圈进行安装。木板需要靠近墙壁的空间，"
-"以便钩子进入。\n"
+"最好用5mm材料切割，以匹配原始材料。使用随附的垫圈进行安装。木板需要靠近墙壁的空间，以便钩子进入。\n"
 "\n"
-"您可以使用“WallMounted”组中的盒子和支架，将“skadis”作为“墙型”。请注意，这些生成器不"
-"支持选择正确的宽度。槽之间的内部距离为35+n*40mm。建议用4mm的材料切割附件。那么，内部"
-"宽度应使用36+n*40mm。在可用的情况下取消选择“外部”，以便能够处理内部测量。"
+"您可以使用“WallMounted”组中的盒子和支架，将“skadis”作为“墙型”。请注意，这些生成器不支持选择正确的宽度。槽之间的内部距离为35+n*40mm。建议用4mm的材料切割附件。那么，内部宽度应使用36+n*40mm。在可用的情况下取消选择“外部”，以便能够处理内部测量。"
 
 msgid "SkadisBoard Settings"
 msgstr "设置"
@@ -10565,8 +10616,8 @@ msgstr "一排托盘，后壁高，前壁低"
 #. long description of SlantedTray in markdown
 #: boxes/generators/slantedtray.py
 msgid ""
-"Can be used as a display or for cards or gaming tokens. Lay on the side to get "
-"piles to draw from.\n"
+"Can be used as a display or for cards or gaming tokens. Lay on the side "
+"to get piles to draw from.\n"
 "    ![Example Use](static/samples/SlantedTray-2.jpg)"
 msgstr ""
 "可以用作显示器或用于卡片或游戏代币。侧卧以取出要拔取的木桩。\n"
@@ -10611,16 +10662,16 @@ msgstr "带有滑动盖导轨的盒子"
 #. long description of SlidingLidBox in markdown
 #: boxes/generators/slidinglidbox.py
 msgid ""
-"* The sliding lid rests on the lower rails and is kept in place by the upper "
-"rails.\n"
-"* When using inner measurements, the height goes from bottom to lid, the lower rail "
-"is inside of the inner height.\n"
-"* The width of the rail can be adjusted, wider rails are more stable but make the "
-"opening smaller.\n"
-"* The horizontal margin makes the lid slightly narrower to prevent the lid from "
-"jamming.\n"
-"* The vertical margin makes the gap between the rails larger to let the lid slide "
-"more easily.\n"
+"* The sliding lid rests on the lower rails and is kept in place by the "
+"upper rails.\n"
+"* When using inner measurements, the height goes from bottom to lid, the "
+"lower rail is inside of the inner height.\n"
+"* The width of the rail can be adjusted, wider rails are more stable but "
+"make the opening smaller.\n"
+"* The horizontal margin makes the lid slightly narrower to prevent the "
+"lid from jamming.\n"
+"* The vertical margin makes the gap between the rails larger to let the "
+"lid slide more easily.\n"
 "\n"
 "![Closed](static/samples/SlidingLidBox-2.jpg)\n"
 msgstr ""
@@ -10737,18 +10788,18 @@ msgstr "一种向前倾斜的类型托盘变体"
 #. long description of SmallPartsTray2 in markdown
 #: boxes/generators/smallpartstray2.py
 msgid ""
-"Assemble inside out. If there are inner front to back walls start with attaching "
-"the floor boards to them. Then add the vertical inner left to right walls. After "
-"sliding in the slopes attach the outer wall to fix everything in place.\n"
+"Assemble inside out. If there are inner front to back walls start with "
+"attaching the floor boards to them. Then add the vertical inner left to "
+"right walls. After sliding in the slopes attach the outer wall to fix "
+"everything in place.\n"
 "\n"
-"If there are no inner front to back walls just add everything to one side wall and "
-"then add the other one after that. Possibly saving the front and back as last step."
+"If there are no inner front to back walls just add everything to one side"
+" wall and then add the other one after that. Possibly saving the front "
+"and back as last step."
 msgstr ""
-"由内而外组装。如果有从内到内的前后墙，则从将地板连接到它们开始。然后将垂直内墙从左向"
-"右添加。在斜坡上滑动后，将外墙连接起来，将所有东西固定到位。\n"
+"由内而外组装。如果有从内到内的前后墙，则从将地板连接到它们开始。然后将垂直内墙从左向右添加。在斜坡上滑动后，将外墙连接起来，将所有东西固定到位。\n"
 "\n"
-"如果没有前后墙，只需将所有内容添加到一侧墙，然后再添加另一侧墙。可能把前面和后面作为"
-"最后一步。"
+"如果没有前后墙，只需将所有内容添加到一侧墙，然后再添加另一侧墙。可能把前面和后面作为最后一步。"
 
 msgid "SmallPartsTray2 Settings"
 msgstr "设置"
@@ -11036,8 +11087,8 @@ msgstr "红绿灯"
 #. long description of TrafficLight in markdown
 #: boxes/generators/trafficlight.py
 msgid ""
-"The traffic light was created to visualize the status of a Icinga monitored "
-"system.\n"
+"The traffic light was created to visualize the status of a Icinga "
+"monitored system.\n"
 "\n"
 "When turned by 90°, it can be also used to create a bottle holder.\n"
 msgstr ""
@@ -11094,17 +11145,20 @@ msgid ""
 "## Tray/Box insert dividers.\n"
 "Tray insert with extra margin for that perfect fit.\n"
 "\n"
-"You can specify the grid sizes with the standard `(sx, sy)` format, which allows "
-"nice\n"
-"variable rows and columns.  If you  check the `outside` box, the full outside of "
-"the\n"
-"tray insert ends up being the sum of all the sx/sy values.  However, if you want a\n"
-"consistent cell size, and uncheck outside, then the overall dimensinos end up\n"
+"You can specify the grid sizes with the standard `(sx, sy)` format, which"
+" allows nice\n"
+"variable rows and columns.  If you  check the `outside` box, the full "
+"outside of the\n"
+"tray insert ends up being the sum of all the sx/sy values.  However, if "
+"you want a\n"
+"consistent cell size, and uncheck outside, then the overall dimensinos "
+"end up\n"
 "larger by `(n-1)*thickenss`, to make space for your walls.\n"
 "\n"
-"You can specify the `x` and `y` parameters if you like, just make them larger than\n"
-"what the sum of `(sx, sy)` would end up with, and the walls be automatically "
-"extended to\n"
+"You can specify the `x` and `y` parameters if you like, just make them "
+"larger than\n"
+"what the sum of `(sx, sy)` would end up with, and the walls be "
+"automatically extended to\n"
 "to exactly fill the inside of your tray or box.\n"
 "\n"
 "So, for example, if you're fitting `30mm x 40mm` items and want them to\n"
@@ -11116,8 +11170,8 @@ msgid ""
 "    x=250\n"
 "    y=300\n"
 "\n"
-"This frees your mind into separately thinking about the cell size vs the overall "
-"box size.\n"
+"This frees your mind into separately thinking about the cell size vs the "
+"overall box size.\n"
 "\n"
 "![Tray Extra](static/samples/TrayInsert-3.jpg)\n"
 "    "
@@ -11223,22 +11277,25 @@ msgstr "牙签盒"
 
 #. description of TwoPiece
 #: boxes/generators/two_piece.py
-msgid "A two piece box where top slips over the bottom half to form the enclosure."
+msgid ""
+"A two piece box where top slips over the bottom half to form the "
+"enclosure."
 msgstr "一种两件式盒子，顶部滑过下半部形成外壳。"
 
 #. long description of TwoPiece in markdown
 #: boxes/generators/two_piece.py
 msgid ""
 "\n"
-"Set *hi* larger than *h* to leave gap between the inner and outer shell. This can "
-"be used to make opening the box easier. Set *hi* smaller to only have a small inner "
-"ridge that will allow the content to be more visible after opening.\n"
+"Set *hi* larger than *h* to leave gap between the inner and outer shell. "
+"This can be used to make opening the box easier. Set *hi* smaller to only"
+" have a small inner ridge that will allow the content to be more visible "
+"after opening.\n"
 "\n"
 "![Bottom view](static/samples/TwoPiece2.jpg)\n"
 msgstr ""
 "\n"
-"将*hi*设置为大于*h*，以在内外壳之间留出间隙。这可以用来使打开盒子更容易。将*hi*设置"
-"得更小，使其只有一个小的内脊，这样打开后内容会更明显。\n"
+"将*hi*设置为大于*h*，以在内外壳之间留出间隙。这可以用来使打开盒子更容易。将*hi*设置得更小，使其只有一个小的内脊，这样打开后内容会更明显。"
+"\n"
 "\n"
 "![Bottom view](static/samples/TwoPiece2.jpg)\n"
 "\n"
@@ -11339,7 +11396,9 @@ msgstr "边缘类型"
 
 #. help for parameter edge_types
 #: boxes/generators/unevenheightbox.py
-msgid "which edges are flat (e) or grooved (z,Z), counter-clockwise from the front"
+msgid ""
+"which edges are flat (e) or grooved (z,Z), counter-clockwise from the "
+"front"
 msgstr "从正面逆时针方向看，哪些边缘是平的（e）或有凹槽的（z，z）"
 
 #. name of box generator
@@ -11528,8 +11587,8 @@ msgstr "切割角度（0 表示水平）"
 #. help for parameter bottom
 #: boxes/generators/wallcaliperholder.py
 msgid ""
-"\"stud\" to brace against the wall, \"hook\" for attaching to a second cleat or "
-"\"none\" for just straight"
+"\"stud\" to brace against the wall, \"hook\" for attaching to a second "
+"cleat or \"none\" for just straight"
 msgstr "“螺柱”用于支撑墙壁，“钩子”用于连接到第二个夹板，或“无”用于直线"
 
 #. help for parameter depth
@@ -11862,7 +11921,9 @@ msgstr "墙上的钩子数量"
 
 #. help for parameter h
 #: boxes/generators/wallpinrow.py
-msgid "height of the front plate (in mm) - needs to be at least 7 time the thickness"
+msgid ""
+"height of the front plate (in mm) - needs to be at least 7 time the "
+"thickness"
 msgstr "前板的高度（单位：毫米）-需要至少是厚度的7倍"
 
 #. name of box generator
@@ -12057,10 +12118,12 @@ msgid ""
 "- Multiple wall mounting options\n"
 "\n"
 "####Stacking Compatibility:\n"
-"The stacking mechanism requires careful consideration of wall mounting types.\n"
-"Bins using \"plain\" wall mounts can stack on bins with other mount types.\n"
-"Note: Using the \"outside\" dimension option is generally not compatible with "
-"stacking.\n"
+"The stacking mechanism requires careful consideration of wall mounting "
+"types.\n"
+"Bins using \"plain\" wall mounts can stack on bins with other mount "
+"types.\n"
+"Note: Using the \"outside\" dimension option is generally not compatible "
+"with stacking.\n"
 "\n"
 "####Assembly Notes:\n"
 "1. The generator produces three pieces with angled finger joints.\n"
@@ -12118,17 +12181,16 @@ msgstr "不同高度的平台，例如螺丝刀平台"
 #. long description of WallStairs in markdown
 #: boxes/generators/wallstairs.py
 msgid ""
-"You are supposed to add holes or slots to the stair tops yourself using Inkscape or "
-"another vector drawing or CAD program.\n"
+"You are supposed to add holes or slots to the stair tops yourself using "
+"Inkscape or another vector drawing or CAD program.\n"
 "\n"
-"sh gives height of the stairs from front to back. Note that the overall width and "
-"height is bigger than the nominal values as walls and the protrusions are not "
-"included in the measurements.\n"
+"sh gives height of the stairs from front to back. Note that the overall "
+"width and height is bigger than the nominal values as walls and the "
+"protrusions are not included in the measurements.\n"
 msgstr ""
 "您应该使用Inkscape或其他矢量绘图或CAD程序自行在楼梯顶部添加孔或槽。\n"
 "\n"
-"sh给出了楼梯从前到后的高度。请注意，由于墙壁和突出物不包括在测量范围内，因此整体宽度"
-"和高度大于标称值。\n"
+"sh给出了楼梯从前到后的高度。请注意，由于墙壁和突出物不包括在测量范围内，因此整体宽度和高度大于标称值。\n"
 
 msgid "WallStairs Settings"
 msgstr "设置"
@@ -12304,7 +12366,8 @@ msgstr "Z型梁（或U型梁）：三块直角连接"
 #: boxes/generators/zbeam.py
 msgid ""
 "\n"
-"With the \"flanged_ubeam\" option, there is a fourth piece the length of \"y\".\n"
+"With the \"flanged_ubeam\" option, there is a fourth piece the length of "
+"\"y\".\n"
 "![U-Beam with flange](static/samples/ZBeam-flanged-ubeam.jpg)\n"
 msgstr ""
 "\n"
@@ -12356,8 +12419,9 @@ msgid ""
 "href=&quot;https://github.com/florianfesti/boxes/issues/628&quot; "
 "target=&quot;_blank&quot; rel=&quot;noopener&quot;>GitHub</a>!"
 msgstr ""
-"还没有图像。请在 <a href=&quot;https://github.com/florianfesti/boxes/issues/"
-"628&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;>GitHub</a>捐赠你的图片!"
+"还没有图像。请在 <a "
+"href=&quot;https://github.com/florianfesti/boxes/issues/628&quot; "
+"target=&quot;_blank&quot; rel=&quot;noopener&quot;>GitHub</a>捐赠你的图片!"
 
 #: scripts/boxesserver:313
 msgid "Zoom: "
@@ -12382,19 +12446,20 @@ msgstr "用激光切割机制作盒子等等！"
 #: scripts/boxesserver:453
 msgid ""
 "\n"
-"        <a href=\"https://hackaday.io/project/10649-boxespy\">Boxes.py</a> is an <a "
-"href=\"https://www.gnu.org/licenses/gpl-3.0.en.html\">Open Source</a> box generator "
-"written in <a href=\"https://www.python.org/\">Python</a>. It features both "
-"finished parametrized generators as well as a Python API for writing your own. It "
-"features finger and (flat) dovetail joints, flex cuts, holes and slots for screws, "
-"hinges, gears, pulleys and much more."
+"        <a "
+"href=\"https://hackaday.io/project/10649-boxespy\">Boxes.py</a> is an <a "
+"href=\"https://www.gnu.org/licenses/gpl-3.0.en.html\">Open Source</a> box"
+" generator written in <a href=\"https://www.python.org/\">Python</a>. It "
+"features both finished parametrized generators as well as a Python API "
+"for writing your own. It features finger and (flat) dovetail joints, flex"
+" cuts, holes and slots for screws, hinges, gears, pulleys and much more."
 msgstr ""
 "\n"
-"        <a href=\"https://hackaday.io/project/10649-boxespy\">Boxes.py</a>是一个用"
-"<a href=\"https://www.python.org/\">Python</a>编写的<a href=\"https://www.gnu.org/"
-"licenses/gpl-3.0.en.html\">开源</a>盒子生成器。 它具有完成的参数化生成器以及用于编写"
-"自己的Python API。 它具有手指和（扁平）燕尾榫接头，柔性切口，螺钉，铰链，齿轮，滑轮"
-"等孔和槽。"
+"        <a "
+"href=\"https://hackaday.io/project/10649-boxespy\">Boxes.py</a>是一个用<a "
+"href=\"https://www.python.org/\">Python</a>编写的<a "
+"href=\"https://www.gnu.org/licenses/gpl-3.0.en.html\">开源</a>盒子生成器。 "
+"它具有完成的参数化生成器以及用于编写自己的Python API。 它具有手指和（扁平）燕尾榫接头，柔性切口，螺钉，铰链，齿轮，滑轮等孔和槽。"
 
 #: scripts/boxesserver:477
 msgid "Help"
@@ -12432,3 +12497,1970 @@ msgstr "生成 %s 时出错"
 #: scripts/boxesserver:504 scripts/boxesserver:518
 msgid "An error occurred!"
 msgstr "发生错误！"
+
+#. name of generator group
+#: boxes/generators/__init__.py
+msgid "GameAccessory"
+msgstr ""
+
+#. title of group GameAccessory
+#: boxes/generators/__init__.py
+msgid "Game Accessories (Accessoires de jeux)"
+msgstr ""
+
+#. description of group GameAccessory
+#: boxes/generators/__init__.py
+msgid "Laser-cut accessories for board games and tabletop gaming."
+msgstr ""
+
+#. name of generator group
+#: boxes/generators/__init__.py
+msgid "Deco"
+msgstr ""
+
+#. title of group Deco
+#: boxes/generators/__init__.py
+msgid "Decoration & Signage"
+msgstr ""
+
+#. description of group Deco
+#: boxes/generators/__init__.py
+msgid "Decorative flat pieces, labels and signs."
+msgstr ""
+
+#. help for parameter spacing
+msgid ""
+"spacing around parts (multiples of thickness [: extra space in mm]) "
+"[🛈](https://florianfesti.github.io/boxes/html/usermanual.html#spacing)"
+msgstr ""
+
+#. help for parameter hole_width
+msgid "width of the \\\"finger hole\\\" in mm"
+msgstr ""
+
+#. help for parameter handle_height
+msgid "height of the handle in multiples of thickness (if applicable)"
+msgstr ""
+
+#. help for parameter height
+msgid "height of the brim in multiples of thickness (if any)"
+msgstr ""
+
+#. help for parameter play
+msgid "play when sliding the lid on in multiples of thickness (if applicable)"
+msgstr ""
+
+#. description of AgricolaInsert
+#. long description of AgricolaInsert in markdown
+#. long description of BeeQueenTransportBox in markdown
+#. long description of BookHolder in markdown
+#. long description of CanStorage in markdown
+#. long description of CardBox in markdown
+#. long description of Clock in markdown
+#. description of CoffeeCapsuleHolder
+#. long description of CoffeeCapsuleHolder in markdown
+#. long description of CoinBankSafe in markdown
+#. long description of ConcaveKnob in markdown
+#. long description of Console in markdown
+#. long description of Console2 in markdown
+#. long description of DividerTray in markdown
+#. long description of FatBallDispenser in markdown
+#. long description of FilamentSpool in markdown
+#. long description of FlexBook in markdown
+#. long description of FrontPanel in markdown
+#. long description of GameCounterCoins in markdown
+#. long description of GameCounterRing in markdown
+#. long description of GridfinityTrayLayout in markdown
+#. long description of HobbyCase in markdown
+#. long description of Kamishibai in markdown
+#. long description of Label in markdown
+#. long description of MakitaPowerSupply in markdown
+#. description of PaperBox
+#. long description of PaperBox in markdown
+#. description of PhoneHolder
+#. long description of PhoneHolder in markdown
+#. description of PhotoFrame
+#. long description of PhotoFrame in markdown
+#. long description of PizzaShovel in markdown
+#. long description of RoundedBox in markdown
+#. long description of RoundedRegularBox in markdown
+#. long description of Shadowbox in markdown
+#. long description of SideDoorHousing in markdown
+#. long description of SideHingeBox in markdown
+#. description of Silverware
+#. long description of StorageRack in markdown
+#. long description of TwoPiece in markdown
+#. long description of WallHopper in markdown
+#. long description of WallStackableBin in markdown
+#. long description of WavyKnob in markdown
+#. long description of ZBeam in markdown
+#: boxes/generators/agricolainsert.py boxes/generators/beequeentransportbox.py
+#: boxes/generators/bookholder.py boxes/generators/can_storage.py
+#: boxes/generators/cardbox.py boxes/generators/clock.py
+#: boxes/generators/coffeecapsulesholder.py boxes/generators/coinbanksafe.py
+#: boxes/generators/concaveknob.py boxes/generators/console.py
+#: boxes/generators/console2.py boxes/generators/dividertray.py
+#: boxes/generators/fatballdispenser.py boxes/generators/filamentspool.py
+#: boxes/generators/flexbook.py boxes/generators/frontpanel.py
+#: boxes/generators/game_counter_coins.py boxes/generators/game_counter_ring.py
+#: boxes/generators/gridfinitytraylayout.py boxes/generators/hobbycase.py
+#: boxes/generators/kamishibai.py boxes/generators/label.py
+#: boxes/generators/makitapowersupply.py boxes/generators/paperbox.py
+#: boxes/generators/phoneholder.py boxes/generators/photoframe.py
+#: boxes/generators/pizzashovel.py boxes/generators/roundedbox.py
+#: boxes/generators/roundedregularbox.py boxes/generators/shadowbox.py
+#: boxes/generators/sidedoorhousing.py boxes/generators/sidehingebox.py
+#: boxes/generators/silverwarebox.py boxes/generators/storagerack.py
+#: boxes/generators/two_piece.py boxes/generators/wallhopper.py
+#: boxes/generators/wallstackablebin.py boxes/generators/wavyknob.py
+#: boxes/generators/zbeam.py
+msgid "\n"
+msgstr ""
+
+#. long description of BasedBox in markdown
+#. long description of ClosedBox in markdown
+#: boxes/generators/basedbox.py boxes/generators/closedbox.py
+msgid "This box is more of a building block than a finished item.\n"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/beequeencage.py
+msgid "BeeQueenCage"
+msgstr ""
+
+#. description of BeeQueenCage
+#: boxes/generators/beequeencage.py
+msgid "Cage box to house a bee queen"
+msgstr ""
+
+#. long description of BeeQueenCage in markdown
+#: boxes/generators/beequeencage.py
+msgid "Cage box to house a bee queen.\n"
+msgstr ""
+
+msgid "BeeQueenCage Settings"
+msgstr ""
+
+#. help for parameter d
+#: boxes/generators/beequeencage.py
+msgid "Diameter of top hole [mm]"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/beequeencage.py
+msgid "holes_front"
+msgstr ""
+
+#. help for parameter holes_front
+#: boxes/generators/beequeencage.py
+msgid "create holes on the front"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/beequeencage.py
+msgid "holes_back"
+msgstr ""
+
+#. help for parameter holes_back
+#: boxes/generators/beequeencage.py
+msgid "create holes on the back"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/beequeencage.py
+msgid "holes_left"
+msgstr ""
+
+#. help for parameter holes_left
+#: boxes/generators/beequeencage.py
+msgid "create holes on the left"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/beequeencage.py
+msgid "holes_right"
+msgstr ""
+
+#. help for parameter holes_right
+#: boxes/generators/beequeencage.py
+msgid "create holes on the right"
+msgstr ""
+
+msgid "Settings for walls of BeeQueenCage"
+msgstr ""
+
+#. parameter name for BeeQueenCageWall
+#: boxes/generators/beequeencage.py
+msgid "airhole_separation"
+msgstr ""
+
+#. help for parameter airhole_separation
+#: boxes/generators/beequeencage.py
+msgid "distance between air holes [mm]"
+msgstr ""
+
+#. parameter name for BeeQueenCageWall
+#: boxes/generators/beequeencage.py
+msgid "airhole_width"
+msgstr ""
+
+#. help for parameter airhole_width
+#: boxes/generators/beequeencage.py
+msgid "width of air holes (0 for no holes) [mm]"
+msgstr ""
+
+#. help for parameter bottom_margin
+#: boxes/generators/beequeencage.py
+msgid "distance of air holes on bottom side [mm]"
+msgstr ""
+
+#. help for parameter radius
+#: boxes/generators/beequeencage.py
+msgid "corner radius of air holes [mm]"
+msgstr ""
+
+#. parameter name for BeeQueenCageWall
+#: boxes/generators/beequeencage.py
+msgid "side_margin"
+msgstr ""
+
+#. help for parameter side_margin
+#: boxes/generators/beequeencage.py
+msgid "side distance of air holes [mm]"
+msgstr ""
+
+#. parameter name for BeeQueenCageWall
+#: boxes/generators/beequeencage.py
+msgid "top_margin"
+msgstr ""
+
+#. help for parameter top_margin
+#: boxes/generators/beequeencage.py
+msgid "distance of air holes on top side [mm]"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/beequeentransportbox.py
+msgid "BeeQueenTransportBox"
+msgstr ""
+
+#. description of BeeQueenTransportBox
+#: boxes/generators/beequeentransportbox.py
+msgid "Box to hold Bee Queen Transport Cages"
+msgstr ""
+
+msgid "BeeQueenTransportBox Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/beequeentransportbox.py
+msgid "aw"
+msgstr ""
+
+#. help for parameter aw
+#: boxes/generators/beequeentransportbox.py
+msgid "air hole slot width in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/beequeentransportbox.py
+msgid "ah"
+msgstr ""
+
+#. help for parameter ah
+#: boxes/generators/beequeentransportbox.py
+msgid "air hole sections bottom to top in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/beequeentransportbox.py
+msgid "ax"
+msgstr ""
+
+#. help for parameter ax
+#: boxes/generators/beequeentransportbox.py
+#, python-format
+msgid "air hole sections left to right in %% of the box width"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/beequeentransportbox.py
+msgid "ay"
+msgstr ""
+
+#. help for parameter ay
+#: boxes/generators/beequeentransportbox.py
+#, python-format
+msgid "air hole sections back to front in %% of the box depth"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/beequeentransportbox.py
+msgid "layer2"
+msgstr ""
+
+#. help for parameter layer2
+#: boxes/generators/beequeentransportbox.py
+msgid "select cutout type for layer 2."
+msgstr ""
+
+#. possible choice for layer2
+#: boxes/generators/beequeentransportbox.py
+msgid "NicotTransportCage"
+msgstr ""
+
+#. possible choice for layer2
+#: boxes/generators/beequeentransportbox.py
+msgid "NicotHatchingCage"
+msgstr ""
+
+#. possible choice for layer2
+#: boxes/generators/beequeentransportbox.py
+msgid "NicotIncubatorCage"
+msgstr ""
+
+#. possible choice for layer2
+#: boxes/generators/beequeentransportbox.py
+msgid "PlastmixTransportCage"
+msgstr ""
+
+#. possible choice for layer2
+#: boxes/generators/beequeentransportbox.py
+msgid "ChinaTransportCage"
+msgstr ""
+
+#. possible choice for layer2
+#: boxes/generators/beequeentransportbox.py
+msgid "JZsBZsCage"
+msgstr ""
+
+#. possible choice for layer2
+#: boxes/generators/beequeentransportbox.py
+msgid "AirHolesForNicotTransportCage"
+msgstr ""
+
+#. possible choice for layer2
+#: boxes/generators/beequeentransportbox.py
+msgid "AirHolesForNicotIncubatorCage"
+msgstr ""
+
+#. possible choice for layer2
+#: boxes/generators/beequeentransportbox.py
+msgid "AirHolesForNicotHatchingCage"
+msgstr ""
+
+#. possible choice for layer2
+#: boxes/generators/beequeentransportbox.py
+msgid "AirHolesForChinaTransportCage"
+msgstr ""
+
+#. possible choice for layer2
+#: boxes/generators/beequeentransportbox.py
+msgid "None"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/beequeentransportbox.py
+msgid "layer1"
+msgstr ""
+
+#. help for parameter layer1
+#: boxes/generators/beequeentransportbox.py
+msgid "select cutout type for layer 1."
+msgstr ""
+
+#. parameter name
+#: boxes/generators/beequeentransportbox.py
+msgid "layer0"
+msgstr ""
+
+#. help for parameter layer0
+#: boxes/generators/beequeentransportbox.py
+msgid "select cutout type for layer 0 (bottom)."
+msgstr ""
+
+msgid "Lid settings for Queen Transport Box"
+msgstr ""
+
+#. parameter name for BeeQueenTransportBoxLid
+#: boxes/generators/beequeentransportbox.py
+msgid "cover"
+msgstr ""
+
+#. possible choice for cover
+#: boxes/generators/beequeentransportbox.py
+msgid "airholes"
+msgstr ""
+
+#. possible choice for cover
+#: boxes/generators/beequeentransportbox.py
+msgid "queenicon"
+msgstr ""
+
+#. possible choice for cover
+#: boxes/generators/beequeentransportbox.py
+msgid "queenicon_airholes"
+msgstr ""
+
+#. parameter name for BeeQueenTransportBoxLid
+#: boxes/generators/beequeentransportbox.py
+msgid "queenicon_angle"
+msgstr ""
+
+#. parameter name for BeeQueenTransportBoxLid
+#: boxes/generators/beequeentransportbox.py
+msgid "queenicon_scale"
+msgstr ""
+
+#. long description of BottleStack in markdown
+#: boxes/generators/bottlestack.py
+msgid ""
+"When rendered with the \\\"double\\\" option the parts with the double "
+"slots get connected the shorter beams in the asymmetrical slots.\n"
+msgstr ""
+
+#. long description of BrickSorter in markdown
+#: boxes/generators/brick_sorter.py
+msgid "## Stackable nestable sorting sieve for bricks\n"
+msgstr ""
+
+#. long description of BurnTest in markdown
+#: boxes/generators/burntest.py
+msgid "This generator will make shapes that you can use to select\n"
+msgstr ""
+
+#. long description of CarbonFilter in markdown
+#: boxes/generators/carbonfilter.py
+msgid ""
+"The filter does not include the top rim. You need some rectangular wooden"
+" strip about 2-3cm in size to glue around. The x and y are without this "
+"rim and should be about 5 cm smaller that the nominal size.\n"
+msgstr ""
+
+#. long description of Castle in markdown
+#: boxes/generators/castle.py
+msgid ""
+"This was done as a table decoration. May be at some point in the future "
+"someone will create a proper castle\n"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/clock.py
+msgid "Clock"
+msgstr ""
+
+#. description of Clock
+#: boxes/generators/clock.py
+msgid "Clock (old style with clock hands)"
+msgstr ""
+
+msgid "Clock Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/clock.py
+msgid "ClockHandsMaxLength"
+msgstr ""
+
+#. help for parameter ClockHandsMaxLength
+#: boxes/generators/clock.py
+msgid "Length of the longest clock hand (from the central axis) in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/clock.py
+msgid "ExternalRadius"
+msgstr ""
+
+#. help for parameter ExternalRadius
+#: boxes/generators/clock.py
+msgid "External radius of the clock in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/clock.py
+msgid "BackLegDistance"
+msgstr ""
+
+#. help for parameter BackLegDistance
+#: boxes/generators/clock.py
+msgid "Distance between the front plate and the back leg in mm"
+msgstr ""
+
+#. help for parameter Margin
+#: boxes/generators/clock.py
+msgid "Margin between clock hands and external frame in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/clock.py
+msgid "NeedlesAxisHoleDiameter"
+msgstr ""
+
+#. help for parameter NeedlesAxisHoleDiameter
+#: boxes/generators/clock.py
+msgid "Diameter of the needles axis hole in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/clock.py
+msgid "HourLines"
+msgstr ""
+
+#. help for parameter HourLines
+#: boxes/generators/clock.py
+msgid "Length of the hour lines as fraction of the dial radius"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/clock.py
+msgid "MinuteLines"
+msgstr ""
+
+#. help for parameter MinuteLines
+#: boxes/generators/clock.py
+msgid "Length of the minute lines as fraction of the dial radius"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/clock.py
+msgid "NumberStyle"
+msgstr ""
+
+#. help for parameter NumberStyle
+#: boxes/generators/clock.py
+msgid "Style of the hour numbers"
+msgstr ""
+
+#. possible choice for NumberStyle
+#: boxes/generators/clock.py
+msgid "Arabic"
+msgstr ""
+
+#. possible choice for NumberStyle
+#: boxes/generators/clock.py
+msgid "Roman"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/clock.py
+msgid "FontSize"
+msgstr ""
+
+#. help for parameter FontSize
+#: boxes/generators/clock.py
+msgid "Height of the hour numbers as fraction of the dial radius"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/coffeecapsulesholder.py
+msgid "lid_size"
+msgstr ""
+
+#. help for parameter lid_size
+#: boxes/generators/coffeecapsulesholder.py
+msgid "diameter of the cup lids (in mm)"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/coffeecapsulesholder.py
+msgid "body_size"
+msgstr ""
+
+#. help for parameter body_size
+#: boxes/generators/coffeecapsulesholder.py
+msgid "width of the body of the cups at the top (in mm)"
+msgstr ""
+
+#. long description of CompartmentBox in markdown
+#: boxes/generators/compartmentbox.py
+msgid "Sliding lid rests on inner walls,\n"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/crate.py
+msgid "Crate"
+msgstr ""
+
+#. description of Crate
+#: boxes/generators/crate.py
+msgid ""
+"Crate with handles. Can be made stackable. Can produce additional mask to"
+" put patterns onto crate walls"
+msgstr ""
+
+#. long description of Crate in markdown
+#: boxes/generators/crate.py
+msgid ""
+"Pattern mask can be used in your editor to cut out from some pattern "
+"section that will be added to walls."
+msgstr ""
+
+msgid "Crate Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/crate.py
+msgid "HandleOffset"
+msgstr ""
+
+#. help for parameter HandleOffset
+#: boxes/generators/crate.py
+msgid "offset of the handle hole from top edge"
+msgstr ""
+
+#. help for parameter HandleWidth
+#: boxes/generators/crate.py
+msgid "width of the handle hole"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/crate.py
+msgid "HandleHeight"
+msgstr ""
+
+#. help for parameter HandleHeight
+#: boxes/generators/crate.py
+msgid "height of the handle hole"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/crate.py
+msgid "HandleRadius"
+msgstr ""
+
+#. help for parameter HandleRadius
+#: boxes/generators/crate.py
+msgid "handle hole radius"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/crate.py
+msgid "MakeStackable"
+msgstr ""
+
+#. help for parameter MakeStackable
+#: boxes/generators/crate.py
+msgid "make crates stackable"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/crate.py
+msgid "AddPatternMask"
+msgstr ""
+
+#. help for parameter AddPatternMask
+#: boxes/generators/crate.py
+msgid "add pattern mask"
+msgstr ""
+
+#. long description of Desksign in markdown
+#: boxes/generators/desksign.py
+msgid "Text to be engraved can be generated by inputting the label and fontsize\n"
+msgstr ""
+
+#. description of DiceBox
+#: boxes/generators/dicebox.py
+msgid "Box with lid and integrated hinge for storing dice."
+msgstr ""
+
+#. long description of DiceTower in markdown
+#: boxes/generators/dicetower.py
+msgid ""
+"Feel free to add a shallow ABox as a container for catching the dice so "
+"they don't scatter across the table.\n"
+msgstr ""
+
+#. long description of Dispenser in markdown
+#: boxes/generators/dispenser.py
+msgid "Set *bottomheight* to 0 for a wall mounting variant.\n"
+msgstr ""
+
+#. help for parameter angle
+#: boxes/generators/dividertray.py
+msgid "angle at which slots are generated, in degrees. 0° is vertical."
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/drillgauge.py
+msgid "DrillGauge"
+msgstr ""
+
+#. description of DrillGauge
+#: boxes/generators/drillgauge.py
+msgid "A drill gauge with a narrowing slot"
+msgstr ""
+
+#. long description of DrillGauge in markdown
+#: boxes/generators/drillgauge.py
+msgid "Make sure to use a burn setting that is tight but does not require force!"
+msgstr ""
+
+msgid "DrillGauge Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/drillgauge.py
+msgid "sizes"
+msgstr ""
+
+#. help for parameter sizes
+#: boxes/generators/drillgauge.py
+msgid "List of the sizes"
+msgstr ""
+
+#. help for parameter fontsize
+#: boxes/generators/drillgauge.py
+msgid "Size of the numbers"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/drillgauge.py
+msgid "text_placement"
+msgstr ""
+
+#. help for parameter text_placement
+#: boxes/generators/drillgauge.py
+msgid "Have the text left or right?"
+msgstr ""
+
+#. long description of DrillStand in markdown
+#: boxes/generators/drillstand.py
+msgid ""
+"Note: `sh` gives the height of the rows front to back. It though should "
+"have the same number of entries as `sy`. These heights are the one on the"
+" left side and increase throughout the row. To have each compartment a "
+"bit higher than the previous one the steps in `sh` should be a bit bigger"
+" than `extra_height`.\n"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/engravingframe.py
+msgid "EngravingFrame"
+msgstr ""
+
+#. description of EngravingFrame
+#: boxes/generators/engravingframe.py
+msgid ""
+"A frame for an engraving ; can be either standing or hanging, both in "
+"portrait or landscape"
+msgstr ""
+
+#. long description of EngravingFrame in markdown
+#: boxes/generators/engravingframe.py
+msgid "This box is a frame for an engraving."
+msgstr ""
+
+msgid "EngravingFrame Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/engravingframe.py
+msgid "EngravingWidth"
+msgstr ""
+
+#. help for parameter EngravingWidth
+#: boxes/generators/engravingframe.py
+msgid "width of the visible part of the engraving in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/engravingframe.py
+msgid "EngravingHeight"
+msgstr ""
+
+#. help for parameter EngravingHeight
+#: boxes/generators/engravingframe.py
+msgid "height of the visible part of the engraving in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/engravingframe.py
+msgid "EngravingThickness"
+msgstr ""
+
+#. help for parameter EngravingThickness
+#: boxes/generators/engravingframe.py
+msgid ""
+"thickness of the engraving plate (and any acrylic window you may add) in "
+"mm"
+msgstr ""
+
+#. help for parameter Margin
+#: boxes/generators/engravingframe.py
+msgid "margin for the engraving plate insertion in mm"
+msgstr ""
+
+#. help for parameter FrameThickness
+#: boxes/generators/engravingframe.py
+msgid "width of the frame in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/engravingframe.py
+msgid "FrameOuterCornersRadius"
+msgstr ""
+
+#. help for parameter FrameOuterCornersRadius
+#: boxes/generators/engravingframe.py
+msgid "radius of the frame outer corners in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/engravingframe.py
+msgid "FrameInnerCornersRadius"
+msgstr ""
+
+#. help for parameter FrameInnerCornersRadius
+#: boxes/generators/engravingframe.py
+msgid "radius of the frame inner corners in mm"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/engravingframe.py
+msgid "AddCoveringFrontPlate"
+msgstr ""
+
+#. help for parameter AddCoveringFrontPlate
+#: boxes/generators/engravingframe.py
+msgid "Add a covenring front plate to glue (hiding the finger joints)"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/engravingframe.py
+msgid "AddDummyFingers"
+msgstr ""
+
+#. help for parameter AddDummyFingers
+#: boxes/generators/engravingframe.py
+msgid ""
+"Add dummy finger holes and plugs for the unity of the frame (if not "
+"covered)"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/engravingframe.py
+msgid "BackSupportAngle"
+msgstr ""
+
+#. help for parameter BackSupportAngle
+#: boxes/generators/engravingframe.py
+msgid "angle of the back support in degrees ; set 0 or negative value to ignore"
+msgstr ""
+
+#. help for parameter drain_hole_diameter
+#: boxes/generators/fatballdispenser.py
+msgid "The diameter of the hole of the floor (to drain rainwater)\n"
+msgstr ""
+
+#. help for parameter pole_clearance
+#: boxes/generators/fatballdispenser.py
+msgid "The minimum distance between a pole and the central\n"
+msgstr ""
+
+#. help for parameter slide_clearance
+#: boxes/generators/fatballdispenser.py
+msgid "The gap between the parts that slide into each other\n"
+msgstr ""
+
+#. help for parameter pole_clearance_factor
+#: boxes/generators/fatballdispenser.py
+msgid "The fraction of the pole clearance which is being used for\n"
+msgstr ""
+
+#. help for parameter roof_hole_diameter
+#: boxes/generators/fatballdispenser.py
+msgid "The diameter of the hole of the roof in mm.\n"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/game_counter_coins.py
+msgid "GameCounterCoins"
+msgstr ""
+
+#. description of GameCounterCoins
+#: boxes/generators/game_counter_coins.py
+msgid "Coin-stack game point counter – top disc notch reads score off bottom coin"
+msgstr ""
+
+msgid "GameCounterCoins Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/game_counter_coins.py
+msgid "coin_radius"
+msgstr ""
+
+#. help for parameter coin_radius
+#: boxes/generators/game_counter_coins.py
+msgid "Outer radius of both discs [mm]"
+msgstr ""
+
+#. help for parameter magnet_diameter
+#: boxes/generators/game_counter_coins.py
+msgid "Diameter of the central cylindrical magnet [mm]"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/game_counter_coins.py
+msgid "score_min"
+msgstr ""
+
+#. help for parameter score_min
+#: boxes/generators/game_counter_coins.py
+msgid "Minimum score value displayed on Piece A"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/game_counter_coins.py
+msgid "score_max"
+msgstr ""
+
+#. help for parameter score_max
+#: boxes/generators/game_counter_coins.py
+msgid "Maximum score value displayed on Piece A"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/game_counter_coins.py
+msgid "label_invert"
+msgstr ""
+
+#. help for parameter label_invert
+#: boxes/generators/game_counter_coins.py
+msgid "Invert the font orientation"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/game_counter_coins.py
+msgid "label_radius"
+msgstr ""
+
+#. help for parameter label_radius
+#: boxes/generators/game_counter_coins.py
+msgid ""
+"Radius at which score numbers are placed on Piece A [mm]. 0 = auto "
+"(coin_radius − font_size × 0.5)"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/game_counter_coins.py
+msgid "notch_width"
+msgstr ""
+
+#. help for parameter notch_width
+#: boxes/generators/game_counter_coins.py
+msgid "Width of the reading notch on Piece B [mm]"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/game_counter_coins.py
+msgid "notch_depth"
+msgstr ""
+
+#. help for parameter notch_depth
+#: boxes/generators/game_counter_coins.py
+msgid "Depth of the reading notch on Piece B [mm]. 0 = auto (notch_width / 2)"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/game_counter_coins.py
+msgid "notch_style"
+msgstr ""
+
+#. help for parameter notch_style
+#: boxes/generators/game_counter_coins.py
+msgid "Shape of the reading notch on Piece B"
+msgstr ""
+
+#. possible choice for notch_style
+#: boxes/generators/game_counter_coins.py
+msgid "circular"
+msgstr ""
+
+#. possible choice for notch_style
+#: boxes/generators/game_counter_coins.py
+msgid "triangular"
+msgstr ""
+
+#. possible choice for notch_style
+#: boxes/generators/game_counter_coins.py
+msgid "trapezoid"
+msgstr ""
+
+#. help for parameter play
+#: boxes/generators/game_counter_coins.py
+msgid "Radial play between the two discs [mm]"
+msgstr ""
+
+msgid "Font Settings"
+msgstr ""
+
+#. parameter name for font
+#: boxes/generators/game_counter_coins.py
+msgid "font"
+msgstr ""
+
+#. help for parameter font
+#: boxes/generators/game_counter_coins.py
+msgid "Font family for engraved text"
+msgstr ""
+
+#. possible choice for font
+#: boxes/generators/game_counter_coins.py
+msgid "sans-serif"
+msgstr ""
+
+#. possible choice for font
+#: boxes/generators/game_counter_coins.py
+msgid "serif"
+msgstr ""
+
+#. possible choice for font
+#: boxes/generators/game_counter_coins.py
+msgid "monospaced"
+msgstr ""
+
+#. possible choice for font
+#: boxes/generators/game_counter_coins.py
+msgid "Audiowide-Regular"
+msgstr ""
+
+#. possible choice for font
+#: boxes/generators/game_counter_coins.py
+msgid "UnifrakturCook-Bold"
+msgstr ""
+
+#. help for parameter size
+#: boxes/generators/game_counter_coins.py
+msgid "Font size [mm]"
+msgstr ""
+
+#. parameter name for font
+#: boxes/generators/game_counter_coins.py
+msgid "bold"
+msgstr ""
+
+#. help for parameter bold
+#: boxes/generators/game_counter_coins.py
+msgid "Bold font weight"
+msgstr ""
+
+#. parameter name for font
+#: boxes/generators/game_counter_coins.py
+msgid "italic"
+msgstr ""
+
+#. help for parameter italic
+#: boxes/generators/game_counter_coins.py
+msgid "Italic font style"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/game_counter_ring.py
+msgid "GameCounterRing"
+msgstr ""
+
+#. description of GameCounterRing
+#: boxes/generators/game_counter_ring.py
+msgid "Ring-dial game point counter – three concentric pieces cut together"
+msgstr ""
+
+msgid "GameCounterRing Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/game_counter_ring.py
+msgid "outer_radius"
+msgstr ""
+
+#. help for parameter outer_radius
+#: boxes/generators/game_counter_ring.py
+msgid "Outer radius of the ring frame [mm]"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/game_counter_ring.py
+msgid "inner_radius"
+msgstr ""
+
+#. help for parameter inner_radius
+#: boxes/generators/game_counter_ring.py
+msgid "Inner radius of the ring / radius of the dial disc [mm]"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/game_counter_ring.py
+msgid "pointer_size"
+msgstr ""
+
+#. help for parameter pointer_size
+#: boxes/generators/game_counter_ring.py
+msgid "Size of the pointer shape engraved on the dial [mm]"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/game_counter_ring.py
+msgid "pointer_style"
+msgstr ""
+
+#. help for parameter pointer_style
+#: boxes/generators/game_counter_ring.py
+msgid "Shape of the pointer engraved on Piece B"
+msgstr ""
+
+#. possible choice for pointer_style
+#: boxes/generators/game_counter_ring.py
+msgid "circle"
+msgstr ""
+
+#. possible choice for pointer_style
+#: boxes/generators/game_counter_ring.py
+msgid "line"
+msgstr ""
+
+#. help for parameter play
+#: boxes/generators/game_counter_ring.py
+msgid "Radial clearance between ring inner edge and dial [mm]"
+msgstr ""
+
+#. help for parameter magnet_diameter
+#: boxes/generators/game_counter_ring.py
+msgid "Diameter of the central magnet hole in Piece B and C (0 = no hole) [mm]"
+msgstr ""
+
+msgid "Score Settings"
+msgstr ""
+
+#. parameter name for score
+#: boxes/generators/game_counter_ring.py
+msgid "min"
+msgstr ""
+
+#. help for parameter min
+#: boxes/generators/game_counter_ring.py
+msgid "Minimum score value shown on the ring"
+msgstr ""
+
+#. parameter name for score
+#: boxes/generators/game_counter_ring.py
+msgid "max"
+msgstr ""
+
+#. help for parameter max
+#: boxes/generators/game_counter_ring.py
+msgid "Maximum score value shown on the ring"
+msgstr ""
+
+#. help for parameter radius
+#: boxes/generators/game_counter_ring.py
+msgid ""
+"Radius at which score numbers are placed [mm]. 0 = auto (midpoint between"
+" inner and outer radii)"
+msgstr ""
+
+#. parameter name for score
+#: boxes/generators/game_counter_ring.py
+msgid "inv"
+msgstr ""
+
+#. help for parameter inv
+#: boxes/generators/game_counter_ring.py
+msgid "Invert the orientation of score number labels"
+msgstr ""
+
+msgid "Crenel Settings"
+msgstr ""
+
+#. parameter name for crenel
+#: boxes/generators/game_counter_ring.py
+msgid "enabled"
+msgstr ""
+
+#. help for parameter enabled
+#: boxes/generators/game_counter_ring.py
+msgid "Add gear-like crenels on the outer rim (one crenel per score value)"
+msgstr ""
+
+#. help for parameter depth
+#: boxes/generators/game_counter_ring.py
+msgid "Depth of each outer crenel [mm]"
+msgstr ""
+
+#. help for parameter shape
+#: boxes/generators/game_counter_ring.py
+msgid ""
+"Crenel wall shape: symmetric = straight walls perpendicular to the rim; "
+"radial = walls converge toward the center"
+msgstr ""
+
+#. possible choice for shape
+#: boxes/generators/game_counter_ring.py
+msgid "symmetric"
+msgstr ""
+
+#. possible choice for shape
+#: boxes/generators/game_counter_ring.py
+msgid "radial"
+msgstr ""
+
+#. help for parameter rounded
+#: boxes/generators/game_counter_ring.py
+msgid "Round the crenel corners instead of sharp right angles"
+msgstr ""
+
+#. help for parameter radius
+#: boxes/generators/game_counter_ring.py
+msgid "Corner radius for rounded crenels [mm]"
+msgstr ""
+
+#. long description of GridfinityBase in markdown
+#: boxes/generators/gridfinitybase.py
+msgid "This is a configurable gridfinity base.  This\n"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/gridfinitybase.py
+msgid "base_type"
+msgstr ""
+
+#. possible choice for base_type
+#: boxes/generators/gridfinitybase.py
+msgid "standard"
+msgstr ""
+
+#. possible choice for base_type
+#: boxes/generators/gridfinitybase.py
+msgid "refined"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/gridfinitytraylayout.py
+msgid "base_thickness"
+msgstr ""
+
+#. help for parameter base_thickness
+#: boxes/generators/gridfinitytraylayout.py
+msgid ""
+"the thickness of base the box will sit upon.  0 to use the material "
+"thickness, 4.65 for a standard Gridfinity 3D printed base"
+msgstr ""
+
+#. help for parameter layout
+#: boxes/generators/gridfinitytraylayout.py
+msgid "You can hand edit this before generating"
+msgstr ""
+
+#. help for parameter layout
+#: boxes/generators/traylayout.py
+msgid "* Set **sx** and **sy** before editing this!\n"
+msgstr ""
+
+#. long description of HalfBox in markdown
+#: boxes/generators/halfbox.py
+msgid "This can be used to create:\n"
+msgstr ""
+
+#. long description of HingeBox in markdown
+#: boxes/generators/hingebox.py
+msgid "Needs (metal) pins as hinge axles. Pieces of nails will\n"
+msgstr ""
+
+#. description of IntegratedHingeBox
+#: boxes/generators/integratedhingebox.py
+msgid "Box with lid and integrated hinge."
+msgstr ""
+
+#. long description of JointPanel in markdown
+#: boxes/generators/jointpanel.py
+msgid ""
+"This can be used to just create a big panel in a smaller laser cutter. "
+"But the actual use is to split large parts into multiple smaller pieces. "
+"Copy the outline onto the sheet and then use the pieces to cut it into "
+"multiple parts that each can fit your laser cutter. Note that each piece "
+"must be cut with the sheet surrounding it to ensure the burn correction "
+"(aka kerf) is correct. Depending on your vector graphics software you may"
+" need to duplicate your part multiple times and then generate the "
+"intersection between one copy and each rectangular part.\n"
+msgstr ""
+
+#. help for parameter PegsWidthMargin
+#: boxes/generators/kamishibai.py
+msgid ""
+"Margin for the pegs width in mm ; set to a lower value if the pieces are "
+"forced together, a higher value if the pieces slide easily into each "
+"other (using screws or glue to assemble)"
+msgstr ""
+
+#. possible choice for FrontCoverStyle
+#: boxes/generators/kamishibai.py
+msgid "three-part lid, hinges not provided"
+msgstr ""
+
+#. long description of KeyHolder in markdown
+#: boxes/generators/keyholder.py
+msgid ""
+"Example for a KeyHolder with a slightly larger backplate and 8 hooks. "
+"This uses 6mm plywood for extra stability.\n"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/label.py
+msgid "Label"
+msgstr ""
+
+#. description of Label
+#: boxes/generators/label.py
+msgid ""
+"Rectangular label with rounded corners, optional inner border line and "
+"engraved text."
+msgstr ""
+
+msgid "Label Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/label.py
+msgid "longueur"
+msgstr ""
+
+#. help for parameter longueur
+#: boxes/generators/label.py
+msgid "Total width of the label [mm]"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/label.py
+msgid "hauteur"
+msgstr ""
+
+#. help for parameter hauteur
+#: boxes/generators/label.py
+msgid "Total height of the label [mm]"
+msgstr ""
+
+#. help for parameter radius
+#: boxes/generators/label.py
+msgid "Corner radius [mm] (0 = sharp corners)"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/label.py
+msgid "inner_border"
+msgstr ""
+
+#. help for parameter inner_border
+#: boxes/generators/label.py
+msgid "Add an inner border line parallel to the outer edge"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/label.py
+msgid "border_margin"
+msgstr ""
+
+#. help for parameter border_margin
+#: boxes/generators/label.py
+msgid "Distance between the outer cut and the inner border line [mm]"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/label.py
+msgid "label_text"
+msgstr ""
+
+#. help for parameter label_text
+#: boxes/generators/label.py
+msgid "Text to engrave on the label (leave blank to omit)"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/label.py
+msgid "text_align"
+msgstr ""
+
+#. help for parameter text_align
+#: boxes/generators/label.py
+msgid "Alignment of the engraved text inside the label"
+msgstr ""
+
+#. possible choice for text_align
+#: boxes/generators/label.py
+msgid "middle center"
+msgstr ""
+
+#. possible choice for text_align
+#: boxes/generators/label.py
+msgid "middle left"
+msgstr ""
+
+#. possible choice for text_align
+#: boxes/generators/label.py
+msgid "middle right"
+msgstr ""
+
+#. possible choice for text_align
+#: boxes/generators/label.py
+msgid "top center"
+msgstr ""
+
+#. possible choice for text_align
+#: boxes/generators/label.py
+msgid "top left"
+msgstr ""
+
+#. possible choice for text_align
+#: boxes/generators/label.py
+msgid "top right"
+msgstr ""
+
+#. possible choice for text_align
+#: boxes/generators/label.py
+msgid "bottom center"
+msgstr ""
+
+#. possible choice for text_align
+#: boxes/generators/label.py
+msgid "bottom left"
+msgstr ""
+
+#. possible choice for text_align
+#: boxes/generators/label.py
+msgid "bottom right"
+msgstr ""
+
+#. long description of LaserClamp in markdown
+#: boxes/generators/laserclamp.py
+msgid "You need a tension spring of the proper length to make the clamp work.\n"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/linkage.py
+msgid "Linkage"
+msgstr ""
+
+#. description of Linkage
+#: boxes/generators/linkage.py
+msgid "Model for trying out linkages"
+msgstr ""
+
+#. long description of Linkage in markdown
+#: boxes/generators/linkage.py
+msgid "Needs pins of length 2 and 3 times thickness as vitamins.\n"
+msgstr ""
+
+msgid "Linkage Settings"
+msgstr ""
+
+#. help for parameter diameter
+#: boxes/generators/linkage.py
+msgid "Diameter of the holes"
+msgstr ""
+
+#. help for parameter length
+#: boxes/generators/linkage.py
+msgid "Hole to hole length of longest linkage"
+msgstr ""
+
+#. help for parameter width
+#: boxes/generators/linkage.py
+msgid "Width of linkages"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/linkage.py
+msgid "dist"
+msgstr ""
+
+#. help for parameter dist
+#: boxes/generators/linkage.py
+msgid "Distance of holes"
+msgstr ""
+
+#. long description of Matrix in markdown
+#: boxes/generators/matrix.py
+msgid "## Simple WS2812b matrix enclosure\n"
+msgstr ""
+
+#. help for parameter stable
+#: boxes/generators/microrack.py
+msgid "draw some holes to put a 1/4\\\" dowel through at the base and top"
+msgstr ""
+
+#. help for parameter hooks
+#: boxes/generators/nightlightbox.py
+msgid "add hooks to decorative plates (allowing one sides plates)"
+msgstr ""
+
+#. help for parameter BackExtraHoles
+#: boxes/generators/nightlightbox.py
+msgid ""
+"extra holes for connectors or buttons ; enter one line per hole ; first "
+"parameter should be R for rectangle or C for circle ; then X and Y "
+"position for the center of the hole, and then the X and Y size of the "
+"rectangle or the circle diameter, all in mm ; parameters should be "
+"separated by spaces"
+msgstr ""
+
+#. long description of NotesHolder in markdown
+#: boxes/generators/notesholder.py
+msgid "If the feet of the `Stackable` `bottom_edge`\n"
+msgstr ""
+
+#. long description of PirateChest in markdown
+#: boxes/generators/piratechest.py
+msgid "Do not assemble sides before attaching the lid!\n"
+msgstr ""
+
+#. description of Rack19Box
+#: boxes/generators/rack19box.py
+msgid "Closed box with screw on top for mounting in a 19\\\" rack."
+msgstr ""
+
+#. description of Rack10Box
+#: boxes/generators/rack10box.py
+msgid "Closed box with screw on top for mounting in a 10\\\" rack."
+msgstr ""
+
+#. help for parameter style
+#: boxes/generators/rectangularWall.py
+msgid "\\\"wave\\\" or \\\"bumps\\"
+msgstr ""
+
+#. long description of RegularBox in markdown
+#: boxes/generators/regularbox.py
+msgid ""
+"For short side walls that don't fit a connecting finger reduce "
+"*surroundingspaces* and *finger* in the Finger Joint Settings.\n"
+msgstr ""
+
+#. description of RoundedRegularBox
+#: boxes/generators/roundedregularbox.py
+msgid "Regular polygon box with rounded vertical edges."
+msgstr ""
+
+#. long description of RoyalGame in markdown
+#: boxes/generators/royalgame.py
+msgid ""
+"Most of the blue lines need to be engraved by cutting with high speed and"
+" low power. But there are three blue holes that actually need to be cut: "
+"The grip hole in the lid and two tiny rectangles on the top and bottom "
+"for the lid to grip into.\n"
+msgstr ""
+
+#. long description of SevenSegmentClock in markdown
+#: boxes/generators/sevensegmentclock.py
+msgid ""
+"You need a LED stripe that is wound through all segments in an S pattern "
+"and then continuing to the next digit while the stripe being upright on "
+"its side. Selecting *debug* gives a better idea how things fit together."
+"\n"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/shadowbox.py
+msgid "back_edge"
+msgstr ""
+
+#. help for parameter back_edge
+#: boxes/generators/shadowbox.py
+msgid "edge type for back edge (and back wall)"
+msgstr ""
+
+#. long description of Shoe in markdown
+#: boxes/generators/shoe.py
+msgid "Shoe shaped box with flat sides and rounded top.\n"
+msgstr ""
+
+#. long description of SkadisBoard in markdown
+#: boxes/generators/skadis.py
+msgid ""
+"Best cut from 5mm material to match the original. Use the included "
+"washers to mount. The board needs space towards the wall for hooks to go "
+"into.\n"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/skadisstand.py
+msgid "SkadisStand"
+msgstr ""
+
+#. description of SkadisStand
+#: boxes/generators/skadisstand.py
+msgid "Feet for a Skadis board so it can stand on its own"
+msgstr ""
+
+msgid "SkadisStand Settings"
+msgstr ""
+
+#. help for parameter angle
+#: boxes/generators/skadisstand.py
+msgid "Angle of the board (90 for vertical)"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/skadisstand.py
+msgid "foot"
+msgstr ""
+
+#. help for parameter foot
+#: boxes/generators/skadisstand.py
+msgid "length of the horizontal foot behind the board"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/skadisstand.py
+msgid "foot_front"
+msgstr ""
+
+#. help for parameter foot_front
+#: boxes/generators/skadisstand.py
+msgid "Extend a foot to the front side of the board (zero to disable)"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/skadisstand.py
+msgid "connectors"
+msgstr ""
+
+#. help for parameter connectors
+#: boxes/generators/skadisstand.py
+msgid "Positions for the connectors. Values must be all odd or all even."
+msgstr ""
+
+#. parameter name
+#: boxes/generators/skadisstand.py
+msgid "extra_height_top"
+msgstr ""
+
+#. help for parameter extra_height_top
+#: boxes/generators/skadisstand.py
+msgid "Extra height above the last connector"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/skadisstand.py
+msgid "extra_height_bottom"
+msgstr ""
+
+#. help for parameter extra_height_bottom
+#: boxes/generators/skadisstand.py
+msgid "Extra space below the board"
+msgstr ""
+
+#. long description of SlantedTray in markdown
+#: boxes/generators/slantedtray.py
+msgid ""
+"Can be used as a display or for cards or gaming tokens. Lay on the side "
+"to get piles to draw from.\n"
+msgstr ""
+
+#. long description of SlidingLidBox in markdown
+#: boxes/generators/slidinglidbox.py
+msgid ""
+"* The sliding lid rests on the lower rails and is kept in place by the "
+"upper rails.\n"
+msgstr ""
+
+#. long description of SmallPartsTray2 in markdown
+#: boxes/generators/smallpartstray2.py
+msgid ""
+"Assemble inside out. If there are inner front to back walls start with "
+"attaching the floor boards to them. Then add the vertical inner left to "
+"right walls. After sliding in the slopes attach the outer wall to fix "
+"everything in place.\n"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/sphere.py
+msgid "Sphere"
+msgstr ""
+
+#. description of Sphere
+#: boxes/generators/sphere.py
+msgid ""
+"Actually not a sphere, but a hosohedron. Also not actually a box, but a "
+"globe, lamp, ornament or whatever you want it to be."
+msgstr ""
+
+#. long description of Sphere in markdown
+#: boxes/generators/sphere.py
+msgid "With Voronoi pattern added:\n"
+msgstr ""
+
+msgid "Sphere Settings"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/sphere.py
+msgid "sphere_radius"
+msgstr ""
+
+#. help for parameter sphere_radius
+#: boxes/generators/sphere.py
+msgid "The radius of the assembled sphere"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/sphere.py
+msgid "amount_gores"
+msgstr ""
+
+#. help for parameter amount_gores
+#: boxes/generators/sphere.py
+msgid ""
+"The amount of gores/parts you want the sphere to have, has to be at least"
+" 3"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/sphere.py
+msgid "top_hole_radius"
+msgstr ""
+
+#. help for parameter top_hole_radius
+#: boxes/generators/sphere.py
+msgid "The size of the circular hole at the top"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/sphere.py
+msgid "bottom_hole_radius"
+msgstr ""
+
+#. help for parameter bottom_hole_radius
+#: boxes/generators/sphere.py
+msgid "The size of the polygonal hole at the bottom"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/sphere.py
+msgid "scoring_lines"
+msgstr ""
+
+#. help for parameter scoring_lines
+#: boxes/generators/sphere.py
+msgid "Add scoring lines to easier fold tabs"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/sphere.py
+msgid "cable_hook"
+msgstr ""
+
+#. help for parameter cable_hook
+#: boxes/generators/sphere.py
+msgid ""
+"A hook to hang the sphere on a cable (for e.g. lamps), the amount of "
+"gores that have a hook"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/sphere.py
+msgid "cable_hook_radius"
+msgstr ""
+
+#. help for parameter cable_hook_radius
+#: boxes/generators/sphere.py
+msgid "The radius of the cable for the cable hook"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/sphere.py
+msgid "corner_tab"
+msgstr ""
+
+#. help for parameter corner_tab
+#: boxes/generators/sphere.py
+msgid ""
+"The length of the tabs on the corners (in mm)(not supported everywhere). "
+"Keep as small as your material strength allows for cleaner result"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/sphere.py
+msgid "tab_width"
+msgstr ""
+
+#. help for parameter tab_width
+#: boxes/generators/sphere.py
+msgid "The width of the tabs (in mm)"
+msgstr ""
+
+#. help for parameter tabs
+#: boxes/generators/sphere.py
+msgid "The number of tabs. This has to be an even number"
+msgstr ""
+
+#. long description of TrafficLight in markdown
+#: boxes/generators/trafficlight.py
+msgid ""
+"The traffic light was created to visualize the status of a Icinga "
+"monitored system.\n"
+msgstr ""
+
+#. long description of TrayInsert in markdown
+#: boxes/generators/trayinsert.py
+msgid "## Tray/Box insert dividers.\n"
+msgstr ""
+
+#. help for parameter y
+#: boxes/generators/trayinsert.py
+msgid "Y dimension of tray/box that this fits into"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/trayinsert.py
+msgid "draft_angle"
+msgstr ""
+
+#. help for parameter draft_angle
+#: boxes/generators/trayinsert.py
+msgid ""
+"amount the walls angle outwards toward to top (above sizes are at the "
+"bottom)"
+msgstr ""
+
+#. name of box generator
+#: boxes/generators/triangularwall.py
+msgid "TriangularWall"
+msgstr ""
+
+msgid "TriangularWall Settings"
+msgstr ""
+
+#. help for parameter radius
+#: boxes/generators/triangularwall.py
+msgid "radius to strengthen the corners"
+msgstr ""
+
+#. help for parameter bottom_hook
+#: boxes/generators/wallcaliperholder.py
+msgid "\\\"spring\\\", \\\"stud\\\" or \\\"none\\"
+msgstr ""
+
+#. help for parameter bottom
+#: boxes/generators/wallcaliperholder.py
+msgid "\\\"stud\\\" or \\\"none\\"
+msgstr ""
+
+#. help for parameter bottom
+#: boxes/generators/wallcaliperholder.py
+msgid ""
+"\\\"stud\\\" to brace against the wall, \\\"hook\\\" for attaching to a "
+"second cleat or \\\"none\\\" for just straight"
+msgstr ""
+
+#. long description of WallStairs in markdown
+#: boxes/generators/wallstairs.py
+msgid ""
+"You are supposed to add holes or slots to the stair tops yourself using "
+"Inkscape or another vector drawing or CAD program.\n"
+msgstr ""
+
+#. settings page title
+#: boxes/scripts/boxesserver.py
+msgid "Color Settings"
+msgstr ""
+
+#. settings page intro
+#: boxes/scripts/boxesserver.py
+msgid ""
+"Choose the SVG stroke color for each laser operation. Changes are saved "
+"instantly in your browser."
+msgstr ""
+
+#. settings table column header
+#: boxes/scripts/boxesserver.py
+msgid "Role"
+msgstr ""
+
+#. settings table column header
+#: boxes/scripts/boxesserver.py
+msgid "Color"
+msgstr ""
+
+#. settings table column header
+#: boxes/scripts/boxesserver.py
+msgid "Description"
+msgstr ""
+
+#. settings page button
+#: boxes/scripts/boxesserver.py
+msgid "Export JSON"
+msgstr ""
+
+#. settings page button
+#: boxes/scripts/boxesserver.py
+msgid "Import JSON"
+msgstr ""
+
+#. settings page button
+#: boxes/scripts/boxesserver.py
+msgid "Reset to defaults"
+msgstr ""
+
+#. settings page flash message
+#: boxes/scripts/boxesserver.py
+msgid "Saved."
+msgstr ""
+
+#. color role label for OUTER_CUT
+#: boxes/Color.py
+msgid "Outer Cut"
+msgstr ""
+
+#. color role description for OUTER_CUT
+#: boxes/Color.py
+msgid "Perimeter cuts – the material contour that falls out."
+msgstr ""
+
+#. color role label for INNER_CUT
+#: boxes/Color.py
+msgid "Inner Cut"
+msgstr ""
+
+#. color role description for INNER_CUT
+#: boxes/Color.py
+msgid "Interior cuts – holes, pockets and slots."
+msgstr ""
+
+#. color role label for ANNOTATIONS
+#: boxes/Color.py
+msgid "Annotations"
+msgstr ""
+
+#. color role description for ANNOTATIONS
+#: boxes/Color.py
+msgid "Assembly guides and debug marks – never sent to the laser."
+msgstr ""
+
+#. color role label for ETCHING
+#: boxes/Color.py
+msgid "Etching"
+msgstr ""
+
+#. color role description for ETCHING
+#: boxes/Color.py
+msgid "Surface engravings, score numbers and decorative marks."
+msgstr ""
+
+#. color role label for ETCHING_DEEP
+#: boxes/Color.py
+msgid "Deep Etching"
+msgstr ""
+
+#. color role description for ETCHING_DEEP
+#: boxes/Color.py
+msgid "Deep engravings that go further into the material surface."
+msgstr ""
+
+#. color role label for SOLID_FILL
+#: boxes/Color.py
+msgid "Solid Fill"
+msgstr ""
+
+#. color role description for SOLID_FILL
+#: boxes/Color.py
+msgid "Solid-filled areas used by some generators."
+msgstr ""

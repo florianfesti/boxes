@@ -106,6 +106,34 @@ class Boxes2pot:
             if box.description:
                 self.add(box.description, "long description of " + name + " in markdown", location)
             self.addBoxParams(name, box, location)
+        self.readServerStrings()
+
+    def readServerStrings(self):
+        """Extract strings from the web server UI that are not part of any generator."""
+        from boxes.Color import Color
+        location = "boxes/scripts/boxesserver.py"
+
+        # Settings page heading and intro
+        self.add("Color Settings", "settings page title", location)
+        self.add(
+            "Choose the SVG stroke color for each laser operation. "
+            "Changes are saved instantly in your browser.",
+            "settings page intro", location,
+        )
+        self.add("Role",        "settings table column header", location)
+        self.add("Color",       "settings table column header", location)
+        self.add("Description", "settings table column header", location)
+        self.add("Export JSON",       "settings page button", location)
+        self.add("Import JSON",       "settings page button", location)
+        self.add("Reset to defaults", "settings page button", location)
+        self.add("Saved.",            "settings page flash message", location)
+        self.add("Color Settings",    "nav bar link label", location)
+
+        # One label + description per laser-color role
+        color_location = "boxes/Color.py"
+        for role, (label, desc) in Color.ROLE_LABELS.items():
+            self.add(label, f"color role label for {role}", color_location)
+            self.add(desc,  f"color role description for {role}", color_location)
 
     def writePOT(self, fn):
         with open(fn, encoding="utf-8", mode="w") as f:

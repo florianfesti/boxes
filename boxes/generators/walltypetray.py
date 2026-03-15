@@ -26,6 +26,9 @@ class WallTypeTray(_WallMountedBox, _TopEdge):
         self.addSettingsArgs(edges.StackableSettings)
         self.buildArgParser("sx", "sy", "h", "hi", "outside", "bottom_edge")
         self.argparser.add_argument(
+            "--all_mounts",  action="store", type=boolarg, default=False,
+            help="Add wall mounts to all front to back walls and make them full height + back_height")
+        self.argparser.add_argument(
             "--back_height",  action="store", type=float, default=0.0,
             help="additional height of the back wall")
         self.argparser.add_argument(
@@ -51,11 +54,14 @@ class WallTypeTray(_WallMountedBox, _TopEdge):
                 self.fingerHolesAt(posy, posx, x)
                 posx += x + self.thickness
 
-    def xHoles(self):
+    def xHoles(self, wallholes=False):
         posx = -0.5 * self.thickness
         for x in self.sx[:-1]:
             posx += x + self.thickness
-            self.fingerHolesAt(posx, 0, self.hi)
+            if wallholes:
+                self.wallHolesAt(posx, 0, self.h + self.back_height, 90)
+            else:
+                self.fingerHolesAt(posx, 0, self.hi)
 
     def yHoles(self):
         posy = -0.5 * self.thickness
@@ -91,7 +97,7 @@ class WallTypeTray(_WallMountedBox, _TopEdge):
 
         # outer walls
         self.rectangularWall(x, h, [b, "f", "e", "f"], callback=[self.xHoles],  move="up")
-        self.rectangularWall(x, h+bh, [b, "C", "e", "c"], callback=[self.mirrorX(self.xHoles, x), ], move="up")
+        self.rectangularWall(x, h+bh, [b, "C", "e", "c"], callback=[self.mirrorX(lambda: self.xHoles(self.all_mounts), x), ], move="up")
 
         # floor
         if b != "e":
@@ -118,6 +124,9 @@ class WallTypeTray(_WallMountedBox, _TopEdge):
 
         # inner walls
         for i in range(len(self.sx) - 1):
-            e = [edges.SlottedEdge(self, self.sy, be, slots=0.5 * hi),
-                 "f", "e", "f"]
-            self.rectangularWall(y, hi, e, move="up")
+            if self.all_mounts:
+                self.trapezoidSideWall(y, h, h+bh, [edges.SlottedEdge(self, self.sy, be, slots=0.5 * hi), "B", "e", "f"], radius=self.radius, move="up")
+            else:
+                e = [edges.SlottedEdge(self, self.sy, be, slots=0.5 * hi),
+                     "f", "e", "f"]
+                self.rectangularWall(y, hi, e, move="up")

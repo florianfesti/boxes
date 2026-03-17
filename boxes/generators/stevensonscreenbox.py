@@ -76,9 +76,9 @@ class StevensonScreenBox(Boxes):
 
     def calculate_slat_geometry(self, max_h) -> SlatGeometry:
         t = self.thickness
-        angle = self.slat_angle
-        overlap = self.slat_overlap
-        depth = self.slat_depth * t
+        angle = self.stevensonScreenSettings.absolute_params["angle"]
+        overlap = self.stevensonScreenSettings.absolute_params["overlap"]
+        depth = self.stevensonScreenSettings.relative_params["depth"] * t
 
         # First, calculate the bounding box of a slat at its angle
         bbox_h = t*np.cos(np.radians(angle)) + depth*np.sin(np.radians(angle))
@@ -101,10 +101,11 @@ class StevensonScreenBox(Boxes):
         # vertical wall at the top.
         # This function places the front of the slats at x=0
         t = self.thickness
-        depth = self.slat_depth * t
+        depth = self.stevensonScreenSettings.relative_params["depth"] * t
+        angle = self.stevensonScreenSettings.absolute_params["angle"]
         for i in range(slats.n):
             with self.saved_context():
-                self.moveTo(t, i * slats.pitch, self.slat_angle)
+                self.moveTo(t, i * slats.pitch, angle)
                 self.fingerHolesAt(0, t/2, depth, 0)
 
     @restore
@@ -118,6 +119,8 @@ class StevensonScreenBox(Boxes):
     def render(self):
         x, y, h = self.x, self.y, self.h
         t = self.thickness
+        self.stevensonScreenSettings = StevensonScreenSettings(
+            **self.edgesettings.get("StevensonScreenSettings", {}))
         top_slope = self.top_slope
         h1 = self.front_h
 
@@ -169,7 +172,7 @@ class StevensonScreenBox(Boxes):
 
         with self.saved_context():
             # Make the slats
-            slat_d = self.slat_depth * t
+            slat_d = self.stevensonScreenSettings.relative_params["depth"] * t
             for i in range(front_slats.n):
                 self.rectangularWall(y, slat_d, "efef", move="up", label="front slat")
             for i in range(back_slats.n):

@@ -119,7 +119,7 @@ class StevensonScreenBox(Boxes):
         x, y, h = self.x, self.y, self.h
         t = self.thickness
         self.stevensonScreenSettings = StevensonScreenSettings(
-            **self.edgesettings.get("StevensonScreenSettings", {}))
+            t, True, **self.edgesettings.get("StevensonScreenSettings", {}))
         top_slope = self.top_slope
         h1 = self.front_h
 

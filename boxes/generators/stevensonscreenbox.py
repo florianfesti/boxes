@@ -97,8 +97,7 @@ class StevensonScreenBox(Boxes):
 
     @restore
     def slat_finger_holes(self, slats: SlatGeometry, h: float):
-        # This mounts the slats to the sides, including the small
-        # vertical wall at the top.
+        # This mounts the slats to the sides
         # This function places the front of the slats at x=0
         t = self.thickness
         depth = self.stevensonScreenSettings.relative_params["depth"] * t
@@ -125,7 +124,6 @@ class StevensonScreenBox(Boxes):
         h1 = self.front_h
 
         # We'll make vertical walls at the top of the Stevenson Screen to take up any slack.
-        # These will have a minimum height, let's guesstimate t*7.
         # They'll be inset by 1.5*t, so we can use finger holes to mount them.
         min_vertical = t*2
         front_h = h1 - np.sin(np.radians(top_slope)) * 2*t - t
@@ -183,9 +181,7 @@ class StevensonScreenBox(Boxes):
             back_vertical_h = back_h - back_slats.h
             self.rectangularWall(y, front_vertical_h, "efef", move="up", label="front")
             self.rectangularWall(y, back_vertical_h, "efef", move="up", label="back")
-        #self.rectangularWall(y, back_vertical_h, "efef", move="right only")
 
-        #with self.saved_context():
             # The roof
             if self.roof_top == "finger joints":
                 self.flangedWall(y, x/np.cos(np.radians(top_slope)), "eFeF", flanges=[t, t, t, t], r=t, move="up", label="top")

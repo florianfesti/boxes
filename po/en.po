@@ -3383,6 +3383,31 @@ msgid "space surrounding connectors (in multiples of thickness)"
 msgstr "space surrounding connectors (in multiples of thickness)"
 
 #. name of box generator
+#: boxes/generators/wallhook.py
+msgid "WallHook"
+msgstr "WallHook"
+
+#. name of box generator
+#: boxes/generators/wallhook.py
+msgid "Hook to install on a wall"
+msgstr "Hook to install on a wall"
+
+#. name of box generator
+#: boxes/generators/wallhook.py
+msgid "WallHook Settings"
+msgstr "WallHook Settings"
+
+#. name of box generator
+#: boxes/generators/wallhook.py
+msgid "hook_inside_diameter"
+msgstr "Inside diameter"
+
+#. name of box generator
+#: boxes/generators/wallhook.py
+msgid "hook_thickness"
+msgstr "Hook's thickness"
+
+#. name of box generator
 #: boxes/generators/slatwallcaliperholder.py
 msgid "SlatwallCaliper"
 msgstr "SlatwallCaliper"

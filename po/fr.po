@@ -57,6 +57,11 @@ msgstr "Shelf"
 msgid "Shelves"
 msgstr "Étagères"
 
+#. title of group Shelf
+#: boxes/generators/__init__.py
+msgid "WallMounted"
+msgstr "Installation murale"
+
 #. name of generator group
 #: boxes/generators/__init__.py
 msgid "SlatWall"
@@ -3000,6 +3005,31 @@ msgstr "crochet hauteur extra"
 #: boxes/generators/slatwall.py
 msgid "space surrounding connectors (in multiples of thickness)"
 msgstr "espace autour des connecteurs (en multiples de l'épaisseur)"
+
+#. name of box generator
+#: boxes/generators/wallhook.py
+msgid "WallHook"
+msgstr "Crochet mural"
+
+#. name of box generator
+#: boxes/generators/wallhook.py
+msgid "Hook to install on a wall"
+msgstr "Crochet pour installer sur un mur"
+
+#. name of box generator
+#: boxes/generators/wallhook.py
+msgid "WallHook Settings"
+msgstr "Réglages du crochet mural"
+
+#. name of box generator
+#: boxes/generators/wallhook.py
+msgid "hook_inside_diameter"
+msgstr "Diamètre intérieur"
+
+#. name of box generator
+#: boxes/generators/wallhook.py
+msgid "hook_thickness"
+msgstr "Épaisseur du crochet"
 
 #. name of box generator
 #: boxes/generators/slatwallcaliperholder.py

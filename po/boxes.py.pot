@@ -12140,6 +12140,39 @@ msgid "WallEdges Settings"
 msgstr ""
 
 #. name of box generator
+#: boxes/generators/wallhook.py
+msgid "WallHook"
+msgstr ""
+
+#. description of WallHook
+#: boxes/generators/wallhook.py
+msgid "Hook to install on a wall"
+msgstr ""
+
+msgid "WallHook Settings"
+msgstr ""
+
+#. help for parameter width
+#: boxes/generators/wallhook.py
+msgid "width of the back panel"
+msgstr ""
+
+#. parameter name
+#: boxes/generators/wallhook.py
+msgid "hook_inside_diameter"
+msgstr ""
+
+#. help for parameter hook_inside_diameter
+#: boxes/generators/wallhook.py
+msgid "Hook's inside diameter"
+msgstr ""
+
+#. help for parameter hook_thickness
+#: boxes/generators/wallhook.py
+msgid "Hook's thickness"
+msgstr ""
+
+#. name of box generator
 #: boxes/generators/wallhopper.py
 msgid "WallHopper"
 msgstr ""

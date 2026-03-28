@@ -656,11 +656,10 @@ class Gears():
         elif not teeth_only:
             # it's a ring gear
             # which only has an outer ring where width = spoke width
-            r = outer_radius + spoke_width + self.boxes.burn
-            self.boxes.ctx.save()
-            self.boxes.moveTo(r, 0)
-            self.boxes.ctx.arc(-r, 0, r, 0, 2*pi)
-            self.boxes.ctx.restore()
+            r = outer_radius + spoke_width
+            with self.boxes.saved_context():
+                self.boxes.moveTo(r+b, 0, 90)
+                self.boxes.corner(360, r)
 
         # Add center
         if centercross:

@@ -91,7 +91,7 @@ def filter_url(url, non_default_args):
         return ''
     args = args.split('&')
     new_args = []
-    args_to_ignore = ["qr_code", "format"]
+    args_to_ignore = ["qr_code", "url", "format"]
     for arg in args:
         a, b = arg.split('=')
         if a.strip() in args_to_ignore:

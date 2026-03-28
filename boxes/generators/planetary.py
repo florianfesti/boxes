@@ -41,6 +41,9 @@ class Planetary(Boxes):
         self.argparser.add_argument(
             "--shaft", action="store", type=float, default=6.,
             help="diameter of the shaft")
+        self.argparser.add_argument(
+            "--play", action="store", type=float, default=.05,
+            help="play at the rotation side of the shaft im mm (use outer minus inner diameter for ball bearings)")
         # self.argparser.add_argument(
         #    "--stages",  action="store", type=int, default=4,
         #    help="number of stages in the gear reduction")
@@ -48,7 +51,7 @@ class Planetary(Boxes):
     def render(self):
 
         ringteeth = self.sunteeth + 2 * self.planetteeth
-        spoke_width = 3 * self.shaft
+        spoke_width = 3 * (self.shaft+self.play)
 
         pitch1, size1, xxx = self.gears.sizes(teeth=self.sunteeth,
                                               dimension=self.modulus)
@@ -75,13 +78,13 @@ class Planetary(Boxes):
         # XXX make configurable?
         profile_shift = 20
         pressure_angle = 20
-        self.parts.disc(size3, callback=lambda: self.hole(0, 0, self.shaft / 2), move="up")
+        self.parts.disc(size3, callback=lambda: self.hole(0, 0, (self.shaft+self.play) / 2), move="up")
         self.gears(teeth=ringteeth, dimension=self.modulus,
                    angle=pressure_angle, internal_ring=True,
-                   spoke_width=spoke_width, mount_hole=self.shaft,
+                   spoke_width=spoke_width, mount_hole=self.shaft+self.play,
                    profile_shift=profile_shift, move="up")
         self.gears.gearCarrier(pitch1 + pitch2, spoke_width, planetpositions,
-                               2 * spoke_width, self.shaft / 2, move="up")
+                               2 * spoke_width, self.shaft / 2, (self.shaft + self.play) / 2, move="up")
         self.gears(teeth=self.sunteeth, dimension=self.modulus,
                    angle=pressure_angle,
                    mount_hole=self.shaft, profile_shift=profile_shift, move="up")
@@ -98,4 +101,4 @@ class Planetary(Boxes):
         for i in range(numplanets):
             self.gears(teeth=self.planetteeth, dimension=self.modulus,
                        angle=pressure_angle,
-                       mount_hole=self.shaft, profile_shift=profile_shift, move="up")
+                       mount_hole=self.shaft+self.play, profile_shift=profile_shift, move="up")

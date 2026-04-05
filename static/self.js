@@ -258,6 +258,17 @@ function initArgsPage(num_hide = null) {
     document.getElementById("preview_chk").addEventListener("change", togglePreview);
 }
 
+/*** Stepper buttons (FloatStepper) ******************************/
+
+function stepInput(id, delta) {
+    const input = document.getElementById(id);
+    const val = parseFloat(input.value) || 0;
+    // Round to 4 decimal places to avoid float imprecision.
+    const newVal = Math.round((val + delta) * 10000) / 10000;
+    input.value = String(newVal);
+    input.dispatchEvent(new Event('change'));
+}
+
 /*** Preview ****************************************/
 
 preview_scale=100;

@@ -20,7 +20,7 @@ Command line short: boxes RectangularWall
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.000 130.900 H 110.000 V 120.900 H 10.000 V 130.900 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.000 122.900 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.000 128.060 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 19.000 110.200 H 119.000 C 119.055 110.200 119.100 110.155 119.100 110.100 V 10.100 C 119.100 10.045 119.055 10.000 119.000 10.000 H 19.000 C 18.945 10.000 18.900 10.045 18.900 10.100 V 110.100 C 18.900 110.155 18.945 110.200 19.000 110.200 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />

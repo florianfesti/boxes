@@ -152,7 +152,7 @@ Command line short: boxes FatBallDispenser
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.100 911.899 H 110.100 V 901.899 H 10.100 V 911.899 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 903.899 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 909.059 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 113.785 842.695 C 113.785 849.864 111.724 856.883 107.847 862.915 C 103.971 868.946 98.443 873.736 91.921 876.715 C 85.399 879.693 78.159 880.734 71.062 879.714 C 63.965 878.694 57.311 875.655 51.893 870.960 C 46.474 866.264 42.520 860.111 40.500 853.231 C 38.480 846.352 38.480 839.037 40.500 832.158 C 42.520 825.278 46.474 819.125 51.893 814.430 C 57.311 809.734 63.965 806.696 71.062 805.675 C 78.159 804.655 85.399 805.696 91.921 808.674 C 98.443 811.653 103.971 816.443 107.847 822.475 C 111.724 828.506 113.785 835.525 113.785 842.695 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />

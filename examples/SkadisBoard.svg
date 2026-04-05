@@ -30,7 +30,7 @@ Command line short: boxes SkadisBoard
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.100 615.123 H 110.100 V 605.123 H 10.100 V 615.123 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 607.123 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 612.283 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 50.100 590.723 C 49.679 590.723 49.265 590.612 48.900 590.401 C 48.535 590.190 48.232 589.887 48.022 589.523 C 47.811 589.158 47.700 588.744 47.700 588.323 V 578.323 C 47.700 577.901 47.811 577.487 48.022 577.123 C 48.232 576.758 48.535 576.455 48.900 576.244 C 49.265 576.034 49.679 575.923 50.100 575.923 C 50.521 575.923 50.935 576.034 51.300 576.244 C 51.665 576.455 51.968 576.758 52.178 577.123 C 52.389 577.487 52.500 577.901 52.500 578.323 V 588.323 C 52.500 588.744 52.389 589.158 52.178 589.523 C 51.968 589.887 51.665 590.190 51.300 590.401 C 50.935 590.612 50.521 590.723 50.100 590.723 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />

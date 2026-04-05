@@ -32,7 +32,7 @@ Command line short: boxes WallStairs
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.100 361.700 H 110.100 V 351.700 H 10.100 V 361.700 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 353.700 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 358.860 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 102.333 335.900 V 338.800 C 102.333 338.900 102.433 338.800 102.333 338.800 H 99.533 C 99.433 338.800 99.533 338.900 99.533 338.800 V 333.000 C 99.533 332.900 99.433 333.000 99.533 333.000 H 102.333 C 102.433 333.000 102.333 332.900 102.333 333.000 V 335.900 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />

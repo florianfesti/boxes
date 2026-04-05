@@ -20,7 +20,7 @@ Command line short: boxes EuroRackSkiff
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.100 685.420 H 110.100 V 675.420 H 10.100 V 685.420 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 677.420 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 682.580 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 14.040 667.620 C 14.040 667.888 13.963 668.151 13.818 668.377 C 13.673 668.603 13.466 668.782 13.222 668.893 C 12.977 669.005 12.706 669.044 12.441 669.006 C 12.175 668.968 11.926 668.854 11.723 668.678 C 11.520 668.502 11.372 668.272 11.297 668.014 C 11.221 667.757 11.221 667.483 11.297 667.226 C 11.372 666.968 11.520 666.738 11.723 666.562 C 11.926 666.386 12.175 666.272 12.441 666.234 C 12.706 666.196 12.977 666.235 13.222 666.347 C 13.466 666.458 13.673 666.637 13.818 666.863 C 13.963 667.089 14.040 667.352 14.040 667.620 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />

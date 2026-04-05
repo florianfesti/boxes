@@ -20,7 +20,7 @@ Command line short: boxes WineRack
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.100 3537.700 H 110.100 V 3527.700 H 10.100 V 3537.700 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 3529.700 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 3534.860 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 15.500 3478.770 V 3481.670 C 15.500 3481.770 15.600 3481.670 15.500 3481.670 H 12.700 C 12.600 3481.670 12.700 3481.770 12.700 3481.670 V 3475.870 C 12.700 3475.770 12.600 3475.870 12.700 3475.870 H 15.500 C 15.600 3475.870 15.500 3475.770 15.500 3475.870 V 3478.770 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />

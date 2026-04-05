@@ -22,7 +22,7 @@ Command line short: boxes Silverware
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.950 429.400 H 110.950 V 419.400 H 10.950 V 429.400 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.950 421.400 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.950 426.560 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 54.017 401.600 V 404.500 C 54.017 404.600 54.117 404.500 54.017 404.500 H 51.217 C 51.117 404.500 51.217 404.600 51.217 404.500 V 398.700 C 51.217 398.600 51.117 398.700 51.217 398.700 H 54.017 C 54.117 398.700 54.017 398.600 54.017 398.700 V 401.600 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />

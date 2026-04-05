@@ -20,7 +20,7 @@ Command line short: boxes WallTypeTray
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.100 989.500 H 110.100 V 979.500 H 10.100 V 989.500 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 981.500 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 986.660 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 62.000 960.700 V 963.600 C 62.000 963.700 62.100 963.600 62.000 963.600 H 59.200 C 59.100 963.600 59.200 963.700 59.200 963.600 V 957.800 C 59.200 957.700 59.100 957.800 59.200 957.800 H 62.000 C 62.100 957.800 62.000 957.700 62.000 957.800 V 960.700 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />

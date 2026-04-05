@@ -20,7 +20,7 @@ Command line short: boxes OttoLegs
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.100 122.400 H 110.100 V 112.400 H 10.100 V 122.400 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 114.400 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 119.560 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 22.200 104.700 C 22.200 105.256 22.040 105.800 21.740 106.268 C 21.439 106.736 21.010 107.107 20.505 107.338 C 19.999 107.569 19.438 107.650 18.887 107.570 C 18.337 107.491 17.821 107.256 17.401 106.892 C 16.981 106.528 16.674 106.050 16.517 105.517 C 16.361 104.984 16.361 104.416 16.517 103.883 C 16.674 103.350 16.981 102.872 17.401 102.508 C 17.821 102.144 18.337 101.909 18.887 101.830 C 19.438 101.750 19.999 101.831 20.505 102.062 C 21.010 102.293 21.439 102.664 21.740 103.132 C 22.040 103.600 22.200 104.144 22.200 104.700 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />

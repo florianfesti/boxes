@@ -20,7 +20,7 @@ Command line short: boxes NemaPattern
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.000 40.086 H 110.000 V 30.086 H 10.000 V 40.086 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.000 32.086 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.000 37.246 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 27.200 19.086 C 27.200 20.600 26.765 22.083 25.946 23.357 C 25.127 24.631 23.959 25.643 22.582 26.272 C 21.204 26.901 19.675 27.121 18.176 26.905 C 16.677 26.690 15.271 26.048 14.127 25.056 C 12.982 24.064 12.147 22.765 11.720 21.311 C 11.293 19.858 11.293 18.313 11.720 16.860 C 12.147 15.407 12.982 14.107 14.127 13.115 C 15.271 12.124 16.677 11.482 18.176 11.266 C 19.675 11.051 21.204 11.271 22.582 11.900 C 23.959 12.529 25.127 13.541 25.946 14.815 C 26.765 16.089 27.200 17.571 27.200 19.086 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />

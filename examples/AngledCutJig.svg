@@ -20,7 +20,7 @@ Command line short: boxes AngledCutJig
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.100 121.900 H 110.100 V 111.900 H 10.100 V 121.900 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 113.900 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 119.060 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 27.100 98.000 H 24.200 C 24.100 98.000 24.200 98.100 24.200 98.000 V 95.200 C 24.200 95.100 24.100 95.200 24.200 95.200 H 30.000 C 30.100 95.200 30.000 95.100 30.000 95.200 V 98.000 C 30.000 98.100 30.100 98.000 30.000 98.000 H 27.100 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />

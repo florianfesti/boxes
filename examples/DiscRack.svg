@@ -20,7 +20,7 @@ Command line short: boxes DiscRack
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.100 227.900 H 110.100 V 217.900 H 10.100 V 227.900 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 219.900 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 225.060 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 113.241 205.519 L 115.999 206.415 C 116.094 206.446 116.030 206.320 115.999 206.415 L 115.134 209.078 C 115.103 209.173 115.229 209.109 115.134 209.078 L 109.617 207.285 C 109.522 207.255 109.586 207.381 109.617 207.285 L 110.483 204.622 C 110.514 204.527 110.388 204.592 110.483 204.622 L 113.241 205.519 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />

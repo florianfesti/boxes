@@ -283,6 +283,30 @@ class BoolArg:
 boolarg = BoolArg()
 
 
+class FloatStepper:
+    """Argparse type for float values rendered with −/+ stepper buttons in the web UI."""
+
+    def __init__(self, step: float = 1.0) -> None:
+        self.step = step
+
+    def __call__(self, s: str) -> float:
+        return float(s)
+
+    def html(self, name: str, default: str | float, translate: Any) -> str:
+        step = self.step
+        return (
+            f'<span class="stepper-wrap">'
+            f'<button type="button" class="stepper-btn"'
+            f' onclick="stepInput(\'{name}\', -{step})">&#8722;</button>'
+            f'<input name="{name}" id="{name}" class="stepper-input"'
+            f' aria-labeledby="{name}_id {name}_description"'
+            f' type="text" value="{default}">'
+            f'<button type="button" class="stepper-btn"'
+            f' onclick="stepInput(\'{name}\', {step})">+</button>'
+            f'</span>'
+        )
+
+
 class HexHolesSettings(edges.Settings):
     """Settings for hexagonal hole patterns
 

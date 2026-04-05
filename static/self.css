@@ -216,6 +216,34 @@ textarea {
     font-family: monospace;
 }
 
+/* Stepper buttons (FloatStepper) */
+.stepper-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    white-space: nowrap;
+}
+
+.stepper-input {
+    width: 5em;
+    text-align: center;
+}
+
+.stepper-btn {
+    padding: 1px 7px;
+    font-size: 1em;
+    cursor: pointer;
+    border: 1px solid #999;
+    border-radius: 4px;
+    background: #EFE8DA;
+    line-height: 1.4;
+    flex-shrink: 0;
+}
+
+.stepper-btn:hover {
+    background: #DFD8BA;
+}
+
 :root {
     --gallery-item-width: 173px; /* default 4 cols: floor((732-4*10)/4), 732=75% of (996-20px padding, border-box) */
 }

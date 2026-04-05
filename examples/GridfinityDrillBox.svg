@@ -26,7 +26,7 @@ Command line short: boxes GridfinityDrillBox
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.100 206.550 H 110.100 V 196.550 H 10.100 V 206.550 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 198.550 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 203.710 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 27.725 186.650 H 23.325 C 23.225 186.650 23.325 186.750 23.325 186.650 V 183.850 C 23.325 183.750 23.225 183.850 23.325 183.850 H 32.125 C 32.225 183.850 32.125 183.750 32.125 183.850 V 186.650 C 32.125 186.750 32.225 186.650 32.125 186.650 H 27.725 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />

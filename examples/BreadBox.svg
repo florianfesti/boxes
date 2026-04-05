@@ -28,7 +28,7 @@ Command line short: boxes BreadBox
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.100 239.200 H 110.100 V 229.200 H 10.100 V 239.200 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 231.200 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 236.360 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 20.500 218.500 V 221.400 C 20.500 221.500 20.600 221.400 20.500 221.400 H 17.700 C 17.600 221.400 17.700 221.500 17.700 221.400 V 215.600 C 17.700 215.500 17.600 215.600 17.700 215.600 H 20.500 C 20.600 215.600 20.500 215.500 20.500 215.600 V 218.500 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />

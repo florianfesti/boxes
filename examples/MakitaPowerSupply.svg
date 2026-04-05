@@ -34,7 +34,7 @@ Command line short: boxes MakitaPowerSupply
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.100 254.000 H 110.100 V 244.000 H 10.100 V 254.000 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 246.000 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 251.160 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 27.000 221.700 C 27.000 222.448 26.785 223.180 26.381 223.808 C 25.977 224.437 25.400 224.937 24.720 225.248 C 24.040 225.558 23.285 225.667 22.545 225.560 C 21.805 225.454 21.111 225.137 20.546 224.647 C 19.981 224.158 19.569 223.516 19.358 222.799 C 19.147 222.081 19.147 221.319 19.358 220.601 C 19.569 219.884 19.981 219.242 20.546 218.753 C 21.111 218.263 21.805 217.946 22.545 217.840 C 23.285 217.733 24.040 217.842 24.720 218.152 C 25.400 218.463 25.977 218.963 26.381 219.592 C 26.785 220.220 27.000 220.952 27.000 221.700 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />

@@ -76,7 +76,7 @@ Command line short: boxes TrayInsert
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.100 427.000 H 110.100 V 417.000 H 10.100 V 427.000 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 419.000 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 424.160 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.100 415.300 H 58.100 C 58.155 415.300 58.200 415.255 58.200 415.200 V 365.300 C 58.200 365.200 58.100 365.300 58.200 365.300 H 61.000 C 61.100 365.300 61.000 365.200 61.000 365.300 V 415.200 C 61.000 415.255 61.045 415.300 61.100 415.300 H 109.100 C 109.155 415.300 109.200 415.255 109.200 415.200 V 365.300 C 109.200 365.200 109.100 365.300 109.200 365.300 H 112.000 C 112.100 365.300 112.000 365.200 112.000 365.300 V 415.200 C 112.000 415.255 112.045 415.300 112.100 415.300 H 160.100 C 160.155 415.300 160.200 415.255 160.200 415.200 V 315.200 C 160.200 315.145 160.155 315.100 160.100 315.100 H 10.100 C 10.045 315.100 10.000 315.145 10.000 315.200 V 415.200 C 10.000 415.255 10.045 415.300 10.100 415.300 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />

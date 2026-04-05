@@ -34,7 +34,7 @@ Command line short: boxes LaserClamp
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.100 85.400 H 110.100 V 75.400 H 10.100 V 85.400 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 77.400 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 82.560 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 37.100 67.600 H 35.625 C 35.525 67.600 35.625 67.700 35.625 67.600 V 17.800 C 35.625 17.700 35.525 17.800 35.625 17.800 H 38.575 C 38.675 17.800 38.575 17.700 38.575 17.800 V 67.600 C 38.575 67.700 38.675 67.600 38.575 67.600 H 37.100 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />

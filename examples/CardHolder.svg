@@ -20,7 +20,7 @@ Command line short: boxes CardHolder
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.113 388.910 H 110.113 V 378.910 H 10.113 V 388.910 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.113 380.910 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.113 386.070 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 102.168 367.165 L 105.044 367.543 C 105.143 367.556 105.057 367.444 105.044 367.543 L 104.678 370.319 C 104.665 370.418 104.777 370.332 104.678 370.319 L 98.928 369.562 C 98.829 369.549 98.915 369.661 98.928 369.562 L 99.293 366.786 C 99.306 366.687 99.194 366.773 99.293 366.786 L 102.168 367.165 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />

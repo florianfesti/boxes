@@ -20,7 +20,7 @@ Command line short: boxes WallSlottedHolder
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.100 374.500 H 110.100 V 364.500 H 10.100 V 374.500 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 366.500 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 371.660 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 14.700 254.700 V 251.800 C 14.700 251.700 14.600 251.800 14.700 251.800 H 17.500 C 17.600 251.800 17.500 251.700 17.500 251.800 V 257.600 C 17.500 257.700 17.600 257.600 17.500 257.600 H 14.700 C 14.600 257.600 14.700 257.700 14.700 257.600 V 254.700 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />

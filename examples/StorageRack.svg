@@ -40,7 +40,7 @@ Command line short: boxes StorageRack
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.100 665.800 H 110.100 V 655.800 H 10.100 V 665.800 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 657.800 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 662.960 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 27.600 650.900 H 24.700 C 24.600 650.900 24.700 651.000 24.700 650.900 V 648.100 C 24.700 648.000 24.600 648.100 24.700 648.100 H 30.500 C 30.600 648.100 30.500 648.000 30.500 648.100 V 650.900 C 30.500 651.000 30.600 650.900 30.500 650.900 H 27.600 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />

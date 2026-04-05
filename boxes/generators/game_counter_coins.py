@@ -78,7 +78,7 @@ Assembly: insert magnet into both pieces → stack face-to-face → enjoy!
             "--label_invert", action="store", type=boolarg, default=self.label_invert,
             help="Invert the font orientation")
         self.argparser.add_argument(
-            "--label_radius", action="store", type=float, default=self.label_radius,
+            "--label_radius", action="store", type=FloatStepper(0.5), default=self.label_radius,
             help="Radius at which score numbers are placed on Piece A [mm]. "
                  "0 = auto (coin_radius − font_size × 0.5)")
         self.argparser.add_argument(

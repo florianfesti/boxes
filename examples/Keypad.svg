@@ -26,7 +26,7 @@ Command line short: boxes Keypad
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.100 329.700 H 110.100 V 319.700 H 10.100 V 329.700 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 321.700 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 326.860 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 19.600 289.300 H 16.700 C 16.600 289.300 16.700 289.400 16.700 289.300 V 286.500 C 16.700 286.400 16.600 286.500 16.700 286.500 H 22.500 C 22.600 286.500 22.500 286.400 22.500 286.500 V 289.300 C 22.500 289.400 22.600 289.300 22.500 289.300 H 19.600 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />

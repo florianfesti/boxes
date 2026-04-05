@@ -20,7 +20,7 @@ Command line short: boxes OrganPipe
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.100 710.480 H 110.100 V 700.480 H 10.100 V 710.480 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 702.480 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 707.640 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 155.597 678.713 V 683.113 C 155.597 683.213 155.697 683.113 155.597 683.113 H 152.797 C 152.697 683.113 152.797 683.213 152.797 683.113 V 674.313 C 152.797 674.213 152.697 674.313 152.797 674.313 H 155.597 C 155.697 674.313 155.597 674.213 155.597 674.313 V 678.713 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />

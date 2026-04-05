@@ -40,7 +40,7 @@ Command line short: boxes KeyHolder
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.100 103.600 H 110.100 V 93.600 H 10.100 V 103.600 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 95.600 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 100.760 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 18.000 57.800 V 59.200 C 18.000 59.300 18.100 59.200 18.000 59.200 H 15.200 C 15.100 59.200 15.200 59.300 15.200 59.200 V 56.400 C 15.200 56.300 15.100 56.400 15.200 56.400 H 18.000 C 18.100 56.400 18.000 56.300 18.000 56.400 V 57.800 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />

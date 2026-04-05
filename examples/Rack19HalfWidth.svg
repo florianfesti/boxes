@@ -20,7 +20,7 @@ Command line short: boxes Rack19HalfWidth
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.100 368.326 H 110.100 V 358.326 H 10.100 V 368.326 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 360.326 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 365.486 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 27.500 324.526 C 27.500 324.699 27.450 324.867 27.357 325.013 C 27.264 325.158 27.131 325.273 26.974 325.345 C 26.817 325.416 26.643 325.441 26.472 325.417 C 26.301 325.392 26.141 325.319 26.011 325.206 C 25.880 325.093 25.785 324.945 25.736 324.780 C 25.688 324.614 25.688 324.438 25.736 324.272 C 25.785 324.107 25.880 323.959 26.011 323.846 C 26.141 323.733 26.301 323.660 26.472 323.635 C 26.643 323.611 26.817 323.636 26.974 323.707 C 27.131 323.779 27.264 323.894 27.357 324.039 C 27.450 324.185 27.500 324.353 27.500 324.526 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />

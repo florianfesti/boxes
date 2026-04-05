@@ -20,7 +20,7 @@ Command line short: boxes Pulley
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.044 33.968 H 110.044 V 23.968 H 10.044 V 33.968 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.044 25.968 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.044 31.128 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 18.556 16.156 C 18.556 16.616 18.424 17.066 18.175 17.453 C 17.926 17.840 17.571 18.148 17.153 18.339 C 16.734 18.530 16.270 18.597 15.814 18.531 C 15.359 18.466 14.932 18.271 14.584 17.970 C 14.236 17.668 13.983 17.273 13.853 16.832 C 13.723 16.391 13.723 15.921 13.853 15.480 C 13.983 15.038 14.236 14.643 14.584 14.342 C 14.932 14.041 15.359 13.846 15.814 13.780 C 16.270 13.715 16.734 13.782 17.153 13.973 C 17.571 14.164 17.926 14.471 18.175 14.858 C 18.424 15.245 18.556 15.696 18.556 16.156 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />

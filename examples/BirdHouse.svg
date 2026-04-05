@@ -20,7 +20,7 @@ Command line short: boxes BirdHouse
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.100 330.871 H 110.100 V 320.871 H 10.100 V 330.871 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 322.871 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 328.031 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 113.100 287.971 H 41.100 C 40.591 287.971 40.091 287.837 39.650 287.582 C 39.209 287.328 38.843 286.962 38.589 286.521 C 38.334 286.080 38.200 285.580 38.200 285.071 V 141.071 C 38.200 140.562 38.334 140.062 38.589 139.621 C 38.843 139.180 39.209 138.814 39.650 138.559 C 40.091 138.305 40.591 138.171 41.100 138.171 H 185.100 C 185.609 138.171 186.109 138.305 186.550 138.559 C 186.991 138.814 187.357 139.180 187.611 139.621 C 187.866 140.062 188.000 140.562 188.000 141.071 V 285.071 C 188.000 285.580 187.866 286.080 187.611 286.521 C 187.357 286.962 186.991 287.328 186.550 287.582 C 186.109 287.837 185.609 287.971 185.100 287.971 H 113.100 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />

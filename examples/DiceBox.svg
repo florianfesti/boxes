@@ -20,7 +20,7 @@ Command line short: boxes DiceBox
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.100 302.400 H 110.100 V 292.400 H 10.100 V 302.400 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 294.400 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 299.560 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 71.230 231.345 L 62.550 226.334 C 61.790 225.895 60.928 225.664 60.050 225.664 C 59.172 225.664 58.310 225.895 57.550 226.334 L 48.870 231.345 C 48.110 231.784 47.479 232.415 47.040 233.175 C 46.601 233.935 46.370 234.797 46.370 235.675 V 245.698 C 46.370 246.576 46.601 247.438 47.040 248.198 C 47.479 248.958 48.110 249.589 48.870 250.028 L 57.550 255.040 C 58.310 255.478 59.172 255.709 60.050 255.709 C 60.928 255.709 61.790 255.478 62.550 255.040 L 71.230 250.028 C 71.990 249.589 72.621 248.958 73.060 248.198 C 73.499 247.438 73.730 246.576 73.730 245.698 V 235.675 C 73.730 234.797 73.499 233.935 73.060 233.175 C 72.621 232.415 71.990 231.784 71.230 231.345 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />

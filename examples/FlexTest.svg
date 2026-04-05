@@ -20,7 +20,7 @@ Command line short: boxes FlexTest
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.000 126.050 H 110.000 V 116.050 H 10.000 V 126.050 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.000 118.050 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.000 123.210 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 14.150 110.200 H 24.150 H 124.150 H 134.150 C 134.205 110.200 134.250 110.155 134.250 110.100 V 10.100 C 134.250 10.045 134.205 10.000 134.150 10.000 H 14.150 C 14.095 10.000 14.050 10.045 14.050 10.100 V 110.100 C 14.050 110.155 14.095 110.200 14.150 110.200 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />

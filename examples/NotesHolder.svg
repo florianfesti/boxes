@@ -34,7 +34,7 @@ Command line short: boxes NotesHolder
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.100 203.300 H 110.100 V 193.300 H 10.100 V 203.300 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 195.300 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 200.460 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 22.100 182.500 H 19.200 C 19.100 182.500 19.200 182.600 19.200 182.500 V 179.700 C 19.200 179.600 19.100 179.700 19.200 179.700 H 25.000 C 25.100 179.700 25.000 179.600 25.000 179.700 V 182.500 C 25.000 182.600 25.100 182.500 25.000 182.500 H 22.100 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />

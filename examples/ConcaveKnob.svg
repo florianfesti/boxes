@@ -30,7 +30,7 @@ Command line short: boxes ConcaveKnob
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.000 71.569 H 110.000 V 61.569 H 10.000 V 71.569 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.000 63.569 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.000 68.729 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 37.900 34.869 C 37.900 35.424 37.740 35.969 37.440 36.436 C 37.139 36.904 36.710 37.276 36.205 37.506 C 35.699 37.737 35.138 37.818 34.587 37.739 C 34.037 37.660 33.521 37.424 33.101 37.060 C 32.681 36.696 32.374 36.219 32.217 35.686 C 32.061 35.152 32.061 34.585 32.217 34.052 C 32.374 33.518 32.681 33.041 33.101 32.677 C 33.521 32.313 34.037 32.077 34.587 31.998 C 35.138 31.919 35.699 32.000 36.205 32.231 C 36.710 32.462 37.139 32.833 37.440 33.301 C 37.740 33.768 37.900 34.313 37.900 34.869 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />

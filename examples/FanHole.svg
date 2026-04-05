@@ -20,7 +20,7 @@ Command line short: boxes FanHole
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.236 100.912 H 110.236 V 90.912 H 10.236 V 100.912 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.236 92.912 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.236 98.072 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 15.786 85.062 C 15.786 85.331 15.709 85.593 15.564 85.819 C 15.419 86.045 15.212 86.224 14.968 86.336 C 14.724 86.447 14.453 86.486 14.187 86.448 C 13.921 86.410 13.672 86.296 13.469 86.120 C 13.267 85.945 13.119 85.714 13.043 85.457 C 12.967 85.199 12.967 84.925 13.043 84.668 C 13.119 84.410 13.267 84.180 13.469 84.004 C 13.672 83.828 13.921 83.715 14.187 83.677 C 14.453 83.638 14.724 83.677 14.968 83.789 C 15.212 83.900 15.419 84.080 15.564 84.305 C 15.709 84.531 15.786 84.794 15.786 85.062 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />

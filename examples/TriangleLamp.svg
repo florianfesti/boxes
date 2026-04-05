@@ -20,7 +20,7 @@ Command line short: boxes TriangleLamp
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.100 843.743 H 110.100 V 833.743 H 10.100 V 843.743 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 835.743 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 840.903 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 36.808 824.443 C 36.808 824.807 36.704 825.163 36.507 825.470 C 36.310 825.776 36.029 826.020 35.698 826.171 C 35.366 826.322 34.998 826.375 34.638 826.323 C 34.277 826.271 33.939 826.117 33.664 825.879 C 33.389 825.640 33.188 825.327 33.085 824.978 C 32.983 824.628 32.983 824.257 33.085 823.907 C 33.188 823.558 33.389 823.245 33.664 823.007 C 33.939 822.768 34.277 822.614 34.638 822.562 C 34.998 822.510 35.366 822.563 35.698 822.714 C 36.029 822.866 36.310 823.109 36.507 823.415 C 36.704 823.722 36.808 824.078 36.808 824.443 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />

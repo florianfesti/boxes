@@ -557,7 +557,19 @@ class SVGSurface(Surface):
                         )
                     elif C == "T":
                         m, text, params = c[3:]
-                        m = m * Affine.translation(0, -params['fs'])
+                        # No dominant-baseline: use pure SVG alphabetic baseline,
+                        # which is the universal default in every SVG renderer and
+                        # every laser-cutting tool (LightBurn, RDWorks, …).
+                        # Cap glyphs sit roughly 0.72 em tall; their visual centre is
+                        # ≈ 0.36 em above the baseline.  To keep the intended text
+                        # centre unchanged we shift the anchor by the difference
+                        # between the em-box half (0.5 em, used by "middle") and the
+                        # cap centre (0.36 em), i.e. −0.14 em in the local Y axis.
+                        # Combined with the 0.5×fs that was already in the matrix
+                        # from the previous fix this gives a net correction of
+                        # −0.5×fs + 0.36×fs = −0.14×fs relative to natural position.
+                        fs = params['fs']
+                        m = m * Affine.translation(0, -fs * 0.14)
                         tm = " ".join(f"{m[i]:.3f}" for i in (0, 3, 1, 4, 2, 5))
                         font, bold, italic = params['ff']
                         fontweight = ("normal", "bold")[bool(bold)]
@@ -577,7 +589,6 @@ class SVGSurface(Surface):
                         t.text = text
                         t.set("font-size", f"{params['fs']}px")
                         t.set("text-anchor", params.get('align', 'left'))
-                        t.set("dominant-baseline", 'hanging')
                         t.tail = "\n  "
                     else:
                         print("Unknown", c)

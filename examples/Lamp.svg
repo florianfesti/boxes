@@ -20,7 +20,7 @@ Command line short: boxes Lamp
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.100 555.000 H 110.100 V 545.000 H 10.100 V 555.000 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 547.000 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 552.160 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 233.000 425.200 C 233.000 445.310 227.220 464.996 216.347 481.913 C 205.475 498.831 189.970 512.266 171.677 520.620 C 153.385 528.974 133.076 531.894 113.171 529.032 C 93.266 526.170 74.603 517.647 59.405 504.478 C 44.207 491.309 33.115 474.049 27.449 454.754 C 21.784 435.459 21.784 414.941 27.449 395.646 C 33.115 376.351 44.207 359.091 59.405 345.922 C 74.603 332.753 93.266 324.230 113.171 321.368 C 133.076 318.506 153.385 321.426 171.677 329.780 C 189.970 338.134 205.475 351.569 216.347 368.487 C 227.220 385.404 233.000 405.090 233.000 425.200 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />

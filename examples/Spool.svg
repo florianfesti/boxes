@@ -20,7 +20,7 @@ Command line short: boxes Spool
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.000 220.781 H 110.000 V 210.781 H 10.000 V 220.781 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.000 212.781 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.000 217.941 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 129.900 109.081 C 129.900 112.896 128.803 116.631 126.741 119.840 C 124.678 123.049 121.737 125.598 118.267 127.183 C 114.797 128.768 110.944 129.321 107.168 128.779 C 103.392 128.236 99.851 126.619 96.968 124.121 C 94.085 121.622 91.981 118.348 90.906 114.688 C 89.831 111.027 89.831 107.135 90.906 103.475 C 91.981 99.814 94.085 96.540 96.968 94.042 C 99.851 91.543 103.392 89.927 107.168 89.384 C 110.944 88.841 114.797 89.395 118.267 90.979 C 121.737 92.564 124.678 95.113 126.741 98.322 C 128.803 101.532 129.900 105.266 129.900 109.081 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />

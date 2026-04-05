@@ -20,7 +20,7 @@ Command line short: boxes SBCMicroRack
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.100 408.400 H 110.100 V 398.400 H 10.100 V 408.400 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 400.400 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 405.560 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 34.500 383.100 V 386.000 C 34.500 386.100 34.600 386.000 34.500 386.000 H 31.700 C 31.600 386.000 31.700 386.100 31.700 386.000 V 380.200 C 31.700 380.100 31.600 380.200 31.700 380.200 H 34.500 C 34.600 380.200 34.500 380.100 34.500 380.200 V 383.100 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />

@@ -20,7 +20,7 @@ Command line short: boxes Display
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.950 412.750 H 110.950 V 402.750 H 10.950 V 412.750 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.950 404.750 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.950 409.910 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 15.950 401.050 H 63.450 H 110.950 C 111.845 401.050 112.725 400.814 113.500 400.367 C 114.275 399.919 114.919 399.275 115.367 398.500 C 115.814 397.725 116.050 396.845 116.050 395.950 V 255.950 C 116.050 255.055 115.814 254.175 115.367 253.400 C 114.919 252.625 114.275 251.981 113.500 251.533 C 112.725 251.086 111.845 250.850 110.950 250.850 H 15.950 C 15.055 250.850 14.175 251.086 13.400 251.533 C 12.625 251.981 11.981 252.625 11.533 253.400 C 11.086 254.175 10.850 255.055 10.850 255.950 V 395.950 C 10.850 396.845 11.086 397.725 11.533 398.500 C 11.981 399.275 12.625 399.919 13.400 400.367 C 14.175 400.814 15.055 401.050 15.950 401.050 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />

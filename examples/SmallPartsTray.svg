@@ -20,7 +20,7 @@ Command line short: boxes SmallPartsTray
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.100 189.584 H 110.100 V 179.584 H 10.100 V 189.584 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 181.584 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 186.744 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 19.779 168.104 L 21.830 170.155 C 21.901 170.226 21.901 170.084 21.830 170.155 L 19.850 172.135 C 19.779 172.206 19.921 172.206 19.850 172.135 L 15.749 168.034 C 15.678 167.963 15.678 168.104 15.749 168.034 L 17.729 166.054 C 17.799 165.983 17.658 165.983 17.729 166.054 L 19.779 168.104 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />

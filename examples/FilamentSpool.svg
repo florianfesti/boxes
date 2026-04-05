@@ -30,7 +30,7 @@ Command line short: boxes FilamentSpool
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.000 220.781 H 110.000 V 210.781 H 10.000 V 220.781 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.000 212.781 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.000 217.941 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 134.900 109.081 C 134.900 113.855 133.528 118.527 130.947 122.543 C 128.366 126.559 124.686 129.748 120.344 131.731 C 116.002 133.714 111.181 134.407 106.456 133.728 C 101.732 133.048 97.301 131.025 93.694 127.899 C 90.086 124.773 87.453 120.676 86.109 116.096 C 84.764 111.516 84.764 106.646 86.109 102.066 C 87.453 97.486 90.086 93.389 93.694 90.263 C 97.301 87.137 101.732 85.114 106.456 84.435 C 111.181 83.755 116.002 84.448 120.344 86.431 C 124.686 88.414 128.366 91.603 130.947 95.619 C 133.528 99.635 134.900 104.308 134.900 109.081 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />

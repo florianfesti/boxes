@@ -32,7 +32,7 @@ Command line short: boxes Linkage
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.100 305.600 H 110.100 V 295.600 H 10.100 V 305.600 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 297.600 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 302.760 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 19.068 286.400 C 19.068 286.681 18.987 286.957 18.835 287.193 C 18.682 287.430 18.466 287.618 18.210 287.735 C 17.954 287.852 17.670 287.893 17.391 287.853 C 17.113 287.813 16.852 287.693 16.639 287.509 C 16.426 287.325 16.271 287.083 16.192 286.813 C 16.113 286.544 16.113 286.256 16.192 285.987 C 16.271 285.717 16.426 285.475 16.639 285.291 C 16.852 285.107 17.113 284.987 17.391 284.947 C 17.670 284.907 17.954 284.948 18.210 285.065 C 18.466 285.182 18.682 285.370 18.835 285.607 C 18.987 285.843 19.068 286.119 19.068 286.400 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />

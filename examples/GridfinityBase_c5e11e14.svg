@@ -30,7 +30,7 @@ Command line short: boxes GridfinityBase --base_type=refined --x=5 --y=5 --h=0
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.100 458.600 H 110.100 V 448.600 H 10.100 V 458.600 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 450.600 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 455.760 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.100 446.900 H 13.100 C 13.131 446.900 13.161 446.885 13.180 446.860 L 16.159 442.907 C 16.189 442.867 16.109 442.907 16.159 442.907 H 22.059 C 22.109 442.907 22.029 442.867 22.059 442.907 L 25.038 446.860 C 25.057 446.885 25.087 446.900 25.118 446.900 H 28.118 C 28.173 446.900 28.218 446.855 28.218 446.800 V 433.300 C 28.218 433.245 28.173 433.200 28.118 433.200 H 25.118 C 25.087 433.200 25.057 433.215 25.038 433.240 L 22.059 437.193 C 22.029 437.233 22.109 437.193 22.059 437.193 H 16.159 C 16.109 437.193 16.189 437.233 16.159 437.193 L 13.180 433.240 C 13.161 433.215 13.131 433.200 13.100 433.200 H 10.100 C 10.045 433.200 10.000 433.245 10.000 433.300 V 446.800" stroke="rgb(0,0,0)" stroke-width="0.20" />

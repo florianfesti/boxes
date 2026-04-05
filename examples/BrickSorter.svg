@@ -72,7 +72,7 @@ Command line short: boxes BrickSorter
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.100 521.300 H 110.100 V 511.300 H 10.100 V 521.300 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 513.300 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 518.460 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 24.100 500.400 H 21.200 C 21.100 500.400 21.200 500.500 21.200 500.400 V 497.600 C 21.200 497.500 21.100 497.600 21.200 497.600 H 27.000 C 27.100 497.600 27.000 497.500 27.000 497.600 V 500.400 C 27.000 500.500 27.100 500.400 27.000 500.400 H 24.100 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />

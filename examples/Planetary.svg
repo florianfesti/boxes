@@ -20,7 +20,7 @@ Command line short: boxes Planetary
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.100 726.800 H 110.100 V 716.800 H 10.100 V 726.800 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 718.800 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 723.960 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 105.400 622.700 C 105.400 623.256 105.240 623.800 104.940 624.268 C 104.639 624.736 104.210 625.107 103.705 625.338 C 103.199 625.569 102.638 625.650 102.087 625.570 C 101.537 625.491 101.021 625.256 100.601 624.892 C 100.181 624.528 99.874 624.050 99.717 623.517 C 99.561 622.984 99.561 622.416 99.717 621.883 C 99.874 621.350 100.181 620.872 100.601 620.508 C 101.021 620.144 101.537 619.909 102.087 619.830 C 102.638 619.750 103.199 619.831 103.705 620.062 C 104.210 620.293 104.639 620.664 104.940 621.132 C 105.240 621.600 105.400 622.144 105.400 622.700 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />

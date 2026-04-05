@@ -20,7 +20,7 @@ Command line short: boxes PaintStorage
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.100 223.600 H 110.100 V 213.600 H 10.100 V 223.600 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 215.600 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 220.760 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 30.767 186.700 C 29.819 186.700 28.888 186.450 28.067 185.977 C 27.246 185.503 26.564 184.821 26.090 184.000 C 25.616 183.179 25.367 182.248 25.367 181.300 V 142.300 C 25.367 141.352 25.616 140.421 26.090 139.600 C 26.564 138.779 27.246 138.097 28.067 137.623 C 28.888 137.150 29.819 136.900 30.767 136.900 C 31.715 136.900 32.646 137.150 33.467 137.623 C 34.288 138.097 34.969 138.779 35.443 139.600 C 35.917 140.421 36.167 141.352 36.167 142.300 V 181.300 C 36.167 182.248 35.917 183.179 35.443 184.000 C 34.969 184.821 34.288 185.503 33.467 185.977 C 32.646 186.450 31.715 186.700 30.767 186.700 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />

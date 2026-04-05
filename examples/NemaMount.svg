@@ -20,7 +20,7 @@ Command line short: boxes NemaMount
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.100 54.400 H 110.100 V 44.400 H 10.100 V 54.400 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 46.400 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 51.560 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 34.150 26.450 C 34.150 27.964 33.715 29.447 32.896 30.721 C 32.077 31.995 30.909 33.007 29.532 33.636 C 28.154 34.265 26.625 34.485 25.126 34.270 C 23.627 34.054 22.221 33.412 21.077 32.420 C 19.932 31.429 19.097 30.129 18.670 28.676 C 18.243 27.223 18.243 25.677 18.670 24.224 C 19.097 22.771 19.932 21.471 21.077 20.480 C 22.221 19.488 23.627 18.846 25.126 18.630 C 26.625 18.415 28.154 18.635 29.532 19.264 C 30.909 19.893 32.077 20.905 32.896 22.179 C 33.715 23.453 34.150 24.936 34.150 26.450 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />

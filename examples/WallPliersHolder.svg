@@ -20,7 +20,7 @@ Command line short: boxes WallPliersHolder
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.100 281.300 H 110.100 V 271.300 H 10.100 V 281.300 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 273.300 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 278.460 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 110.500 256.500 V 259.400 C 110.500 259.500 110.600 259.400 110.500 259.400 H 107.700 C 107.600 259.400 107.700 259.500 107.700 259.400 V 253.600 C 107.700 253.500 107.600 253.600 107.700 253.600 H 110.500 C 110.600 253.600 110.500 253.500 110.500 253.600 V 256.500 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />

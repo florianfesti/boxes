@@ -28,7 +28,7 @@ Command line short: boxes SevenSegmentPattern
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.850 126.850 H 110.850 V 116.850 H 10.850 V 126.850 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.850 118.850 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.850 124.010 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 15.000 108.500 L 10.029 103.529 C 10.000 103.500 10.029 103.571 10.029 103.529 V 73.612 C 10.029 73.571 10.000 73.641 10.029 73.612 L 14.929 68.712 C 15.000 68.641 14.859 68.641 14.929 68.712 L 19.829 73.612 C 19.859 73.641 19.829 73.571 19.829 73.612 V 103.529 C 19.829 103.571 19.859 103.500 19.829 103.529 L 14.859 108.500 C 14.898 108.461 14.961 108.461 15.000 108.500 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />

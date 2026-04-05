@@ -32,7 +32,7 @@ Command line short: boxes FlexBook
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.100 295.500 H 110.100 V 285.500 H 10.100 V 295.500 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 287.500 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 292.660 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 25.100 280.600 H 22.200 C 22.100 280.600 22.200 280.700 22.200 280.600 V 277.800 C 22.200 277.700 22.100 277.800 22.200 277.800 H 28.000 C 28.100 277.800 28.000 277.700 28.000 277.800 V 280.600 C 28.000 280.700 28.100 280.600 28.000 280.600 H 25.100 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />

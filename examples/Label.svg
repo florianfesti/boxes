@@ -50,11 +50,11 @@ Command line short: boxes Label
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 10.100 61.900 H 110.100 V 51.900 H 10.100 V 61.900 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 53.900 )">100.0mm, burn:0.10mm</text>
+  <text font-size="6px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 60.100 59.060 )">100.0mm, burn:0.10mm</text>
 </g>
 <g id="p-1" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
   <path d="M 15.100 50.200 H 115.100 C 115.995 50.200 116.875 49.964 117.650 49.517 C 118.425 49.069 119.069 48.425 119.517 47.650 C 119.964 46.875 120.200 45.995 120.200 45.100 V 15.100 C 120.200 14.205 119.964 13.325 119.517 12.550 C 119.069 11.775 118.425 11.131 117.650 10.683 C 116.875 10.236 115.995 10.000 115.100 10.000 H 15.100 C 14.205 10.000 13.325 10.236 12.550 10.683 C 11.775 11.131 11.131 11.775 10.683 12.550 C 10.236 13.325 10.000 14.205 10.000 15.100 V 45.100 C 10.000 45.995 10.236 46.875 10.683 47.650 C 11.131 48.425 11.775 49.069 12.550 49.517 C 13.325 49.964 14.205 50.200 15.100 50.200 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
   <path d="M 15.100 47.200 H 115.100 C 115.469 47.200 115.831 47.103 116.150 46.919 C 116.469 46.734 116.734 46.469 116.919 46.150 C 117.103 45.831 117.200 45.469 117.200 45.100 V 15.100 C 117.200 14.731 117.103 14.369 116.919 14.050 C 116.734 13.731 116.469 13.466 116.150 13.281 C 115.831 13.097 115.469 13.000 115.100 13.000 H 15.100 C 14.731 13.000 14.369 13.097 14.050 13.281 C 13.731 13.466 13.466 13.731 13.281 14.050 C 13.097 14.369 13.000 14.731 13.000 15.100 V 45.100 C 13.000 45.469 13.097 45.831 13.281 46.150 C 13.466 46.469 13.731 46.734 14.050 46.919 C 14.369 47.103 14.731 47.200 15.100 47.200 Z" stroke="rgb(0,0,255)" stroke-width="0.20" />
-  <text dominant-baseline="hanging" font-size="10.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 65.100 25.200 )">Label</text>
+  <text font-size="10.0px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(0,255,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 65.100 33.800 )">Label</text>
 </g>
 </svg>

@@ -37,7 +37,7 @@ Values:
   * handle_height : 8.0 : height of the handle in multiples of thickness (if applicable)
     """
     absolute_params = {
-        "style": ("none", "flat", "chest", "overthetop", "ontop"),
+        "style": ("none", "flat", "chest", "overthetop", "ontop", "flatbrim"),
         "handle": ("none", "long_rounded", "long_trapezoid", "long_doublerounded", "knob"),
     }
 
@@ -70,6 +70,33 @@ class Lid:
             self.rectangularWall(x, y, "EEEE",
                                  callback=[self.handleCB(x, y)],
                                  move="up", label="lid top")
+        elif style == "flatbrim":
+            def fingerHolesCB(length: float) -> Callable[[], None]:
+                def cb() -> None:
+                    self.fingerHolesAt(0, t, length, 0)
+                return cb
+
+            cb0 = self.handleCB(x, y)
+
+            def cb0_with_holes() -> None:
+                cb0()
+                fingerHolesCB(x)()
+
+            self.rectangularWall(
+                x,
+                y,
+                "EEEE",
+                callback=[cb0_with_holes, fingerHolesCB(y), fingerHolesCB(x), fingerHolesCB(y)],
+                move="up",
+                label="lid top",
+            )
+
+            brim_w = 2 * t
+            self.rectangularWall(x, brim_w, "feee", move="up", label="lid brim")
+            self.rectangularWall(x, brim_w, "feee", move="up", label="lid brim")
+            self.rectangularWall(y, brim_w, "feee", move="up", label="lid brim")
+            self.rectangularWall(y, brim_w, "feee", move="up", label="lid brim")
+
         elif style == "chest":
             self.chestSide(x, move="right", label="lid right")
             self.chestSide(x, move="up", label="lid left")

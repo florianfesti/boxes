@@ -35,6 +35,8 @@ Values:
   * height : 4.0 : height of the brim in multiples of thickness (if any)
   * play : 0.1 : play when sliding the lid on in multiples of thickness (if applicable)
   * handle_height : 8.0 : height of the handle in multiples of thickness (if applicable)
+  * brim_height : 1.0 : height of the brim in multiple of thickness (for flatbrim lids)
+  * brim_spacing : 0.15 : space between the brim and the walls (for flatbrim lids)
     """
     absolute_params = {
         "style": ("none", "flat", "chest", "overthetop", "ontop", "flatbrim"),
@@ -44,6 +46,8 @@ Values:
     relative_params = {
         "height": 4.0,
         "play": 0.1,
+        "brim_height": 1.0,
+        "brim_spacing": 0.15,
         "handle_height": 8.0,
     }
 
@@ -71,31 +75,36 @@ class Lid:
                                  callback=[self.handleCB(x, y)],
                                  move="up", label="lid top")
         elif style == "flatbrim":
+            brim_spacing = self.brim_spacing
+            brim_width_x = x - brim_spacing*2 - t*2
+            brim_width_y = y - brim_spacing*2 - t*2
+
             def fingerHolesCB(length: float) -> Callable[[], None]:
                 def cb() -> None:
-                    self.fingerHolesAt(0, t, length, 0)
+                    self.fingerHolesAt(t, t*0.5+brim_spacing, length, 0)
+                    pass
                 return cb
 
-            cb0 = self.handleCB(x, y)
+            cb0 = self.handleCB(brim_width_x, brim_width_y)
 
             def cb0_with_holes() -> None:
                 cb0()
-                fingerHolesCB(x)()
+                fingerHolesCB(brim_width_x)()
 
             self.rectangularWall(
                 x,
                 y,
                 "EEEE",
-                callback=[cb0_with_holes, fingerHolesCB(y), fingerHolesCB(x), fingerHolesCB(y)],
+                callback=[cb0_with_holes, fingerHolesCB(brim_width_y), fingerHolesCB(brim_width_x), fingerHolesCB(brim_width_y)],
                 move="up",
                 label="lid top",
             )
 
-            brim_w = 2 * t
-            self.rectangularWall(x, brim_w, "feee", move="up", label="lid brim")
-            self.rectangularWall(x, brim_w, "feee", move="up", label="lid brim")
-            self.rectangularWall(y, brim_w, "feee", move="up", label="lid brim")
-            self.rectangularWall(y, brim_w, "feee", move="up", label="lid brim")
+            brim_h = self.brim_height
+            self.rectangularWall(brim_width_x, brim_h, "feee", move="up", label="lid brim")
+            self.rectangularWall(brim_width_x, brim_h, "feee", move="up", label="lid brim")
+            self.rectangularWall(brim_width_y, brim_h, "feee", move="up", label="lid brim")
+            self.rectangularWall(brim_width_y, brim_h, "feee", move="up", label="lid brim")
 
         elif style == "chest":
             self.chestSide(x, move="right", label="lid right")

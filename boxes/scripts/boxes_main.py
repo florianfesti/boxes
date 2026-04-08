@@ -255,7 +255,7 @@ def example_output_fname_formatter(box_type, name, box_idx, metadata, box_args):
     if not box_args:
         return f"{name}"
     else:
-        args_hash = hashlib.sha1(" ".join(sorted(box_args)).encode("utf-8")).hexdigest()
+        args_hash = hashlib.sha256(" ".join(sorted(box_args)).encode("utf-8")).hexdigest()
         return f"{name}_{args_hash[0:8]}"
 
 

@@ -3,7 +3,7 @@
 ci:
   autofix_prs: true
   autoupdate_schedule: quarterly
-exclude: '^(documentation/src/static|scripts/boxes|scripts/boxes_proxy.py|scripts/boxesserver|.*\.svg)$'
+exclude: '^(documentation/src/static|scripts/(boxes|boxes_generator|boxes_proxy\.py|boxesserver)|.*\.svg)$'
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
@@ -47,21 +47,20 @@ repos:
     rev: v1.20.0
     hooks:
       - id: mypy
+        name: mypy - boxes
         files: '^boxes/.*\.py$'
         additional_dependencies: [ "types-PyYAML", "types-markdown" ]
       - id: mypy
+        name: mypy - documentation
         files: '^documentation/src/boxes2rst.py$'
       - id: mypy
+        name: mypy - boxes2inkscape
         files: '^scripts/boxes2inkscape$'
       - id: mypy
+        name: mypy - boxes2pot
         files: '^scripts/boxes2pot$'
       - id: mypy
-        files: '^scripts/boxes_proxy.py$'
-      - id: mypy
-        files: '^scripts/boxesserver$'
-      - id: mypy
-        files: '^scripts/boxes_generator$'
-      - id: mypy
+        name: mypy - setup
         files: '^setup.py$'
 
   - repo: https://github.com/rstcheck/rstcheck

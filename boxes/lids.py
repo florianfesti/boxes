@@ -75,13 +75,24 @@ class Lid:
                                  callback=[self.handleCB(x, y)],
                                  move="up", label="lid top")
         elif style == "flatbrim":
+            print(f"self {self.__dict__}")
+            print("SELF: ")
+            print(self.boxes.edgesettings['FingerJoint']['finger'])
+            f = self.boxes.edgesettings['FingerJoint']['finger']
+            s = self.boxes.edgesettings['FingerJoint']['space']
             brim_spacing = self.brim_spacing
-            brim_width_x = x - brim_spacing*2 - t*2
+            brim_width_x = x - brim_spacing*2
             brim_width_y = y - brim_spacing*2 - t*2
 
             def fingerHolesCB(length: float) -> Callable[[], None]:
                 def cb() -> None:
-                    self.fingerHolesAt(t, t*0.5+brim_spacing, length, 0)
+                    gap = length % (s + f)
+                    if gap < s:
+                        gap = gap + s
+                    else:
+                        gap = gap - s
+                    print(f"gap {gap}")
+                    self.fingerHolesAt(4, t*0.5+brim_spacing, length, 0)
                     pass
                 return cb
 

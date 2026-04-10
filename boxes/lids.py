@@ -84,32 +84,31 @@ class Lid:
             brim_width_x = x - brim_spacing*2
             brim_width_y = y - brim_spacing*2 - t*2
 
-            def fingerHolesCB(length: float) -> Callable[[], None]:
+            def fingerHolesCB(spacing : float, length: float) -> Callable[[], None]:
                 def cb() -> None:
-                    gap = length % (s + f)
-                    if gap < s:
-                        gap = gap + s
-                    else:
-                        gap = gap - s
-                    print(f"gap {gap}")
-                    self.fingerHolesAt(4, t*0.5+brim_spacing, length, 0)
+                    print(f"spacing: {spacing} length: {length} brim_spacing = {brim_spacing} ")
+                    self.fingerHolesAt(spacing + brim_spacing, t*0.5+brim_spacing, length, 0)
                     pass
                 return cb
 
-            cb0 = self.handleCB(brim_width_x, brim_width_y)
-
-            def cb0_with_holes() -> None:
-                cb0()
-                fingerHolesCB(brim_width_x)()
+            #cb0 = self.handleCB(brim_width_x, brim_width_y)
+            #def cb0_with_holes() -> None:
+            #    cb0()
+            #    fingerHolesCB(brim_width_x)()
+            gap = brim_width_x % (f+s) 
+            gap += -s if gap > s else s
+            print(f"gap: {gap}")
 
             self.rectangularWall(
                 x,
                 y,
                 "EEEE",
-                callback=[cb0_with_holes, fingerHolesCB(brim_width_y), fingerHolesCB(brim_width_x), fingerHolesCB(brim_width_y)],
+                callback=[fingerHolesCB(0, brim_width_x), fingerHolesCB(t, brim_width_y), fingerHolesCB(0, brim_width_x), fingerHolesCB(t, brim_width_y)],
                 move="up",
                 label="lid top",
             )
+            # Vertical callback=[None, fingerHolesCB(brim_width_y), None, fingerHolesCB(brim_width_y)],
+            #callback=[cb0_with_holes, None, fingerHolesCB(brim_width_x), None],
 
             brim_h = self.brim_height
             self.rectangularWall(brim_width_x, brim_h, "feee", move="up", label="lid brim")

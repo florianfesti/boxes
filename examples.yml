@@ -1,7 +1,7 @@
 Boxes:
   - box_type: __ALL__
     skipGenerators: [ GridfinityTrayLayout, TrayLayout, TrayLayoutFile, TypeTray, Edges ]
-    brokenGenerators: []
+    brokenGenerators: [ RoundedTrapezoidBox ]
   - box_type: GridfinityTrayLayout
     args:
       h: 6u

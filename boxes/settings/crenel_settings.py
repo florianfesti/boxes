@@ -34,6 +34,7 @@ from __future__ import annotations
 import argparse
 
 from boxes import boolarg
+from boxes.args import FloatStepper
 from boxes.edges import Settings
 
 
@@ -77,7 +78,7 @@ class CrenelSettings(Settings):
         default_depth = float(defaults.get("depth", cls.absolute_params["depth"]))  # type: ignore[arg-type]
         group.add_argument(
             f"--{prefix}_depth",
-            action="store", type=float,
+            action="store", type=FloatStepper(0.5),
             default=default_depth,
             help="Depth of each outer crenel [mm]")
 
@@ -100,7 +101,7 @@ class CrenelSettings(Settings):
         default_radius = float(defaults.get("radius", cls.absolute_params["radius"]))  # type: ignore[arg-type]
         group.add_argument(
             f"--{prefix}_radius",
-            action="store", type=float,
+            action="store", type=FloatStepper(0.5),
             default=default_radius,
             help="Corner radius for rounded crenels [mm]")
 

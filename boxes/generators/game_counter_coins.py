@@ -42,7 +42,7 @@ Assembly: insert magnet into both pieces → stack face-to-face → enjoy!
 
     # Dummy declarations for mypy – overwritten by argparse at runtime.
     burn: float = 0.1
-    coin_radius: float = 25.0
+    coin_diameter: float = 50.0
     magnet_diameter: float = 4.0
     score_min: int = 0
     score_max: int = 9
@@ -64,8 +64,8 @@ Assembly: insert magnet into both pieces → stack face-to-face → enjoy!
                              size=self.font_size)
 
         self.argparser.add_argument(
-            "--coin_radius", action="store", type=float, default=self.coin_radius,
-            help="Outer radius of both discs [mm]")
+            "--coin_diameter", action="store", type=float, default=self.coin_diameter,
+            help="Outer diameter of both discs [mm]")
         self.argparser.add_argument(
             "--magnet_diameter", action="store", type=float, default=self.magnet_diameter,
             help="Diameter of the central cylindrical magnet [mm]")
@@ -102,7 +102,7 @@ Assembly: insert magnet into both pieces → stack face-to-face → enjoy!
     # ------------------------------------------------------------------
     def bottom_coin(self, move: str = "") -> None:
         """Bottom disc: outer cut + central magnet hole + engraved score numbers."""
-        r = self.coin_radius
+        r = self.coin_diameter / 2
         md = self.magnet_diameter
 
         if self.move(r * 2, r * 2, move, before=True):
@@ -292,7 +292,7 @@ Assembly: insert magnet into both pieces → stack face-to-face → enjoy!
 
     def top_disc(self, move: str = "") -> None:
         """Top disc: closed outline with reading notch (style set by --notch_style) + central magnet hole."""
-        r = self.coin_radius - self.play
+        r = self.coin_diameter / 2 - self.play
         md = self.magnet_diameter
 
         notch_r = min(self.notch_width / 2.0, r * 0.35)

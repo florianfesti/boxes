@@ -61,8 +61,8 @@ cut in a single laser pass with minimal material waste.
 """
 
     # Dummy declarations for mypy – overwritten by argparse at runtime.
-    outer_radius: float = 45.0
-    inner_radius: float = 32.0
+    outer_diameter: float = 90.0
+    inner_diameter: float = 64.0
     score_min: int = 0
     score_max: int = 9
     score_radius: float = 0.0
@@ -96,11 +96,11 @@ cut in a single laser pass with minimal material waste.
                              radius=self.crenel_radius)
 
         self.argparser.add_argument(
-            "--outer_radius", action="store", type=FloatStepper(0.5), default=self.outer_radius,
-            help="Outer radius of the ring frame [mm]")
+            "--outer_diameter", action="store", type=FloatStepper(1.0), default=self.outer_diameter,
+            help="Outer diameter of the ring frame [mm]")
         self.argparser.add_argument(
-            "--inner_radius", action="store", type=FloatStepper(0.5), default=self.inner_radius,
-            help="Inner radius of the ring / radius of the dial disc [mm]")
+            "--inner_diameter", action="store", type=FloatStepper(1.0), default=self.inner_diameter,
+            help="Inner diameter of the ring / diameter of the dial disc [mm]")
         self.argparser.add_argument(
             "--pointer_size", action="store", type=FloatStepper(0.2), default=self.pointer_size,
             help="Size of the pointer shape engraved on the dial [mm]")
@@ -327,8 +327,8 @@ cut in a single laser pass with minimal material waste.
 
     def _piece_a_ring(self, cx: float, cy: float, ctx: Context) -> None:
         """Piece A – outer ring: outer perimeter + inner hole + score numbers."""
-        ro = self.outer_radius
-        ri = self.inner_radius - self.play
+        ro = self.outer_diameter / 2
+        ri = self.inner_diameter / 2 - self.play
 
         # Outer perimeter cut – plain circle or notched gear rim
         if self.crenel_enabled:
@@ -355,7 +355,7 @@ cut in a single laser pass with minimal material waste.
 
     def _piece_b_disc(self, cx: float, cy: float, ctx: Context) -> None:
         """Piece B – inner disc: outer cut + engraved pointer + optional magnet hole."""
-        ri = self.inner_radius - self.play - self.burn
+        ri = self.inner_diameter / 2 - self.play - self.burn
 
         # Outer perimeter cut
         self.set_source_color(Color.OUTER_CUT)
@@ -371,7 +371,7 @@ cut in a single laser pass with minimal material waste.
     def _piece_c_base(self, cx: float, cy: float) -> None:
         """Piece C – base disc cut (same outer radius as Piece A) + optional magnet hole."""
         self.set_source_color(Color.OUTER_CUT)
-        self.circle(cx, cy, self.outer_radius)
+        self.circle(cx, cy, self.outer_diameter / 2)
 
         # Central magnet hole
         if self.magnet_diameter > 0.0:
@@ -382,7 +382,7 @@ cut in a single laser pass with minimal material waste.
     # ------------------------------------------------------------------
 
     def render(self) -> None:
-        ro = self.outer_radius
+        ro = self.outer_diameter / 2
 
         # Piece A+B share the same ro*2 bounding square (drawn concentric).
         # Piece C is a separate ro*2 square placed to the right.

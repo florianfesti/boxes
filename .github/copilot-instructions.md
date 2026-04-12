@@ -25,7 +25,7 @@ The project is pure Python (≥ 3.10). The main entry points are:
 
 ## 2. Code Style & Quality Gate
 
-### ⚠️ Always run before committing
+### ALWAYS run before finishing a task
 
 ```bash
 pre-commit run --all-files
@@ -33,23 +33,6 @@ pre-commit run --all-files
 
 This single command runs **all** automated checks listed below.
 Never skip it. CI (`precommit.yml`) will block the PR otherwise.
-
-### What pre-commit enforces
-
-| Hook                          | What it checks                                             |
-|-------------------------------|------------------------------------------------------------|
-| `trailing-whitespace`         | No trailing spaces                                         |
-| `end-of-file-fixer`           | Files end with a single newline                            |
-| `check-yaml` / `check-toml`   | Valid YAML / TOML syntax                                   |
-| `check-added-large-files`     | No accidental binary blobs                                 |
-| `python-use-type-annotations` | No old-style type comments                                 |
-| `pyupgrade --py310-plus`      | Modern Python 3.10+ syntax                                 |
-| `autoflake`                   | No unused imports                                          |
-| `mypy`                        | Full static type checking on all `boxes/*.py` files        |
-| `rstcheck`                    | Valid RST in docs                                          |
-| `shellcheck`                  | Valid shell scripts                                        |
-| `codespell`                   | No spelling mistakes (ignores `locale/`, `po/`, `static/`) |
-| `pytest`                      | Full test suite must pass                                  |
 
 ### mypy configuration
 

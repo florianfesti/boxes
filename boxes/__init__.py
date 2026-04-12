@@ -29,13 +29,13 @@ from contextlib import contextmanager
 from functools import wraps
 from shlex import quote
 from typing import Any
-from xml.sax.saxutils import quoteattr
 
 import qrcode
 from shapely.geometry import *
 from shapely.ops import split
 
 from boxes import edges, formats, gears, parts, pulley
+from boxes.args import ArgparseEdgeType, boolarg
 from boxes.Color import *
 from boxes.qrcode_factory import BoxesQrCodeFactory
 from boxes.vectors import kerf
@@ -233,78 +233,6 @@ def argparseInts(s):
         result.append(0)
 
     return result
-
-class ArgparseEdgeType:
-    """argparse type to select from a set of edge types"""
-
-    names = edges.getDescriptions()
-    edges: list[str] = []
-
-    def __init__(self, edges: str | None = None) -> None:
-        if edges:
-            self.edges = list(edges)
-
-    def __call__(self, pattern):
-        if len(pattern) != 1:
-            raise ValueError("Edge type can only have one letter.")
-        if pattern not in self.edges:
-            raise ValueError("Use one of the following values: " +
-                             ", ".join(edges))
-        return pattern
-
-    def html(self, name, default, translate):
-        options = "\n".join(
-            """<option value="%s"%s>%s</option>""" %
-             (e, ' selected="selected"' if e == default else "",
-              translate("{} {}".format(e, self.names.get(e, "")))) for e in self.edges)
-        return """<select name="{}" id="{}" aria-labeledby="{} {}" size="1">\n{}</select>\n""".format(name,  name, name+"_id", name+"_description", options)
-
-    def inx(self, name, viewname, arg):
-        return ('        <param name="%s" type="optiongroup" appearance="combo" gui-text="%s" gui-description=%s>\n' %
-                (name, viewname, quoteattr(arg.help or "")) +
-                ''.join('            <option value="{}">{} {}</option>\n'.format(
-                    e, e, self.names.get(e, ""))
-                         for e in self.edges) +
-                '      </param>\n')
-
-class BoolArg:
-    def __call__(self, arg):
-        if not arg or arg.lower() in ("none", "0", "off", "false"):
-            return False
-        return True
-
-    def html(self, name, default, _):
-        if isinstance(default, (str)):
-            default = self(default)
-        return """<input name="%s" type="hidden" value="0">
-<input name="%s" id="%s" aria-labeledby="%s %s" type="checkbox" value="1"%s>""" % \
-            (name, name, name, name+"_id", name+"_description",' checked="checked"' if default else "")
-
-boolarg = BoolArg()
-
-
-class FloatStepper:
-    """Argparse type for float values rendered with −/+ stepper buttons in the web UI."""
-
-    def __init__(self, step: float = 1.0) -> None:
-        self.step = step
-
-    def __call__(self, s: str) -> float:
-        return float(s)
-
-    def html(self, name: str, default: str | float, translate: Any) -> str:
-        step = self.step
-        return (
-            f'<span class="stepper-wrap">'
-            f'<button type="button" class="stepper-btn"'
-            f' onclick="stepInput(\'{name}\', -{step})">&#8722;</button>'
-            f'<input name="{name}" id="{name}" class="stepper-input"'
-            f' aria-labeledby="{name}_id {name}_description"'
-            f' type="text" value="{default}">'
-            f'<button type="button" class="stepper-btn"'
-            f' onclick="stepInput(\'{name}\', {step})">+</button>'
-            f'</span>'
-        )
 
 
 class HexHolesSettings(edges.Settings):

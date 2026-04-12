@@ -18,6 +18,7 @@ from __future__ import annotations
 from typing import cast
 
 from boxes import *
+from boxes.args import FloatStepper
 from boxes.drawing import Context
 from boxes.settings.font_settings import FontSettings
 from boxes.settings.crenel_settings import CrenelSettings
@@ -95,23 +96,23 @@ cut in a single laser pass with minimal material waste.
                              radius=self.crenel_radius)
 
         self.argparser.add_argument(
-            "--outer_radius", action="store", type=float, default=self.outer_radius,
+            "--outer_radius", action="store", type=FloatStepper(0.5), default=self.outer_radius,
             help="Outer radius of the ring frame [mm]")
         self.argparser.add_argument(
-            "--inner_radius", action="store", type=float, default=self.inner_radius,
+            "--inner_radius", action="store", type=FloatStepper(0.5), default=self.inner_radius,
             help="Inner radius of the ring / radius of the dial disc [mm]")
         self.argparser.add_argument(
-            "--pointer_size", action="store", type=float, default=self.pointer_size,
+            "--pointer_size", action="store", type=FloatStepper(0.2), default=self.pointer_size,
             help="Size of the pointer shape engraved on the dial [mm]")
         self.argparser.add_argument(
             "--pointer_style", action="store", type=str, default=self.pointer_style,
             choices=["triangle", "circle", "rectangle", "line"],
             help="Shape of the pointer engraved on Piece B")
         self.argparser.add_argument(
-            "--play", action="store", type=float, default=self.play,
+            "--play", action="store", type=FloatStepper(0.1), default=self.play,
             help="Radial clearance between ring inner edge and dial [mm]")
         self.argparser.add_argument(
-            "--magnet_diameter", action="store", type=float, default=self.magnet_diameter,
+            "--magnet_diameter", action="store", type=FloatStepper(0.1), default=self.magnet_diameter,
             help="Diameter of the central magnet hole in Piece B and C (0 = no hole) [mm]")
 
     # ------------------------------------------------------------------

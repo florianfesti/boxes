@@ -38,7 +38,8 @@ from __future__ import annotations
 
 import argparse
 
-from boxes import BoolArg
+from boxes import boolarg
+from boxes.args import FloatStepper
 from boxes.edges import Settings
 from boxes.fontmanager import discover_fonts
 
@@ -85,21 +86,21 @@ class FontSettings(Settings):
         default_size = float(defaults.get("size", cls.absolute_params["size"]))  # type: ignore[arg-type]
         group.add_argument(
             f"--{prefix}_size",
-            action="store", type=float,
+            action="store", type=FloatStepper(0.5),
             default=default_size,
             help="Font size [mm]")
 
         default_bold = bool(defaults.get("bold", cls.absolute_params["bold"]))
         group.add_argument(
             f"--{prefix}_bold",
-            action="store", type=BoolArg(),
+            action="store", type=boolarg,
             default=default_bold,
             help="Bold font weight")
 
         default_italic = bool(defaults.get("italic", cls.absolute_params["italic"]))
         group.add_argument(
             f"--{prefix}_italic",
-            action="store", type=BoolArg(),
+            action="store", type=boolarg,
             default=default_italic,
             help="Italic font style")
 

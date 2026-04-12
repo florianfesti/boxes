@@ -250,7 +250,7 @@ function initPage(num_hide = null) {
 function initArgsPage(num_hide = null) {
     initPage(num_hide);
     initColorInjection();
-    const i = document.querySelectorAll("td > input, td > select, td > textarea");
+    const i = document.querySelectorAll("td > input, td > select, td > textarea, td .stepper-input");
     for (let el of i) {
 	el.addEventListener("change", refreshPreview);
     }
@@ -258,7 +258,7 @@ function initArgsPage(num_hide = null) {
     document.getElementById("preview_chk").addEventListener("change", togglePreview);
 }
 
-/*** Stepper buttons (FloatStepper) ******************************/
+/*** Stepper buttons (FloatStepper / IntStepper) *****************/
 
 function stepInput(id, delta) {
     const input = document.getElementById(id);
@@ -266,6 +266,13 @@ function stepInput(id, delta) {
     // Round to 4 decimal places to avoid float imprecision.
     const newVal = Math.round((val + delta) * 10000) / 10000;
     input.value = String(newVal);
+    input.dispatchEvent(new Event('change'));
+}
+
+function stepInputInt(id, delta) {
+    const input = document.getElementById(id);
+    const val = parseInt(input.value, 10) || 0;
+    input.value = String(val + delta);
     input.dispatchEvent(new Event('change'));
 }
 

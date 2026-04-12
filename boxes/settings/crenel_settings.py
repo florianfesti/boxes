@@ -33,7 +33,7 @@ from __future__ import annotations
 
 import argparse
 
-from boxes import BoolArg
+from boxes import boolarg
 from boxes.edges import Settings
 
 
@@ -70,7 +70,7 @@ class CrenelSettings(Settings):
         default_enabled = bool(defaults.get("enabled", cls.absolute_params["enabled"]))
         group.add_argument(
             f"--{prefix}_enabled",
-            action="store", type=BoolArg(),
+            action="store", type=boolarg,
             default=default_enabled,
             help="Add gear-like crenels on the outer rim (one crenel per score value)")
 
@@ -93,7 +93,7 @@ class CrenelSettings(Settings):
         default_rounded = bool(defaults.get("rounded", cls.absolute_params["rounded"]))
         group.add_argument(
             f"--{prefix}_rounded",
-            action="store", type=BoolArg(),
+            action="store", type=boolarg,
             default=default_rounded,
             help="Round the crenel corners instead of sharp right angles")
 

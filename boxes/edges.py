@@ -212,8 +212,8 @@ class Settings:
             if type(default) not in (bool, int, float, str):
                 raise ValueError("Type not supported: %r", default)
             if type(default) is bool:
-                from boxes import BoolArg
-                t = BoolArg()
+                from boxes import boolarg
+                t = boolarg
             else:
                 t = type(default)
 

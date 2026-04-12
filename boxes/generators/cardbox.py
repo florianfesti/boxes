@@ -15,7 +15,7 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from boxes import BoolArg, Boxes, edges
+from boxes import Boxes, boolarg, edges
 
 
 class InsetEdgeSettings(edges.Settings):
@@ -93,7 +93,7 @@ Whole box (early version still missing grip rail on the lid):
             "--fingerhole_depth", action="store", type=float, default=20,
             help="Depth of cutout if fingerhole is set to 'custom'. Disabled otherwise.")
         self.argparser.add_argument(
-            "--add_lidtopper", action="store", type=BoolArg(), default=False,
+            "--add_lidtopper", action="store", type=boolarg, default=False,
             help="Add an additional lid topper for optical reasons and customisation"
         )
 

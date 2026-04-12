@@ -37,7 +37,7 @@ class Pulley(Boxes):
             "--axle", action="store", type=float, default=5,
             help="diameter of the axle")
         self.argparser.add_argument(
-            "--insideout", action="store", type=BoolArg(), default=False,
+            "--insideout", action="store", type=boolarg, default=False,
             help="create a ring gear with the belt being pushed against from within")
         self.argparser.add_argument(
             "--top", action="store", type=float, default=0,

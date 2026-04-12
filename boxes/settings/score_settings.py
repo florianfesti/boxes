@@ -33,7 +33,7 @@ from __future__ import annotations
 import argparse
 from typing import cast
 
-from boxes import BoolArg
+from boxes.args import IntStepper, FloatStepper, boolarg
 from boxes.edges import Settings
 
 
@@ -68,28 +68,28 @@ class ScoreSettings(Settings):
         default_min = cast(int, defaults.get("min", cls.absolute_params["min"]))
         group.add_argument(
             f"--{prefix}_min",
-            action="store", type=int,
+            action="store", type=IntStepper(1),
             default=default_min,
             help="Minimum score value shown on the ring")
 
         default_max = cast(int, defaults.get("max", cls.absolute_params["max"]))
         group.add_argument(
             f"--{prefix}_max",
-            action="store", type=int,
+            action="store", type=IntStepper(1),
             default=default_max,
             help="Maximum score value shown on the ring")
 
         default_radius = float(defaults.get("radius", cls.absolute_params["radius"]))  # type: ignore[arg-type]
         group.add_argument(
             f"--{prefix}_radius",
-            action="store", type=float,
+            action="store", type=FloatStepper(0.5),
             default=default_radius,
             help="Radius at which score numbers are placed [mm]. 0 = auto (midpoint between inner and outer radii)")
 
         default_inv = bool(defaults.get("inv", cls.absolute_params["inv"]))
         group.add_argument(
             f"--{prefix}_inv",
-            action="store", type=BoolArg(),
+            action="store", type=boolarg,
             default=default_inv,
             help="Invert the orientation of score number labels")
 

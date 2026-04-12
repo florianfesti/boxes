@@ -17,7 +17,7 @@ import logging
 import math
 from dataclasses import dataclass, fields
 
-from boxes import BoolArg, Boxes, Color, edges
+from boxes import Boxes, Color, boolarg, edges
 
 logger = logging.getLogger(__name__)
 
@@ -575,7 +575,7 @@ interesting in the last 2mm of a photo anyway.
             help="Height of the photo, not including any border",
         )
         self.argparser.add_argument(
-            "--golden_mat", action="store", type=BoolArg(), default=self.golden_mat, help="Use golden ratio to calculate matting width"
+            "--golden_mat", action="store", type=boolarg, default=self.golden_mat, help="Use golden ratio to calculate matting width"
         )
         self.argparser.add_argument(
             "--matting_w",
@@ -636,7 +636,7 @@ interesting in the last 2mm of a photo anyway.
         self.argparser.add_argument(
             "--split_front",
             action="store",
-            type=BoolArg(),
+            type=boolarg,
             default=self.split_front,
             help="Split front into thin rectangles to save material",
         )

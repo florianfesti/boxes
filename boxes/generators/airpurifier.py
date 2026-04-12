@@ -56,7 +56,7 @@ class AirPurifier(Boxes):
             choices=(1, 2),
             help="Filters on both sides or only one")
         self.argparser.add_argument(
-            "--split_frames",  action="store", type=BoolArg(), default=True,
+            "--split_frames",  action="store", type=boolarg, default=True,
             help="Split frame pieces into four thin rectangles to save material")
         self.argparser.add_argument(
             "--fans_left",  action="store", type=int, default=-1,

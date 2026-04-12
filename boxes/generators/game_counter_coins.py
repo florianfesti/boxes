@@ -18,6 +18,7 @@ from __future__ import annotations
 from typing import cast
 
 from boxes import *
+from boxes.args import IntStepper, FloatStepper
 from boxes.drawing import Context
 from boxes.settings.font_settings import FontSettings
 
@@ -53,7 +54,7 @@ Assembly: insert magnet into both pieces → stack face-to-face → enjoy!
     label_invert: bool = False
     notch_width: float = 15.0
     notch_depth: float = 0.0
-    notch_style: str = "circular"
+    notch_style: str = "oval"
     play: float = 0.2
 
     def __init__(self) -> None:
@@ -69,10 +70,10 @@ Assembly: insert magnet into both pieces → stack face-to-face → enjoy!
             "--magnet_diameter", action="store", type=float, default=self.magnet_diameter,
             help="Diameter of the central cylindrical magnet [mm]")
         self.argparser.add_argument(
-            "--score_min", action="store", type=int, default=self.score_min,
+            "--score_min", action="store", type=IntStepper(1), default=self.score_min,
             help="Minimum score value displayed on Piece A")
         self.argparser.add_argument(
-            "--score_max", action="store", type=int, default=self.score_max,
+            "--score_max", action="store", type=IntStepper(1), default=self.score_max,
             help="Maximum score value displayed on Piece A")
         self.argparser.add_argument(
             "--label_invert", action="store", type=boolarg, default=self.label_invert,
@@ -82,10 +83,10 @@ Assembly: insert magnet into both pieces → stack face-to-face → enjoy!
             help="Radius at which score numbers are placed on Piece A [mm]. "
                  "0 = auto (coin_radius − font_size × 0.5)")
         self.argparser.add_argument(
-            "--notch_width", action="store", type=float, default=self.notch_width,
+            "--notch_width", action="store", type=FloatStepper(1.0), default=self.notch_width,
             help="Width of the reading notch on Piece B [mm]")
         self.argparser.add_argument(
-            "--notch_depth", action="store", type=float, default=self.notch_depth,
+            "--notch_depth", action="store", type=FloatStepper(1.0), default=self.notch_depth,
             help="Depth of the reading notch on Piece B [mm]. "
                  "0 = auto (notch_width / 2)")
         self.argparser.add_argument(
@@ -338,7 +339,7 @@ Assembly: insert magnet into both pieces → stack face-to-face → enjoy!
 
         # Dispatch to the chosen notch style.
         # Each helper draws from the left endpoint back to the right endpoint.
-        style = self.notch_style if self.notch_style in ("circular", "triangular", "oval", "trapezoid") else "circular"
+        style = self.notch_style if self.notch_style in ("circular", "triangular", "oval", "trapezoid") else "oval"
         notch_fn = getattr(self, f"_notch_{style}")
         notch_fn(ctx, cx, cy, disc_r, a_left, a_right, notch_r, depth)
 

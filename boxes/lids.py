@@ -97,7 +97,7 @@ class Lid:
             #def cb0_with_holes() -> None:
             #    cb0()
             #    fingerHolesCB(brim_width_x)()
-            gap = brim_width_x % (f+s) 
+            gap = brim_width_x % (f+s)
             gap += -s if gap > s else s
             print(f"gap: {gap}")
 
@@ -128,7 +128,7 @@ class Lid:
                 hole_pos = t - brim_spacing
                 # Bottom-left hole
                 self.rectangularHole(brim_spacing - t*0.5 + t, brim_spacing + fang_size*0.5 - t + t, t, fang_size)
-                # Bottom-right hole  
+                # Bottom-right hole
                 self.rectangularHole(x - brim_spacing - fang_size*0.5, brim_spacing - t*0.5 + t, fang_size, t)
                 # Top-left hole
                 self.rectangularHole(brim_spacing + fang_size/2 - t + t, y - brim_spacing + t*0.5 - t, fang_size, t)

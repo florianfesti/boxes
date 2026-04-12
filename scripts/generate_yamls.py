@@ -1,7 +1,7 @@
-import yaml, argparse, inspect, sys
-import boxes, boxes.generators
+import yaml
+import argparse
 from boxes.generators import getAllBoxGenerators
- 
+
 def action_to_dict(a):
     d = {
         'flags': list(a.option_strings) if getattr(a,'option_strings',None) else [],
@@ -22,7 +22,7 @@ def action_to_dict(a):
         d['type'] = getattr(t,'__name__', t.__class__.__name__)
     d['nargs'] = getattr(a,'nargs',None)
     return d
- 
+
 def gen_inventory():
     inv = {}
     errs = {}
@@ -49,6 +49,6 @@ def gen_inventory():
         except Exception as e:
             errs[gname] = repr(e)
     return inv, errs
- 
+
 inv, errs = gen_inventory()
 print(yaml.safe_dump({'generators': inv, 'errors': errs}, sort_keys=True, allow_unicode=True))

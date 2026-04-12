@@ -14,7 +14,7 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import ArgparseEdgeType, Boxes, edges
-from boxes.generators.gridfinitytraylayout import GridfinityTrayLayout
+from boxes.generators.boxes_trays.gridfinitytraylayout import GridfinityTrayLayout
 from boxes.lids import LidSettings, _TopEdge
 
 

@@ -14,7 +14,7 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
-from boxes.generators.typetray import TypeTray
+from boxes.generators.boxes_trays.typetray import TypeTray
 
 
 class CompartmentBox(TypeTray):

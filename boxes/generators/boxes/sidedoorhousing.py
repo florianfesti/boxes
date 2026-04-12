@@ -14,7 +14,7 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
-from boxes.generators.console2 import Console2
+from boxes.generators.boxes.console2 import Console2
 
 
 class SideDoorHousing(Console2):

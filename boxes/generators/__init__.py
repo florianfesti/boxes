@@ -9,6 +9,8 @@ from typing import Any
 
 import boxes
 
+_Boxes = boxes.Boxes  # cache before subpackage imports overwrite the 'boxes' name
+
 ui_groups_by_name = {}
 
 
@@ -63,9 +65,9 @@ def getAllBoxGenerators() -> dict[str, type[boxes.Boxes]]:
         if module.__name__.split('.')[-1].startswith("_"):
             continue
         for k, v in module.__dict__.items():
-            if v is boxes.Boxes:
+            if v is _Boxes:
                 continue
-            if inspect.isclass(v) and issubclass(v, boxes.Boxes) and v.__name__[0] != '_':
+            if inspect.isclass(v) and issubclass(v, _Boxes) and v.__name__[0] != '_':
                 generators[modname + '.' + v.__name__] = v
     return generators
 

@@ -1,7 +1,7 @@
 import boxes
 from boxes import Boxes, lids, restore, boolarg
 from boxes.Color import Color
-from boxes.generators.traylayout import TrayLayout
+from boxes.generators.boxes_trays.traylayout import TrayLayout
 
 
 class GridfinityTrayLayout(TrayLayout):

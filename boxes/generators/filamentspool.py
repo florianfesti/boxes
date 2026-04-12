@@ -14,7 +14,7 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from boxes import *
-from boxes.generators.bayonetbox import BayonetBox
+from boxes.generators.boxes.bayonetbox import BayonetBox
 
 
 class FilamentSpool(BayonetBox):

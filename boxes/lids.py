@@ -88,7 +88,7 @@ class Lid:
 
             def fingerHolesCB(spacing : float, length: float) -> Callable[[], None]:
                 def cb() -> None:
-                    print(f"spacing: {spacing} length: {length} brim_spacing = {brim_spacing} ")
+                    # print(f"spacing: {spacing} length: {length} brim_spacing = {brim_spacing} ")
                     self.fingerHolesAt(spacing + brim_spacing, t*0.5+brim_spacing, length, 0)
                     pass
                 return cb
@@ -99,7 +99,7 @@ class Lid:
             #    fingerHolesCB(brim_width_x)()
             gap = brim_width_x % (f+s)
             gap += -s if gap > s else s
-            print(f"gap: {gap}")
+            #print(f"gap: {gap}")
 
             self.rectangularWall(
                 x,

@@ -19,7 +19,7 @@ from boxes import *
 class OttoSoles(Boxes):
     """Foam soles for the OttO bot"""
 
-    ui_group = "Misc"
+    ui_group = "Electronic"
 
     def __init__(self) -> None:
         Boxes.__init__(self)

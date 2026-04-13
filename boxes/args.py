@@ -107,26 +107,48 @@ class FloatStepper:
             help="My parameter [mm]")
 
     ``step`` controls how much each button click changes the value (default: 1.0).
-    The value is still stored and passed to argparse as a plain ``float``.
+
+    ``auto_default`` – when the field shows ``"auto"`` and +/− is clicked the
+    stepper jumps to ``auto_default ± step`` rather than ``0 ± step``.
+
+    ``auto`` – when ``True`` an **Auto** button is rendered to the right of the
+    − button.  Clicking it writes ``"auto"`` into the field (the Python type
+    converter returns ``None`` for that string).  The argparse default should
+    be ``None`` when this mode is used.
+
+    The value is stored as a plain ``float`` (or ``None`` when auto is active).
     """
 
-    def __init__(self, step: float = 1.0) -> None:
+    def __init__(self, step: float = 1.0,
+                 auto_default: float | None = None,
+                 auto: bool = False) -> None:
         self.step = step
+        self.auto_default = auto_default
+        self.auto = auto
 
-    def __call__(self, s: str) -> float:
+    def __call__(self, s: str) -> float | None:
+        if s.strip().lower() == "auto":
+            return None
         return float(s)
 
-    def html(self, name: str, default: str | float, translate: Any) -> str:
+    def html(self, name: str, default: str | float | None, translate: Any) -> str:
         step = self.step
+        auto_arg = f", {self.auto_default}" if self.auto_default is not None else ""
+        display = "auto" if default is None else str(default)
+        auto_btn = (
+            f'<button type="button" class="stepper-btn stepper-auto"'
+            f' onclick="setInputAuto(\'{name}\')">auto</button>'
+        ) if self.auto else ""
         return (
             f'<span class="stepper-wrap">'
+            f'{auto_btn}'
             f'<button type="button" class="stepper-btn"'
-            f' onclick="stepInput(\'{name}\', -{step})">&#8722;</button>'
+            f' onclick="stepInput(\'{name}\', -{step}{auto_arg})">&#8722;</button>'
             f'<input name="{name}" id="{name}" class="stepper-input"'
             f' aria-labeledby="{name}_id {name}_description"'
-            f' type="text" value="{default}">'
+            f' type="text" value="{display}">'
             f'<button type="button" class="stepper-btn"'
-            f' onclick="stepInput(\'{name}\', {step})">+</button>'
+            f' onclick="stepInput(\'{name}\', {step}{auto_arg})">+</button>'
             f'</span>'
         )
 
@@ -141,25 +163,31 @@ class IntStepper:
             help="My integer parameter")
 
     ``step`` controls how much each button click changes the value (default: 1).
+
+    ``auto_default`` – when the field currently shows **0** the first click will
+    jump to ``auto_default ± step`` instead of ``0 ± step``.
+
     The value is still stored and passed to argparse as a plain ``int``.
     """
 
-    def __init__(self, step: int = 1) -> None:
+    def __init__(self, step: int = 1, auto_default: int | None = None) -> None:
         self.step = step
+        self.auto_default = auto_default
 
     def __call__(self, s: str) -> int:
         return int(s)
 
     def html(self, name: str, default: str | int, translate: Any) -> str:
         step = self.step
+        auto_arg = f", {self.auto_default}" if self.auto_default is not None else ""
         return (
             f'<span class="stepper-wrap">'
             f'<button type="button" class="stepper-btn"'
-            f' onclick="stepInputInt(\'{name}\', -{step})">&#8722;</button>'
+            f' onclick="stepInputInt(\'{name}\', -{step}{auto_arg})">&#8722;</button>'
             f'<input name="{name}" id="{name}" class="stepper-input"'
             f' aria-labeledby="{name}_id {name}_description"'
             f' type="text" value="{default}">'
             f'<button type="button" class="stepper-btn"'
-            f' onclick="stepInputInt(\'{name}\', {step})">+</button>'
+            f' onclick="stepInputInt(\'{name}\', {step}{auto_arg})">+</button>'
             f'</span>'
         )

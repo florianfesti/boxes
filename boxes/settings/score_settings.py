@@ -51,7 +51,7 @@ class ScoreSettings(Settings):
     absolute_params: dict = {
         "min":    0,
         "max":    9,
-        "radius": 0.0,
+        "radius": None,   # None = auto
         "angle":  0.0,
     }
     relative_params: dict = {}
@@ -80,12 +80,16 @@ class ScoreSettings(Settings):
             default=default_max,
             help="Maximum score value shown on the ring")
 
-        default_radius = float(defaults.get("radius", cls.absolute_params["radius"]))  # type: ignore[arg-type]
+        default_radius_raw = defaults.get("radius", cls.absolute_params["radius"])
+        default_radius: float | None = (
+            None if default_radius_raw is None
+            else float(default_radius_raw)  # type: ignore[arg-type]
+        )
         group.add_argument(
             f"--{prefix}_radius",
-            action="store", type=FloatStepper(0.5),
+            action="store", type=FloatStepper(0.5, auto=True),
             default=default_radius,
-            help="Radius at which score numbers are placed [mm]. 0 = auto (midpoint between inner and outer radii)")
+            help="Radius at which score numbers are placed [mm]. auto = midpoint between inner and outer radii")
 
         default_angle = float(defaults.get("angle", cls.absolute_params["angle"]))  # type: ignore[arg-type]
         group.add_argument(

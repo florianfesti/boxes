@@ -25,7 +25,7 @@ from boxes.settings.font_settings import FontSettings
 class Label(Boxes):
     """Rectangular label with rounded corners, optional inner border line and engraved text."""
 
-    ui_group = "Deco"
+    ui_group = "Display"
 
     description = """
 A flat laser-cut label plate.

@@ -31,7 +31,7 @@ BookHolder with default parameters (A4 size, landscape, back_support):
 """
 
 
-    ui_group = "Misc"
+    ui_group = "Shelf"
 
     def __init__(self) -> None:
         super().__init__()

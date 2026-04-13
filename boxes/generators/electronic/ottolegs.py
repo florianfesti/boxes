@@ -27,7 +27,7 @@ class LegEdge(edges.BaseEdge):
 class OttoLegs(Boxes):
     """Otto LC - a laser cut chassis for Otto DIY - legs"""
 
-    ui_group = "Misc"
+    ui_group = "Electronic"
 
     def __init__(self) -> None:
         Boxes.__init__(self)

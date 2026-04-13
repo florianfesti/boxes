@@ -225,7 +225,7 @@ textarea {
 }
 
 .stepper-input {
-    width: 5em;
+    width: 3em;
     text-align: center;
 }
 
@@ -242,6 +242,17 @@ textarea {
 
 .stepper-btn:hover {
     background: #DFD8BA;
+}
+
+/* "auto" reset button – narrower, muted green tint */
+.stepper-auto {
+    padding: 1px 5px;
+    background: #DAE8DA;
+    border-color: #88aa88;
+}
+
+.stepper-auto:hover {
+    background: #BACBBA;
 }
 
 :root {

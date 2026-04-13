@@ -15,7 +15,7 @@
 
 from boxes import *
 
-from .sevensegment import SevenSegmentPattern
+from boxes.generators.sevensegment import SevenSegmentPattern
 
 
 class SevenSegmentClock(SevenSegmentPattern):
@@ -26,7 +26,7 @@ class SevenSegmentClock(SevenSegmentPattern):
 Adding a diffuser on top or at the bottom of the segment holes will probably enhance the visuals. Just using paper may be enough.
 """
 
-    ui_group = "Misc"
+    ui_group = "Electronic"
 
     def __init__(self):
         Boxes.__init__(self)

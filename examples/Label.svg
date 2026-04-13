@@ -25,7 +25,7 @@ Command line (remove spaces between dashes): boxes Label
 <title>Label</title>
 <metadata>
 <rdf:RDF><cc:Work>
-<dc:title>Deco - Label</dc:title>
+<dc:title>Display - Label</dc:title>
 <dc:source>boxes Label</dc:source>
 <dc:description>Rectangular label with rounded corners, optional inner border line and engraved text.
 

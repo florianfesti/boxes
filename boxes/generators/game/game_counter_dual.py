@@ -34,7 +34,7 @@ class _WheelParams:
     outer_diameter: float
     score_min: int
     score_max: int
-    score_radius: float
+    score_radius: float | None
     score_angle: float
     crenel_enabled: bool
     crenel_depth: float
@@ -47,7 +47,7 @@ class _WheelParams:
 class GameCounterDual(Boxes):
     """Dual-wheel board game score counter – one board, two independent spinning rings"""
 
-    ui_group = "GameAccessory"
+    ui_group = "Game"
     tags = ["unstable"]
 
     description = """
@@ -75,39 +75,40 @@ diameters, and optional gear-tooth (crenel) rims.
     # ------------------------------------------------------------------ #
     # mypy stubs – all overwritten by argparse at runtime                  #
     # ------------------------------------------------------------------ #
-    wheel1_outer_diameter: float = 90.0
-    wheel2_outer_diameter: float = 70.0
+    wheel1_outer_diameter: float = 22.0
+    wheel2_outer_diameter: float = 35.0
     board_margin: float = 8.0
     magnet_diameter: float = 5.0
+    wheel_distance: float | None = None  # None = auto (ro1 + spacing + ro2)
     # font (shared)
-    font_size: float = 10.0
+    font_size: float = 7.0
     font_font: str = "sans-serif"
     font_bold: bool = False
     font_italic: bool = False
     # score – wheel 1
     score1_min: int = 0
     score1_max: int = 3
-    score1_radius: float = 0.0
+    score1_radius: float | None = None
     score1_angle: float = 0.0
     # score – wheel 2
     score2_min: int = 0
     score2_max: int = 9
-    score2_radius: float = 0.0
+    score2_radius: float | None = None
     score2_angle: float = 0.0
     # crenel – wheel 1
-    crenel1_enabled: bool = False
+    crenel1_enabled: bool = True
     crenel1_depth: float = 4.0
     crenel1_width: float = 0.5
     crenel1_shape: str = "radial"
     crenel1_rounded: bool = True
-    crenel1_radius: float = 2.0
+    crenel1_radius: float = 0.0
     # crenel – wheel 2
-    crenel2_enabled: bool = False
+    crenel2_enabled: bool = True
     crenel2_depth: float = 4.0
     crenel2_width: float = 0.5
     crenel2_shape: str = "radial"
     crenel2_rounded: bool = True
-    crenel2_radius: float = 2.0
+    crenel2_radius: float = 0.0
 
     def __init__(self) -> None:
         Boxes.__init__(self)
@@ -141,6 +142,13 @@ diameters, and optional gear-tooth (crenel) rims.
         self.argparser.add_argument("--magnet_diameter", action="store", type=FloatStepper(0.1),
                                     default=self.magnet_diameter,
                                     help="Diameter of the central magnet hole on each wheel (0 = no hole) [mm]")
+        # auto_default ≈ touching-wheel centre-to-centre distance (spacing is added at render time)
+        _auto_dist = round(self.wheel1_outer_diameter / 2 + self.wheel2_outer_diameter / 2)
+        self.argparser.add_argument("--wheel_distance", action="store",
+                                    type=FloatStepper(0.1, auto_default=float(_auto_dist), auto=True),
+                                    default=self.wheel_distance,
+                                    help=f"Centre-to-centre distance between wheels [mm]. "
+                                         f"auto = ro1 + spacing + ro2")
 
     # ------------------------------------------------------------------ #
     # Parameter helpers                                                    #
@@ -312,7 +320,7 @@ diameters, and optional gear-tooth (crenel) rims.
         if self.magnet_diameter > 0.0:
             self.hole(cx, cy, d=self.magnet_diameter)
 
-        label_r = wp.score_radius if wp.score_radius > 0.0 else ro - self.font_size * 0.4
+        label_r = wp.score_radius if wp.score_radius is not None else ro - self.font_size * 0.4
         self._draw_score_numbers(cx, cy, label_r, ctx, wp)
 
     def _draw_board(self, move: str = "") -> None:
@@ -320,8 +328,9 @@ diameters, and optional gear-tooth (crenel) rims.
         ro1 = self.wheel1_outer_diameter / 2
         ro2 = self.wheel2_outer_diameter / 2
         m = self.board_margin
+        wd = self.wheel_distance if self.wheel_distance is not None else ro1 + self.spacing + ro2
 
-        board_w = 2 * ro1 + self.spacing + 2 * ro2 + 2 * m
+        board_w = 2 * m + ro1 + wd + ro2
         board_h = 2 * max(ro1, ro2) + 2 * m
 
         if self.move(board_w, board_h, move, before=True):
@@ -335,7 +344,7 @@ diameters, and optional gear-tooth (crenel) rims.
         if self.magnet_diameter > 0.0:
             cy = board_h / 2
             self.hole(m + ro1, cy, d=self.magnet_diameter)
-            self.hole(m + 2 * ro1 + self.spacing + ro2, cy, d=self.magnet_diameter)
+            self.hole(m + ro1 + wd, cy, d=self.magnet_diameter)
 
         self.move(board_w, board_h, move)
 
@@ -345,8 +354,9 @@ diameters, and optional gear-tooth (crenel) rims.
         ro1 = wp1.outer_diameter / 2
         ro2 = wp2.outer_diameter / 2
         max_r = max(ro1, ro2)
+        wd = self.wheel_distance if self.wheel_distance is not None else ro1 + self.spacing + ro2
 
-        row_w = ro1 * 2 + self.spacing + ro2 * 2
+        row_w = ro1 + wd + ro2
         row_h = max_r * 2
 
         if self.move(row_w, row_h, move, before=True):
@@ -354,8 +364,8 @@ diameters, and optional gear-tooth (crenel) rims.
 
         # Both centres sit at the vertical midpoint of the shared bounding box.
         cy = max_r
-        self._draw_ring(ro1,                              cy, ctx, wp1)
-        self._draw_ring(ro1 * 2 + self.spacing + ro2,    cy, ctx, wp2)
+        self._draw_ring(ro1,          cy, ctx, wp1)
+        self._draw_ring(ro1 + wd,     cy, ctx, wp2)
 
         self.move(row_w, row_h, move)
 

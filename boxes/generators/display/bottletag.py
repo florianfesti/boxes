@@ -19,7 +19,7 @@ from boxes import *
 class BottleTag(Boxes):
     """Paper slip over bottle tag"""
 
-    ui_group = "Misc"  # see ./__init__.py for names
+    ui_group = "Display"  # see ./__init__.py for names
 
     def __init__(self) -> None:
         Boxes.__init__(self)

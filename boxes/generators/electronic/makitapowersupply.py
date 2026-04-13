@@ -25,7 +25,7 @@ Vitamins: DSP5005 (or similar) power supply, two banana sockets, two 4.8mm flat 
 To allow powering by laptop power supply: flip switch, Lenovo round socket (or adjust right  hole for different socket)
 """
 
-    ui_group = "Misc"
+    ui_group = "Electronic"
 
     def __init__(self) -> None:
         Boxes.__init__(self)

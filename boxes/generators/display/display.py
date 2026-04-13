@@ -19,7 +19,7 @@ from boxes import *
 class Display(Boxes):
     """Display for flyers or leaflets"""
 
-    ui_group = "Misc"
+    ui_group = "Display"
 
     def __init__(self) -> None:
         Boxes.__init__(self)

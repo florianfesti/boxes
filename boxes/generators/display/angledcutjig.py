@@ -19,7 +19,7 @@ from boxes import *
 class AngledCutJig(Boxes): # Change class name!
     """Jig for making angled cuts in a laser cutter"""
 
-    ui_group = "Misc"
+    ui_group = "Display"
 
     def __init__(self) -> None:
         Boxes.__init__(self)

@@ -39,20 +39,20 @@ class UIGroup:
 
 
 ui_groups: list[UIGroup] = [
-    UIGroup("Box", "Boxes", image="UniversalBox"),
-    UIGroup("FlexBox", "Boxes with flex", image="RoundedBox"),
-    UIGroup("Tray", "Trays and Drawer Inserts", image="TypeTray"),
-    UIGroup("Shelf", "Shelves", image="DisplayShelf"),
-    UIGroup("WallMounted", image="WallTypeTray"),
-    UIGroup("Holes", "Hole patterns", image=""),
-    UIGroup("Part", "Parts and Samples", image="BurnTest"),
-    UIGroup("BoxFlex", title="Flex boxes"),
-    UIGroup("BoxTray", title="Trays"),
-    UIGroup("Game", "Game Accessories",
+    UIGroup("Box", title="Boxes", image="UniversalBox"),
+    UIGroup("FlexBox", title="Boxes with flex", image="RoundedBox"),
+    UIGroup("Tray", title="Trays and Drawer Inserts", image="TypeTray"),
+    UIGroup("Shelf", title="Shelves", image="DisplayShelf"),
+    UIGroup("WallMounted", title="WallMounted", image="WallTypeTray"),
+    UIGroup("Holes", title="Hole patterns", image=""),
+    UIGroup("Part", title="Parts and Samples", image="BurnTest"),
+    UIGroup("Electronic", title="Electronic"),
+    UIGroup("Toy", title="Toy"),
+    UIGroup("Game", title="Game",
             description="Laser-cut accessories for board games and tabletop gaming."),
-    UIGroup("Display", "Display",
+    UIGroup("Display", title="Display",
             description="Decorative flat pieces, labels and signs."),
-    UIGroup("Misc", title="Misc"),
+    UIGroup("Misc", title="Misc", description="Parts that don't fit into the other categories."),
 ]
 
 

@@ -260,19 +260,33 @@ function initArgsPage(num_hide = null) {
 
 /*** Stepper buttons (FloatStepper / IntStepper) *****************/
 
-function stepInput(id, delta) {
+/** Reset a stepper field to the sentinel string "auto". */
+function setInputAuto(id) {
     const input = document.getElementById(id);
-    const val = parseFloat(input.value) || 0;
+    input.value = "auto";
+    input.dispatchEvent(new Event('change'));
+}
+
+function stepInput(id, delta, autoDefault) {
+    const input = document.getElementById(id);
+    const raw = input.value.trim().toLowerCase();
+    // "auto" sentinel → start from autoDefault (if provided) before applying delta
+    let base = (raw === "auto")
+        ? (autoDefault !== undefined ? autoDefault : 0)
+        : (parseFloat(raw) || 0);
     // Round to 4 decimal places to avoid float imprecision.
-    const newVal = Math.round((val + delta) * 10000) / 10000;
+    const newVal = Math.round((base + delta) * 10000) / 10000;
     input.value = String(newVal);
     input.dispatchEvent(new Event('change'));
 }
 
-function stepInputInt(id, delta) {
+function stepInputInt(id, delta, autoDefault) {
     const input = document.getElementById(id);
-    const val = parseInt(input.value, 10) || 0;
-    input.value = String(val + delta);
+    const raw = input.value.trim().toLowerCase();
+    let base = (raw === "auto")
+        ? (autoDefault !== undefined ? autoDefault : 0)
+        : (parseInt(raw, 10) || 0);
+    input.value = String(base + delta);
     input.dispatchEvent(new Event('change'));
 }
 

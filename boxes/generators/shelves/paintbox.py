@@ -20,7 +20,7 @@ class PaintStorage(Boxes):
     """Stackable storage for hobby paint or other things"""
 
     webinterface = True
-    ui_group = "Shelf"  # see ./__init__.py for names
+    ui_group = "Shelf"
 
     canheight: int
     candiameter: int

@@ -35,7 +35,7 @@ Start with putting the slots of the inner walls together. Be especially careful 
 | ![Assembly front and back](static/samples/DrillStand-assembly-3.jpg) | ![Assembly side walls](static/samples/DrillStand-assembly-4.jpg) |
 """
 
-    ui_group = "Misc"
+    ui_group = "Shelf"
 
     def __init__(self) -> None:
         Boxes.__init__(self)

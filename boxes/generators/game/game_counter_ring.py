@@ -28,7 +28,7 @@ from boxes.settings.score_settings import ScoreSettings
 class GameCounterRing(Boxes):
     """Ring-dial game point counter – three concentric pieces cut together"""
 
-    ui_group = "GameAccessory"
+    ui_group = "Game"
     tags = ["new"]
 
     description = """
@@ -66,7 +66,7 @@ cut in a single laser pass with minimal material waste.
     inner_diameter: float = 64.0
     score_min: int = 0
     score_max: int = 9
-    score_radius: float = 0.0
+    score_radius: float | None = None
     score_angle: float = 0.0
     font_size: float = 10.0
     font_font: str = "sans-serif"
@@ -348,7 +348,7 @@ cut in a single laser pass with minimal material waste.
         self.hole(cx, cy, r=ri)
 
         # Score numbers – auto or explicit label radius
-        if self.score_radius > 0.0:
+        if self.score_radius is not None:
             label_r = self.score_radius
         else:
             label_r = (ro + ri) / 2.0 - self.font_size * 0.3

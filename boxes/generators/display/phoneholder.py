@@ -24,7 +24,7 @@ class PhoneHolder(Boxes):
     Smartphone desk holder
     """
 
-    ui_group = "Misc"
+    ui_group = "Display"
 
     description = """
     This phone stand holds your phone between two tabs, with access to its

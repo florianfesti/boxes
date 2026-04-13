@@ -20,6 +20,8 @@ from boxes.lids import _TopEdge
 class MagazineFile(Boxes):
     """Open magazine file"""
 
+    ui_group = "Shelf"
+
     def __init__(self) -> None:
         Boxes.__init__(self)
         self.buildArgParser(x=100, y=200, h=300, hi=0, outside=False)

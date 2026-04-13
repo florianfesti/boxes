@@ -26,7 +26,7 @@ from boxes.settings.font_settings import FontSettings
 class GameCounterCoins(Boxes):
     """Coin-stack game point counter – top disc notch reads score off bottom coin"""
 
-    ui_group = "GameAccessory"
+    ui_group = "Game"
     tags = ["new"]
 
     description = """
@@ -47,14 +47,14 @@ Assembly: insert magnet into both pieces → stack face-to-face → enjoy!
     magnet_diameter: float = 4.0
     score_min: int = 0
     score_max: int = 9
-    label_radius: float = 0.0
+    label_radius: float | None = None
     font_size: float = 8.0
     font_font: str = "sans-serif"
     font_bold: bool = False
     font_italic: bool = False
     label_invert: bool = False
     notch_width: float = 15.0
-    notch_depth: float = 0.0
+    notch_depth: float | None = None
     notch_style: str = "oval"
     play: float = 0.2
 
@@ -79,17 +79,23 @@ Assembly: insert magnet into both pieces → stack face-to-face → enjoy!
         self.argparser.add_argument(
             "--label_invert", action="store", type=boolarg, default=self.label_invert,
             help="Invert the font orientation")
+        _auto_label_r = round(self.coin_diameter / 2 - self.font_size * 0.5)
         self.argparser.add_argument(
-            "--label_radius", action="store", type=FloatStepper(0.5), default=self.label_radius,
-            help="Radius at which score numbers are placed on Piece A [mm]. "
-                 "0 = auto (coin_radius − font_size × 0.5)")
+            "--label_radius", action="store",
+            type=FloatStepper(0.5, auto_default=float(_auto_label_r), auto=True),
+            default=self.label_radius,
+            help=f"Radius at which score numbers are placed on Piece A [mm]. "
+                 f"auto = coin_radius − font_size × 0.5 (≈{_auto_label_r} mm)")
         self.argparser.add_argument(
             "--notch_width", action="store", type=FloatStepper(1.0), default=self.notch_width,
             help="Width of the reading notch on Piece B [mm]")
+        _auto_notch_d = round(self.notch_width / 2)
         self.argparser.add_argument(
-            "--notch_depth", action="store", type=FloatStepper(1.0), default=self.notch_depth,
-            help="Depth of the reading notch on Piece B [mm]. "
-                 "0 = auto (notch_width / 2)")
+            "--notch_depth", action="store",
+            type=FloatStepper(1.0, auto_default=float(_auto_notch_d), auto=True),
+            default=self.notch_depth,
+            help=f"Depth of the reading notch on Piece B [mm]. "
+                 f"auto = notch_width / 2 (≈{_auto_notch_d} mm)")
         self.argparser.add_argument(
             "--notch_style", action="store", type=str, default=self.notch_style,
             choices=["circular", "triangular", "oval", "trapezoid"],
@@ -130,7 +136,7 @@ Assembly: insert magnet into both pieces → stack face-to-face → enjoy!
             orientation = 0
             offset_label_radius = self.font_size * 0.6
 
-        label_r = self.label_radius if self.label_radius > 0.0 else r - offset_label_radius
+        label_r = self.label_radius if self.label_radius is not None else r - offset_label_radius
 
         ctx.set_font(self.font_font, bold=self.font_bold, italic=self.font_italic)
         self.set_source_color(Color.ETCHING)
@@ -317,7 +323,7 @@ Assembly: insert magnet into both pieces → stack face-to-face → enjoy!
         a_left: float = math.pi / 2.0 + alpha
 
         # Notch depth: explicit value or auto (= half-width, giving a semicircle).
-        depth: float = self.notch_depth if self.notch_depth > 0.0 else notch_r
+        depth: float = self.notch_depth if self.notch_depth is not None else notch_r
 
         self.set_source_color(Color.OUTER_CUT)
 

@@ -86,7 +86,7 @@ for canned tomatoes:
 """
 
 
-    ui_group = "Misc"
+    ui_group = "Shelf"
 
     def __init__(self) -> None:
         Boxes.__init__(self)

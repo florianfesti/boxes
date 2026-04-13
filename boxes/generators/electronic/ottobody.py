@@ -25,7 +25,7 @@ from boxes import *
 class OttoBody(Boxes):
     """Otto LC - a laser cut chassis for Otto DIY - body"""
 
-    ui_group = "Misc"
+    ui_group = "Electronic"
 
     def __init__(self) -> None:
         Boxes.__init__(self)

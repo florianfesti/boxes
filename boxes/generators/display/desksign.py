@@ -26,7 +26,7 @@ does not match the actual height when standing. Generated text is put
 in the center and can be adjusted using the vertical text offset.
 Empty lines will affect the placement."""
 
-    ui_group = "Misc"
+    ui_group = "Display"
 
     def __init__(self) -> None:
         Boxes.__init__(self)

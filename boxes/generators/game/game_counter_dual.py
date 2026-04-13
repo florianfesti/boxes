@@ -169,22 +169,28 @@ diameters, and optional gear-tooth (crenel) rims.
 
     def _draw_score_numbers(self, cx: float, cy: float, label_r: float,
                             ctx: Context, wp: _WheelParams) -> None:
-        """Engrave score numbers evenly around a circle of radius *label_r*."""
+        """Engrave score numbers evenly around a circle of radius *label_r*.
+
+        Tooth i is centred at polar angle ``π + i * (2π/n)`` (starts at LEFT,
+        goes clockwise on screen), matching ``_draw_outer_crenels``.
+        """
         n = wp.score_max - wp.score_min + 1
         if n < 1:
             return
-        angle_step = 360.0 / n
+        angle_step_rad = 2.0 * math.pi / n
 
         ctx.set_font(self.font_font, bold=self.font_bold, italic=self.font_italic)
         self.set_source_color(Color.ETCHING)
         for i, score in enumerate(range(wp.score_min, wp.score_max + 1)):
-            angle_deg = i * angle_step + 90.0
-            angle_rad = math.radians(angle_deg)
-            tx = cx + label_r * math.sin(angle_rad)
-            ty = cy + label_r * math.cos(angle_rad)
+            # Match crenel tooth centres: start at LEFT (π), go clockwise on screen
+            theta = math.pi + i * angle_step_rad
+            tx = cx + label_r * math.cos(theta)
+            ty = cy + label_r * math.sin(theta)
+            # score_angle=0 → face outward; score_angle=180 → face inward
+            text_angle = math.degrees(theta) + 90.0 + wp.score_angle
             with self.saved_context():
                 self.text(str(score), x=tx, y=ty,
-                          angle=-angle_deg + wp.score_angle,
+                          angle=text_angle,
                           align="middle center",
                           fontsize=self.font_size, color=Color.ETCHING)
         ctx.stroke()
@@ -216,7 +222,7 @@ diameters, and optional gear-tooth (crenel) rims.
         tooth_half = angle_step * (1.0 - max(0.05, min(0.95, wp.crenel_width))) / 2.0
 
         self.set_source_color(Color.OUTER_CUT)
-        start_angle = math.pi / 2.0
+        start_angle = math.pi  # first tooth at LEFT (9 o'clock), matching score label 0
 
         def pt_on(r: float, a: float) -> tuple[float, float]:
             return cx + r * math.cos(a), cy + r * math.sin(a)
@@ -306,7 +312,7 @@ diameters, and optional gear-tooth (crenel) rims.
         if self.magnet_diameter > 0.0:
             self.hole(cx, cy, d=self.magnet_diameter)
 
-        label_r = wp.score_radius if wp.score_radius > 0.0 else ro - self.font_size / 2.0 - 1.0
+        label_r = wp.score_radius if wp.score_radius > 0.0 else ro - self.font_size * 0.4
         self._draw_score_numbers(cx, cy, label_r, ctx, wp)
 
     def _draw_board(self, move: str = "") -> None:

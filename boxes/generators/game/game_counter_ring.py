@@ -123,24 +123,28 @@ cut in a single laser pass with minimal material waste.
 
     def _draw_score_numbers(self, cx: float, cy: float,
                             label_r: float, ctx: Context) -> None:
-        """Engrave score numbers evenly around a circle of radius *label_r*."""
+        """Engrave score numbers evenly around a circle of radius *label_r*.
+
+        Number i is placed at polar angle ``π + i * (2π/n)`` (starts at LEFT,
+        goes clockwise on screen), matching ``_draw_outer_crenels``.
+        """
         n = self.score_max - self.score_min + 1
         if n < 1:
             return
-        angle_step = 360.0 / n
+        angle_step_rad = 2.0 * math.pi / n
 
         ctx.set_font(self.font_font, bold=self.font_bold, italic=self.font_italic)
         self.set_source_color(Color.ETCHING)
         for i, score in enumerate(range(self.score_min, self.score_max + 1)):
-            # Add 90° to match the crenel start_angle (π/2) so each label
-            # sits on its tooth rather than on the adjacent gap.
-            angle_deg = i * angle_step + 90.0
-            angle_rad = math.radians(angle_deg)
-            tx = cx + label_r * math.sin(angle_rad)
-            ty = cy + label_r * math.cos(angle_rad)
+            # Match crenel tooth centres: start at LEFT (π), go clockwise on screen
+            theta = math.pi + i * angle_step_rad
+            tx = cx + label_r * math.cos(theta)
+            ty = cy + label_r * math.sin(theta)
+            # score_angle=0 → face outward; score_angle=180 → face inward
+            text_angle = math.degrees(theta) + 90.0 + self.score_angle
             with self.saved_context():
                 self.text(str(score), x=tx, y=ty,
-                          angle=-angle_deg + self.score_angle,
+                          angle=text_angle,
                           align="middle center",
                           fontsize=self.font_size, color=Color.ETCHING)
         ctx.stroke()
@@ -249,7 +253,7 @@ cut in a single laser pass with minimal material waste.
         quarter = angle_step * (1.0 - max(0.05, min(0.95, self.crenel_width))) / 2.0
 
         self.set_source_color(Color.OUTER_CUT)
-        start_angle = math.pi / 2.0
+        start_angle = math.pi  # first tooth at LEFT (9 o'clock), matching score label 0
 
         def pt_on(r: float, a: float) -> tuple[float, float]:
             return cx + r * math.cos(a), cy + r * math.sin(a)

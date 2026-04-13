@@ -33,7 +33,7 @@ from __future__ import annotations
 import argparse
 from typing import cast
 
-from boxes.args import IntStepper, FloatStepper, boolarg
+from boxes.args import IntStepper, FloatStepper
 from boxes.edges import Settings
 
 
@@ -45,14 +45,14 @@ class ScoreSettings(Settings):
      * min    : 0     : Minimum score value shown on the ring
      * max    : 20    : Maximum score value shown on the ring
      * radius : 0.0   : Radius for score labels [mm] (0 = auto)
-     * inv    : False : Invert label orientation
+     * angle  : 0.0   : Extra rotation applied to every label [degrees]. 0 = face outward, 180 = face inward
     """
 
     absolute_params: dict = {
         "min":    0,
         "max":    9,
         "radius": 0.0,
-        "inv":    False,
+        "angle":  0.0,
     }
     relative_params: dict = {}
 
@@ -86,12 +86,12 @@ class ScoreSettings(Settings):
             default=default_radius,
             help="Radius at which score numbers are placed [mm]. 0 = auto (midpoint between inner and outer radii)")
 
-        default_inv = bool(defaults.get("inv", cls.absolute_params["inv"]))
+        default_angle = float(defaults.get("angle", cls.absolute_params["angle"]))  # type: ignore[arg-type]
         group.add_argument(
-            f"--{prefix}_inv",
-            action="store", type=boolarg,
-            default=default_inv,
-            help="Invert the orientation of score number labels")
+            f"--{prefix}_angle",
+            action="store", type=FloatStepper(1.0),
+            default=default_angle,
+            help="Extra rotation applied to every label [degrees]. 0 = face outward, 180 = face inward")
 
     def __init__(self, thickness: float, relative: bool = True, **kw: object) -> None:
         self.values: dict = {}

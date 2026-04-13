@@ -19,7 +19,7 @@ from boxes import *
 class DiceTower(Boxes):
     """Tool for fairly rolling dice"""
 
-    ui_group = "Misc"
+    ui_group = "Game"
 
     description = """Feel free to add a shallow ABox as a container for catching the dice so they don't scatter across the table.
 

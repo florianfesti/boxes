@@ -113,7 +113,7 @@ Slots can be populated by:
 
         self.rectangularWall(x, y, ["e", "e", edge_with_cutouts, "e"], move=move, label=f"cover plate\n({x}x{y})")
 
-    # Shelves
+    # shelves
     def shelves(self, move="up"):
         for columnIndex, unit_width in enumerate(self.unit_w):
             x = unit_width

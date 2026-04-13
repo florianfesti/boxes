@@ -496,7 +496,7 @@ msgstr "货架"
 
 #. title of group Shelf
 #: boxes/generators/__init__.py
-msgid "Shelves"
+msgid "shelves"
 msgstr "架子"
 
 #. name of generator group

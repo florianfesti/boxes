@@ -23,7 +23,7 @@ class PaperBox(Boxes):
     Box made of paper, with lid.
     """
 
-    ui_group = "Misc"
+    ui_group = "Box"
 
     description = """
 This box is made of paper.

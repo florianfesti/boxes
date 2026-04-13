@@ -55,8 +55,8 @@ msgstr "Shelf"
 
 #. title of group Shelf
 #: boxes/generators/__init__.py
-msgid "Shelves"
-msgstr "Shelves"
+msgid "shelves"
+msgstr "shelves"
 
 #. name of generator group
 #: boxes/generators/__init__.py

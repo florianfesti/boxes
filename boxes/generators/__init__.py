@@ -46,12 +46,13 @@ ui_groups: list[UIGroup] = [
     UIGroup("WallMounted", image="WallTypeTray"),
     UIGroup("Holes", "Hole patterns", image=""),
     UIGroup("Part", "Parts and Samples", image="BurnTest"),
-    UIGroup("Misc", image="TrafficLight"),
-    UIGroup("GameAccessory", "Game Accessories (Accessoires de jeux)",
+    UIGroup("BoxFlex", title="Flex boxes"),
+    UIGroup("BoxTray", title="Trays"),
+    UIGroup("Game", "Game Accessories",
             description="Laser-cut accessories for board games and tabletop gaming."),
-    UIGroup("Deco", "Decoration & Signage",
+    UIGroup("Display", "Display",
             description="Decorative flat pieces, labels and signs."),
-    UIGroup("Unstable", description="Generators are still untested or need manual adjustment to be useful."),
+    UIGroup("Misc", title="Misc"),
 ]
 
 

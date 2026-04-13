@@ -16,7 +16,7 @@
 from boxes import *
 from boxes.walledges import _WallMountedBox
 
-from .drillstand import DrillStand
+from boxes.generators.shelves.drillstand import DrillStand
 
 
 class WallDrillBox(DrillStand, _WallMountedBox):

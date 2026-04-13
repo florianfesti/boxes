@@ -66,7 +66,7 @@ cut in a single laser pass with minimal material waste.
     score_min: int = 0
     score_max: int = 9
     score_radius: float = 0.0
-    score_inv: bool = False
+    score_angle: float = 0.0
     font_size: float = 10.0
     font_font: str = "sans-serif"
     font_bold: bool = False
@@ -86,7 +86,7 @@ cut in a single laser pass with minimal material waste.
         Boxes.__init__(self)
         self.addSettingsArgs(ScoreSettings, prefix="score",
                              min=self.score_min, max=self.score_max,
-                             radius=self.score_radius, inv=self.score_inv)
+                             radius=self.score_radius, angle=self.score_angle)
         self.addSettingsArgs(FontSettings, prefix="font",
                              size=self.font_size, font=self.font_font,
                              bold=self.font_bold, italic=self.font_italic)
@@ -126,7 +126,6 @@ cut in a single laser pass with minimal material waste.
         if n < 1:
             return
         angle_step = 360.0 / n
-        orientation = 180 if self.score_inv else 0
 
         ctx.set_font(self.font_font, bold=self.font_bold, italic=self.font_italic)
         self.set_source_color(Color.ETCHING)
@@ -139,7 +138,7 @@ cut in a single laser pass with minimal material waste.
             ty = cy + label_r * math.cos(angle_rad)
             with self.saved_context():
                 self.text(str(score), x=tx, y=ty,
-                          angle=-angle_deg + orientation,
+                          angle=-angle_deg + self.score_angle,
                           align="middle center",
                           fontsize=self.font_size, color=Color.ETCHING)
         ctx.stroke()
@@ -342,15 +341,10 @@ cut in a single laser pass with minimal material waste.
         self.hole(cx, cy, r=ri)
 
         # Score numbers – auto or explicit label radius
-        if self.score_inv:
-            score_offset = -self.font_size * 0.1
-        else:
-            score_offset = +self.font_size * 0.3
-
         if self.score_radius > 0.0:
             label_r = self.score_radius
         else:
-            label_r = (ro + ri) / 2.0 - score_offset
+            label_r = (ro + ri) / 2.0 - self.font_size * 0.3
         self._draw_score_numbers(cx, cy, label_r, ctx)
 
     def _piece_b_disc(self, cx: float, cy: float, ctx: Context) -> None:

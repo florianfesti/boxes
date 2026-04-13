@@ -492,7 +492,7 @@ msgstr ""
 
 #. title of group Shelf
 #: boxes/generators/__init__.py
-msgid  "Shelves"
+msgid  "shelves"
 msgstr ""
 
 #. name of generator group

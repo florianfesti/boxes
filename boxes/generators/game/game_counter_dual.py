@@ -108,16 +108,20 @@ diameters, and optional gear-tooth (crenel) rims.
     def __init__(self) -> None:
         Boxes.__init__(self)
 
-        self.addSettingsArgs(ScoreSettings, prefix="score1", min=self.score1_min, max=self.score1_max,
+        self.addSettingsArgs(ScoreSettings, prefix="score1", title="Score Wheel 1 Settings",
+                             min=self.score1_min, max=self.score1_max,
                              radius=self.score1_radius, angle=self.score1_angle)
-        self.addSettingsArgs(ScoreSettings, prefix="score2", min=self.score2_min, max=self.score2_max,
+        self.addSettingsArgs(ScoreSettings, prefix="score2", title="Score Wheel 2 Settings",
+                             min=self.score2_min, max=self.score2_max,
                              radius=self.score2_radius, angle=self.score2_angle)
         self.addSettingsArgs(FontSettings, prefix="font", size=self.font_size, font=self.font_font,
                              bold=self.font_bold, italic=self.font_italic)
-        self.addSettingsArgs(CrenelSettings, prefix="crenel1", enabled=self.crenel1_enabled, depth=self.crenel1_depth,
+        self.addSettingsArgs(CrenelSettings, prefix="crenel1", title="Crenel Wheel 1 Settings",
+                             enabled=self.crenel1_enabled, depth=self.crenel1_depth,
                              shape=self.crenel1_shape, rounded=self.crenel1_rounded,
                              radius=self.crenel1_radius)
-        self.addSettingsArgs(CrenelSettings, prefix="crenel2", enabled=self.crenel2_enabled, depth=self.crenel2_depth,
+        self.addSettingsArgs(CrenelSettings, prefix="crenel2", title="Crenel Wheel 2 Settings",
+                             enabled=self.crenel2_enabled, depth=self.crenel2_depth,
                              shape=self.crenel2_shape, rounded=self.crenel2_rounded,
                              radius=self.crenel2_radius)
 
@@ -284,6 +288,9 @@ diameters, and optional gear-tooth (crenel) rims.
             self.set_source_color(Color.OUTER_CUT)
             self.circle(cx, cy, ro)
 
+        if self.magnet_diameter > 0.0:
+            self.hole(cx, cy, d=self.magnet_diameter)
+
         label_r = wp.score_radius if wp.score_radius > 0.0 else ro - self.font_size * 1.2
         self._draw_score_numbers(cx, cy, label_r, ctx, wp)
 
@@ -333,6 +340,6 @@ diameters, and optional gear-tooth (crenel) rims.
         wp2 = self._wheel_params(2)
 
         # Vertical stack – rendered bottom-up so SVG reads: wheel1 / wheel2 / board
-        self._draw_board(move="up")
+        self._draw_wheel(wp1, ctx, move="right")
         self._draw_wheel(wp2, ctx, move="up")
-        self._draw_wheel(wp1, ctx, move="up")
+        self._draw_board(move="up")

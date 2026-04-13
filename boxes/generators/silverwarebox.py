@@ -22,7 +22,8 @@ class Silverware(Boxes):
     using flex for rounded corners
     """
 
-    ui_group = "Unstable"
+    ui_group = "Tray"
+    tags = ["unstable"]
 
 
     def __init__(self) -> None:

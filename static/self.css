@@ -259,6 +259,27 @@ textarea {
     font-weight: bold;
 }
 
+.gallery-img-wrap {
+    position: relative;
+    display: inline-block;
+    line-height: 0;
+}
+
+.gallery-badges {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    align-items: flex-end;
+    pointer-events: none;
+}
+
+.gallery-badges .tag-badge {
+    pointer-events: auto;
+}
+
 .gallery img {
     max-height : var(--gallery-item-width);
     max-width : var(--gallery-item-width);
@@ -285,4 +306,34 @@ textarea {
 .modeactive {
     background-color: #DFD8BA;
 
+}
+
+/* ── Tag badges ─────────────────────────────────────────────────────── */
+.tag-badge {
+    display: inline-block;
+    font-size: 0.78em;
+    line-height: 1;
+    padding: 2px 5px;
+    border-radius: 3px;
+    margin-left: 3px;
+    vertical-align: middle;
+    background: #ccc;
+    color: #333;
+    font-weight: bold;
+    cursor: default;
+}
+
+.tag-unstable {
+    background: #f90;
+    color: #000;
+}
+
+.tag-wip {
+    background: #4af;
+    color: #000;
+}
+
+.tag-new {
+    background: #4c4;
+    color: #fff;
 }

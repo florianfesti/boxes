@@ -84,7 +84,8 @@ class UnevenFingerJointEdgeCounterPart(UnevenFingerJointEdge):
 class Platonic(Boxes):
     """Platonic solids generator"""
 
-    ui_group = "Unstable" # see ./__init__.py for names
+    ui_group = "Part"
+    tags = ["unstable"]  # see ./__init__.py for names
     description = """![Icosahedron](static/samples/Platonic-Icosahedron.jpg)
 """
 

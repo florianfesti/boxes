@@ -19,7 +19,8 @@ from boxes import *
 class Planetary2(Boxes):
     """Balanced force Difference Planetary Gear (not yet working properly)"""
 
-    ui_group = "Unstable"
+    ui_group = "Part"
+    tags = ["unstable"]
 
     description = """Still has issues. The middle planetary gears set must not have a mashing sun gear as it can't be a proper gear set."""
 

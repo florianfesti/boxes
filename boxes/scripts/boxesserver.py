@@ -119,6 +119,33 @@ boxes.ArgumentParser = ThrowingArgumentParser  # type: ignore
 class BServer:
     lang_re = re.compile(r"([a-z]{2,3}(-[-a-zA-Z0-9]*)?)\s*(;\s*q=(\d\.?\d*))?")
 
+    # Special tags: tag → (emoji, tooltip, CSS class suffix)
+    SPECIAL_TAGS: dict[str, tuple[str, str]] = {
+        "unstable": ("⚠", "Unstable – may not work correctly"),
+        "wip":      ("🚧", "Work in progress"),
+        "new":      ("✨", "New generator"),
+    }
+
+    @staticmethod
+    def tag_badges_html(box: type) -> str:
+        """Return HTML badge span(s) for every tag declared on *box*."""
+        tags: list[str] = getattr(box, "tags", [])
+        if not tags:
+            return ""
+        parts: list[str] = []
+        for tag in tags:
+            if tag in BServer.SPECIAL_TAGS:
+                icon, tip = BServer.SPECIAL_TAGS[tag]
+                parts.append(
+                    f'<span class="tag-badge tag-{html.escape(tag)}" title="{html.escape(tip)}">'
+                    f'{icon}</span>'
+                )
+            else:
+                parts.append(
+                    f'<span class="tag-badge">{html.escape(tag)}</span>'
+                )
+        return " " + "".join(parts)
+
     def __init__(self, url_prefix="", static_url="static", static_path="../static/", legal_url="") -> None:
         self.boxes = {b.__name__: b for b in boxes.generators.getAllBoxGenerators().values() if b.webinterface}
         self.groups = boxes.generators.ui_groups
@@ -372,7 +399,8 @@ class BServer:
                 docs = ""
                 if box.__doc__:
                     docs = " - " + _(box.__doc__)
-                result.append(f"""     <li class="thumbnail" data-thumbnail="{self.static_url}/samples/{name}-thumb.jpg" id="search_id_{name}"><a href="{name}{langparam}">{_(name)}</a>{docs}</li>\n""")
+                badges = self.tag_badges_html(box)
+                result.append(f"""     <li class="thumbnail" data-thumbnail="{self.static_url}/samples/{name}-thumb.jpg" id="search_id_{name}"><a href="{name}{langparam}">{_(name)}</a>{badges}{docs}</li>\n""")
             result.append("   </ul>\n  </div>\n")
         result.append(f"""
 </div>
@@ -702,10 +730,12 @@ class BServer:
                 static_filename = os.path.join(self.staticdir, fn)
                 alt = f"{_(name)}"
                 href = f"{name}{langparam}"
+                badges = self.tag_badges_html(box)
+                overlay = f'<span class="gallery-badges">{badges.strip()}</span>' if badges.strip() else ""
                 if not os.path.exists(static_filename):
-                    result.append(f"""  <span class="gallery_missing" id="search_id_{name}"><a href="{href}">{_(box.__doc__)}<br><br>{_(name)}</a></span>\n""")
+                    result.append(f"""  <span class="gallery_missing" id="search_id_{name}"><a href="{href}">{overlay}{_(box.__doc__)}<br><br>{_(name)}</a></span>\n""")
                 else:
-                    result.append(f"""  <span class="gallery" id="search_id_{name}"><a title="{_(name)} - {html.escape(_(box.__doc__))}" href="{href}"><img alt="{alt}" src="{thumbnail}"><br>{_(name)}</a></span>\n""")
+                    result.append(f"""  <span class="gallery" id="search_id_{name}"><a title="{_(name)} - {html.escape(_(box.__doc__))}" href="{href}"><span class="gallery-img-wrap"><img alt="{alt}" src="{thumbnail}">{overlay}</span><br>{_(name)}</a></span>\n""")
 
         result.append(f"""
 </div><div style="width: 5%; float: left;"></div>

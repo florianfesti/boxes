@@ -93,6 +93,52 @@ Adding a new example
 * Generate example SVGs: :code:`boxes --examples`
 * Add to git: :code:`git add -f examples/*.svg`
 
+Updating reference SVGs after a change
+.......................................
+
+Every generator is tested by comparing its SVG output byte-for-byte against a
+reference file in :code:`examples/`.  Whenever you change a generator **or**
+any shared drawing code you must regenerate the affected reference file(s),
+otherwise the test suite will fail with::
+
+    AssertionError: SVG files are not equal. If change is intended,
+    please update example files.
+
+**Regenerate one generator** (PowerShell)::
+
+    python -c "
+    from boxes.generators.<subpackage>.<module> import <GeneratorClass>
+    b = <GeneratorClass>()
+    b.parseArgs('')
+    b.metadata['reproducible'] = True
+    b.open()
+    b.render()
+    data = b.close()
+    with open('examples/<GeneratorClass>.svg', 'wb') as f:
+        f.write(data.getvalue())
+    "
+
+For example, to regenerate :code:`DiceTower`::
+
+    python -c "
+    from boxes.generators.game.dicetower import DiceTower
+    b = DiceTower()
+    b.parseArgs('')
+    b.metadata['reproducible'] = True
+    b.open(); b.render()
+    data = b.close()
+    with open('examples/DiceTower.svg', 'wb') as f: f.write(data.getvalue())
+    "
+
+**Regenerate all generators at once**::
+
+    python -m boxes.scripts.boxes_main --examples
+    git add -f examples/*.svg
+
+Then confirm tests pass::
+
+    python -m pytest tests/test_svg.py -q
+
 Adding new Dependencies
 .......................
 

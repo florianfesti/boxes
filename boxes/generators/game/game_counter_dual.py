@@ -48,6 +48,7 @@ class GameCounterDual(Boxes):
     """Dual-wheel board game score counter – one board, two independent spinning rings"""
 
     ui_group = "GameAccessory"
+    tags = ["unstable"]
 
     description = """
 A board game score counter with **two independent spinning score wheels** on a

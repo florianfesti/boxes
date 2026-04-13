@@ -29,6 +29,7 @@ class GameCounterRing(Boxes):
     """Ring-dial game point counter – three concentric pieces cut together"""
 
     ui_group = "GameAccessory"
+    tags = ["new"]
 
     description = """
 A three-piece circular point counter for board games.

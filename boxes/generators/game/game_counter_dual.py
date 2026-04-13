@@ -78,6 +78,7 @@ diameters, and optional gear-tooth (crenel) rims.
     wheel1_outer_diameter: float = 22.0
     wheel2_outer_diameter: float = 35.0
     board_margin: float = 8.0
+    board_shape: str = "rectangle"
     magnet_diameter: float = 5.0
     wheel_distance: float | None = None  # None = auto (ro1 + spacing + ro2)
     # font (shared)
@@ -139,6 +140,9 @@ diameters, and optional gear-tooth (crenel) rims.
         self.argparser.add_argument("--board_margin", action="store", type=FloatStepper(1.0),
                                     default=self.board_margin,
                                     help="Margin between each wheel centre and the board edge [mm]")
+        self.argparser.add_argument("--board_shape", action="store",
+                                    choices=["rectangle", "capsule"], default=self.board_shape,
+                                    help="Shape of the base board: rectangle or capsule (two half-circles connected)")
         self.argparser.add_argument("--magnet_diameter", action="store", type=FloatStepper(0.1),
                                     default=self.magnet_diameter,
                                     help="Diameter of the central magnet hole on each wheel (0 = no hole) [mm]")
@@ -306,6 +310,40 @@ diameters, and optional gear-tooth (crenel) rims.
     # Piece drawing                                                        #
     # ------------------------------------------------------------------ #
 
+    def _draw_capsule_outline(self, cx1: float, cx2: float, cy: float,
+                               r1: float, r2: float, ctx: Context) -> None:
+        """Draw a capsule (stadium) outline: two semicircles joined by tangent lines.
+
+        ``cx1`` / ``cx2`` are the wheel-centre x coordinates in local frame.
+        ``r1`` / ``r2`` are the capsule radii (outer_radius + margin) for each end.
+        The tangent lines are the external tangents of the two end circles.
+
+        Each semicircle is drawn as two ~90° arcs so that:
+        - the right cap passes through angle 0  (rightmost point of circle 2)
+        - the left cap passes through angle ±π  (leftmost point of circle 1)
+        This avoids the single-Bezier degeneracy that occurs for a full π-radian
+        arc, and ensures the correct side is drawn regardless of whether r1 < r2.
+        """
+        d = cx2 - cx1
+        arg = max(-1.0, min(1.0, (r1 - r2) / d if d > 1e-6 else 0.0))
+        alpha = math.asin(arg)          # tilt of tangent lines (0 when r1 == r2)
+        theta = math.pi / 2.0 + alpha  # angle of tangent points on each circle
+        sa = math.sin(alpha)
+        ca = math.cos(alpha)
+
+        self.set_source_color(Color.OUTER_CUT)
+        ctx.move_to(cx1 - r1 * sa, cy + r1 * ca)   # upper-left tangent point (angle=theta on c1)
+        ctx.line_to(cx2 - r2 * sa, cy + r2 * ca)   # upper-right tangent point (angle=theta on c2)
+        # Right cap: theta → 0 → -theta  (two CW arcs via the rightmost point of circle 2)
+        ctx.arc(cx2, cy, r2, theta, 0.0)
+        ctx.arc(cx2, cy, r2, 0.0, -theta)
+        # Lower tangent: right → left
+        ctx.line_to(cx1 - r1 * sa, cy - r1 * ca)
+        # Left cap: -theta → -π → theta  (two CW arcs via the leftmost point of circle 1)
+        ctx.arc(cx1, cy, r1, -theta, -math.pi)
+        ctx.arc(cx1, cy, r1, math.pi, theta)
+        ctx.stroke()
+
     def _draw_ring(self, cx: float, cy: float,
                    ctx: Context, wp: _WheelParams) -> None:
         """Spinning disc for one wheel."""
@@ -324,27 +362,36 @@ diameters, and optional gear-tooth (crenel) rims.
         self._draw_score_numbers(cx, cy, label_r, ctx, wp)
 
     def _draw_board(self, move: str = "") -> None:
-        """Base board: rectangle sized to hold both wheels, with magnet pockets."""
+        """Base board: rectangle or capsule sized to hold both wheels, with magnet pockets."""
         ro1 = self.wheel1_outer_diameter / 2
         ro2 = self.wheel2_outer_diameter / 2
         m = self.board_margin
         wd = self.wheel_distance if self.wheel_distance is not None else ro1 + self.spacing + ro2
 
-        board_w = 2 * m + ro1 + wd + ro2
-        board_h = 2 * max(ro1, ro2) + 2 * m
+        # Both shapes share the same bounding box and wheel-centre positions:
+        #   board_w = (ro1+m) + wd + (ro2+m)
+        #   board_h = 2 * (max(ro1, ro2) + m)
+        #   cx1 = ro1 + m,  cx2 = ro1 + m + wd,  cy = max(ro1, ro2) + m
+        r1 = ro1 + m
+        r2 = ro2 + m
+        cy = max(r1, r2)
+        board_w = r1 + wd + r2
+        board_h = 2.0 * cy
 
         if self.move(board_w, board_h, move, before=True):
             return
 
         ctx = cast(Context, self.ctx)
 
-        self.set_source_color(Color.OUTER_CUT)
-        ctx.rectangle(0, 0, board_w, board_h)
+        if self.board_shape == "capsule":
+            self._draw_capsule_outline(r1, r1 + wd, cy, r1, r2, ctx)
+        else:
+            self.set_source_color(Color.OUTER_CUT)
+            ctx.rectangle(0, 0, board_w, board_h)
 
         if self.magnet_diameter > 0.0:
-            cy = board_h / 2
-            self.hole(m + ro1, cy, d=self.magnet_diameter)
-            self.hole(m + ro1 + wd, cy, d=self.magnet_diameter)
+            self.hole(r1, cy, d=self.magnet_diameter)
+            self.hole(r1 + wd, cy, d=self.magnet_diameter)
 
         self.move(board_w, board_h, move)
 

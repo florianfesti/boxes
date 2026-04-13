@@ -89,23 +89,23 @@ diameters, and optional gear-tooth (crenel) rims.
     score1_min: int = 0
     score1_max: int = 3
     score1_radius: float | None = None
-    score1_angle: float = 0.0
+    score1_angle: float = -90.0
     # score – wheel 2
     score2_min: int = 0
     score2_max: int = 9
     score2_radius: float | None = None
-    score2_angle: float = 0.0
+    score2_angle: float = 90.0
     # crenel – wheel 1
     crenel1_enabled: bool = True
     crenel1_depth: float = 4.0
-    crenel1_width: float = 0.5
+    crenel1_width: float = 0.4
     crenel1_shape: str = "radial"
     crenel1_rounded: bool = True
     crenel1_radius: float = 0.0
     # crenel – wheel 2
     crenel2_enabled: bool = True
     crenel2_depth: float = 4.0
-    crenel2_width: float = 0.5
+    crenel2_width: float = 0.3
     crenel2_shape: str = "radial"
     crenel2_rounded: bool = True
     crenel2_radius: float = 0.0

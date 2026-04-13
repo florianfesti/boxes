@@ -467,7 +467,7 @@ msgstr ""
 
 #. name of generator group
 #: boxes/generators/__init__.py
-msgid  "FlexBox"
+msgid  "Flex"
 msgstr ""
 
 #. title of group FlexBox

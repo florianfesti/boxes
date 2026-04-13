@@ -40,7 +40,7 @@ class UIGroup:
 
 ui_groups: list[UIGroup] = [
     UIGroup("Box", title="Boxes", image="UniversalBox"),
-    UIGroup("FlexBox", title="Boxes with flex", image="RoundedBox"),
+    UIGroup("Flex", title="Boxes with flex", image="RoundedBox"),
     UIGroup("Tray", title="Trays and Drawer Inserts", image="TypeTray"),
     UIGroup("Shelf", title="Shelves", image="DisplayShelf"),
     UIGroup("WallMounted", title="WallMounted", image="WallTypeTray"),
@@ -48,6 +48,7 @@ ui_groups: list[UIGroup] = [
     UIGroup("Part", title="Parts and Samples", image="BurnTest"),
     UIGroup("Electronic", title="Electronic"),
     UIGroup("Toy", title="Toy"),
+    UIGroup("Tool", title="Tool"),
     UIGroup("Game", title="Game",
             description="Laser-cut accessories for board games and tabletop gaming."),
     UIGroup("Display", title="Display",

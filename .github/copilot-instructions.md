@@ -145,7 +145,7 @@ Include assembly instructions, tips, images references here.
 | Value           | Shown as                          |
 |-----------------|-----------------------------------|
 | `"Box"`         | Boxes                             |
-| `"FlexBox"`     | Boxes with flex                   |
+| `"Flex"`        | Boxes with flex                   |
 | `"Tray"`        | Trays and Drawer Inserts          |
 | `"Shelf"`       | Shelves                           |
 | `"WallMounted"` | Wall Mounted                      |

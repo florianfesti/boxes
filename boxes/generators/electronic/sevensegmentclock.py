@@ -15,7 +15,7 @@
 
 from boxes import *
 
-from boxes.generators.sevensegment import SevenSegmentPattern
+from boxes.generators.hole.sevensegment import SevenSegmentPattern
 
 
 class SevenSegmentClock(SevenSegmentPattern):

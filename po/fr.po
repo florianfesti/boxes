@@ -30,7 +30,7 @@ msgstr "Boîtes"
 
 #. name of generator group
 #: boxes/generators/__init__.py
-msgid "FlexBox"
+msgid "Flex"
 msgstr "Boîte flexible"
 
 #. title of group FlexBox

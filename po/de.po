@@ -30,7 +30,7 @@ msgstr "Kisten"
 
 #. name of generator group
 #: boxes/generators/__init__.py
-msgid "FlexBox"
+msgid "Flex"
 msgstr "Abgerundete Kiste"
 
 #. title of group FlexBox
@@ -296,7 +296,7 @@ msgid "tabs"
 msgstr "Laschen"
 
 #. help for parameter tabs
-msgid "width of tabs holding the parts in place in mm (not supported everywhere)"
+msgid "width of tabs holding the part in place in mm (not supported everywhere)"
 msgstr ""
 "Breite der Laschen, die die Teile an Ort und Stelle halten, in mm (wird "
 "nicht überall unterstützt)"
@@ -760,12 +760,12 @@ msgstr "Rundung"
 
 #. help for parameter rounded
 #: boxes/generators/concaveknob.py
-msgid "Amount of circumference used for non convex parts"
+msgid "Amount of circumference used for non convex part"
 msgstr "Breite der Zahnkontur"
 
 #. help for parameter angle
 #: boxes/generators/concaveknob.py
-msgid "Angle between convex and concave parts"
+msgid "Angle between convex and concave part"
 msgstr "Tiefe der Verzahnung"
 
 #. parameter name
@@ -1074,7 +1074,7 @@ msgid ""
 "that protects\n"
 "the fat balls from rain and snow. The design was tested using 4mm plywood"
 " for the\n"
-"main structural parts. For the spacer of the locking mechanism two layers"
+"main structural part. For the spacer of the locking mechanism two layers"
 " of 3mm\n"
 "plywood have been stacked. The poles were made from 8mm diameter beech "
 "rod and 19cm\n"
@@ -1082,7 +1082,7 @@ msgid ""
 "numbers, but\n"
 "only the defaults have ever been built.\n"
 "\n"
-"The final dispenser consists of two parts which slide into each other. "
+"The final dispenser consists of two part which slide into each other. "
 "You can mount\n"
 "a hook to hang it into a tree. All edges that have angles different from "
 "90 degrees (chamfers)\n"
@@ -1127,7 +1127,7 @@ msgid ""
 "  * N balcony walls surrounding the floor.\n"
 "  * N poles that join floor and ceiling (not part of the drawing)\n"
 "\n"
-"Other parts needed for assembly:\n"
+"Other part needed for assembly:\n"
 "\n"
 "  * Wooden rod (N times the length of the poles).\n"
 "  * A hook (e.g. M5x50mm)\n"
@@ -1141,7 +1141,7 @@ msgid ""
 "  * Glue balcony walls to the floor\n"
 "  * Glue pairs of roof tiles and use the roof bottom plate as a jig, Hot "
 "glue may be used to\n"
-"    tack the parts.\n"
+"    tack the part.\n"
 "  * Glue all roof tiles to form the roof\n"
 "  * Glue spacer(s) and the bracket into a stack\n"
 "  * Glue roof tiles to the roof bottom plate and attach the support piece"
@@ -1332,7 +1332,7 @@ msgstr "Spiel im Verschluss"
 #. help for parameter slide_clearance
 #: boxes/generators/fatballdispenser.py
 msgid ""
-"The gap between the parts that slide into each other\n"
+"The gap between the part that slide into each other\n"
 "                    in the locking mechanism in mm."
 msgstr ""
 "Das (horizontale) Spiel zwischen den Verschlussteilen die ineinander "
@@ -1943,7 +1943,7 @@ msgid ""
 "Increace extraheight to get more space for the spring and to make the\n"
 "sliding mechanism less likely to bind. You may need to add some wax on "
 "the\n"
-"parts sliding on each other to reduce friction.\n"
+"part sliding on each other to reduce friction.\n"
 msgstr ""
 "Damit die Klemme funktioniert, braucht man noch eine passende Feder.\n"
 "Vergrößere die Zusatzhöhe um mehr Spiel für die Feder zu bekommen und um\n"
@@ -3192,7 +3192,7 @@ msgstr "Strahldicke"
 
 #. help for parameter beamwidth
 #: boxes/generators/rotary.py
-msgid "width of the (aluminium) profile connecting the parts"
+msgid "width of the (aluminium) profile connecting the part"
 msgstr "Breite des (Aluminium-)Profils, das die Teile verbindet"
 
 #. parameter name
@@ -3202,7 +3202,7 @@ msgstr "Strahlhöhe"
 
 #. help for parameter beamheight
 #: boxes/generators/rotary.py
-msgid "height of the (aluminium) profile connecting the parts"
+msgid "height of the (aluminium) profile connecting the part"
 msgstr "Höhe des (Aluminium-)Profils, das die Teile verbindet"
 
 #. name of box generator
@@ -3982,7 +3982,7 @@ msgstr "Einstellungen Kiste"
 
 #. help for parameter play
 #: boxes/generators/two_piece.py
-msgid "play between the two parts as multipleof the wall thickness"
+msgid "play between the two part as multipleof the wall thickness"
 msgstr "Spiel zwischen den beiden Teilen als Vielfaches der Wandstärke"
 
 #. name of box generator
@@ -4801,7 +4801,7 @@ msgid "labels"
 msgstr ""
 
 #. help for parameter labels
-msgid "label the parts (where available)"
+msgid "label the part (where available)"
 msgstr ""
 
 #. help for parameter reference
@@ -4812,7 +4812,7 @@ msgstr ""
 
 #. help for parameter tabs
 msgid ""
-"width of tabs holding the parts in place (in mm)(not supported "
+"width of tabs holding the part in place (in mm)(not supported "
 "everywhere) "
 "[🛈](https://florianfesti.github.io/boxes/html/usermanual.html#tabs)"
 msgstr ""
@@ -4850,7 +4850,7 @@ msgstr ""
 
 #. help for parameter spacing
 msgid ""
-"spacing around parts (multiples of thickness [: extra space in mm]) "
+"spacing around part (multiples of thickness [: extra space in mm]) "
 "[🛈](https://florianfesti.github.io/boxes/html/usermanual.html#spacing)"
 msgstr ""
 
@@ -5112,7 +5112,7 @@ msgid ""
 "expansions,\n"
 "with the lid slightly raised.\n"
 "\n"
-"The parts of a given element are mostly generated next to each other "
+"The part of a given element are mostly generated next to each other "
 "vertically.\n"
 "It should be straightforward to match them.\n"
 "\n"
@@ -6115,7 +6115,7 @@ msgstr ""
 #. long description of BottleStack in markdown
 #: boxes/generators/bottlestack.py
 msgid ""
-"When rendered with the \"double\" option the parts with the double slots "
+"When rendered with the \"double\" option the part with the double slots "
 "get connected the shorter beams in the asymmetrical slots.\n"
 "\n"
 "Without the \"double\" option the stand is a bit narrower.\n"
@@ -8618,7 +8618,7 @@ msgid ""
 "that protects\n"
 "the fat balls from rain and snow. The design was tested using 4mm plywood"
 " for the\n"
-"main structural parts. For the spacer of the locking mechanism two layers"
+"main structural part. For the spacer of the locking mechanism two layers"
 " of 3mm\n"
 "plywood have been stacked. The poles were made from 8mm diameter beech "
 "rod and 19cm\n"
@@ -8626,7 +8626,7 @@ msgid ""
 "numbers, but\n"
 "only the defaults have ever been built.\n"
 "\n"
-"The final dispenser consists of two parts which slide into each other. "
+"The final dispenser consists of two part which slide into each other. "
 "You can mount\n"
 "a hook to hang it into a tree. All edges that have angles different from "
 "90 degrees (chamfers)\n"
@@ -8671,7 +8671,7 @@ msgid ""
 "  * N balcony walls surrounding the floor.\n"
 "  * N poles that join floor and ceiling (not part of the drawing)\n"
 "\n"
-"Other parts needed for assembly:\n"
+"Other part needed for assembly:\n"
 "\n"
 "  * Wooden rod (N times the length of the poles).\n"
 "  * A hook (e.g. M5x50mm)\n"
@@ -8685,7 +8685,7 @@ msgid ""
 "  * Glue balcony walls to the floor\n"
 "  * Glue pairs of roof tiles and use the roof bottom plate as a jig, Hot "
 "glue may be used to\n"
-"    tack the parts.\n"
+"    tack the part.\n"
 "  * Glue all roof tiles to form the roof\n"
 "  * Glue spacer(s) and the bracket into a stack\n"
 "  * Glue roof tiles to the roof bottom plate and attach the support piece"
@@ -8717,8 +8717,8 @@ msgstr ""
 msgid ""
 "\n"
 "Use small nails to properly align the pieces of the bayonet latch. Glue "
-"the parts of the bayonet latch before assembling the \"axle\". The inner "
-"parts go at the side and the outer parts at the inside of the axle.\n"
+"the part of the bayonet latch before assembling the \"axle\". The inner "
+"part go at the side and the outer part at the inside of the axle.\n"
 "![opened spool](static/samples/FilamentSpool-2.jpg)"
 msgstr ""
 
@@ -9924,9 +9924,9 @@ msgstr ""
 #: boxes/generators/jointpanel.py
 msgid ""
 "This can be used to just create a big panel in a smaller laser cutter. "
-"But the actual use is to split large parts into multiple smaller pieces. "
+"But the actual use is to split large part into multiple smaller pieces. "
 "Copy the outline onto the sheet and then use the pieces to cut it into "
-"multiple parts that each can fit your laser cutter. Note that each piece "
+"multiple part that each can fit your laser cutter. Note that each piece "
 "must be cut with the sheet surrounding it to ensure the burn correction "
 "(aka kerf) is correct. Depending on your vector graphics software you may"
 " need to duplicate your part multiple times and then generate the "
@@ -9937,8 +9937,8 @@ msgid ""
 "away. Make sure your changes work the same way and you do not cutting "
 "away the kerf.\n"
 "\n"
-"Small dove tails make it easier to fit parts in without problems. Lookout"
-" for pieces cut loose where the dove tails meet the edge of the parts. "
+"Small dove tails make it easier to fit part in without problems. Lookout"
+" for pieces cut loose where the dove tails meet the edge of the part. "
 "Move your part if necessary to avoid dove tails or details of your part "
 "colliding in a weird way.\n"
 "\n"
@@ -10097,7 +10097,7 @@ msgstr ""
 
 #. help for parameter Margin
 #: boxes/generators/kamishibai.py
-msgid "Margin for sheets and moving parts in mm"
+msgid "Margin for sheets and moving part in mm"
 msgstr ""
 
 #. parameter name
@@ -10746,7 +10746,7 @@ msgid ""
 "Increase extraheight to get more space for the spring and to make the\n"
 "sliding mechanism less likely to bind. You may need to add some wax on "
 "the\n"
-"parts sliding on each other to reduce friction.\n"
+"part sliding on each other to reduce friction.\n"
 msgstr ""
 
 #. name of box generator
@@ -10888,7 +10888,7 @@ msgid ""
 "    This design assumes that the distance between the leds is equal in "
 "both directions.\n"
 "\n"
-"    There are several parts to this design:\n"
+"    There are several part to this design:\n"
 "    - The inner frame to hold the pcb in place\n"
 "    - The front frame to hold a sandwich of plexiglass, spacer and the "
 "pcb\n"
@@ -10903,7 +10903,7 @@ msgid ""
 "    - The side panels with finger joints to hold everything together\n"
 "\n"
 "    Assembly:\n"
-"    1. Cut the parts\n"
+"    1. Cut the part\n"
 "    2. Assemble the frame (side panels and inner frame)\n"
 "    3. Insert the pcb, the spacers and the plexiglass\n"
 "    4. Close the front frame\n"
@@ -11345,7 +11345,7 @@ msgstr ""
 
 #. help for parameter Margin
 #: boxes/generators/nightlightbox.py
-msgid "Margin for moving parts in mm"
+msgid "Margin for moving part in mm"
 msgstr ""
 
 msgid ""
@@ -11906,7 +11906,7 @@ msgid ""
 "Do not assemble sides before attaching the lid!\n"
 "    Hinge of the lid has to be placed first because it is impossible\n"
 "    to get it in position without removing the side wall. The lid can\n"
-"    be a bit tricky to assemble. Keep track of how the parts fit "
+"    be a bit tricky to assemble. Keep track of how the part fit "
 "together.\n"
 "    Part with label \"lid back\" is placed in the hinges"
 msgstr ""
@@ -12840,7 +12840,7 @@ msgstr ""
 
 #. help for parameter play
 #: boxes/generators/slidingdrawer.py
-msgid "play between the two parts as multiple of the wall thickness"
+msgid "play between the two part as multiple of the wall thickness"
 msgstr ""
 
 #. name of box generator
@@ -13022,7 +13022,7 @@ msgstr ""
 #. help for parameter amount_gores
 #: boxes/generators/sphere.py
 msgid ""
-"The amount of gores/parts you want the sphere to have, has to be at least"
+"The amount of gores/part you want the sphere to have, has to be at least"
 " 3"
 msgstr ""
 
@@ -14333,7 +14333,7 @@ msgstr ""
 #. long description of BottleStack in markdown
 #: boxes/generators/bottlestack.py
 msgid ""
-"When rendered with the \\\"double\\\" option the parts with the double "
+"When rendered with the \\\"double\\\" option the part with the double "
 "slots get connected the shorter beams in the asymmetrical slots.\n"
 msgstr ""
 
@@ -14406,7 +14406,7 @@ msgstr ""
 
 #. help for parameter slide_clearance
 #: boxes/generators/fatballdispenser.py
-msgid "The gap between the parts that slide into each other\n"
+msgid "The gap between the part that slide into each other\n"
 msgstr ""
 
 #. help for parameter pole_clearance_factor
@@ -14443,9 +14443,9 @@ msgstr ""
 #: boxes/generators/jointpanel.py
 msgid ""
 "This can be used to just create a big panel in a smaller laser cutter. "
-"But the actual use is to split large parts into multiple smaller pieces. "
+"But the actual use is to split large part into multiple smaller pieces. "
 "Copy the outline onto the sheet and then use the pieces to cut it into "
-"multiple parts that each can fit your laser cutter. Note that each piece "
+"multiple part that each can fit your laser cutter. Note that each piece "
 "must be cut with the sheet surrounding it to ensure the burn correction "
 "(aka kerf) is correct. Depending on your vector graphics software you may"
 " need to duplicate your part multiple times and then generate the "

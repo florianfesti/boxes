@@ -471,7 +471,7 @@ msgstr "盒子"
 
 #. name of generator group
 #: boxes/generators/__init__.py
-msgid "FlexBox"
+msgid "Flex"
 msgstr "柔性盒子"
 
 #. title of group FlexBox

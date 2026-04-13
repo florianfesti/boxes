@@ -15,7 +15,7 @@ Command line (remove spaces between dashes): boxes RoundedRegularBox
 <title>RoundedRegularBox</title>
 <metadata>
 <rdf:RDF><cc:Work>
-<dc:title>FlexBox - RoundedRegularBox</dc:title>
+<dc:title>Flex - RoundedRegularBox</dc:title>
 <dc:source>boxes RoundedRegularBox</dc:source>
 <dc:description>Regular polygon box with rounded vertical edges.
 

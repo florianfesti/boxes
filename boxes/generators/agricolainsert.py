@@ -18,7 +18,7 @@ from functools import partial
 
 from boxes import Boxes, edges
 
-from boxes.generators.boxes_trays.dividertray import DividerSlotsEdge, SlotDescriptionsGenerator
+from boxes.generators.tray.dividertray import DividerSlotsEdge, SlotDescriptionsGenerator
 
 
 class AgricolaInsert(Boxes):

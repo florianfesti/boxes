@@ -75,6 +75,7 @@ cut in a single laser pass with minimal material waste.
     pointer_style: str = "triangle"
     crenel_enabled: bool = False
     crenel_depth: float = 4.0
+    crenel_width: float = 0.5
     crenel_shape: str = "symmetric"
     crenel_rounded: bool = True
     crenel_radius: float = 2.0
@@ -92,8 +93,8 @@ cut in a single laser pass with minimal material waste.
                              bold=self.font_bold, italic=self.font_italic)
         self.addSettingsArgs(CrenelSettings, prefix="crenel",
                              enabled=self.crenel_enabled, depth=self.crenel_depth,
-                             shape=self.crenel_shape, rounded=self.crenel_rounded,
-                             radius=self.crenel_radius)
+                             width=self.crenel_width, shape=self.crenel_shape,
+                             rounded=self.crenel_rounded, radius=self.crenel_radius)
 
         self.argparser.add_argument(
             "--outer_diameter", action="store", type=FloatStepper(1.0), default=self.outer_diameter,
@@ -242,7 +243,7 @@ cut in a single laser pass with minimal material waste.
 
         angle_step = 2.0 * math.pi / n
         half = angle_step / 2.0
-        quarter = half / 2.0
+        quarter = angle_step * (1.0 - max(0.05, min(0.95, self.crenel_width))) / 2.0
 
         self.set_source_color(Color.OUTER_CUT)
         start_angle = math.pi / 2.0

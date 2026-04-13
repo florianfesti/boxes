@@ -61,8 +61,9 @@ class ScoreSettings(Settings):
                         prefix: str | None = None, **defaults: object) -> None:
         """Register arguments in a dedicated *Score Settings* group."""
         prefix = prefix or "Score"
+        title = str(defaults.pop("title", "Score"))
 
-        group = parser.add_argument_group("Score Settings")
+        group = parser.add_argument_group(title)
         group.prefix = prefix  # type: ignore[attr-defined]
 
         default_min = cast(int, defaults.get("min", cls.absolute_params["min"]))

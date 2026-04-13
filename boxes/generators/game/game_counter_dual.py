@@ -38,6 +38,7 @@ class _WheelParams:
     score_angle: float
     crenel_enabled: bool
     crenel_depth: float
+    crenel_width: float
     crenel_shape: str
     crenel_rounded: bool
     crenel_radius: float
@@ -95,12 +96,14 @@ diameters, and optional gear-tooth (crenel) rims.
     # crenel – wheel 1
     crenel1_enabled: bool = False
     crenel1_depth: float = 4.0
+    crenel1_width: float = 0.5
     crenel1_shape: str = "radial"
     crenel1_rounded: bool = True
     crenel1_radius: float = 2.0
     # crenel – wheel 2
     crenel2_enabled: bool = False
     crenel2_depth: float = 4.0
+    crenel2_width: float = 0.5
     crenel2_shape: str = "radial"
     crenel2_rounded: bool = True
     crenel2_radius: float = 2.0
@@ -118,12 +121,12 @@ diameters, and optional gear-tooth (crenel) rims.
                              bold=self.font_bold, italic=self.font_italic)
         self.addSettingsArgs(CrenelSettings, prefix="crenel1", title="Crenel Wheel 1 Settings",
                              enabled=self.crenel1_enabled, depth=self.crenel1_depth,
-                             shape=self.crenel1_shape, rounded=self.crenel1_rounded,
-                             radius=self.crenel1_radius)
+                             width=self.crenel1_width, shape=self.crenel1_shape,
+                             rounded=self.crenel1_rounded, radius=self.crenel1_radius)
         self.addSettingsArgs(CrenelSettings, prefix="crenel2", title="Crenel Wheel 2 Settings",
                              enabled=self.crenel2_enabled, depth=self.crenel2_depth,
-                             shape=self.crenel2_shape, rounded=self.crenel2_rounded,
-                             radius=self.crenel2_radius)
+                             width=self.crenel2_width, shape=self.crenel2_shape,
+                             rounded=self.crenel2_rounded, radius=self.crenel2_radius)
 
         self.argparser.add_argument("--wheel1_outer_diameter", action="store", type=FloatStepper(1.0),
                                     default=self.wheel1_outer_diameter,
@@ -153,6 +156,7 @@ diameters, and optional gear-tooth (crenel) rims.
             score_angle=getattr(self, f"score{s}_angle"),
             crenel_enabled=getattr(self, f"crenel{s}_enabled"),
             crenel_depth=getattr(self, f"crenel{s}_depth"),
+            crenel_width=getattr(self, f"crenel{s}_width"),
             crenel_shape=getattr(self, f"crenel{s}_shape"),
             crenel_rounded=getattr(self, f"crenel{s}_rounded"),
             crenel_radius=getattr(self, f"crenel{s}_radius"),
@@ -202,7 +206,8 @@ diameters, and optional gear-tooth (crenel) rims.
 
         angle_step = 2.0 * math.pi / n
         half = angle_step / 2.0
-        quarter = half / 2.0
+        # tooth_half: half-angle of the tooth = sector × (1 − gap_fraction) / 2
+        tooth_half = angle_step * (1.0 - max(0.05, min(0.95, wp.crenel_width))) / 2.0
 
         self.set_source_color(Color.OUTER_CUT)
         start_angle = math.pi / 2.0
@@ -215,8 +220,8 @@ diameters, and optional gear-tooth (crenel) rims.
         ) -> tuple[tuple[float, float], tuple[float, float]]:
             bx_in = math.cos(center_a_in)
             by_in = math.sin(center_a_in)
-            ox_l, oy_l = pt_on(ro, center_a_in - quarter)
-            ox_r, oy_r = pt_on(ro, center_a_in + quarter)
+            ox_l, oy_l = pt_on(ro, center_a_in - tooth_half)
+            ox_r, oy_r = pt_on(ro, center_a_in + tooth_half)
             return (ox_l - depth * bx_in, oy_l - depth * by_in), \
                 (ox_r - depth * bx_in, oy_r - depth * by_in)
 
@@ -225,8 +230,8 @@ diameters, and optional gear-tooth (crenel) rims.
 
         for i in range(n):
             center_a = start_angle + i * angle_step
-            tooth_l = center_a - quarter
-            tooth_r = center_a + quarter
+            tooth_l = center_a - tooth_half
+            tooth_r = center_a + tooth_half
 
             if radial:
                 if r_corn <= 0.0 or ri <= 0.0:
@@ -236,8 +241,8 @@ diameters, and optional gear-tooth (crenel) rims.
                     ctx.line_to(*pt_on(ro, tooth_r))
                     last_tooth_r = tooth_r
                 else:
-                    da_o = min(r_corn / ro, quarter * 0.45)
-                    da_i = min(r_corn / ri, quarter * 0.45)
+                    da_o = min(r_corn / ro, tooth_half * 0.45)
+                    da_i = min(r_corn / ri, tooth_half * 0.45)
                     ctx.arc(cx, cy, ro, center_a - half, tooth_l - da_o)
                     ctx.curve_to(*pt_on(ri, tooth_l - da_i),
                                  *pt_on(ri, tooth_l - da_i),
@@ -258,8 +263,8 @@ diameters, and optional gear-tooth (crenel) rims.
                     ctx.line_to(*pt_on(ro, tooth_r))
                     last_tooth_r = tooth_r
                 else:
-                    da_o = min(r_corn / ro, quarter * 0.4)
-                    rc = min(r_corn, ro * quarter * 0.4)
+                    da_o = min(r_corn / ro, tooth_half * 0.4)
+                    rc = min(r_corn, ro * tooth_half * 0.4)
                     ctx.arc(cx, cy, ro, center_a - half, tooth_l - da_o)
                     fl_ctrl = (cx + ro * math.cos(tooth_l) - rc * bx,
                                cy + ro * math.sin(tooth_l) - rc * by)
@@ -291,7 +296,7 @@ diameters, and optional gear-tooth (crenel) rims.
         if self.magnet_diameter > 0.0:
             self.hole(cx, cy, d=self.magnet_diameter)
 
-        label_r = wp.score_radius if wp.score_radius > 0.0 else ro - self.font_size * 1.2
+        label_r = wp.score_radius if wp.score_radius > 0.0 else ro - self.font_size / 2.0 - 1.0
         self._draw_score_numbers(cx, cy, label_r, ctx, wp)
 
     def _draw_board(self, move: str = "") -> None:

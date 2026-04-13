@@ -45,6 +45,7 @@ class CrenelSettings(Settings):
 
      * enabled    : False  : Add crenels on the outer rim
      * depth      : 2.0   : Depth of each crenel [mm]
+     * width      : 0.5   : Crenel gap width as a fraction of the sector (0.1 = narrow gap, 0.9 = wide gap)
      * shape      : symmetric : Crenel wall shape: symmetric (straight walls) or radial (walls converge at center)
      * rounded    : False  : Round the crenel corners
      * radius     : 0.5   : Corner radius for rounded crenels [mm]
@@ -53,6 +54,7 @@ class CrenelSettings(Settings):
     absolute_params: dict = {
         "enabled": True,
         "depth":   2.0,
+        "width":   0.5,
         "shape":   "symmetric",
         "rounded": True,
         "radius":  0.5,
@@ -64,8 +66,9 @@ class CrenelSettings(Settings):
                         prefix: str | None = None, **defaults: object) -> None:
         """Register arguments in a dedicated *Crenel Settings* group."""
         prefix = prefix or "crenel"
+        title = str(defaults.pop("title", "Crenel"))
 
-        group = parser.add_argument_group("Crenel Settings")
+        group = parser.add_argument_group(title)
         group.prefix = prefix  # type: ignore[attr-defined]
 
         default_enabled = bool(defaults.get("enabled", cls.absolute_params["enabled"]))
@@ -81,6 +84,13 @@ class CrenelSettings(Settings):
             action="store", type=FloatStepper(0.5),
             default=default_depth,
             help="Depth of each outer crenel [mm]")
+
+        default_width = float(defaults.get("width", cls.absolute_params["width"]))  # type: ignore[arg-type]
+        group.add_argument(
+            f"--{prefix}_width",
+            action="store", type=FloatStepper(0.05),
+            default=default_width,
+            help="Crenel gap width as a fraction of the sector (0.1 = narrow gap, 0.9 = wide gap)")
 
         default_shape = str(defaults.get("shape", cls.absolute_params["shape"]))
         group.add_argument(

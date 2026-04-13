@@ -402,6 +402,9 @@ class Boxes:
             "--qr_code", action="store", type=boolarg, default=False,
             help="Add a QR Code with link or command line to the generated output")
         defaultgroup.add_argument(
+            "--url", action="store", type=boolarg, default=False,
+            help="Add URL to generated output")
+        defaultgroup.add_argument(
             "--inner_corners", action="store", type=str, default="loop",
             choices=["loop", "corner", "backarc"],
             help="style for inner corners [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#inner-corners)")
@@ -470,18 +473,21 @@ class Boxes:
         self.spacing = 2 * self.burn + self.spacing[0] * self.thickness + self.spacing[1]
         self.set_font("sans-serif")
         self._buildObjects()
-        if self.reference and self.format != 'svg_Ponoko':
-            self.move(self.reference, 10, "up", before=True)
-            self.ctx.rectangle(0, 0, self.reference, 10)
-            if self.reference < 80:
-                self.text(f"{self.reference:.1f}mm, burn:{self.burn:.2f}mm", self.reference + 5, 5,
-                          fontsize=6, align="middle left", color=Color.ANNOTATIONS)
-            else:
-                self.text(f"{self.reference:.1f}mm, burn:{self.burn:.2f}mm", self.reference / 2.0, 5,
-                          fontsize=6, align="middle center", color=Color.ANNOTATIONS)
-            self.move(self.reference, 10, "up")
+        if self.format != 'svg_Ponoko':
+            if self.reference:
+                self.move(self.reference, 10, "up", before=True)
+                self.ctx.rectangle(0, 0, self.reference, 10)
+                if self.reference < 80:
+                    self.text(f"{self.reference:.1f}mm, burn:{self.burn:.2f}mm", self.reference + 5, 5,
+                              fontsize=6, align="middle left", color=Color.ANNOTATIONS)
+                else:
+                    self.text(f"{self.reference:.1f}mm, burn:{self.burn:.2f}mm", self.reference / 2.0, 5,
+                              fontsize=6, align="middle center", color=Color.ANNOTATIONS)
+                self.move(self.reference, 10, "up")
             if self.qr_code:
                 self.renderQrCode()
+            if self.url:
+                self.renderUrl()
             self.ctx.stroke()
 
     def renderQrCode(self):
@@ -490,8 +496,14 @@ class Boxes:
         if content:
             with self.saved_context():
                 self.qrcode(content, box_size=size, move="right")
-                self.text(text=content, y=6, color=Color.ANNOTATIONS, fontsize=6)
             self.qrcode(content, box_size=size, move="up only")
+
+    def renderUrl(self):
+        content = self.metadata['url_short'] or self.metadata["cli_short"]
+        if self.url:
+            with self.saved_context():
+                self.urltext(content, fontsize=6, color=Color.ANNOTATIONS)
+            self.urltext(content, fontsize=6, move="up only")
 
     def buildArgParser(self, *l, **kw):
         """
@@ -1672,6 +1684,14 @@ class Boxes:
         self.set_source_color(color)
         q.make_image(ctx=self.ctx)
 
+        self.move(tw, th, move)
+
+    def urltext(self, content: str, fontsize: float = 6.0, color=Color.ANNOTATIONS, move: str | None = None):
+        tw, th = len(content), fontsize * 3
+        if self.move(tw, th, move, True):
+            return
+
+        self.text(text=content, y=6, color=color, fontsize=fontsize)
         self.move(tw, th, move)
 
     @restore

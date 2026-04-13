@@ -323,17 +323,25 @@ diameters, and optional gear-tooth (crenel) rims.
 
         self.move(board_w, board_h, move)
 
-    def _draw_wheel(self, wp: _WheelParams, ctx: Context, move: str = "") -> None:
-        """Ring drawn in a single bounding square."""
-        ro = wp.outer_diameter / 2
-        side = ro * 2
+    def _draw_wheels_row(self, wp1: _WheelParams, wp2: _WheelParams,
+                         ctx: Context, move: str = "") -> None:
+        """Both wheels side-by-side in one bounding box, vertically centred."""
+        ro1 = wp1.outer_diameter / 2
+        ro2 = wp2.outer_diameter / 2
+        max_r = max(ro1, ro2)
 
-        if self.move(side, side, move, before=True):
+        row_w = ro1 * 2 + self.spacing + ro2 * 2
+        row_h = max_r * 2
+
+        if self.move(row_w, row_h, move, before=True):
             return
 
-        self._draw_ring(ro, ro, ctx, wp)
+        # Both centres sit at the vertical midpoint of the shared bounding box.
+        cy = max_r
+        self._draw_ring(ro1,                              cy, ctx, wp1)
+        self._draw_ring(ro1 * 2 + self.spacing + ro2,    cy, ctx, wp2)
 
-        self.move(side, side, move)
+        self.move(row_w, row_h, move)
 
     # ------------------------------------------------------------------ #
     # Main render                                                          #
@@ -344,7 +352,6 @@ diameters, and optional gear-tooth (crenel) rims.
         wp1 = self._wheel_params(1)
         wp2 = self._wheel_params(2)
 
-        # Vertical stack – rendered bottom-up so SVG reads: wheel1 / wheel2 / board
-        self._draw_wheel(wp1, ctx, move="right")
-        self._draw_wheel(wp2, ctx, move="up")
+        # Board at bottom, both wheels above it – centre-aligned horizontally.
         self._draw_board(move="up")
+        self._draw_wheels_row(wp1, wp2, ctx, move="up")

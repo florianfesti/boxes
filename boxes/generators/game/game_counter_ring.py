@@ -221,16 +221,18 @@ cut in a single laser pass with minimal material waste.
                             ro: float, ctx: Context) -> None:
         """Draw the outer perimeter of Piece A with gear-like crenels.
 
-        One notch (gap) per score value, evenly distributed around 360°.
-        Tooth and gap each occupy half a sector (50 % duty cycle).
+        One tooth per score value, evenly distributed around 360°.
+        Tooth tips land exactly at ``ro`` (= outer_diameter/2); the base circle
+        (between teeth) sits at ``ri = ro - depth``, so the overall diameter
+        never exceeds ``outer_diameter``.
 
         ``crenel_shape``:
           * ``symmetric`` – straight walls perpendicular to the sector bisector
-            (true rectangular slots, geometrically symmetric).
+            (true rectangular teeth, geometrically symmetric).
           * ``radial``    – walls are radial lines converging toward the center.
 
         ``crenel_rounded`` adds fillets of radius ``crenel_radius`` at the four
-        inner corners of each notch.
+        base corners of each tooth.
         """
         n = self.score_max - self.score_min + 1
         if n < 1:
@@ -240,7 +242,7 @@ cut in a single laser pass with minimal material waste.
         radial = (self.crenel_shape == "radial")
         rounded = self.crenel_rounded
         r_corn = self.crenel_radius if rounded else 0.0
-        ri = ro - depth
+        ri = ro - depth  # base circle (gaps between teeth)
 
         angle_step = 2.0 * math.pi / n
         half = angle_step / 2.0
@@ -252,18 +254,18 @@ cut in a single laser pass with minimal material waste.
         def pt_on(r: float, a: float) -> tuple[float, float]:
             return cx + r * math.cos(a), cy + r * math.sin(a)
 
-        def sym_inner_corners(center_a_in: float) -> tuple[
+        def sym_outer_corners(center_a_in: float) -> tuple[
             tuple[float, float], tuple[float, float]]:
-            """Left and right inner corners of a rectangular notch."""
+            """Left and right outer corners of a rectangular tooth."""
             bx_in = math.cos(center_a_in)
             by_in = math.sin(center_a_in)
-            ox_l, oy_l = pt_on(ro, center_a_in - quarter)
-            ox_r, oy_r = pt_on(ro, center_a_in + quarter)
-            return (ox_l - depth * bx_in, oy_l - depth * by_in), \
-                (ox_r - depth * bx_in, oy_r - depth * by_in)
+            ix_l, iy_l = pt_on(ri, center_a_in - quarter)
+            ix_r, iy_r = pt_on(ri, center_a_in + quarter)
+            return (ix_l + depth * bx_in, iy_l + depth * by_in), \
+                (ix_r + depth * bx_in, iy_r + depth * by_in)
 
-        # Start on the outer rim at the very beginning of sector 0's gap.
-        ctx.move_to(*pt_on(ro, start_angle - half))
+        # Start on the base (gap) circle
+        ctx.move_to(*pt_on(ri, start_angle - half))
 
         # last_tooth_r tracks where the path ends after each tooth so the
         # closing gap arc uses the correct start angle.
@@ -271,55 +273,54 @@ cut in a single laser pass with minimal material waste.
 
         for i in range(n):
             center_a = start_angle + i * angle_step
-            tooth_l = center_a - quarter  # left  outer edge of tooth
-            tooth_r = center_a + quarter  # right outer edge of tooth
-            gap_end = center_a + half     # end of the following gap
+            tooth_l = center_a - quarter  # left  base edge of tooth
+            tooth_r = center_a + quarter  # right base edge of tooth
 
             if radial:
                 if r_corn <= 0.0 or ri <= 0.0:
-                    # Gap arc → left wall down → floor arc → right wall up
-                    ctx.arc(cx, cy, ro, center_a - half, tooth_l)
-                    ctx.line_to(*pt_on(ri, tooth_l))
-                    ctx.arc(cx, cy, ri, tooth_l, tooth_r)
-                    ctx.line_to(*pt_on(ro, tooth_r))
+                    # Gap arc (inner) → wall out → tooth tip arc → wall in
+                    ctx.arc(cx, cy, ri, center_a - half, tooth_l)
+                    ctx.line_to(*pt_on(ro, tooth_l))
+                    ctx.arc(cx, cy, ro, tooth_l, tooth_r)
+                    ctx.line_to(*pt_on(ri, tooth_r))
                     last_tooth_r = tooth_r
                 else:
-                    da_o = min(r_corn / ro, quarter * 0.45)
                     da_i = min(r_corn / ri, quarter * 0.45)
-                    ctx.arc(cx, cy, ro, center_a - half, tooth_l - da_o)
-                    ctx.curve_to(*pt_on(ri, tooth_l - da_i),
-                                 *pt_on(ri, tooth_l - da_i),
-                                 *pt_on(ri, tooth_l + da_i))
-                    ctx.arc(cx, cy, ri, tooth_l + da_i, tooth_r - da_i)
-                    ctx.curve_to(*pt_on(ro, tooth_r + da_o),
-                                 *pt_on(ro, tooth_r + da_o),
-                                 *pt_on(ro, tooth_r + da_o))
-                    last_tooth_r = tooth_r + da_o
+                    da_o = min(r_corn / ro, quarter * 0.45)
+                    ctx.arc(cx, cy, ri, center_a - half, tooth_l - da_i)
+                    ctx.curve_to(*pt_on(ro, tooth_l - da_o),
+                                 *pt_on(ro, tooth_l - da_o),
+                                 *pt_on(ro, tooth_l + da_o))
+                    ctx.arc(cx, cy, ro, tooth_l + da_o, tooth_r - da_o)
+                    ctx.curve_to(*pt_on(ri, tooth_r + da_i),
+                                 *pt_on(ri, tooth_r + da_i),
+                                 *pt_on(ri, tooth_r + da_i))
+                    last_tooth_r = tooth_r + da_i
             else:
-                il, ir = sym_inner_corners(center_a)
+                ol, or_ = sym_outer_corners(center_a)
                 bx = math.cos(center_a)
                 by = math.sin(center_a)
                 if r_corn <= 0.0:
-                    ctx.arc(cx, cy, ro, center_a - half, tooth_l)
-                    ctx.line_to(*il)
-                    ctx.line_to(*ir)
-                    ctx.line_to(*pt_on(ro, tooth_r))
+                    ctx.arc(cx, cy, ri, center_a - half, tooth_l)
+                    ctx.line_to(*ol)
+                    ctx.line_to(*or_)
+                    ctx.line_to(*pt_on(ri, tooth_r))
                     last_tooth_r = tooth_r
                 else:
-                    da_o = min(r_corn / ro, quarter * 0.4)
-                    rc = min(r_corn, ro * quarter * 0.4)
-                    ctx.arc(cx, cy, ro, center_a - half, tooth_l - da_o)
-                    fl_ctrl = (cx + ro * math.cos(tooth_l) - rc * bx,
-                               cy + ro * math.sin(tooth_l) - rc * by)
-                    ctx.curve_to(*fl_ctrl, *fl_ctrl, *il)
-                    ctx.line_to(*ir)
-                    fr_ctrl = (cx + ro * math.cos(tooth_r) - rc * bx,
-                               cy + ro * math.sin(tooth_r) - rc * by)
-                    ctx.curve_to(*fr_ctrl, *fr_ctrl, *pt_on(ro, tooth_r + da_o))
-                    last_tooth_r = tooth_r + da_o
+                    da_i = min(r_corn / ri, quarter * 0.4)
+                    rc = min(r_corn, ri * quarter * 0.4)
+                    ctx.arc(cx, cy, ri, center_a - half, tooth_l - da_i)
+                    fl_ctrl = (cx + ri * math.cos(tooth_l) + rc * bx,
+                               cy + ri * math.sin(tooth_l) + rc * by)
+                    ctx.curve_to(*fl_ctrl, *fl_ctrl, *ol)
+                    ctx.line_to(*or_)
+                    fr_ctrl = (cx + ri * math.cos(tooth_r) + rc * bx,
+                               cy + ri * math.sin(tooth_r) + rc * by)
+                    ctx.curve_to(*fr_ctrl, *fr_ctrl, *pt_on(ri, tooth_r + da_i))
+                    last_tooth_r = tooth_r + da_i
 
         # Close the path: gap arc from the last tooth back to the start point.
-        ctx.arc(cx, cy, ro, last_tooth_r, start_angle - half + 2.0 * math.pi)
+        ctx.arc(cx, cy, ri, last_tooth_r, start_angle - half + 2.0 * math.pi)
         ctx.stroke()
 
     # ------------------------------------------------------------------

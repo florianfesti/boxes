@@ -195,7 +195,12 @@ diameters, and optional gear-tooth (crenel) rims.
 
     def _draw_outer_crenels(self, cx: float, cy: float, ro: float,
                             ctx: Context, wp: _WheelParams) -> None:
-        """Draw gear-tooth outer perimeter for a ring wheel."""
+        """Draw gear-tooth outer perimeter for a ring wheel.
+
+        ``ro`` is the final outer radius (tooth tips = outer_diameter/2).
+        The base circle (between teeth) is at ``ri = ro - depth``, so the
+        overall diameter never exceeds ``outer_diameter``.
+        """
         n = wp.score_max - wp.score_min + 1
         if n < 1:
             return
@@ -203,11 +208,11 @@ diameters, and optional gear-tooth (crenel) rims.
         depth = wp.crenel_depth
         radial = (wp.crenel_shape == "radial")
         r_corn = wp.crenel_radius if wp.crenel_rounded else 0.0
-        ri = ro - depth
+        ri = ro - depth  # base circle (gaps between teeth)
 
         angle_step = 2.0 * math.pi / n
         half = angle_step / 2.0
-        # tooth_half: half-angle of the tooth = sector × (1 − gap_fraction) / 2
+        # tooth_half: half-angle of one tooth
         tooth_half = angle_step * (1.0 - max(0.05, min(0.95, wp.crenel_width))) / 2.0
 
         self.set_source_color(Color.OUTER_CUT)
@@ -216,17 +221,19 @@ diameters, and optional gear-tooth (crenel) rims.
         def pt_on(r: float, a: float) -> tuple[float, float]:
             return cx + r * math.cos(a), cy + r * math.sin(a)
 
-        def sym_inner_corners(
+        def sym_outer_corners(
                 center_a_in: float,
         ) -> tuple[tuple[float, float], tuple[float, float]]:
+            """Left and right outer corners of a rectangular tooth (symmetric shape)."""
             bx_in = math.cos(center_a_in)
             by_in = math.sin(center_a_in)
-            ox_l, oy_l = pt_on(ro, center_a_in - tooth_half)
-            ox_r, oy_r = pt_on(ro, center_a_in + tooth_half)
-            return (ox_l - depth * bx_in, oy_l - depth * by_in), \
-                (ox_r - depth * bx_in, oy_r - depth * by_in)
+            ix_l, iy_l = pt_on(ri, center_a_in - tooth_half)
+            ix_r, iy_r = pt_on(ri, center_a_in + tooth_half)
+            return (ix_l + depth * bx_in, iy_l + depth * by_in), \
+                (ix_r + depth * bx_in, iy_r + depth * by_in)
 
-        ctx.move_to(*pt_on(ro, start_angle - half))
+        # Start on the base (gap) circle
+        ctx.move_to(*pt_on(ri, start_angle - half))
         last_tooth_r: float = start_angle - half
 
         for i in range(n):
@@ -236,47 +243,49 @@ diameters, and optional gear-tooth (crenel) rims.
 
             if radial:
                 if r_corn <= 0.0 or ri <= 0.0:
-                    ctx.arc(cx, cy, ro, center_a - half, tooth_l)
-                    ctx.line_to(*pt_on(ri, tooth_l))
-                    ctx.arc(cx, cy, ri, tooth_l, tooth_r)
-                    ctx.line_to(*pt_on(ro, tooth_r))
+                    # Gap arc (inner) → wall out → tooth tip arc → wall in
+                    ctx.arc(cx, cy, ri, center_a - half, tooth_l)
+                    ctx.line_to(*pt_on(ro, tooth_l))
+                    ctx.arc(cx, cy, ro, tooth_l, tooth_r)
+                    ctx.line_to(*pt_on(ri, tooth_r))
                     last_tooth_r = tooth_r
                 else:
-                    da_o = min(r_corn / ro, tooth_half * 0.45)
                     da_i = min(r_corn / ri, tooth_half * 0.45)
-                    ctx.arc(cx, cy, ro, center_a - half, tooth_l - da_o)
-                    ctx.curve_to(*pt_on(ri, tooth_l - da_i),
-                                 *pt_on(ri, tooth_l - da_i),
-                                 *pt_on(ri, tooth_l + da_i))
-                    ctx.arc(cx, cy, ri, tooth_l + da_i, tooth_r - da_i)
-                    ctx.curve_to(*pt_on(ro, tooth_r + da_o),
-                                 *pt_on(ro, tooth_r + da_o),
-                                 *pt_on(ro, tooth_r + da_o))
-                    last_tooth_r = tooth_r + da_o
+                    da_o = min(r_corn / ro, tooth_half * 0.45)
+                    ctx.arc(cx, cy, ri, center_a - half, tooth_l - da_i)
+                    ctx.curve_to(*pt_on(ro, tooth_l - da_o),
+                                 *pt_on(ro, tooth_l - da_o),
+                                 *pt_on(ro, tooth_l + da_o))
+                    ctx.arc(cx, cy, ro, tooth_l + da_o, tooth_r - da_o)
+                    ctx.curve_to(*pt_on(ri, tooth_r + da_i),
+                                 *pt_on(ri, tooth_r + da_i),
+                                 *pt_on(ri, tooth_r + da_i))
+                    last_tooth_r = tooth_r + da_i
             else:
-                il, ir = sym_inner_corners(center_a)
+                ol, or_ = sym_outer_corners(center_a)
                 bx = math.cos(center_a)
                 by = math.sin(center_a)
                 if r_corn <= 0.0:
-                    ctx.arc(cx, cy, ro, center_a - half, tooth_l)
-                    ctx.line_to(*il)
-                    ctx.line_to(*ir)
-                    ctx.line_to(*pt_on(ro, tooth_r))
+                    ctx.arc(cx, cy, ri, center_a - half, tooth_l)
+                    ctx.line_to(*ol)
+                    ctx.line_to(*or_)
+                    ctx.line_to(*pt_on(ri, tooth_r))
                     last_tooth_r = tooth_r
                 else:
-                    da_o = min(r_corn / ro, tooth_half * 0.4)
-                    rc = min(r_corn, ro * tooth_half * 0.4)
-                    ctx.arc(cx, cy, ro, center_a - half, tooth_l - da_o)
-                    fl_ctrl = (cx + ro * math.cos(tooth_l) - rc * bx,
-                               cy + ro * math.sin(tooth_l) - rc * by)
-                    ctx.curve_to(*fl_ctrl, *fl_ctrl, *il)
-                    ctx.line_to(*ir)
-                    fr_ctrl = (cx + ro * math.cos(tooth_r) - rc * bx,
-                               cy + ro * math.sin(tooth_r) - rc * by)
-                    ctx.curve_to(*fr_ctrl, *fr_ctrl, *pt_on(ro, tooth_r + da_o))
-                    last_tooth_r = tooth_r + da_o
+                    da_i = min(r_corn / ri, tooth_half * 0.4)
+                    rc = min(r_corn, ri * tooth_half * 0.4)
+                    ctx.arc(cx, cy, ri, center_a - half, tooth_l - da_i)
+                    fl_ctrl = (cx + ri * math.cos(tooth_l) + rc * bx,
+                               cy + ri * math.sin(tooth_l) + rc * by)
+                    ctx.curve_to(*fl_ctrl, *fl_ctrl, *ol)
+                    ctx.line_to(*or_)
+                    fr_ctrl = (cx + ri * math.cos(tooth_r) + rc * bx,
+                               cy + ri * math.sin(tooth_r) + rc * by)
+                    ctx.curve_to(*fr_ctrl, *fr_ctrl, *pt_on(ri, tooth_r + da_i))
+                    last_tooth_r = tooth_r + da_i
 
-        ctx.arc(cx, cy, ro, last_tooth_r, start_angle - half + 2.0 * math.pi)
+        # Close back to the start on the base (gap) circle
+        ctx.arc(cx, cy, ri, last_tooth_r, start_angle - half + 2.0 * math.pi)
         ctx.stroke()
 
     # ------------------------------------------------------------------ #

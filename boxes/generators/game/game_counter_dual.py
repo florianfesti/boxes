@@ -312,36 +312,40 @@ diameters, and optional gear-tooth (crenel) rims.
 
     def _draw_capsule_outline(self, cx1: float, cx2: float, cy: float,
                                r1: float, r2: float, ctx: Context) -> None:
-        """Draw a capsule (stadium) outline: two semicircles joined by tangent lines.
+        """Draw a capsule (stadium) outline: two end-caps joined by smooth tangent lines.
 
         ``cx1`` / ``cx2`` are the wheel-centre x coordinates in local frame.
         ``r1`` / ``r2`` are the capsule radii (outer_radius + margin) for each end.
-        The tangent lines are the external tangents of the two end circles.
 
-        Each semicircle is drawn as two ~90° arcs so that:
-        - the right cap passes through angle 0  (rightmost point of circle 2)
-        - the left cap passes through angle ±π  (leftmost point of circle 1)
-        This avoids the single-Bezier degeneracy that occurs for a full π-radian
-        arc, and ensures the correct side is drawn regardless of whether r1 < r2.
+        The external tangent points lie at polar angle φ = π/2 − α on each
+        circle, where α = asin((r1−r2)/d).  The tangent-point x-offset is
+        +r·sin(α), *not* −r·sin(α): using the wrong sign displaces the tangent
+        point off the true tangent, causing a visible kink.
+
+        Each cap is split into two ~90° arcs (via angle 0 for the right cap,
+        via ±π for the left cap) to keep the Bézier approximation accurate.
         """
         d = cx2 - cx1
-        arg = max(-1.0, min(1.0, (r1 - r2) / d if d > 1e-6 else 0.0))
-        alpha = math.asin(arg)          # tilt of tangent lines (0 when r1 == r2)
-        theta = math.pi / 2.0 + alpha  # angle of tangent points on each circle
-        sa = math.sin(alpha)
-        ca = math.cos(alpha)
+        if d < 1e-6:
+            return
+        arg = max(-1.0, min(1.0, (r1 - r2) / d))
+        alpha = math.asin(arg)          # tilt angle: 0 when r1 == r2
+        phi = math.pi / 2.0 - alpha    # polar angle of tangent point on each circle
+        sa = math.sin(alpha)           # x-offset factor  (== cos(phi))
+        ca = math.cos(alpha)           # y-offset factor  (== sin(phi))
 
         self.set_source_color(Color.OUTER_CUT)
-        ctx.move_to(cx1 - r1 * sa, cy + r1 * ca)   # upper-left tangent point (angle=theta on c1)
-        ctx.line_to(cx2 - r2 * sa, cy + r2 * ca)   # upper-right tangent point (angle=theta on c2)
-        # Right cap: theta → 0 → -theta  (two CW arcs via the rightmost point of circle 2)
-        ctx.arc(cx2, cy, r2, theta, 0.0)
-        ctx.arc(cx2, cy, r2, 0.0, -theta)
-        # Lower tangent: right → left
-        ctx.line_to(cx1 - r1 * sa, cy - r1 * ca)
-        # Left cap: -theta → -π → theta  (two CW arcs via the leftmost point of circle 1)
-        ctx.arc(cx1, cy, r1, -theta, -math.pi)
-        ctx.arc(cx1, cy, r1, math.pi, theta)
+        # Upper tangent: left tangent point (angle φ on C1) → right tangent point (angle φ on C2)
+        ctx.move_to(cx1 + r1 * sa, cy + r1 * ca)
+        ctx.line_to(cx2 + r2 * sa, cy + r2 * ca)
+        # Right cap: CW from φ → 0 → −φ  (via the rightmost point of circle 2)
+        ctx.arc(cx2, cy, r2, phi, 0.0)
+        ctx.arc(cx2, cy, r2, 0.0, -phi)
+        # Lower tangent: right tangent point (angle −φ on C2) → left (angle −φ on C1)
+        ctx.line_to(cx1 + r1 * sa, cy - r1 * ca)
+        # Left cap: CW from −φ → −π → +φ  (via the leftmost point of circle 1)
+        ctx.arc(cx1, cy, r1, -phi, -math.pi)
+        ctx.arc(cx1, cy, r1, math.pi, phi)
         ctx.stroke()
 
     def _draw_ring(self, cx: float, cy: float,

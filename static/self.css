@@ -319,6 +319,45 @@ textarea {
 
 }
 
+/* Help "?" button */
+.help-btn {
+    font-weight: bold;
+    color: #555;
+}
+
+/* Help modal */
+.help-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+
+.help-modal-box {
+    background: #FFF8EA;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+    padding: 24px 32px;
+    max-width: 480px;
+    width: 90%;
+    text-align: center;
+}
+
+.help-modal-content {
+    margin-bottom: 20px;
+    font-size: 1em;
+    text-align: left;
+}
+
+.help-modal-close {
+    display: block;
+    margin: 0 auto;
+    padding: 4px 20px;
+}
+
 /* ── Tag badges ─────────────────────────────────────────────────────── */
 .tag-badge {
     display: inline-block;

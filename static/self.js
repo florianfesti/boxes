@@ -258,6 +258,22 @@ function initArgsPage(num_hide = null) {
     document.getElementById("preview_chk").addEventListener("change", togglePreview);
 }
 
+/*** Help modal *************************************************/
+
+function openHelpModal(id) {
+    const content = document.getElementById(id);
+    document.getElementById('help-modal-content').innerHTML = content ? content.innerHTML : '';
+    document.getElementById('help-modal').style.display = 'flex';
+}
+
+function closeHelpModal() {
+    document.getElementById('help-modal').style.display = 'none';
+}
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeHelpModal();
+});
+
 /*** Stepper buttons (FloatStepper / IntStepper) *****************/
 
 /** Reset a stepper field to the sentinel string "auto". */

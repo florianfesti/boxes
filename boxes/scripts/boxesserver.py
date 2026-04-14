@@ -222,8 +222,21 @@ class BServer:
             viewname = name[len(prefix) + 1:]
 
         default = defaults.get(name, None)
-        row = """<tr><td id="%s"><label for="%s">%s</label></td><td>%%s</td><td id="%s">%s</td></tr>\n""" % \
-              (name + "_id", name, _(viewname), name + "_description", "" if not a.help else markdown.markdown(_(a.help)))
+        help_html = "" if not a.help else markdown.markdown(_(a.help))
+        help_btn = (
+            f'<button type="button" class="stepper-btn help-btn"'
+            f' onclick="openHelpModal(\'{name}_description\')">?</button>'
+        ) if a.help else ""
+        row_head = (
+            f'<tr>'
+            f'<td id="{name}_id"><label for="{name}">{_(viewname)}</label></td>'
+            f'<td>'
+        )
+        row_tail = (
+            f'{help_btn}</td>'
+            f'<td id="{name}_description" style="display:none">{help_html}</td>'
+            f'</tr>\n'
+        )
         if (isinstance(a, argparse._StoreAction) and
                 hasattr(a.type, "html")):
             input = a.type.html(name, default or a.default, _)
@@ -241,7 +254,7 @@ class BServer:
             input = """<input name="%s" id="%s" aria-labeledby="%s %s" type="text" value="%s">""" % \
                     (name, name, name + "_id", name + "_description", default or a.default)
 
-        return row % input
+        return row_head + input + row_tail
 
     def args2html_cached(self, name, box, lang, action="", defaults={}):
         if defaults == {}:
@@ -335,6 +348,15 @@ class BServer:
 </div>
 </div>
 </div>
+
+<!-- Help modal -->
+<div id="help-modal" class="help-modal-overlay" onclick="closeHelpModal()">
+  <div class="help-modal-box" onclick="event.stopPropagation()">
+    <div id="help-modal-content" class="help-modal-content"></div>
+    <button type="button" class="stepper-btn help-modal-close" onclick="closeHelpModal()">Close</button>
+  </div>
+</div>
+
 <div id="preview">
   <div id="preview_buttons">
     {_("Zoom: ")}

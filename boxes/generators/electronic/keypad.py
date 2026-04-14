@@ -5,7 +5,7 @@ from copy import deepcopy
 from boxes import Boxes, boolarg
 from boxes.edges import FingerJointSettings
 
-from boxes.generators.keyboard import Keyboard
+from boxes.generators.misc.keyboard import Keyboard
 
 
 class Keypad(Boxes, Keyboard):

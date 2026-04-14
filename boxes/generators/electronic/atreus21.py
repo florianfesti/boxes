@@ -2,7 +2,7 @@
 
 from boxes import Boxes, restore
 
-from boxes.generators.keyboard import Keyboard
+from boxes.generators.misc.keyboard import Keyboard
 
 
 class Atreus21(Boxes, Keyboard):

@@ -272,8 +272,7 @@ textarea {
 }
 
 :root {
-    --gallery-item-width: 173px;
-    /* default 4 cols: floor((732-4*10)/4), 732=75% of (996-20px padding, border-box) */
+    --gallery-item-height: 120px;
 }
 
 .gallery,
@@ -281,7 +280,7 @@ textarea {
     display : inline-block;
     text-align : center;
     vertical-align: bottom;
-    width : var(--gallery-item-width);
+    width : auto;
     margin : 5px;
     margin-top : 15px;
     font-weight: bold;
@@ -309,8 +308,8 @@ textarea {
 }
 
 .gallery img {
-    max-height : var(--gallery-item-width);
-    max-width : var(--gallery-item-width);
+    height : var(--gallery-item-height);
+    width : auto;
     margin : 5px;
 }
 

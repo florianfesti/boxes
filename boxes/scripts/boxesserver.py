@@ -519,13 +519,15 @@ class BServer:
 """
 
     def genHTMLColsSelection(self) -> str:
-        """Generates a dropdown to pick how many generator thumbnails appear per row."""
-        return """<select id="gallery-cols-select" title="Generators per row"
-    onchange="setGalleryCols(this.value)">
-  <option value="4">4</option>
-  <option value="5">5</option>
-  <option value="6">6</option>
-</select>"""
+        """Generates zoom-out / zoom-in buttons that control gallery image height."""
+        return (
+            '<button onclick="galleryZoomOut()" title="Smaller thumbnails" '
+            'style="font-size:1em;padding:1px 7px;cursor:pointer;border:1px solid #999;'
+            'border-radius:4px;background:#EFE8DA;">🔍−</button>'
+            '<button onclick="galleryZoomIn()" title="Larger thumbnails" '
+            'style="font-size:1em;padding:1px 7px;cursor:pointer;border:1px solid #999;'
+            'border-radius:4px;background:#EFE8DA;">🔍+</button>'
+        )
 
     def genPagePartHeader(self, lang) -> str:
         _ = lang.gettext

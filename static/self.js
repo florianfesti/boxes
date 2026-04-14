@@ -134,30 +134,34 @@ function initColorInjection() {
     form.addEventListener('submit', () => injectColorHiddenFields(form));
 }
 
-/*** Gallery columns per row *****************************/
+/*** Gallery image height zoom ****************************/
 
-function applyGalleryCols(n) {
-    // .container: width 996px border-box, padding 10px each side → content 976px.
-    // Gallery lives in a 75%-wide float: floor(976 * 0.75) = 732px.
-    // Each item has margin 5px each side = 10px total horizontal.
-    const containerW = 732;
-    const itemW = Math.floor((containerW - n * 10) / n);
-    document.documentElement.style.setProperty('--gallery-item-width', itemW + 'px');
+const GALLERY_ZOOM_DEFAULT = 120;
+const GALLERY_ZOOM_STEP    = 20;
+const GALLERY_ZOOM_MIN     = 60;
+const GALLERY_ZOOM_MAX     = 300;
+
+function applyGalleryZoom(h) {
+    document.documentElement.style.setProperty('--gallery-item-height', h + 'px');
 }
 
-function setGalleryCols(n) {
-    n = parseInt(n, 10) || 4;
-    localStorage.setItem('gallery-cols', String(n));
-    applyGalleryCols(n);
-    const sel = document.getElementById('gallery-cols-select');
-    if (sel) sel.value = String(n);
+function galleryZoomIn() {
+    const cur = parseInt(localStorage.getItem('gallery-item-height') || String(GALLERY_ZOOM_DEFAULT), 10);
+    const next = Math.min(cur + GALLERY_ZOOM_STEP, GALLERY_ZOOM_MAX);
+    localStorage.setItem('gallery-item-height', String(next));
+    applyGalleryZoom(next);
+}
+
+function galleryZoomOut() {
+    const cur = parseInt(localStorage.getItem('gallery-item-height') || String(GALLERY_ZOOM_DEFAULT), 10);
+    const next = Math.max(cur - GALLERY_ZOOM_STEP, GALLERY_ZOOM_MIN);
+    localStorage.setItem('gallery-item-height', String(next));
+    applyGalleryZoom(next);
 }
 
 function initGalleryCols() {
-    const saved = parseInt(localStorage.getItem('gallery-cols') || '4', 10);
-    applyGalleryCols(saved);
-    const sel = document.getElementById('gallery-cols-select');
-    if (sel) sel.value = String(saved);
+    const saved = parseInt(localStorage.getItem('gallery-item-height') || String(GALLERY_ZOOM_DEFAULT), 10);
+    applyGalleryZoom(saved);
 }
 
 /*** Thumbnails ******************************************/

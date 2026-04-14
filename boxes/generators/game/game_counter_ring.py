@@ -234,6 +234,8 @@ cut in a single laser pass with minimal material waste.
           * ``symmetric`` – straight walls perpendicular to the sector bisector
             (true rectangular teeth, geometrically symmetric).
           * ``radial``    – walls are radial lines converging toward the center.
+          * ``blades``     – half-ellipse per sector, bases touching (no flat
+                           surface between teeth; ignores width/rounded/radius).
 
         ``crenel_rounded`` adds fillets of radius ``crenel_radius`` at the four
         base corners of each tooth.
@@ -259,7 +261,7 @@ cut in a single laser pass with minimal material waste.
             return cx + r * math.cos(a), cy + r * math.sin(a)
 
         def sym_outer_corners(center_a_in: float) -> tuple[
-            tuple[float, float], tuple[float, float]]:
+                tuple[float, float], tuple[float, float]]:
             """Left and right outer corners of a rectangular tooth."""
             bx_in = math.cos(center_a_in)
             by_in = math.sin(center_a_in)
@@ -267,6 +269,35 @@ cut in a single laser pass with minimal material waste.
             ix_r, iy_r = pt_on(ri, center_a_in + quarter)
             return (ix_l + depth * bx_in, iy_l + depth * by_in), \
                 (ix_r + depth * bx_in, iy_r + depth * by_in)
+
+        # ── ovale: half-ellipse per sector, bases touching ──────────────────
+        if self.crenel_shape == "blades":
+            # Bézier quarter-ellipse magic constant k ≈ 0.5523
+            k_bez = 4.0 / 3.0 * (math.sqrt(2.0) - 1.0)
+            a_chord = ri * math.sin(half)   # half chord width of one sector
+            h_r = depth * k_bez             # control-point scale along radial at base
+            h_t = a_chord * k_bez           # control-point scale along tangential at tip
+            ctx.move_to(*pt_on(ri, start_angle - half))
+            for i in range(n):
+                center_a = start_angle + i * angle_step
+                pl = pt_on(ri, center_a - half)
+                pr = pt_on(ri, center_a + half)
+                pt_tip = pt_on(ro, center_a)
+                rl = (math.cos(center_a - half), math.sin(center_a - half))
+                rr = (math.cos(center_a + half), math.sin(center_a + half))
+                tt = (-math.sin(center_a), math.cos(center_a))   # tangential at tip (CCW)
+                # Left quarter: base-left → tip
+                ctx.curve_to(pl[0] + h_r * rl[0], pl[1] + h_r * rl[1],
+                             pt_tip[0] - h_t * tt[0], pt_tip[1] - h_t * tt[1],
+                             *pt_tip)
+                # Right quarter: tip → base-right
+                ctx.curve_to(pt_tip[0] + h_t * tt[0], pt_tip[1] + h_t * tt[1],
+                             pr[0] - h_r * rr[0], pr[1] - h_r * rr[1],
+                             *pr)
+            ctx.line_to(*pt_on(ri, start_angle - half))
+            ctx.stroke()
+            return
+        # ─────────────────────────────────────────────────────────────────────
 
         # Start on the base (gap) circle
         ctx.move_to(*pt_on(ri, start_angle - half))

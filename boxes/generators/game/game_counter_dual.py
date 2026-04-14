@@ -218,6 +218,12 @@ diameters, and optional gear-tooth (crenel) rims.
         ``ro`` is the final outer radius (tooth tips = outer_diameter/2).
         The base circle (between teeth) is at ``ri = ro - depth``, so the
         overall diameter never exceeds ``outer_diameter``.
+
+        ``crenel_shape`` values:
+          * ``symmetric`` – straight walls perpendicular to the rim.
+          * ``radial``    – walls converge toward the center.
+          * ``blades``     – half-ellipse per sector, bases touching, no flat
+                           surface between teeth (ignores width/rounded/radius).
         """
         n = wp.score_max - wp.score_min + 1
         if n < 1:
@@ -249,6 +255,35 @@ diameters, and optional gear-tooth (crenel) rims.
             ix_r, iy_r = pt_on(ri, center_a_in + tooth_half)
             return (ix_l + depth * bx_in, iy_l + depth * by_in), \
                 (ix_r + depth * bx_in, iy_r + depth * by_in)
+
+        # ── ovale: half-ellipse per sector, bases touching ──────────────────
+        if wp.crenel_shape == "blades":
+            # Bézier quarter-ellipse magic constant k ≈ 0.5523
+            k_bez = 4.0 / 3.0 * (math.sqrt(2.0) - 1.0)
+            a_chord = ri * math.sin(half)   # half chord width of one sector
+            h_r = depth * k_bez             # control-point scale along radial at base
+            h_t = a_chord * k_bez           # control-point scale along tangential at tip
+            ctx.move_to(*pt_on(ri, start_angle - half))
+            for i in range(n):
+                center_a = start_angle + i * angle_step
+                pl = pt_on(ri, center_a - half)
+                pr = pt_on(ri, center_a + half)
+                pt_tip = pt_on(ro, center_a)
+                rl = (math.cos(center_a - half), math.sin(center_a - half))
+                rr = (math.cos(center_a + half), math.sin(center_a + half))
+                tt = (-math.sin(center_a), math.cos(center_a))   # tangential at tip (CCW)
+                # Left quarter: base-left → tip
+                ctx.curve_to(pl[0] + h_r * rl[0], pl[1] + h_r * rl[1],
+                             pt_tip[0] - h_t * tt[0], pt_tip[1] - h_t * tt[1],
+                             *pt_tip)
+                # Right quarter: tip → base-right
+                ctx.curve_to(pt_tip[0] + h_t * tt[0], pt_tip[1] + h_t * tt[1],
+                             pr[0] - h_r * rr[0], pr[1] - h_r * rr[1],
+                             *pr)
+            ctx.line_to(*pt_on(ri, start_angle - half))
+            ctx.stroke()
+            return
+        # ─────────────────────────────────────────────────────────────────────
 
         # Start on the base (gap) circle
         ctx.move_to(*pt_on(ri, start_angle - half))

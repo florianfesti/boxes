@@ -22,13 +22,15 @@ Usage::
     python scripts/regen_svg.py GameCounterRing ABox ClosedBox
     python scripts/regen_svg.py --all
 
-The script writes to ``examples/<GeneratorName>.svg`` and prints one line per
-file so you can pipe it straight into ``git add``.
+The script writes the SVG next to the generator source file (same stem,
+``.svg`` extension) and prints one line per file so you can pipe it straight
+into ``git add``.
 """
 
 from __future__ import annotations
 
 import argparse
+import inspect
 import io
 import sys
 from contextlib import redirect_stdout
@@ -70,7 +72,7 @@ def regen(name: str) -> bool:
         print(f"  (skipped {name} – no SVG output)", flush=True)
         return False
 
-    out = ROOT / "examples" / f"{name}.svg"
+    out = Path(inspect.getfile(cls)).with_suffix('.svg')
     out.write_bytes(data.getvalue())
     print(str(out), flush=True)
     return True

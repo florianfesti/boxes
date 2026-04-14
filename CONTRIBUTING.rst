@@ -90,50 +90,31 @@ Boxes.py. Here are some guidelines that make it easier to get them added:
 Adding a new example
 ....................
 
-* Generate example SVGs: :code:`boxes --examples`
-* Add to git: :code:`git add -f examples/*.svg`
+* Generate example SVGs: :code:`python scripts/regen_svg.py --all`
+* Generate sample JPGs next to each generator: :code:`python scripts/gen_sample_images.py`
+* Both files land next to the generator ``.py`` file (same stem, different extension)
 
-Updating reference SVGs after a change
-.......................................
+Updating reference SVGs and sample images after a change
+.........................................................
 
 Every generator is tested by comparing its SVG output byte-for-byte against a
-reference file in :code:`examples/`.  Whenever you change a generator **or**
-any shared drawing code you must regenerate the affected reference file(s),
-otherwise the test suite will fail with::
+reference file stored **next to the generator source file** (same stem, ``.svg``).
+The sample JPG is also stored next to the source (same stem, ``.jpg``).
+Whenever you change a generator **or** any shared drawing code you must
+regenerate the affected files, otherwise the test suite will fail::
 
     AssertionError: SVG files are not equal. If change is intended,
     please update example files.
 
 **Regenerate one generator** (PowerShell)::
 
-    python -c "
-    from boxes.generators.<subpackage>.<module> import <GeneratorClass>
-    b = <GeneratorClass>()
-    b.parseArgs('')
-    b.metadata['reproducible'] = True
-    b.open()
-    b.render()
-    data = b.close()
-    with open('examples/<GeneratorClass>.svg', 'wb') as f:
-        f.write(data.getvalue())
-    "
-
-For example, to regenerate :code:`DiceTower`::
-
-    python -c "
-    from boxes.generators.game.dicetower import DiceTower
-    b = DiceTower()
-    b.parseArgs('')
-    b.metadata['reproducible'] = True
-    b.open(); b.render()
-    data = b.close()
-    with open('examples/DiceTower.svg', 'wb') as f: f.write(data.getvalue())
-    "
+    python scripts/regen_svg.py DiceTower
+    python scripts/gen_sample_images.py DiceTower
 
 **Regenerate all generators at once**::
 
-    python -m boxes.scripts.boxes_main --examples
-    git add -f examples/*.svg
+    python scripts/regen_svg.py --all
+    python scripts/gen_sample_images.py
 
 Then confirm tests pass::
 

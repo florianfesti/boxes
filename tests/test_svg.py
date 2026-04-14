@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import inspect
+import re
 import sys
-import os
+pass
 import hashlib
 from pathlib import Path
 
@@ -23,7 +25,7 @@ import yaml
 class TestSVG:
     """Test SVG creation of box generators.
     Just test generators which have a default output without an input requirement.
-    Uses files from examples folder as reference.
+    Uses SVG files stored next to each generator source file as reference.
     """
 
     configPath = Path(__file__).parent.parent / 'examples.yml'
@@ -44,6 +46,17 @@ class TestSVG:
         else:
             additionalTests.append(box_settings)
     avoidGenerator = notTestGenerators | brokenGenerators
+
+    @staticmethod
+    def _reference_svg(generator: type[boxes.Boxes]) -> Path:
+        """Reference SVG lives next to the generator source file (same stem, .svg)."""
+        return Path(inspect.getfile(generator)).with_suffix('.svg')
+
+    @staticmethod
+    def _reference_svg_hashed(generator: type[boxes.Boxes], hash8: str) -> Path:
+        """Hash-suffixed reference SVG lives next to the generator source file."""
+        gen_file = Path(inspect.getfile(generator))
+        return gen_file.parent / f"{gen_file.stem}_{hash8}.svg"
 
     def test_generators_available(self) -> None:
         assert len(self.all_generators) != 0
@@ -111,8 +124,8 @@ class TestSVG:
         file = Path(__file__).resolve().parent / 'data' / (boxName + '.svg')
         file.write_bytes(boxData.getvalue())
 
-        # Use example data from repository as reference data.
-        referenceData = Path(__file__).resolve().parent.parent / 'examples' / (boxName + '.svg')
+        # Use reference SVG stored next to the generator source file.
+        referenceData = self._reference_svg(generator)
         assert referenceData.exists() is True, "Reference file for comparison does not exist."
         assert referenceData.is_file() is True, "Reference file for comparison does not exist."
         assert referenceData.read_bytes() == boxData.getvalue(), "SVG files are not equal. If change is intended, please update example files."
@@ -155,8 +168,8 @@ class TestSVG:
             file = Path(__file__).resolve().parent / 'data' / (boxName + '_' + argsHash[0:8] + '.svg')
             file.write_bytes(boxData.getvalue())
 
-            # Use example data from repository as reference data.
-            referenceData = Path(__file__).resolve().parent.parent / 'examples' / (boxName + '_' + argsHash[0:8] + '.svg')
+            # Use reference SVG stored next to the generator source file.
+            referenceData = self._reference_svg_hashed(generator, argsHash[0:8])
             assert referenceData.exists() is True, "Reference file for comparison does not exist."
             assert referenceData.is_file() is True, "Reference file for comparison does not exist."
             assert referenceData.read_bytes() == boxData.getvalue(), "SVG files are not equal. If change is intended, please update example files."
@@ -166,24 +179,29 @@ class TestSVG:
         validTests = set()
         for generator_settings in self.additionalTests:
             boxType = generator_settings.get("box_type", None)
-            boxName = generator_settings.get("name", boxType)
-
-            if boxName is None:
+            if boxType is None:
                 continue
             generator = self.generators_by_name.get(boxType, None)
             if generator is None:
                 continue
-
+            gen_file = Path(inspect.getfile(generator))
             boxArgs, argsHash = TestSVG.get_additional_test_args_hash(generator_settings)
-            validTests.add((boxName, argsHash[0:8]))
+            validTests.add((gen_file.stem, argsHash[0:8]))
 
-        # Now look for the files
-        exampleFiles = set()
-        referenceData = Path(__file__).resolve().parent.parent / 'examples'
-        for referenceFile in os.listdir(referenceData):
-            if referenceFile.endswith(".svg") and "_" in referenceFile:
-                boxName, argsHash = referenceFile[:-4].split("_")
-                exampleFiles.add((boxName, argsHash))
+        # Scan all generator source directories for hash-suffixed SVG files
+        gen_dirs: set[Path] = set()
+        for cls in self.generators_by_name.values():
+            try:
+                gen_dirs.add(Path(inspect.getfile(cls)).parent)
+            except TypeError:
+                pass
+
+        exampleFiles: set[tuple[str, str]] = set()
+        for gen_dir in gen_dirs:
+            for svg_file in gen_dir.glob('*.svg'):
+                if re.match(r'^.+_[0-9a-f]{8}$', svg_file.stem):
+                    stem_part, hash_part = svg_file.stem.rsplit('_', 1)
+                    exampleFiles.add((stem_part, hash_part))
 
         extraExamples = exampleFiles - validTests
         if extraExamples:

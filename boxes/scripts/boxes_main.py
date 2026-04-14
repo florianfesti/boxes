@@ -7,6 +7,7 @@ Generate stencils for wooden boxes.
 from __future__ import annotations
 
 import gettext
+import inspect
 import os
 import sys
 import copy
@@ -51,7 +52,7 @@ def print_grouped_generators() -> None:
             description = description.replace("\n", "").replace("\r", "").strip()
             print(f' *  {box.__name__:<15} - {ConsoleColors.ITALIC}{description}{ConsoleColors.CLEAR}')
 
-def multi_generate(config_path : Path|str|TextIO, output_path : Path|str, output_name_formater=None, format="svg") -> list[str]:
+def multi_generate(config_path : Path|str|TextIO, output_path : Path|str, output_name_formater=None, format="svg", output_path_for_box=None) -> list[str]:
     if isinstance(config_path, str) or isinstance(config_path, Path):
         with open(config_path) as ff:
             config_data = yaml.safe_load(ff)
@@ -168,7 +169,8 @@ def multi_generate(config_path : Path|str|TextIO, output_path : Path|str, output
                     name=box_settings.get("name", box_cls_name),
                     box_idx=ii,
                     metadata=box.metadata,
-                    box_args=box_args
+                    box_args=box_args,
+                    box_cls=box_cls,
                 )
             else:
                 output_fname = output_name_formater.format(
@@ -178,10 +180,13 @@ def multi_generate(config_path : Path|str|TextIO, output_path : Path|str, output
                     metadata=box.metadata,
                 )
 
+            # Resolve the output directory: per-box callable or fixed path
+            box_dir = output_path_for_box(box_cls) if output_path_for_box is not None else output_path
+
             # Write the output - if count is provided generate multiple copies
             if box_settings.get("count") is not None:
                 for jj in range(int(box_settings.get("count"))):
-                    output_file = os.path.join(output_path, f"{output_fname}_{jj}.{format}")
+                    output_file = os.path.join(box_dir, f"{output_fname}_{jj}.{format}")
                     print(f"Writing {output_file}")
                     with open(output_file, "wb") as ff:
                         ff.write(data.read())
@@ -189,7 +194,7 @@ def multi_generate(config_path : Path|str|TextIO, output_path : Path|str, output
                     generated_files.append(output_file)
 
             else:
-                output_file = os.path.join(output_path, f"{output_fname}.{format}")
+                output_file = os.path.join(box_dir, f"{output_fname}.{format}")
                 print(f"Writing {output_file}")
                 with open(output_file, "wb") as ff:
                     ff.write(data.read())
@@ -251,12 +256,13 @@ def print_version() -> None:
     print("boxes does not use versioning.")
 
 
-def example_output_fname_formatter(box_type, name, box_idx, metadata, box_args):
+def example_output_fname_formatter(box_type, name, box_idx, metadata, box_args, box_cls=None):
+    stem = Path(inspect.getfile(box_cls)).stem if box_cls is not None else name.lower()
     if not box_args:
-        return f"{name}"
+        return stem
     else:
         args_hash = hashlib.sha1(" ".join(sorted(box_args)).encode("utf-8")).hexdigest()
-        return f"{name}_{args_hash[0:8]}"
+        return f"{stem}_{args_hash[0:8]}"
 
 
 def main() -> None:
@@ -288,7 +294,12 @@ def main() -> None:
         print("Generating SVG examples for every possible generator.")
         config_path = Path(__file__).parent.parent.parent / 'examples.yml'
         output_path = Path("examples")
-        multi_generate(config_path, output_path, example_output_fname_formatter)
+        multi_generate(
+            config_path,
+            output_path,
+            example_output_fname_formatter,
+            output_path_for_box=lambda box_cls: Path(inspect.getfile(box_cls)).parent,
+        )
     elif args.multi_generator:
         try:
             if os.path.isdir(extra[0]):

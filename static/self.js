@@ -1,4 +1,14 @@
 
+/*** Args page tabs **************************************/
+
+function switchTab(evt, name) {
+    document.querySelectorAll('.tab-panel').forEach(p => { p.style.display = 'none'; });
+    document.getElementById('tab-' + name).style.display = 'block';
+    document.querySelectorAll('.tabbtn').forEach(b => b.classList.remove('active'));
+    evt.currentTarget.classList.add('active');
+    if (name === 'configuration') refreshPreview();
+}
+
 /*** Color Settings **************************************/
 
 const COLOR_STORAGE_KEY = 'boxes-color-settings';
@@ -250,12 +260,30 @@ function initPage(num_hide = null) {
 function initArgsPage(num_hide = null) {
     initPage(num_hide);
     initColorInjection();
+    initDescriptionImages();
     const i = document.querySelectorAll("td > input, td > select, td > textarea, td .stepper-input");
     for (let el of i) {
 	el.addEventListener("change", refreshPreview);
     }
     refreshPreview();
-    document.getElementById("preview_chk").addEventListener("change", togglePreview);
+}
+
+/*** Image modal *************************************************/
+
+function openImgModal(src) {
+    document.getElementById('img-modal-img').src = src;
+    document.getElementById('img-modal').style.display = 'flex';
+}
+
+function closeImgModal() {
+    document.getElementById('img-modal').style.display = 'none';
+    document.getElementById('img-modal-img').src = '';
+}
+
+function initDescriptionImages() {
+    document.querySelectorAll('#tab-description img').forEach(function(img) {
+        img.addEventListener('click', function() { openImgModal(img.src); });
+    });
 }
 
 /*** Help modal *************************************************/
@@ -271,7 +299,10 @@ function closeHelpModal() {
 }
 
 document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeHelpModal();
+    if (e.key === 'Escape') {
+        closeHelpModal();
+        closeImgModal();
+    }
 });
 
 /*** Stepper buttons (FloatStepper / IntStepper) *****************/
@@ -311,9 +342,6 @@ function stepInputInt(id, delta, autoDefault) {
 preview_scale=100;
 
 function refreshPreview() {
-    if (document.getElementById("preview_img").hidden)
-	return;
-
     const form = document.querySelector("#arguments");
     const formData = new FormData(form);
     formData.set("format", "svg");
@@ -325,11 +353,6 @@ function refreshPreview() {
     preview.src = url;
 }
 
-function togglePreview() {
-    document.getElementById("preview").hidden = !event.target.checked;
-    if (event.target.checked)
-	refreshPreview();
-}
 
 /*** GrindFinity ******************************************/
 

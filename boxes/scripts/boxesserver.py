@@ -273,6 +273,12 @@ class BServer:
         if lang_name:
             langparam = "?language=" + lang_name
 
+        no_img_msg = _('There is no image yet. Please donate an image of your project on <a href=&quot;https://github.com/florianfesti/boxes/issues/628&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;>GitHub</a>!')
+        desc_html = (
+            markdown.markdown(_(box.description), extensions=["extra"])
+            .replace('src="static/', f'src="{self.static_url}/')
+        ) if box.description else ""
+
         result = [f"""{self.genHTMLStart(lang)}
 <head>
     <title>{_("%s - Boxes") % _(name)}</title>
@@ -301,7 +307,23 @@ class BServer:
 <hr>
 
 <h2 style="margin: 0px 0px 0px 20px;">{_(name)}</h2>
-        <p>{_(box.__doc__) if box.__doc__ else ""}</p>
+<p>{_(box.__doc__) if box.__doc__ else ""}</p>
+<div class="tabnav">
+  <button class="tabbtn active" onclick="switchTab(event,'description')">{_("Description")}</button>
+  <button class="tabbtn" onclick="switchTab(event,'configuration')">{_("Configuration")}</button>
+</div>
+
+<div id="tab-description" class="tab-panel">
+<div class="description">
+{desc_html}<div>
+<img style="width:100%;" src="{self.static_url}/samples/{box.__class__.__name__}.jpg" onerror="this.parentElement.innerHTML = '{no_img_msg}';" alt="Picture of box.">
+</div>
+</div>
+</div>
+
+<div id="tab-configuration" class="tab-panel" style="display:none">
+<div class="config-layout">
+<div class="config-form">
 <form id="arguments" action="{action}" method="GET" rel="nofollow">
         """]
         groupid = 0
@@ -332,21 +354,25 @@ class BServer:
 </form>
 </div>
 
+<div id="preview" class="config-preview">
+  <div id="preview_buttons">
+    {_("Zoom: ")}
+    <button type="button" onclick="preview_scale/=1.2; document.getElementById('preview_img').style.width = preview_scale + '%';">-</button>
+    <button type="button" onclick="preview_scale*= 1.2; document.getElementById('preview_img').style.width = preview_scale + '%';" >+</button>
+    <button type="button" onclick="preview_scale=100; document.getElementById('preview_img').style.width = preview_scale + '%';" >{_("Reset")}</button>
+  </div>
+<div style="overflow: auto;">
+<figure id="preview_figure">
+<img id="preview_img" style="width:100%" src="{self.static_url}/nothing.png">
+</figure>
+</div>
+</div>
+
+</div>
+</div>
+</div>
 <div class="clear"></div>
 <hr>
-<div class="description">
-""")
-        no_img_msg = _('There is no image yet. Please donate an image of your project on <a href=&quot;https://github.com/florianfesti/boxes/issues/628&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;>GitHub</a>!')
-
-        if box.description:
-            result.append(
-                markdown.markdown(_(box.description), extensions=["extra"])
-                .replace('src="static/', f'src="{self.static_url}/'))
-
-        result.append(f'''<div>
-<img style="width:100%;" src="{self.static_url}/samples/{box.__class__.__name__}.jpg" onerror="this.parentElement.innerHTML = '{no_img_msg}';" alt="Picture of box.">
-</div>
-</div>
 </div>
 
 <!-- Help modal -->
@@ -357,22 +383,14 @@ class BServer:
   </div>
 </div>
 
-<div id="preview">
-  <div id="preview_buttons">
-    {_("Zoom: ")}
-    <button type="button" onclick="preview_scale/=1.2; document.getElementById('preview_img').style.width = preview_scale + '%';">-</button>
-    <button type="button" onclick="preview_scale*= 1.2; document.getElementById('preview_img').style.width = preview_scale + '%';" >+</button>
-    <button type="button" onclick="preview_scale=100; document.getElementById('preview_img').style.width = preview_scale + '%';" >{_("Reset")}</button>
-  </div>
-<div style="overflow: auto;">
-<figure id="preview_figure" style="width: max-content;">
-<img id="preview_img" style="width:100%" src="{self.static_url}/nothing.png">
-</figure>
+<!-- Image modal -->
+<div id="img-modal" class="img-modal-overlay" onclick="closeImgModal()">
+  <img id="img-modal-img" src="" alt="">
 </div>
-</div>
+
 </body>
 </html>
-        ''')
+        """)
         return (s.encode("utf-8") for s in result)
 
     def genPageMenu(self, lang):
@@ -544,8 +562,6 @@ class BServer:
         result = [f'  <li><a href="{url}" target="_blank" rel="noopener">{txt}</a></li>\n' for url, txt in links]
         result.append(f'  <li><a href="settings">\U0001f3a8 {_("Color Settings")}</a></li>\n')
 
-        if preview:
-            result.append(f'    <li class="right">{_("Preview")} <input id="preview_chk" type="checkbox" checked="checked"> </li>\n')
 
         result.append(f'  <li class="right">{self.genHTMLLanguageSelection(lang)}  </li>\n')
         result.append(f'  <li class="right">{self.genHTMLColsSelection()}  </li>\n')

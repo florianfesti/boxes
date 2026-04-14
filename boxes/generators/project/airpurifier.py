@@ -19,7 +19,7 @@ from boxes import *
 class AirPurifier(Boxes):
     """Housing for the Nukit Open Air Purifier"""
 
-    ui_group = "Misc"
+    ui_group = "Project"
 
     description = """See [Nukit Open Air Purifier](https://github.com/opennukit/Nukit-Open-Air-Purifier/)
 """

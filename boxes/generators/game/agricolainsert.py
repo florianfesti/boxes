@@ -26,7 +26,7 @@ class AgricolaInsert(Boxes):
     Agricola Revised Edition game box insert, including some expansions.
     """
 
-    ui_group = "Misc"
+    ui_group = "Game"
 
     description = """
 This insert was designed with 3 mm plywood in mind, and should work fine with

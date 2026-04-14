@@ -39,7 +39,7 @@ There are three type of ribs:
 The last two types of ribs do not have finger joints on the outside but still need to be glued to the top beam of the adjacent pocket or the left or right side bar.
 """
 
-    ui_group = "Misc"
+    ui_group = "Project"
 
     def __init__(self) -> None:
         Boxes.__init__(self)

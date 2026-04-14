@@ -18,6 +18,7 @@ from __future__ import annotations
 from typing import cast
 
 from boxes import *
+from boxes.args import FloatStepper
 from boxes.drawing import Context
 from boxes.settings.font_settings import FontSettings
 
@@ -60,19 +61,19 @@ Assembly: none required – this is a single flat piece.
         self.addSettingsArgs(FontSettings, size=self.Font_size)
 
         self.argparser.add_argument(
-            "--longueur", action="store", type=float, default=self.longueur,
+            "--longueur", action="store", type=FloatStepper(1.0), default=self.longueur,
             help="Total width of the label [mm]")
         self.argparser.add_argument(
-            "--hauteur", action="store", type=float, default=self.hauteur,
+            "--hauteur", action="store", type=FloatStepper(1.0), default=self.hauteur,
             help="Total height of the label [mm]")
         self.argparser.add_argument(
-            "--radius", action="store", type=float, default=self.radius,
+            "--radius", action="store", type=FloatStepper(1.0), default=self.radius,
             help="Corner radius [mm] (0 = sharp corners)")
         self.argparser.add_argument(
             "--inner_border", action="store", type=boolarg, default=self.inner_border,
             help="Add an inner border line parallel to the outer edge")
         self.argparser.add_argument(
-            "--border_margin", action="store", type=float, default=self.border_margin,
+            "--border_margin", action="store", type=FloatStepper(1.0), default=self.border_margin,
             help="Distance between the outer cut and the inner border line [mm]")
         self.argparser.add_argument(
             "--label_text", action="store", type=str, default=self.label_text,

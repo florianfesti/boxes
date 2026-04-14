@@ -706,7 +706,7 @@ class BServer:
                 path = os.path.join(self.staticdir, filename)
                 if not os.path.exists(path):
                     if basename.endswith("-thumb.jpg"):
-                        path = os.path.join(self.staticdir, "nothing.png")
+                        path = os.path.join(self.staticdir, "needs-image.png")
                     else:
                         start_response("404 Not Found", [('Content-type', 'text/plain')])
                         return [b"Not found"]
@@ -790,16 +790,11 @@ class BServer:
                 name = box.__name__
                 fn = f"samples/{name}-thumb.jpg"
                 thumbnail = f"{self.static_url}/{fn}"
-                gen_thumb = self._samples_map.get(f"{name}-thumb.jpg")
-                image_exists = gen_thumb is not None and gen_thumb.exists()
                 alt = f"{_(name)}"
                 href = f"{name}{langparam}"
                 badges = self.tag_badges_html(box)
                 overlay = f'<span class="gallery-badges">{badges.strip()}</span>' if badges.strip() else ""
-                if not image_exists:
-                    result.append(f"""  <span class="gallery_missing" id="search_id_{name}"><a href="{href}">{overlay}{_(box.__doc__)}<br><br>{_(name)}</a></span>\n""")
-                else:
-                    result.append(f"""  <span class="gallery" id="search_id_{name}"><a title="{_(name)} - {html.escape(_(box.__doc__))}" href="{href}"><span class="gallery-img-wrap"><img alt="{alt}" src="{thumbnail}">{overlay}</span><br>{_(name)}</a></span>\n""")
+                result.append(f"""  <span class="gallery" id="search_id_{name}"><a title="{_(name)} - {html.escape(_(box.__doc__))}" href="{href}"><span class="gallery-img-wrap"><img alt="{alt}" src="{thumbnail}">{overlay}</span><br>{_(name)}</a></span>\n""")
 
         result.append(f"""
 </div><div style="width: 5%; float: left;"></div>

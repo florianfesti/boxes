@@ -47,6 +47,7 @@ ui_groups: list[UIGroup] = [
     UIGroup("Holes", title="Hole patterns", image=""),
     UIGroup("Part", title="Parts and Samples", image="BurnTest"),
     UIGroup("Electronic", title="Electronic"),
+    UIGroup("Project", title="Project"),
     UIGroup("Toy", title="Toy"),
     UIGroup("Tool", title="Tool"),
     UIGroup("Game", title="Game",

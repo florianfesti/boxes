@@ -14,6 +14,8 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import inspect
+import os
 import sys
 from pathlib import Path
 
@@ -34,7 +36,7 @@ class Boxes2rst:
             self.groups_by_name.get(box.ui_group, self.groups_by_name["Misc"]).add(box)
 
     def write(self, targetFile: str) -> None:
-        pathToImages: Path = Path(__file__).resolve().parent.parent / "static" / "samples"
+        rst_dir = Path(targetFile).resolve().parent
         with Path(targetFile).open("w") as f:
             for name, group in self.groups_by_name.items():
                 f.write(f"{name}\n----------------\n\n")
@@ -43,8 +45,10 @@ class Boxes2rst:
                     f.write("\n..........................................\n\n")
                     f.write(f"\n\n.. autoclass:: {box.__class__.__module__}.{box.__class__.__name__}")
                     f.write("\n\n")
-                    if (pathToImages / f"{box.__class__.__name__}.jpg").exists():
-                        f.write(f".. image:: ../../static/samples/{box.__class__.__name__}.jpg\n\n")
+                    img = Path(inspect.getfile(box.__class__)).with_suffix('.jpg')
+                    if img.exists():
+                        rel = os.path.relpath(img, rst_dir)
+                        f.write(f".. image:: {rel}\n\n")
 
 
 def main() -> None:

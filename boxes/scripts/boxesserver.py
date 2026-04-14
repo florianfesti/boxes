@@ -19,6 +19,7 @@ import argparse
 import gettext
 import glob
 import html
+import inspect
 import io
 import mimetypes
 import os.path
@@ -27,6 +28,7 @@ import sys
 import threading
 import time
 import traceback
+from pathlib import Path
 from typing import Any, NoReturn
 from urllib.parse import quote, unquote_plus
 from wsgiref.simple_server import make_server
@@ -155,6 +157,16 @@ class BServer:
             box.UI = "web"
             self.groups_by_name.get(box.ui_group,
                                     self.groups_by_name["Misc"]).add(box)
+
+        # Build map: "ClassName.jpg" / "ClassName-thumb.jpg" -> Path next to generator
+        self._samples_map: dict[str, Path] = {}
+        for cls_name, cls in self.boxes.items():
+            try:
+                gen_file = Path(inspect.getfile(cls))
+            except TypeError:
+                continue
+            self._samples_map[f"{cls_name}.jpg"] = gen_file.with_suffix('.jpg')
+            self._samples_map[f"{cls_name}-thumb.jpg"] = gen_file.parent / f"{gen_file.stem}-thumb.jpg"
 
         if os.path.isabs(static_path):
             self.staticdir = static_path
@@ -645,14 +657,27 @@ class BServer:
 
     def serveStatic(self, environ, start_response):
         filename = environ["PATH_INFO"][len("/static/"):]
-        path = os.path.join(self.staticdir, filename)
-        if (not re.match(r"[a-zA-Z0-9_/-]+\.[a-zA-Z0-9]+", filename) or
-                not os.path.exists(path)):
-            if re.match(r"samples/.*-thumb.jpg", filename):
-                path = os.path.join(self.staticdir, "nothing.png")
+
+        if filename.startswith("samples/"):
+            basename = filename[len("samples/"):]
+            gen_path = self._samples_map.get(basename)
+            if gen_path is not None and gen_path.exists():
+                path = str(gen_path)
             else:
+                # Fall back to static dir (extra/variant images, group thumbnails)
+                path = os.path.join(self.staticdir, filename)
+                if not os.path.exists(path):
+                    if basename.endswith("-thumb.jpg"):
+                        path = os.path.join(self.staticdir, "nothing.png")
+                    else:
+                        start_response("404 Not Found", [('Content-type', 'text/plain')])
+                        return [b"Not found"]
+        else:
+            if (not re.match(r"[a-zA-Z0-9_/-]+\.[a-zA-Z0-9]+", filename) or
+                    not os.path.exists(os.path.join(self.staticdir, filename))):
                 start_response("404 Not Found", [('Content-type', 'text/plain')])
                 return [b"Not found"]
+            path = os.path.join(self.staticdir, filename)
 
         type_, encoding = mimetypes.guess_type(filename)
         if encoding is None:
@@ -727,12 +752,13 @@ class BServer:
                 name = box.__name__
                 fn = f"samples/{name}-thumb.jpg"
                 thumbnail = f"{self.static_url}/{fn}"
-                static_filename = os.path.join(self.staticdir, fn)
+                gen_thumb = self._samples_map.get(f"{name}-thumb.jpg")
+                image_exists = gen_thumb is not None and gen_thumb.exists()
                 alt = f"{_(name)}"
                 href = f"{name}{langparam}"
                 badges = self.tag_badges_html(box)
                 overlay = f'<span class="gallery-badges">{badges.strip()}</span>' if badges.strip() else ""
-                if not os.path.exists(static_filename):
+                if not image_exists:
                     result.append(f"""  <span class="gallery_missing" id="search_id_{name}"><a href="{href}">{overlay}{_(box.__doc__)}<br><br>{_(name)}</a></span>\n""")
                 else:
                     result.append(f"""  <span class="gallery" id="search_id_{name}"><a title="{_(name)} - {html.escape(_(box.__doc__))}" href="{href}"><span class="gallery-img-wrap"><img alt="{alt}" src="{thumbnail}">{overlay}</span><br>{_(name)}</a></span>\n""")

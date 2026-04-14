@@ -3,8 +3,9 @@
 Usage:
     python scripts/gen_sample_images.py [GeneratorName ...]
 
-If no names are given, regenerates all SVGs found in examples/ that have
-a matching entry in static/samples/.
+If no names are given, regenerates all JPGs for generators whose SVG
+(stored next to the generator source file) already has a matching entry
+in static/samples/.
 
 The output JPG is 1200 px wide (project convention) with a white background.
 Thumbnails are NOT regenerated here – run scripts/gen_thumbnails.sh for that.
@@ -12,6 +13,7 @@ Thumbnails are NOT regenerated here – run scripts/gen_thumbnails.sh for that.
 
 from __future__ import annotations
 
+import inspect
 import io
 import pathlib
 import sys
@@ -20,8 +22,13 @@ from PIL import Image
 from reportlab.graphics import renderPM
 from svglib.svglib import svg2rlg
 
-EXAMPLES_DIR = pathlib.Path(__file__).parent.parent / "examples"
-SAMPLES_DIR = pathlib.Path(__file__).parent.parent / "static" / "samples"
+ROOT = pathlib.Path(__file__).resolve().parent.parent
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+import boxes.generators  # noqa: E402
+
+SAMPLES_DIR = ROOT / "static" / "samples"
 TARGET_W = 1200
 THUMB_W = 200
 
@@ -60,21 +67,37 @@ def svg_to_jpg(svg_path: pathlib.Path, jpg_path: pathlib.Path) -> None:
 def main() -> None:
     names: list[str] = sys.argv[1:]
 
+    all_gens = boxes.generators.getAllBoxGenerators()
+    by_class_name = {v.__name__: v for v in all_gens.values()}
+
+    # Build list of (class_name, svg_path) pairs to process
+    targets: list[tuple[str, pathlib.Path]] = []
+
     if names:
-        targets = [EXAMPLES_DIR / f"{n}.svg" for n in names]
+        for n in names:
+            cls = by_class_name.get(n)
+            if cls is None:
+                print(f"SKIP  {n} (unknown generator)")
+                continue
+            svg = pathlib.Path(inspect.getfile(cls)).with_suffix('.svg')
+            targets.append((cls.__name__, svg))
     else:
         # Only update JPGs that already exist in static/samples/
-        targets = [
-            svg
-            for svg in EXAMPLES_DIR.glob("*.svg")
-            if (SAMPLES_DIR / svg.with_suffix(".jpg").name).exists()
-        ]
+        seen: set[str] = set()
+        for cls in all_gens.values():
+            if cls.__name__ in seen:
+                continue
+            seen.add(cls.__name__)
+            svg = pathlib.Path(inspect.getfile(cls)).with_suffix('.svg')
+            jpg = SAMPLES_DIR / f"{cls.__name__}.jpg"
+            if svg.exists() and jpg.exists():
+                targets.append((cls.__name__, svg))
 
-    for svg_path in sorted(targets):
+    for class_name, svg_path in sorted(targets):
         if not svg_path.exists():
             print(f"SKIP  {svg_path} (not found)")
             continue
-        jpg_path = SAMPLES_DIR / svg_path.with_suffix(".jpg").name
+        jpg_path = SAMPLES_DIR / f"{class_name}.jpg"
         try:
             svg_to_jpg(svg_path, jpg_path)
             make_thumbnail(jpg_path)

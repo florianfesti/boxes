@@ -18,9 +18,10 @@ from __future__ import annotations
 from typing import cast
 
 from boxes import *
-from boxes.args import IntStepper, FloatStepper
+from boxes.args import FloatStepper, IntStepper
 from boxes.drawing import Context
 from boxes.settings.font_settings import FontSettings
+from boxes.settings.score_settings import ScoreSettings
 
 
 class GameCounterCoins(Boxes):
@@ -45,49 +46,40 @@ Assembly: insert magnet into both pieces → stack face-to-face → enjoy!
     burn: float = 0.1
     coin_diameter: float = 50.0
     magnet_diameter: float = 4.0
-    score_min: int = 0
-    score_max: int = 9
-    label_radius: float | None = None
+    # Score Settings stubs
+    Score_min: int = 0
+    Score_max: int = 9
+    Score_radius: float | None = None
+    Score_angle: float = 0.0
+    Score_values: str = ""
+    # Font Settings stubs
     font_size: float = 8.0
     font_font: str = "sans-serif"
     font_bold: bool = False
     font_italic: bool = False
-    label_invert: bool = False
     notch_width: float = 15.0
     notch_depth: float | None = None
     notch_style: str = "oval"
+    notch_count: int = 1
     play: float = 0.2
 
     def __init__(self) -> None:
         Boxes.__init__(self)
+        self.addSettingsArgs(ScoreSettings,
+                             min=self.Score_min,
+                             max=self.Score_max)
         self.addSettingsArgs(FontSettings,
                              prefix="font",
                              size=self.font_size)
 
         self.argparser.add_argument(
-            "--coin_diameter", action="store", type=float, default=self.coin_diameter,
+            "--coin_diameter", action="store", type=FloatStepper(0.1), default=self.coin_diameter,
             help="Outer diameter of both discs [mm]")
         self.argparser.add_argument(
-            "--magnet_diameter", action="store", type=float, default=self.magnet_diameter,
+            "--magnet_diameter", action="store", type=FloatStepper(0.1), default=self.magnet_diameter,
             help="Diameter of the central cylindrical magnet [mm]")
         self.argparser.add_argument(
-            "--score_min", action="store", type=IntStepper(1), default=self.score_min,
-            help="Minimum score value displayed on Piece A")
-        self.argparser.add_argument(
-            "--score_max", action="store", type=IntStepper(1), default=self.score_max,
-            help="Maximum score value displayed on Piece A")
-        self.argparser.add_argument(
-            "--label_invert", action="store", type=boolarg, default=self.label_invert,
-            help="Invert the font orientation")
-        _auto_label_r = round(self.coin_diameter / 2 - self.font_size * 0.5)
-        self.argparser.add_argument(
-            "--label_radius", action="store",
-            type=FloatStepper(0.5, auto_default=float(_auto_label_r), auto=True),
-            default=self.label_radius,
-            help=f"Radius at which score numbers are placed on Piece A [mm]. "
-                 f"auto = coin_radius − font_size × 0.5 (≈{_auto_label_r} mm)")
-        self.argparser.add_argument(
-            "--notch_width", action="store", type=FloatStepper(1.0), default=self.notch_width,
+            "--notch_width", action="store", type=FloatStepper(0.1), default=self.notch_width,
             help="Width of the reading notch on Piece B [mm]")
         _auto_notch_d = round(self.notch_width / 2)
         self.argparser.add_argument(
@@ -101,8 +93,35 @@ Assembly: insert magnet into both pieces → stack face-to-face → enjoy!
             choices=["circular", "triangular", "oval", "trapezoid"],
             help="Shape of the reading notch on Piece B")
         self.argparser.add_argument(
+            "--notch_count", action="store", type=IntStepper(1), default=self.notch_count,
+            help="Number of reading notches equally spaced around Piece B (≥ 1)")
+        self.argparser.add_argument(
             "--play", action="store", type=float, default=self.play,
             help="Radial play between the two discs [mm]")
+
+    # ------------------------------------------------------------------
+    # Score label helper
+    # ------------------------------------------------------------------
+    def _score_labels(self) -> list[tuple[str, float]]:
+        """Return ``(text, extra_angle_deg)`` for each score position.
+
+        Tokens prefixed with ``!`` are rotated an extra 180° so they face
+        the opposite direction — useful when mixing orientations, e.g.
+        ``0,1,2,!3,!4`` makes the last two labels face inward.
+        """
+        raw = (self.Score_values or "").strip()
+        tokens: list[str] = (
+            [v.strip() for v in raw.split(",") if v.strip()]
+            if raw
+            else [str(i) for i in range(self.Score_min, self.Score_max + 1)]
+        )
+        result: list[tuple[str, float]] = []
+        for token in tokens:
+            if token.startswith("!"):
+                result.append((token[1:], 180.0))
+            else:
+                result.append((token, 0.0))
+        return result
 
     # ------------------------------------------------------------------
     # Piece A – bottom coin with score scale
@@ -125,28 +144,33 @@ Assembly: insert magnet into both pieces → stack face-to-face → enjoy!
         # Central magnet hole
         self.hole(r, r, d=md)
 
-        # Score numbers
-        n = self.score_max - self.score_min + 1
+        # Score labels
+        labels = self._score_labels()
+        n = len(labels)
+        if n == 0:
+            self.move(r * 2, r * 2, move)
+            return
+
         angle_step = 360.0 / n
-
-        if self.label_invert:
-            orientation = 180
-            offset_label_radius = self.font_size * 0.4
-        else:
-            orientation = 0
-            offset_label_radius = self.font_size * 0.6
-
-        label_r = self.label_radius if self.label_radius is not None else r - offset_label_radius
+        orientation = self.Score_angle
+        # When facing inward (≈180°) labels sit a bit closer to centre.
+        inward = abs((orientation % 360) - 180) < 10
+        offset_label_radius = self.font_size * (0.4 if inward else 0.6)
+        label_r = (
+            self.Score_radius if self.Score_radius is not None
+            else r - offset_label_radius
+        )
 
         ctx.set_font(self.font_font, bold=self.font_bold, italic=self.font_italic)
         self.set_source_color(Color.ETCHING)
-        for i, score in enumerate(range(self.score_min, self.score_max + 1)):
+        for i, (label, extra_angle) in enumerate(labels):
             angle_deg = i * angle_step
             angle_rad = math.radians(angle_deg)
             tx = r + label_r * math.sin(angle_rad)
             ty = r + label_r * math.cos(angle_rad)
             with self.saved_context():
-                self.text(str(score), x=tx, y=ty, angle=-angle_deg + orientation,
+                self.text(label, x=tx, y=ty,
+                          angle=-angle_deg + orientation + extra_angle,
                           align="middle center",
                           fontsize=self.font_size, color=Color.ETCHING)
 
@@ -231,11 +255,11 @@ Assembly: insert magnet into both pieces → stack face-to-face → enjoy!
             self, ctx: Context,
             cx: float, cy: float, disc_r: float,
             a_left: float, a_right: float, notch_r: float, depth: float,
+            center_angle: float = math.pi / 2,
     ) -> None:
         """Triangular (V-shaped) notch.  pen: left endpoint → right endpoint."""
-        # Apex: on the disc center-line, inward by 'depth' from the rim.
-        apex_x = cx
-        apex_y = cy + disc_r - depth  # math coordinates: higher y = toward top before flip
+        apex_x = cx + (disc_r - depth) * math.cos(center_angle)
+        apex_y = cy + (disc_r - depth) * math.sin(center_angle)
         right_x = cx + disc_r * math.cos(a_right)
         right_y = cy + disc_r * math.sin(a_right)
         ctx.line_to(apex_x, apex_y)
@@ -245,34 +269,30 @@ Assembly: insert magnet into both pieces → stack face-to-face → enjoy!
             self, ctx: Context,
             cx: float, cy: float, disc_r: float,
             a_left: float, a_right: float, notch_r: float, depth: float,
+            center_angle: float = math.pi / 2,
     ) -> None:
         """Oval (elliptical) notch using cubic Bézier approximation.
         pen: left endpoint → right endpoint."""
-        # Endpoints on the rim.
         lx = cx + disc_r * math.cos(a_left)
         ly = cy + disc_r * math.sin(a_left)
         rx = cx + disc_r * math.cos(a_right)
         ry = cy + disc_r * math.sin(a_right)
-        # Deepest point: center-line, inward by 'depth'.
-        mid_x = cx
-        mid_y = cy + disc_r - depth
-        # Bézier control points: tangent at endpoints is horizontal (parallel to
-        # the chord lx→rx); tangent at midpoint is vertical.
-        # kappa ≈ 0.5523 gives the best circle approximation; for a half-ellipse
-        # we scale the horizontal handles by the half-width and vertical by depth.
+        # Deepest point at center_angle, inward by depth.
+        mid_x = cx + (disc_r - depth) * math.cos(center_angle)
+        mid_y = cy + (disc_r - depth) * math.sin(center_angle)
+        # Tangent direction (CW) at center_angle: (sin φ, −cos φ)
         kappa: float = 0.5523
-        h_ctrl = notch_r * kappa  # horizontal offset of the ctrl point
-        v_ctrl = depth * kappa  # vertical offset of the ctrl point
-        # From left endpoint to mid (going CW on screen = math CCW upward):
+        h_ctrl = notch_r * kappa
+        tx = math.sin(center_angle)
+        ty = -math.cos(center_angle)
         ctx.curve_to(
-            lx + h_ctrl, ly,  # cp1: nudge right from left endpoint
-            mid_x - h_ctrl, mid_y,  # cp2: nudge left from midpoint
+            lx + h_ctrl * tx, ly + h_ctrl * ty,
+            mid_x - h_ctrl * tx, mid_y - h_ctrl * ty,
             mid_x, mid_y,
         )
-        # From mid to right endpoint:
         ctx.curve_to(
-            mid_x + h_ctrl, mid_y,  # cp1: nudge right from midpoint
-            rx - h_ctrl, ry,  # cp2: nudge left from right endpoint
+            mid_x + h_ctrl * tx, mid_y + h_ctrl * ty,
+            rx - h_ctrl * tx, ry - h_ctrl * ty,
             rx, ry,
         )
 
@@ -280,28 +300,28 @@ Assembly: insert magnet into both pieces → stack face-to-face → enjoy!
             self, ctx: Context,
             cx: float, cy: float, disc_r: float,
             a_left: float, a_right: float, notch_r: float, depth: float,
+            center_angle: float = math.pi / 2,
     ) -> None:
         """Trapezoid notch: wide at the rim, flat narrower bottom.
         pen: left endpoint → right endpoint."""
-        # Inner (flat) half-width = 60 % of outer half-width.
         inner_hw = notch_r * 0.6
-        # Four corners (math coordinates):
-        #   left_outer  = left rim endpoint
-        #   left_inner  = inward by depth, x offset = −inner_hw
-        #   right_inner = inward by depth, x offset = +inner_hw
-        #   right_outer = right rim endpoint
-        inner_y = cy + disc_r - depth
+        # Inner centre: inward by depth along the radial direction at center_angle.
+        icx = cx + (disc_r - depth) * math.cos(center_angle)
+        icy = cy + (disc_r - depth) * math.sin(center_angle)
+        # Tangent (CW) at center_angle: (sin φ, −cos φ)
+        tx = math.sin(center_angle)
+        ty = -math.cos(center_angle)
         right_x = cx + disc_r * math.cos(a_right)
         right_y = cy + disc_r * math.sin(a_right)
-        ctx.line_to(cx - inner_hw, inner_y)
-        ctx.line_to(cx + inner_hw, inner_y)
+        ctx.line_to(icx - inner_hw * tx, icy - inner_hw * ty)   # left inner
+        ctx.line_to(icx + inner_hw * tx, icy + inner_hw * ty)   # right inner
         ctx.line_to(right_x, right_y)
 
     def top_disc(self, move: str = "") -> None:
-        """Top disc: closed outline with reading notch (style set by --notch_style) + central magnet hole."""
+        """Top disc: closed outline with reading notch(es) + central magnet hole."""
         r = self.coin_diameter / 2 - self.play
         md = self.magnet_diameter
-
+        notch_count = max(1, self.notch_count)
         notch_r = min(self.notch_width / 2.0, r * 0.35)
 
         if self.move(r * 2, r * 2, move, before=True):
@@ -309,46 +329,45 @@ Assembly: insert magnet into both pieces → stack face-to-face → enjoy!
 
         ctx = cast(Context, self.ctx)
 
-        # --- Common geometry ---
-        # disc center = (cx, cy); Y-flip applied by SVGSurface.
-        # "top of disc" on screen  = (cx, cy − disc_r)
-        #                          = (cx, cy + disc_r) in math coordinates.
         cx: float = r
         cy: float = r
         burn: float = self.burn
         disc_r: float = r + burn
 
-        alpha: float = math.asin(notch_r / disc_r)
-        a_right: float = math.pi / 2.0 - alpha
-        a_left: float = math.pi / 2.0 + alpha
-
-        # Notch depth: explicit value or auto (= half-width, giving a semicircle).
+        # Clamp alpha so arc_span stays positive even with many notches.
+        alpha = math.asin(min(notch_r / disc_r, 0.99 / notch_count))
         depth: float = self.notch_depth if self.notch_depth is not None else notch_r
+
+        style = self.notch_style if self.notch_style in ("circular", "triangular", "oval", "trapezoid") else "oval"
+        notch_fn = getattr(self, f"_notch_{style}")
+
+        # Arc span between consecutive notches (going CW).
+        arc_span = 2.0 * math.pi / notch_count - 2.0 * alpha
+        n_seg = max(1, round(10 * arc_span / (2.0 * math.pi)))
+        da = arc_span / n_seg
+
+        # Notch centre angles going CW from top (π/2).
+        centers = [math.pi / 2.0 - i * (2.0 * math.pi / notch_count)
+                   for i in range(notch_count)]
 
         self.set_source_color(Color.OUTER_CUT)
 
-        # Start path at the RIGHT rim endpoint.
-        ctx.move_to(
-            cx + disc_r * math.cos(a_right),
-            cy + disc_r * math.sin(a_right),
-        )
+        # Start at right rim endpoint of notch 0.
+        ctx.move_to(cx + disc_r * math.cos(centers[0] - alpha),
+                    cy + disc_r * math.sin(centers[0] - alpha))
 
-        # Big arc: arc_negative (math CW) from a_right → a_left the long way round
-        # (≈ 360° − 2α).  After Y-flip this traces the disc outline on screen.
-        n_segments: int = 10
-        span: float = 2.0 * math.pi - 2.0 * alpha
-        da: float = span / n_segments
-        a: float = a_right
-        for _ in range(n_segments):
-            ctx.arc_negative(cx, cy, disc_r, a, a - da)
-            a -= da
-        # Pen is now at the LEFT rim endpoint (a_left).
-
-        # Dispatch to the chosen notch style.
-        # Each helper draws from the left endpoint back to the right endpoint.
-        style = self.notch_style if self.notch_style in ("circular", "triangular", "oval", "trapezoid") else "oval"
-        notch_fn = getattr(self, f"_notch_{style}")
-        notch_fn(ctx, cx, cy, disc_r, a_left, a_right, notch_r, depth)
+        for i in range(notch_count):
+            # Arc CW from right of notch i to left of notch (i+1) % n.
+            a = centers[i] - alpha
+            for _ in range(n_seg):
+                ctx.arc_negative(cx, cy, disc_r, a, a - da)
+                a -= da
+            # Draw notch (i+1) % n.
+            ni = (i + 1) % notch_count
+            a_left  = centers[ni] + alpha
+            a_right = centers[ni] - alpha
+            notch_fn(ctx, cx, cy, disc_r, a_left, a_right, notch_r, depth,
+                     center_angle=centers[ni])
 
         ctx.stroke()
 

@@ -46,6 +46,7 @@ class ScoreSettings(Settings):
      * max    : 20    : Maximum score value shown on the ring
      * radius : 0.0   : Radius for score labels [mm] (0 = auto)
      * angle  : 0.0   : Extra rotation applied to every label [degrees]. 0 = face outward, 180 = face inward
+     * values : ""    : Optional comma-separated labels, e.g. +1,+2,-1,-2. Overrides min/max when set.
     """
 
     absolute_params: dict = {
@@ -53,6 +54,7 @@ class ScoreSettings(Settings):
         "max":    9,
         "radius": None,   # None = auto
         "angle":  0.0,
+        "values": "",
     }
     relative_params: dict = {}
 
@@ -97,6 +99,13 @@ class ScoreSettings(Settings):
             action="store", type=FloatStepper(1.0),
             default=default_angle,
             help="Extra rotation applied to every label [degrees]. 0 = face outward, 180 = face inward")
+
+        group.add_argument(
+            f"--{prefix}_values",
+            action="store", type=str,
+            default=str(defaults.get("values", cls.absolute_params["values"])),
+            help="Comma-separated custom score labels, e.g. +1,+2,-1,-2. "
+                 "When non-empty this overrides min/max entirely.")
 
     def __init__(self, thickness: float, relative: bool = True, **kw: object) -> None:
         self.values: dict = {}

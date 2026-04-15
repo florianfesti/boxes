@@ -153,6 +153,149 @@ class FloatStepper:
         )
 
 
+class DPadArg:
+    """Argparse type rendered as a d-pad (cross) of radio buttons in the web UI.
+
+    Choices are rendered as five buttons arranged in a plus-sign layout::
+
+              [ ↑ top ]
+        [ ← left ] [ · center ] [ right → ]
+              [ ↓ bottom ]
+    """
+
+    _GLYPHS: dict[str, str] = {
+        "top":    "↑",
+        "left":   "←",
+        "center": "·",
+        "right":  "→",
+        "bottom": "↓",
+    }
+    _GRID: dict[str, tuple[int, int]] = {
+        "top":    (2, 1),
+        "left":   (1, 2),
+        "center": (2, 2),
+        "right":  (3, 2),
+        "bottom": (2, 3),
+    }
+
+    def __init__(self, choices: tuple[str, ...] | list[str]) -> None:
+        self.choices: list[str] = list(choices)
+
+    def __call__(self, value: str) -> str:
+        if value not in self.choices:
+            raise ValueError(f"Invalid d-pad choice {value!r}. "
+                             f"Use one of: {', '.join(self.choices)}")
+        return value
+
+    def html(self, name: str, default: str, _: Any) -> str:
+        buttons: list[str] = []
+        for choice in self.choices:
+            col, row = self._GRID.get(choice, (2, 2))
+            glyph = self._GLYPHS.get(choice, choice)
+            checked = ' checked="checked"' if choice == str(default) else ""
+            buttons.append(
+                f'<label class="dpad-btn dpad-{choice}" '
+                f'style="grid-column:{col};grid-row:{row}">'
+                f'<input type="radio" name="{name}" value="{choice}"{checked}>'
+                f'<span>{glyph}</span>'
+                f'</label>'
+            )
+        return (
+            f'<span class="dpad-grid" id="{name}">'
+            + "".join(buttons)
+            + "</span>"
+        )
+
+    def inx(self, name: str, viewname: str, arg: Any) -> str:
+        return (
+            f'        <param name="{name}" type="optiongroup" appearance="combo"'
+            f' gui-text="{viewname}" gui-description={quoteattr(arg.help or "")}>\n'
+            + "".join(
+                f'            <option value="{c}">{c}</option>\n'
+                for c in self.choices
+            )
+            + "      </param>\n"
+        )
+
+
+class DPadMoverArg:
+    """Argparse type rendered as a d-pad mover widget in the web UI.
+
+    Renders a cross of four arrow buttons + a centre reset button arranged
+    in a 3×3 grid, plus a step-size stepper below.  Clicking an arrow calls
+    ``dpadStep()`` (defined in ``self.js``) which adds ``±step`` to the
+    target x or y field via the existing ``stepInput()`` helper.  The centre
+    button calls ``dpadReset()`` to zero both fields.
+
+    Usage in ``parserArguments``::
+
+        x_field = f"{prefix}_text_x"
+        y_field = f"{prefix}_text_y"
+        group.add_argument(f"--{prefix}_text_x",  type=FloatStepper(1.0), default=0.0, ...)
+        group.add_argument(f"--{prefix}_text_y",  type=FloatStepper(1.0), default=0.0, ...)
+        group.add_argument(f"--{prefix}_text_step",
+                           type=DPadMoverArg(x_field, y_field, step=0.5), default=1.0, ...)
+
+    The *step* constructor argument controls the ±increment on the step
+    stepper itself (not the d-pad movement amount, which is read live from
+    the step field at click time).
+    """
+
+    def __init__(self, x_field: str, y_field: str, step: float = 0.5) -> None:
+        self.x_field = x_field
+        self.y_field = y_field
+        self.step = step
+
+    def __call__(self, s: str) -> float:
+        return float(s)
+
+    def html(self, name: str, default: str | float, _: Any) -> str:
+        xid = self.x_field
+        yid = self.y_field
+        sid = name          # the step arg's id == its name
+        s = self.step
+        disp = str(default)
+
+        def btn(direction: str, glyph: str, col: int, row: int,
+                dx: int, dy: int) -> str:
+            if dx == 0 and dy == 0:
+                onclick = f"dpadReset('{xid}','{yid}')"
+                extra_class = " dpad-center"
+            else:
+                onclick = f"dpadStep('{xid}','{yid}','{sid}',{dx},{dy})"
+                extra_class = ""
+            return (
+                f'<button type="button"'
+                f' class="dpad-btn dpad-{direction}{extra_class}"'
+                f' style="grid-column:{col};grid-row:{row}"'
+                f' onclick="{onclick}">{glyph}</button>'
+            )
+
+        grid = (
+            btn("top",    "↑", 2, 1,  0,  1) +
+            btn("left",   "←", 1, 2, -1,  0) +
+            btn("center", "·", 2, 2,  0,  0) +
+            btn("right",  "→", 3, 2,  1,  0) +
+            btn("bottom", "↓", 2, 3,  0, -1)
+        )
+        stepper = (
+            f'<span class="dpad-step-label">step</span>'
+            f'<button type="button" class="stepper-btn"'
+            f' onclick="stepInput(\'{sid}\', -{s})">&#8722;</button>'
+            f'<input name="{name}" id="{sid}" class="stepper-input"'
+            f' type="text" value="{disp}">'
+            f'<button type="button" class="stepper-btn"'
+            f' onclick="stepInput(\'{sid}\', {s})">+</button>'
+            f'<span class="dpad-step-label">mm</span>'
+        )
+        return (
+            f'<span class="dpad-mover">'
+            f'<span class="dpad-grid">{grid}</span>'
+            f'<span class="stepper-wrap">{stepper}</span>'
+            f'</span>'
+        )
+
+
 class IntStepper:
     """Argparse type that adds −/+ stepper buttons to any integer parameter in the web UI.
 

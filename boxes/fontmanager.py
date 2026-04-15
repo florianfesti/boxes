@@ -35,7 +35,20 @@ FONTS_DIR: pathlib.Path = pathlib.Path(__file__).parent / "fonts"
 BUILTIN_FONTS: list[str] = ["sans-serif", "serif", "monospaced"]
 
 # Supported font file extensions.
-_FONT_EXTENSIONS: frozenset[str] = frozenset({".ttf", ".otf"})
+_FONT_EXTENSIONS: frozenset[str] = frozenset({".ttf", ".otf", ".woff2", ".woff"})
+
+# MIME type for each extension.
+_FONT_MIME: dict[str, str] = {
+    ".ttf":   "font/ttf",
+    ".otf":   "font/otf",
+    ".woff2": "font/woff2",
+    ".woff":  "font/woff",
+}
+
+
+def _normalize(name: str) -> str:
+    """Lowercase and replace spaces/underscores with hyphens for fuzzy matching."""
+    return name.lower().replace(" ", "-").replace("_", "-")
 
 
 def discover_fonts() -> list[str]:
@@ -60,26 +73,25 @@ def font_path(name: str) -> pathlib.Path | None:
 
     Returns ``None`` for the three built-in generic families.
     Searches recursively through all sub-folders of :data:`FONTS_DIR`.
+    Matches both exact stem and a normalised form (lowercase, spaces→hyphens).
     """
     if name in BUILTIN_FONTS:
         return None
     if not FONTS_DIR.is_dir():
         return None
+    norm = _normalize(name)
     for p in FONTS_DIR.rglob("*"):
-        if p.is_file() and p.suffix.lower() in _FONT_EXTENSIONS and p.stem == name:
-            return p
+        if p.is_file() and p.suffix.lower() in _FONT_EXTENSIONS:
+            if p.stem == name or _normalize(p.stem) == norm:
+                return p
     return None
 
 
 def font_as_data_uri(name: str) -> str | None:
-    """Return a base64 data URI for *name*, or ``None`` if not found.
-
-    The MIME type is ``font/ttf`` for ``.ttf`` files and ``font/otf`` for
-    ``.otf`` files.
-    """
+    """Return a base64 data URI for *name*, or ``None`` if not found."""
     path = font_path(name)
     if path is None:
         return None
-    mime = "font/otf" if path.suffix.lower() == ".otf" else "font/ttf"
+    mime = _FONT_MIME.get(path.suffix.lower(), "font/ttf")
     data = base64.b64encode(path.read_bytes()).decode("ascii")
     return f"data:{mime};base64,{data}"

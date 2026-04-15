@@ -496,3 +496,72 @@ textarea {
 .tab-panel {
     clear: both;
 }
+
+/* ── D-pad widgets (DPadArg radio variant + DPadMoverArg button variant) ── */
+
+/* Shared 3×3 grid container */
+.dpad-grid {
+    display: inline-grid;
+    grid-template-columns: repeat(3, 32px);
+    grid-template-rows: repeat(3, 32px);
+    gap: 3px;
+}
+
+/* Shared button/label style */
+.dpad-btn {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: 1px solid #999;
+    border-radius: 6px;
+    background: #EFE8DA;
+    cursor: pointer;
+    font-size: 1.15em;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+}
+
+.dpad-btn:hover {
+    background: #DFD8BA;
+}
+
+.dpad-btn.dpad-center {
+    background: #DAE8DA;
+    border-color: #88aa88;
+}
+
+.dpad-btn.dpad-center:hover {
+    background: #BACBBA;
+}
+
+/* Radio-button variant (DPadArg) – hide the actual radio input */
+.dpad-btn input[type="radio"] {
+    display: none;
+}
+
+.dpad-btn:has(input:checked) {
+    background: #5F584A;
+    color: #FFF8EA;
+    border-color: #333;
+}
+
+.dpad-btn:has(input:checked):hover {
+    background: #4A4438;
+    color: #FFF8EA;
+}
+
+/* Mover variant (DPadMoverArg) – outer wrapper */
+.dpad-mover {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: flex-start;
+}
+
+.dpad-step-label {
+    font-size: 0.85em;
+    color: #666;
+}

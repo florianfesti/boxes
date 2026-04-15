@@ -1435,7 +1435,7 @@ class Boxes:
         self.edge(2 * rs, tabs)
 
     @restore
-    def text(self, text, x=0, y=0, angle=0, align="", fontsize=10, color=[0.0, 0.0, 0.0], font="Arial"):
+    def text(self, text, x=0, y=0, angle=0, align="", fontsize=10, color=[0.0, 0.0, 0.0], font="Arial", outline_lw=0.0):
         """
         Draw text
 
@@ -1470,7 +1470,7 @@ class Boxes:
                 raise ValueError("Unknown alignment: %s" % align)
 
         for line in reversed(text):
-            self.ctx.show_text(line, fs=fontsize, align=halign, rgb=color, font=font)
+            self.ctx.show_text(line, fs=fontsize, align=halign, rgb=color, font=font, outline_lw=outline_lw)
             self.moveTo(0, 1.4 * fontsize)
 
     tx_sizes = {

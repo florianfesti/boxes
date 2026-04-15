@@ -18,9 +18,10 @@ from __future__ import annotations
 from typing import cast
 
 from boxes import *
-from boxes.args import FloatStepper
 from boxes.drawing import Context
 from boxes.settings.font_settings import FontSettings
+from boxes.settings.label_settings import LabelSettings
+from boxes.settings.text_settings import TextSettings
 
 
 class Label(Boxes):
@@ -42,50 +43,32 @@ A flat laser-cut label plate.
 Assembly: none required – this is a single flat piece.
 """
 
-    # Dummy declarations so mypy knows the types set by argparse at runtime.
-    longueur: float = 110.0
-    hauteur: float = 40.0
-    radius: float = 5.0
-    inner_border: bool = True
-    border_margin: float = 3.0
-    label_text: str = "Label"
-    text_align: str = "middle center"
-    # Font settings – set by FontSettings group (prefix "Font")
-    Font_font: str = "sans-serif"
-    Font_size: float = 10.0
-    Font_bold: bool = False
-    Font_italic: bool = False
+    # mypy stubs – values set by argparse at runtime.
+    Label_longueur:      float = 110.0
+    Label_hauteur:       float = 40.0
+    Label_radius:        float = 5.0
+    Label_inner_border:  bool  = True
+    Label_border_margin: float = 3.0
+    Text_text:           str   = "Label"
+    Text_x:              float = 0.0
+    Text_y:              float = 0.0
+    Text_step:           float = 1.0
+    Text_outline:        float = 0.0
+    Font_font:           str   = "sans-serif"
+    Font_size:           float = 10.0
+    Font_bold:           bool  = False
+    Font_italic:         bool  = False
 
     def __init__(self) -> None:
         Boxes.__init__(self)
+        self.addSettingsArgs(LabelSettings,
+                             longueur=self.Label_longueur,
+                             hauteur=self.Label_hauteur,
+                             radius=self.Label_radius,
+                             inner_border=self.Label_inner_border,
+                             border_margin=self.Label_border_margin)
+        self.addSettingsArgs(TextSettings, text=self.Text_text)
         self.addSettingsArgs(FontSettings, size=self.Font_size)
-
-        self.argparser.add_argument(
-            "--longueur", action="store", type=FloatStepper(1.0), default=self.longueur,
-            help="Total width of the label [mm]")
-        self.argparser.add_argument(
-            "--hauteur", action="store", type=FloatStepper(1.0), default=self.hauteur,
-            help="Total height of the label [mm]")
-        self.argparser.add_argument(
-            "--radius", action="store", type=FloatStepper(1.0), default=self.radius,
-            help="Corner radius [mm] (0 = sharp corners)")
-        self.argparser.add_argument(
-            "--inner_border", action="store", type=boolarg, default=self.inner_border,
-            help="Add an inner border line parallel to the outer edge")
-        self.argparser.add_argument(
-            "--border_margin", action="store", type=FloatStepper(1.0), default=self.border_margin,
-            help="Distance between the outer cut and the inner border line [mm]")
-        self.argparser.add_argument(
-            "--label_text", action="store", type=str, default=self.label_text,
-            help="Text to engrave on the label (leave blank to omit)")
-        self.argparser.add_argument(
-            "--text_align", action="store", type=str, default=self.text_align,
-            choices=[
-                "middle center", "middle left", "middle right",
-                "top center", "top left", "top right",
-                "bottom center", "bottom left", "bottom right",
-            ],
-            help="Alignment of the engraved text inside the label")
 
     # ------------------------------------------------------------------
     # Internal helpers
@@ -107,24 +90,24 @@ Assembly: none required – this is a single flat piece.
     # ------------------------------------------------------------------
 
     def render(self) -> None:
-        w = self.longueur
-        h = self.hauteur
-        r = self.radius
-        margin = self.border_margin
+        w = self.Label_longueur
+        h = self.Label_hauteur
+        r = self.Label_radius
+        margin = self.Label_border_margin
 
         if self.move(w, h, "right", before=True):
             return
 
         ctx = cast(Context, self.ctx)
 
-        # ── 2. Outer perimeter cut (OUTER_CUT = black) ──────────────────
+        # ── Outer perimeter cut (OUTER_CUT = black) ──────────────────────
         self.set_source_color(Color.OUTER_CUT)
         with self.saved_context():
             self._rounded_rect(w, h, r)
             ctx.stroke()
 
-        # ── 3. Inner border line (INNER_CUT = blue, optional) ────────────
-        if self.inner_border and margin > 0:
+        # ── Inner border line (INNER_CUT = blue, optional) ───────────────
+        if self.Label_inner_border and margin > 0:
             iw = w - 2 * margin
             ih = h - 2 * margin
             if iw > 0 and ih > 0:
@@ -135,31 +118,19 @@ Assembly: none required – this is a single flat piece.
                     self._rounded_rect(iw, ih, ir)
                     ctx.stroke()
 
-        # ── 4. Engraved text (ETCHING = green) ───────────────────────────
-        if self.label_text and self.Font_size > 0:
-            align = self.text_align
-            tokens = align.split()
-            valign_token = tokens[0] if tokens else "middle"
-            halign_token = tokens[1] if len(tokens) >= 2 else "center"
-
-            x_positions = {"left": margin + self.Font_size * 0.3,
-                           "center": w / 2.0,
-                           "right": w - margin - self.Font_size * 0.3}
-            y_positions = {"top": h - margin - self.Font_size * 0.1,
-                           "middle": h / 2.0,
-                           "bottom": margin + self.Font_size * 0.1}
-
-            tx = x_positions.get(halign_token, w / 2.0)
-            ty = y_positions.get(valign_token, h / 2.0)
-
+        # ── Engraved text (ETCHING = green) ──────────────────────────────
+        if self.Text_text and self.Font_size > 0:
+            tx = w / 2.0 + self.Text_x
+            ty = h / 2.0 + self.Text_y
             ctx.set_font(self.Font_font, bold=self.Font_bold, italic=self.Font_italic)
             self.text(
-                self.label_text,
+                self.Text_text,
                 x=tx, y=ty, angle=0,
-                align=align,
+                align="middle center",
                 fontsize=self.Font_size,
                 color=Color.ETCHING,
+                outline_lw=self.Text_outline,
             )
 
-        # ── 5. Finalise move ─────────────────────────────────────────────
+        # ── Finalise move ─────────────────────────────────────────────────
         self.move(w, h, "right")

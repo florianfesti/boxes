@@ -1,11 +1,21 @@
 
 /*** Args page tabs **************************************/
 
-function switchTab(evt, name) {
+const TAB_STORAGE_KEY = 'boxes-active-tab';
+
+function activateTab(name) {
+    const panel = document.getElementById('tab-' + name);
+    if (!panel) return;
     document.querySelectorAll('.tab-panel').forEach(p => { p.style.display = 'none'; });
-    document.getElementById('tab-' + name).style.display = 'block';
-    document.querySelectorAll('.tabbtn').forEach(b => b.classList.remove('active'));
-    evt.currentTarget.classList.add('active');
+    panel.style.display = 'block';
+    document.querySelectorAll('.tabbtn').forEach(b => {
+        b.classList.toggle('active', (b.getAttribute('onclick') || '').includes("'" + name + "'"));
+    });
+}
+
+function switchTab(evt, name) {
+    activateTab(name);
+    try { localStorage.setItem(TAB_STORAGE_KEY, name); } catch (_) {}
     if (name === 'configuration') refreshPreview();
 }
 
@@ -269,6 +279,11 @@ function initArgsPage(num_hide = null) {
     for (let el of i) {
 	el.addEventListener("change", refreshPreview);
     }
+    // Restore last active tab from localStorage.
+    try {
+        const savedTab = localStorage.getItem(TAB_STORAGE_KEY);
+        if (savedTab) activateTab(savedTab);
+    } catch (_) {}
     refreshPreview();
 }
 
@@ -339,6 +354,25 @@ function stepInputInt(id, delta, autoDefault) {
         : (parseInt(raw, 10) || 0);
     input.value = String(base + delta);
     input.dispatchEvent(new Event('change'));
+}
+
+/**
+ * Move a text position by (dx, dy) * step, where step is read live from
+ * the element whose id is stepId.  Called by DPadMoverArg arrow buttons.
+ */
+function dpadStep(xId, yId, stepId, dx, dy) {
+    const step = parseFloat(document.getElementById(stepId).value) || 1.0;
+    if (dx !== 0) stepInput(xId, dx * step);
+    if (dy !== 0) stepInput(yId, dy * step);
+}
+
+/** Reset both offset fields to 0.  Called by the DPadMoverArg centre button. */
+function dpadReset(xId, yId) {
+    [xId, yId].forEach(id => {
+        const el = document.getElementById(id);
+        el.value = '0';
+        el.dispatchEvent(new Event('change'));
+    });
 }
 
 /*** Preview ****************************************/

@@ -581,15 +581,36 @@ class SVGSurface(Surface):
                         if font not in BUILTIN_FONTS:
                             custom_fonts_used.add(font)
 
-                        style = f"font-family: {font} ; font-weight: {fontweight}; font-style: {fontstyle}; fill: {rgb_to_svg_color(*params['rgb'])}"
-                        t = ET.SubElement(g, "text",
-                                          #x=f"{x:.3f}", y=f"{y:.3f}",
-                                          transform=f"matrix( {tm} )",
-                                          style=style)
-                        t.text = text
-                        t.set("font-size", f"{params['fs']}px")
-                        t.set("text-anchor", params.get('align', 'left'))
-                        t.tail = "\n  "
+                        fill_color = rgb_to_svg_color(*params['rgb'])
+                        font_style_base = (
+                            f"font-family: {font} ; font-weight: {fontweight};"
+                            f" font-style: {fontstyle}"
+                        )
+
+                        def _text_el(style: str) -> ET.Element:
+                            el = ET.SubElement(g, "text",
+                                               transform=f"matrix( {tm} )",
+                                               style=style)
+                            el.text = text
+                            el.set("font-size", f"{params['fs']}px")
+                            el.set("text-anchor", params.get('align', 'left'))
+                            el.tail = "\n  "
+                            return el
+
+                        outline_lw = params.get('outline_lw', 0.0)
+                        if outline_lw > 0:
+                            # paint-order: stroke fill → stroke painted first (2× wide),
+                            # then fill on top covers the inside half.
+                            # Net effect: only the outer outline_lw of stroke is visible.
+                            style = (
+                                f"{font_style_base}; fill: {fill_color};"
+                                f" stroke: rgb(0,0,255);"
+                                f" stroke-width: {2 * outline_lw:.3f}px;"
+                                f" paint-order: stroke fill"
+                            )
+                        else:
+                            style = f"{font_style_base}; fill: {fill_color}"
+                        t = _text_el(style)
                     else:
                         print("Unknown", c)
 

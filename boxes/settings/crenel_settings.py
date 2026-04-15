@@ -46,7 +46,7 @@ class CrenelSettings(Settings):
      * enabled    : False  : Add crenels on the outer rim
      * depth      : 2.0   : Depth of each crenel [mm]
      * width      : 0.5   : Crenel gap width as a fraction of the sector (0.1 = narrow gap, 0.9 = wide gap)
-     * shape      : symmetric : Crenel wall shape: symmetric (straight walls), radial (walls converge at center), or blades (half-ellipse per sector, no flat surface between teeth)
+     * shape      : symmetric : Crenel wall shape: symmetric (straight walls), radial (walls converge at center), or blade (half-ellipse per sector, no flat surface between teeth)
      * rounded    : False  : Round the crenel corners
      * radius     : 0.5   : Corner radius for rounded crenels [mm]
     """
@@ -97,10 +97,10 @@ class CrenelSettings(Settings):
             f"--{prefix}_shape",
             action="store", type=str,
             default=default_shape,
-            choices=["symmetric", "radial", "blades"],
+            choices=["symmetric", "radial", "blade"],
             help="Crenel wall shape: symmetric = straight walls perpendicular to the rim; "
                  "radial = walls converge toward the center; "
-                 "blades = half-ellipse per sector, bases touching (no flat surface between teeth)")
+                 "blade = half-ellipse per sector, bases touching (no flat surface between teeth)")
 
         default_rounded = bool(defaults.get("rounded", cls.absolute_params["rounded"]))
         group.add_argument(

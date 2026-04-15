@@ -223,140 +223,16 @@ cut in a single laser pass with minimal material waste.
 
     def _draw_outer_crenels(self, cx: float, cy: float,
                             ro: float, ctx: Context) -> None:
-        """Draw the outer perimeter of Piece A with gear-like crenels.
-
-        One tooth per score value, evenly distributed around 360°.
-        Tooth tips land exactly at ``ro`` (= outer_diameter/2); the base circle
-        (between teeth) sits at ``ri = ro - depth``, so the overall diameter
-        never exceeds ``outer_diameter``.
-
-        ``crenel_shape``:
-          * ``symmetric`` – straight walls perpendicular to the sector bisector
-            (true rectangular teeth, geometrically symmetric).
-          * ``radial``    – walls are radial lines converging toward the center.
-          * ``blades``     – half-ellipse per sector, bases touching (no flat
-                           surface between teeth; ignores width/rounded/radius).
-
-        ``crenel_rounded`` adds fillets of radius ``crenel_radius`` at the four
-        base corners of each tooth.
-        """
-        n = self.score_max - self.score_min + 1
-        if n < 1:
-            return
-
-        depth = self.crenel_depth
-        radial = (self.crenel_shape == "radial")
-        rounded = self.crenel_rounded
-        r_corn = self.crenel_radius if rounded else 0.0
-        ri = ro - depth  # base circle (gaps between teeth)
-
-        angle_step = 2.0 * math.pi / n
-        half = angle_step / 2.0
-        quarter = angle_step * (1.0 - max(0.05, min(0.95, self.crenel_width))) / 2.0
-
-        self.set_source_color(Color.OUTER_CUT)
-        start_angle = math.pi  # first tooth at LEFT (9 o'clock), matching score label 0
-
-        def pt_on(r: float, a: float) -> tuple[float, float]:
-            return cx + r * math.cos(a), cy + r * math.sin(a)
-
-        def sym_outer_corners(center_a_in: float) -> tuple[
-                tuple[float, float], tuple[float, float]]:
-            """Left and right outer corners of a rectangular tooth."""
-            bx_in = math.cos(center_a_in)
-            by_in = math.sin(center_a_in)
-            ix_l, iy_l = pt_on(ri, center_a_in - quarter)
-            ix_r, iy_r = pt_on(ri, center_a_in + quarter)
-            return (ix_l + depth * bx_in, iy_l + depth * by_in), \
-                (ix_r + depth * bx_in, iy_r + depth * by_in)
-
-        # ── ovale: half-ellipse per sector, bases touching ──────────────────
-        if self.crenel_shape == "blades":
-            # Bézier quarter-ellipse magic constant k ≈ 0.5523
-            k_bez = 4.0 / 3.0 * (math.sqrt(2.0) - 1.0)
-            a_chord = ri * math.sin(half)   # half chord width of one sector
-            h_r = depth * k_bez             # control-point scale along radial at base
-            h_t = a_chord * k_bez           # control-point scale along tangential at tip
-            ctx.move_to(*pt_on(ri, start_angle - half))
-            for i in range(n):
-                center_a = start_angle + i * angle_step
-                pl = pt_on(ri, center_a - half)
-                pr = pt_on(ri, center_a + half)
-                pt_tip = pt_on(ro, center_a)
-                rl = (math.cos(center_a - half), math.sin(center_a - half))
-                rr = (math.cos(center_a + half), math.sin(center_a + half))
-                tt = (-math.sin(center_a), math.cos(center_a))   # tangential at tip (CCW)
-                # Left quarter: base-left → tip
-                ctx.curve_to(pl[0] + h_r * rl[0], pl[1] + h_r * rl[1],
-                             pt_tip[0] - h_t * tt[0], pt_tip[1] - h_t * tt[1],
-                             *pt_tip)
-                # Right quarter: tip → base-right
-                ctx.curve_to(pt_tip[0] + h_t * tt[0], pt_tip[1] + h_t * tt[1],
-                             pr[0] - h_r * rr[0], pr[1] - h_r * rr[1],
-                             *pr)
-            ctx.line_to(*pt_on(ri, start_angle - half))
-            ctx.stroke()
-            return
-        # ─────────────────────────────────────────────────────────────────────
-
-        # Start on the base (gap) circle
-        ctx.move_to(*pt_on(ri, start_angle - half))
-
-        # last_tooth_r tracks where the path ends after each tooth so the
-        # closing gap arc uses the correct start angle.
-        last_tooth_r: float = start_angle - half
-
-        for i in range(n):
-            center_a = start_angle + i * angle_step
-            tooth_l = center_a - quarter  # left  base edge of tooth
-            tooth_r = center_a + quarter  # right base edge of tooth
-
-            if radial:
-                if r_corn <= 0.0 or ri <= 0.0:
-                    # Gap arc (inner) → wall out → tooth tip arc → wall in
-                    ctx.arc(cx, cy, ri, center_a - half, tooth_l)
-                    ctx.line_to(*pt_on(ro, tooth_l))
-                    ctx.arc(cx, cy, ro, tooth_l, tooth_r)
-                    ctx.line_to(*pt_on(ri, tooth_r))
-                    last_tooth_r = tooth_r
-                else:
-                    da_i = min(r_corn / ri, quarter * 0.45)
-                    da_o = min(r_corn / ro, quarter * 0.45)
-                    ctx.arc(cx, cy, ri, center_a - half, tooth_l - da_i)
-                    ctx.curve_to(*pt_on(ro, tooth_l - da_o),
-                                 *pt_on(ro, tooth_l - da_o),
-                                 *pt_on(ro, tooth_l + da_o))
-                    ctx.arc(cx, cy, ro, tooth_l + da_o, tooth_r - da_o)
-                    ctx.curve_to(*pt_on(ri, tooth_r + da_i),
-                                 *pt_on(ri, tooth_r + da_i),
-                                 *pt_on(ri, tooth_r + da_i))
-                    last_tooth_r = tooth_r + da_i
-            else:
-                ol, or_ = sym_outer_corners(center_a)
-                bx = math.cos(center_a)
-                by = math.sin(center_a)
-                if r_corn <= 0.0:
-                    ctx.arc(cx, cy, ri, center_a - half, tooth_l)
-                    ctx.line_to(*ol)
-                    ctx.line_to(*or_)
-                    ctx.line_to(*pt_on(ri, tooth_r))
-                    last_tooth_r = tooth_r
-                else:
-                    da_i = min(r_corn / ri, quarter * 0.4)
-                    rc = min(r_corn, ri * quarter * 0.4)
-                    ctx.arc(cx, cy, ri, center_a - half, tooth_l - da_i)
-                    fl_ctrl = (cx + ri * math.cos(tooth_l) + rc * bx,
-                               cy + ri * math.sin(tooth_l) + rc * by)
-                    ctx.curve_to(*fl_ctrl, *fl_ctrl, *ol)
-                    ctx.line_to(*or_)
-                    fr_ctrl = (cx + ri * math.cos(tooth_r) + rc * bx,
-                               cy + ri * math.sin(tooth_r) + rc * by)
-                    ctx.curve_to(*fr_ctrl, *fr_ctrl, *pt_on(ri, tooth_r + da_i))
-                    last_tooth_r = tooth_r + da_i
-
-        # Close the path: gap arc from the last tooth back to the start point.
-        ctx.arc(cx, cy, ri, last_tooth_r, start_angle - half + 2.0 * math.pi)
-        ctx.stroke()
+        """Delegate to ``parts.draw_outer_crenels`` with this generator's params."""
+        self.parts.draw_outer_crenels(
+            cx, cy, ro, ctx,
+            n=self.score_max - self.score_min + 1,
+            depth=self.crenel_depth,
+            shape=self.crenel_shape,
+            width=self.crenel_width,
+            rounded=self.crenel_rounded,
+            radius=self.crenel_radius,
+        )
 
     # ------------------------------------------------------------------
     # Pieces

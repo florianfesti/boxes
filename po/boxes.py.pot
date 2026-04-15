@@ -5939,7 +5939,7 @@ msgstr ""
 
 #. possible choice for font
 #: boxes/generators/game_counter_coins.py
-msgid  "Audiowide-Regular"
+msgid  "audiowide-Regular"
 msgstr ""
 
 #. possible choice for font

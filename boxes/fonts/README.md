@@ -15,11 +15,11 @@ machine or laser-cutter software.
 
 Every font you add **must** include its licence file in the same sub-folder.
 
-| Licence type | Typical filename  |
-|--------------|-------------------|
-| SIL Open Font Licence | `OFL.txt` |
-| Apache 2.0   | `LICENSE.txt`     |
-| Other        | any clearly named file |
+| Licence type          | Typical filename       |
+|-----------------------|------------------------|
+| SIL Open Font Licence | `OFL.txt`              |
+| Apache 2.0            | `LICENSE.txt`          |
+| Other                 | any clearly named file |
 
 **Do not commit a font without its licence file.**
 If you cannot redistribute the font, do not add it here.
@@ -42,18 +42,18 @@ boxes/fonts/
 The font name exposed in the UI is derived from the **filename stem**
 (not the folder name):
 
-| File                            | UI name              |
-|---------------------------------|----------------------|
-| `MyFont/MyFont-Regular.ttf`     | `MyFont-Regular`     |
-| `AnotherFont/AnotherFont.otf`   | `AnotherFont`        |
+| File                          | UI name          |
+|-------------------------------|------------------|
+| `MyFont/MyFont-Regular.ttf`   | `MyFont-Regular` |
+| `AnotherFont/AnotherFont.otf` | `AnotherFont`    |
 
 ## Built-in generic families (always available, no file needed)
 
-| Name          | CSS equivalent                         |
-|---------------|----------------------------------------|
-| `sans-serif`  | Helvetica / Arial fallback stack       |
-| `serif`       | Times New Roman fallback stack         |
-| `monospaced`  | Courier New fallback stack             |
+| Name         | CSS equivalent                   |
+|--------------|----------------------------------|
+| `sans-serif` | Helvetica / Arial fallback stack |
+| `serif`      | Times New Roman fallback stack   |
+| `monospaced` | Courier New fallback stack       |
 
 ## Free font sources
 

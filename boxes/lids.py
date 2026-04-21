@@ -35,16 +35,22 @@ Values:
   * height : 4.0 : height of the brim in multiples of thickness (if any)
   * play : 0.1 : play when sliding the lid on in multiples of thickness (if applicable)
   * handle_height : 8.0 : height of the handle in multiples of thickness (if applicable)
+  * brim_height : 1.0 : height of the brim in multiple of thickness (for flatbrim lids)
+  * brim_spacing : 0.15 : space between the brim and the walls (for flatbrim lids)
+  * fang_size : 1.0 : size of the fangs in multiples of thickness (for fangbrim lids)
     """
     absolute_params = {
-        "style": ("none", "flat", "chest", "overthetop", "ontop"),
+        "style": ("none", "flat", "chest", "overthetop", "ontop", "flatbrim", "fangbrim"),
         "handle": ("none", "long_rounded", "long_trapezoid", "long_doublerounded", "knob"),
     }
 
     relative_params = {
         "height": 4.0,
         "play": 0.1,
+        "brim_height": 1.0,
+        "brim_spacing": 0.15,
         "handle_height": 8.0,
+        "fang_size": 1.0,
     }
 
 
@@ -70,6 +76,84 @@ class Lid:
             self.rectangularWall(x, y, "EEEE",
                                  callback=[self.handleCB(x, y)],
                                  move="up", label="lid top")
+        elif style == "flatbrim":
+            #print(f"self {self.__dict__}")
+            #print("SELF: ")
+            #print(self.boxes.edgesettings['FingerJoint']['finger'])
+            f = self.boxes.edgesettings['FingerJoint']['finger']
+            s = self.boxes.edgesettings['FingerJoint']['space']
+            brim_spacing = self.brim_spacing
+            brim_width_x = x - brim_spacing*2
+            brim_width_y = y - brim_spacing*2 - t*2
+
+            def fingerHolesCB(spacing : float, length: float) -> Callable[[], None]:
+                def cb() -> None:
+                    # print(f"spacing: {spacing} length: {length} brim_spacing = {brim_spacing} ")
+                    self.fingerHolesAt(spacing + brim_spacing, t*0.5+brim_spacing, length, 0)
+                    pass
+                return cb
+
+            #cb0 = self.handleCB(brim_width_x, brim_width_y)
+            #def cb0_with_holes() -> None:
+            #    cb0()
+            #    fingerHolesCB(brim_width_x)()
+            gap = brim_width_x % (f+s)
+            gap += -s if gap > s else s
+            #print(f"gap: {gap}")
+
+            self.rectangularWall(
+                x,
+                y,
+                "EEEE",
+                callback=[fingerHolesCB(0, brim_width_x), fingerHolesCB(t, brim_width_y), fingerHolesCB(0, brim_width_x), fingerHolesCB(t, brim_width_y)],
+                move="up",
+                label="lid top",
+            )
+            # Vertical callback=[None, fingerHolesCB(brim_width_y), None, fingerHolesCB(brim_width_y)],
+            #callback=[cb0_with_holes, None, fingerHolesCB(brim_width_x), None],
+
+            brim_h = self.brim_height
+            self.rectangularWall(brim_width_x, brim_h, "feee", move="up", label="lid brim")
+            self.rectangularWall(brim_width_x, brim_h, "feee", move="up", label="lid brim")
+            self.rectangularWall(brim_width_y, brim_h, "feee", move="up", label="lid brim")
+            self.rectangularWall(brim_width_y, brim_h, "feee", move="up", label="lid brim")
+
+        elif style == "fangbrim":
+            t = self.thickness
+            brim_spacing = self.brim_spacing
+            fang_size = self.fang_size
+
+            def fangHolesCB() -> None:
+                # Create 4 holes at (thickness + brim_spacing) from corners
+                hole_pos = t - brim_spacing
+                # Bottom-left hole
+                self.rectangularHole(brim_spacing - t*0.5 + t, brim_spacing + fang_size*0.5 - t + t, t, fang_size)
+                # Bottom-right hole
+                self.rectangularHole(x - brim_spacing - fang_size*0.5, brim_spacing - t*0.5 + t, fang_size, t)
+                # Top-left hole
+                self.rectangularHole(brim_spacing + fang_size/2 - t + t, y - brim_spacing + t*0.5 - t, fang_size, t)
+                # Top-right hole
+                self.rectangularHole(x - brim_spacing + t*0.5 - t, y - brim_spacing - fang_size/2, t, fang_size)
+
+            # Create lid top with holes
+            self.rectangularWall(
+                x,
+                y,
+                "EEEE",
+                callback=[fangHolesCB],
+                move="up",
+                label="lid top",
+            )
+
+            # Create 4 fang pieces (rectangles of fang_size x thickness)
+            brim_h = self.brim_height
+            # Top and bottom fangs (horizontal)
+            self.rectangularWall(fang_size, brim_h + t, "eeee", move="right", label="lid fangs")
+            self.rectangularWall(fang_size, brim_h + t, "eeee", move="right")
+            # Left and right fangs (vertical)
+            self.rectangularWall(fang_size, brim_h + t, "eeee", move="right")
+            self.rectangularWall(fang_size, brim_h + t, "eeee", move="right")
+
         elif style == "chest":
             self.chestSide(x, move="right", label="lid right")
             self.chestSide(x, move="up", label="lid left")

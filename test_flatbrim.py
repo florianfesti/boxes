@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
-from boxes import Box
+from boxes import Boxes
 
-class TestFlatBrim(Box):
+class TestFlatBrim(Boxes):
     """Simple test box to verify flatbrim lid generation"""
     ui_group = "Box"
 

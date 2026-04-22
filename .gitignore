@@ -15,10 +15,9 @@ boxes.egg-info/
 .idea
 documentation/src/generators.inc
 *.ipynb_checkpoints
-venv*/
+venv/
 .vscode/
 tracker.log
 *.isorted
 .DS_Store
 .venv/
-generator_yaml/

@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-import sys
-import os
 import hashlib
+import sys
 from pathlib import Path
 
 import pytest
@@ -27,7 +26,7 @@ class TestSVG:
     """
 
     configPath = Path(__file__).parent.parent / 'examples.yml'
-    with open(configPath) as ff:
+    with configPath.open() as ff:
         configData = yaml.safe_load(ff)
 
     all_generators = boxes.generators.getAllBoxGenerators()
@@ -60,7 +59,7 @@ class TestSVG:
         boxArgs = []
         for kk, vv in generator_settings["args"].items():
             boxArgs.append(f"--{kk}={vv}")
-        argsHash = hashlib.sha1(" ".join(sorted(boxArgs)).encode("utf-8")).hexdigest()
+        argsHash = hashlib.sha256(" ".join(sorted(boxArgs)).encode("utf-8")).hexdigest()
         return boxArgs, argsHash
 
     @staticmethod
@@ -123,7 +122,7 @@ class TestSVG:
             range(len(additionalTests)),
             ids=idfunc_args.__func__,
         )
-        def test_additonal_generator(self, generator_idx, capsys) -> None:
+        def test_additional_generator(self, generator_idx, capsys) -> None:
             generator_settings = self.additionalTests[generator_idx]
             boxType = generator_settings.get("box_type", None)
             if boxType is None:
@@ -161,9 +160,9 @@ class TestSVG:
             assert referenceData.is_file() is True, "Reference file for comparison does not exist."
             assert referenceData.read_bytes() == boxData.getvalue(), "SVG files are not equal. If change is intended, please update example files."
 
-    def test_abondoned_examples(self, capsys) -> None:
+    def test_abandoned_examples(self, capsys) -> None:
         # Load the args hash for all defined additionalTests
-        validTests = set()
+        validTests: set[tuple[str, str]]  = set()
         for generator_settings in self.additionalTests:
             boxType = generator_settings.get("box_type", None)
             boxName = generator_settings.get("name", boxType)
@@ -178,9 +177,9 @@ class TestSVG:
             validTests.add((boxName, argsHash[0:8]))
 
         # Now look for the files
-        exampleFiles = set()
+        exampleFiles: set[tuple[str, str]] = set()
         referenceData = Path(__file__).resolve().parent.parent / 'examples'
-        for referenceFile in os.listdir(referenceData):
+        for referenceFile in Path(referenceData).iterdir().__str__():
             if referenceFile.endswith(".svg") and "_" in referenceFile:
                 boxName, argsHash = referenceFile[:-4].split("_")
                 exampleFiles.add((boxName, argsHash))

@@ -3,7 +3,7 @@
 ci:
   autofix_prs: true
   autoupdate_schedule: quarterly
-exclude: '^(documentation/src/static|scripts/boxes|scripts/boxes_proxy.py|scripts/boxesserver|.*\.svg)$'
+exclude: '^(documentation/src/static|scripts/(boxes|boxes_generator|boxes_proxy\.py|boxesserver)|.*\.svg)$'
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
@@ -38,30 +38,29 @@ repos:
         args: [ --py310-plus ]
 
   - repo: https://github.com/PyCQA/autoflake
-    rev: v2.3.1
+    rev: v2.3.3
     hooks:
       - id: autoflake
         args: [ --remove-all-unused-imports, --in-place, --ignore-pass-statements, ]
 
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.19.1
+    rev: v1.20.0
     hooks:
       - id: mypy
+        name: mypy - boxes
         files: '^boxes/.*\.py$'
         additional_dependencies: [ "types-PyYAML", "types-markdown" ]
       - id: mypy
+        name: mypy - documentation
         files: '^documentation/src/boxes2rst.py$'
       - id: mypy
+        name: mypy - boxes2inkscape
         files: '^scripts/boxes2inkscape$'
       - id: mypy
+        name: mypy - boxes2pot
         files: '^scripts/boxes2pot$'
       - id: mypy
-        files: '^scripts/boxes_proxy.py$'
-      - id: mypy
-        files: '^scripts/boxesserver$'
-      - id: mypy
-        files: '^scripts/boxes_generator$'
-      - id: mypy
+        name: mypy - setup
         files: '^setup.py$'
 
   - repo: https://github.com/rstcheck/rstcheck
@@ -76,7 +75,7 @@ repos:
       - id: shellcheck
 
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.4.1
+    rev: v2.4.2
     hooks:
       - id: codespell
         exclude: ^(locale|po|static)/

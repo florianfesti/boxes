@@ -21,3 +21,4 @@ tracker.log
 *.isorted
 .DS_Store
 .venv/
+generator_yamls/

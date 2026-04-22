@@ -94,9 +94,6 @@ class Lid:
                                  callback=[self.handleCB(x, y)],
                                  move="up", label="lid top")
         elif style == "flatbrim":
-            #print(f"self {self.__dict__}")
-            #print("SELF: ")
-            #print(self.boxes.edgesettings['FingerJoint']['finger'])
             f = self.boxes.edgesettings['FingerJoint']['finger']
             s = self.boxes.edgesettings['FingerJoint']['space']
             brim_spacing = self.brim_spacing
@@ -105,18 +102,12 @@ class Lid:
 
             def fingerHolesCB(spacing : float, length: float) -> Callable[[], None]:
                 def cb() -> None:
-                    print(f"spacing: {spacing} length: {length} brim_spacing = {brim_spacing} ")
                     self.fingerHolesAt(spacing + brim_spacing, t*0.5+brim_spacing, length, 0)
                     pass
                 return cb
 
-            #cb0 = self.handleCB(brim_width_x, brim_width_y)
-            #def cb0_with_holes() -> None:
-            #    cb0()
-            #    fingerHolesCB(brim_width_x)()
             gap = brim_width_x % (f+s) 
             gap += -s if gap > s else s
-            print(f"gap: {gap}")
 
             self.rectangularWall(
                 x,
@@ -126,8 +117,6 @@ class Lid:
                 move="up",
                 label="lid top",
             )
-            # Vertical callback=[None, fingerHolesCB(brim_width_y), None, fingerHolesCB(brim_width_y)],
-            #callback=[cb0_with_holes, None, fingerHolesCB(brim_width_x), None],
 
             brim_h = self.brim_height
             self.rectangularWall(brim_width_x, brim_h, "feee", move="up", label="lid brim")

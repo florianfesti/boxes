@@ -86,10 +86,11 @@ With lid:
     def render(self):
 
         x, y, sh, r = self.x, self.y, self.sh, self.radius
+        es = self.edge_style
 
         if self.outside:
-            self.x = x = self.adjustSize(x)
-            self.y = y = self.adjustSize(y)
+            self.x = x = self.adjustSize(x, es, es)
+            self.y = y = self.adjustSize(y, es, es)
             self.sh = sh = self.adjustSize(sh)
 
         r = self.radius = min(r, y / 2.0)
@@ -97,7 +98,6 @@ With lid:
         t = self.thickness
 
         h = sum(sh) + t * (len(sh) - 1)
-        es = self.edge_style
 
         corner_holes = True
         if self.edge_style == "f":

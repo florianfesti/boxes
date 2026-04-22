@@ -446,14 +446,14 @@ class SVGSurface(Surface):
         if not md["reproducible"]:
             self._addTag(w, 'dc:date', creation_date)
 
-        if "url" in md and md["url"]:
+        if md.get("url"):
             self._addTag(w, 'dc:source', md["url"])
             self._addTag(w, 'dc:source', md["url_short"])
         else:
             self._addTag(w, 'dc:source', md["cli"])
 
         desc = md["short_description"] or ""
-        if "description" in md and md["description"]:
+        if md.get("description"):
             desc += "\n\n" + md["description"]
         desc += "\n\nCreated with Boxes.py (https://boxes.hackerspace-bamberg.de/)\n"
         desc += "Command line: %s\n" % md["cli"]
@@ -623,7 +623,7 @@ class PSSurface(Surface):
         for line in (md["short_description"] or "").split("\n"):
             desc += "%% %s\n" % line
         desc += "%\n"
-        if "description" in md and md["description"]:
+        if md.get("description"):
             desc += "%\n"
             for line in md["description"].split("\n"):
                 desc += "%% %s\n" % line

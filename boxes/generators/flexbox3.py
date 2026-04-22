@@ -98,7 +98,7 @@ class FlexBox3(Boxes):
     def lidSide(self, move=None):
         x, y, z, r, d, h = self.x, self.y, self.z, self.radius, self.d, self.h
         t = self.thickness
-        r2 = r + t if r + t <= h + t else h + t
+        r2 = min(r + t, h + t)
 
         if r < h:
             r2 = r + t

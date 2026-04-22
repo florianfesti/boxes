@@ -4,11 +4,11 @@ build-backend = "setuptools.build_meta"
 
 [project]
 dynamic = ["dependencies"]
-name = 'boxes'
-version = '1.2'
-requires-python = '>=3.10'
-description = 'Boxes generator for laser cutters'
-maintainers = [ { name = 'Florian Festi', email='florian@festi.info' } ]
+name = "boxes"
+version = "1.2"
+requires-python = ">=3.10"
+description = "Boxes generator for laser cutters"
+maintainers = [ { name = "Florian Festi", email="florian@festi.info" } ]
 readme = "README.rst"
 keywords = ["boxes", "box", "generator", "svg", "laser cutter"]
 license = "GPL-3.0-or-later"
@@ -24,10 +24,10 @@ classifiers = [ # https://pypi.python.org/pypi?%3Aaction=list_classifiers
 
 [project.optional-dependencies]
 dev = [
-  "lxml",
-  "mypy",
-  "pre-commit",
-  "pytest>=8.1.1",
+  "lxml>=6.0.2",
+  "mypy>=1.20.0",
+  "pre-commit>=4.5.1",
+  "pytest>=9.0.3",
   "types-Markdown"
 ]
 doc = ["sphinx>=8.0.2"]
@@ -36,9 +36,9 @@ doc = ["sphinx>=8.0.2"]
 dependencies = {file=["requirements.txt"]}
 
 [project.scripts]
-boxes = 'boxes.scripts.boxes_main:main'
-boxesserver = 'boxes.scripts.boxesserver:main'
-boxes_proxy = 'boxes.scripts.boxes_proxy:main'
+boxes = "boxes.scripts.boxes_main:main"
+boxesserver = "boxes.scripts.boxesserver:main"
+boxes_proxy = "boxes.scripts.boxes_proxy:main"
 
 [project.urls]
 Homepage = "https://hackaday.io/project/10649-boxespy"

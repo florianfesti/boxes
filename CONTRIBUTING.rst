@@ -209,6 +209,21 @@ Alternatively you can use Docker Compose to run the server locally.
 This will start the server and enable hot reload so your changes will
 be visible immediately.
 
+Deploying on Render (fork-safe)
+...............................
+
+When deploying with Docker, make sure the image is built from your fork
+workspace context (not by downloading upstream source during build).
+You can set a visible instance marker with environment variable
+:code:`BOXES_DEPLOY_FINGERPRINT` (for example: ``acatoire-main``) to verify
+at a glance which fork/branch is running in the web UI::
+
+    docker run -e BOXES_DEPLOY_FINGERPRINT=acatoire-main <image>
+
+Or with Docker Compose::
+
+    BOXES_DEPLOY_FINGERPRINT=acatoire-main docker-compose up
+
 Reporting bugs
 --------------
 

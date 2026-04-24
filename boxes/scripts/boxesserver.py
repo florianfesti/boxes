@@ -148,7 +148,14 @@ class BServer:
                 )
         return " " + "".join(parts)
 
-    def __init__(self, url_prefix="", static_url="static", static_path="../static/", legal_url="") -> None:
+    def __init__(
+        self,
+        url_prefix="",
+        static_url="static",
+        static_path="../static/",
+        legal_url="",
+        deploy_fingerprint: str = "",
+    ) -> None:
         self.boxes = {b.__name__: b for b in boxes.generators.getAllBoxGenerators().values() if b.webinterface}
         self.groups = boxes.generators.ui_groups
         self.groups_by_name = boxes.generators.ui_groups_by_name
@@ -179,6 +186,7 @@ class BServer:
         self.url_prefix = url_prefix
         self.static_url = static_url
         self.legal_url = legal_url
+        self.deploy_fingerprint = deploy_fingerprint
 
     def getLanguages(self, domain=None, localedir=None):
         if self._languages is not None:
@@ -577,6 +585,9 @@ class BServer:
         result.append(f'  <li><a href="settings">\U0001f3a8 {_("Color Settings")}</a></li>\n')
 
 
+        if self.deploy_fingerprint:
+            tag = html.escape(self.deploy_fingerprint)
+            result.append(f'  <li class="right" title="Deployment fingerprint">Instance: {tag}</li>\n')
         result.append(f'  <li class="right">{self.genHTMLLanguageSelection(lang)}  </li>\n')
         result.append(f'  <li class="right">{self.genHTMLColsSelection()}  </li>\n')
         return "".join(result)
@@ -955,8 +966,12 @@ def main() -> None:
                         help="URL of legal web page")
     args = parser.parse_args()
 
-    boxserver = BServer(url_prefix=args.url_prefix, static_url=args.static_url,
-                        static_path=args.static_path)
+    boxserver = BServer(
+        url_prefix=args.url_prefix,
+        static_url=args.static_url,
+        static_path=args.static_path,
+        deploy_fingerprint=os.environ.get("BOXES_DEPLOY_FINGERPRINT", ""),
+    )
 
     fc = FileChecker()
     fc.start()
@@ -975,5 +990,8 @@ if __name__ == "__main__":
     main()
 else:
     static_url = os.environ.get('STATIC_URL', 'https://florianfesti.github.io/boxes/static')
-    boxserver = BServer(static_url=static_url)
+    boxserver = BServer(
+        static_url=static_url,
+        deploy_fingerprint=os.environ.get("BOXES_DEPLOY_FINGERPRINT", ""),
+    )
     application = boxserver.serve

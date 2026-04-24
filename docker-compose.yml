@@ -13,6 +13,7 @@ services:
       - scripts.boxesserver
     environment:
       STATIC_URL: /static
+      BOXES_DEPLOY_FINGERPRINT: local-compose
     volumes:
       - /app/env
       - /app/scripts

@@ -18,17 +18,35 @@ from boxes.edges import CompoundEdge
 from collections.abc import Callable
 
 class Ramp(Boxes):
-    """Ramp for accessibility purposes
-    x is the width of the ramp, generally the width of the step the ramp is built for
-    y is the length of the ramp, will influence the steepness of the ramp
-    h is the height of the ramp.
-    """
+    """Ramp for accessibility purposes"""
 
-    ui_group = "Misc" # see ./__init__.py for names
+    ui_group = "Misc"
 
     def __init__(self) -> None:
         Boxes.__init__(self)
+        self.addSettingsArgs(edges.FingerJointSettings)
 
+        self.argparser.add_argument(
+            "--x",
+            action="store",
+            type=float,
+            default=100.,
+            help="width of the ramp in mm, generally the width of the step the ramp is built for"
+        )
+        self.argparser.add_argument(
+            "--y",
+            action="store",
+            type=float,
+            default=100.,
+            help="height of the ramp in mm"
+        )
+        self.argparser.add_argument(
+            "--h",
+            action="store",
+            type=float,
+            default=100.,
+            help="depth of the ramp in mm, will influence the steepness of the ramp"
+        )
         self.argparser.add_argument(
             "--n",
             action="store",
@@ -36,11 +54,6 @@ class Ramp(Boxes):
             default=0,
             help="Number of reinforcement triangle inside"
         )
-
-        # Uncomment the settings for the edge types you use
-        # use keyword args to set default values
-        self.addSettingsArgs(edges.FingerJointSettings)
-        self.buildArgParser(x=100, y=100, h=100)
 
     def fingerHolesCB(self, sections:list[float], height:float) -> Callable:
 

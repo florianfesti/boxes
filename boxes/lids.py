@@ -26,21 +26,21 @@ class LidSettings(edges.Settings):
     """Settings for the Lid
 Values:
  * absolute
- * style : "none" : type of lid to create
- * handle : "none" : type of handle
+   * style : "none" : type of lid to create
+   * handle : "none" : type of handle
+   * brim_spacing : 0 : space between the brim and the walls in mm (for flatbrim lids)
 
-* relative (in multiples of thickness)
-
-  * height : 4.0 : height of the brim in multiples of thickness (if any)
-  * play : 0.1 : play when sliding the lid on in multiples of thickness (if applicable)
-  * handle_height : 8.0 : height of the handle in multiples of thickness (if applicable)
-  * brim_height : 1.0 : height of the brim in multiple of thickness (for flatbrim lids)
-  * brim_spacing : 0.15 : space between the brim and the walls (for flatbrim lids)
-  * fang_size : 1.0 : size of the fangs in multiples of thickness (for flatfang lids)
+ * relative (in multiples of thickness)
+   * height : 4.0 : height of the brim in multiples of thickness (if any)
+   * play : 0.1 : play when sliding the lid on in multiples of thickness (if applicable)
+   * handle_height : 8.0 : height of the handle in multiples of thickness (if applicable)
+   * brim_height : 1.0 : height of the brim in multiple of thickness (for flatbrim lids)
+   * fang_size : 1.0 : size of the fangs in multiples of thickness (for flatfang lids)
     """
     absolute_params = {
         "style": ("none", "flat", "chest", "overthetop", "ontop", "flatbrim", "flatfang"),
         "handle": ("none", "long_rounded", "long_trapezoid", "long_doublerounded", "knob"),
+        "brim_spacing": 0,
     }
 
     style_descriptions = {
@@ -65,7 +65,6 @@ Values:
         "height": 4.0,
         "play": 0.1,
         "brim_height": 1.0,
-        "brim_spacing": 0.15,
         "handle_height": 8.0,
         "fang_size": 1.0,
     }
@@ -106,7 +105,7 @@ class Lid:
                     pass
                 return cb
 
-            gap = brim_width_x % (f+s) 
+            gap = brim_width_x % (f+s)
             gap += -s if gap > s else s
 
             self.rectangularWall(
@@ -134,7 +133,7 @@ class Lid:
                 hole_pos = t - brim_spacing
                 # Bottom-left hole
                 self.rectangularHole(brim_spacing - t*0.5 + t, brim_spacing + fang_size*0.5 - t + t, t, fang_size)
-                # Bottom-right hole  
+                # Bottom-right hole
                 self.rectangularHole(x - brim_spacing - fang_size*0.5, brim_spacing - t*0.5 + t, fang_size, t)
                 # Top-left hole
                 self.rectangularHole(brim_spacing + fang_size/2 - t + t, y - brim_spacing + t*0.5 - t, fang_size, t)

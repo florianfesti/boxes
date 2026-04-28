@@ -51,9 +51,10 @@ The x and y measurements are for a trapazoid with sharp corners. The radii cut t
             "--radius_back_left", action="store", type=float, default=20.0,
             help="radius of back left corner in mm")
 
-        #self.argparser.add_argument(
-        #    "--wallpieces", action="store", type=int, default=0,
-        #     help="number of pieces for outer wall (0 for one per side)")
+        self.argparser.add_argument(
+            "--wall_pieces", action="store", type=int, default=1,
+            choices=(1, 2, 4),
+            help="number of pieces for outer wall")
         self.argparser.add_argument(
             "--top",  action="store", type=str, default="hole",
             choices=["hole", "lid", "closed",],
@@ -102,6 +103,12 @@ The x and y measurements are for a trapazoid with sharp corners. The radii cut t
                 self.hole_poly[nr - 1] += d
                 self.hole_poly[nr + 1] += d
                 self.hole_poly[nr] = (v[0], 0)
+
+        if self.wall_pieces != 1:
+            poly[4:5] = [poly[4]/2, 0.0, poly[4]/2]
+        if self.wall_pieces == 4:
+            poly[8:9] = [poly[8]/2, 0.0, poly[8]/2]
+            poly[2:3] = [poly[2]/2, 0.0, poly[2]/2]
 
         with self.saved_context():
             self.polygonWall(poly, move="right")

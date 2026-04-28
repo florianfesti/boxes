@@ -25,8 +25,7 @@ from boxes import Boxes, edges
 class LidSettings(edges.Settings):
     """Settings for the Lid
 Values:
-* absolute
-
+ * absolute
  * style : "none" : type of lid to create
  * handle : "none" : type of handle
 
@@ -37,11 +36,29 @@ Values:
   * handle_height : 8.0 : height of the handle in multiples of thickness (if applicable)
   * brim_height : 1.0 : height of the brim in multiple of thickness (for flatbrim lids)
   * brim_spacing : 0.15 : space between the brim and the walls (for flatbrim lids)
-  * fang_size : 1.0 : size of the fangs in multiples of thickness (for fangbrim lids)
+  * fang_size : 1.0 : size of the fangs in multiples of thickness (for flatfang lids)
     """
     absolute_params = {
-        "style": ("none", "flat", "chest", "overthetop", "ontop", "flatbrim", "fangbrim"),
+        "style": ("none", "flat", "chest", "overthetop", "ontop", "flatbrim", "flatfang"),
         "handle": ("none", "long_rounded", "long_trapezoid", "long_doublerounded", "knob"),
+    }
+
+    style_descriptions = {
+        "none": "No lid generated",
+        "flat": "Two flat pieces for lid bottom and top",
+        "chest": "Chest style lid with curved sides and handle on top",
+        "overthetop": "Sliding lid that goes over the top of the box walls",
+        "ontop": "Lid that sits on top of the box with side walls",
+        "flatbrim": "Flat lid with a brim that fits over the box walls",
+        "flatfang": "Flat lid with fanged corners that hook onto the box",
+    }
+
+    handle_descriptions = {
+        "none": "No handle",
+        "long_rounded": "Long handle with rounded ends",
+        "long_trapezoid": "Long handle with trapezoid shape",
+        "long_doublerounded": "Long handle with double rounded ends",
+        "knob": "Small round knob handle",
     }
 
     relative_params = {
@@ -118,7 +135,7 @@ class Lid:
             self.rectangularWall(brim_width_y, brim_h, "feee", move="up", label="lid brim")
             self.rectangularWall(brim_width_y, brim_h, "feee", move="up", label="lid brim")
 
-        elif style == "fangbrim":
+        elif style == "flatfang":
             t = self.thickness
             brim_spacing = self.brim_spacing
             fang_size = self.fang_size

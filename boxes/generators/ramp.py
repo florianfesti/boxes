@@ -71,41 +71,10 @@ class Ramp(Boxes):
         n = self.n
         t = self.thickness
 
-        # Calculating the angle of steepness, bit complicated due to material thickness.
-        # Going with Newton-Raphson method
-
-        def solve_angle_newton(H:float, L:float, T:float, a0_deg:float=45, tol:float=1e-8, max_iter:int=50) -> float:
-            def f(a):
-                return L * math.sin(a) - H * math.cos(a) + T * math.cos(2 * a)
-
-            def df(a):
-                return L * math.cos(a) + H * math.sin(a) - 2 * T * math.sin(2 * a)
-
-            a = math.radians(a0_deg)
-
-            for _ in range(max_iter):
-                fa = f(a)
-                dfa = df(a)
-
-                if abs(dfa) < 1e-12:
-                    raise RuntimeError("Derivative too small — Newton failed")
-
-                a_new = a - fa / dfa
-
-                if abs(a_new - a) < tol:
-                    return a_new
-
-                a = a_new
-
-            raise RuntimeError("Newton method did not converge")
-        try:
-            a = solve_angle_newton(h, y, t)
-        except RuntimeError:
-            raise RuntimeError("Could not calculate the angle")
-
+        a = math.atan(h/y)
         # Calculating triangle part dimensions:
-        tx = y - t - t * math.sin(a) - t / math.tan(a)
-        ty = h - t - t * math.tan(a) - t * math.cos(a)
+        tx = y - t - t * math.sin(a) - 2*t / math.tan(a)
+        ty = tx * math.tan(a)
         tz = (tx**2+ty**2)**0.5
 
         self.edges["k"] = CompoundEdge(self, "EFE", [t / math.sin(a), tz, t / math.cos(a)])

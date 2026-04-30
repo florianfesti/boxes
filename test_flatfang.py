@@ -2,8 +2,8 @@
 
 from boxes import Boxes
 
-class TestFlatBrim(Boxes):
-    """Simple test box to verify flatbrim lid generation"""
+class TestFlatFang(Boxes):
+    """Simple test box to verify flatfang lid generation"""
     ui_group = "Box"
 
     def __init__(self):
@@ -19,6 +19,7 @@ class TestFlatBrim(Boxes):
         self.lid(self.x, self.y)
 
 if __name__ == "__main__":
-    t = TestFlatBrim()
-    t.parseArgs(["--lid_style", "flatbrim"])
+    t = TestFlatFang()
+    t.parseArgs(["--help"])
+    t.parseArgs(["--lid_style", "flatfang"])
     t.render()

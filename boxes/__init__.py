@@ -1240,14 +1240,15 @@ class Boxes:
         * "up" / "down"
         * "left" / "right"
         * "mirror"
+        * "upsidedown"
         * "rotated"
         * "only"
 
         "down" and "left" move before drawing, while "up" and "right" move
         after drawing.
 
-        "mirror" will flip the part along the y-axis; "rotated" draws the
-        parts rotated 90 degrees counter clockwise; when "only" is included
+        "mirror" will flip the part along the y-axis; "upsidedown" will flip the part along the x-axis;
+        "rotated" draws the parts rotated 90 degrees counter clockwise; when "only" is included
         the move is only done when ``before`` is True
 
         :param x: width of part
@@ -1275,6 +1276,7 @@ class Boxes:
             "right": (x, 0, False),
             "only": (0, 0, None),
             "mirror": (0, 0, None),
+            "upsidedown": (0, 0, None),
             "rotated": (0, 0, None),
         }
 
@@ -1305,10 +1307,13 @@ class Boxes:
                 self.ctx.save()
                 if "rotated" in terms:
                     self.moveTo(x, 0, 90)
-                    x, y = y, x # change back for "mirror"
+                    x, y = y, x # change back for "mirror" and "upsidedown"
                 if "mirror" in terms:
                     self.moveTo(x, 0)
                     self.ctx.scale(-1, 1)
+                if "upsidedown" in terms:
+                    self.moveTo(0, y)
+                    self.ctx.scale(1, -1)
                 self.moveTo(self.spacing / 2.0, self.spacing / 2.0)
         self.ctx.new_part()
 

@@ -32,6 +32,7 @@ class SlidingDrawer(Boxes):
             x = x + 4*t+ 2*p
             y = y + 3*t+ 2*p
             h = h + 3*t+ 2*p
+            hi = hi + 3*t+ 2*p
 
         x2 = x - (2*t + 2*p)
         y2 = y - (2*t + 2*p)

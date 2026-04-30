@@ -26,21 +26,21 @@ class LidSettings(edges.Settings):
     """Settings for the Lid
 Values:
  * absolute
- * style : "none" : type of lid to create
- * handle : "none" : type of handle
+   * style : "none" : type of lid to create
+   * handle : "none" : type of handle
+   * brim_spacing : 0 : space between the brim and the walls in mm (for flatbrim lids)
 
-* relative (in multiples of thickness)
-
-  * height : 4.0 : height of the brim in multiples of thickness (if any)
-  * play : 0.1 : play when sliding the lid on in multiples of thickness (if applicable)
-  * handle_height : 8.0 : height of the handle in multiples of thickness (if applicable)
-  * brim_height : 1.0 : height of the brim in multiple of thickness (for flatbrim lids)
-  * brim_spacing : 0.15 : space between the brim and the walls (for flatbrim lids)
-  * fang_size : 1.0 : size of the fangs in multiples of thickness (for flatfang lids)
+ * relative (in multiples of thickness)
+   * height : 4.0 : height of the brim in multiples of thickness (if any)
+   * play : 0.1 : play when sliding the lid on in multiples of thickness (if applicable)
+   * handle_height : 8.0 : height of the handle in multiples of thickness (if applicable)
+   * brim_height : 1.0 : height of the brim in multiple of thickness (for flatbrim lids)
+   * fang_size : 1.0 : size of the fangs in multiples of thickness (for flatfang lids)
     """
     absolute_params = {
         "style": ("none", "flat", "chest", "overthetop", "ontop", "flatbrim", "flatfang"),
         "handle": ("none", "long_rounded", "long_trapezoid", "long_doublerounded", "knob"),
+        "brim_spacing": 0,
     }
 
     style_descriptions = {
@@ -65,7 +65,6 @@ Values:
         "height": 4.0,
         "play": 0.1,
         "brim_height": 1.0,
-        "brim_spacing": 0.15,
         "handle_height": 8.0,
         "fang_size": 1.0,
     }
@@ -94,9 +93,6 @@ class Lid:
                                  callback=[self.handleCB(x, y)],
                                  move="up", label="lid top")
         elif style == "flatbrim":
-            #print(f"self {self.__dict__}")
-            #print("SELF: ")
-            #print(self.boxes.edgesettings['FingerJoint']['finger'])
             f = self.boxes.edgesettings['FingerJoint']['finger']
             s = self.boxes.edgesettings['FingerJoint']['space']
             brim_spacing = self.brim_spacing
@@ -105,18 +101,12 @@ class Lid:
 
             def fingerHolesCB(spacing : float, length: float) -> Callable[[], None]:
                 def cb() -> None:
-                    # print(f"spacing: {spacing} length: {length} brim_spacing = {brim_spacing} ")
                     self.fingerHolesAt(spacing + brim_spacing, t*0.5+brim_spacing, length, 0)
                     pass
                 return cb
 
-            #cb0 = self.handleCB(brim_width_x, brim_width_y)
-            #def cb0_with_holes() -> None:
-            #    cb0()
-            #    fingerHolesCB(brim_width_x)()
             gap = brim_width_x % (f+s)
             gap += -s if gap > s else s
-            #print(f"gap: {gap}")
 
             self.rectangularWall(
                 x,
@@ -126,8 +116,6 @@ class Lid:
                 move="up",
                 label="lid top",
             )
-            # Vertical callback=[None, fingerHolesCB(brim_width_y), None, fingerHolesCB(brim_width_y)],
-            #callback=[cb0_with_holes, None, fingerHolesCB(brim_width_x), None],
 
             brim_h = self.brim_height
             self.rectangularWall(brim_width_x, brim_h, "feee", move="up", label="lid brim")

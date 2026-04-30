@@ -28,7 +28,7 @@ Values:
  * absolute
    * style : "none" : type of lid to create
    * handle : "none" : type of handle
-   * brim_spacing : 0 : space between the brim and the walls in mm (for flatbrim lids)
+   * brim_spacing : 0.1 : space between the brim and the walls in mm (for flat* lids)
 
  * relative (in multiples of thickness)
    * height : 4.0 : height of the brim in multiples of thickness (if any)
@@ -40,7 +40,7 @@ Values:
     absolute_params = {
         "style": ("none", "flat", "chest", "overthetop", "ontop", "flatbrim", "flatfang"),
         "handle": ("none", "long_rounded", "long_trapezoid", "long_doublerounded", "knob"),
-        "brim_spacing": 0,
+        "brim_spacing": 0.1,
     }
 
     style_descriptions = {
@@ -86,7 +86,8 @@ class Lid:
         style = self.settings.style
         height = self.height
         if style == "flat":
-            self.rectangularWall(x, y, "eeee",
+            brim_spacing = self.brim_spacing
+            self.rectangularWall(x - brim_spacing * 2, y - brim_spacing *2, "eeee",
                                  callback=[self.handleCB(x, y)],
                                  move="up", label="lid bottom")
             self.rectangularWall(x, y, "EEEE",

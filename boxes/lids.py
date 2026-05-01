@@ -114,7 +114,7 @@ class Lid:
                 y,
                 "EEEE",
                 callback=[fingerHolesCB(0, brim_width_x), fingerHolesCB(t, brim_width_y), fingerHolesCB(0, brim_width_x), fingerHolesCB(t, brim_width_y)],
-                move="up",
+                move="right",
                 label="lid top",
             )
 

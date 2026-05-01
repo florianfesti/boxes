@@ -192,13 +192,16 @@ function GridfinityTrayLayoutInit() {
         id.addEventListener('input', GridfinityTrayUpdateLayout);
     }
     layout_id = document.getElementById('layout');
+    layout_data = layout_id.value;
+    GridfinityTrayUpdateLayout();
     layout_id.addEventListener('change', setUpdated);
     layout_id.addEventListener('input', setUpdated);
-
-    GridfinityTrayUpdateLayout();
-    layout_id = document.getElementById('layout');
     layout_id.rows = 20;
     layout_id.cols = 24;
+    if (layout_data !== layout_id.value && layout_data !== "") {
+	layout_id.value = layout_data;
+	setUpdated();
+    }
 }
 
 /*** PhotoFrame ******************************************/
@@ -427,12 +430,17 @@ function TrayLayoutInit() {
         id = document.getElementById(id_string);
         id.addEventListener('input', TrayUpdateLayout);
     }
-    TrayUpdateLayout();
     layout_id = document.getElementById('layout');
+    layout_data = layout_id.value;
+    TrayUpdateLayout();
     layout_id.addEventListener('change', setUpdated);
     layout_id.addEventListener('input', setUpdated);
     layout_id.rows = 20;
     layout_id.cols = 24;
+    if (layout_data !== layout_id.value) {
+	layout_id.value = layout_data;
+	setUpdated();
+    }
 }
 
 function addCallbacks() {

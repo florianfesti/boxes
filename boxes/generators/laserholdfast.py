@@ -21,6 +21,11 @@ class LaserHoldfast(Boxes):
 
     ui_group = "Part"
 
+    x: float
+    h: float
+    hookheight: float
+    shaftwidth: float
+
     def __init__(self) -> None:
         Boxes.__init__(self)
 
@@ -39,5 +44,19 @@ class LaserHoldfast(Boxes):
 
         a = 30
         r = x/math.radians(a)
+        d = r - r * math.cos(math.radians(a/2))
 
-        self.polyline(hh+h, (180, sw/2), h, -90+a/2, 0, (-a, r), 0, (180, hh/2), 0, (a, r+hh), 0 , -a/2, sw-math.sin(math.radians(a/2))*hh , 90)
+        dd = hh - hh * math.cos(math.radians(a/2))
+
+        with self.saved_context() as ctx:
+            ctx.translate(d-dd, 0)
+            self.moveTo(d-dd, 0)
+            self.polyline(
+                hh + h - dd, (180, sw/2),
+                h, -90+a/2,
+                0, (-a, r),
+                0, (180, hh/2),
+                0, (a, r+hh),
+                0, -a/2,
+                sw - math.sin(math.radians(a/2))*hh, 90,
+            )

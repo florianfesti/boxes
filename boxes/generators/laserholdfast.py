@@ -25,6 +25,8 @@ class LaserHoldfast(Boxes):
     h: float
     hookheight: float
     shaftwidth: float
+    cutlength: float
+    num: int
 
     def __init__(self) -> None:
         Boxes.__init__(self)
@@ -37,6 +39,9 @@ class LaserHoldfast(Boxes):
             "--shaftwidth",  action="store", type=float, default=5.0,
             help="width of the shaft")
         self.argparser.add_argument(
+            "--cutlength",  action="store", type=float, default=0.0,
+            help="length of cut in the shaft")
+        self.argparser.add_argument(
             "--num",  action="store", type=int, default=1,
             help="number of holdfasts")
 
@@ -47,6 +52,7 @@ class LaserHoldfast(Boxes):
     def render_one(self, where):
         # adjust to the variables you want in the local scope
         x, hh, h, sw = self.x, self.hookheight, self.h, self.shaftwidth
+        cl = self.cutlength
         t = self.thickness
 
         a = 30
@@ -63,7 +69,9 @@ class LaserHoldfast(Boxes):
         if self.move(mx, my, where, before=True):
             return
 
+        # Hook
         with self.saved_context() as ctx:
+            self.set_source_color(Color.OUTER_CUT)
             ctx.translate(e, 0)
             self.moveTo(e, 0)
             self.polyline(
@@ -75,5 +83,15 @@ class LaserHoldfast(Boxes):
                 0, -a/2,
                 sw - math.sin(math.radians(a/2))*hh, 90,
             )
+            ctx.stroke()
+
+        # cut the shaft
+        with self.saved_context() as ctx:
+            self.set_source_color(Color.INNER_CUT)
+            cx = hh + h + hh + 2*self.burn
+            ctx.translate(cx, hh/2)
+            ctx.move_to(0, 0)
+            ctx.line_to(-cl, 0)
+            ctx.stroke()
 
         self.move(mx, my, where)

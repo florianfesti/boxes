@@ -36,8 +36,15 @@ class LaserHoldfast(Boxes):
         self.argparser.add_argument(
             "--shaftwidth",  action="store", type=float, default=5.0,
             help="width of the shaft")
+        self.argparser.add_argument(
+            "--num",  action="store", type=int, default=1,
+            help="number of holdfasts")
 
     def render(self):
+        for _ in range(self.num):
+            self.render_one("up right")
+
+    def render_one(self, where):
         # adjust to the variables you want in the local scope
         x, hh, h, sw = self.x, self.hookheight, self.h, self.shaftwidth
         t = self.thickness
@@ -48,9 +55,17 @@ class LaserHoldfast(Boxes):
 
         dd = hh - hh * math.cos(math.radians(a/2))
 
+        e = d - dd
+
+        mx = hh + e
+        my = sw
+
+        if self.move(mx, my, where, before=True):
+            return
+
         with self.saved_context() as ctx:
-            ctx.translate(d-dd, 0)
-            self.moveTo(d-dd, 0)
+            ctx.translate(e, 0)
+            self.moveTo(e, 0)
             self.polyline(
                 hh + h - dd, (180, sw/2),
                 h, -90+a/2,
@@ -60,3 +75,5 @@ class LaserHoldfast(Boxes):
                 0, -a/2,
                 sw - math.sin(math.radians(a/2))*hh, 90,
             )
+
+        self.move(mx, my, where)

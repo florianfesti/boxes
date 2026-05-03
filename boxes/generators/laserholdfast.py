@@ -21,6 +21,7 @@ class LaserHoldfast(Boxes):
 
     ui_group = "Part"
 
+    burn: float
     x: float
     h: float
     hookheight: float
@@ -46,52 +47,52 @@ class LaserHoldfast(Boxes):
             help="number of holdfasts")
 
     def render(self):
+        mx, my = self.offset()
         for _ in range(self.num):
-            self.render_one("up right")
+            self.render_one()
+            self.moveTo(mx, my)
 
-    def render_one(self, where):
+    def offset(self):
+        """Calculate offset for next part"""
+        hh = self.hookheight
+        a = 30
+        r = self.x/math.radians(a)
+        d = r - r * math.cos(math.radians(a/2))
+        dd = hh - hh * math.cos(math.radians(a/2))
+        mx = hh + d - dd + self.spacing
+        my = self.shaftwidth + self.spacing
+        return mx, my
+
+    def render_one(self, move=None):
         # adjust to the variables you want in the local scope
         x, hh, h, sw = self.x, self.hookheight, self.h, self.shaftwidth
-        cl = self.cutlength
-        t = self.thickness
 
         a = 30
         r = x/math.radians(a)
-        d = r - r * math.cos(math.radians(a/2))
-
         dd = hh - hh * math.cos(math.radians(a/2))
 
-        e = d - dd
-
-        mx = hh + e
-        my = sw
-
-        if self.move(mx, my, where, before=True):
-            return
-
         # Hook
-        with self.saved_context() as ctx:
-            self.set_source_color(Color.OUTER_CUT)
-            ctx.translate(e, 0)
-            self.moveTo(e, 0)
-            self.polyline(
-                hh + h - dd, (180, sw/2),
-                h, -90+a/2,
+        self.polygonWall(
+            (
+                hh + h - dd, (180, sw / 2),
+                h, -90 + a / 2,
                 0, (-a, r),
-                0, (180, hh/2),
-                0, (a, r+hh),
-                0, -a/2,
-                sw - math.sin(math.radians(a/2))*hh, 90,
-            )
-            ctx.stroke()
+                0, (180, hh / 2),
+                0, (a, r + hh),
+                0, -a / 2,
+                sw - math.sin(math.radians(a / 2)) * hh, 90,
+            ),
+            edge='e',
+            move=move,
+            callback=self.cutcallback if self.cutlength else None
+        )
 
-        # cut the shaft
-        with self.saved_context() as ctx:
-            self.set_source_color(Color.INNER_CUT)
-            cx = hh + h + hh + 2*self.burn
-            ctx.translate(cx, hh/2)
-            ctx.move_to(0, 0)
-            ctx.line_to(-cl, 0)
-            ctx.stroke()
-
-        self.move(mx, my, where)
+    def cutcallback(self, num):
+        """Create cut in shaft if requested"""
+        if num == 1:
+            self.ctx.stroke()
+            with self.saved_context():
+                self.set_source_color(Color.INNER_CUT)
+                self.moveTo(-self.shaftwidth/2-self.burn, self.shaftwidth/2)
+                self.edge(self.cutlength)
+                self.ctx.stroke()

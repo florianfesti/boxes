@@ -2797,6 +2797,16 @@ class Boxes:
         ext = [ 0.0 ] * 4
         angle = 0
 
+        def _angle_in_sweep(start, sweep, target):
+            """Return True if target angle is part of an angular sweep."""
+            if abs(sweep) >= 360:
+                return True
+            start = start % 360
+            target = target % 360
+            if sweep >= 0:
+                return ((target - start) % 360) <= sweep
+            return ((start - target) % 360) <= -sweep
+
         def checkpoint(ext, x, y):
             ext[0] = min(ext[0], x)
             ext[1] = min(ext[1], y)
@@ -2835,17 +2845,16 @@ class Boxes:
                     centerx = posx + r * math.cos(math.radians(angle-90))
                     centery = posy + r * math.sin(math.radians(angle-90))
 
+                # The arc point angle around the center is rotated by +/-90 deg
+                # relative to the heading angle depending on sweep direction.
+                start = angle - 90 if a > 0 else angle + 90
                 for direction in (0, 90, 180, 270):
-                    if (a > 0 and
-                        angle <= direction and (angle + a) >= direction):
-                        direction -= 90
-                    elif (a < 0 and
-                          angle >= direction and (angle + a) <= direction):
-                        direction -= 90
-                    else:
-                        continue
-                    checkpoint(ext, centerx + r * math.cos(math.radians(direction)), centery + r * math.sin(math.radians(direction)))
-                    #print("%4s %4s %4s %f %f" % (angle, direction+90, angle+a, centerx + r * math.cos(math.radians(direction)), centery + r * math.sin(math.radians(direction))))
+                    if _angle_in_sweep(start, a, direction):
+                        checkpoint(
+                            ext,
+                            centerx + r * math.cos(math.radians(direction)),
+                            centery + r * math.sin(math.radians(direction)),
+                        )
                 angle = (angle + a) % 360
                 if a > 0:
                     posx = centerx + r * math.cos(math.radians(angle-90))

@@ -49,6 +49,7 @@ from boxes.scripts.ui_touch import TouchUIMixin
 from boxes.scripts.pages.colors import ColorsUIMixin
 from boxes.scripts.pages.categories import CategoriesUIMixin
 from boxes.scripts.pages.generator import GeneratorUIMixin
+from boxes.scripts.pages.machine import MachineUIMixin
 
 
 class FileChecker(threading.Thread):
@@ -113,7 +114,7 @@ class ArgumentParserError(Exception):
     pass
 
 
-class ThrowingArgumentParser(argparse.ArgumentParser):
+class ThrowingArgumentParser(boxes.args.BoxesArgumentParser):
     def error(self, message: str) -> NoReturn:
         raise ArgumentParserError(message)
 
@@ -122,7 +123,7 @@ class ThrowingArgumentParser(argparse.ArgumentParser):
 boxes.ArgumentParser = ThrowingArgumentParser  # type: ignore
 
 
-class BServer(LegacyUIMixin, MenuUIMixin, GalleryUIMixin, TouchUIMixin, ColorsUIMixin, CategoriesUIMixin, GeneratorUIMixin):
+class BServer(LegacyUIMixin, MenuUIMixin, GalleryUIMixin, TouchUIMixin, ColorsUIMixin, CategoriesUIMixin, GeneratorUIMixin, MachineUIMixin):
     """WSGI application that serves the Boxes.py web UI.
 
     HTML rendering is split across mixins:
@@ -391,6 +392,9 @@ class BServer(LegacyUIMixin, MenuUIMixin, GalleryUIMixin, TouchUIMixin, ColorsUI
 
         if name == "colors":
             return self.serveColors(environ, start_response, lang)
+
+        if name == "machine":
+            return self.serveMachine(environ, start_response, lang)
 
         if name == "categories":
             return self.serveCategorySettings(environ, start_response, lang)

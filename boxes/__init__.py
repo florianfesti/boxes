@@ -24,7 +24,7 @@ import math
 import random
 import re
 import sys
-from argparse import ArgumentParser
+from boxes.args import ArgparseEdgeType, boolarg, BoxesArgumentParser as ArgumentParser
 from contextlib import contextmanager
 from functools import wraps
 from shlex import quote
@@ -351,14 +351,15 @@ class Boxes:
         """
         self.ctx.set_source_rgb(*color)
 
-    def set_font(self, style, bold=False, italic=False):
+    def set_font(self, style, bold=False, italic=False, as_path=True):
         """
         Set font style used
         :param style: "serif", "sans-serif" or "monospaced"
         :param bold: Use bold font
         :param italic: Use italic font
+        :param as_path: Convert text to SVG paths (maximum laser app compatibility)
         """
-        self.ctx.set_font(style, bold, italic)
+        self.ctx.set_font(style, bold, italic, as_path)
 
     def open(self):
         """

@@ -30,7 +30,7 @@ import yaml
 
 class ArgumentParserError(Exception): pass
 
-class ThrowingArgumentParser(argparse.ArgumentParser):
+class ThrowingArgumentParser(boxes.args.BoxesArgumentParser):
     def error(self, message):
         raise ArgumentParserError(message)
 

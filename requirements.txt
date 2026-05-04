@@ -1,4 +1,5 @@
 affine>=2.0
+fonttools>=4.0
 lxml
 markdown
 numpy

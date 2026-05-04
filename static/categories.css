@@ -1,0 +1,110 @@
+/* ================================================================
+   Boxes.py – Categories settings page  (categories.css)
+   Loaded in addition to touch.css on body.touch-cat pages.
+   ================================================================ */
+
+body.touch-cat {
+  margin: 0;
+  padding: 0;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--th-page-bg);
+  font-size: 17px;
+}
+
+.cat-body { flex: 1; padding: 20px 24px; overflow-y: auto; }
+.cat-body h2 { margin: 0; color: #333; }
+.cat-body p { margin: 0 0 18px; color: #666; font-size: .9em; }
+
+.cat-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+.cat-title-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.cat-card {
+  position: relative;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.18);
+  cursor: pointer;
+  user-select: none;
+  overflow: hidden;
+  aspect-ratio: 1/1;
+  background-size: cover;
+  background-position: center;
+  background-color: #d8d0c0;
+  transition: transform .12s, box-shadow .12s;
+}
+.cat-card:hover  { transform: scale(1.03); box-shadow: 0 6px 20px rgba(0,0,0,.28); }
+.cat-card:active { transform: scale(0.97); }
+
+.cat-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,.05) 40%, rgba(0,0,0,.72) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 10px;
+  gap: 4px;
+}
+
+.cat-card input[type='checkbox'] {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  accent-color: var(--th-accent);
+}
+
+.cat-card-title {
+  font-weight: bold;
+  font-size: .92em;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0,0,0,.8);
+  line-height: 1.2;
+}
+
+.cat-card-count {
+  font-size: .75em;
+  color: rgba(255,255,255,.80);
+  text-shadow: 0 1px 2px rgba(0,0,0,.7);
+}
+
+#cat-settings-status { color: green; font-weight: bold; }
+
+.cat-btn {
+  background: var(--th-accent);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0 18px;
+  min-height: 38px;
+  font-size: .9em;
+  font-family: inherit;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background .15s;
+}
+.cat-btn:hover          { background: var(--th-accent2); }
+.cat-btn.secondary      { background: #666; font-weight: normal; }
+.cat-btn.secondary:hover { background: #444; }

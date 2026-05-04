@@ -70,6 +70,18 @@ class TouchUIMixin:
     def genHTMLTouchCSS(self) -> str:
         return f'<link rel="stylesheet" href="{self.static_url}/touch.css">'
 
+    def genHTMLGeneratorCSS(self) -> str:
+        return f'<link rel="stylesheet" href="{self.static_url}/generator.css">'
+
+    def genHTMLCategoriesCSS(self) -> str:
+        return f'<link rel="stylesheet" href="{self.static_url}/categories.css">'
+
+    def genHTMLColorsCSS(self) -> str:
+        return f'<link rel="stylesheet" href="{self.static_url}/colors.css">'
+
+    def genHTMLMachineCSS(self) -> str:
+        return f'<link rel="stylesheet" href="{self.static_url}/machine.css">'
+
     def genHTMLTouchJS(self) -> str:
         return f'<script src="{self.static_url}/touch.js"></script>'
 
@@ -115,6 +127,7 @@ class TouchUIMixin:
         # Interface switcher (Touch is always the current interface here)
         dropdown_items.append("      " + gen_interface_select_html("TouchHub", _))
         dropdown_items.append(f'      <a href="colors">\U0001f3a8 {_("Colors")}</a>')
+        dropdown_items.append(f'      <a href="machine">\u2699 {_("Machine")}</a>')
         dropdown_items.append(f'      <a href="categories">\U0001f4c2 {_("Categories")}</a>')
         # Language selection inside the dropdown
         lang_sel = self.genHTMLLanguageSelection(lang)
@@ -139,8 +152,9 @@ class TouchUIMixin:
     {center_section}
     <div class="th-header-actions">
       {back_btn}
+      {f'<a class="th-mode-btn th-back-icon" href="TouchHub{langparam}" aria-label="Home">&#127968;</a>' if back_url else ""}
       <div class="dropdown th-dropdown">
-        <button class="th-mode-btn dropdown-btn" onclick="toggleDropdown(event)">\u2630 {_("Menu")}</button>
+        <button class="th-mode-btn th-back-icon dropdown-btn" onclick="toggleDropdown(event)" aria-label="Menu">&#9776;</button>
         <div class="dropdown-content th-dropdown-content" id="main-dropdown">
 {dropdown_html}
         </div>
@@ -157,6 +171,7 @@ class TouchUIMixin:
         langparam = f"?language={lang_name}" if lang_name else ""
 
         tabs_html: list[str] = []
+        options_html: list[str] = []
         panels_html: list[str] = []
 
         for nr, group in enumerate(self.groups):
@@ -171,6 +186,12 @@ class TouchUIMixin:
                 f'<span class="th-tab-label">{html.escape(_(group.title))}</span>'
                 f'<span class="th-tab-count">{gen_count}</span>'
                 f"</button>"
+            )
+            selected_attr = " selected" if is_first else ""
+            options_html.append(
+                f'<option value="{nr}"{selected_attr}>'
+                f'{html.escape(_(group.title))} ({gen_count})'
+                f"</option>"
             )
 
             cards: list[str] = []
@@ -215,6 +236,9 @@ class TouchUIMixin:
 {self._touch_header_html(lang)}
 
   <nav class="th-tabbar" role="tablist" aria-label="{_("Generator categories")}">
+    <select id="th-tab-select" onchange="thSwitchTab(this.value)">
+      {"".join(options_html)}
+    </select>
     {"".join(tabs_html)}
   </nav>
 

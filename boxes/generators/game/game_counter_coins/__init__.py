@@ -28,7 +28,7 @@ class GameCounterCoins(Boxes):
     """Coin-stack game point counter – top disc notch reads score off bottom coin"""
 
     ui_group = "Game"
-    tags = ["new"]
+    tags = ["new", "tcg"]
 
     description = """
 A two-piece stacked coin counter for board games.
@@ -44,6 +44,7 @@ Assembly: insert magnet into both pieces → stack face-to-face → enjoy!
 
     # Dummy declarations for mypy – overwritten by argparse at runtime.
     burn: float = 0.1
+    # Generators parameters
     coin_diameter: float = 50.0
     magnet_diameter: float = 4.0
     # Score Settings stubs
@@ -57,11 +58,12 @@ Assembly: insert magnet into both pieces → stack face-to-face → enjoy!
     font_font: str = "sans-serif"
     font_bold: bool = False
     font_italic: bool = False
+    font_font_as_path: bool = True
+    # Notch Settings stubs
     notch_width: float = 15.0
     notch_depth: float | None = None
     notch_style: str = "oval"
     notch_count: int = 1
-    play: float = 0.2
 
     def __init__(self) -> None:
         Boxes.__init__(self)
@@ -74,30 +76,33 @@ Assembly: insert magnet into both pieces → stack face-to-face → enjoy!
 
         self.argparser.add_argument(
             "--coin_diameter", action="store", type=FloatStepper(0.1), default=self.coin_diameter,
+            name="Diameter",
             help="Outer diameter of both discs [mm]")
         self.argparser.add_argument(
             "--magnet_diameter", action="store", type=FloatStepper(0.1), default=self.magnet_diameter,
+            name="Magnet",
             help="Diameter of the central cylindrical magnet [mm]")
         self.argparser.add_argument(
             "--notch_width", action="store", type=FloatStepper(0.1), default=self.notch_width,
+            name="Notch-w",
             help="Width of the reading notch on Piece B [mm]")
         _auto_notch_d = round(self.notch_width / 2)
         self.argparser.add_argument(
             "--notch_depth", action="store",
             type=FloatStepper(1.0, auto_default=float(_auto_notch_d), auto=True),
             default=self.notch_depth,
+            name="Notch-d",
             help=f"Depth of the reading notch on Piece B [mm]. "
                  f"auto = notch_width / 2 (≈{_auto_notch_d} mm)")
         self.argparser.add_argument(
             "--notch_style", action="store", type=str, default=self.notch_style,
             choices=["circular", "triangular", "oval", "trapezoid"],
+            name="Notch Style",
             help="Shape of the reading notch on Piece B")
         self.argparser.add_argument(
             "--notch_count", action="store", type=IntStepper(1), default=self.notch_count,
+            name="Notch #",
             help="Number of reading notches equally spaced around Piece B (≥ 1)")
-        self.argparser.add_argument(
-            "--play", action="store", type=float, default=self.play,
-            help="Radial play between the two discs [mm]")
 
     # ------------------------------------------------------------------
     # Score label helper
@@ -161,7 +166,8 @@ Assembly: insert magnet into both pieces → stack face-to-face → enjoy!
             else r - offset_label_radius
         )
 
-        ctx.set_font(self.font_font, bold=self.font_bold, italic=self.font_italic)
+        ctx.set_font(self.font_font, bold=self.font_bold, italic=self.font_italic,
+                     as_path=self.font_font_as_path)
         self.set_source_color(Color.ETCHING)
         for i, (label, extra_angle) in enumerate(labels):
             angle_deg = i * angle_step
@@ -319,7 +325,7 @@ Assembly: insert magnet into both pieces → stack face-to-face → enjoy!
 
     def top_disc(self, move: str = "") -> None:
         """Top disc: closed outline with reading notch(es) + central magnet hole."""
-        r = self.coin_diameter / 2 - self.play
+        r = self.coin_diameter / 2
         md = self.magnet_diameter
         notch_count = max(1, self.notch_count)
         notch_r = min(self.notch_width / 2.0, r * 0.35)

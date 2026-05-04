@@ -58,6 +58,7 @@ Assembly: none required – this is a single flat piece.
     Font_size:           float = 10.0
     Font_bold:           bool  = False
     Font_italic:         bool  = False
+    Font_font_as_path:   bool  = True
 
     def __init__(self) -> None:
         Boxes.__init__(self)
@@ -122,7 +123,8 @@ Assembly: none required – this is a single flat piece.
         if self.Text_text and self.Font_size > 0:
             tx = w / 2.0 + self.Text_x
             ty = h / 2.0 + self.Text_y
-            ctx.set_font(self.Font_font, bold=self.Font_bold, italic=self.Font_italic)
+            ctx.set_font(self.Font_font, bold=self.Font_bold, italic=self.Font_italic,
+                         as_path=self.Font_font_as_path)
             self.text(
                 self.Text_text,
                 x=tx, y=ty, angle=0,

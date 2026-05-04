@@ -56,9 +56,10 @@ class FontSettings(Settings):
 
     # font is handled manually in parserArguments (dynamic choices).
     absolute_params: dict = {
-        "size":   4.0,
-        "bold":   False,
-        "italic": False,
+        "size":       4.0,
+        "bold":       False,
+        "italic":     False,
+        "font_as_path": True,
     }
     relative_params: dict = {}
 
@@ -103,6 +104,13 @@ class FontSettings(Settings):
             action="store", type=boolarg,
             default=default_italic,
             help="Italic font style")
+
+        default_as_path = bool(defaults.get("font_as_path", cls.absolute_params["font_as_path"]))
+        group.add_argument(
+            f"--{prefix}_font_as_path",
+            action="store", type=boolarg,
+            default=default_as_path,
+            help="Convert text to paths for maximum laser-app compatibility")
 
     def __init__(self, thickness: float, relative: bool = True, **kw: object) -> None:
         # FontSettings has no relative params and needs no thickness scaling.

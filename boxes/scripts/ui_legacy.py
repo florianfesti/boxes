@@ -190,21 +190,26 @@ class LegacyUIMixin:
         viewname = name
         if prefix and name.startswith(prefix + "_"):
             viewname = name[len(prefix) + 1:]
+        # Use explicit display name if the generator author provided one.
+        viewname = getattr(a, "display_name", None) or viewname
 
         _defaults = defaults or {}
         default = _defaults.get(name, None)
         help_html = "" if not a.help else markdown.markdown(_(a.help))
-        help_btn = (
-            f'<button type="button" class="stepper-btn help-btn"'
-            f" onclick=\"openHelpModal('{name}_description')\">?</button>"
-        ) if a.help else ""
+        if a.help:
+            label_html = (
+                f'<label for="{name}" class="help-label"'
+                f" onclick=\"openHelpModal('{name}_description')\">{_(viewname)}</label>"
+            )
+        else:
+            label_html = f'<label for="{name}">{_(viewname)}</label>'
         row_head = (
             f'<tr>'
-            f'<td id="{name}_id"><label for="{name}">{_(viewname)}</label></td>'
+            f'<td id="{name}_id">{label_html}</td>'
             f"<td>"
         )
         row_tail = (
-            f'{help_btn}</td>'
+            f'</td>'
             f'<td id="{name}_description" style="display:none">{help_html}</td>'
             f"</tr>\n"
         )

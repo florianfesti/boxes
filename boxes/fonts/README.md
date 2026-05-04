@@ -11,6 +11,53 @@ The font will be **embedded as a base64 data URI** inside the SVG output,
 so the resulting file is fully self-contained and renders correctly on any
 machine or laser-cutter software.
 
+## ⚠️ TTF/OTF mandatory for text-to-path conversion
+
+Every font **must** be present as a `.ttf` or `.otf` file.  The text-to-path
+engine (`fontmanager.text_to_svg_path`) uses **fontTools**, which loads TTF/OTF
+natively.  Without a plain TTF/OTF the generator silently falls back to a
+`<text>` element, which most laser-cutter applications cannot engrave correctly.
+
+If you only have a `.woff2` (e.g. from Google Fonts), convert it once with
+fontTools before committing:
+
+```powershell
+# PowerShell – convert a single woff2 to ttf
+python -c "
+from fontTools.ttLib import TTFont
+f = TTFont('boxes/fonts/myfont/my-font.woff2')
+f.flavor = None   # strip the woff2 wrapper, keep the outlines
+f.save('boxes/fonts/myfont/my-font.ttf')
+print('Done')
+"
+```
+
+For a batch conversion of every woff/woff2 in the fonts tree that has no
+matching ttf/otf yet:
+
+```powershell
+python -c "
+from pathlib import Path
+from fontTools.ttLib import TTFont
+
+fonts_dir = Path('boxes/fonts')
+for src in fonts_dir.rglob('*.woff*'):
+    ttf = src.with_suffix('.ttf')
+    if not ttf.exists():
+        try:
+            f = TTFont(str(src))
+            f.flavor = None
+            f.save(str(ttf))
+            print(f'Converted: {ttf}')
+        except Exception as e:
+            print(f'FAILED {src}: {e}')
+"
+```
+
+You may keep the original `.woff2` alongside the `.ttf` — it is used for
+browser embedding via `@font-face`.  The path engine will automatically prefer
+`.ttf` over `.woff2` when both are present.
+
 ## ⚠️ Licence requirement (mandatory)
 
 Every font you add **must** include its licence file in the same sub-folder.

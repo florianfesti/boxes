@@ -54,6 +54,10 @@ function thSwitchTab(groupId) {
         p.style.display = isActive ? 'block' : 'none';
     });
 
+    // Sync dropdown select
+    const sel = document.getElementById('th-tab-select');
+    if (sel) sel.value = groupId;
+
     try { localStorage.setItem(TH_GROUP_KEY, groupId); } catch(_) {}
 
     // Re-apply current search filter to newly visible panel
@@ -125,6 +129,55 @@ function applyHiddenCategoriesTouch() {
         const first = document.querySelector('.th-tab[data-group]:not([style*="none"])');
         if (first) thSwitchTab(first.dataset.group);
     }
+
+    thCheckTabbarOverflow();
+}
+
+/**
+ * Rebuild the <select> options from currently-visible .th-tab buttons,
+ * then check whether the tabs overflow a single row and switch to dropdown mode.
+ */
+function thCheckTabbarOverflow() {
+    const bar = document.querySelector('.th-tabbar');
+    const sel = document.getElementById('th-tab-select');
+    if (!bar || !sel) return;
+
+    // Rebuild select options from visible tabs
+    const currentVal = sel.value;
+    sel.innerHTML = '';
+    document.querySelectorAll('.th-tab[data-group]').forEach(tab => {
+        if (tab.style.display === 'none') return;
+        const opt = document.createElement('option');
+        opt.value = tab.dataset.group;
+        const label = tab.querySelector('.th-tab-label');
+        const count = tab.querySelector('.th-tab-count');
+        opt.textContent = (label ? label.textContent : tab.title)
+            + (count ? ' (' + count.textContent + ')' : '');
+        if (tab.classList.contains('active')) opt.selected = true;
+        sel.appendChild(opt);
+    });
+    // Restore previous value if still present
+    if (currentVal && sel.querySelector(`option[value="${currentVal}"]`)) {
+        sel.value = currentVal;
+    }
+
+    // Temporarily remove max-height + overflow to measure real scroll height
+    const savedMax   = bar.style.maxHeight;
+    const savedOvfl  = bar.style.overflow;
+    bar.style.maxHeight = 'none';
+    bar.style.overflow  = 'visible';
+    // Remove dropdown class so tabs are visible for measurement
+    bar.classList.remove('th-tabbar--dropdown');
+
+    const tapMin = parseFloat(
+        getComputedStyle(document.documentElement).getPropertyValue('--th-tap-min')
+    ) || 52;
+    const overflows = bar.scrollHeight > tapMin + 4;
+
+    bar.style.maxHeight = savedMax;
+    bar.style.overflow  = savedOvfl;
+
+    bar.classList.toggle('th-tabbar--dropdown', overflows);
 }
 
 /* Hub init */
@@ -141,24 +194,13 @@ function initTouchHub() {
     }
 
     applyHiddenCategoriesTouch();
-}
 
-/* Touch args page init */
-
-/**
- * Called from the touch args page onload.
- * numHide mirrors the same argument as initArgsPage().
- */
-function initTouchArgs(numHide) {
-    // Reuse the existing initArgsPage from self.js
-    if (typeof initArgsPage === 'function') initArgsPage(numHide);
-
-    // Wire up the sticky action bar buttons
-    _bindTouchActionBar();
-
-    // Auto-size inputs/selects if field-sizing:content is unsupported (Firefox < 128)
-    if (!CSS.supports('field-sizing', 'content')) {
-        _autoSizeAllFields();
+    // Re-check tab overflow when window is resized
+    if (typeof ResizeObserver !== 'undefined') {
+        const bar = document.querySelector('.th-tabbar');
+        if (bar) new ResizeObserver(thCheckTabbarOverflow).observe(bar);
+    } else {
+        window.addEventListener('resize', thCheckTabbarOverflow);
     }
 }
 
@@ -192,36 +234,5 @@ function _autoSizeAllFields() {
         _autoSizeField(el);
         el.addEventListener('change', () => _autoSizeField(el));
         el.addEventListener('input',  () => _autoSizeField(el));
-    });
-}
-
-function _bindTouchActionBar() {
-    // Buttons in .touch-action-bar have data-render attribute
-    document.querySelectorAll('.touch-action-btn[data-render]').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const renderVal = this.dataset.render;
-            const target    = this.dataset.target || '_blank';
-            const form = document.querySelector('#arguments');
-            if (!form) return;
-
-            // Temporarily set render + formtarget on a hidden input and submit
-            let ri = form.querySelector('input[name="render"][data-touch]');
-            if (!ri) {
-                ri = document.createElement('input');
-                ri.type = 'hidden';
-                ri.name = 'render';
-                ri.setAttribute('data-touch', '1');
-                form.appendChild(ri);
-            }
-            ri.value = renderVal;
-            const prevTarget = form.target;
-            form.target = target;
-
-            // Inject color overrides (from self.js)
-            if (typeof injectColorHiddenFields === 'function') injectColorHiddenFields(form);
-
-            form.submit();
-            form.target = prevTarget;
-        });
     });
 }

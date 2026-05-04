@@ -22,6 +22,7 @@ class SlantedTray(Boxes):
     """One row tray with high back wall and low front wall"""
 
     ui_group = "Tray"
+    tags = ["tcg"]
 
     description = """Can be used as a display or for cards or gaming tokens. Lay on the side to get piles to draw from.
     ![Example Use](static/samples/SlantedTray-2.jpg)"""
@@ -63,6 +64,7 @@ class SlantedTray(Boxes):
             "eFfF",
             move="up",
             callback=[partial(self.finger_holes_CB, sx, h)],
+            label="back",
         )
 
         self.rectangularWall(
@@ -71,17 +73,27 @@ class SlantedTray(Boxes):
             "FFfF",
             move="up",
             callback=[partial(self.finger_holes_CB, sx, y)],
+            label="bottom",
         )
 
         self.rectangularWall(
             x,
             front_height,
             "FFeF",
-            move="up",
+            move="right up",
             callback=[
                 partial(self.finger_holes_CB, sx, front_height)
             ],
+            label="front",
         )
 
-        for _ in range(len(sx) + 1):
-            self.trapezoidWall(y, h, front_height, "ffef", move="right")
+        offset = h - front_height
+        for i in range(len(sx) + 1):
+            if i%2 :
+                # move up to save space
+                self.moveTo(0, offset)
+
+            move = "down" if i % 2 else "mirror upsidedown down"
+            self.trapezoidWall(y, h, front_height, "ffef",
+                               move=move,
+                               label=f"side {i + 1}")

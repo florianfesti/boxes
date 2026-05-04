@@ -33,7 +33,7 @@ from __future__ import annotations
 import argparse
 from typing import cast
 
-from boxes.args import IntStepper, FloatStepper
+from boxes.args import IntStepper, FloatStepper, TextAreaArg
 from boxes.edges import Settings
 
 
@@ -102,9 +102,10 @@ class ScoreSettings(Settings):
 
         group.add_argument(
             f"--{prefix}_values",
-            action="store", type=str,
+            action="store", type=TextAreaArg(),
             default=str(defaults.get("values", cls.absolute_params["values"])),
             help="Comma-separated custom score labels, e.g. +1,+2,-1,-2. "
+                 "Use prefix '!' to rotate 180° the letter, eg. +1,+2,!+1,!+2. "
                  "When non-empty this overrides min/max entirely.")
 
     def __init__(self, thickness: float, relative: bool = True, **kw: object) -> None:

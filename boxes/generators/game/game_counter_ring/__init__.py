@@ -29,7 +29,7 @@ class GameCounterRing(Boxes):
     """Ring-dial game point counter – three concentric pieces cut together"""
 
     ui_group = "Game"
-    tags = ["new"]
+    tags = ["new", "tcg"]
 
     description = """
 A three-piece circular point counter for board games.
@@ -62,24 +62,25 @@ cut in a single laser pass with minimal material waste.
 """
 
     # Dummy declarations for mypy – overwritten by argparse at runtime.
-    outer_diameter: float = 90.0
-    inner_diameter: float = 64.0
+    outer_diameter: float = 50.0
+    inner_diameter: float = 36.0
     score_min: int = 0
-    score_max: int = 9
+    score_max: int = 15
     score_radius: float | None = None
-    score_angle: float = 0.0
-    font_size: float = 10.0
+    score_angle: float = -180.0
+    font_size: float = 5.0
     font_font: str = "sans-serif"
     font_bold: bool = False
     font_italic: bool = False
+    font_font_as_path: bool = True
     pointer_size: float = 6.0
     pointer_style: str = "triangle"
     crenel_enabled: bool = False
     crenel_depth: float = 4.0
-    crenel_width: float = 0.5
+    crenel_width: float = 0.3
     crenel_shape: str = "symmetric"
     crenel_rounded: bool = True
-    crenel_radius: float = 2.0
+    crenel_radius: float = -2.0
     play: float = 0.3
     burn: float = 0.1
     magnet_diameter: float = 3.0
@@ -87,15 +88,15 @@ cut in a single laser pass with minimal material waste.
     def __init__(self) -> None:
         Boxes.__init__(self)
         self.addSettingsArgs(ScoreSettings, prefix="score",
-                             min=self.score_min, max=self.score_max,
-                             radius=self.score_radius, angle=self.score_angle)
+                             min=0, max=15,
+                             radius=None, angle=-180.0)
         self.addSettingsArgs(FontSettings, prefix="font",
-                             size=self.font_size, font=self.font_font,
-                             bold=self.font_bold, italic=self.font_italic)
+                             size=5.0, font="sans-serif",
+                             bold=False, italic=False)
         self.addSettingsArgs(CrenelSettings, prefix="crenel",
-                             enabled=self.crenel_enabled, depth=self.crenel_depth,
-                             width=self.crenel_width, shape=self.crenel_shape,
-                             rounded=self.crenel_rounded, radius=self.crenel_radius)
+                             enabled=False, depth=4.0,
+                             width=0.3, shape="symmetric",
+                             rounded=True, radius=-2.0)
 
         self.argparser.add_argument(
             "--outer_diameter", action="store", type=FloatStepper(1.0), default=self.outer_diameter,
@@ -133,7 +134,8 @@ cut in a single laser pass with minimal material waste.
             return
         angle_step_rad = 2.0 * math.pi / n
 
-        ctx.set_font(self.font_font, bold=self.font_bold, italic=self.font_italic)
+        ctx.set_font(self.font_font, bold=self.font_bold, italic=self.font_italic,
+                     as_path=self.font_font_as_path)
         self.set_source_color(Color.ETCHING)
         for i, score in enumerate(range(self.score_min, self.score_max + 1)):
             # Match crenel tooth centres: start at LEFT (π), go clockwise on screen

@@ -44,6 +44,7 @@ class Boxes2INX:
         viewname = name
         if prefix and name.startswith(prefix + '_'):
             viewname = name[len(prefix) + 1:]
+        viewname = getattr(a, "display_name", None) or viewname
 
         if (isinstance(a, argparse._StoreAction) and hasattr(a.type, "inx")):
             return a.type.inx(name, viewname, a)  # see boxes.__init__.py

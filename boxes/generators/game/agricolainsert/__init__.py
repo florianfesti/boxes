@@ -27,6 +27,7 @@ class AgricolaInsert(Boxes):
     """
 
     ui_group = "Game"
+    tags = ["board game"]
 
     description = """
 This insert was designed with 3 mm plywood in mind, and should work fine with

@@ -1,4 +1,3 @@
-
 /*** Dropdown menu ***************************************/
 
 function toggleDropdown(event) {
@@ -8,7 +7,7 @@ function toggleDropdown(event) {
 }
 
 // Close dropdown when clicking outside of it
-document.addEventListener('click', function(event) {
+document.addEventListener('click', function (event) {
     const dropdown = document.getElementById('main-dropdown');
     const dropdownBtn = document.querySelector('.dropdown-btn');
     if (dropdown && !event.target.closest('.dropdown')) {
@@ -17,7 +16,7 @@ document.addEventListener('click', function(event) {
 });
 
 // Close dropdown when a link is clicked
-document.addEventListener('click', function(event) {
+document.addEventListener('click', function (event) {
     if (event.target.closest('.dropdown-content a')) {
         const dropdown = document.getElementById('main-dropdown');
         if (dropdown) dropdown.classList.remove('show');
@@ -31,7 +30,9 @@ const TAB_STORAGE_KEY = 'boxes-active-tab';
 function activateTab(name) {
     const panel = document.getElementById('tab-' + name);
     if (!panel) return;
-    document.querySelectorAll('.tab-panel').forEach(p => { p.style.display = 'none'; });
+    document.querySelectorAll('.tab-panel').forEach(p => {
+        p.style.display = 'none';
+    });
     panel.style.display = 'block';
     document.querySelectorAll('.tabbtn').forEach(b => {
         b.classList.toggle('active', (b.getAttribute('onclick') || '').includes("'" + name + "'"));
@@ -40,7 +41,10 @@ function activateTab(name) {
 
 function switchTab(evt, name) {
     activateTab(name);
-    try { localStorage.setItem(TAB_STORAGE_KEY, name); } catch (_) {}
+    try {
+        localStorage.setItem(TAB_STORAGE_KEY, name);
+    } catch (_) {
+    }
     if (name === 'configuration') refreshPreview();
 }
 
@@ -64,7 +68,9 @@ function persistColorSettings(overrides) {
     if (status) {
         status.style.display = 'inline';
         clearTimeout(status._hideTimer);
-        status._hideTimer = setTimeout(() => { status.style.display = 'none'; }, 1500);
+        status._hideTimer = setTimeout(() => {
+            status.style.display = 'none';
+        }, 1500);
     }
 }
 
@@ -103,7 +109,7 @@ function initColorSettingsPage() {
 /** Export current localStorage settings as a downloaded JSON file. */
 function exportColorSettings() {
     const overrides = loadColorSettings();
-    const blob = new Blob([JSON.stringify(overrides, null, 2)], { type: 'application/json' });
+    const blob = new Blob([JSON.stringify(overrides, null, 2)], {type: 'application/json'});
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = 'boxes-color-settings.json';
@@ -174,15 +180,21 @@ function initColorInjection() {
 const HIDDEN_CATS_KEY = 'boxes-hidden-categories';
 
 function loadHiddenCategories() {
-    try { return new Set(JSON.parse(localStorage.getItem(HIDDEN_CATS_KEY) || '[]')); }
-    catch(_) { return new Set(); }
+    try {
+        return new Set(JSON.parse(localStorage.getItem(HIDDEN_CATS_KEY) || '[]'));
+    } catch (_) {
+        return new Set();
+    }
 }
 
 /** Menu page: hide h3 + its content div for hidden categories. */
 function applyHiddenCategoriesMenu() {
     const hidden = loadHiddenCategories();
-    document.querySelectorAll('h3.toggle[data-id]').forEach(function(el) {
+    document.querySelectorAll('h3.toggle[data-id]').forEach(function (el) {
         const id = el.getAttribute('data-id');
+        // Only process numeric category IDs; skip settings-group IDs (e.g. "g0", "g1")
+        // to avoid overwriting the inline display:none we set for collapsed groups.
+        if (!/^\d+$/.test(id)) return;
         const div = document.getElementById(id);
         const hide = hidden.has(id);
         el.style.display = hide ? 'none' : '';
@@ -193,7 +205,7 @@ function applyHiddenCategoriesMenu() {
 /** Gallery page: hide .gallery-group divs for hidden categories. */
 function applyHiddenCategoriesGallery() {
     const hidden = loadHiddenCategories();
-    document.querySelectorAll('.gallery-group[data-group-id]').forEach(function(div) {
+    document.querySelectorAll('.gallery-group[data-group-id]').forEach(function (div) {
         div.style.display = hidden.has(div.dataset.groupId) ? 'none' : '';
     });
 }
@@ -207,25 +219,23 @@ function applyHiddenCategories() {
 /** Categories page – explicit Save button. */
 function saveCategorySettingsExplicit() {
     const hidden = new Set();
-    document.querySelectorAll('input[data-cat-id]').forEach(function(cb) {
+    document.querySelectorAll('input[data-cat-id]').forEach(function (cb) {
         if (!cb.checked) hidden.add(cb.dataset.catId);
     });
-    try { localStorage.setItem(HIDDEN_CATS_KEY, JSON.stringify([...hidden])); } catch(_) {}
-    // Navigate back via location.replace so the target page re-executes its
-    // onload (initPage → applyHiddenCategories) without needing F5.
-    // location.replace also removes the categories page from the history stack.
-    const ref = document.referrer;
     try {
-        if (ref && new URL(ref).origin === window.location.origin) {
-            window.location.replace(ref);
-            return;
-        }
-    } catch (_) {}
-    window.history.back();
+        localStorage.setItem(HIDDEN_CATS_KEY, JSON.stringify([...hidden]));
+    } catch (_) {
+    }
+    const home = (typeof CAT_HOME_URL !== 'undefined') ? CAT_HOME_URL : null;
+    if (home) {
+        window.location.href = home;
+    } else {
+        window.history.back();
+    }
 }
 
 // Safety net: re-apply when the browser restores a page from bfcache.
-window.addEventListener('pageshow', function(event) {
+window.addEventListener('pageshow', function (event) {
     if (event.persisted) {
         applyHiddenCategories();
         if (typeof applyHiddenCategoriesTouch === 'function') {
@@ -237,7 +247,7 @@ window.addEventListener('pageshow', function(event) {
 /** Color settings page – explicit Save button. */
 function saveColorSettingsExplicit() {
     const overrides = loadColorSettings();
-    document.querySelectorAll('select[data-role]').forEach(function(sel) {
+    document.querySelectorAll('select[data-role]').forEach(function (sel) {
         overrides[sel.dataset.role] = sel.value;
     });
     persistColorSettings(overrides);
@@ -247,7 +257,7 @@ function saveColorSettingsExplicit() {
 /** Categories page – init checkboxes from localStorage. */
 function initCategorySettingsPage() {
     const hidden = loadHiddenCategories();
-    document.querySelectorAll('input[data-cat-id]').forEach(function(cb) {
+    document.querySelectorAll('input[data-cat-id]').forEach(function (cb) {
         cb.checked = !hidden.has(cb.dataset.catId);
     });
 }
@@ -260,27 +270,35 @@ function onCategoryCheckboxChange(cb) {
     } else {
         hidden.add(cb.dataset.catId);
     }
-    try { localStorage.setItem(HIDDEN_CATS_KEY, JSON.stringify([...hidden])); } catch(_) {}
+    try {
+        localStorage.setItem(HIDDEN_CATS_KEY, JSON.stringify([...hidden]));
+    } catch (_) {
+    }
     const status = document.getElementById('cat-settings-status');
     if (status) {
         status.style.display = 'inline';
         clearTimeout(status._hideTimer);
-        status._hideTimer = setTimeout(function() { status.style.display = 'none'; }, 1500);
+        status._hideTimer = setTimeout(function () {
+            status.style.display = 'none';
+        }, 1500);
     }
 }
 
 /** Categories page – restore all categories. */
 function resetCategorySettings() {
-    try { localStorage.removeItem(HIDDEN_CATS_KEY); } catch(_) {}
+    try {
+        localStorage.removeItem(HIDDEN_CATS_KEY);
+    } catch (_) {
+    }
     window.location.reload();
 }
 
 /*** Gallery image height zoom ****************************/
 
 const GALLERY_ZOOM_DEFAULT = 120;
-const GALLERY_ZOOM_STEP    = 20;
-const GALLERY_ZOOM_MIN     = 60;
-const GALLERY_ZOOM_MAX     = 300;
+const GALLERY_ZOOM_STEP = 20;
+const GALLERY_ZOOM_MIN = 60;
+const GALLERY_ZOOM_MAX = 300;
 
 function applyGalleryZoom(h) {
     document.documentElement.style.setProperty('--gallery-item-height', h + 'px');
@@ -333,6 +351,7 @@ function expandId(id) {
     h.classList.add("open");
     h.setAttribute("aria-expanded", "true");
 }
+
 function collapseId(id) {
     const e = document.getElementById(id);
     const h = document.getElementById("h-" + id);
@@ -409,13 +428,14 @@ function initArgsPage(num_hide = null) {
     initDescriptionImages();
     const i = document.querySelectorAll("td > input, td > select, td > textarea, td .stepper-input");
     for (let el of i) {
-	el.addEventListener("change", refreshPreview);
+        el.addEventListener("change", refreshPreview);
     }
     // Restore last active tab from localStorage.
     try {
         const savedTab = localStorage.getItem(TAB_STORAGE_KEY);
         if (savedTab) activateTab(savedTab);
-    } catch (_) {}
+    } catch (_) {
+    }
     refreshPreview();
 }
 
@@ -432,8 +452,10 @@ function closeImgModal() {
 }
 
 function initDescriptionImages() {
-    document.querySelectorAll('#tab-description img').forEach(function(img) {
-        img.addEventListener('click', function() { openImgModal(img.src); });
+    document.querySelectorAll('#tab-description img').forEach(function (img) {
+        img.addEventListener('click', function () {
+            openImgModal(img.src);
+        });
     });
 }
 
@@ -449,7 +471,7 @@ function closeHelpModal() {
     document.getElementById('help-modal').style.display = 'none';
 }
 
-document.addEventListener('keydown', function(e) {
+document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') {
         closeHelpModal();
         closeImgModal();
@@ -509,7 +531,7 @@ function dpadReset(xId, yId) {
 
 /*** Preview ****************************************/
 
-preview_scale=100;
+preview_scale = 100;
 
 function refreshPreview() {
     const form = document.querySelector("#arguments");
@@ -521,6 +543,248 @@ function refreshPreview() {
 
     const preview = document.getElementById("preview_img");
     preview.src = url;
+    updateSurfaceInfo(url);
+}
+
+/*** Machine configuration ******************************/
+
+const MACHINE_STORAGE_KEY = 'boxes-machine-config';
+
+const KNOWN_MACHINES = [
+    {brand: 'Ortur', model: 'Master 3', w: 400, h: 380},
+    {brand: 'Ortur', model: 'H20 40W', w: 410, h: 275},
+    {brand: 'xTool', model: 'M1 Ultra', w: 300, h: 300},
+];
+
+/** Available materials: { id, label, price_per_m2 } */
+const MATERIALS = [
+    {id: 'tilleul3', label: '3mm Tilleul', price_per_m2: 25},
+    {id: 'noyer', label: '3mm Noyer', price_per_m2: 36},
+];
+
+const MACHINE_DEFAULTS = {w: 300, h: 300, material: '', margin_coef: 1};
+
+function loadMachineConfig() {
+    try {
+        const saved = JSON.parse(localStorage.getItem(MACHINE_STORAGE_KEY) || 'null');
+        return Object.assign({}, MACHINE_DEFAULTS, saved || {});
+    } catch (_) {
+        return Object.assign({}, MACHINE_DEFAULTS);
+    }
+}
+
+function saveMachineConfig(w, h, material, margin_coef) {
+    const cfg = loadMachineConfig();
+    cfg.w = w;
+    cfg.h = h;
+    if (material !== undefined) cfg.material = material;
+    if (margin_coef !== undefined) cfg.margin_coef = margin_coef;
+    try {
+        localStorage.setItem(MACHINE_STORAGE_KEY, JSON.stringify(cfg));
+    } catch (_) {
+    }
+}
+
+function initMachineConfigPanel() {
+    const sel = document.getElementById('machine-preset');
+    const wInput = document.getElementById('machine-w');
+    const hInput = document.getElementById('machine-h');
+    if (!sel || !wInput || !hInput) return;
+
+    // Build <optgroup> options sorted by brand
+    sel.innerHTML = '<option value="">\u2014 Custom \u2014</option>';
+    const byBrand = {};
+    for (const m of KNOWN_MACHINES) {
+        (byBrand[m.brand] = byBrand[m.brand] || []).push(m);
+    }
+    for (const brand of Object.keys(byBrand).sort()) {
+        const og = document.createElement('optgroup');
+        og.label = brand;
+        for (const m of byBrand[brand]) {
+            const opt = document.createElement('option');
+            opt.value = `${m.w}x${m.h}`;
+            opt.textContent = `${m.model} (${m.w}\u00d7${m.h} mm)`;
+            og.appendChild(opt);
+        }
+        sel.appendChild(og);
+    }
+
+    // Restore saved config
+    const cfg = loadMachineConfig();
+    wInput.value = cfg.w;
+    hInput.value = cfg.h;
+    _syncMachinePreset(sel, cfg.w, cfg.h);
+
+    // Material selector
+    const matSel = document.getElementById('machine-material');
+    if (matSel) {
+        matSel.innerHTML = '<option value="">Turn off material calculation</option>';
+        for (const mat of MATERIALS) {
+            const opt = document.createElement('option');
+            opt.value = mat.id;
+            opt.textContent = `${mat.label} (${mat.price_per_m2}\u20ac/m\u00b2)`;
+            matSel.appendChild(opt);
+        }
+        matSel.value = cfg.material || '';
+        matSel.addEventListener('change', function () {
+            const w = parseFloat(wInput.value) || 300;
+            const h = parseFloat(hInput.value) || 300;
+            const coef = parseFloat(document.getElementById('machine-margin-coef')?.value || '1') || 1;
+            saveMachineConfig(w, h, matSel.value, coef);
+            _updatePriceInfo();
+        });
+    }
+
+    // Margin coefficient
+    const coefInput = document.getElementById('machine-margin-coef');
+    if (coefInput) {
+        coefInput.value = cfg.margin_coef !== undefined ? cfg.margin_coef : 1;
+        coefInput.addEventListener('change', function () {
+            const w = parseFloat(wInput.value) || 300;
+            const h = parseFloat(hInput.value) || 300;
+            const mat = matSel ? matSel.value : '';
+            saveMachineConfig(w, h, mat, parseFloat(coefInput.value) || 1);
+            _updatePriceInfo();
+        });
+    }
+
+    sel.addEventListener('change', function () {
+        if (!sel.value) return;
+        const parts = sel.value.split('x');
+        const w = Number(parts[0]);
+        const h = Number(parts[1]);
+        wInput.value = w;
+        hInput.value = h;
+        const mat = matSel ? matSel.value : '';
+        const coef = parseFloat(coefInput?.value || '1') || 1;
+        saveMachineConfig(w, h, mat, coef);
+        _updateFitInfo();
+    });
+
+    const onDimChange = function () {
+        const w = parseFloat(wInput.value) || 300;
+        const h = parseFloat(hInput.value) || 300;
+        const mat = matSel ? matSel.value : '';
+        const coef = parseFloat(coefInput?.value || '1') || 1;
+        saveMachineConfig(w, h, mat, coef);
+        _syncMachinePreset(sel, w, h);
+        _updateFitInfo();
+    };
+    wInput.addEventListener('change', onDimChange);
+    hInput.addEventListener('change', onDimChange);
+}
+
+function _syncMachinePreset(sel, w, h) {
+    for (const opt of sel.options) {
+        if (opt.value === `${w}x${h}`) {
+            sel.value = opt.value;
+            return;
+        }
+    }
+    sel.value = '';
+}
+
+/*** Surface info ***************************************/
+
+let _svgDims = null;
+
+async function updateSurfaceInfo(svgUrl) {
+    const bar = document.getElementById('surface-info-bar');
+    if (!bar) return;
+    try {
+        const resp = await fetch(svgUrl);
+        if (!resp.ok) {
+            _clearSurfaceInfo();
+            return;
+        }
+        const text = await resp.text();
+        const dims = _parseSvgMmDims(text);
+        if (!dims) {
+            _clearSurfaceInfo();
+            return;
+        }
+        _svgDims = dims;
+        const areaMm2 = dims.w * dims.h;
+        const areaM2 = areaMm2 / 1_000_000;
+        const areaStr = areaM2.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        bar.innerHTML =
+            `<span class="surf-dims">\ud83d\udcd0 ${dims.w.toFixed(1)} \u00d7 ${dims.h.toFixed(1)} mm</span>`
+            + `<span class="surf-sep">\u2022</span>`
+            + `<span class="surf-area">${areaStr} m\u00b2</span>`;
+        bar.style.display = 'flex';
+        _updateFitInfo();
+        _updatePriceInfo();
+    } catch (_) {
+        _clearSurfaceInfo();
+    }
+}
+
+function _parseSvgMmDims(svgText) {
+    const m = svgText.match(/<svg\b[^>]*>/);
+    if (!m) return null;
+    const tag = m[0];
+    const wm = tag.match(/\bwidth="([\d.]+)mm"/);
+    const hm = tag.match(/\bheight="([\d.]+)mm"/);
+    if (!wm || !hm) return null;
+    const w = parseFloat(wm[1]);
+    const h = parseFloat(hm[1]);
+    return (isFinite(w) && isFinite(h) && w > 0 && h > 0) ? {w, h} : null;
+}
+
+function _clearSurfaceInfo() {
+    _svgDims = null;
+    const bar = document.getElementById('surface-info-bar');
+    const fit = document.getElementById('fit-info-bar');
+    const price = document.getElementById('price-info-bar');
+    if (bar) bar.innerHTML = '';           // :empty CSS hides it
+    if (fit) {
+        fit.className = 'fit-info-bar';
+        fit.textContent = '';
+    }
+    if (price) {
+        price.innerHTML = '';
+    }
+}
+
+function _updatePriceInfo() {
+    const price = document.getElementById('price-info-bar');
+    if (!price || !_svgDims) return;
+    const cfg = loadMachineConfig();
+    const matId = cfg.material || '';
+    const margin = parseFloat(cfg.margin_coef) || 1;
+    const mat = MATERIALS.find(m => m.id === matId);
+    if (!mat) {
+        price.innerHTML = '';
+        return;
+    }
+    const areaM2 = (_svgDims.w * _svgDims.h) / 1_000_000;
+    const total = areaM2 * mat.price_per_m2 * margin;
+    const totalStr = total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    price.innerHTML =
+        `<span class="surf-price-label">\ud83d\udcb6 ${mat.label}</span>`
+        + `<span class="surf-sep">\u2022</span>`
+        + `<span class="surf-price-value">${totalStr} \u20ac</span>`;
+    price.style.display = 'flex';
+}
+
+function _updateFitInfo() {
+    const fit = document.getElementById('fit-info-bar');
+    if (!fit || !_svgDims) return;
+    const cfg = loadMachineConfig();
+    const mw = cfg.w, mh = cfg.h;
+    const dw = _svgDims.w, dh = _svgDims.h;
+    if (dw <= mw && dh <= mh) {
+        fit.className = 'fit-info-bar fit-ok';
+        fit.textContent = `\u2705 Fits on 1 sheet`;
+    } else {
+        const sw = Math.ceil(dw / mw);
+        const sh = Math.ceil(dh / mh);
+        const total = sw * sh;
+        fit.className = 'fit-info-bar fit-warn';
+        fit.textContent = `\u26a0\ufe0f Needs ${total} sheet${total > 1 ? 's' : ''} (${sw}\u00d7${sh} grid) \u2013`;
+    }
+    fit.style.display = 'flex';
+    _updatePriceInfo();
 }
 
 
@@ -568,20 +832,21 @@ function GridfinityTrayUpdateLayout(event) {
     countx = document.getElementById('countx').value;
     county = document.getElementById('county').value;
     margin = document.getElementById('margin').value;
-    x = nx*42 - margin
-    y = ny*42 - margin
+    x = nx * 42 - margin
+    y = ny * 42 - margin
     layout_id = document.getElementById('layout');
     layout_id.value = GridfinityTrayLayout_GenerateLayout(x, y, nx, ny, countx, county);
 }
 
 function setUpdated() {
     console.log("this was updated");
-    window.layoutUpdated=true;
+    window.layoutUpdated = true;
 }
+
 function GridfinityTrayLayoutInit() {
     console.log("update init");
     ids = ['nx', 'ny', 'countx', 'county', 'margin'];
-    window.layoutUpdated=false;
+    window.layoutUpdated = false;
     for (id_string of ids) {
         id = document.getElementById(id_string);
         id.addEventListener('input', GridfinityTrayUpdateLayout);
@@ -738,7 +1003,7 @@ function goldenMattingWidth(photoWidth, photoHeight) {
 
     // It is mathematically impossible to get complex roots
     // or for the other root to be the right answer, so relax
-    const disc = b**2 - 4 * a * c;
+    const disc = b ** 2 - 4 * a * c;
     const x1 = (-b + Math.sqrt(disc)) / (2 * a);
 
     // Broad check for valid result in case user has achieved the impossible
@@ -754,23 +1019,23 @@ function goldenMattingWidth(photoWidth, photoHeight) {
 function ParseSections(s) {
     var sections = [];
     for (var section of s.split(":")) {
-	var operands = section.split("/");
-	if (operands.length > 2) return sections;
-	if (operands.length == 2) {
-	    for (var i=0; i<operands[1]; i++) {
-		sections.push(Number(operands[0])/Number(operands[1]));
-	    }
-	    continue;
-	}
-	operands = section.split("*");
-	if (operands.length > 2) return sections;
-	if (operands.length == 2) {
-	    for (var i=0; i<operands[1]; i++) {
-		sections.push(Number(operands[0]));
-	    }
-	    continue;
-	}
-	sections.push(Number(section));
+        var operands = section.split("/");
+        if (operands.length > 2) return sections;
+        if (operands.length == 2) {
+            for (var i = 0; i < operands[1]; i++) {
+                sections.push(Number(operands[0]) / Number(operands[1]));
+            }
+            continue;
+        }
+        operands = section.split("*");
+        if (operands.length > 2) return sections;
+        if (operands.length == 2) {
+            for (var i = 0; i < operands[1]; i++) {
+                sections.push(Number(operands[0]));
+            }
+            continue;
+        }
+        sections.push(Number(section));
     }
     return sections;
 }
@@ -817,7 +1082,7 @@ function TrayUpdateLayout(event) {
 
 function TrayLayoutInit() {
     ids = ['sx', 'sy'];
-    window.layoutUpdated=false;
+    window.layoutUpdated = false;
     for (id_string of ids) {
         id = document.getElementById(id_string);
         id.addEventListener('input', TrayUpdateLayout);
@@ -838,7 +1103,7 @@ function addCallbacks() {
     };
     loc = new URL(window.location.href);
     pathname = loc.pathname;
-    page = pathname.substr(pathname.lastIndexOf('/')+1);
+    page = pathname.substr(pathname.lastIndexOf('/') + 1);
     if (page in page_callbacks) {
         callback = page_callbacks[page];
         callback();
@@ -847,7 +1112,7 @@ function addCallbacks() {
 
 /*** Search for generators **************************************/
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     addCallbacks();
 }, false);
 
@@ -883,7 +1148,7 @@ function showOnly(str) {
             id.style.display = "inline-block";
         } else {
             id.style.display = "none";
-	}
+        }
     }
 }
 

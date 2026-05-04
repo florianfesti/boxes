@@ -91,8 +91,8 @@ Adding a new example
 ....................
 
 * Generate example SVGs: :code:`python scripts/regen_svg.py --all`
-* Generate sample JPGs next to each generator: :code:`python scripts/gen_sample_images.py`
-* Both files land next to the generator ``.py`` file (same stem, different extension)
+* Include sample JPGs next to each generator with its thumbnail (see :ref:`provide-photos-for-generators` section below)
+* All files land next to the generator ``.py`` file (same stem, different extension)
 
 Updating reference SVGs and sample images after a change
 .........................................................
@@ -109,12 +109,10 @@ regenerate the affected files, otherwise the test suite will fail::
 **Regenerate one generator** (PowerShell)::
 
     python scripts/regen_svg.py DiceTower
-    python scripts/gen_sample_images.py DiceTower
 
 **Regenerate all generators at once**::
 
     python scripts/regen_svg.py --all
-    python scripts/gen_sample_images.py
 
 Then confirm tests pass::
 

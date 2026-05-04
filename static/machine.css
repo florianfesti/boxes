@@ -1,0 +1,140 @@
+/* ================================================================
+   Boxes.py – Machine settings page  (machine.css)
+   Loaded in addition to touch.css on body.touch-machine pages.
+   ================================================================ */
+
+body.touch-machine {
+  margin: 0;
+  padding: 0;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--th-page-bg);
+  font-size: 17px;
+}
+
+.ms-body { flex: 1; padding: 20px 24px; overflow-y: auto; max-width: 700px; }
+.ms-body h2 { margin: 0; color: #333; }
+.ms-body > p { margin: 0 0 20px; color: #666; font-size: .9em; }
+
+.ms-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+.ms-title-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.ms-section {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.09);
+  padding: 18px 20px;
+  margin-bottom: 20px;
+}
+.ms-section h3 {
+  margin: 0 0 14px;
+  font-size: 1em;
+  color: #333;
+  width: auto;
+  padding: 0;
+  cursor: default;
+}
+.ms-section h3::before { content: none; }
+.ms-section h3:hover { background: none; color: #333; border-radius: 0; }
+
+.ms-dims {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+.ms-dims label { font-size: .95em; color: #444; display: flex; align-items: center; gap: 8px; }
+.ms-dims input {
+  height: 44px;
+  width: 90px;
+  font-size: 1em;
+  text-align: center;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  padding: 0 8px;
+  box-sizing: border-box;
+}
+
+.ms-table { width: 100%; border-collapse: collapse; font-size: .93em; }
+.ms-table td { padding: 8px 10px; border-bottom: 1px solid #f0ebe0; vertical-align: middle; }
+.ms-brand-row td { background: #f5f0e8; font-weight: bold; color: #555; padding: 6px 10px; }
+
+.ms-btn {
+  border: none;
+  border-radius: 8px;
+  padding: 0 16px;
+  height: 36px;
+  font-size: .9em;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background .15s;
+}
+.ms-btn-use       { background: var(--th-accent); color: #fff; font-weight: bold; }
+.ms-btn-use:hover { background: var(--th-accent2); }
+
+#ms-status { color: #2e7d32; font-weight: bold; }
+  background: var(--th-accent);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0 18px;
+  min-height: 38px;
+  font-size: .9em;
+  font-family: inherit;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background .15s;
+}
+.ms-save-btn:hover { background: var(--th-accent2); }
+
+.ms-reset-btn {
+  background: #f0f0f0;
+  color: #555;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 0 14px;
+  min-height: 38px;
+  font-size: .9em;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background .15s, color .15s;
+}
+.ms-reset-btn:hover { background: #e0e0e0; color: #333; }
+
+#ms-status { color: #2e7d32; font-weight: bold; }
+
+.ms-mat-table { width: 100%; border-collapse: collapse; font-size: .93em; }
+.ms-mat-table td { padding: 8px 10px; border-bottom: 1px solid #f0ebe0; vertical-align: middle; }
+.ms-mat-table input[type=radio] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--th-accent);
+  cursor: pointer;
+}
+
+.ms-coef-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.ms-coef-row label { font-size: .95em; color: #444; }
+.ms-coef-row input {
+  height: 44px;
+  width: 90px;
+  font-size: 1em;
+  text-align: center;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  padding: 0 8px;
+  box-sizing: border-box;
+}

@@ -9,7 +9,7 @@ from xml.etree import ElementTree as ET
 from affine import Affine
 
 from boxes.extents import Extents
-from boxes.fontmanager import BUILTIN_FONTS, font_as_data_uri
+from boxes.fontmanager import BUILTIN_FONTS, font_as_data_uri, text_to_svg_path
 
 EPS = 1e-4
 PADDING = 10
@@ -245,6 +245,7 @@ class Context:
         self._lw = 0
         self._rgb = (0, 0, 0)
         self._ff: tuple[str, bool, bool] = ("sans-serif", False, False)
+        self._font_as_path: bool = True
         self._fs = 10
         self._last_path = None
         # names of custom (file-based) fonts actually used in this session
@@ -363,10 +364,11 @@ class Context:
         self._xy = (0, 0)
         raise NotImplementedError
 
-    def set_font(self, style: str, bold: bool = False, italic: bool = False) -> None:
+    def set_font(self, style: str, bold: bool = False, italic: bool = False, as_path: bool = True) -> None:
         if style not in BUILTIN_FONTS and font_as_data_uri(style) is None:
             raise ValueError(f"Unknown font: {style!r}. Add a .ttf/.otf file to boxes/fonts/")
         self._ff = (style, bold, italic)
+        self._font_as_path = as_path
         if style not in BUILTIN_FONTS:
             self._custom_fonts.add(style)
 
@@ -374,7 +376,8 @@ class Context:
         self._fs = fs
 
     def show_text(self, text, **args):
-        params = {"ff": self._ff, "fs": self._fs, "lw": self._lw, "rgb": self._rgb}
+        params = {"ff": self._ff, "fs": self._fs, "lw": self._lw, "rgb": self._rgb,
+                  "font_as_path": self._font_as_path}
         params.update(args)
         mx0, my0 = self._m * self._xy
         m = self._m
@@ -575,42 +578,60 @@ class SVGSurface(Surface):
                         fontweight = ("normal", "bold")[bool(bold)]
                         fontstyle = ("normal", "italic")[bool(italic)]
 
-                        # Custom (file-based) fonts are used verbatim; they will
-                        # be backed by an @font-face declaration in <defs>.
-                        # Built-in generic names are left as-is (unchanged behaviour).
-                        if font not in BUILTIN_FONTS:
-                            custom_fonts_used.add(font)
-
                         fill_color = rgb_to_svg_color(*params['rgb'])
-                        font_style_base = (
-                            f"font-family: {font} ; font-weight: {fontweight};"
-                            f" font-style: {fontstyle}"
-                        )
-
-                        def _text_el(style: str) -> ET.Element:
-                            el = ET.SubElement(g, "text",
-                                               transform=f"matrix( {tm} )",
-                                               style=style)
-                            el.text = text
-                            el.set("font-size", f"{params['fs']}px")
-                            el.set("text-anchor", params.get('align', 'left'))
-                            el.tail = "\n  "
-                            return el
-
                         outline_lw = params.get('outline_lw', 0.0)
-                        if outline_lw > 0:
-                            # paint-order: stroke fill → stroke painted first (2× wide),
-                            # then fill on top covers the inside half.
-                            # Net effect: only the outer outline_lw of stroke is visible.
-                            style = (
-                                f"{font_style_base}; fill: {fill_color};"
-                                f" stroke: rgb(0,0,255);"
-                                f" stroke-width: {2 * outline_lw:.3f}px;"
-                                f" paint-order: stroke fill"
-                            )
+                        halign = params.get('align', 'left')
+                        fs = params['fs']
+
+                        # For custom (file-based) fonts convert text to paths so
+                        # the output is universally readable by laser-cutting apps
+                        # that do not support @font-face / embedded fonts.
+                        path_d = text_to_svg_path(text, font, fs, align=halign) if params.get('font_as_path', True) else None
+                        if path_d is not None:
+                            t = ET.SubElement(g, "path",
+                                              d=path_d,
+                                              transform=f"matrix( {tm} )",
+                                              fill=fill_color)
+                            if outline_lw > 0:
+                                t.set("stroke", "rgb(0,0,255)")
+                                t.set("stroke-width", f"{outline_lw:.3f}")
+                                t.set("stroke-linejoin", "round")
+                            else:
+                                t.set("stroke", "none")
+                            t.tail = "\n  "
                         else:
-                            style = f"{font_style_base}; fill: {fill_color}"
-                        t = _text_el(style)
+                            # Built-in generic families – keep as <text> element.
+                            # "monospaced" is not a valid CSS generic; map it to
+                            # the correct CSS name "monospace".
+                            css_font = "monospace" if font == "monospaced" else font
+                            if font not in BUILTIN_FONTS:
+                                custom_fonts_used.add(font)
+
+                            font_style_base = (
+                                f"font-family: {css_font} ; font-weight: {fontweight};"
+                                f" font-style: {fontstyle}"
+                            )
+
+                            def _text_el(style: str) -> ET.Element:
+                                el = ET.SubElement(g, "text",
+                                                   transform=f"matrix( {tm} )",
+                                                   style=style)
+                                el.text = text
+                                el.set("font-size", f"{fs}px")
+                                el.set("text-anchor", halign)
+                                el.tail = "\n  "
+                                return el
+
+                            if outline_lw > 0:
+                                style = (
+                                    f"{font_style_base}; fill: {fill_color};"
+                                    f" stroke: rgb(0,0,255);"
+                                    f" stroke-width: {2 * outline_lw:.3f}px;"
+                                    f" paint-order: stroke fill"
+                                )
+                            else:
+                                style = f"{font_style_base}; fill: {fill_color}"
+                            t = _text_el(style)
                     else:
                         print("Unknown", c)
 

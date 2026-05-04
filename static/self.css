@@ -471,10 +471,11 @@ textarea {
 
 }
 
-/* Help "?" button */
-.help-btn {
-    font-weight: bold;
-    color: #555;
+/* Clickable arg label (opens help modal) */
+.help-label {
+    cursor: help;
+    text-decoration: underline dotted #888;
+    text-underline-offset: 3px;
 }
 
 /* Help modal */

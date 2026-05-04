@@ -20,6 +20,8 @@ class CategoriesUIMixin:
         raise NotImplementedError
     def genHTMLTouchCSS(self) -> str:
         raise NotImplementedError
+    def genHTMLCategoriesCSS(self) -> str:
+        raise NotImplementedError
     def genHTMLTouchJS(self) -> str:
         raise NotImplementedError
     def _touch_header_html(self, lang: object, back_url: str = "", back_icon_only: bool = False) -> str:
@@ -58,42 +60,25 @@ class CategoriesUIMixin:
             f"  {self.genHTMLMeta()}\n"
             f"  {self.genHTMLCSS()}\n"
             f"  {touch_css}\n"
+            f"  {self.genHTMLCategoriesCSS()}\n"
             f"  {self.genHTMLJS()}\n"
             f"  {touch_js}\n"
-            "  <style>\n"
-            "    body.touch-cat{margin:0;padding:0;min-height:100dvh;display:flex;flex-direction:column;background:var(--th-page-bg);font-size:17px;}\n"
-            "    .cat-body{flex:1;padding:20px 24px;overflow-y:auto;}\n"
-            "    .cat-body h2{margin:0 0 6px;color:#333;}\n"
-            "    .cat-body p{margin:0 0 18px;color:#666;font-size:.9em;}\n"
-            "    .cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-bottom:24px;}\n"
-            "    .cat-card{position:relative;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,.18);cursor:pointer;user-select:none;overflow:hidden;aspect-ratio:1/1;background-size:cover;background-position:center;background-color:#d8d0c0;transition:transform .12s,box-shadow .12s;}\n"
-            "    .cat-card:hover{transform:scale(1.03);box-shadow:0 6px 20px rgba(0,0,0,.28);}\n"
-            "    .cat-card:active{transform:scale(0.97);}\n"
-            "    .cat-card-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.05) 40%,rgba(0,0,0,.72) 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:10px;gap:4px;}\n"
-            "    .cat-card input[type='checkbox']{position:absolute;top:10px;right:10px;width:24px;height:24px;cursor:pointer;accent-color:var(--th-accent);}\n"
-            "    .cat-card-title{font-weight:bold;font-size:.92em;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.8);line-height:1.2;}\n"
-            "    .cat-card-count{font-size:.75em;color:rgba(255,255,255,.80);text-shadow:0 1px 2px rgba(0,0,0,.7);}\n"
-            "    .cat-actions{display:flex;gap:12px;flex-wrap:wrap;align-items:center;}\n"
-            "    .cat-btn{background:var(--th-accent);color:#fff;border:none;border-radius:10px;padding:0 24px;min-height:48px;font-size:1em;font-family:inherit;font-weight:bold;cursor:pointer;transition:background .15s;}\n"
-            "    .cat-btn:hover{background:var(--th-accent2);}\n"
-            "    .cat-btn.secondary{background:#666;}\n"
-            "    .cat-btn.secondary:hover{background:#444;}\n"
-            "    #cat-settings-status{color:green;font-weight:bold;}\n"
-            "  </style>\n"
             "</head>\n"
             f'<body class="touch-cat" onload="initCategorySettingsPage()">\n'
             f"\n{touch_header}\n\n"
             '<div class="cat-body">\n'
-            f"  <h2>{_('Categories')}</h2>\n"
+            '  <div class="cat-title-row">\n'
+            f"    <h2>{_('Categories')}</h2>\n"
+            '    <div class="cat-title-actions">\n'
+            f'      <button class="cat-btn secondary" onclick="resetCategorySettings()">{_("Show all categories")}</button>\n'
+            f'      <button class="cat-btn" onclick="saveCategorySettingsExplicit()">{_("Save")}</button>\n'
+            "    </div>\n"
+            "  </div>\n"
             f"  <p>{_('Uncheck categories to hide them from the menu, gallery and touch interface.')}</p>\n"
             '  <div class="cat-grid">\n'
             f"{cards_html}\n"
             "  </div>\n"
-            '  <div class="cat-actions">\n'
-            f'    <button class="cat-btn" onclick="saveCategorySettingsExplicit()">{_("Save")}</button>\n'
-            f'    <button class="cat-btn secondary" onclick="resetCategorySettings()">{_("Show all categories")}</button>\n'
-            f'    <span id="cat-settings-status" style="display:none">{_("Saved.")}</span>\n'
-            "  </div>\n"
+            f"<script>const CAT_HOME_URL = 'TouchHub{langparam}';</script>\n"
             "</div>\n\n</body>\n</html>\n"
         )
         start_response("200 OK", [("Content-type", "text/html; charset=utf-8")])  # type: ignore[operator]

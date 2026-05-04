@@ -30,18 +30,19 @@ You can also configure the DiceTower and change the number and angle of the ramp
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings)
         self.argparser.add_argument(
-            "--width",  action="store", type=float, default=80.0, help="width of the tower (side where the dice fall out)")
+            "--width", action="store", type=float, default=80.0,
+            help="width of the tower (side where the dice fall out)")
         self.argparser.add_argument(
-            "--depth",  action="store", type=float, default=80.0, help="depth of the tower")
+            "--depth", action="store", type=float, default=80.0, help="depth of the tower")
         self.argparser.add_argument(
-            "--height",  action="store", type=float, default=170.0, help="height of the tower")
+            "--height", action="store", type=float, default=170.0, help="height of the tower")
         self.buildArgParser("outside")
         self.argparser.add_argument(
-            "--bottom",  action="store", type=boolarg, default=True, help="include bottom piece")
+            "--bottom", action="store", type=boolarg, default=True, help="include bottom piece")
         self.argparser.add_argument(
-            "--ramps",  action="store", type=int, default=3, help="number of ramps in the tower")
+            "--ramps", action="store", type=int, default=3, help="number of ramps in the tower")
         self.argparser.add_argument(
-            "--angle",  action="store", type=float, default=30.0, help="angle of the ramps in the tower")
+            "--angle", action="store", type=float, default=30.0, help="angle of the ramps in the tower")
 
     def side(self):
         a = math.radians(self.angle)
@@ -55,20 +56,18 @@ You can also configure the DiceTower and change the number and angle of the ramp
         top_gap = 4 * self.thickness
         section_height = (self.height - pos_y - top_gap) / (self.ramps - 1)
 
-        for i in range(self.ramps -1):
-            pos_y_i = pos_y + (section_height * (i+1))
+        for i in range(self.ramps - 1):
+            pos_y_i = pos_y + (section_height * (i + 1))
             self.ramp(pos_x, pos_y_i, i % 2 == 0)
-
 
     def ramp(self, pos_x, pos_y, mirror):
         # Fingerholes for a single ramp
         if mirror:
             # Starts on left side (front)
-            self.fingerHolesAt(self.depth - pos_x, pos_y, 0.5*self.ramp_len, 180+self.angle)
+            self.fingerHolesAt(self.depth - pos_x, pos_y, 0.5 * self.ramp_len, 180 + self.angle)
         else:
             # Starts on right side (back)
-            self.fingerHolesAt(pos_x, pos_y, 0.5*self.ramp_len, -self.angle)
-
+            self.fingerHolesAt(pos_x, pos_y, 0.5 * self.ramp_len, -self.angle)
 
     def render(self):
         if self.outside:
@@ -79,9 +78,9 @@ You can also configure the DiceTower and change the number and angle of the ramp
         # Calculate length of the bottom ramp
         a = math.radians(self.angle)
         # Start ramps a bit to the side, so we don't have overlap
-        self.left_ramp_cutoff = (0.5*self.thickness)*math.sin(a)
+        self.left_ramp_cutoff = (0.5 * self.thickness) * math.sin(a)
         # Bottom ramp also needs to end a bit earlier
-        self.right_ramp_cutoff = (0.5*self.thickness) / math.tan(a) * math.cos(a)
+        self.right_ramp_cutoff = (0.5 * self.thickness) / math.tan(a) * math.cos(a)
         self.ramp_len = (self.depth - self.left_ramp_cutoff - self.right_ramp_cutoff) / math.cos(a)
 
         # Leave room for dice to fall through on the bottom
@@ -90,9 +89,11 @@ You can also configure the DiceTower and change the number and angle of the ramp
 
         # Outer walls
         bottom_edge = "F" if self.bottom else "e"
-        self.rectangularWall(self.depth, self.height, (bottom_edge, front_edge, "e", "f"), callback=[self.side], move="mirror right", label="side")
+        self.rectangularWall(self.depth, self.height, (bottom_edge, front_edge, "e", "f"), callback=[self.side],
+                             move="mirror right", label="side")
         self.rectangularWall(self.width, self.height, (bottom_edge, "F", "e", "F"), move="right", label="back")
-        self.rectangularWall(self.depth, self.height, (bottom_edge, front_edge, "e", "f"), callback=[self.side], move="right", label="side")
+        self.rectangularWall(self.depth, self.height, (bottom_edge, front_edge, "e", "f"), callback=[self.side],
+                             move="right", label="side")
         self.rectangularWall(self.width, self.height - front_gap, ("e", "F", "e", "F"), move="right", label="front")
 
         # Bottom
@@ -102,4 +103,4 @@ You can also configure the DiceTower and change the number and angle of the ramp
         # ramps
         self.rectangularWall(self.width, self.ramp_len, "efef", move="up", label="ramp")
         for _ in range(self.ramps - 1):
-            self.rectangularWall(self.width, 0.5*self.ramp_len, "efef", move="up", label="ramp")
+            self.rectangularWall(self.width, 0.5 * self.ramp_len, "efef", move="up", label="ramp")

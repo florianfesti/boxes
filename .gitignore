@@ -20,3 +20,5 @@ tracker.log
 *.isorted
 .DS_Store
 .venv/
+# Test debug artifacts – real references live next to the generator source
+tests/data/*.svg

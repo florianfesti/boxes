@@ -26,16 +26,38 @@ Quick-reference
 * ``BoolArg`` / ``boolarg``  – checkbox  (``type=boolarg``)
 * ``FloatStepper(step)``  – text input with −/+ buttons, returns ``float``
 * ``IntStepper(step)``   – text input with −/+ buttons, returns ``int``
+* ``TextAreaArg()``      – wide multi-line textarea, returns ``str``
 
 All four are re-exported through ``boxes.__init__`` so generators that do
 ``from boxes import *`` get them automatically.
 """
 from __future__ import annotations
 
+import argparse
 from typing import Any
 from xml.sax.saxutils import quoteattr
 
 from . import edges as _edges
+
+
+class BoxesArgumentParser(argparse.ArgumentParser):
+    """ArgumentParser that accepts an extra ``name`` keyword on ``add_argument``.
+
+    ``name`` sets a human-readable display label used only in HTML rendering.
+    It is stored as ``display_name`` on the returned action and is otherwise
+    invisible to argparse::
+
+        self.argparser.add_argument(
+            "--coin_diameter", type=FloatStepper(0.1), default=50.0,
+            name="Diameter", help="Outer diameter [mm]")
+    """
+
+    def add_argument(self, *args: Any, **kwargs: Any) -> argparse.Action:
+        display_name: str | None = kwargs.pop("name", None)
+        action = super().add_argument(*args, **kwargs)
+        if display_name is not None:
+            action.display_name = display_name  # type: ignore[attr-defined]
+        return action
 
 
 class ArgparseEdgeType:
@@ -293,6 +315,36 @@ class DPadMoverArg:
             f'<span class="dpad-grid">{grid}</span>'
             f'<span class="stepper-wrap">{stepper}</span>'
             f'</span>'
+        )
+
+
+class TextAreaArg:
+    """Argparse type rendered as a wide multi-line textarea in the web UI.
+
+    Usage – replace ``type=str`` with ``type=TextAreaArg()``::
+
+        self.argparser.add_argument(
+            "--my_values", action="store", type=TextAreaArg(), default="",
+            help="Comma-separated values")
+
+    The value is stored and passed to argparse as a plain ``str``.
+    An optional ``css_class`` constructor argument adds an extra CSS class to
+    the ``<textarea>`` element (default: ``"textarea-values"``).
+    """
+
+    def __init__(self, css_class: str = "textarea-values") -> None:
+        self.css_class = css_class
+
+    def __call__(self, s: str) -> str:
+        return s
+
+    def html(self, name: str, default: str | None, _: Any) -> str:
+        val = "" if default is None else str(default)
+        return (
+            f'<textarea name="{name}" id="{name}"'
+            f' class="{self.css_class}"'
+            f' aria-labeledby="{name}_id {name}_description"'
+            f' rows="3">{val}</textarea>'
         )
 
 

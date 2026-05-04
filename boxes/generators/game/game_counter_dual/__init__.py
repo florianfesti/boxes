@@ -48,7 +48,7 @@ class GameCounterDual(Boxes):
     """Dual-wheel board game score counter – one board, two independent spinning rings"""
 
     ui_group = "Game"
-    tags = ["unstable"]
+    tags = ["unstable", "tcg"]
 
     description = """
 A board game score counter with **two independent spinning score wheels** on a
@@ -86,6 +86,7 @@ diameters, and optional gear-tooth (crenel) rims.
     font_font: str = "sans-serif"
     font_bold: bool = False
     font_italic: bool = False
+    font_font_as_path: bool = True
     # score – wheel 1
     score1_min: int = 0
     score1_max: int = 3
@@ -191,7 +192,8 @@ diameters, and optional gear-tooth (crenel) rims.
             return
         angle_step_rad = 2.0 * math.pi / n
 
-        ctx.set_font(self.font_font, bold=self.font_bold, italic=self.font_italic)
+        ctx.set_font(self.font_font, bold=self.font_bold, italic=self.font_italic,
+                     as_path=self.font_font_as_path)
         self.set_source_color(Color.ETCHING)
         for i, score in enumerate(range(wp.score_min, wp.score_max + 1)):
             # Match crenel tooth centres: start at LEFT (π), go clockwise on screen

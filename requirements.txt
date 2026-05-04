@@ -1,6 +1,7 @@
 affine>=2.0
 markdown
 numpy
+pillow
 PyYAML
 qrcode>=7.3.1
 rectpack

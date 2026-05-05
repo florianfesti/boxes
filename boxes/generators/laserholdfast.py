@@ -69,20 +69,22 @@ class LaserHoldfast(Boxes):
 
         a = 30
         r = x/math.radians(a)
-        dd = hh - hh * math.cos(math.radians(a/2))
+        dd = hh - hh * math.cos(math.radians(a/2)) + self.burn
 
         # Hook
         self.polygonWall(
-            (
+            [
                 hh + h - dd, (180, sw / 2),
-                h, -90 + a / 2,
+                h, (-90 + a / 2, self.burn),
                 0, (-a, r),
                 0, (180, hh / 2),
                 0, (a, r + hh),
-                0, -a / 2,
-                sw - math.sin(math.radians(a / 2)) * hh, 90,
-            ),
+                0, (-a / 2, self.burn),
+                sw - math.sin(math.radians(a / 2)) * hh + self.burn/2, 0,
+                None
+            ],
             edge='e',
+            correct_corners=False,
             move=move,
             callback=self.cutcallback if self.cutlength else None
         )

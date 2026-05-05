@@ -430,12 +430,7 @@ function initArgsPage(num_hide = null) {
     for (let el of i) {
         el.addEventListener("change", refreshPreview);
     }
-    // Restore last active tab from localStorage.
-    try {
-        const savedTab = localStorage.getItem(TAB_STORAGE_KEY);
-        if (savedTab) activateTab(savedTab);
-    } catch (_) {
-    }
+    // Always start on the description tab (do not restore from localStorage).
     refreshPreview();
 }
 
@@ -781,7 +776,7 @@ function _updateFitInfo() {
         const sh = Math.ceil(dh / mh);
         const total = sw * sh;
         fit.className = 'fit-info-bar fit-warn';
-        fit.textContent = `\u26a0\ufe0f Needs ${total} sheet${total > 1 ? 's' : ''} (${sw}\u00d7${sh} grid) \u2013`;
+        fit.textContent = `\u26a0\ufe0f Needs ${total} sheet${total > 1 ? 's' : ''} (${sw}\u00d7${sh} grid)`;
     }
     fit.style.display = 'flex';
     _updatePriceInfo();

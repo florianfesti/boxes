@@ -23,7 +23,7 @@ class ColorsUIMixin:
         raise NotImplementedError
     def genHTMLTouchJS(self) -> str:
         raise NotImplementedError
-    def _touch_header_html(self, lang: object, back_url: str = "", back_icon_only: bool = False) -> str:
+    def _touch_header_html(self, lang: object, back_url: str = "", back_icon_only: bool = False, center_html: str = "", show_dropdown: bool = True) -> str:
         raise NotImplementedError
     def serveColors(self, environ: object, start_response: object, lang: object) -> list[bytes]:
         """Render the /settings page (touch style)."""

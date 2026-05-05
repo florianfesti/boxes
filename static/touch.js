@@ -37,12 +37,13 @@ function thSwitchToTouch() {
     window.location.href = thBuildModeSwitchUrl('TouchHub');
 }
 
-/* Category tab switching */
+/* Category sidebar switching */
 
 function thSwitchTab(groupId) {
     groupId = String(groupId);
 
-    document.querySelectorAll('.th-tab').forEach(t => {
+    // Update sidebar nav items
+    document.querySelectorAll('.th-sidenav-item').forEach(t => {
         const isActive = t.dataset.group === groupId;
         t.classList.toggle('active', isActive);
         t.setAttribute('aria-selected', isActive ? 'true' : 'false');
@@ -54,19 +55,28 @@ function thSwitchTab(groupId) {
         p.style.display = isActive ? 'block' : 'none';
     });
 
-    // Sync dropdown select
-    const sel = document.getElementById('th-tab-select');
-    if (sel) sel.value = groupId;
-
     try { localStorage.setItem(TH_GROUP_KEY, groupId); } catch(_) {}
 
     // Re-apply current search filter to newly visible panel
     const q = (document.getElementById('th-search') || {}).value || '';
     thApplySearch(q.trim().toLowerCase());
 
-    // Scroll tab into view (horizontal tab bar)
-    const activeTab = document.querySelector('.th-tab.active');
-    if (activeTab) activeTab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    // On mobile, close the sidebar after selection
+    thCloseSidebar();
+
+    // Scroll active item into view in the sidebar
+    const activeItem = document.querySelector('.th-sidenav-item.active');
+    if (activeItem) activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+/* Sidebar open / close (mobile) */
+
+function thOpenSidebar() {
+    document.body.classList.add('th-sidebar-open');
+}
+
+function thCloseSidebar() {
+    document.body.classList.remove('th-sidebar-open');
 }
 
 /* Search / filter */
@@ -105,16 +115,15 @@ function thApplySearch(q) {
 /* Category visibility (shared with self.js HIDDEN_CATS_KEY) */
 
 /**
- * Hide tabs and panels for categories the user has disabled.
- * Falls back gracefully if loadHiddenCategories (self.js) is unavailable.
+ * Hide sidebar items and panels for categories the user has disabled.
  */
 function applyHiddenCategoriesTouch() {
     const hidden = (typeof loadHiddenCategories === 'function')
         ? loadHiddenCategories()
         : new Set();
 
-    document.querySelectorAll('.th-tab[data-group]').forEach(function(tab) {
-        tab.style.display = hidden.has(tab.dataset.group) ? 'none' : '';
+    document.querySelectorAll('.th-sidenav-item[data-group]').forEach(function(item) {
+        item.style.display = hidden.has(item.dataset.group) ? 'none' : '';
     });
     document.querySelectorAll('.th-panel[data-group]').forEach(function(panel) {
         if (hidden.has(panel.dataset.group)) {
@@ -123,61 +132,12 @@ function applyHiddenCategoriesTouch() {
         }
     });
 
-    // If the currently-active tab is now hidden, jump to first visible one.
-    const activeTab = document.querySelector('.th-tab.active');
-    if (!activeTab || activeTab.style.display === 'none') {
-        const first = document.querySelector('.th-tab[data-group]:not([style*="none"])');
+    // If the currently-active item is now hidden, jump to first visible one.
+    const activeItem = document.querySelector('.th-sidenav-item.active');
+    if (!activeItem || activeItem.style.display === 'none') {
+        const first = document.querySelector('.th-sidenav-item[data-group]:not([style*="none"])');
         if (first) thSwitchTab(first.dataset.group);
     }
-
-    thCheckTabbarOverflow();
-}
-
-/**
- * Rebuild the <select> options from currently-visible .th-tab buttons,
- * then check whether the tabs overflow a single row and switch to dropdown mode.
- */
-function thCheckTabbarOverflow() {
-    const bar = document.querySelector('.th-tabbar');
-    const sel = document.getElementById('th-tab-select');
-    if (!bar || !sel) return;
-
-    // Rebuild select options from visible tabs
-    const currentVal = sel.value;
-    sel.innerHTML = '';
-    document.querySelectorAll('.th-tab[data-group]').forEach(tab => {
-        if (tab.style.display === 'none') return;
-        const opt = document.createElement('option');
-        opt.value = tab.dataset.group;
-        const label = tab.querySelector('.th-tab-label');
-        const count = tab.querySelector('.th-tab-count');
-        opt.textContent = (label ? label.textContent : tab.title)
-            + (count ? ' (' + count.textContent + ')' : '');
-        if (tab.classList.contains('active')) opt.selected = true;
-        sel.appendChild(opt);
-    });
-    // Restore previous value if still present
-    if (currentVal && sel.querySelector(`option[value="${currentVal}"]`)) {
-        sel.value = currentVal;
-    }
-
-    // Temporarily remove max-height + overflow to measure real scroll height
-    const savedMax   = bar.style.maxHeight;
-    const savedOvfl  = bar.style.overflow;
-    bar.style.maxHeight = 'none';
-    bar.style.overflow  = 'visible';
-    // Remove dropdown class so tabs are visible for measurement
-    bar.classList.remove('th-tabbar--dropdown');
-
-    const tapMin = parseFloat(
-        getComputedStyle(document.documentElement).getPropertyValue('--th-tap-min')
-    ) || 52;
-    const overflows = bar.scrollHeight > tapMin + 4;
-
-    bar.style.maxHeight = savedMax;
-    bar.style.overflow  = savedOvfl;
-
-    bar.classList.toggle('th-tabbar--dropdown', overflows);
 }
 
 /* Hub init */
@@ -189,19 +149,11 @@ function initTouchHub() {
     // Restore last active group.
     let lastGroup = null;
     try { lastGroup = localStorage.getItem(TH_GROUP_KEY); } catch(_) {}
-    if (lastGroup !== null && document.querySelector(`.th-tab[data-group="${lastGroup}"]`)) {
+    if (lastGroup !== null && document.querySelector(`.th-sidenav-item[data-group="${lastGroup}"]`)) {
         thSwitchTab(lastGroup);
     }
 
     applyHiddenCategoriesTouch();
-
-    // Re-check tab overflow when window is resized
-    if (typeof ResizeObserver !== 'undefined') {
-        const bar = document.querySelector('.th-tabbar');
-        if (bar) new ResizeObserver(thCheckTabbarOverflow).observe(bar);
-    } else {
-        window.addEventListener('resize', thCheckTabbarOverflow);
-    }
 }
 
 /* field-sizing fallback (Firefox / Safari) */

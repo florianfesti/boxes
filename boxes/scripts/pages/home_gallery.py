@@ -1,4 +1,4 @@
-﻿# Copyright (C) 2016-2017 Florian Festi
+# Copyright (C) 2016-2017 Florian Festi
 #
 #  This program is free software: you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -9,7 +9,7 @@ from __future__ import annotations
 import html
 
 
-class GalleryUIMixin:
+class HomeGalleryMixin:
     """HTML generation for the thumbnail gallery page.
 
     Designed as a mixin for BServer.  All methods use ``self`` attributes

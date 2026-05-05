@@ -52,6 +52,7 @@ class GeneratorUIMixin:
         back_url: str = "",
         back_icon_only: bool = False,
         center_html: str = "",
+        show_dropdown: bool = True,
     ) -> str:
         raise NotImplementedError
 

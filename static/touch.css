@@ -32,6 +32,149 @@ body.touch-hub {
   overflow: hidden;
 }
 
+/* Shell: sidebar + content side by side below the header */
+.th-shell {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  position: relative;
+}
+
+/* ── Left sidebar ────────────────────────────────────────────────────── */
+.th-sidebar {
+  width: 230px;
+  min-width: 230px;
+  background: #2e2a27;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  flex-shrink: 0;
+  z-index: 100;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.25);
+}
+
+/* Category nav items */
+.th-sidenav-categories {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 8px 0;
+}
+
+.th-sidenav-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background: transparent;
+  color: rgba(255,255,255,0.72);
+  border: none;
+  border-left: 3px solid transparent;
+  padding: 12px 16px;
+  font-size: 0.92em;
+  font-family: inherit;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.13s, color 0.13s, border-color 0.13s;
+  white-space: nowrap;
+}
+.th-sidenav-item:hover  { background: rgba(255,255,255,0.08); color: #fff; }
+.th-sidenav-item.active {
+  background: rgba(232,117,10,0.18);
+  color: #fff;
+  border-left-color: var(--th-accent);
+  font-weight: 600;
+}
+.th-sidenav-item:focus-visible { outline: 2px solid var(--th-accent); outline-offset: -2px; }
+
+.th-sidenav-label {
+  flex: 1 1 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.th-sidenav-count {
+  display: inline-block;
+  font-size: 0.72em;
+  background: rgba(255,255,255,0.15);
+  border-radius: 10px;
+  padding: 1px 7px;
+  line-height: 1.5;
+  flex-shrink: 0;
+}
+.th-sidenav-item.active .th-sidenav-count { background: rgba(232,117,10,0.45); }
+
+/* Footer links section */
+.th-sidenav-footer {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid rgba(255,255,255,0.12);
+  padding: 8px 0 12px;
+}
+
+.th-sidenav-link {
+  display: block;
+  padding: 9px 16px;
+  color: rgba(255,255,255,0.6);
+  font-size: 0.85em;
+  text-decoration: none;
+  transition: background 0.12s, color 0.12s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.th-sidenav-link:hover { background: rgba(255,255,255,0.07); color: #fff; }
+
+.th-sidenav-sep { border: none; border-top: 1px solid rgba(255,255,255,0.15); margin: 6px 16px; }
+
+.th-sidenav-footer .interface-select-wrap,
+.th-sidenav-footer select {
+  margin: 6px 16px 0;
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 6px;
+  padding: 5px 8px;
+  font-size: 0.85em;
+  font-family: inherit;
+  cursor: pointer;
+}
+.th-sidenav-footer select option { color: #333; background: #fff; }
+
+.th-sidenav-lang {
+  padding: 8px 16px 4px;
+  font-size: 0.82em;
+  color: rgba(255,255,255,0.55);
+  white-space: nowrap;
+}
+.th-sidenav-lang select {
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 4px;
+  padding: 2px 5px;
+  font-size: 0.95em;
+  cursor: pointer;
+}
+.th-sidenav-lang select option { color: #333; background: #fff; }
+
+.th-sidenav-fingerprint {
+  padding: 4px 16px;
+  font-size: 0.72em;
+  color: rgba(255,255,255,0.3);
+}
+
+/* Mobile sidebar overlay */
+.th-sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 99;
+}
+body.th-sidebar-open .th-sidebar-overlay { display: block; }
+
 /* Top header bar */
 .th-header {
   background: var(--th-bar-bg);
@@ -209,92 +352,31 @@ body.touch-hub {
 }
 
 
-/* Category tab bar */
-.th-tabbar {
-  background: #4a3f3a;
-  display: flex;
-  flex-wrap: wrap;          /* allow two (or more) rows of tabs */
-  flex-shrink: 0;
-  border-bottom: 3px solid var(--th-accent);
-  /* max two rows: each tab is ~52px tall, gap between rows = 0 */
-  max-height: calc(var(--th-tap-min) * 2 + 3px);
-  overflow: hidden;         /* clip if somehow more than 2 rows */
+/* ── Mobile sidebar toggle ───────────────────────────────────────────── */
+/* On small screens the sidebar slides in from the left */
+@media (max-width: 860px) {
+  .th-sidebar {
+    position: fixed;
+    top: 64px;
+    left: 0;
+    bottom: 0;
+    transform: translateX(-100%);
+    transition: transform 0.22s ease;
+    z-index: 100;
+  }
+  body.th-sidebar-open .th-sidebar {
+    transform: translateX(0);
+  }
+  /* Show the hamburger toggle button in the header */
+  .th-sidebar-toggle { display: flex !important; }
 }
 
-/* Dropdown select – hidden by default, shown when tabs overflow one row */
-#th-tab-select {
+/* Sidebar toggle button (shown only on mobile) */
+.th-sidebar-toggle {
   display: none;
-  margin: auto 12px;
-  height: 40px;
-  padding: 0 12px;
-  border: none;
-  border-radius: 8px;
-  background: rgba(255,255,255,0.15);
-  color: #fff;
-  font-size: 1em;
-  font-family: inherit;
-  cursor: pointer;
-  max-width: calc(100% - 24px);
-}
-#th-tab-select option { color: #333; background: #fff; }
-
-/* Overflow mode: hide tab buttons, show select, single-row bar */
-.th-tabbar--dropdown {
-  flex-wrap: nowrap;
-  max-height: var(--th-tap-min);
-  align-items: center;
-}
-.th-tabbar--dropdown .th-tab { display: none !important; }
-.th-tabbar--dropdown #th-tab-select { display: block; }
-
-.th-tab {
-  background: transparent;
-  color: rgba(255,255,255,0.65);
-  border: none;
-  border-bottom: 3px solid transparent;
-  margin-bottom: -3px;
-  padding: 0 12px;
-  height: var(--th-tap-min);
-  font-size: 0.9em;
-  font-family: inherit;
-  cursor: pointer;
-  flex: 1 1 auto;
-  min-width: 80px;
-  max-width: 160px;
-  overflow: hidden;
-  /* label + badge side by side; label will truncate */
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  transition: color 0.15s, border-color 0.15s;
-}
-.th-tab:hover        { color: rgba(255,255,255,0.9); }
-.th-tab.active       { color: #fff; border-bottom-color: var(--th-accent); font-weight: bold; }
-.th-tab:focus-visible { outline: 2px solid var(--th-accent); outline-offset: -2px; }
-
-/* Truncate long translated category names */
-.th-tab-label {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  flex: 1 1 0;
-  min-width: 0;
 }
 
-/* Tab count badge */
-.th-tab-count {
-  display: inline-block;
-  font-size: 0.72em;
-  background: rgba(255,255,255,0.2);
-  border-radius: 10px;
-  padding: 1px 6px;
-  margin-left: 5px;
-  vertical-align: middle;
-  line-height: 1.4;
-}
-.th-tab.active .th-tab-count { background: rgba(255,255,255,0.3); }
-
-/* Tab panel content area */
+/* ── Tab panel content area ─────────────────────────────────────────── */
 .th-content {
   flex: 1;
   overflow-y: auto;
@@ -386,6 +468,8 @@ body.touch-hub {
 @media (max-width: 860px) {
   .th-logo-text { display: none; }
   .th-grid      { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+  /* Content takes full width when sidebar is off-canvas */
+  .th-content   { width: 100%; }
 }
 
 @media (max-width: 600px) {

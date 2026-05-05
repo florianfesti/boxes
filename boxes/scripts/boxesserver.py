@@ -42,10 +42,10 @@ except ImportError:
     import boxes.generators
 import boxes
 
-from boxes.scripts.ui_legacy import LegacyUIMixin
+from boxes.scripts.pages.home_legacy import HomeLegacyMixin
 from boxes.scripts.ui_menu import MenuUIMixin
-from boxes.scripts.ui_gallery import GalleryUIMixin
-from boxes.scripts.ui_touch import TouchUIMixin
+from boxes.scripts.pages.home_gallery import HomeGalleryMixin
+from boxes.scripts.pages.home_touch import HomeTouchMixin
 from boxes.scripts.pages.colors import ColorsUIMixin
 from boxes.scripts.pages.categories import CategoriesUIMixin
 from boxes.scripts.pages.generator import GeneratorUIMixin
@@ -123,14 +123,14 @@ class ThrowingArgumentParser(boxes.args.BoxesArgumentParser):
 boxes.ArgumentParser = ThrowingArgumentParser  # type: ignore
 
 
-class BServer(LegacyUIMixin, MenuUIMixin, GalleryUIMixin, TouchUIMixin, ColorsUIMixin, CategoriesUIMixin, GeneratorUIMixin, MachineUIMixin):
+class BServer(HomeLegacyMixin, MenuUIMixin, HomeGalleryMixin, HomeTouchMixin, ColorsUIMixin, CategoriesUIMixin, GeneratorUIMixin, MachineUIMixin):
     """WSGI application that serves the Boxes.py web UI.
 
     HTML rendering is split across mixins:
 
-    * :mod:`boxes.scripts.ui_legacy`          – classic desktop/browser interface
-    * :mod:`boxes.scripts.ui_touch`           – tablet-optimised tabbed interface
-    * :mod:`boxes.scripts.pages.settings`     – /settings color page
+    * :mod:`boxes.scripts.pages.home_legacy`        – classic desktop/browser interface
+    * :mod:`boxes.scripts.pages.home_touch`          – tablet-optimised left-sidebar interface
+    * :mod:`boxes.scripts.pages.home_gallery`        – thumbnail gallery page
     * :mod:`boxes.scripts.pages.categories`   – /categories page
 
     The active interface is controlled by the ``--ui-mode`` CLI flag

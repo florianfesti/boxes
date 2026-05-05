@@ -36,7 +36,7 @@ msgstr "Boîte flexible"
 #. title of group FlexBox
 #: boxes/generators/__init__.py
 msgid "Boxes with flex"
-msgstr "Boîtes avec un pli flexible"
+msgstr "Boîtes flexible"
 
 #. name of generator group
 #: boxes/generators/__init__.py
@@ -45,8 +45,8 @@ msgstr "Tray"
 
 #. title of group Tray
 #: boxes/generators/__init__.py
-msgid "Trays and Drawer Inserts"
-msgstr "Tiroirs et séparateurs"
+msgid "Trays"
+msgstr "Tiroirs"
 
 #. name of generator group
 #: boxes/generators/__init__.py
@@ -71,7 +71,7 @@ msgstr "Part"
 #. title of group Part
 #: boxes/generators/__init__.py
 msgid "Parts and Samples"
-msgstr "Composants et Échantillons"
+msgstr "Composants"
 
 #. name of generator group
 #: boxes/generators/__init__.py

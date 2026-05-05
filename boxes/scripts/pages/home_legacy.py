@@ -1,4 +1,4 @@
-﻿# Copyright (C) 2016-2017 Florian Festi
+# Copyright (C) 2016-2017 Florian Festi
 #
 #   This program is free software: you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ import boxes
 from boxes.scripts.ui_shared import gen_interface_select_html
 
 
-class LegacyUIMixin:
+class HomeLegacyMixin:
     """HTML generation for the classic (legacy) web interface.
 
     Designed as a mixin for BServer.  All methods use ``self`` attributes
@@ -45,7 +45,7 @@ class LegacyUIMixin:
         raise NotImplementedError
 
     # genHTMLTouchCSS / genHTMLTouchJS / _touch_header_html are provided
-    # by TouchUIMixin at runtime – do NOT redefine them here.
+    # by HomeTouchMixin at runtime – do NOT redefine them here.
 
     def genHTMLStart(self, lang: object) -> str:
         lang_attr = lang.info().get("language", "")  # type: ignore[attr-defined]
@@ -88,8 +88,6 @@ class LegacyUIMixin:
             sel = " selected" if language == current_language else ""
             html_option += f"\t\t\t\t<option value='{language}'{sel}>{language}</option>\n"
         # Navigate directly: keep current path, replace only the language param.
-        # Using window.location instead of form.submit() avoids issues with the
-        # select being embedded inside a complex dropdown/form DOM structure.
         onchange = (
             "var v=this.value;"
             "var p=window.location.pathname;"
@@ -164,7 +162,7 @@ class LegacyUIMixin:
             dropdown_items.append(
                 f'    <div class="dropdown-lang">\U0001f310 {_("Language:")} {lang_sel}</div>\n'
             )
-        # Instance fingerprint inside the dropdown (same as touch UI)
+        # Instance fingerprint inside the dropdown
         if self.deploy_fingerprint:
             tag = html.escape(self.deploy_fingerprint)
             dropdown_items.append(
@@ -172,7 +170,6 @@ class LegacyUIMixin:
             )
         dropdown_html = "".join(dropdown_items)
 
-        # class="right" makes the button float to the far right of the linkbar
         return (
             f'  <li class="right dropdown">\n'
             f'    <button class="dropdown-btn" onclick="toggleDropdown(event)">\u2630 {_("Menu")}</button>\n'
@@ -190,7 +187,6 @@ class LegacyUIMixin:
         viewname = name
         if prefix and name.startswith(prefix + "_"):
             viewname = name[len(prefix) + 1:]
-        # Use explicit display name if the generator author provided one.
         viewname = getattr(a, "display_name", None) or viewname
 
         _defaults = defaults or {}
@@ -398,8 +394,7 @@ class LegacyUIMixin:
 
     # Page generators
     # genPageMenu          → ui_menu.py              (MenuUIMixin)
-    # serveGallery         → ui_gallery.py           (GalleryUIMixin)
-    # serveSettings        → pages/settings.py       (SettingsUIMixin)
+    # serveGallery         → pages/home_gallery.py   (HomeGalleryMixin)
     # serveCategorySettings→ pages/categories.py     (CategoriesUIMixin)
 
     def genPageError(self, name: str, e: Exception, lang: object) -> list[bytes]:
@@ -428,5 +423,3 @@ class LegacyUIMixin:
         box.text(_("An error occurred!"))
         box.text(str(e), y=-20, fontsize=7)
         return box.close()
-
-    # serveGallery → ui_gallery.py (GalleryUIMixin)

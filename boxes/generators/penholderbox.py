@@ -4,7 +4,7 @@ from boxes import *
 class PenHolderBox(Boxes):
     """PenHolderBox: Open pen holder box with two internal grid plates."""
 
-    ui_group = "My"
+    ui_group = "Tray"
 
     def __init__(self):
         Boxes.__init__(self)
@@ -53,46 +53,44 @@ class PenHolderBox(Boxes):
             help="Diameter (mm) of the cap (reserved area, drawn in green).",
         )
 
-    def _check_grille(self, plaque_w, plaque_h):
+    def _check_grid(self, plate_w, plate_h):
         cd = self.cap_diam
-        utile_w = plaque_w - cd
-        utile_h = plaque_h - cd
-        grille_w = self.nx * cd
-        grille_h = self.ny * cd
+        utile_w = plate_w - cd
+        utile_h = plate_h - cd
+        grid_w = self.nx * cd
+        grid_h = self.ny * cd
         ok = True
-        if grille_w > utile_w:
+        if grid_w > utile_w:
             ok = False
-        if grille_h > utile_h:
+        if grid_h > utile_h:
             ok = False
         return ok
 
-    def _trous_plaque(self, plaque_w, plaque_h):
-        import math as _math
-
-        r_trou = self.pen_diam / 2.0
+    def _pen_holes(self, plate_w, plate_h):
+        r_pen = self.pen_diam / 2.0
         r_cap = self.cap_diam / 2.0
         cd = self.cap_diam
         step = cd
 
-        grille_w = (self.nx - 1) * step
-        grille_h = (self.ny - 1) * step
+        grid_w = (self.nx - 1) * step
+        grid_h = (self.ny - 1) * step
 
-        x0 = (plaque_w - grille_w) / 2.0
-        y0 = (plaque_h - grille_h) / 2.0
+        x0 = (plate_w - grid_w) / 2.0
+        y0 = (plate_h - grid_h) / 2.0
 
         for row in range(self.ny):
             for col in range(self.nx):
                 cx = x0 + col * step
                 cy = y0 + row * step
-                self.hole(cx, cy, r=r_trou)
+                self.hole(cx, cy, r=r_pen)
 
                 self.ctx.save()
                 self.ctx.set_source_rgb(0, 0.6, 0)
                 circle_steps = 60
                 for i in range(circle_steps + 1):
-                    angle = 2 * _math.pi * i / circle_steps
-                    px = cx + r_cap * _math.cos(angle)
-                    py = cy + r_cap * _math.sin(angle)
+                    angle = 2 * math.pi * i / circle_steps
+                    px = cx + r_cap * math.cos(angle)
+                    py = cy + r_cap * math.sin(angle)
                     if i == 0:
                         self.ctx.move_to(px, py)
                     else:
@@ -100,7 +98,7 @@ class PenHolderBox(Boxes):
                 self.ctx.stroke()
                 self.ctx.restore()
 
-    def _mortaises(self, wall_width, wall_height, y_p1, y_p2):
+    def _finger_holes(self, wall_width, wall_height, y_p1, y_p2):
         self.fingerHolesAt(0, y_p1, wall_width, 0)
         self.fingerHolesAt(0, y_p2, wall_width, 0)
 
@@ -119,7 +117,7 @@ class PenHolderBox(Boxes):
         y_p1 = h - self.plate1_offset - t / 2.0
         y_p2 = y_p1 - self.plate_gap
 
-        self._check_grille(x, y)
+        self._check_grid(x, y)
 
         with self.saved_context():
             self.rectangularWall(
@@ -129,7 +127,7 @@ class PenHolderBox(Boxes):
                 ignore_widths=[1, 6],
                 move="up",
                 label="front_face",
-                callback=[lambda: self._mortaises(x, h, y_p1, y_p2)],
+                callback=[lambda: self._finger_holes(x, h, y_p1, y_p2)],
             )
             self.rectangularWall(
                 x,
@@ -138,7 +136,7 @@ class PenHolderBox(Boxes):
                 ignore_widths=[1, 6],
                 move="up",
                 label="back_face",
-                callback=[lambda: self._mortaises(x, h, y_p1, y_p2)],
+                callback=[lambda: self._finger_holes(x, h, y_p1, y_p2)],
             )
             if self.bottom_edge != "e":
                 self.rectangularWall(x, y, "ffff", move="up", label="bottom")
@@ -159,7 +157,7 @@ class PenHolderBox(Boxes):
                 ignore_widths=[1, 6],
                 move="up",
                 label="left_side",
-                callback=[lambda: self._mortaises(y, h, y_p1, y_p2)],
+                callback=[lambda: self._finger_holes(y, h, y_p1, y_p2)],
             )
             self.rectangularWall(
                 y,
@@ -168,7 +166,7 @@ class PenHolderBox(Boxes):
                 ignore_widths=[1, 6],
                 move="up",
                 label="right_side",
-                callback=[lambda: self._mortaises(y, h, y_p1, y_p2)],
+                callback=[lambda: self._finger_holes(y, h, y_p1, y_p2)],
             )
 
         self.rectangularWall(
@@ -186,7 +184,7 @@ class PenHolderBox(Boxes):
                 "ffff",
                 move="up",
                 label="plate_1",
-                callback=[lambda: self._trous_plaque(x, y)],
+                callback=[lambda: self._pen_holes(x, y)],
             )
             self.rectangularWall(
                 x,
@@ -194,15 +192,5 @@ class PenHolderBox(Boxes):
                 "ffff",
                 move="up",
                 label="plate_2",
-                callback=[lambda: self._trous_plaque(x, y)],
+                callback=[lambda: self._pen_holes(x, y)],
             )
-
-
-def main():
-    b = PenHolderBox()
-    b.parseArgs()
-    b.render()
-
-
-if __name__ == "__main__":
-    main()

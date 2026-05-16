@@ -90,7 +90,7 @@ class Platonic(Boxes):
 
     SOLIDS = {
         "tetrahedron": (4, 3),
-        "cube": (6, 4),
+        "hexahedron": (6, 4),
         "octahedron": (8, 3),
         "dodecahedron": (12, 5),
         "icosahedro": (20, 3),

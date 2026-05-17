@@ -101,7 +101,7 @@ msgstr "x"
 
 #. help for parameter x
 msgid "inner width in mm (unless outside selected)"
-msgstr "largeur interieure en mm (si on ne choisit pas « extérieur »)"
+msgstr "largeur intérieure en mm (si on ne choisit pas « extérieur »)"
 
 #. parameter name
 msgid "y"
@@ -109,7 +109,7 @@ msgstr "y"
 
 #. help for parameter y
 msgid "inner depth in mm (unless outside selected)"
-msgstr "profondeur interieure en mm (si on ne choisit pas « extérieur »)"
+msgstr "profondeur intérieure en mm (si on ne choisit pas « extérieur »)"
 
 #. parameter name
 msgid "h"
@@ -117,7 +117,7 @@ msgstr "h"
 
 #. help for parameter h
 msgid "inner height in mm (unless outside selected)"
-msgstr "hauteur interieure en mm (si on ne choisit pas « extérieur »)"
+msgstr "hauteur intérieure en mm (si on ne choisit pas « extérieur »)"
 
 #. parameter name
 msgid "hi"
@@ -127,7 +127,7 @@ msgstr "hi"
 msgid ""
 "inner height of inner walls in mm (unless outside selected)(leave to zero "
 "for same as outer walls)"
-msgstr "hauteur des cloisons internes interieure en mm (si on ne choisit pas « extérieur ») (laisser à zéro pour des cloisons aussi hautes que les bords)"
+msgstr "hauteur des cloisons internes intérieures en mm (si on ne choisit pas « extérieur ») (laisser à zéro pour des cloisons aussi hautes que les bords)"
 
 #. parameter name
 msgid "sx"
@@ -723,7 +723,7 @@ msgstr "Bouton concave"
 #. description of ConcaveKnob
 #: boxes/generators/concaveknob.py
 msgid "Round knob serrated outside for better gripping"
-msgstr "Bouton rond denté pour une meilleur prise en main"
+msgstr "Bouton rond denté pour une meilleure prise en main"
 
 msgid "ConcaveKnob Settings"
 msgstr "Réglages du Bouton concave"
@@ -756,7 +756,7 @@ msgstr "arrondi"
 #. help for parameter rounded
 #: boxes/generators/concaveknob.py
 msgid "Amount of circumference used for non convex parts"
-msgstr "pourcentage de la circonférence utilisé par les parties non convexes"
+msgstr "pourcentage de la circonférence utilisée par les parties non convexes"
 
 #. help for parameter angle
 #: boxes/generators/concaveknob.py
@@ -872,7 +872,7 @@ msgid "Diplay for flyers or leaflets"
 msgstr "Présentoir pour des flyers ou des tracts"
 
 msgid "Display Settings"
-msgstr "Réglades de Présentoir"
+msgstr "Réglages de Présentoir"
 
 #. parameter name
 #: boxes/generators/display.py
@@ -930,7 +930,7 @@ msgstr "Réglages de l'Étagère de présentation"
 #. help for parameter num
 #: boxes/generators/displayshelf.py
 msgid "number of shelves"
-msgstr "Nombre d'atges"
+msgstr "Nombre d'étagères"
 
 #. help for parameter front
 #: boxes/generators/displayshelf.py
@@ -1020,7 +1020,7 @@ msgstr "montages externes"
 #. help for parameter outsidemounts
 #: boxes/generators/electronicsbox.py
 msgid "Add external mounting points"
-msgstr "Ajouter des points de montages externes"
+msgstr "Ajouter des points de montage externes"
 
 #. parameter name
 #: boxes/generators/electronicsbox.py
@@ -1053,7 +1053,7 @@ msgstr "taille des découpes du flexible"
 #. help for parameter latchsize
 #: boxes/generators/flexbox.py
 msgid "size of latch in multiples of thickness"
-msgstr "taille des découpes en mutiples de l'épaisseur"
+msgstr "taille des découpes en multiples de l'épaisseur"
 
 #. name of box generator
 #: boxes/generators/flexbox2.py
@@ -1122,7 +1122,7 @@ msgid "Box with living hinge and left corners rounded"
 msgstr "Boîte avec une charnière flexible et les coins gauches arrondis"
 
 msgid "FlexBox4 Settings"
-msgstr "Réglages de la Boite flexible 4"
+msgstr "Réglages de la Boîte flexible 4"
 
 #. name of box generator
 #: boxes/generators/flexbox5.py
@@ -1196,7 +1196,7 @@ msgstr "Couverture"
 #. description of Folder
 #: boxes/generators/folder.py
 msgid "Book cover with flex for the spine"
-msgstr "Couverure de livre avec un dos flexible"
+msgstr "Couverture de livre avec un dos flexible"
 
 msgid "Folder Settings"
 msgstr "Réglages de Couverture"
@@ -1277,7 +1277,7 @@ msgstr "méplat 2"
 #. help for parameter dpercentage2
 #: boxes/generators/gear.py
 msgid "percent of the D section of shaft 1 (0 for same as shaft 1)"
-msgstr "pourcentage du méplat de l'arbre 2 (zéro pur le même que l'arbre 1)"
+msgstr "pourcentage du méplat de l'arbre 2 (zéro pour le même que l'arbre 1)"
 
 #. parameter name
 #: boxes/generators/gear.py
@@ -1297,7 +1297,7 @@ msgstr "angle de pression"
 #. help for parameter pressure_angle
 #: boxes/generators/gear.py
 msgid "angle of the teeth touching (in degrees)"
-msgstr "angle de contact des dents (en degé)"
+msgstr "angle de contact des dents (en degrés)"
 
 #. parameter name
 #: boxes/generators/gear.py
@@ -1317,7 +1317,7 @@ msgstr "Boîte d'engrenages"
 #. description of GearBox
 #: boxes/generators/gearbox.py
 msgid "Gearbox with multiple identical stages"
-msgstr "Boîte d'engrenanges avec plusieurs niveaux indentiques"
+msgstr "Boîte d'engrenages avec plusieurs niveaux identiques"
 
 msgid "GearBox Settings"
 msgstr "Réglages pour la Boîte d'engrenages"
@@ -1665,7 +1665,7 @@ msgid ""
 "(or adjust right  hole for different socket)\n"
 msgstr ""
 "\n"
-"Vitamines : alimentation DSP5005 (ou similaire), deux fiches bananes, deux\n"
+"Composants : alimentation DSP5005 (ou similaire), deux fiches bananes, deux\n"
 "bornes plates 4,8 mm avec une zone à souder\n"
 "\n"
 "Pour une alimentation par un adaptateur d'ordinateur portable : un interrupteur,\n"
@@ -1705,7 +1705,7 @@ msgstr "Boîte à Bloc-note"
 #. description of NotesHolder
 #: boxes/generators/notesholder.py
 msgid "Box for holding a stack of paper, coasters etc"
-msgstr "Boîte pour une pirle de papiers, de post-its, etc."
+msgstr "Boîte pour une pile de papiers, de post-its, etc."
 
 msgid "NotesHolder Settings"
 msgstr "Réglages pour la Boîte à Bloc-note"
@@ -1718,7 +1718,7 @@ msgstr "encoches"
 #. help for parameter slots
 #: boxes/generators/notesholder.py
 msgid "slots for grabbing the notes"
-msgstr "Encoches pour accèder au bloc-note"
+msgstr "Encoches pour accéder au bloc-note"
 
 #. possible choice for slots
 #: boxes/generators/notesholder.py
@@ -1921,7 +1921,7 @@ msgstr "Otto le petit robot"
 #. description of OttoBody
 #: boxes/generators/ottobody.py
 msgid "Otto LC - a laser cut chassis for Otto DIY - body"
-msgstr "Otto LC - un chassis découpé au laser pour OTTO DIY - corps"
+msgstr "Otto LC - un châssis découpé au laser pour OTTO DIY - corps"
 
 msgid "OttoBody Settings"
 msgstr "Réglages pour Otto le petit robot"
@@ -1934,7 +1934,7 @@ msgstr "Jambes pour Otto"
 #. description of OttoLegs
 #: boxes/generators/ottolegs.py
 msgid "Otto LC - a laser cut chassis for Otto DIY - legs"
-msgstr "Otto LC - un chassis découpé au laser pour OTTO DIY - jambes"
+msgstr "Otto LC - un châssis découpé au laser pour OTTO DIY - jambes"
 
 msgid "OttoLegs Settings"
 msgstr "Réglages de Jambes pour Otto"
@@ -1947,7 +1947,7 @@ msgstr "boulon cheville 1"
 #. help for parameter anklebolt1
 #: boxes/generators/ottolegs.py
 msgid "diameter for hole for ankle bolts - foot side"
-msgstr "diamètre du trou pour les boulons de la cheville - coté du pied"
+msgstr "diamètre du trou pour les boulons de la cheville - côté du pied"
 
 #. parameter name
 #: boxes/generators/ottolegs.py
@@ -1957,7 +1957,7 @@ msgstr "boulon cheville 2"
 #. help for parameter anklebolt2
 #: boxes/generators/ottolegs.py
 msgid "diameter for hole for ankle bolts - leg side"
-msgstr "diamètre du trou pour les boulons de la cheville - coté de la jambe"
+msgstr "diamètre du trou pour les boulons de la cheville - côté de la jambe"
 
 #. parameter name
 #: boxes/generators/ottolegs.py
@@ -2053,7 +2053,7 @@ msgstr "hex"
 #. help for parameter hexpattern
 #: boxes/generators/paintbox.py
 msgid "Use hexagonal arrangement for the holes instead of orthogonal"
-msgstr "Utiliser un arragement hexagonal pour les pots plutôt qu'à angle droit"
+msgstr "Utiliser un agencement hexagonal pour les pots plutôt qu'à angle droit"
 
 #. name of box generator
 #: boxes/generators/planetary.py
@@ -2076,7 +2076,7 @@ msgstr "dents soleil"
 #. help for parameter sunteeth
 #: boxes/generators/planetary.py
 msgid "number of teeth on sun gear"
-msgstr "nombre de dents sur l'engranage soleil"
+msgstr "nombre de dents sur l'engrenage soleil"
 
 #. parameter name
 #: boxes/generators/planetary.py
@@ -2096,7 +2096,7 @@ msgstr "planètes max"
 #. help for parameter maxplanets
 #: boxes/generators/planetary.py
 msgid "limit the number of planets (0 for as much as fit)"
-msgstr "Linite du nombre de planètes (0 pour autant que possible)"
+msgstr "Limite du nombre de planètes (0 pour autant que possible)"
 
 #. parameter name
 #: boxes/generators/planetary.py
@@ -2800,7 +2800,7 @@ msgstr "diamètre des « pneux » des joints toriques"
 #. help for parameter axle
 #: boxes/generators/rotary.py
 msgid "diameter of the axles"
-msgstr "diamètre des essieus"
+msgstr "diamètre des essieux"
 
 #. parameter name
 #: boxes/generators/rotary.py
@@ -2872,10 +2872,10 @@ msgid ""
 "low power. But there are three blue holes that actually need to be cut: The "
 "grip hole in the lid and two tiny rectangles on the top and bottom for the "
 "lid to grip into.\n"
-msgstr "La plupart des lignes bleues doivent re gravées par une découpe à grande vitesse et faible puissance. Mais il y a des trous bleus qui doivent vraiment être découpés : le trou de prise en main du couvercle et les deux petits rectangles en haut et en bas du couvercle pour saisir dedans.\n"
+msgstr "La plupart des lignes bleues doivent être gravées par une découpe à grande vitesse et faible puissance. Mais il y a des trous bleus qui doivent vraiment être découpés : le trou de prise en main du couvercle et les deux petits rectangles en haut et en bas du couvercle pour saisir dedans.\n"
 
 msgid "RoyalGame Settings"
-msgstr "Réglages du Jeau Royal"
+msgstr "Réglages du Jeu Royal"
 
 #. name of box generator
 #: boxes/generators/shutterbox.py
@@ -2925,7 +2925,7 @@ msgid ""
 msgstr ""
 "\n"
 "Support à couteaux avec une poignée de portage\n"
-"utilisant des coins arrondi en flex"
+"utilisant des coins arrondis en flex"
 
 msgid "Silverware Settings"
 msgstr "Réglages de l'Argenterie"
@@ -2948,7 +2948,7 @@ msgstr "Hauteur de poignée"
 #. help for parameter handleheight
 #: boxes/generators/silverwarebox.py
 msgid "Height of the handle"
-msgstr "Hauteur de la poignée<KHeight of the handle"
+msgstr "Hauteur de la poignée"
 
 #. parameter name
 #: boxes/generators/silverwarebox.py
@@ -2984,7 +2984,7 @@ msgstr "crochet bas"
 #. help for parameter bottom_hook
 #: boxes/generators/slatwall.py
 msgid "\"spring\", \"stud\" or \"none\""
-msgstr "\"ressort\", \"clou\" or \"rien\""
+msgstr "\"ressort\", \"clou\" ou \"rien\""
 
 #. possible choice for bottom_hook
 #: boxes/generators/slatwall.py
@@ -3039,7 +3039,7 @@ msgstr "Présentoir pour pied à coulisse"
 #. description of SlatwallCaliper
 #: boxes/generators/slatwallcaliperholder.py
 msgid "Holds a single caliper to a slat wall"
-msgstr "Fixe un pied à coulisse sur une présentoir mural"
+msgstr "Fixe un pied à coulisse sur un présentoir mural"
 
 msgid "SlatwallCaliper Settings"
 msgstr "Réglages du Présentoir pour pied à coulisse"
@@ -3047,7 +3047,7 @@ msgstr "Réglages du Présentoir pour pied à coulisse"
 #. help for parameter width
 #: boxes/generators/slatwallcaliperholder.py
 msgid "width of the long end"
-msgstr "Largeur dela partie longue"
+msgstr "Largeur de la partie longue"
 
 #. parameter name
 #: boxes/generators/slatwallcaliperholder.py
@@ -3401,7 +3401,7 @@ msgstr "Stachel"
 #. description of Stachel
 #: boxes/generators/stachel.py
 msgid "Bass Recorder Endpin"
-msgstr "Accessoire pour flute basse"
+msgstr "Accessoire pour flûte basse"
 
 msgid "Stachel Settings"
 msgstr "Réglages de Stachel"
@@ -3424,7 +3424,7 @@ msgstr "Diamètre de la broche"
 #. help for parameter polediameter
 #: boxes/generators/stachel.py
 msgid "diameter if the pin in mm"
-msgstr "diamètre de la brche en mm"
+msgstr "diamètre de la broche en mm"
 
 #. parameter name
 #: boxes/generators/stachel.py
@@ -3523,7 +3523,7 @@ msgid ""
 "\n"
 "When turned by 90°, it can be also used to create a bottle holder."
 msgstr ""
-"Les feux de circulation ont été créés pour visualiser le status d'un système Icinga.\n"
+"Les feux de circulation ont été créés pour visualiser le statut d'un système Icinga.\n"
 "\n"
 "Quand on les tourne de 90°, on peut aussi les utiliser pour porter des bouteilles."
 
@@ -3654,7 +3654,7 @@ msgstr "largeur poignée"
 #. help for parameter gripwidth
 #: boxes/generators/typetray.py
 msgid "width of th grip hole in mm (zero for no hole)"
-msgstr "largeur du trou-pignée en mm (zéro pour aucun trou)"
+msgstr "largeur du trou-poignée en mm (zéro pour aucun trou)"
 
 #. name of box generator
 #: boxes/generators/ubox.py
@@ -3786,7 +3786,7 @@ msgstr "angle cannelage"
 #. help for parameter serrationangle
 #: boxes/generators/wavyknob.py
 msgid "higher values for deeper serrations (degrees)"
-msgstr "Une valeur plus grande donne une cannelure plus profonde (degré)"
+msgstr "Une valeur plus grande donne une cannelure plus profonde (degrés)"
 
 #. name of box generator
 #: boxes/generators/winerack.py
@@ -3814,7 +3814,7 @@ msgstr "parois"
 #. help for parameter walls
 #: boxes/generators/winerack.py
 msgid "which of the honey comb walls to add"
-msgstr "quelle parois du nid d'abeille doit-on ajouter"
+msgstr "quelles parois du nid d'abeille doit-on ajouter"
 
 #. possible choice for walls
 #: boxes/generators/winerack.py
@@ -3852,7 +3852,7 @@ msgid ""
 "It features both finished parametrized generators as well as a Python API "
 "for writing your own. It features finger and (flat) dovetail joints, flex "
 "cuts, holes and slots for screws, hinges, gears, pulleys and much more."
-msgstr "\n        <a href=\"https://hackaday.io/project/10649-boxespy\">Boxes.py</a> est un générateur de boîtes <a href=\"https://www.gnu.org/licenses/gpl-3.0.en.html\">Open Source</a> écrit en <a href=\"https://www.python.org/\">Python</a>. Il propose des générateurs paramétrables de produits finis et aussi une API en Python pour créer les vôtres. Il propose des assemblages à enture dentelée et des queues d'aronde (droites), des découpes de zones flexibles, des trous et des encoches pour vis, des charnières, des poulies et bien plus."
+msgstr "\n        <a href=\"https://hackaday.io/project/10649-boxespy\">Boxes.py</a> est un générateur de boîtes <a href=\"https://www.gnu.org/licenses/gpl-3.0.en.html\">Open Source</a> écrit en <a href=\"https://www.python.org/\">Python</a>. Il propose des générateurs paramétrables de produits finis et aussi une API en Python pour créer les vôtres. Il propose des assemblages à entures crénelées et des queues d'aronde (droites), des découpes de zones flexibles, des trous et des encoches pour vis, des charnières, des poulies et bien plus."
 
 #: scripts/boxesserver:366
 msgid "Get Source at GitHub"

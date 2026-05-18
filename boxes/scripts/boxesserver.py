@@ -347,7 +347,7 @@ class BServer:
 <div style="width: 75%; float: left;">
 {self.genPagePartHeader(lang)}
 <div class="modenav">
-<span class="modebutton"><a href="Gallery">{_("Gallery")}</a></span>
+<span class="modebutton"><a href="Gallery{langparam}">{_("Gallery")}</a></span>
 <span class="modebutton modeactive">{_("Menu")}</span>
 </div>
 <br>
@@ -466,7 +466,7 @@ class BServer:
 <div class="linkbar">
 <ul>
 {self.genLinks(lang)}
-  <li class="right">\U0001f50d <input autocomplete="off" type="search" oninput="filterSearchItems();" name="search" id="search" placeholder="Search"></li>
+  <li class="right">\U0001f50d <input autocomplete="off" type="search" oninput="filterSearchItems();" name="search" id="search" placeholder="{_("Search")}"></li>
 </ul>
 </div>
 <hr/>
@@ -594,7 +594,7 @@ class BServer:
 {self.genPagePartHeader(lang)}
 <div class="modenav">
 <span class="modebutton modeactive">{_("Gallery")}</span>
-<span class="modebutton"><a href="Menu">{_("Menu")}</a></span>
+<span class="modebutton"><a href="Menu{langparam}">{_("Menu")}</a></span>
 </div>
 """]
         for nr, group in enumerate(self.groups):

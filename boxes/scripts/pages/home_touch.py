@@ -103,16 +103,19 @@ class HomeTouchMixin:
         langparam = f"?language={lang_name}" if lang_name else ""
 
         if back_url:
+            escaped = html.escape(back_url)
             if back_icon_only:
                 back_btn = (
-                    f'<a class="th-mode-btn th-back-icon" href="{html.escape(back_url)}" '
-                    + 'aria-label="Back">&#8592;</a>'
+                    f'<a class="th-mode-btn th-back-icon" href="{escaped}" '
+                    f'onclick="thGoBack(\'{escaped}\');return false;" '
+                    'aria-label="Back">&#8592;</a>'
                 )
             else:
                 back_label = _("Back")
                 back_btn = (
-                    f'<a class="th-mode-btn" href="{html.escape(back_url)}" '
-                    + f'aria-label="Back">&#8592; {back_label}</a>'
+                    f'<a class="th-mode-btn" href="{escaped}" '
+                    f'onclick="thGoBack(\'{escaped}\');return false;" '
+                    f'aria-label="Back">&#8592; {back_label}</a>'
                 )
         else:
             back_btn = ""

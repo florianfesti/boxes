@@ -25,8 +25,6 @@ document.addEventListener('click', function (event) {
 
 /*** Args page tabs **************************************/
 
-const TAB_STORAGE_KEY = 'boxes-active-tab';
-
 function activateTab(name) {
     const panel = document.getElementById('tab-' + name);
     if (!panel) return;
@@ -41,12 +39,16 @@ function activateTab(name) {
 
 function switchTab(evt, name) {
     activateTab(name);
-    try {
-        localStorage.setItem(TAB_STORAGE_KEY, name);
-    } catch (_) {
-    }
+    history.pushState(null, '', '#' + name);
     if (name === 'configuration') refreshPreview();
 }
+
+window.addEventListener('popstate', function () {
+    const name = location.hash.slice(1);
+    const tab = (name === 'description' || name === 'configuration') ? name : 'description';
+    activateTab(tab);
+    if (tab === 'configuration' && typeof refreshPreview === 'function') refreshPreview();
+});
 
 /*** Color Settings **************************************/
 
@@ -430,8 +432,11 @@ function initArgsPage(num_hide = null) {
     for (let el of i) {
         el.addEventListener("change", refreshPreview);
     }
-    // Always start on the description tab (do not restore from localStorage).
-    refreshPreview();
+    // Restore tab from URL hash, defaulting to description.
+    const hash = location.hash.slice(1);
+    const initialTab = (hash === 'description' || hash === 'configuration') ? hash : 'description';
+    activateTab(initialTab);
+    if (initialTab === 'configuration') refreshPreview();
 }
 
 /*** Image modal *************************************************/

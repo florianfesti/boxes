@@ -151,6 +151,19 @@ function thNavToGroup(groupId) {
     window.location.href = 'TouchHub' + window.location.search;
 }
 
+/**
+ * Go back using the browser history when possible; fall back to `fallbackUrl`
+ * (already includes a ?language= param if needed) when there is no history.
+ * Used by every touch-page back button so navigation is always contextual.
+ */
+function thGoBack(fallbackUrl) {
+    if (window.history && window.history.length > 1) {
+        window.history.back();
+    } else {
+        window.location.href = fallbackUrl;
+    }
+}
+
 function initTouchHub() {
     // Record that we're in touch mode.
     setUIModePreference('touch');

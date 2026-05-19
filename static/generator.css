@@ -72,12 +72,18 @@ body.touch-args .th-header {
   white-space: nowrap;
   flex-shrink: 0;
 }
-.gen-bc-cat {
+.gen-bc-cat,
+a.gen-bc-cat {
   font-weight: 600;
   color: var(--th-accent);
   font-size: 0.88em;
   text-transform: uppercase;
   letter-spacing: 0.04em;
+  text-decoration: none;
+  cursor: pointer;
+}
+a.gen-bc-cat:hover {
+  text-decoration: underline;
 }
 .gen-bc-sep {
   color: #aaa;

@@ -142,6 +142,15 @@ function applyHiddenCategoriesTouch() {
 
 /* Hub init */
 
+/**
+ * Navigate back to the hub pre-selecting a specific category group.
+ * Called from the generator-page breadcrumb category link.
+ */
+function thNavToGroup(groupId) {
+    try { localStorage.setItem(TH_GROUP_KEY, String(groupId)); } catch(_) {}
+    window.location.href = 'TouchHub' + window.location.search;
+}
+
 function initTouchHub() {
     // Record that we're in touch mode.
     setUIModePreference('touch');

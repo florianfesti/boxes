@@ -10,11 +10,21 @@ following types:
 
  * ``int``
  * ``float``
+ * ``boxes.IntStepper`` -- integer stepper widget for web UI
+ * ``boxes.FloatStepper`` -- float stepper widget for web UI
  * ``str``
  * ``boxes.boolarg`` -- an alternative to ``bool`` that works with the
    web interface
  * ``boxes.argparseSections`` -- multiple lengths e.g. for dividing up
    a box in one direction
+
+For generator migration examples and recommended step sizes see
+:doc:`generator_stepper_migration`.
+
+.. toctree::
+   :hidden:
+
+   generator_stepper_migration
 
 and
 

@@ -18,6 +18,7 @@ from __future__ import annotations
 from typing import cast
 
 from boxes import *
+from boxes.args import FloatStepper, IntStepper
 from boxes.drawing import Context
 
 
@@ -60,6 +61,7 @@ Use *drawer_h* to control drawer height independently from *h* / *hi*.
     magnet_diameter: float = 6.0
     magnet_distance: float = 0.0
     magnet_h: float = 0.0
+    side_magnet_diameter: float = 6.0
 
     def __init__(self) -> None:
         Boxes.__init__(self)
@@ -68,14 +70,14 @@ Use *drawer_h* to control drawer height independently from *h* / *hi*.
         self.argparser.add_argument(
             "--play",
             action="store",
-            type=float,
+            type=FloatStepper(0.05),
             default=self.play,
             help="play between fitting parts as multiple of the wall thickness",
         )
         self.argparser.add_argument(
             "--drawer_h",
             action="store",
-            type=float,
+            type=FloatStepper(1.0),
             default=self.drawer_h,
             help="height of the inner drawer [mm]",
         )
@@ -89,31 +91,47 @@ Use *drawer_h* to control drawer height independently from *h* / *hi*.
         self.argparser.add_argument(
             "--magnet_nb",
             action="store",
-            type=int,
+            type=IntStepper(1),
             default=self.magnet_nb,
             help="number of magnets on the front walls (0 = none)",
         )
         self.argparser.add_argument(
             "--magnet_diameter",
             action="store",
-            type=float,
+            type=FloatStepper(0.1),
             default=self.magnet_diameter,
             help="diameter of each magnet hole [mm]",
         )
         self.argparser.add_argument(
             "--magnet_distance",
             action="store",
-            type=float,
+            type=FloatStepper(0.5),
             default=self.magnet_distance,
             help="centre-to-centre spacing between magnets (0 = auto, evenly distributed) [mm]",
         )
         self.argparser.add_argument(
             "--magnet_h",
             action="store",
-            type=float,
+            type=FloatStepper(0.5),
             default=self.magnet_h,
             help="vertical offset of magnet holes from the auto position (0 = auto) [mm]",
         )
+        self.argparser.add_argument(
+            "--side_magnet_diameter",
+            action="store",
+            type=FloatStepper(0.1),
+            default=self.side_magnet_diameter,
+            help="diameter of the side magnet hole on the right walls (0 = none) [mm]",
+        )
+
+    def _side_magnet_cb(self, wall_length: float, y_pos: float) -> None:
+        """Single INNER_CUT hole centred on a side wall at the given y position."""
+        d = self.side_magnet_diameter
+        if d <= 0:
+            return
+        with self.saved_context():
+            self.set_source_color(Color.INNER_CUT)
+            self.hole(wall_length / 2, y_pos, d=d)
 
     def _magnet_holes_cb(self, wall_width: float, wall_height: float, near_top: bool = True) -> None:
         """Drill magnet holes near the opening edge of a front wall.
@@ -219,6 +237,25 @@ Use *drawer_h* to control drawer height independently from *h* / *hi*.
                 if idx == 0 and self.drawer_opening:
                     wall_cb(ww, Color.OUTER_CUT)
 
+            # Side magnet y position in drawing coordinates.
+            # Inner ("ffef"): closed end at drawing bottom → drawer_h/2 from bottom.
+            # Outer ("efff"): open end at drawing bottom, but physically both shells
+            #   rest with the same base level → also drawer_h/2 from drawing bottom.
+            _side_y: float = drawer_h / 2
+
+            def _inner_right_cb(
+                yd: float = y + d,
+                sy: float = _side_y,
+            ) -> None:
+                wall_cb(yd, Color.ETCHING)
+                self._side_magnet_cb(yd, sy)
+
+            def _outer_right_cb(
+                yd: float = y + d,
+                sy: float = _side_y,
+            ) -> None:
+                self._side_magnet_cb(yd, sy)
+
             with self.saved_context():
                 self.rectangularWall(wall_w, height, front_edges,
                                      label=f"{shell_name} front",
@@ -228,10 +265,13 @@ Use *drawer_h* to control drawer height independently from *h* / *hi*.
                 if i == 0 and self.drawer_opening:
                     self.rectangularWall(y + d, height, side_edges,
                                          label=f"{shell_name} right",
-                                         callback=[lambda yd=y + d: wall_cb(yd, Color.ETCHING)],
+                                         callback=[_inner_right_cb],
                                          move="right")
                 else:
-                    self.rectangularWall(y + d, height, side_edges, label=f"{shell_name} right", move="right")
+                    self.rectangularWall(y + d, height, side_edges,
+                                         label=f"{shell_name} right",
+                                         callback=[_outer_right_cb],
+                                         move="right")
 
                 if i == 0 and self.drawer_opening:
                     self.rectangularWall(wall_w, height, front_edges,
@@ -250,22 +290,31 @@ Use *drawer_h* to control drawer height independently from *h* / *hi*.
                     self.rectangularWall(y + d, height, side_edges, label=f"{shell_name} left", move="right")
             self.rectangularWall(y, height, side_edges, move="up only")
 
+        # Top and bottom
         with self.saved_context():
+            outer_extra = 2 * (t + p)
+            inner_extra = 2 * t
+
             if self.drawer_opening:
                 self.rectangularWall(x, y, "ffff", label="shelf bottom", bedBolts=None, move="right")
-            self.rectangularWall(x + d, y + d, "FFFF", label="outer top", bedBolts=None, move="right")
+            self.rectangularWall(x + outer_extra, y + outer_extra, "FFFF", label="outer top", bedBolts=None, move="right")
 
             if self.drawer_opening:
               fe = _FlushEdge(self, self.edges["h"].settings)
-              self.rectangularWall(x, y, [fe, self.edges["h"], fe, self.edges["h"]], label="inner bottom flush", bedBolts=None, move="right")
+              self.rectangularWall(x - inner_extra, y - inner_extra, [fe, self.edges["h"], fe, self.edges["h"]],
+                                   label="inner bottom flush", bedBolts=None, move="right")
             else:
-              self.rectangularWall(x, y, "hhhh", label="inner bottom", bedBolts=None, move="right")
+              self.rectangularWall(x - inner_extra, y - inner_extra, "hhhh", label="inner bottom", bedBolts=None, move="right")
 
-        self.rectangularWall(x + d, y + d, "hhhh", move="up only")
+        # No drawing, just for movement
+        self.rectangularWall(x + outer_extra, y + outer_extra, "hhhh", move="up only")
 
+        # Drawer
         with self.saved_context():
             self.rectangularWall(drawer_x, drawer_h, "FFeF", label="drawer front", move="right")
-            self.rectangularWall(drawer_y, drawer_h, "ffef", label="drawer right", move="right")
+            self.rectangularWall(drawer_y, drawer_h, "ffef", label="drawer right",
+                                 callback=[lambda dy=drawer_y, dh=drawer_h, t=self.thickness: self._side_magnet_cb(dy, dh / 2 - t)],
+                                 move="right")
             self.rectangularWall(drawer_x, drawer_h, "FFeF", label="drawer back", move="right")
             self.rectangularWall(drawer_y, drawer_h, "ffef", label="drawer left", move="right")
             self.rectangularWall(drawer_x, drawer_y, "fFfF", label="drawer bottom", move="right")

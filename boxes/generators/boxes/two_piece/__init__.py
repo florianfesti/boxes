@@ -52,15 +52,17 @@ Set *hi* larger than *h* to leave gap between the inner and outer shell. This ca
         # Adjust h edge with play
         self.edges["f"].settings.setValues(t, False, edge_width=self.edges["f"].settings.edge_width + p)
 
+        shell_names = ("inner", "outer")
         for i in range(2):
             d = i * 2 * (t+p)
             height = [hi, h][i]
+            name = shell_names[i]
             with self.saved_context():
-                self.rectangularWall(x+d, height, "fFeF", move="right")
-                self.rectangularWall(y+d, height, "ffef", move="right")
-                self.rectangularWall(x+d, height, "fFeF", move="right")
-                self.rectangularWall(y+d, height, "ffef", move="right")
+                self.rectangularWall(x+d, height, "fFeF", label=f"{name} front", move="right")
+                self.rectangularWall(y+d, height, "ffef", label=f"{name} right", move="right")
+                self.rectangularWall(x+d, height, "fFeF", label=f"{name} back", move="right")
+                self.rectangularWall(y+d, height, "ffef", label=f"{name} left", move="right")
             self.rectangularWall(y, height, "ffef", move="up only")
 
-        self.rectangularWall(x, y, "hhhh", bedBolts=None, move="right")
-        self.rectangularWall(x+d, y+d, "FFFF", bedBolts=None, move="right")
+        self.rectangularWall(x, y, "hhhh", label="inner bottom", bedBolts=None, move="right")
+        self.rectangularWall(x+d, y+d, "FFFF", label="outer top", bedBolts=None, move="right")

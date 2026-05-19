@@ -44,7 +44,7 @@ The actual sizes and all other settings can be entered in the second step."""
 
     def __init__(self, input=None, webargs=False) -> None:
         Boxes.__init__(self)
-        self.argparser = argparse.ArgumentParser()
+        self.argparser = boxes.args.BoxesArgumentParser()
         self.buildArgParser("sx", "sy")
         self.argparser.add_argument(
             "--output", action="store", type=str, default="traylayout.txt",

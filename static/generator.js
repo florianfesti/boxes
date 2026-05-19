@@ -112,7 +112,11 @@ function _applyParamsData(data) {
     const form = document.querySelector('#arguments');
     if (!form) return;
     for (const [key, value] of Object.entries(data)) {
-        const el = form.querySelector(`[name="${CSS.escape(key)}"]`);
+        // BoolArg renders a hidden input + checkbox with the same name.
+        // querySelector returns the hidden input first, so we must look for
+        // the checkbox explicitly and prefer it when it exists.
+        const cbEl = form.querySelector(`input[type="checkbox"][name="${CSS.escape(key)}"]`);
+        const el   = cbEl || form.querySelector(`[name="${CSS.escape(key)}"]`);
         if (!el) continue;
         if (el.type === 'checkbox') {
             el.checked = (value === true || value === 'true' || value === '1' || value === 'on');

@@ -66,13 +66,42 @@ Notes:
 - Clicking `auto` writes `"auto"`; converter returns `None`.
 - Keep the class stub typed as `float | None`.
 
+## Using `stepper=True` in `buildArgParser`
+
+For the standard box dimensions (`x`, `y`, `h`, `hi`) pass `stepper=True` to
+`buildArgParser` instead of registering them manually:
+
+```python
+class MyGenerator(Boxes):
+    x: float = 100.0
+    y: float = 80.0
+    h: float = 50.0
+
+    def __init__(self) -> None:
+        Boxes.__init__(self)
+        self.buildArgParser(x=self.x, y=self.y, h=self.h, outside=True, stepper=True)
+        # custom params still use add_argument as usual
+        self.argparser.add_argument(
+            "--my_param",
+            action="store",
+            type=FloatStepper(0.1),
+            default=10.0,
+            help="Custom param [mm]",
+        )
+```
+
+- `stepper=True` wraps `x`, `y`, `h`, `hi` with `FloatStepper(1.0)` automatically.
+- All other params (`sx`/`sy`/`sh`, `outside`, `nema_mount`, …) are unaffected.
+- No need to import `FloatStepper` / `IntStepper` just for the standard dimensions.
+
 ## One-file conversion checklist
 
-1. Add stepper imports from `boxes.args`.
-2. Replace each `type=float` with `FloatStepper(step)`.
-3. Replace each `type=int` with `IntStepper(1)` (or another integer step).
-4. Keep `boolarg`, `str`, and custom types unchanged.
-5. Run mypy on touched generator files.
-6. Regenerate the touched generator reference SVG.
-7. Run `tests/test_svg.py`.
-8. Run `pre-commit run --all-files`.
+1. For standard dims (`x`, `y`, `h`, `hi`): add `stepper=True` to `buildArgParser` — done.
+2. For custom params: add stepper imports from `boxes.args`.
+3. Replace each `type=float` with `FloatStepper(step)`.
+4. Replace each `type=int` with `IntStepper(1)` (or another integer step).
+5. Keep `boolarg`, `str`, and custom types unchanged.
+6. Run mypy on touched generator files.
+7. Regenerate the touched generator reference SVG.
+8. Run `tests/test_svg.py`.
+9. Run `pre-commit run --all-files`.

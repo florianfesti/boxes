@@ -33,7 +33,7 @@ Set *hi* larger than *h* to leave gap between the inner and outer shell. This ca
         self.addSettingsArgs(edges.FingerJointSettings, finger=2.0, space=2.0)
 
         self.argparser.add_argument(
-            "--play",  action="store", type=float, default=0.15,
+            "--play", action="store", type=float, default=0.15,
             help="play between the two parts as multiple of the wall thickness")
 
     def render(self):
@@ -44,8 +44,8 @@ Set *hi* larger than *h* to leave gap between the inner and outer shell. This ca
         p = self.play * t
 
         if self.outside:
-            x -= 4*t + 2*p
-            y -= 4*t + 2*p
+            x -= 4 * t + 2 * p
+            y -= 4 * t + 2 * p
             h -= 2 * t
             hi -= 2 * t
 
@@ -54,15 +54,15 @@ Set *hi* larger than *h* to leave gap between the inner and outer shell. This ca
 
         shell_names = ("inner", "outer")
         for i in range(2):
-            d = i * 2 * (t+p)
+            d = i * 2 * (t + p)
             height = [hi, h][i]
             name = shell_names[i]
             with self.saved_context():
-                self.rectangularWall(x+d, height, "fFeF", label=f"{name} front", move="right")
-                self.rectangularWall(y+d, height, "ffef", label=f"{name} right", move="right")
-                self.rectangularWall(x+d, height, "fFeF", label=f"{name} back", move="right")
-                self.rectangularWall(y+d, height, "ffef", label=f"{name} left", move="right")
+                self.rectangularWall(x + d, height, "fFeF", label=f"{name} front", move="right")
+                self.rectangularWall(y + d, height, "ffef", label=f"{name} right", move="right")
+                self.rectangularWall(x + d, height, "fFeF", label=f"{name} back", move="right")
+                self.rectangularWall(y + d, height, "ffef", label=f"{name} left", move="right")
             self.rectangularWall(y, height, "ffef", move="up only")
 
         self.rectangularWall(x, y, "hhhh", label="inner bottom", bedBolts=None, move="right")
-        self.rectangularWall(x+d, y+d, "FFFF", label="outer top", bedBolts=None, move="right")
+        self.rectangularWall(x + d, y + d, "FFFF", label="outer top", bedBolts=None, move="right")

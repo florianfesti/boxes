@@ -25,8 +25,8 @@ classifiers = [ # https://pypi.python.org/pypi?%3Aaction=list_classifiers
 [project.optional-dependencies]
 dev = [
   "lxml>=6.0.2",
-  "mypy>=1.20.0",
-  "pre-commit>=4.5.1",
+  "mypy>=2.1.0",
+  "pre-commit>=4.6.0",
   "pytest>=9.0.3",
   "types-Markdown"
 ]
@@ -51,10 +51,10 @@ ignore-words-list = "ded,te,pathes,reencode,ontop,alledges"
 [tool.mypy]
 extra_checks = true
 ignore_missing_imports = true
-strict_bytes = true
 strict_equality = true
 warn_redundant_casts = true
 #warn_return_any = true
+warn_no_return = true
 warn_unreachable = true
 warn_unused_configs = true
 warn_unused_ignores = true

@@ -25,8 +25,6 @@ document.addEventListener('click', function (event) {
 
 /*** Args page tabs **************************************/
 
-const TAB_STORAGE_KEY = 'boxes-active-tab';
-
 function activateTab(name) {
     const panel = document.getElementById('tab-' + name);
     if (!panel) return;
@@ -41,12 +39,16 @@ function activateTab(name) {
 
 function switchTab(evt, name) {
     activateTab(name);
-    try {
-        localStorage.setItem(TAB_STORAGE_KEY, name);
-    } catch (_) {
-    }
+    history.pushState(null, '', '#' + name);
     if (name === 'configuration') refreshPreview();
 }
+
+window.addEventListener('popstate', function () {
+    const name = location.hash.slice(1);
+    const tab = (name === 'description' || name === 'configuration') ? name : 'description';
+    activateTab(tab);
+    if (tab === 'configuration' && typeof refreshPreview === 'function') refreshPreview();
+});
 
 /*** Color Settings **************************************/
 
@@ -69,6 +71,47 @@ function persistColorSettings(overrides) {
         status.style.display = 'inline';
         clearTimeout(status._hideTimer);
         status._hideTimer = setTimeout(() => {
+            status.style.display = 'none';
+        }, 1500);
+    }
+}
+
+/** Called by each category checkbox onchange – auto-save immediately. */
+function onCategoryCheckboxChange(cb) {
+    const hidden = loadHiddenCategories();
+    if (cb.checked) {
+        hidden.delete(cb.dataset.catId);
+    } else {
+        hidden.add(cb.dataset.catId);
+    }
+    try {
+        localStorage.setItem(HIDDEN_CATS_KEY, JSON.stringify([...hidden]));
+    } catch (_) {
+    }
+    _flashSelStatus();
+}
+
+/** Called by each label checkbox onchange – auto-save immediately. */
+function onLabelCheckboxChange(cb) {
+    const hidden = loadHiddenLabels();
+    if (cb.checked) {
+        hidden.delete(cb.dataset.labelId);
+    } else {
+        hidden.add(cb.dataset.labelId);
+    }
+    try {
+        localStorage.setItem(HIDDEN_LABELS_KEY, JSON.stringify([...hidden]));
+    } catch (_) {
+    }
+    _flashSelStatus();
+}
+
+function _flashSelStatus() {
+    const status = document.getElementById('sel-settings-status');
+    if (status) {
+        status.style.display = 'inline';
+        clearTimeout(status._hideTimer);
+        status._hideTimer = setTimeout(function () {
             status.style.display = 'none';
         }, 1500);
     }
@@ -177,11 +220,20 @@ function initColorInjection() {
 
 /*** Category visibility *******************************/
 
-const HIDDEN_CATS_KEY = 'boxes-hidden-categories';
+const HIDDEN_CATS_KEY    = 'boxes-hidden-categories';
+const HIDDEN_LABELS_KEY  = 'boxes-hidden-labels';
 
 function loadHiddenCategories() {
     try {
         return new Set(JSON.parse(localStorage.getItem(HIDDEN_CATS_KEY) || '[]'));
+    } catch (_) {
+        return new Set();
+    }
+}
+
+function loadHiddenLabels() {
+    try {
+        return new Set(JSON.parse(localStorage.getItem(HIDDEN_LABELS_KEY) || '[]'));
     } catch (_) {
         return new Set();
     }
@@ -216,30 +268,15 @@ function applyHiddenCategories() {
     applyHiddenCategoriesGallery();
 }
 
-/** Categories page – explicit Save button. */
-function saveCategorySettingsExplicit() {
-    const hidden = new Set();
-    document.querySelectorAll('input[data-cat-id]').forEach(function (cb) {
-        if (!cb.checked) hidden.add(cb.dataset.catId);
-    });
-    try {
-        localStorage.setItem(HIDDEN_CATS_KEY, JSON.stringify([...hidden]));
-    } catch (_) {
-    }
-    const home = (typeof CAT_HOME_URL !== 'undefined') ? CAT_HOME_URL : null;
-    if (home) {
-        window.location.href = home;
-    } else {
-        window.history.back();
-    }
-}
-
 // Safety net: re-apply when the browser restores a page from bfcache.
 window.addEventListener('pageshow', function (event) {
     if (event.persisted) {
         applyHiddenCategories();
         if (typeof applyHiddenCategoriesTouch === 'function') {
             applyHiddenCategoriesTouch();
+        }
+        if (typeof applyHiddenLabelsTouch === 'function') {
+            applyHiddenLabelsTouch();
         }
     }
 });
@@ -254,42 +291,56 @@ function saveColorSettingsExplicit() {
     window.history.back();
 }
 
-/** Categories page – init checkboxes from localStorage. */
+/** Selection page – init checkboxes from localStorage. */
 function initCategorySettingsPage() {
-    const hidden = loadHiddenCategories();
+    const hiddenCats = loadHiddenCategories();
     document.querySelectorAll('input[data-cat-id]').forEach(function (cb) {
-        cb.checked = !hidden.has(cb.dataset.catId);
+        cb.checked = !hiddenCats.has(cb.dataset.catId);
+    });
+    const hiddenLabels = loadHiddenLabels();
+    document.querySelectorAll('input[data-label-id]').forEach(function (cb) {
+        cb.checked = !hiddenLabels.has(cb.dataset.labelId);
     });
 }
 
-/** Categories page – called by each checkbox onchange. */
-function onCategoryCheckboxChange(cb) {
-    const hidden = loadHiddenCategories();
-    if (cb.checked) {
-        hidden.delete(cb.dataset.catId);
+/** Selection page – explicit Save & back button. */
+function saveCategorySettingsExplicit() {
+    // Persist categories
+    const hiddenCats = new Set();
+    document.querySelectorAll('input[data-cat-id]').forEach(function (cb) {
+        if (!cb.checked) hiddenCats.add(cb.dataset.catId);
+    });
+    try { localStorage.setItem(HIDDEN_CATS_KEY, JSON.stringify([...hiddenCats])); } catch (_) {}
+    // Persist labels
+    const hiddenLabels = new Set();
+    document.querySelectorAll('input[data-label-id]').forEach(function (cb) {
+        if (!cb.checked) hiddenLabels.add(cb.dataset.labelId);
+    });
+    try { localStorage.setItem(HIDDEN_LABELS_KEY, JSON.stringify([...hiddenLabels])); } catch (_) {}
+    const home = (typeof CAT_HOME_URL !== 'undefined') ? CAT_HOME_URL : null;
+    if (home) {
+        window.location.href = home;
     } else {
-        hidden.add(cb.dataset.catId);
-    }
-    try {
-        localStorage.setItem(HIDDEN_CATS_KEY, JSON.stringify([...hidden]));
-    } catch (_) {
-    }
-    const status = document.getElementById('cat-settings-status');
-    if (status) {
-        status.style.display = 'inline';
-        clearTimeout(status._hideTimer);
-        status._hideTimer = setTimeout(function () {
-            status.style.display = 'none';
-        }, 1500);
+        window.history.back();
     }
 }
 
-/** Categories page – restore all categories. */
+/** Reset all selection filters (categories + labels) and reload. */
+function resetAllSelectionSettings() {
+    try { localStorage.removeItem(HIDDEN_CATS_KEY);   } catch (_) {}
+    try { localStorage.removeItem(HIDDEN_LABELS_KEY); } catch (_) {}
+    window.location.reload();
+}
+
+/** Reset only category visibility (kept for compatibility). */
 function resetCategorySettings() {
-    try {
-        localStorage.removeItem(HIDDEN_CATS_KEY);
-    } catch (_) {
-    }
+    try { localStorage.removeItem(HIDDEN_CATS_KEY); } catch (_) {}
+    window.location.reload();
+}
+
+/** Reset only label visibility. */
+function resetLabelSettings() {
+    try { localStorage.removeItem(HIDDEN_LABELS_KEY); } catch (_) {}
     window.location.reload();
 }
 
@@ -430,8 +481,11 @@ function initArgsPage(num_hide = null) {
     for (let el of i) {
         el.addEventListener("change", refreshPreview);
     }
-    // Always start on the description tab (do not restore from localStorage).
-    refreshPreview();
+    // Restore tab from URL hash, defaulting to description.
+    const hash = location.hash.slice(1);
+    const initialTab = (hash === 'description' || hash === 'configuration') ? hash : 'description';
+    activateTab(initialTab);
+    if (initialTab === 'configuration') refreshPreview();
 }
 
 /*** Image modal *************************************************/

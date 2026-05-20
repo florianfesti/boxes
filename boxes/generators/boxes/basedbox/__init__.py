@@ -20,6 +20,7 @@ class BasedBox(Boxes):
     """Fully closed box on a base"""
 
     ui_group = "Box"
+    tags = []
 
     description = """This box is more of a building block than a finished item.
 Use a vector graphics program (like Inkscape) to add holes or adjust the base

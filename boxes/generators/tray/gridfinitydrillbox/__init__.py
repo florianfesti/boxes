@@ -24,6 +24,7 @@ class GridfinityDrillBox(_TopEdge, GridfinityTrayLayout):
     description = """You need to add a hole pattern to all horizontal layers except the very bottom"""
 
     ui_group = "Tray"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

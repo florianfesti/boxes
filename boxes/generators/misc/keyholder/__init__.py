@@ -84,6 +84,7 @@ Full picture:
 """
 
     ui_group = "WallMounted"
+    tags = ["🦉"]
 
     def __init__(self) -> None:
         Boxes.__init__(self)

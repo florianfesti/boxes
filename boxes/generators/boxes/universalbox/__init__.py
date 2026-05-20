@@ -23,6 +23,7 @@ class UniversalBox(_TopEdge):
     """Box with various options for different styles and lids"""
 
     ui_group = "Box"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

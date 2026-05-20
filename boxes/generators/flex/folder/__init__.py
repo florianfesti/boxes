@@ -20,6 +20,7 @@ class Folder(Boxes):
     """Book cover with flex for the spine"""
 
     ui_group = "Flex"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

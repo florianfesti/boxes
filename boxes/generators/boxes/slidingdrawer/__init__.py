@@ -5,6 +5,7 @@ class SlidingDrawer(Boxes):
     """Sliding drawer box"""
 
     ui_group = "Box"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

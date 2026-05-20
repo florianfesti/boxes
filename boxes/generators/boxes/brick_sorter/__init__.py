@@ -46,6 +46,7 @@ In Use:
 """
 
     ui_group = "Box"
+    tags = ["🦉", "lego"]
 
     # level name, size of the holes in mm, and the thickness of the grid
     sieve_sizes = OrderedDict(

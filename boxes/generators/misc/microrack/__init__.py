@@ -21,6 +21,7 @@ class SBCMicroRack(Boxes):
 
     webinterface = True
     ui_group = "Shelf"  # see ./__init__.py for names
+    tags = ["🦉"]
 
     def __init__(self) -> None:
         Boxes.__init__(self)

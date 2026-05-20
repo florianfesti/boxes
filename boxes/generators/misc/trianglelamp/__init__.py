@@ -37,6 +37,7 @@ class TriangleLamp(Boxes):
     """Triangle LED Lamp"""
 
     ui_group = "Misc"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

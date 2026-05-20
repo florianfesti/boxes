@@ -20,6 +20,7 @@ class RectangularWall(Boxes):
     """Simple wall with options for different edges"""
 
     ui_group = "Part" # see ./__init__.py for names
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

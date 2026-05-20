@@ -302,6 +302,7 @@ class PhotoFrame(Boxes):
     """
 
     ui_group = "Display"
+    tags = []
 
     description = """
 3-layer photo frame.

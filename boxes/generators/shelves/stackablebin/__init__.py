@@ -41,6 +41,7 @@ class StackableBin(Boxes):
     """Stackable bin base on bintray"""
 
     ui_group = "Shelf"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

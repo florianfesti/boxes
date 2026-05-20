@@ -40,6 +40,7 @@ class Dispenser(Boxes):
 Please add mounting holes yourself."""
 
     ui_group = "Shelf"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

@@ -32,6 +32,7 @@ See the diagram below for dimensions.
 """
 
     ui_group = "Misc"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

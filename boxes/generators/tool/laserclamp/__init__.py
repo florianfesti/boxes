@@ -26,6 +26,7 @@ parts sliding on each other to reduce friction.
 """
 
     ui_group = "Tool"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

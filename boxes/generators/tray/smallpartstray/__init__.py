@@ -22,6 +22,7 @@ class SmallPartsTray(Boxes):
     """Tray with slants to easier get out game tokens or screws"""
 
     ui_group = "Tray"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

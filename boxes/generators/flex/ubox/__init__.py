@@ -21,6 +21,7 @@ class UBox(_TopEdge):
     """Box various options for different stypes and lids"""
 
     ui_group = "Flex"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

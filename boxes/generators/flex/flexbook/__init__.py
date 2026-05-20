@@ -20,6 +20,7 @@ class FlexBook(Boxes):
     """Box with living hinge styled after a book."""
 
     ui_group = "Flex"
+    tags = ["🦉"]
 
     description = """
 If you have an enclosure, arrange the living hinge to be as close to your extractor fan as possible.

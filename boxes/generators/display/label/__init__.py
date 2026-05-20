@@ -28,6 +28,7 @@ class Label(Boxes):
     """Rectangular label with rounded corners, optional inner border line and engraved text."""
 
     ui_group = "Display"
+    tags = ["🦉"]
 
     description = """
 A flat laser-cut label plate.

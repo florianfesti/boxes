@@ -50,6 +50,7 @@ class SmallPartsTray2(_TopEdge):
 If there are no inner front to back walls just add everything to one side wall and then add the other one after that. Possibly saving the front and back as last step."""
 
     ui_group = "Tray"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

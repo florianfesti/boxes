@@ -20,6 +20,7 @@ class DisplayShelf(Boxes):
     """Shelf with slanted floors"""
 
     ui_group = "Shelf"
+    tags = []
 
     # arguments/properties
     num: int

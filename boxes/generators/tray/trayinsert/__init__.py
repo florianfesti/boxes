@@ -61,6 +61,7 @@ This frees your mind into separately thinking about the cell size vs the overall
 ![Tray Extra](static/samples/TrayInsert-3.jpg)
     """
     ui_group = "Tray"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

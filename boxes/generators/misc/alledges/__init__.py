@@ -20,6 +20,7 @@ class AllEdges(Boxes):
     """Showing all edge types"""
 
     ui_group = "Misc"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

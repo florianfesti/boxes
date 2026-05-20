@@ -25,6 +25,7 @@ Use small nails to properly align the pieces of the bayonet latch. Glue the part
 ![opened spool](static/samples/FilamentSpool-2.jpg)"""
 
     ui_group = "Tool"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

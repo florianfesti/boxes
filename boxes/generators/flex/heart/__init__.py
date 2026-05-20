@@ -20,6 +20,7 @@ class HeartBox(Boxes):
     """Box in the form of a heart"""
 
     ui_group = "Flex"
+    tags = ["🦉"]
 
     def __init__(self) -> None:
         Boxes.__init__(self)

@@ -27,6 +27,7 @@ class GridfinityBase(Boxes):
     <a href="https://www.youtube.com/watch?app=desktop&v=ra_9zU-mnl8">Zach Freedman's Gridfinity system</a>"""
 
     ui_group = "Tray"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

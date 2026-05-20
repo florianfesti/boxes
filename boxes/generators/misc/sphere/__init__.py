@@ -29,6 +29,7 @@ class Sphere(Boxes):
     description = """With Voronoi pattern added:\n![Voronoi patterned Lamp](static/samples/Sphere-2.jpg)"""
 
     ui_group = "Misc"
+    tags = []
 
     def __init__(self) -> None:
         super().__init__()

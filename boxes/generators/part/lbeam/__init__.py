@@ -20,6 +20,7 @@ class LBeam(Boxes):
     """Simple L-Beam: two pieces joined with a right angle"""
 
     ui_group = "Part"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

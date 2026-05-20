@@ -23,6 +23,7 @@ class SevenSegmentPattern(Boxes):
 """
 
     ui_group = "Holes"
+    tags = []
 
     def __init__(self):
         Boxes.__init__(self)

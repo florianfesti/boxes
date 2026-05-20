@@ -27,6 +27,7 @@ Adding a diffuser on top or at the bottom of the segment holes will probably enh
 """
 
     ui_group = "Electronic"
+    tags = []
 
     def __init__(self):
         Boxes.__init__(self)

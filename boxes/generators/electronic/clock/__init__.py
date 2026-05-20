@@ -19,6 +19,7 @@ class Clock(Boxes):
     """Clock (old style with clock hands)"""
 
     ui_group = "Electronic"
+    tags = []
     description = """
 A simple round clock for mounting a classical clock mechanism behind it, with three legs
 

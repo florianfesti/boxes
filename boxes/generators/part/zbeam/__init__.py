@@ -24,6 +24,7 @@ With the "flanged_ubeam" option, there is a fourth piece the length of "y".
 """
 
     ui_group = "Part"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

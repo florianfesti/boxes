@@ -20,6 +20,7 @@ class FlexTest2(Boxes):
     """Piece for testing 2D flex settings"""
 
     ui_group = "Flex"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

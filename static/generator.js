@@ -157,6 +157,16 @@ function _bindTouchActionBar() {
             const form = document.querySelector('#arguments');
             if (!form) return;
 
+            // URL button (render=0, _self): build URL client-side and append
+            // #configuration so the hash is preserved across the page reload.
+            if (renderVal === '0' && target === '_self') {
+                if (typeof injectColorHiddenFields === 'function') injectColorHiddenFields(form);
+                const params = new URLSearchParams(new FormData(form));
+                params.set('render', '0');
+                window.location.href = form.action + '?' + params.toString() + '#configuration';
+                return;
+            }
+
             // Temporarily set render + formtarget on a hidden input and submit
             let ri = form.querySelector('input[name="render"][data-touch]');
             if (!ri) {

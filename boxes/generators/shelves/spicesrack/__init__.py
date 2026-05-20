@@ -36,6 +36,7 @@ class SpicesRack(Boxes):
     """Rack for cans of spices"""
 
     ui_group = "Shelf"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

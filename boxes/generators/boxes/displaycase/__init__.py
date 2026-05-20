@@ -21,6 +21,7 @@ class DisplayCase(Boxes):
     """Fully closed box intended to be cut from transparent acrylics and to serve as a display case."""
 
     ui_group = "Box"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

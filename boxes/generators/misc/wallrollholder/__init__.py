@@ -23,6 +23,7 @@ class WallRollHolder(_WallMountedBox):
     description = """Needs a dowel or pipe as axle."""
 
     ui_group = "WallMounted"
+    tags = []
 
     def __init__(self) -> None:
         super().__init__()

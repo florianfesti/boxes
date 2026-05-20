@@ -21,6 +21,7 @@ class StorageShelf(_TopEdge):
     """StorageShelf can be used to store Typetray"""
 
     ui_group = "Shelf"
+    tags = []
     description = "This is a simple shelf box."
 
     def __init__(self) -> None:

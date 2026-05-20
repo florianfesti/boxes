@@ -20,6 +20,7 @@ class Spool(Boxes):
     """A simple spool"""
 
     ui_group = "Misc"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

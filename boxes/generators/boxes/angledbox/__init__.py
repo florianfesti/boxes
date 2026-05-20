@@ -20,6 +20,7 @@ class AngledBox(Boxes):
     """Box with both ends cornered"""
 
     ui_group = "Box"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

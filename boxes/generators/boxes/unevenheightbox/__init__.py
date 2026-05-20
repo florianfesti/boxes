@@ -20,6 +20,7 @@ class UnevenHeightBox(Boxes):
     """Box with different height in each corner"""
 
     ui_group = "Box"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

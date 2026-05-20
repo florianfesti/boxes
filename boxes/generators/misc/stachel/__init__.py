@@ -20,6 +20,7 @@ class Stachel(Boxes):
     """Bass Recorder Endpin"""
 
     ui_group = "Misc"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

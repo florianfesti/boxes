@@ -92,6 +92,11 @@ function thApplySearch(q) {
 
     let visible = 0;
     activePanel.querySelectorAll('.th-card').forEach(card => {
+        // Label-hidden cards are managed by CSS class; skip them in search counting.
+        if (card.classList.contains('th-label-hidden')) {
+            card.style.display = '';
+            return;
+        }
         const text = (card.textContent || '').toLowerCase();
         const show = !q || text.includes(q);
         card.style.display = show ? '' : 'none';
@@ -109,6 +114,75 @@ function thApplySearch(q) {
         noRes.textContent = 'No results for "' + q + '"';
     } else if (noRes) {
         noRes.remove();
+    }
+}
+
+/* Label visibility */
+
+/**
+ * Apply label filtering to all generator cards.
+ * Cards with a hidden label (or no label when __no_label__ is hidden) get
+ * the CSS class `th-label-hidden` which forces `display:none` via touch.css.
+ */
+function applyHiddenLabelsTouch() {
+    const hidden = (typeof loadHiddenLabels === 'function')
+        ? loadHiddenLabels()
+        : new Set();
+
+    document.querySelectorAll('.th-card').forEach(function (card) {
+        const tagsAttr = (card.dataset.tags || '').trim();
+        const tags = tagsAttr ? tagsAttr.split(' ') : [];
+        let shouldHide = false;
+        if (tags.length === 0) {
+            // No labels on this generator – obey the __no_label__ toggle
+            shouldHide = hidden.has('__no_label__');
+        } else {
+            // Hide only when EVERY tag is filtered out (no visible label remains).
+            // If at least one tag is still enabled the generator stays visible.
+            shouldHide = tags.every(t => hidden.has(t));
+        }
+        card.classList.toggle('th-label-hidden', shouldHide);
+    });
+
+    _updateGroupCounts();
+}
+
+/** Recompute the visible-card count badge on each sidebar nav item.
+ *  Also hides the nav item and panel when all cards are label-filtered out. */
+function _updateGroupCounts() {
+    let activeEmptied = false;
+
+    document.querySelectorAll('.th-panel[data-group]').forEach(function (panel) {
+        const groupId = panel.dataset.group;
+        const total   = panel.querySelectorAll('.th-card').length;
+        const hiddenN = panel.querySelectorAll('.th-card.th-label-hidden').length;
+        const visible = total - hiddenN;
+        const navItem = document.querySelector('.th-sidenav-item[data-group="' + groupId + '"]');
+
+        // Update count badge
+        if (navItem) {
+            const countSpan = navItem.querySelector('.th-sidenav-count');
+            if (countSpan) countSpan.textContent = String(visible);
+        }
+
+        // Hide/show the nav item and panel based on label-filtered visibility.
+        // (Category-hidden items are already display:none via applyHiddenCategoriesTouch;
+        //  we only touch items that are not already category-hidden.)
+        const catHidden = navItem && navItem.style.display === 'none';
+        if (!catHidden) {
+            const empty = visible === 0;
+            if (navItem) navItem.style.display = empty ? 'none' : '';
+            panel.style.display = empty ? 'none' : (panel.classList.contains('active') ? 'block' : 'none');
+            if (empty && panel.classList.contains('active')) {
+                activeEmptied = true;
+            }
+        }
+    });
+
+    // If the active panel was emptied, switch to the first still-visible group.
+    if (activeEmptied) {
+        const first = document.querySelector('.th-sidenav-item[data-group]:not([style*="none"])');
+        if (first) thSwitchTab(first.dataset.group);
     }
 }
 
@@ -142,6 +216,28 @@ function applyHiddenCategoriesTouch() {
 
 /* Hub init */
 
+/**
+ * Navigate back to the hub pre-selecting a specific category group.
+ * Called from the generator-page breadcrumb category link.
+ */
+function thNavToGroup(groupId) {
+    try { localStorage.setItem(TH_GROUP_KEY, String(groupId)); } catch(_) {}
+    window.location.href = 'TouchHub' + window.location.search;
+}
+
+/**
+ * Go back using the browser history when possible; fall back to `fallbackUrl`
+ * (already includes a ?language= param if needed) when there is no history.
+ * Used by every touch-page back button so navigation is always contextual.
+ */
+function thGoBack(fallbackUrl) {
+    if (window.history && window.history.length > 1) {
+        window.history.back();
+    } else {
+        window.location.href = fallbackUrl;
+    }
+}
+
 function initTouchHub() {
     // Record that we're in touch mode.
     setUIModePreference('touch');
@@ -154,6 +250,7 @@ function initTouchHub() {
     }
 
     applyHiddenCategoriesTouch();
+    applyHiddenLabelsTouch();
 }
 
 /* field-sizing fallback (Firefox / Safari) */

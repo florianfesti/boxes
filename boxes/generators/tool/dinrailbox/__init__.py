@@ -44,6 +44,7 @@ class DinRailBox(Boxes):
     """Box for DIN rail used in electrical junction boxes"""
 
     ui_group = "Tool"
+    tags = []
 
     def latch(self, l, move=None):
 

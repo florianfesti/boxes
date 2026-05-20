@@ -20,6 +20,7 @@ class SkadisStand(Boxes):
     """Feet for a Skadis board so it can stand on its own"""
 
     ui_group = "WallMounted"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

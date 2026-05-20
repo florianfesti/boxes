@@ -27,6 +27,7 @@ in the center and can be adjusted using the vertical text offset.
 Empty lines will affect the placement."""
 
     ui_group = "Display"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

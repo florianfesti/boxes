@@ -21,6 +21,7 @@ class PaintStorage(Boxes):
 
     webinterface = True
     ui_group = "Shelf"
+    tags = ["🦉"]
 
     canheight: int
     candiameter: int

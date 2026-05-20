@@ -26,6 +26,7 @@ class PirateChest(Boxes):
     Part with label "lid back" is placed in the hinges"""
 
     ui_group = "Box"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

@@ -26,6 +26,7 @@ To allow powering by laptop power supply: flip switch, Lenovo round socket (or a
 """
 
     ui_group = "Electronic"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

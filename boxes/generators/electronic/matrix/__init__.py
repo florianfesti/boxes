@@ -53,6 +53,7 @@ class Matrix(Boxes):
     You can use a different thickness for the plexiglass, but make sure to adjust the settings accordingly.
     """
     ui_group = "Electronic"
+    tags = []
 
     led_width: int
     led_height: int

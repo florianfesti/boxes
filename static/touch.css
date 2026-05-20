@@ -48,15 +48,17 @@ body.touch-hub {
   color: #fff;
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
   flex-shrink: 0;
   z-index: 100;
   box-shadow: 2px 0 8px rgba(0,0,0,0.25);
+  min-height: 0;
 }
 
 /* Category nav items */
 .th-sidenav-categories {
   flex: 1;
+  min-height: 0;        /* allow flex child to scroll below its content size */
+  overflow-y: auto;     /* scroll only the category list, not the whole sidebar */
   display: flex;
   flex-direction: column;
   padding: 8px 0;
@@ -478,3 +480,6 @@ body.th-sidebar-open .th-sidebar-overlay { display: block; }
   .th-search    { height: 40px; }
   .th-grid      { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; }
 }
+
+/* Label-filtered cards: CSS class set by applyHiddenLabelsTouch() in touch.js */
+.th-card.th-label-hidden { display: none !important; }

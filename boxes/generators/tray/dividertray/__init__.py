@@ -88,6 +88,7 @@ You will likely need to cut each of the dividers you want multiple times.
 """
 
     ui_group = "Tray"
+    tags = ["🦉"]
 
     def __init__(self) -> None:
         Boxes.__init__(self)

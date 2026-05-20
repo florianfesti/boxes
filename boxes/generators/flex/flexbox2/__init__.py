@@ -20,6 +20,7 @@ class FlexBox2(Boxes):
     """Box with living hinge and top corners rounded"""
 
     ui_group = "Flex"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

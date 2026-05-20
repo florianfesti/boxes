@@ -26,6 +26,7 @@ class RoundedRegularBox(boxes.Boxes):
 """
 
     ui_group = "Flex"
+    tags = []
 
     def __init__(self) -> None:
         boxes.Boxes.__init__(self)

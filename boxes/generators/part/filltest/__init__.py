@@ -22,6 +22,7 @@ class FillTest(Boxes): # Change class name!
     """Piece for testing different settings for hole filling"""
 
     ui_group = "Part"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

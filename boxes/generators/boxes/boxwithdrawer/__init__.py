@@ -18,7 +18,7 @@ from __future__ import annotations
 from typing import cast
 
 from boxes import *
-from boxes.args import FloatStepper, IntStepper
+from boxes.args import IntStepper
 from boxes.drawing import Context
 
 
@@ -65,7 +65,7 @@ Use *drawer_h* to control drawer height independently from *h* / *hi*.
 
     def __init__(self) -> None:
         Boxes.__init__(self)
-        self.buildArgParser(x=self.x, y=self.y, h=self.h, hi=self.hi, outside=self.outside)
+        self.buildArgParser(x=self.x, y=self.y, h=self.h, hi=self.hi, outside=self.outside, stepper=True)
         self.addSettingsArgs(edges.FingerJointSettings, finger=2.0, space=2.0)
         self.argparser.add_argument(
             "--play",

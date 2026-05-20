@@ -76,6 +76,7 @@ class DiscRack(Boxes):
     """A rack for storing disk-shaped objects vertically next to each other"""
 
     ui_group = "Shelf"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

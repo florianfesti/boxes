@@ -22,6 +22,7 @@ class WallRack(Boxes):
     """Wall mountable rack for spices or other items"""
 
     ui_group = "WallMounted"
+    tags = []
 
     def __init__(self):
         Boxes.__init__(self)

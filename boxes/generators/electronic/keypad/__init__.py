@@ -14,6 +14,7 @@ class Keypad(Boxes, Keyboard):
     description = "Note that top layers use a different material thickness according to the top1_thickness and top2_thickness (if enabled)."
 
     ui_group = 'Electronic'
+    tags = []
     btn_size = 15.6
     space_between_btn = 4
     box_padding = 10

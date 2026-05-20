@@ -89,6 +89,7 @@ Assembly:
     # Edges of polygons are prefixed with `l_`
 
     ui_group = "Misc"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

@@ -22,6 +22,7 @@ class HobbyCase(Boxes):
     """A case that can be used in any hobby involving small pieces in need of organizing."""
 
     ui_group = "Tray"
+    tags = []
 
     description = """
 The hobby case is defined by units, "cells" of the case.

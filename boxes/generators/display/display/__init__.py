@@ -20,6 +20,7 @@ class Display(Boxes):
     """Display for flyers or leaflets"""
 
     ui_group = "Display"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

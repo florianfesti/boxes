@@ -22,6 +22,7 @@ class LaptopStand(Boxes):  # Change class name!
     """A simple X shaped frame to support a laptop on a given angle"""
 
     ui_group = "Display"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

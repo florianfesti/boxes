@@ -83,6 +83,7 @@ class BeeQueenCage(Boxes):
     """Cage box to house a bee queen"""
 
     ui_group = "Beekeeping"
+    tags = []
 
     description = """Cage box to house a bee queen.
 The default opening on top is suitable for a Nicot queen-rearing cell cup block (CNE2) or a cork plug.

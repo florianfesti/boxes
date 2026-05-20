@@ -20,6 +20,7 @@ class AirPurifier(Boxes):
     """Housing for the Nukit Open Air Purifier"""
 
     ui_group = "Project"
+    tags = []
 
     description = """See [Nukit Open Air Purifier](https://github.com/opennukit/Nukit-Open-Air-Purifier/)
 """

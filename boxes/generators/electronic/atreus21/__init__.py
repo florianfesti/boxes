@@ -8,6 +8,7 @@ from boxes.generators.misc.keyboard import Keyboard
 class Atreus21(Boxes, Keyboard):
     """Generator for a split atreus keyboard."""
     ui_group = "Electronic"
+    tags = []
     btn_size = 15.6
     half_btn = btn_size / 2
     border = 6

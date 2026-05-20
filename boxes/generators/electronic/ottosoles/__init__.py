@@ -20,6 +20,7 @@ class OttoSoles(Boxes):
     """Foam soles for the OttO bot"""
 
     ui_group = "Electronic"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

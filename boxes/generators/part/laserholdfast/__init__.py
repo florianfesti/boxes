@@ -20,6 +20,7 @@ class LaserHoldfast(Boxes):
     """A holdfast for honey comb tables of laser cutters"""
 
     ui_group = "Part"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

@@ -20,6 +20,7 @@ class ShutterBox(Boxes):
     """Box with a rolling shutter made of flex"""
 
     ui_group = "Flex"
+    tags = []
 
     description = """Beware of the rolling shutter effect! Use wax on sliding surfaces.
 

@@ -30,6 +30,7 @@ For plywood this method works well with a very stiff press fit. Aim for needing 
 """
 
     ui_group = "Misc"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

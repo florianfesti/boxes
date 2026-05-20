@@ -22,6 +22,7 @@ class DoubleFlexDoorBox(boxes.Boxes):
     """Box with two part lid with living hinges and round corners"""
 
     ui_group = "Flex"
+    tags = []
 
     def __init__(self) -> None:
         boxes.Boxes.__init__(self)

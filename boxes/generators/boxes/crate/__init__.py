@@ -21,6 +21,7 @@ class Crate(Boxes):
 
     description = """Pattern mask can be used in your editor to cut out from some pattern section that will be added to walls."""
     ui_group = "Box"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

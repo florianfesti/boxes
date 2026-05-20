@@ -20,6 +20,7 @@ class HolePattern(Boxes):
     """Generate hole patterns in different simple shapes"""
 
     ui_group = "Holes"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

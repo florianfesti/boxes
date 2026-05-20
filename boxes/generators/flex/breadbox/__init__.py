@@ -20,6 +20,7 @@ class BreadBox(Boxes):
     """A BreadBox with a gliding door"""
 
     ui_group = "Flex"
+    tags = []
 
     description = """Beware of the rolling shutter effect! Use wax on sliding surfaces.
 """

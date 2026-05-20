@@ -35,6 +35,7 @@ The actual sizes and all other settings can be entered in the second step."""
     webinterface = False
 
     ui_group = "Tray"
+    tags = []
 
     sx: list[float] = []  # arg input
     sy: list[float] = []  # arg input

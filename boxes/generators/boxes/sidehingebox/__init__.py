@@ -32,6 +32,7 @@ but can't be inadvertently opened.
 """
 
     ui_group = "Box"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

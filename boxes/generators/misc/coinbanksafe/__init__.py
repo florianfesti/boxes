@@ -35,6 +35,7 @@ Leaving them unglued will allow you change the code, and to remove the pin from 
 '''
 
     ui_group = "Misc"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

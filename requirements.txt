@@ -3,6 +3,7 @@ fonttools>=4.0
 lxml
 markdown
 numpy
+Pillow>=9.0
 pytest
 PyYAML
 qrcode>=7.3.1

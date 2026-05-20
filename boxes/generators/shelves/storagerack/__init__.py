@@ -20,6 +20,7 @@ class StorageRack(Boxes):
     """StorageRack to store boxes and trays which have their own floor"""
 
     ui_group = "Shelf"
+    tags = ["rack"]
 
     description = """
 

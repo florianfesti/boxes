@@ -103,16 +103,19 @@ class HomeTouchMixin:
         langparam = f"?language={lang_name}" if lang_name else ""
 
         if back_url:
+            escaped = html.escape(back_url)
             if back_icon_only:
                 back_btn = (
-                    f'<a class="th-mode-btn th-back-icon" href="{html.escape(back_url)}" '
-                    + 'aria-label="Back">&#8592;</a>'
+                    f'<a class="th-mode-btn th-back-icon" href="{escaped}" '
+                    f'onclick="thGoBack(\'{escaped}\');return false;" '
+                    'aria-label="Back">&#8592;</a>'
                 )
             else:
                 back_label = _("Back")
                 back_btn = (
-                    f'<a class="th-mode-btn" href="{html.escape(back_url)}" '
-                    + f'aria-label="Back">&#8592; {back_label}</a>'
+                    f'<a class="th-mode-btn" href="{escaped}" '
+                    f'onclick="thGoBack(\'{escaped}\');return false;" '
+                    f'aria-label="Back">&#8592; {back_label}</a>'
                 )
         else:
             back_btn = ""
@@ -121,14 +124,10 @@ class HomeTouchMixin:
 
         # On sub-pages (non-hub) keep a compact dropdown for links
         links: list[tuple[str, str]] = [
-            ("https://florianfesti.github.io/boxes/html/usermanual.html", _("Help")),
-            ("https://hackaday.io/project/10649-boxespy", _("Home Page")),
             ("https://florianfesti.github.io/boxes/html/index.html", _("Documentation")),
-            ("https://github.com/florianfesti/boxes", _("Sources")),
         ]
         if self.legal_url:
             links.append((self.legal_url, _("Legal")))
-        links.append(("https://florianfesti.github.io/boxes/html/give_back.html", _("Give Back")))
 
         dropdown_items: list[str] = [
             f'      <a href="{html.escape(url)}" target="_blank" rel="noopener">{txt}</a>'
@@ -141,7 +140,7 @@ class HomeTouchMixin:
         dropdown_items.append('      <hr style="border:none;border-top:1px solid #e8e0d0;margin:4px 0">')
         dropdown_items.append(f'      <a href="colors">\U0001f3a8 {_("Colors")}</a>')
         dropdown_items.append(f'      <a href="machine">\u2699 {_("Machine")}</a>')
-        dropdown_items.append(f'      <a href="categories">\U0001f4c2 {_("Categories")}</a>')
+        dropdown_items.append(f'      <a href="categories">\U0001f4c2 {_("Selection")}</a>')
         lang_sel = self.genHTMLLanguageSelection(lang)
         if "select" in lang_sel:
             dropdown_items.append(
@@ -227,9 +226,11 @@ class HomeTouchMixin:
                 thumb = f"{self.static_url}/samples/{bname}-thumb.jpg"
                 badges = self.tag_badges_html(box)
                 href = f"{bname}{langparam}"
+                tags_str = html.escape(" ".join(getattr(box, "tags", [])))
                 cards.append(
                     f'<a class="th-card" href="{html.escape(href)}" '
-                    f'id="tc_{bname}" title="{html.escape(_(bname))}">'
+                    f'id="tc_{bname}" title="{html.escape(_(bname))}" '
+                    f'data-tags="{tags_str}">'
                     f'<img class="th-card-thumb" src="{thumb}" '
                     f'alt="{html.escape(_(bname))}" loading="lazy" '
                     "onerror=\"this.outerHTML='<div class=&quot;th-card-thumb-missing&quot;>&#128230;</div>'\">"
@@ -249,14 +250,10 @@ class HomeTouchMixin:
 
         # ── Left sidebar: footer links ───────────────────────────────────────
         links: list[tuple[str, str]] = [
-            ("https://florianfesti.github.io/boxes/html/usermanual.html", _("Help")),
-            ("https://hackaday.io/project/10649-boxespy", _("Home Page")),
             ("https://florianfesti.github.io/boxes/html/index.html", _("Documentation")),
-            ("https://github.com/florianfesti/boxes", _("Sources")),
         ]
         if self.legal_url:
             links.append((self.legal_url, _("Legal")))
-        links.append(("https://florianfesti.github.io/boxes/html/give_back.html", _("Give Back")))
 
         sidebar_links_html = "\n".join(
             f'    <a class="th-sidenav-link" href="{html.escape(url)}" target="_blank" rel="noopener">{txt}</a>'
@@ -265,7 +262,7 @@ class HomeTouchMixin:
         sidebar_links_html += (
             f'\n    <a class="th-sidenav-link" href="colors{langparam}">\U0001f3a8 {_("Colors")}</a>'
             f'\n    <a class="th-sidenav-link" href="machine{langparam}">\u2699\ufe0f {_("Machine")}</a>'
-            f'\n    <a class="th-sidenav-link" href="categories{langparam}">\U0001f4c2 {_("Categories")}</a>'
+            f'\n    <a class="th-sidenav-link" href="categories{langparam}">\U0001f4c2 {_("Selection")}</a>'
         )
         sidebar_links_html += '\n    <hr class="th-sidenav-sep">'
         sidebar_links_html += (

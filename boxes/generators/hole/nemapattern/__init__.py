@@ -20,6 +20,7 @@ class NemaPattern(Boxes):
     """Mounting holes for a Nema motor"""
 
     ui_group = "Holes"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

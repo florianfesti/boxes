@@ -23,6 +23,7 @@ class DrillBox(_TopEdge):
     description = """![Multiple DrillBoxes](static/samples/DrillBoxes.jpg) """
 
     ui_group = "Tray"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

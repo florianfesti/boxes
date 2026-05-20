@@ -46,6 +46,7 @@ class BinTray(Boxes):
     """A Type tray variant to be used up right with sloped walls in front"""
 
     ui_group = "Shelf"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

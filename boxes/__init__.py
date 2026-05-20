@@ -24,7 +24,7 @@ import math
 import random
 import re
 import sys
-from boxes.args import ArgparseEdgeType, boolarg, BoxesArgumentParser as ArgumentParser
+from boxes.args import ArgparseEdgeType, boolarg, BoxesArgumentParser as ArgumentParser, FloatStepper
 from contextlib import contextmanager
 from functools import wraps
 from shlex import quote
@@ -407,11 +407,13 @@ class Boxes:
                 self.text(text=content, y=6, color=Color.ANNOTATIONS, fontsize=6)
             self.qrcode(content, box_size=size, move="up only")
 
-    def buildArgParser(self, *l, **kw):
+    def buildArgParser(self, *l: str, stepper: bool = False, **kw: Any) -> None:
         """
         Add commonly used arguments
 
         :param l: parameter names
+        :param stepper: when True use FloatStepper(1.0) / IntStepper(1) for
+                        numeric params so the web UI gets −/+ buttons
         :param kw: parameters with new default values
 
         Supported parameters are
@@ -423,6 +425,7 @@ class Boxes:
         * boolarg: outside
         * str (selection): nema_mount
         """
+        _float = FloatStepper(1.0) if stepper else float
         for arg in l:
             kw[arg] = None
         for arg, default in kw.items():
@@ -432,7 +435,7 @@ class Boxes:
                 if "outside" in kw:
                     help += " (unless outside selected)"
                 self.argparser.add_argument(
-                    "--x", action="store", type=float, default=default,
+                    "--x", action="store", type=_float, default=default,
                     help=help)
             elif arg == "y":
                 if default is None: default = 100.0
@@ -440,7 +443,7 @@ class Boxes:
                 if "outside" in kw:
                     help += " (unless outside selected)"
                 self.argparser.add_argument(
-                    "--y", action="store", type=float, default=default,
+                    "--y", action="store", type=_float, default=default,
                     help=help)
             elif arg == "sx":
                 if default is None: default = "50*3"
@@ -466,12 +469,12 @@ class Boxes:
                 if "outside" in kw:
                     help += " (unless outside selected)"
                 self.argparser.add_argument(
-                    "--h", action="store", type=float, default=default,
+                    "--h", action="store", type=_float, default=default,
                     help=help)
             elif arg == "hi":
                 if default is None: default = 0.0
                 self.argparser.add_argument(
-                    "--hi", action="store", type=float, default=default,
+                    "--hi", action="store", type=_float, default=default,
                     help="inner height of inner walls in mm (unless outside selected)(leave to zero for same as outer walls)")
             elif arg == "hole_dD":
                 if default is None: default = "3.5:6.5"

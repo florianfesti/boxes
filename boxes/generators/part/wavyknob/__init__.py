@@ -24,6 +24,7 @@ class WavyKnob(Boxes):
 """
 
     ui_group = "Part"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

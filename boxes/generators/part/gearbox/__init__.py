@@ -20,6 +20,7 @@ class GearBox(Boxes):
     """Gearbox with multiple identical stages"""
 
     ui_group = "Part"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

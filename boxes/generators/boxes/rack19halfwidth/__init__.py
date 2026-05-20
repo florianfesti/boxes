@@ -7,6 +7,7 @@ class Rack19HalfWidth(Boxes):
     """Half width 19inch rack unit for musical equipment."""
 
     ui_group = "Box"
+    tags = ["rack"]
 
     def __init__(self) -> None:
         super().__init__()

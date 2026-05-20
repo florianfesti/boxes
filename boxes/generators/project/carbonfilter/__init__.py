@@ -40,6 +40,7 @@ The last two types of ribs do not have finger joints on the outside but still ne
 """
 
     ui_group = "Project"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

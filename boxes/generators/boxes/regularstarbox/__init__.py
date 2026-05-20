@@ -47,6 +47,7 @@ class RegularStarBox(Boxes):
     """Regular polygon boxes that form a star when closed"""
 
     ui_group = "Box"
+    tags = []
 
 
     description = """![Open box](static/samples/RegularStarBox-2.jpg)"""

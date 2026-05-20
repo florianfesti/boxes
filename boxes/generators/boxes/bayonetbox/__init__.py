@@ -21,6 +21,7 @@ class BayonetBox(Boxes):
 
     description = """Glue together - all outside rings to the bottom, all inside rings to the top."""
     ui_group = "Box"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

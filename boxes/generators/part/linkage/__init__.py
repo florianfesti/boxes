@@ -20,6 +20,7 @@ class Linkage(Boxes):
     """Model for trying out linkages"""
 
     ui_group = "Part"
+    tags = []
 
     description = """Needs pins of length 2 and 3 times thickness as vitamins.
 Plain pins of length 2, Pins of length 3 with a disc on the first and middle third.

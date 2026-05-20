@@ -14,7 +14,7 @@ from pathlib import Path
 
 import markdown
 
-from boxes.generators import ui_groups_by_name
+from boxes.generators import ui_groups_by_name, ui_groups
 
 
 class GeneratorUIMixin:
@@ -69,17 +69,22 @@ class GeneratorUIMixin:
         raise NotImplementedError
 
     def _gen_breadcrumb_html(self, box: object, name: str, _=lambda s: s) -> str:
-        """Return the «Category › GeneratorName» breadcrumb HTML."""
+        """Return the «Category › GeneratorName» breadcrumb HTML with a clickable category link."""
         ui_group_name: str = getattr(box, "ui_group", "")
         group = ui_groups_by_name.get(ui_group_name)
         category_title: str = group.title if group else ui_group_name
         if not category_title:
             return ""
+        try:
+            group_id = next(i for i, g in enumerate(ui_groups) if g.name == ui_group_name)
+        except StopIteration:
+            group_id = 0
         cat = _html.escape(_(category_title))
         gen = _html.escape(name)
         return (
             f'<div class="gen-category-breadcrumb">'
-            f'<span class="gen-bc-cat">{cat}</span>'
+            f'<a class="gen-bc-cat" href="TouchHub"'
+            f' onclick="thNavToGroup({group_id});return false;">{cat}</a>'
             f'<span class="gen-bc-sep"> › </span>'
             f'<span class="gen-bc-name">{gen}</span>'
             f'</div>'

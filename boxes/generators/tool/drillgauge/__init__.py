@@ -20,6 +20,7 @@ class DrillGauge(Boxes):
     """A drill gauge with a narrowing slot"""
 
     ui_group = "Tool"
+    tags = []
 
     description = "Make sure to use a burn setting that is tight but does not require force!"
 

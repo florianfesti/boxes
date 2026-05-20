@@ -20,6 +20,7 @@ class NemaMount(Boxes):
     """Mounting bracket for a Nema motor"""
 
     ui_group = "Part"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

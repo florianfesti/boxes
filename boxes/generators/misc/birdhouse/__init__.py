@@ -20,6 +20,7 @@ class BirdHouse(Boxes):
     """Simple Bird House"""
 
     ui_group = "Misc"
+    tags = ["🦉"]
 
     def __init__(self) -> None:
         Boxes.__init__(self)

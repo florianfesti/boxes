@@ -28,6 +28,7 @@ class OttoLegs(Boxes):
     """Otto LC - a laser cut chassis for Otto DIY - legs"""
 
     ui_group = "Electronic"
+    tags = []
 
     def __init__(self) -> None:
         Boxes.__init__(self)

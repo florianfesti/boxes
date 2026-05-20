@@ -816,6 +816,7 @@ FAQ:
     """
 
     ui_group = "Beekeeping"
+    tags = []
 
     CUTOUTS = (NicotTransportCageCutout, NicotHatchingCageCutout, NicotIncubatorCageCutout, PlastmixTransportCageCutout, ChinaTransportCageCutout, JZsBZsCageCutout,
                AirHolesForNicotTransportCageCutout, AirHolesForNicotIncubatorCageCutout, AirHolesForNicotHatchingCageCutout, AirHolesForChinaTransportCageCutout,

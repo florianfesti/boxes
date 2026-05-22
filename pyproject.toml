@@ -66,3 +66,6 @@ ignore_directives = [
   "automethod",
   "automodule",
 ]
+ignore_messages = [
+  "File referenced in \"include\" directive not found: 'generators.inc'",
+]

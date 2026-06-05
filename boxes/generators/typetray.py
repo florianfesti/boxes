@@ -241,7 +241,7 @@ class TypeTray(_TopEdge):
 
         self.textcontent = []
         if hasattr(self, "label_text"):
-            self.textcontent = self.label_text.split("\r\n")
+            self.textcontent = self.label_text.splitlines()
         else:
             if self.label_file:
                 with Path(self.label_file).open() as f:

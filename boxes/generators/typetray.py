@@ -72,6 +72,8 @@ class TypeTray(_TopEdge):
         self.addSettingsArgs(LidSettings)
         self.buildArgParser("sx", "sy", "h", "hi", "outside", "bottom_edge",
                             "top_edge")
+        self.addSettingsArgs(FingerHoleEdgeSettings)
+
         self.argparser.add_argument(
             "--back_height",  action="store", type=float, default=0.0,
             help="additional height of the back wall - e top edge only")
@@ -116,8 +118,6 @@ class TypeTray(_TopEdge):
             label_group.add_argument(
                 "--label_file", action="store", type=argparse.FileType('r'),
                 help="file with compartment labels. One line per compartment")
-
-        self.addSettingsArgs(FingerHoleEdgeSettings)
 
     @property
     def fingerholedepth(self):

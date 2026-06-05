@@ -121,17 +121,17 @@ class TypeTray(_TopEdge):
 
     @property
     def fingerholedepth(self):
-        if self.fingerhole == 'custom':
+        if self.fingerholes == 'custom':
             return self.fingerhole_depth
-        elif self.fingerhole == 'regular':
+        elif self.fingerholes == 'regular':
             a = self.h/4
             if a < 35:
                 return a
             else:
                 return 35
-        elif self.fingerhole == 'deep':
+        elif self.fingerholes == 'deep':
             return self.h-self.thickness-10
-        elif self.fingerhole == 'none':
+        elif self.fingerholes == 'none':
             return 0
 
     def xSlots(self):

@@ -92,10 +92,8 @@ class Boxes2INX:
                 continue
             prefix = getattr(group, "prefix", None)
             title = group.title
-            if title.startswith("Settings for "):
-                title = title[len("Settings for "):]
-            if title.endswith(" Settings"):
-                title = title[:-len(" Settings")]
+            title = title.removeprefix("Settings for ")
+            title = title.removesuffix(" Settings")
 
             pageParams = []
             for a in group._group_actions:

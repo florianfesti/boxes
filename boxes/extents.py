@@ -1,5 +1,5 @@
 class Extents:
-    __slots__ = "xmin ymin xmax ymax".split()
+    __slots__ = ["xmax", "xmin", "ymax", "ymin"]
 
     def __init__(self, xmin: float = float('inf'), ymin: float = float('inf'), xmax: float = float('-inf'), ymax: float = float('-inf')) -> None:
         self.xmin = xmin

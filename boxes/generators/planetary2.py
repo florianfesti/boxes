@@ -27,7 +27,7 @@ class Planetary2(Boxes):
         Boxes.__init__(self)
         self.buildArgParser("nema_mount")
         self.argparser.add_argument(
-	    "--profile", action="store", type=str, default="GT2_2mm",
+            "--profile", action="store", type=str, default="GT2_2mm",
             choices=pulley.Pulley.getProfiles(),
             help="profile of the teeth/belt")
         self.argparser.add_argument(

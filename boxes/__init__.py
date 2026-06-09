@@ -1289,8 +1289,8 @@ class Boxes:
                 self.ctx.stroke()
 
         for term in terms:
-            if not term in moves:
-                raise ValueError("Unknown direction: '%s'" % term)
+            if term not in moves:
+                raise ValueError(f"Unknown direction: '{term}'")
             mx, my, movebeforeprint = moves[term]
             if movebeforeprint and before:
                 self.moveTo(mx, my)

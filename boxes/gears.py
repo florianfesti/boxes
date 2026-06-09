@@ -256,7 +256,7 @@ class OptionParser(argparse.ArgumentParser):
             names.append("--" + long_.replace("-", "_")[2:])
         self.add_argument(*names, **kw)
 
-class Gears():
+class Gears:
 
     def __init__(self, boxes, **kw) -> None:
         # an alternate way to get debug info:

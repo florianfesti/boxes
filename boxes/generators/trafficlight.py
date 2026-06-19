@@ -91,35 +91,6 @@ When turned by 90°, it can be also used to create a bottle holder.
     def frontCB(self):
         self.hole(self.h/2, self.h/2, self.h/2-self.thickness)
 
-    def wall(self, h1, h2, w, edges="ffef", callback=None, move="", label=""):
-        edges = [self.edges.get(e, e) for e in edges]
-        edges += edges  # append for wrapping around
-        overallwidth = w + edges[-1].spacing() + edges[1].spacing()
-        overallheight = max(h1, h2) + edges[0].spacing() + edges[2].spacing()
-
-        if self.move(overallwidth, overallheight, move, before=True, label=label):
-            return
-
-        a = math.atan((h2-h1)/float(w))
-        angle = math.degrees(a)
-
-        self.moveTo(edges[-1].spacing(), edges[0].margin())
-        for i, l in [(0, w), (1, h2)]:
-            self.cc(callback, i, y=edges[i].startWidth() + self.burn)
-            edges[i](l)
-            self.edgeCorner(edges[i], edges[i + 1], 90)
-
-        self.corner(angle)
-        self.cc(callback, i, y=edges[2].startWidth() + self.burn)
-        edges[2](w / math.cos(a))
-        self.corner(-angle)
-        self.edgeCorner(edges[2], edges[2 + 1], 90)
-        self.cc(callback, i, y=edges[3].startWidth() + self.burn)
-        edges[3](h1)
-        self.edgeCorner(edges[3], edges[3 + 1], 90)
-
-        self.move(overallwidth, overallheight, move, label=label)
-
     def addMountH(self, width, height):
         ds = self.hole_dD[0]
 
@@ -202,7 +173,7 @@ When turned by 90°, it can be also used to create a bottle holder.
                                  move="up", label="top")
             # vertical walls
             for i in range(n):
-                self.wall(d, d+s, h,
+                self.trapezoidWall(h, d, d+s,
                           edges="ffef" if i<n-1 else be + "fef",
                           move="right" if i<n-1 else "right up",
                           label="vertical wall " + str(i+1))
@@ -217,7 +188,7 @@ When turned by 90°, it can be also used to create a bottle holder.
             self.rectangularWall(h, d, be + "fef", move="up", label="bottom wall")
         else:
             # vertical wall
-            self.wall(d, d+s, h, edges=be + "fef",
+            self.trapezoidWall(h, d, d+s, edges=be + "fef",
                       move="mirror up",
                       label="vertical wall")
 

@@ -87,6 +87,14 @@ much smaller it is than its nominal size. The burn value should be
 around half of the difference. To test the fit for several values at
 once you can use the **BurnTest** generator in the "Parts and Samples" section.
 
+line_width
+..........
+
+The line width parameter defines how wide the lines in the SVG preview
+and download files are drawn. By default it is twice the burn value but
+at least 0.05mm. This paramteter allows to overwrite if required by some
+laser engraving software.
+
 spacing
 .......
 

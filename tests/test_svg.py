@@ -181,7 +181,7 @@ class TestSVG:
         referenceData = Path(__file__).resolve().parent.parent / 'examples'
         for referenceFile in Path(referenceData).iterdir().__str__():
             if referenceFile.endswith(".svg") and "_" in referenceFile:
-                boxName, argsHash = referenceFile[:-4].split("_")
+                boxName, argsHash = referenceFile[:-4].rsplit("_", 1)
                 exampleFiles.add((boxName, argsHash))
 
         extraExamples = exampleFiles - validTests

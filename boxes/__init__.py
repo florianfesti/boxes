@@ -677,6 +677,7 @@ class Boxes:
                 **self.edgesettings.get("FingerJoint", {}))
         s.edgeObjects(self)
         self.addPart(edges.FingerHoles(self, s), name="fingerHolesAt")
+        self.addPart(edges.TriFingerHoles(self, s), name="triFingerHolesAt")
         # Stackable
         edges.StackableSettings(self.thickness, True,
             **self.edgesettings.get("Stackable", {})).edgeObjects(self)
@@ -2980,9 +2981,9 @@ class Boxes:
         t = self.thickness # XXX edge.margin()
 
         leftsettings = copy.deepcopy(self.edges["f"].settings)
-        lf, lF, lh = leftsettings.edgeObjects(self, add=False)
+        lf, lF, _, _ = leftsettings.edgeObjects(self, add=False)
         rightsettings = copy.deepcopy(self.edges["f"].settings)
-        rf, rF, rh = rightsettings.edgeObjects(self, add=False)
+        rf, rF, _, _ = rightsettings.edgeObjects(self, add=False)
 
         length_correction = 0.
         angle = borders[-1]

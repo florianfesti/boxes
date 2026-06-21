@@ -30,7 +30,7 @@ The x and y measurements are for a trapazoid with sharp corners. The radii cut t
         self.addSettingsArgs(boxes.edges.FingerJointSettings)
         self.addSettingsArgs(boxes.edges.DoveTailSettings)
         self.addSettingsArgs(boxes.edges.FlexSettings)
-        self.buildArgParser(y=100.0, h="100.0")
+        self.buildArgParser(y=100.0, h="100.0", outside=True)
         self.argparser.add_argument(
             "--x_front", action="store", type=float, default=100.0,
             help="front width (assuming radius == zero) in mm")
@@ -78,6 +78,15 @@ The x and y measurements are for a trapazoid with sharp corners. The radii cut t
             self.radius_back_left)
 
         a = math.degrees(math.atan((xf-xb)/(2*y)))
+
+        if self.outside:
+            self.y = y = self.adjustSize(y)
+            a = math.degrees(math.atan((xf-xb)/(2*y)))
+            d = t * math.cos(math.radians(a))
+            self.xf = xf = self.adjustSize(xf, d, d)
+            self.xb = xb = self.adjustSize(xb, d, d)
+            self.h = h = self.adjustSize(h, 2*t if self.top == "lid" else t)
+
         y_l = y_r = y / math.cos(math.radians(a))
 
         # reduce sides by space used for radius

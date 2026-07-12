@@ -22,7 +22,7 @@ classifiers = [ # https://pypi.python.org/pypi?%3Aaction=list_classifiers
   "Topic :: Scientific/Engineering",
 ]
 
-[project.optional-dependencies]
+[dependency-groups]
 dev = [
   "lxml>=6.0.2",
   "mypy>=2.1.0",

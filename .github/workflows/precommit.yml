@@ -19,7 +19,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
           cache: "pip" # caching pip dependencies
     - run: pip install .
-    - run: pip install .[dev]
+    - run: pip install --group dev
     - uses: pre-commit/action@v3.0.1
     - uses: actions/upload-artifact@v7
       with:

@@ -26,7 +26,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install .
-          pip install .[doc]
+          pip install --group doc
       - name: Build documentation
         run: |
           cd ./documentation/src/

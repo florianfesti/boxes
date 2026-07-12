@@ -38,10 +38,10 @@ For development (e.g. running the test suite and generating the documentation) t
 
 .. literalinclude:: ../../pyproject.toml
    :language: toml
-   :start-after: [project.optional-dependencies]
+   :start-after: [dependency-groups]
    :end-before: [tool.setuptools.dynamic]
 
-They can be installed by :code:`pip install .[dev]` for development and :code:`pip install .[doc]` for documentation.
+They can be installed by :code:`pip install --group dev` for development and :code:`pip install --group doc` for documentation.
 
 Sphinx
 ......

@@ -817,8 +817,10 @@ FAQ:
 
     ui_group = "Beekeeping"
 
-    CUTOUTS = (NicotTransportCageCutout, NicotHatchingCageCutout, NicotIncubatorCageCutout, PlastmixTransportCageCutout, ChinaTransportCageCutout, JZsBZsCageCutout,
-               AirHolesForNicotTransportCageCutout, AirHolesForNicotIncubatorCageCutout, AirHolesForNicotHatchingCageCutout, AirHolesForChinaTransportCageCutout,
+    CUTOUTS = (NicotTransportCageCutout, NicotHatchingCageCutout, NicotIncubatorCageCutout,
+               PlastmixTransportCageCutout, ChinaTransportCageCutout, JZsBZsCageCutout,
+               AirHolesForNicotTransportCageCutout, AirHolesForNicotHatchingCageCutout,
+               AirHolesForNicotIncubatorCageCutout, AirHolesForChinaTransportCageCutout,
                NoneCutout)
     LAYERS = (NoneCutout, NicotTransportCageCutout, AirHolesForNicotTransportCageCutout)
     DEFAULT = dict(sx="5:45*3:5", sy="5:25*3:5", sh="12:80", aw=3.0, ah="50:25", ax="10:20:10:20:10:20:10", ay="20:60:20", bottom_edge="s", top_edge="e")
@@ -886,15 +888,23 @@ FAQ:
         raise ValueError(f"Cutout '{cutout_name}' not found.")
 
     def cutouts(self, layer=0):
+        no_cutouts = True
         y = 0.
         cutout = self.get_cutout(getattr(self, f"layer{layer}"))
         for dy in self.sy:
             x = 0.
             for dx in self.sx:
+                # Sections to small for the cutout are taken as valid separators
                 if dx > cutout.DIMENSIONS[0] and dy > cutout.DIMENSIONS[1]:
                     cutout.cutout(self, x + dx / 2., y + dy / 2.)
+                    no_cutouts = False
                 x += dx
             y += dy
+        # Print error message if no sections where large enough to do any cutout
+        if no_cutouts:
+            self.text(f"Error: Section sizes (sx, sy) to small for cutout ({cutout.DIMENSIONS[0]:g}, {cutout.DIMENSIONS[1]:g})!",
+                      x/2., y*3./4., align="middle center", color=Color.ANNOTATIONS, fontsize=6)
+
 
     def sideholes(self, l):
         t = self.thickness

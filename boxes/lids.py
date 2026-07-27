@@ -87,19 +87,28 @@ class Lid:
             if style == "overthetop":
                 x2 += 2*t + self.play
                 y2 += 2*t + self.play
+
+            with self.saved_context():
+                # top
+                self.rectangularWall(x2, y2, "ffff",
+                                     callback=[self.handleCB(x2, y2)],
+                                     move="up", label="lid top")
+                # front/back
+                self.rectangularWall(x2, self.height, b +"FFF",
+                                     ignore_widths=[1, 2, 5, 6], move="up upsidedown", label="lid front")
+                self.rectangularWall(x2, self.height, b + "FFF",
+                                     ignore_widths=[1, 2, 5, 6], move="up", label="lid back")
+
+            # Original position restored - move right now
             self.rectangularWall(x2, y2, "ffff",
                                  callback=[self.handleCB(x2, y2)],
-                                 move="up", label="lid top")
-            # front/back top pieces
-            self.rectangularWall(x2, self.height, b +"FFF",
-                                 ignore_widths=[1, 2, 5, 6], move="up", label="lid front")
-            self.rectangularWall(x2, self.height, b + "FFF",
-                                 ignore_widths=[1, 2, 5, 6], move="up", label="lid back")
+                                 move="right only", label="lid top")
+
             # left/right sides
             self.rectangularWall(y2, self.height, b + "fFf",
-                                 ignore_widths=[1, 2, 5, 6], move="up", label="lid left")
+                                 ignore_widths=[1, 2, 5, 6], move="right rotated", label="lid left")
             self.rectangularWall(y2, self.height, b + "fFf",
-                                 ignore_widths=[1, 2, 5, 6], move="up", label="lid right")
+                                 ignore_widths=[1, 2, 5, 6], move="right rotated upsidedown", label="lid right")
             if style == "ontop":
                 for _ in range(4):
                     self.polygonWall(

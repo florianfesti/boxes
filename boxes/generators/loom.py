@@ -299,7 +299,7 @@ around the middle.
         nib_radius = 0.33
         lip_size = 1
 
-        handle_width = math.sqrt(4*foot_hole_radius**2 + self.thickness**2)
+        handle_width = math.sqrt(4*foot_hole_radius**2 - self.thickness**2)
         handle_radius = (handle_width)/2
         pin_area = pin_width * num_warp_threads
         axle_side_length = foot_attachment_x_offset - self.thickness / 2

@@ -1,16 +1,17 @@
 <?xml version='1.0' encoding='utf-8'?>
 <svg height="266.90mm" viewBox="0.0 0.0 316.05 266.90" width="316.05mm" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <!--
-Loom - A frame loom with a rotating heddle bar. At default-ish sizes, you can fit all the parts inside the loom cutout.
+FrameLoom - A frame loom with a rotating heddle bar. At default-ish sizes, you can fit all the parts inside the loom cutout.
 
 
 
-This is a parametrized version of my [frame loom on Thingiverse](https://www.thingiverse.com/thing:7056512),
-albeit a bit blockier because I can't for the life of me figure out how to use the curve functions here.
+This is a parametrized version of my [frame loom on Thingiverse](https://www.thingiverse.com/thing:7056512).
 That in turn was modeled after the [Rocket Loom](https://www.popoutprojects.com/products/kitset-weaving-loom)
 with some notable quality-of-life improvements.
 
-It's a good idea to gently rounding off sharp edges on the heddle bar, shuttles, and needles with some sandpaper,
+![Loaded](static/samples/FrameLoom-2.jpg)
+
+It's a good idea to gently round off sharp edges on the heddle bar, shuttles, and needles with some sandpaper,
 so that they don't catch on the yarn.
 
 To assemble, insert one foot (hole towards you) by hooking in the upper tab, then pushing the foot in so that it
@@ -21,27 +22,32 @@ assembling the pattern heddles, glue the parts together so that the etched `>` a
 To load the shuttles, wrap thread so that you make two Xes along one side, then two Xes along the other side,
 and repeat. You will get much more yarn on a shuttle for a given thickness than you would just wrapping yarn
 around the middle.
-</p>
+
+To make bracelets, set the comb to have one fewer pins than warp threads you'll use, and you can avoid having the
+piece pull together as you weave.
+
+![Bracelet](static/samples/FrameLoom-3.jpg)
 
 
 
 Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
-Command line (remove spaces between dashes): boxes Loom
+Command line (remove spaces between dashes): boxes FrameLoom
 -->
-<title>Loom</title>
+<title>FrameLoom</title>
 <metadata>
 <rdf:RDF><cc:Work>
-<dc:title>Misc - Loom</dc:title>
-<dc:source>boxes Loom</dc:source>
+<dc:title>Misc - FrameLoom</dc:title>
+<dc:source>boxes FrameLoom</dc:source>
 <dc:description>A frame loom with a rotating heddle bar. At default-ish sizes, you can fit all the parts inside the loom cutout.
 
 
-This is a parametrized version of my [frame loom on Thingiverse](https://www.thingiverse.com/thing:7056512),
-albeit a bit blockier because I can't for the life of me figure out how to use the curve functions here.
+This is a parametrized version of my [frame loom on Thingiverse](https://www.thingiverse.com/thing:7056512).
 That in turn was modeled after the [Rocket Loom](https://www.popoutprojects.com/products/kitset-weaving-loom)
 with some notable quality-of-life improvements.
 
-It's a good idea to gently rounding off sharp edges on the heddle bar, shuttles, and needles with some sandpaper,
+![Loaded](static/samples/FrameLoom-2.jpg)
+
+It's a good idea to gently round off sharp edges on the heddle bar, shuttles, and needles with some sandpaper,
 so that they don't catch on the yarn.
 
 To assemble, insert one foot (hole towards you) by hooking in the upper tab, then pushing the foot in so that it
@@ -52,12 +58,16 @@ assembling the pattern heddles, glue the parts together so that the etched `&gt;
 To load the shuttles, wrap thread so that you make two Xes along one side, then two Xes along the other side,
 and repeat. You will get much more yarn on a shuttle for a given thickness than you would just wrapping yarn
 around the middle.
-&lt;/p&gt;
+
+To make bracelets, set the comb to have one fewer pins than warp threads you'll use, and you can avoid having the
+piece pull together as you weave.
+
+![Bracelet](static/samples/FrameLoom-3.jpg)
 
 
 Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
-Command line: boxes Loom
-Command line short: boxes Loom
+Command line: boxes FrameLoom
+Command line short: boxes FrameLoom
 </dc:description>
 </cc:Work></rdf:RDF></metadata>
 <g id="p-0" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">

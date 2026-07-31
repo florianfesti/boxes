@@ -347,7 +347,7 @@ class BServer:
 <div style="width: 75%; float: left;">
 {self.genPagePartHeader(lang)}
 <div class="modenav">
-<span class="modebutton"><a href="Gallery{langparam}">{_("Gallery")}</a></span>
+<a href="Gallery{langparam}"><span class="modebutton">{_("Gallery")}</span></a>
 <span class="modebutton modeactive">{_("Menu")}</span>
 </div>
 <br>
@@ -594,7 +594,7 @@ class BServer:
 {self.genPagePartHeader(lang)}
 <div class="modenav">
 <span class="modebutton modeactive">{_("Gallery")}</span>
-<span class="modebutton"><a href="Menu{langparam}">{_("Menu")}</a></span>
+<a href="Menu{langparam}"><span class="modebutton">{_("Menu")}</span></a>
 </div>
 """]
         for nr, group in enumerate(self.groups):

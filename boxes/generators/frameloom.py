@@ -22,12 +22,13 @@ class FrameLoom(Boxes):
     """
 
     description ='''
-This is a parametrized version of my [frame loom on Thingiverse](https://www.thingiverse.com/thing:7056512),
-albeit a bit blockier because I can't for the life of me figure out how to use the curve functions here.
+This is a parametrized version of my [frame loom on Thingiverse](https://www.thingiverse.com/thing:7056512).
 That in turn was modeled after the [Rocket Loom](https://www.popoutprojects.com/products/kitset-weaving-loom)
 with some notable quality-of-life improvements.
 
-It's a good idea to gently rounding off sharp edges on the heddle bar, shuttles, and needles with some sandpaper,
+![Loaded](static/samples/FrameLoom-2.jpg)
+
+It's a good idea to gently round off sharp edges on the heddle bar, shuttles, and needles with some sandpaper,
 so that they don't catch on the yarn.
 
 To assemble, insert one foot (hole towards you) by hooking in the upper tab, then pushing the foot in so that it
@@ -38,7 +39,11 @@ assembling the pattern heddles, glue the parts together so that the etched `>` a
 To load the shuttles, wrap thread so that you make two Xes along one side, then two Xes along the other side,
 and repeat. You will get much more yarn on a shuttle for a given thickness than you would just wrapping yarn
 around the middle.
-</p>
+
+To make bracelets, set the comb to have one fewer pins than warp threads you'll use, and you can avoid having the
+piece pull together as you weave.
+
+![Bracelet](static/samples/FrameLoom-3.jpg)
 '''
 
     ui_group = "Misc"

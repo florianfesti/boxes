@@ -16,7 +16,7 @@
 from boxes import *
 
 
-class Loom(Boxes):
+class FrameLoom(Boxes):
     """
     A frame loom with a rotating heddle bar. At default-ish sizes, you can fit all the parts inside the loom cutout.
     """
@@ -517,13 +517,13 @@ around the middle.
                 self.comb(self.combpins, pin_width, comb_pin_length, comb_pin_radius, comb_gap_radius, comb_handle_radius, move="right")
 
         if self.includeheddle:
-            right, left = Loom.heddle_patterns([0,1], num_warp_threads, 1)
+            right, left = FrameLoom.heddle_patterns([0,1], num_warp_threads, 1)
             self.heddle(right, left, pin_width, num_warp_threads, foot_attachment_x_offset, foot_hole_radius, move="right")
 
         if self.include2by2heddle:
-            right, left = Loom.heddle_patterns(
+            right, left = FrameLoom.heddle_patterns(
                 [1,1,0,0], num_warp_threads, 2)
-            right_2, left_2 = Loom.heddle_patterns(
+            right_2, left_2 = FrameLoom.heddle_patterns(
                 [1,0,0,1], num_warp_threads, 2)
             self.heddle(right, left,
                         pin_width, num_warp_threads, foot_attachment_x_offset, foot_hole_radius,
@@ -535,9 +535,9 @@ around the middle.
                         move="right")
 
         if self.includediamondheddle:
-            pattern_up, pattern_right = Loom.heddle_patterns(
+            pattern_up, pattern_right = FrameLoom.heddle_patterns(
                 [0,1,0,0,1,1,1,0], num_warp_threads, 4)
-            pattern_down, pattern_left = Loom.heddle_patterns(
+            pattern_down, pattern_left = FrameLoom.heddle_patterns(
                 [1,0,1,1,0,0,0,1], num_warp_threads, 4)
 
             # note: these don't match the original rocketloom version for some reason. Theirs seem to have the
@@ -575,7 +575,7 @@ around the middle.
         chunks = math.ceil(length / len(seed))
         base = seed * chunks
         up = base[:length]
-        down = Loom.rotate(base, shift)[:length]
+        down = FrameLoom.rotate(base, shift)[:length]
         return up, down
 
     @staticmethod

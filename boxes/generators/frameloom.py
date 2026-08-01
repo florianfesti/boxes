@@ -56,6 +56,9 @@ piece pull together as you weave.
             "--warpthreads", action="store", type=int, default=38,
             help="Maximum number of threads in the warp (affects frame width)")
         self.argparser.add_argument(
+            "--warpspacing", action="store", type=float, default=3.5,
+            help="Millimeters per warp thread (2 - 5.5)")
+        self.argparser.add_argument(
             "--outerframelength", action="store", type=float, default=235,
             help="Full length of the loom")
 
@@ -76,7 +79,7 @@ piece pull together as you weave.
             help="Whether or not to include the needles")
         self.argparser.add_argument(
             "--combpins", action="store", type=int, default=12,
-            help="Number of pins on the comb. Set 0 to skip the comb.")
+            help="Number of pins on the comb;set 0 to skip the comb")
         self.argparser.add_argument(
             "--numshuttles", action="store", type=int, default=2,
             help="how many shuttles to include")
@@ -84,17 +87,36 @@ piece pull together as you weave.
 
     def frame(self, pin_width, num_warp_threads, frame_thickness, outer_frame_length, foot_attachment_x_offset, move=None):
 
+        min_curve_radius = 0.5
+        pin_tip_ratio = 1 / 2.5
+        pin_base_radius = 0.5
+        pin_ease_radius = 4.0
+        pin_flank = 4.0
+        pin_shaft = 1.0
+        pin_tip_radius = max(min_curve_radius, pin_width * pin_tip_ratio / 2)
+        _a = pin_base_radius - pin_ease_radius
+        _b = pin_flank
+        _c = pin_width / 2 - pin_tip_radius - pin_ease_radius
+        _hyp = math.hypot(_a, _b)
+        pin_flare = (180.0
+                        - math.degrees(math.asin(_c / _hyp))
+                        - math.degrees(math.atan2(_b, _a)))
+        if not 0.0 < pin_flare <= 90.0:
+            raise ValueError(
+                "pin_width %.3f is out of range; supported range is 2.0 to 5.5 mm "
+                "for the current pin shape constants" % pin_width)
+
         def drawPin():
-            # width is 3.5mm
-            self.corner(80, 0.5)
-            self.edge(4)
-            self.corner(10, 4)
-            self.edge(1)
-            self.corner(-180, 0.5)
-            self.edge(1)
-            self.corner(10, 4)
-            self.edge(4)
-            self.corner(80, 0.5)
+            # Tapered spike, exactly pin_width wide at the frame edge.
+            self.corner(pin_flare, pin_base_radius)
+            self.edge(pin_flank)
+            self.corner(90 - pin_flare, pin_ease_radius)
+            self.edge(pin_shaft)
+            self.corner(-180, pin_tip_radius)
+            self.edge(pin_shaft)
+            self.corner(90 - pin_flare, pin_ease_radius)
+            self.edge(pin_flank)
+            self.corner(pin_flare, pin_base_radius)
 
         def drawThreadHolder(thread_holder_height):
             self.corner(90)
@@ -495,7 +517,7 @@ piece pull together as you weave.
 
     def render(self):
 
-        pin_width = 3.5
+        pin_width = self.warpspacing
         foot_attachment_x_offset = 8
         foot_hole_radius = 4.25
         num_warp_threads = self.warpthreads

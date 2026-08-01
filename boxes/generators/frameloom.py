@@ -504,9 +504,6 @@ piece pull together as you weave.
         comb_gap_radius = (loom_pin_width - 2*comb_pin_radius)/2
         comb_handle_radius = 10
 
-        print(comb_pin_radius)
-        print(comb_gap_radius)
-
         tw = comb_pin_length + comb_pin_radius + comb_gap_radius + 2*comb_handle_radius
         th = 2*comb_handle_radius + comb_num_pins*loom_pin_width
         if self.move(tw, th, move, before=True):

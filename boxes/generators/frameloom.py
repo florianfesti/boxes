@@ -161,10 +161,13 @@ piece pull together as you weave.
             self.edge(frame_thickness - corner_radius)
 
             for idx in  range(num_warp_threads):
+                font_size = 2
+                if pin_width < 3:
+                    font_size = 1.5
                 drawPin()
                 with self.saved_context():
                     self.moveTo(-pin_width/2, 10)
-                    self.text(str(num_warp_threads-idx), align="center", fontsize=2, color=Color.ETCHING, angle=180)
+                    self.text(str(num_warp_threads-idx), align="center", fontsize=font_size, color=Color.ETCHING, angle=180)
 
             self.edge(frame_thickness - corner_radius)
             self.corner(90, corner_radius)
@@ -494,7 +497,15 @@ piece pull together as you weave.
         self.move(tw, th, move)
 
 
-    def comb(self, comb_num_pins, loom_pin_width, comb_pin_length, comb_pin_radius, comb_gap_radius, comb_handle_radius, move=None):
+    def comb(self, comb_num_pins, loom_pin_width, move=None):
+
+        comb_pin_length = 10
+        comb_pin_radius = max(0.5, 0.2*loom_pin_width)
+        comb_gap_radius = (loom_pin_width - 2*comb_pin_radius)/2
+        comb_handle_radius = 10
+
+        print(comb_pin_radius)
+        print(comb_gap_radius)
 
         tw = comb_pin_length + comb_pin_radius + comb_gap_radius + 2*comb_handle_radius
         th = 2*comb_handle_radius + comb_num_pins*loom_pin_width
@@ -524,11 +535,6 @@ piece pull together as you weave.
         outer_frame_length = self.outerframelength
         frame_thickness = 15
 
-        comb_pin_length = 10
-        comb_pin_radius = 0.75
-        comb_gap_radius = 1
-        comb_handle_radius = 10
-
         transverse_length = self.warpthreads * pin_width + 2*frame_thickness + 20
 
         if self.includeframe:
@@ -537,11 +543,11 @@ piece pull together as you weave.
                 self.foot(foot_hole_radius, move="up")
                 self.foot(foot_hole_radius, move="up")
                 if self.combpins > 0:
-                    self.comb(self.combpins, pin_width, comb_pin_length, comb_pin_radius, comb_gap_radius, comb_handle_radius, move="up")
+                    self.comb(self.combpins, pin_width, move="up")
             self.foot(foot_hole_radius, move="right only")
         else:
             if self.combpins > 0:
-                self.comb(self.combpins, pin_width, comb_pin_length, comb_pin_radius, comb_gap_radius, comb_handle_radius, move="right")
+                self.comb(self.combpins, pin_width, move="right")
 
         if self.includeheddle:
             right, left = FrameLoom.heddle_patterns([0,1], num_warp_threads, 1)

@@ -237,7 +237,7 @@ To remove the panel you have to press in the four tabs at the side. It is easies
         t = self.thickness
         bottom = self.edges.get(self.bottom_edge)
         back_top_edge = "e"
-        top_back_edge = "e"
+        top_back_edge = "E"
 
         if not self.removable_backwall:
             back_top_edge = "f"
@@ -270,7 +270,7 @@ To remove the panel you have to press in the four tabs at the side. It is easies
             self.rectangularWall(borders[4], x, "FEFE", move="right", label="Panel")
 
         if len(borders) == 10:
-            self.rectangularWall(borders[6]-d2, x, ("F", "E", "F", top_back_edge), move="right", label="Top")
+            self.rectangularWall(borders[6]-d2, x, ("F", "e", "F", top_back_edge), move="right", label="Top")
 
         if self.removable_backwall:
             self.rectangularWall(

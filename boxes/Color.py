@@ -8,12 +8,12 @@ class Color:
     MAGENTA = [ 1.0, 0.0, 1.0 ]
     WHITE   = [ 1.0, 1.0, 1.0 ]
 
-    OUTER_CUT = BLACK
-    INNER_CUT = BLUE
-    ANNOTATIONS = RED
-    ETCHING = GREEN
-    ETCHING_DEEP = CYAN
-    SOLID_FILL = MAGENTA
+    OUTER_CUT = RED
+    INNER_CUT = MAGENTA
+    ETCHING = BLACK
+    ETCHING_DEEP = BLUE
+    SOLID_FILL = CYAN
+    ANNOTATIONS = GREEN
 
     # Human-readable labels and descriptions for the settings UI.
     ROLE_LABELS: dict[str, tuple[str, str]] = {

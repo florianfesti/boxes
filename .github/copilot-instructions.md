@@ -252,13 +252,14 @@ self.text("Hello", x=0, y=0, angle=0, align="middle center",
 
 ### Color convention (never deviate from this)
 
-| Constant             | RGB             | Laser use                           |
-|----------------------|-----------------|-------------------------------------|
-| `Color.OUTER_CUT`    | black `#000000` | Perimeter cuts – material falls out |
-| `Color.INNER_CUT`    | blue `#0000ff`  | Interior cuts – holes, pockets      |
-| `Color.ETCHING`      | green `#00ff00` | Surface engravings, numbers, marks  |
-| `Color.ETCHING_DEEP` | cyan `#00ffff`  | Deep engravings                     |
-| `Color.ANNOTATIONS`  | red `#ff0000`   | Debug / assembly guides only        |
+| Constant             | RGB               | Laser use                           |
+|----------------------|-------------------|-------------------------------------|
+| `Color.OUTER_CUT`    | red `#ff0000`     | Perimeter cuts – material falls out |
+| `Color.INNER_CUT`    | magenta `#ff00ff` | Interior cuts – holes, pockets      |
+| `Color.ETCHING`      | black `#000000`   | Surface engravings, numbers, marks  |
+| `Color.ETCHING_DEEP` | blue `#0000ff`    | Deep engravings                     |
+| `Color.SOLID_FILL `  | cyan `#00ffff`    | Filled shapes                       |
+| `Color.ANNOTATIONS`  | green `#00ff00`   | Debug / assembly guides only        |
 
 ### Layout helpers
 

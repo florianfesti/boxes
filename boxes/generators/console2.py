@@ -200,8 +200,8 @@ To remove the panel you have to press in the four tabs at the side. It is easies
         if self.move(tw, th, move, True):
             return
 
-        d1 = t * math.cos(math.radians(self.angle))
-        d2 = t * math.sin(math.radians(self.angle))
+        d1 = t * math.sin(math.radians(self.angle))
+        d2 = t * math.cos(math.radians(self.angle))
 
         self.moveTo(t, 0)
         bottom(borders[0])
@@ -248,8 +248,8 @@ To remove the panel you have to press in the four tabs at the side. It is easies
             self.y = y = self.adjustSize(y)
             self.h = h = self.adjustSize(h, bottom)
 
-        d1 = t * math.cos(math.radians(self.angle))
-        d2 = t * math.sin(math.radians(self.angle))
+        d1 = t * math.sin(math.radians(self.angle))
+        d2 = t * math.cos(math.radians(self.angle))
 
         self.latchpos = latchpos = 6*t
 

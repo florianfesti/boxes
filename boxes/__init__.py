@@ -518,8 +518,34 @@ class Boxes:
 
     def addSettingsArgs(self, settings, prefix=None, **defaults):
         prefix = prefix or settings.__name__[:-len("Settings")]
+        n_before = len(self.argparser._action_groups)
         settings.parserArguments(self.argparser, prefix, **defaults)
         self.edgesettings[prefix] =  {}
+        # Tag any argument group(s) just added so the UI can nest them under
+        # the umbrella heading opened by settingsGroup(), if any is active.
+        super_group = getattr(self, "_settings_group_label", None)
+        if super_group is not None:
+            for group in self.argparser._action_groups[n_before:]:
+                group.super_group = super_group  # type: ignore[attr-defined]
+
+    @contextmanager
+    def settingsGroup(self, label: str):
+        """Group several addSettingsArgs() calls under one umbrella heading in the UI.
+
+        Purely cosmetic: it only affects how the generator's config page nests
+        the resulting groups, not argument parsing itself. Usage::
+
+            with self.settingsGroup("Miniature configuration"):
+                self.addSettingsArgs(ResourceSettings, prefix="Character", ...)
+                self.addSettingsArgs(ResourceSettings, prefix="Pet", ...)
+                self.addSettingsArgs(ResourceSettings, prefix="Base", ...)
+        """
+        previous = getattr(self, "_settings_group_label", None)
+        self._settings_group_label = label
+        try:
+            yield
+        finally:
+            self._settings_group_label = previous
 
 
     def parseArgs(self, args=None):

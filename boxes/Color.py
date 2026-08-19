@@ -10,9 +10,9 @@ class Color:
 
     OUTER_CUT = RED
     INNER_CUT = MAGENTA
-    ETCHING = BLACK
-    ETCHING_DEEP = BLUE
-    SOLID_FILL = CYAN
+    ETCHING = BLUE
+    ETCHING_DEEP = CYAN
+    SOLID_FILL = BLACK
     ANNOTATIONS = GREEN
 
     # Human-readable labels and descriptions for the settings UI.

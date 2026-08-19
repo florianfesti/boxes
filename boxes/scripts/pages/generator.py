@@ -14,6 +14,7 @@ from pathlib import Path
 
 import markdown
 
+from boxes.Color import Color
 from boxes.generators import ui_groups_by_name, ui_groups
 
 
@@ -116,6 +117,8 @@ class GeneratorUIMixin:
         ) if box.description else ""  # type: ignore[attr-defined]
         form_rows: list[str] = []
         groupid = 0
+        supergroupid = 0
+        current_super_group: str | None = None
         for group in box.argparser._action_groups[3:] + box.argparser._action_groups[:3]:  # type: ignore[attr-defined]
             if not group._group_actions:
                 continue
@@ -123,28 +126,57 @@ class GeneratorUIMixin:
                 group._group_actions[0], argparse._HelpAction
             ):
                 continue
+            # Groups tagged via settingsGroup() (same super_group label, added
+            # consecutively) get nested under one umbrella toggle instead of
+            # each showing up as its own top-level section.
+            super_group = getattr(group, "super_group", None)
+            if super_group != current_super_group:
+                if current_super_group is not None:
+                    form_rows.append("</div>\n")
+                if super_group is not None:
+                    sgid = f"sg{supergroupid}"
+                    supergroupid += 1
+                    form_rows.append(
+                        f'<h3 id="h-{sgid}" data-id="{sgid}" role="button" '
+                        f'aria-expanded="true" tabindex="0" class="toggle open settings-supergroup-title">'
+                        f"{_(super_group)}</h3>\n"
+                        f'<div role="presentation" id="{sgid}" class="settings-supergroup">\n'
+                    )
+                current_super_group = super_group
+
             prefix = getattr(group, "prefix", None)
-            # Groups added via addSettingsArgs (prefix is not None) start collapsed;
-            # only the generator's own params group (prefix=None) starts expanded.
-            start_collapsed = prefix is not None
-            h3_cls      = "toggle" if start_collapsed else "toggle open"
-            h3_expanded = "false" if start_collapsed else "true"
-            tbl_style   = ' style="display:none"' if start_collapsed else ""
-            # Prefix IDs with "g" to avoid collision with numeric category IDs
-            # that applyHiddenCategoriesMenu() reads from localStorage.
             sid = f"g{groupid}"
-            form_rows.append(
-                f'<h3 id="h-{sid}" data-id="{sid}" role="button" '
-                f'aria-expanded="{h3_expanded}" tabindex="0" class="{h3_cls}">'
-                f"{_(group.title)}</h3>\n"
-                f'<table role="presentation" id="{sid}"{tbl_style}>\n'
-            )
+            if super_group is not None:
+                # Nested inside a settingsGroup(): just a plain title, no
+                # fold/unfold of its own -- the umbrella toggle already
+                # covers show/hide for everything in here.
+                form_rows.append(
+                    f'<h3 class="settings-subgroup-title">{_(group.title)}</h3>\n'
+                    f'<table role="presentation" id="{sid}">\n'
+                )
+            else:
+                # Groups added via addSettingsArgs (prefix is not None) start collapsed;
+                # only the generator's own params group (prefix=None) starts expanded.
+                start_collapsed = prefix is not None
+                h3_cls      = "toggle" if start_collapsed else "toggle open"
+                h3_expanded = "false" if start_collapsed else "true"
+                tbl_style   = ' style="display:none"' if start_collapsed else ""
+                # Prefix IDs with "g" to avoid collision with numeric category IDs
+                # that applyHiddenCategoriesMenu() reads from localStorage.
+                form_rows.append(
+                    f'<h3 id="h-{sid}" data-id="{sid}" role="button" '
+                    f'aria-expanded="{h3_expanded}" tabindex="0" class="{h3_cls}">'
+                    f"{_(group.title)}</h3>\n"
+                    f'<table role="presentation" id="{sid}"{tbl_style}>\n'
+                )
             for a in group._group_actions:
                 if a.dest in ("input", "output", "language"):
                     continue
                 form_rows.append(self.arg2html(a, prefix, defaults, _))
             form_rows.append("</table>")
             groupid += 1
+        if current_super_group is not None:
+            form_rows.append("</div>\n")
         num_hide = 0  # all groups start expanded; users can collapse what they don't need
         # Discover JSON template files next to the generator source
         templates: list[tuple[str, dict]] = []
@@ -159,6 +191,14 @@ class GeneratorUIMixin:
             pass
         templates_js = json.dumps([{"name": n, "data": d} for n, d in templates], separators=(",", ":"))
         templates_script = f'<script>var GENERATOR_TEMPLATES={templates_js};</script>' if templates else ""
+        # Default laser-role colors, for the preview's client-side "show fill" toggle
+        # (it needs to know which stroke color counts as SOLID_FILL; localStorage
+        # overrides from the color settings page take precedence over this).
+        default_role_colors_js = json.dumps(
+            {role: Color.to_hex(getattr(Color, role)) for role in Color.ROLE_LABELS},
+            separators=(",", ":"),
+        )
+        role_colors_script = f'<script>var DEFAULT_ROLE_COLORS={default_role_colors_js};</script>'
         # Build the unified controls bar (template dropdown + zoom + info slots)
         template_section = ""
         if templates:
@@ -176,9 +216,11 @@ class GeneratorUIMixin:
             f'<div class="controls-bar">\n'
             f'  {template_section}'
             f'  <div id="preview-ctrl-card" class="preview-ctrl-card">\n'
-            f'    <button type="button" title="{_("Zoom out")}" onclick="preview_scale/=1.2; document.getElementById(\'preview_img\').style.width = preview_scale + \'%\';">🔍➖</button>\n'
-            f'    <button type="button" title="{_("Zoom in")}" onclick="preview_scale*= 1.2; document.getElementById(\'preview_img\').style.width = preview_scale + \'%\';">🔍➕</button>\n'
-            f'    <button type="button" title="{_("Reset zoom")}" onclick="preview_scale=100; document.getElementById(\'preview_img\').style.width = preview_scale + \'%\';">↺</button>\n'
+            f'    <button type="button" title="{_("Zoom out")}" onclick="preview_scale/=1.2; setPreviewZoom(preview_scale);">🔍➖</button>\n'
+            f'    <button type="button" title="{_("Zoom in")}" onclick="preview_scale*= 1.2; setPreviewZoom(preview_scale);">🔍➕</button>\n'
+            f'    <button type="button" title="{_("Reset zoom")}" onclick="preview_scale=100; setPreviewZoom(preview_scale);">↺</button>\n'
+            f'    <label class="preview-fill-toggle" title="{_("Show SOLID_FILL colored areas filled in, preview only -- the cut file is unaffected")}">'
+            f'<input type="checkbox" id="preview-fill-toggle" checked onchange="onPreviewFillToggleChange()"> {_("Show fill")}</label>\n'
             f'  </div>\n'
             f'  <div id="surface-info-bar" class="surface-info-bar"></div>\n'
             f'  <div id="price-info-bar" class="price-info-bar"></div>\n'
@@ -207,6 +249,7 @@ class GeneratorUIMixin:
             f"  {self.genHTMLJS()}\n"
             f"  {self.genHTMLTouchJS()}\n"
             f"  {templates_script}\n"
+            f"  {role_colors_script}\n"
             f'  <script src="{self.static_url}/generator.js"></script>\n'
             "</head>\n"
             f'<body class="touch-args" onload="initTouchArgs({num_hide})">\n'
@@ -239,6 +282,7 @@ class GeneratorUIMixin:
             '          <div id="preview-loading" class="preview-loading" role="status" aria-label="Loading\u2026"></div>\n'
             '          <figure id="preview_figure">\n'
             f'            <img id="preview_img" style="width:100%" src="{self.static_url}/nothing.png">\n'
+            '            <div id="preview_svg_inline" style="width:100%;display:none"></div>\n'
             "          </figure>\n"
             "        </div>\n"
             "      </div>\n"

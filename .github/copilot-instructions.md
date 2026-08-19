@@ -7,9 +7,8 @@
 
 ## 1. Project Overview
 
-**Boxes.py** is a Python library and web application that generates parametric
-SVG cutting plans for laser cutters. Each *generator* is a Python class that
-inherits from `boxes.Boxes` and produces an SVG file composed of:
+**Boxes.py** is a Python library and web application that generates parametric SVG cutting plans for laser cutters. Each
+*generator* is a Python class that inherits from `boxes.Boxes` and produces an SVG file composed of:
 
 - **Cut paths** (laser cuts through the material)
 - **Engraved paths** (laser marks on the surface)
@@ -31,8 +30,8 @@ The project is pure Python (≥ 3.10). The main entry points are:
 pre-commit run --all-files
 ```
 
-This single command runs **all** automated checks listed below.
-Never skip it. CI (`precommit.yml`) will block the PR otherwise.
+This single command runs **all** automated checks listed below. Never skip it. CI (`precommit.yml`) will block the PR
+otherwise.
 
 ### mypy configuration
 
@@ -70,8 +69,7 @@ Never skip it. CI (`precommit.yml`) will block the PR otherwise.
 
 ### ⚠️ Mandatory after every code change
 
-After editing **any** file in `boxes/`, always run mypy on the changed files
-**before** running the test suite:
+After editing **any** file in `boxes/`, always run mypy on the changed files **before** running the test suite:
 
 ```powershell
 # PowerShell – check only the files you touched
@@ -83,19 +81,18 @@ python -m mypy boxes/
 
 Fix **all** errors and notes before proceeding. In particular:
 
-- `annotation-unchecked` notes mean a function body is unchecked because the
-  function has no return-type annotation – **add the annotation**.
-- `"None" has no attribute "..."` on `self.ctx` means you must use the
-  already-`cast` local variable (e.g. `ctx`) instead of `self.ctx` directly,
-  since `self.ctx` is typed `Context | None`.
-- Pre-existing errors surfaced by new annotations must be fixed with the
-  narrowest possible suppression: `# type: ignore[<code>]` on the exact line.
+- `annotation-unchecked` notes mean a function body is unchecked because the function has no return-type annotation –
+  **add the annotation**.
+- `"None" has no attribute "..."` on `self.ctx` means you must use the already-`cast` local variable (e.g. `ctx`)
+  instead of `self.ctx` directly, since `self.ctx` is typed `Context | None`.
+- Pre-existing errors surfaced by new annotations must be fixed with the narrowest possible suppression:
+  `# type: ignore[<code>]` on the exact line.
 
 ### Python version target
 
 - Minimum: **Python 3.10** (`--py310-plus` in pyupgrade).
-- Use `match` / `case`, `X | Y` union types, `list[T]` / `dict[K, V]` built-in
-  generics (not `List`, `Dict` from `typing`).
+- Use `match` / `case`, `X | Y` union types, `list[T]` / `dict[K, V]` built-in generics (not `List`, `Dict` from
+  `typing`).
 
 ---
 
@@ -103,8 +100,7 @@ Fix **all** errors and notes before proceeding. In particular:
 
 ### File location & naming
 
-Each generator lives in its **own dedicated sub-folder** inside the relevant
-category directory:
+Each generator lives in its **own dedicated sub-folder** inside the relevant category directory:
 
 ```
 boxes/generators/<category>/<snake_case_name>/
@@ -123,8 +119,8 @@ boxes/generators/misc/mywidget/mywidget.jpg
 boxes/generators/misc/mywidget/mywidget-thumb.jpg
 ```
 
-The class name must be `CamelCase` and match the folder name semantically.
-Folder names starting with `_` are ignored by the auto-discovery mechanism.
+The class name must be `CamelCase` and match the folder name semantically. Folder names starting with `_` are ignored by
+the auto-discovery mechanism.
 
 ### Mandatory skeleton
 
@@ -174,8 +170,7 @@ Include assembly instructions, tips, images references here.
 
 ### Parameters
 
-- Use `self.buildArgParser(x=100, y=100, h=100, ...)` for standard box
-  dimensions (x, y, h, hi, sx, sy, outside, …).
+- Use `self.buildArgParser(x=100, y=100, h=100, ...)` for standard box dimensions (x, y, h, hi, sx, sy, outside, …).
 - Add custom parameters via `self.argparser.add_argument(...)`.
 - Always provide sane metric defaults (mm).
 - Access parsed values in `render()` via `self.my_param`.
@@ -256,9 +251,9 @@ self.text("Hello", x=0, y=0, angle=0, align="middle center",
 |----------------------|-------------------|-------------------------------------|
 | `Color.OUTER_CUT`    | red `#ff0000`     | Perimeter cuts – material falls out |
 | `Color.INNER_CUT`    | magenta `#ff00ff` | Interior cuts – holes, pockets      |
-| `Color.ETCHING`      | black `#000000`   | Surface engravings, numbers, marks  |
-| `Color.ETCHING_DEEP` | blue `#0000ff`    | Deep engravings                     |
-| `Color.SOLID_FILL `  | cyan `#00ffff`    | Filled shapes                       |
+| `Color.ETCHING`      | blue `#0000ff`    | Surface engravings, numbers, marks  |
+| `Color.ETCHING_DEEP` | cyan `#00ffff`    | Deep engravings                     |
+| `Color.SOLID_FILL `  | black `#000000`   | Filled shapes                       |
 | `Color.ANNOTATIONS`  | green `#00ff00`   | Debug / assembly guides only        |
 
 ### Layout helpers
@@ -289,8 +284,8 @@ pitch, size, _ = self.gears.sizes(teeth=20, dimension=2.0, ...)
 
 ### Automatic test discovery
 
-Every generator with a `render()` that works with **default parameters** is
-automatically tested by `tests/test_svg.py::TestSVG::test_default_generator`.
+Every generator with a `render()` that works with **default parameters** is automatically tested by
+`tests/test_svg.py::TestSVG::test_default_generator`.
 
 The test:
 
@@ -442,8 +437,8 @@ Avoid new dependencies unless strictly necessary.
 
 ## 10. Static CSS Organisation
 
-Each touch-mode page has its **own dedicated CSS file** in `static/`.
-Never put page-specific styles in another page's file or inline `<style>` blocks.
+Each touch-mode page has its **own dedicated CSS file** in `static/`. Never put page-specific styles in another page's
+file or inline `<style>` blocks.
 
 | Page (`body.touch-*`)    | Python source                       | CSS file                | `genHTML…CSS()` method   |
 |--------------------------|-------------------------------------|-------------------------|--------------------------|
@@ -478,14 +473,12 @@ Rules:
 ### ⚠️ TTF/OTF is mandatory
 
 Every font in `boxes/fonts/` **must** have a `.ttf` or `.otf` file.
-`fontmanager.text_to_svg_path` uses fontTools to convert text to SVG paths;
-fontTools can only read `.woff2` when the optional `brotli` package is
-installed. Without a TTF/OTF the generator silently outputs a `<text>` element
-that most laser-cutter apps cannot engrave.
+`fontmanager.text_to_svg_path` uses fontTools to convert text to SVG paths; fontTools can only read `.woff2` when the
+optional `brotli` package is installed. Without a TTF/OTF the generator silently outputs a `<text>` element that most
+laser-cutter apps cannot engrave.
 
-The path engine automatically prefers `.ttf` over `.woff2` when both exist, so
-you can keep the `.woff2` (used for browser `@font-face` embedding) alongside
-the `.ttf`.
+The path engine automatically prefers `.ttf` over `.woff2` when both exist, so you can keep the `.woff2` (used for
+browser `@font-face` embedding) alongside the `.ttf`.
 
 ### Convert a single woff2 → ttf
 
@@ -553,9 +546,8 @@ The developer's shell is **Windows PowerShell**. Always generate commands for it
 
 ## 15. Project-specific Conventions
 
-- **No `print()` or `logging.warn()`** in generator code – pre-commit blocks both.
-  Use `logging.warning()` if needed (also blocked in generators – tests assert
-  zero stdout/stderr).
+- **No `print()` or `logging.warn()`** in generator code – pre-commit blocks both. Use `logging.warning()` if needed
+  (also blocked in generators – tests assert zero stdout/stderr).
 - **No `eval()`** anywhere – `python-no-eval` hook enforces this.
 - **GPL-3.0-or-later header** must be present in every new `.py` file:
 
@@ -569,11 +561,8 @@ The developer's shell is **Windows PowerShell**. Always generate commands for it
   #   ...
   ```
 
-- **`thickness`** is always available as `self.thickness` (set at parse time,
-  not a constructor argument).
-- **Burn compensation** is available as `self.burn` – use it when computing
-  geometry that must be exact (e.g. `r - self.burn` for hole radii).
-- **`@restore` decorator** (from `boxes`) wraps drawing methods that should not
-  change the global coordinate system.
-- **`@holeCol` decorator** automatically switches color to `INNER_CUT` for
-  hole-drawing methods.
+- **`thickness`** is always available as `self.thickness` (set at parse time, not a constructor argument).
+- **Burn compensation** is available as `self.burn` – use it when computing geometry that must be exact (e.g.
+  `r - self.burn` for hole radii).
+- **`@restore` decorator** (from `boxes`) wraps drawing methods that should not change the global coordinate system.
+- **`@holeCol` decorator** automatically switches color to `INNER_CUT` for hole-drawing methods.

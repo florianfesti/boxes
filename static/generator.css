@@ -173,6 +173,30 @@ body.touch-args h3 {
   width: calc(100% - 28px);
 }
 
+/* Several addSettingsArgs() groups nested under one settingsGroup() heading */
+.settings-supergroup {
+  padding-left: 14px;
+  border-left: 2px solid rgba(127, 127, 127, 0.25);
+  margin: 0 0 8px 6px;
+}
+.settings-supergroup-title {
+  font-weight: bold;
+}
+/* Sub-group nested inside a settingsGroup(): plain title, not collapsible --
+   the umbrella toggle above already covers show/hide, so no fold/unfold
+   arrow (self.css's generic h3::before) and no clickable hover look. */
+.settings-subgroup-title {
+  cursor: default;
+  font-weight: normal;
+}
+.settings-subgroup-title::before {
+  content: none;
+}
+.settings-subgroup-title:hover {
+  background-color: transparent;
+  color: inherit;
+}
+
 /* Larger label text in form table */
 body.touch-args table td:first-child label {
   font-size: 1.05em;
@@ -318,6 +342,14 @@ body.touch-args form > p:last-of-type { display: none; }
   vertical-align: middle;
   padding: 0 8px;
   box-sizing: border-box;
+}
+.preview-fill-toggle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
 }
 .surf-dims { font-weight: bold; }
 .surf-sep  { color: #bbb; }

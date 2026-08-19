@@ -20,7 +20,12 @@ function initTouchArgs(numHide) {
     if (img) {
         img.addEventListener('load',  _hidePreviewLoading);
         img.addEventListener('error', _hidePreviewLoading);
+        img.addEventListener('load',  () => { if (previewFillEnabled) _loadInlinePreviewFill(img.src); });
     }
+
+    // "Show fill" checkbox next to the zoom controls starts checked (default true).
+    const fillToggle = document.getElementById('preview-fill-toggle');
+    if (fillToggle) previewFillEnabled = fillToggle.checked;
 
     // Wire up the sticky action bar buttons
     _bindTouchActionBar();
@@ -32,6 +37,91 @@ function initTouchArgs(numHide) {
     if (!CSS.supports('field-sizing', 'content')) {
         _autoSizeAllFields();
     }
+}
+
+/* ----------------------------------------------------------------
+   Preview "show fill" toggle
+   ----------------------------------------------------------------
+   The cut file itself is line-art only (no <path fill>, by design --
+   laser software decides per color-layer whether to fill). This toggle
+   is a preview-only aid: on the client we fetch the same preview svg as
+   text, inline it into the page (an <img> can't have its inner <path>
+   elements restyled), and set fill=stroke on paths whose stroke color
+   matches the SOLID_FILL role so the on-screen preview looks filled.
+   The downloaded/generated file is never touched. Defaults to on. */
+
+let previewFillEnabled = true;
+
+/** Keep both the <img> and the inline-svg preview at the same zoom level. */
+function setPreviewZoom(scale) {
+    const img = document.getElementById('preview_img');
+    const inline = document.getElementById('preview_svg_inline');
+    if (img) img.style.width = scale + '%';
+    if (inline) inline.style.width = scale + '%';
+}
+
+function onPreviewFillToggleChange() {
+    const cb = document.getElementById('preview-fill-toggle');
+    previewFillEnabled = cb ? cb.checked : true;
+    const img = document.getElementById('preview_img');
+    const inline = document.getElementById('preview_svg_inline');
+    if (!img || !inline) return;
+    if (previewFillEnabled) {
+        _loadInlinePreviewFill(img.src);
+    } else {
+        inline.style.display = 'none';
+        inline.innerHTML = '';
+        img.style.display = '';
+    }
+}
+
+function _hexToRgbString(hex) {
+    hex = hex.replace('#', '');
+    const r = parseInt(hex.substring(0, 2), 16);
+    const g = parseInt(hex.substring(2, 4), 16);
+    const b = parseInt(hex.substring(4, 6), 16);
+    return `rgb(${r},${g},${b})`;
+}
+
+/** Fill in every path whose stroke matches the current SOLID_FILL color. */
+function _applySolidFillPreview(svgEl) {
+    const overrides = (typeof loadColorSettings === 'function') ? loadColorSettings() : {};
+    const hex = overrides['SOLID_FILL'] ||
+        (typeof DEFAULT_ROLE_COLORS !== 'undefined' ? DEFAULT_ROLE_COLORS['SOLID_FILL'] : null);
+    if (!hex) return;
+    const targets = new Set([hex.toLowerCase(), _hexToRgbString(hex)]);
+    svgEl.querySelectorAll('path[stroke]').forEach(p => {
+        const stroke = p.getAttribute('stroke');
+        if (stroke && targets.has(stroke.toLowerCase())) {
+            p.setAttribute('fill', stroke);
+        }
+    });
+}
+
+/** Fetch the preview svg as text and inline it so its paths can be restyled. */
+function _loadInlinePreviewFill(url) {
+    if (!url || !previewFillEnabled) return;
+    fetch(url)
+        .then(r => r.text())
+        .then(text => {
+            if (!previewFillEnabled) return; // toggled off while the fetch was in flight
+            const img = document.getElementById('preview_img');
+            const inline = document.getElementById('preview_svg_inline');
+            if (!img || !inline) return;
+            inline.innerHTML = text;
+            const svgEl = inline.querySelector('svg');
+            if (!svgEl) return;
+            svgEl.removeAttribute('width');
+            svgEl.removeAttribute('height');
+            svgEl.style.width = '100%';
+            svgEl.style.height = 'auto';
+            svgEl.style.display = 'block';
+            _applySolidFillPreview(svgEl);
+            inline.style.width = img.style.width || '100%';
+            inline.style.display = '';
+            img.style.display = 'none';
+        })
+        .catch(() => {}); // e.g. the initial nothing.png placeholder isn't an svg -- ignore
 }
 
 /* ----------------------------------------------------------------

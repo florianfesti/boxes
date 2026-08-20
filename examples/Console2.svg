@@ -131,7 +131,11 @@ Command line short: boxes Console2
   <text dominant-baseline="hanging" font-size="4px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 353.051 70.200 )">Front</text>
 </g>
 <g id="p-5" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">
+  <path d="M 377.602 116.100 V 122.100 C 377.602 122.155 377.647 122.200 377.702 122.200 H 383.702 M 383.702 119.200 H 380.802 C 380.702 119.200 380.802 119.300 380.802 119.200 V 116.300" stroke="rgb(0,255,0)" stroke-width="0.20" />
   <path d="M 377.602 125.200 H 468.980 H 471.980 C 472.036 125.200 472.080 125.155 472.080 125.100 V 122.100 V 22.100 V 19.100 C 472.080 19.045 472.036 19.000 471.980 19.000 H 468.980 H 377.602 H 374.602 C 374.547 19.000 374.502 19.045 374.502 19.100 V 22.100 V 122.100 V 125.100 C 374.502 125.155 374.547 125.200 374.602 125.200 H 377.602 Z" stroke="rgb(0,0,0)" stroke-width="0.20" />
+  <path d="M 462.980 122.100 H 468.980 C 469.036 122.100 469.080 122.055 469.080 122.000 V 116.000 M 466.080 116.000 V 118.900 C 466.080 119.000 466.180 118.900 466.080 118.900 H 463.180" stroke="rgb(0,255,0)" stroke-width="0.20" />
+  <path d="M 468.980 28.100 V 22.100 C 468.980 22.045 468.936 22.000 468.880 22.000 H 462.880 M 462.880 25.000 H 465.780 C 465.880 25.000 465.780 24.900 465.780 25.000 V 27.900" stroke="rgb(0,255,0)" stroke-width="0.20" />
+  <path d="M 383.602 22.100 H 377.602 C 377.547 22.100 377.502 22.145 377.502 22.200 V 28.200 M 380.502 28.200 V 25.300 C 380.502 25.200 380.402 25.300 380.502 25.300 H 383.402" stroke="rgb(0,255,0)" stroke-width="0.20" />
   <text dominant-baseline="hanging" font-size="4px" style="font-family: sans-serif ; font-weight: normal; font-style: normal; fill: rgb(255,0,0)" text-anchor="middle" transform="matrix( 1.000 0.000 0.000 1.000 423.291 70.200 )">Panel</text>
 </g>
 <g id="p-6" style="fill:none;stroke-linecap:round;stroke-linejoin:round;">

@@ -232,6 +232,16 @@ To remove the panel you have to press in the four tabs at the side. It is easies
 
         self.move(tw, th, move, label=label)
 
+    def cornerCB(self):
+        self.ctx.stroke()
+        t = self.thickness
+        self.set_source_color(Color.ETCHING)
+        self.moveTo(0, 2*t, -90)
+        self.polyline(2*t, 90, 2*t)
+        self.moveTo(0, t, 180)
+        self.polyline(t, -90, t)
+        self.ctx.stroke()
+
     def render(self):
         x, y, h = self.x, self.y, self.h
         t = self.thickness
@@ -263,7 +273,10 @@ To remove the panel you have to press in the four tabs at the side. It is easies
             move="right", label="Front")
 
         if self.glued_panel:
-            self.rectangularWall(borders[4], x, "EEEE", move="right", label="Panel")
+            self.rectangularWall(
+                borders[4], x, "EEEE", move="right",
+                callback=[self.cornerCB]*4 if self.removable_panel else [],
+                label="Panel")
         elif self.removable_panel:
             self.rectangularWall(borders[4], x-2*t, "hEhE", move="right", label="Panel")
         else:

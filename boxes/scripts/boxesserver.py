@@ -16,6 +16,7 @@
 from __future__ import annotations
 
 import argparse
+from enum import nonmember
 import gettext
 import glob
 import html
@@ -26,6 +27,7 @@ import re
 import sys
 import threading
 import time
+from tkinter import N
 import traceback
 from typing import Any, NoReturn
 from urllib.parse import quote, unquote_plus
@@ -41,6 +43,9 @@ except ImportError:
     import boxes.generators
 import boxes
 
+httpd = None
+boxserver = None
+args = None
 
 class FileChecker(threading.Thread):
     def __init__(self, files=[], checkmodules: bool = True) -> None:
@@ -48,6 +53,7 @@ class FileChecker(threading.Thread):
         self.checkmodules = checkmodules
         self.timestamps = {}
         self._stopped = False
+        self.file_changed = False
         for path in files:
             self.timestamps[path] = os.stat(path).st_mtime
         if checkmodules:
@@ -75,9 +81,13 @@ class FileChecker(threading.Thread):
     def run(self) -> None:
         while not self._stopped:
             if not self.filesOK():
-                os.execl(sys.executable, 'python', __file__, *sys.argv[1:])
+                global httpd
+                print("*** Server stopped due to changes in the source")
+                httpd.server_close()
+                self.file_changed = True
+                break
             time.sleep(1)
-
+        
     def stop(self) -> None:
         self._stopped = True
 
@@ -732,7 +742,31 @@ def get_qrcode(url, format):
     return image_bytes.getvalue()
 
 
+
+def start_server(args, fc) -> int:
+    global boxserver
+    global httpd
+    boxserver = BServer(url_prefix=args.url_prefix, static_url=args.static_url,
+                        static_path=args.static_path)
+    httpd = make_server(args.host, args.port, boxserver.serve)
+    print(f"** BoxesServer serving on http://{args.host if args.host else '*'}:{args.port}/...")
+    try:
+        httpd.serve_forever()
+    except KeyboardInterrupt:
+        print("** BoxesServer ended due to keyboard interrupt.")
+        fc.stop()
+        return 0
+    except Exception as e:
+        print(f"** BoxesServer error: {e}")
+        fc.stop()
+        return 1
+    httpd.server_close()
+    if fc.file_changed:
+        return 2
+    return 0
+
 def main() -> None:
+    global args
     parser = argparse.ArgumentParser()
 
     parser.add_argument("--host", default="")
@@ -747,21 +781,12 @@ def main() -> None:
                         help="URL of legal web page")
     args = parser.parse_args()
 
-    boxserver = BServer(url_prefix=args.url_prefix, static_url=args.static_url,
-                        static_path=args.static_path)
-
     fc = FileChecker()
     fc.start()
-
-    httpd = make_server(args.host, args.port, boxserver.serve)
-    print(f"BoxesServer serving on http://{args.host if args.host else '*'}:{args.port}/...")
-    try:
-        httpd.serve_forever()
-    except KeyboardInterrupt:
-        fc.stop()
-    httpd.server_close()
-    print("BoxesServer stops.")
-
+    exit_code = start_server(args, fc)
+    fc.stop()
+    fc.join()
+    sys.exit(exit_code)
 
 if __name__ == "__main__":
     main()

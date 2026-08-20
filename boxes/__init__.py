@@ -384,19 +384,21 @@ class Boxes:
         self.spacing = 2 * self.burn + self.spacing[0] * self.thickness + self.spacing[1]
         self.set_font("sans-serif")
         self._buildObjects()
-        if self.reference and self.format != 'svg_Ponoko':
+        if self.reference and self.reference_enabled and self.format != 'svg_Ponoko':
             self.move(self.reference, 10, "up", before=True)
-            self.ctx.rectangle(0, 0, self.reference, 10)
+            with self.saved_context():
+                self.set_source_color(Color.OUTER_CUT)
+                self.ctx.rectangle(0, 0, self.reference, 10)
+                self.ctx.stroke()
             if self.reference < 80:
                 self.text(f"{self.reference:.1f}mm, burn:{self.burn:.2f}mm", self.reference + 5, 5,
-                          fontsize=6, align="middle left", color=Color.ANNOTATIONS)
+                          fontsize=6, align="middle left", color=Color.BLACK)
             else:
                 self.text(f"{self.reference:.1f}mm, burn:{self.burn:.2f}mm", self.reference / 2.0, 5,
-                          fontsize=6, align="middle center", color=Color.ANNOTATIONS)
+                          fontsize=6, align="middle center", color=Color.BLACK)
             self.move(self.reference, 10, "up")
             if self.qr_code:
                 self.renderQrCode()
-            self.ctx.stroke()
 
     def renderQrCode(self):
         content = self.metadata['url_short'] or self.metadata["cli_short"]

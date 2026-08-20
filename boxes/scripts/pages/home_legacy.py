@@ -187,18 +187,24 @@ class HomeLegacyMixin:
         viewname = name
         if prefix and name.startswith(prefix + "_"):
             viewname = name[len(prefix) + 1:]
-        viewname = getattr(a, "display_name", None) or viewname
+        display_name = getattr(a, "display_name", None)
+        if display_name is not None:
+            viewname = display_name
 
         _defaults = defaults or {}
         default = _defaults.get(name, None)
         help_html = "" if not a.help else markdown.markdown(_(a.help))
+        # gettext maps msgid "" to the .po file's own header block, not "" --
+        # never run an empty label (e.g. a deliberately blanked display_name)
+        # through the translator or it prints that metadata instead of nothing.
+        translated_viewname = _(viewname) if viewname else ""
         if a.help:
             label_html = (
                 f'<label for="{name}" class="help-label"'
-                f" onclick=\"openHelpModal('{name}_description')\">{_(viewname)}</label>"
+                f" onclick=\"openHelpModal('{name}_description')\">{translated_viewname}</label>"
             )
         else:
-            label_html = f'<label for="{name}">{_(viewname)}</label>'
+            label_html = f'<label for="{name}">{translated_viewname}</label>'
         row_head = (
             f'<tr>'
             f'<td id="{name}_id">{label_html}</td>'

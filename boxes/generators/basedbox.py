@@ -32,10 +32,13 @@ See ClosedBox for variant without a base.
     def __init__(self) -> None:
         Boxes.__init__(self)
         self.addSettingsArgs(edges.FingerJointSettings)
-        self.buildArgParser("x", "y", "h", "outside")
+        self.addSettingsArgs(edges.CabinetHingeSettings)
+        self.buildArgParser(top_edge="feFhcCESŠvtyY", x=100.0, y=100.0, h=100.0, outside=True)
+
 
     def render(self):
 
+        top_edge = self.top_edge
         x, y, h = self.x, self.y, self.h
 
         if self.outside:
@@ -45,10 +48,65 @@ See ClosedBox for variant without a base.
 
         t = self.thickness
 
-        self.rectangularWall(x, h, "fFFF", move="right", label="Wall 1")
-        self.rectangularWall(y, h, "ffFf", move="up", label="Wall 2")
-        self.rectangularWall(y, h, "ffFf", label="Wall 4")
-        self.rectangularWall(x, h, "fFFF", move="left up", label="Wall 3")
+        top_edge1 = top_edge
+        top_edge2 = top_edge
+        top_edge3 = top_edge
+        top_edge4 = top_edge
+        bottom_edge = "h"
+        
+        match top_edge:
+            case "f":
+                top_edges = "F" * 4
+            case "e":
+                top_edges = "" # do not generate top
+            case "F" | "h" | "Š":
+                top_edges = "f" * 4
+            case "c":
+                top_edges = "C" * 4
+            case "C":
+                top_edges = "c" * 4
+            case "E":
+                top_edges = "E" * 4
+                top_edge1 = "e"
+                top_edge2 = "e"
+                top_edge3 = "e"
+                top_edge4 = "e"
+            case "S":
+                top_edges = ""
+            case 'v':
+                top_edges = 'Eeve'
+                top_edge1 = "V"
+                top_edge2 = "E"
+                top_edge3 = "e"
+                top_edge4 = "E"
+            case 't':
+                top_edges = "" # do not generate top
+                top_edge1 = "E"
+                top_edge3 = "E"
+            case 'y':
+                top_edges = "" # do not generate top
+                top_edge1 = "E"
+                top_edge3 = "E"
+            case 'Y':
+                top_edges = "f" * 4
+                top_edge1 = "F"
+                top_edge3 = "F"
+            case _:
+                top_edges = ""
+            
+        self.rectangularWall(y, h, "ff" + top_edge2 + "f", move="right", label="Wall 2")
+        self.rectangularWall(y, h, "ff" + top_edge4 + "f", move="up", label="Wall 4")
+        self.rectangularWall(x, h, "fF" + top_edge3 + "F", label="Wall 3")
+        self.rectangularWall(x, h, "fF" + top_edge1 + "F", move="left up", label="Wall 1")
 
-        self.rectangularWall(x, y, "ffff", move="right", label="Top")
-        self.rectangularWall(x, y, "hhhh", label="Base")
+        if top_edges != "":
+            self.rectangularWall(x, y, top_edges, move="right", label="Top")
+
+        self.rectangularWall(x, y, "hh" + bottom_edge + "h", move="up", label="Base")
+
+        if top_edge == "v":
+            # Ensure hinge edge is initialized with settings
+            if "v" not in self.edges:
+                s = edges.CabinetHingeSettings(self.thickness)
+                s.edgeObjects(self, "vV", add=True)
+            self.edges["v"].parts(move="up")

@@ -60,7 +60,7 @@ class DefaultSettings(Settings):
      * format           : svg      : Output file format
      * labels           : True     : Label the parts where available
      * reference        : 100.0    : Reference rectangle length [mm]
-     * reference_enabled: True     : Show the reference rectangle
+     * reference_print   : False    : Print the reference rectangle
      * tabs             : 0.0      : Width of tabs holding parts in place [mm]
      * qr_code          : False    : Add a QR Code to the output
      * inner_corners    : loop     : Style for inner corners
@@ -75,7 +75,7 @@ class DefaultSettings(Settings):
         "format":             "svg",
         "labels":             True,
         "reference":          100.0,
-        "reference_enabled":  True,
+        "reference_print":    False,
         "tabs":               0.0,
         "qr_code":            False,
         "inner_corners":      "loop",
@@ -150,13 +150,13 @@ class DefaultSettings(Settings):
             help="Reference rectangle length [mm]",
         )
 
-        default_reference_enabled = bool(
-            defaults.get("reference_enabled", cls.absolute_params["reference_enabled"])
+        default_reference_print = bool(
+            defaults.get("reference_print", cls.absolute_params["reference_print"])
         )
         group.add_argument(
-            f"--{_pfx}reference_enabled",
+            f"--{_pfx}reference_print",
             action="store", type=boolarg,
-            default=default_reference_enabled,
+            default=default_reference_print,
             help="Print the reference rectangle",
         )
 

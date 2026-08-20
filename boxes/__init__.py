@@ -384,7 +384,7 @@ class Boxes:
         self.spacing = 2 * self.burn + self.spacing[0] * self.thickness + self.spacing[1]
         self.set_font("sans-serif")
         self._buildObjects()
-        if self.reference and self.reference_enabled and self.format != 'svg_Ponoko':
+        if self.reference and self.reference_print and self.format != 'svg_Ponoko':
             self.move(self.reference, 10, "up", before=True)
             with self.saved_context():
                 self.set_source_color(Color.OUTER_CUT)

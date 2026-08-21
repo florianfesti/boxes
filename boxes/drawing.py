@@ -3,6 +3,7 @@ from __future__ import annotations
 import codecs
 import io
 import math
+import re
 from typing import Any
 from xml.etree import ElementTree as ET
 
@@ -446,43 +447,43 @@ class SVGSurface(Surface):
         if not md["reproducible"]:
             self._addTag(w, 'dc:date', creation_date)
 
+        url_desc: str = ""
         if md.get("url"):
             self._addTag(w, 'dc:source', md["url"])
             self._addTag(w, 'dc:source', md["url_short"])
+            remove_render = re.compile(r'&render=\d+')
+            settings_url = remove_render.sub('', md["url"])
+            settings_url_short = remove_render.sub('', md["url_short"])
+            url_desc = f"Url: {md['url']}\n"
+            url_desc += f"Url short: {md['url_short']}\n"
+            url_desc += f"SettingsUrl: {settings_url}\n"
+            url_desc += f"SettingsUrl short: {settings_url_short}\n"
         else:
             self._addTag(w, 'dc:source', md["cli"])
 
         desc = md["short_description"] or ""
         if md.get("description"):
-            desc += "\n\n" + md["description"]
+            desc += f"\n\n{md['description']}"
         desc += "\n\nCreated with Boxes.py (https://boxes.hackerspace-bamberg.de/)\n"
-        desc += "Command line: %s\n" % md["cli"]
-        desc += "Command line short: %s\n" % md["cli_short"]
-        if md["url"]:
-            desc += "Url: %s\n" % md["url"]
-            desc += "Url short: %s\n" % md["url_short"]
-            desc += "SettingsUrl: %s\n" % md["url"].replace("&render=1", "")
-            desc += "SettingsUrl short: %s\n" % md["url_short"].replace("&render=1", "")
+        desc += f"Command line: {md['cli']}\n"
+        desc += f"Command line short: {md['cli_short']}\n"
+        desc += url_desc
         self._addTag(w, 'dc:description', desc)
 
         # title
         self._addTag(root, "title", md["name"], True)
 
         # Add XML comment
-        txt = """\n{name} - {short_description}\n""".format(**md)
-        if md["description"]:
-            txt += """\n\n{description}\n\n""".format(**md)
+        txt = f"\n{md['name']} - {md['short_description']}\n"
+        if md.get("description"):
+            txt += f"\n\n{md['description']}\n\n"
         txt += """\nCreated with Boxes.py (https://boxes.hackerspace-bamberg.de/)\n"""
         if not md["reproducible"]:
             txt += f"""Creation date: {creation_date}\n"""
 
-        txt += "Command line (remove spaces between dashes): %s\n" % md["cli_short"]
+        txt += f"Command line (remove spaces between dashes): {md['cli_short']}\n"
+        txt += url_desc
 
-        if md["url"]:
-            txt += "Url: %s\n" % md["url"]
-            txt += "Url short: %s\n" % md["url_short"]
-            txt += "SettingsUrl: %s\n" % md["url"].replace("&render=1", "")
-            txt += "SettingsUrl short: %s\n" % md["url_short"].replace("&render=1", "")
         m = ET.Comment(txt.replace("--", "- -").replace("--", "- -")) # ----
         m.tail = '\n'
         root.insert(0, m)
@@ -621,21 +622,24 @@ class PSSurface(Surface):
         desc += f'%%Creator: {md.get("url") or md["cli"]}\n'
         desc += "%%CreatedBy: Boxes.py (https://boxes.hackerspace-bamberg.de/)\n"
         for line in (md["short_description"] or "").split("\n"):
-            desc += "%% %s\n" % line
+            desc += f"%% {line}\n"
         desc += "%\n"
         if md.get("description"):
             desc += "%\n"
             for line in md["description"].split("\n"):
-                desc += "%% %s\n" % line
+                desc += f"%% {line}\n"
             desc += "%\n"
 
-        desc += "%% Command line: %s\n" % md["cli"]
-        desc += "%% Command line short: %s\n" % md["cli_short"]
-        if md["url"]:
+        desc += f"%% Command line: {md['cli']}\n"
+        desc += f"%% Command line short: {md['cli_short']}\n"
+        if md.get("url"):
+            remove_render = re.compile(r'&render=\d+')
+            settings_url = remove_render.sub('', md["url"])
+            settings_url_short = remove_render.sub('', md["url_short"])
             desc += f'%%Url: {md["url"]}\n'
             desc += f'%%Url short: {md["url_short"]}\n'
-            desc += f'%%SettingsUrl: {md["url"].replace("&render=1", "")}\n'
-            desc += f'%%SettingsUrl short: {md["url_short"].replace("&render=1", "")}\n'
+            desc += f'%%SettingsUrl: {settings_url}\n'
+            desc += f'%%SettingsUrl short: {settings_url_short}\n'
         return desc
 
     def finish(self, inner_corners="loop"):

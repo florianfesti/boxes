@@ -169,10 +169,10 @@ class DiscRack(Boxes):
                 return "absent"
 
         if self.rear_outset < self.thickness:
-            warnings.append("Rear upper constraint is %s. Consider increasing the disc outset parameter, or move the angle away from 45°." % word_thickness(self.rear_outset))
+            warnings.append(f"Rear upper constraint is {word_thickness(self.rear_outset)}. Consider increasing the disc outset parameter, or move the angle away from 45°.")
 
         if self.lower_outset < self.thickness:
-            warnings.append("Lower front constraint is %s. Consider increasing the disc outset parameter, or move the angle away from 45°." % word_thickness(self.lower_outset))
+            warnings.append(f"Lower front constraint is {word_thickness(self.lower_outset)}. Consider increasing the disc outset parameter, or move the angle away from 45°.")
 
         # Are the discs supported where the grids meet?
 

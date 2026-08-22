@@ -658,7 +658,7 @@ class GroovedEdgeBase(BaseEdge):
                 angle = self.settings.tri_angle
                 self.groove_triangle(width, angle, inv)
             else:
-                raise ValueError("Unknown GroovedEdge style: %s)" % style)
+                raise ValueError(f"Unknown GroovedEdge style: {style})")
 
         # The final edge
         self.edge(margin, tabs=1)
@@ -1359,7 +1359,7 @@ class Hinge(BaseEdge):
         super().__init__(boxes, settings)
 
         if not (0 < layout <= 3):
-            raise ValueError("layout must be 1, 2 or 3 (got %i)" % layout)
+            raise ValueError(f"layout must be 1, 2 or 3 (got {layout})")
 
         self.layout = layout
         self.char = "eijk"[layout]
@@ -1455,7 +1455,7 @@ class HingePin(BaseEdge):
         super().__init__(boxes, settings)
 
         if not (0 < layout <= 3):
-            raise ValueError("layout must be 1, 2 or 3 (got %i)" % layout)
+            raise ValueError(f"layout must be 1, 2 or 3 (got {layout})")
 
         self.layout = layout
         self.char = "EIJK"[layout]

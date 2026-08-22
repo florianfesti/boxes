@@ -147,7 +147,7 @@ class BServer:
         self._languages = []
         domain = "boxes.py"
         for localedir in ["locale", gettext._default_localedir]:
-            files = glob.glob(os.path.join(localedir, '*', 'LC_MESSAGES', '%s.mo' % domain))
+            files = glob.glob(os.path.join(localedir, '*', 'LC_MESSAGES', f'{domain}.mo'))
             self._languages.extend([file.split(os.path.sep)[-3] for file in files])
         self._languages.sort()
         return self._languages
@@ -195,24 +195,19 @@ class BServer:
             viewname = name[len(prefix) + 1:]
 
         default = defaults.get(name, None)
-        row = """<tr><td id="%s"><label for="%s">%s</label></td><td>%%s</td><td id="%s">%s</td></tr>\n""" % \
-              (name + "_id", name, _(viewname), name + "_description", "" if not a.help else markdown.markdown(_(a.help)))
+        row = """<tr><td id="{}"><label for="{}">{}</label></td><td>%s</td><td id="{}">{}</td></tr>\n""".format(name + "_id", name, _(viewname), name + "_description", "" if not a.help else markdown.markdown(_(a.help)))
         if (isinstance(a, argparse._StoreAction) and
                 hasattr(a.type, "html")):
             input = a.type.html(name, default or a.default, _)
         elif a.type == str and "\n" in a.default:
             val = (default or a.default).split("\n")
-            input = """<textarea name="%s" id="%s" aria-labeledby="%s %s" cols="%s" rows="%s">%s</textarea>""" % \
-                    (name, name, name + "_id", name + "_description", max(len(l) for l in val) + 10, len(val) + 1, default or a.default)
+            input = """<textarea name="{}" id="{}" aria-labeledby="{} {}" cols="{}" rows="{}">{}</textarea>""".format(name, name, name + "_id", name + "_description", max(len(l) for l in val) + 10, len(val) + 1, default or a.default)
         elif a.choices:
             options = "\n".join(
-                """    <option value="%s"%s>%s</option>""" %
-                (e, ' selected="selected"' if (e == (default or a.default)) or (str(e) == str(default or a.default)) else "",
-                 _(e)) for e in a.choices)
+                """    <option value="{}"{}>{}</option>""".format(e, ' selected="selected"' if (e == (default or a.default)) or (str(e) == str(default or a.default)) else "", _(e)) for e in a.choices)
             input = """<select name="{}" id="{}" aria-labeledby="{} {}" size="1">\n{}</select>\n""".format(name, name, name + "_id", name + "_description", options)
         else:
-            input = """<input name="%s" id="%s" aria-labeledby="%s %s" type="text" value="%s">""" % \
-                    (name, name, name + "_id", name + "_description", default or a.default)
+            input = """<input name="{}" id="{}" aria-labeledby="{} {}" type="text" value="{}">""".format(name, name, name + "_id", name + "_description", default or a.default)
 
         return row % input
 
@@ -537,7 +532,7 @@ class BServer:
         # Images do not have charset. Just bytes. Except text based svg.
         # Todo: fallback if type_ is None?
         if type_ is not None and "image" in type_ and type_ != "image/svg+xml":
-            start_response("200 OK", [('Content-type', "%s" % type_)])
+            start_response("200 OK", [('Content-type', f"{type_}")])
         else:
             start_response("200 OK", [('Content-type', f"{type_}; charset={encoding}")])
 

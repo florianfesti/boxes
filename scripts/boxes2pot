@@ -125,15 +125,15 @@ msgstr ""
             for msg, comment, reference in self.messages:
                 f.write("\n")
                 if comment:
-                    f.write("#. %s\n" % comment)
+                    f.write(f"#. {comment}\n")
                 if reference:
-                    f.write("#: %s\n" % reference)
+                    f.write(f"#: {reference}\n")
                 msg = msg.split("\n")
                 for i in range(len(msg) - 1):
                     msg[i] += "\\n"
                 f.write('msgid ')
                 for m in msg:
-                    f.write(' "%s"\n' % m.replace('"', '\\"'))
+                    f.write(' "{}"\n'.format(m.replace('"', '\\"')))
                 f.write('msgstr ""\n')
 
 

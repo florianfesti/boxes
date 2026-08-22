@@ -192,7 +192,7 @@ def generate(cut, output_prefix, format="svg"):
             raise ValueError("box_type must be provided for each cut")
         box_cls = GENERATORS.get(box_type, None)
         if box_cls is None:
-            raise ValueError("invalid generator '%s'" % box_type)
+            raise ValueError(f"invalid generator '{box_type}'")
 
         # Instantitate the box object
         box = box_cls()

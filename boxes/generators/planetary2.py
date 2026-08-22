@@ -205,4 +205,4 @@ class Planetary2(Boxes):
                        angle=pressure_angle,
                        profile_shift=profile_shift, move="up only")
 
-        self.text("1:%.1f" % abs(ratio))
+        self.text(f"1:{abs(ratio):.1f}")

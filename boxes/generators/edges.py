@@ -29,5 +29,4 @@ class Edges(Boxes):
         self._buildObjects()
         chars = self.edges.keys()
         for c in sorted(chars, key=lambda x:(x.lower(), x.isupper())):
-            print("%s %s - %s" %(c, self.edges[c].__class__.__name__,
-                  self.edges[c].__doc__))
+            print(f"{c} {self.edges[c].__class__.__name__} - {self.edges[c].__doc__}")

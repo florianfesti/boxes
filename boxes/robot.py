@@ -24,8 +24,7 @@ class RobotArg:
 
     def html(self, name, default, translate):
         options = "\n".join(
-            ("""<option value="%s"%s>%s %s</option>""" %
-             (name, ' selected="selected"' if name == default else "",
+            ("""<option value="{}"{}>{} {}</option>""".format(name, ' selected="selected"' if name == default else "",
               name, descr) for name, descr in self.robotarms))
         return f"""<select name="{name}" size="1">\n{options}</select>\n"""
 

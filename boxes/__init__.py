@@ -254,14 +254,12 @@ class ArgparseEdgeType:
 
     def html(self, name, default, translate):
         options = "\n".join(
-            """<option value="%s"%s>%s</option>""" %
-             (e, ' selected="selected"' if e == default else "",
+            """<option value="{}"{}>{}</option>""".format(e, ' selected="selected"' if e == default else "",
               translate("{} {}".format(e, self.names.get(e, "")))) for e in self.edges)
         return """<select name="{}" id="{}" aria-labeledby="{} {}" size="1">\n{}</select>\n""".format(name,  name, name+"_id", name+"_description", options)
 
     def inx(self, name, viewname, arg):
-        return ('        <param name="%s" type="optiongroup" appearance="combo" gui-text="%s" gui-description=%s>\n' %
-                (name, viewname, quoteattr(arg.help or "")) +
+        return ('        <param name="{}" type="optiongroup" appearance="combo" gui-text="{}" gui-description={}>\n'.format(name, viewname, quoteattr(arg.help or "")) +
                 ''.join('            <option value="{}">{} {}</option>\n'.format(
                     e, e, self.names.get(e, ""))
                          for e in self.edges) +
@@ -276,9 +274,8 @@ class BoolArg:
     def html(self, name, default, _):
         if isinstance(default, (str)):
             default = self(default)
-        return """<input name="%s" type="hidden" value="0">
-<input name="%s" id="%s" aria-labeledby="%s %s" type="checkbox" value="1"%s>""" % \
-            (name, name, name, name+"_id", name+"_description",' checked="checked"' if default else "")
+        return """<input name="{}" type="hidden" value="0">
+<input name="{}" id="{}" aria-labeledby="{} {}" type="checkbox" value="1"{}>""".format(name, name, name, name+"_id", name+"_description",' checked="checked"' if default else "")
 
 boolarg = BoolArg()
 
@@ -1558,7 +1555,7 @@ class Boxes:
                 else:
                     self.moveTo(0, moves[a])
             else:
-                raise ValueError("Unknown alignment: %s" % align)
+                raise ValueError(f"Unknown alignment: {align}")
 
         for line in reversed(text):
             self.ctx.show_text(line, fs=fontsize, align=halign, rgb=color, font=font)
@@ -1737,7 +1734,7 @@ class Boxes:
             n = 8
             a = 22.5
         else:
-            raise ValueError("fillHoles - unknown hole style: %s)" % style)
+            raise ValueError(f"fillHoles - unknown hole style: {style})")
 
 # note to myself: ^y  x>
 
@@ -2038,7 +2035,7 @@ class Boxes:
                                 segment_max = 0
                 y += step_y
         else:
-           raise ValueError("fillHoles - unknown hole pattern: %s)" % pattern)
+           raise ValueError(f"fillHoles - unknown hole pattern: {pattern})")
 
     def hexHolesRectangle(self, x, y, settings=None, skip=None):
         """Fills a rectangle with holes in a hex pattern.

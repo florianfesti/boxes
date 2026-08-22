@@ -197,7 +197,7 @@ class TypeTray(_TopEdge):
 
             # Generate text
             self.text(
-                "%s" % self.textcontent[self.textnumber],
+                f"{self.textcontent[self.textnumber]}",
                 textx,
                 texty,
                 0,

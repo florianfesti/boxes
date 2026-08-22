@@ -81,7 +81,7 @@ class DrillBox(_TopEdge):
                 if description:
                     self.rectangularHole(x + dx / 2, y + dy / 2, dx - 2, dy - 2, color=Color.ETCHING)
                     self.text(
-                        "%.1f" % d,
+                        f"{d:.1f}",
                         x + 2,
                         y + 2,
                         270,

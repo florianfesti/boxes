@@ -103,8 +103,8 @@ piece pull together as you weave.
                         - math.degrees(math.atan2(_b, _a)))
         if not 0.0 < pin_flare <= 90.0:
             raise ValueError(
-                "pin_width %.3f is out of range; supported range is 2.0 to 5.5 mm "
-                "for the current pin shape constants" % pin_width)
+                f"pin_width {pin_width:.3f} is out of range; supported range is 2.0 to 5.5 mm "
+                "for the current pin shape constants")
 
         def drawPin():
             # Tapered spike, exactly pin_width wide at the frame edge.

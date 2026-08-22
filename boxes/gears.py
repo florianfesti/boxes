@@ -395,7 +395,7 @@ class Gears:
         elif self.options.system == 'MM': # module (metric)
             circular_pitch = pi * dimension
         else:
-            raise ValueError("unknown system '%s', try CP, DP, MM" % self.options.system)
+            raise ValueError(f"unknown system '{self.options.system}', try CP, DP, MM")
 
         # circular_pitch defines the size in mm
         return circular_pitch
@@ -632,7 +632,7 @@ class Gears:
             min_teeth = ceil(undercut_min_teeth(angle, 1.0))
             min_angle = undercut_min_angle(teeth, 1.0) + .1
             max_k = undercut_max_k(teeth, angle)
-            msg = "Undercut Warning: This gear (%d teeth) will not work well.\nTry tooth count of %d or more,\nor a pressure angle of %.1f [deg] or more,\nor try a profile shift of %d %%.\nOr other decent combinations." % (teeth, min_teeth, min_angle, int(100.*max_k)-100.)
+            msg = f"Undercut Warning: This gear ({teeth} teeth) will not work well.\nTry tooth count of {min_teeth} or more,\nor a pressure angle of {min_angle:.1f} [deg] or more,\nor try a profile shift of {int(100. * max_k) - 100.} %.\nOr other decent combinations."
             # alas annotation cannot handle the degree symbol. Also it ignore newlines.
             # so split and make a list
             warnings.extend(msg.split("\n"))
@@ -685,15 +685,15 @@ class Gears:
 
             notes = []
             notes.extend(warnings)
-            #notes.append('Document (%s) scale conversion = %2.4f' % (self.document.getroot().find(inkex.addNS('namedview', 'sodipodi')).get(inkex.addNS('document-units', 'inkscape')), unit_factor))
-            notes.extend(['Teeth: %d   CP: %2.4f(%s) ' % (teeth, pitch / unit_factor, self.options.units),
+            # notes.append('Document ({}) scale conversion = {:2.4f}'.format(self.document.getroot().find(inkex.addNS('namedview', 'sodipodi')).get(inkex.addNS('document-units', 'inkscape')), unit_factor))
+            notes.extend([f'Teeth: {teeth}   CP: {pitch / unit_factor:2.4f}({self.options.units}) ',
                           f'DP: {25.4 * pi / pitch:2.3f} Module: {pitch:2.4f}(mm)',
-                          'Pressure Angle: %2.2f degrees' % (angle),
+                          f'Pressure Angle: {angle:2.2f} degrees',
                           f'Pitch diameter: {pitch_radius * 2 / unit_factor:2.3f} {self.options.units}',
                           f'Outer diameter: {outer_dia / unit_factor:2.3f} {self.options.units}',
-                          f'Base diameter:  {base_radius * 2 / unit_factor:2.3f} {self.options.units}'#,
-                          #'Addendum:      %2.4f %s'  % (addendum / unit_factor, self.options.units),
-                          #'Dedendum:      %2.4f %s'  % (dedendum / unit_factor, self.options.units)
+                          f'Base diameter:  {base_radius * 2 / unit_factor:2.3f} {self.options.units}',
+                          # f'Addendum:      {addendum / unit_factor:2.4f} {self.options.units}',
+                          # f'Dedendum:      {dedendum / unit_factor:2.4f} {self.options.units}',
                           ])
             # text height relative to gear size.
             # ranges from 10 to 22 over outer radius size 60 to 360

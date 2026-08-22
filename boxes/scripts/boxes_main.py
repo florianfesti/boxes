@@ -79,7 +79,7 @@ def multi_generate(config_path : Path|str|TextIO, output_path : Path|str, output
         if box_type != "__ALL__":
             box_classes = ( generators_by_name.get(box_type, None), )
             if box_classes is None:
-                raise ValueError("invalid generator '%s'" % box_type)
+                raise ValueError(f"invalid generator '{box_type}'")
         else:
             skipGenerators = set(box_settings.get("skipGenerators", []))
             brokenGenerators = set(box_settings.get("brokenGenerators", []))

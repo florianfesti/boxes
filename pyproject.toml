@@ -28,6 +28,7 @@ dev = [
   "mypy>=2.1.0",
   "pre-commit>=4.6.0",
   "pytest>=9.0.3",
+  "ruff",
   "types-Markdown"
 ]
 doc = ["sphinx>=8.0.2"]
@@ -69,3 +70,19 @@ ignore_directives = [
 ignore_messages = [
   "File referenced in \"include\" directive not found: '.*generators\\.inc'",
 ]
+
+[tool.ruff]
+exclude = [
+  "scripts/*ipynb", # Example
+  "scripts/boxes_proxy.py", # Symlink
+  "setup.py", # Needs refactoring so no fixes yet.
+]
+lint.select = [
+  "UP", # pyupgrade
+]
+lint.ignore = [
+  # "UP031", # ToDo
+]
+
+[tool.ruff.lint.per-file-ignores]
+#"boxes/scripts/boxesserver.py" = ["UP031"]

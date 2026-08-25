@@ -19,7 +19,10 @@ Python modules
 
 Boxes.py need a set of Python modules:
 
-.. literalinclude:: ../../requirements.txt
+.. literalinclude:: ../../pyproject.toml
+   :language: toml
+   :start-at: dependencies
+   :end-before: [dependency-groups]
 
 When using a distribution the packages will typically be name be :code:`python-MODULE` or :code:`python3-MODULE`
 
@@ -39,7 +42,7 @@ For development (e.g. running the test suite and generating the documentation) t
 .. literalinclude:: ../../pyproject.toml
    :language: toml
    :start-after: [dependency-groups]
-   :end-before: [tool.setuptools.dynamic]
+   :end-before: [project.scripts]
 
 They can be installed by :code:`pip install --group dev` for development and :code:`pip install --group doc` for documentation.
 

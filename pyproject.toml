@@ -3,7 +3,6 @@ requires = ["setuptools >= 77.0.3"]
 build-backend = "setuptools.build_meta"
 
 [project]
-dynamic = ["dependencies"]
 name = "boxes"
 version = "1.2"
 requires-python = ">=3.10"
@@ -22,6 +21,19 @@ classifiers = [ # https://pypi.python.org/pypi?%3Aaction=list_classifiers
   "Topic :: Scientific/Engineering",
 ]
 
+dependencies = [
+  "affine>=2.0",
+  "markdown",
+  "numpy",
+  "pillow",
+  "PyYAML",
+  "qrcode>=7.3.1",
+  "rectpack",
+  "shapely>=1.8.2",
+  "svgpathtools",
+  "typing_extensions>=4.5.0",
+]
+
 [dependency-groups]
 dev = [
   "lxml>=6.0.2",
@@ -32,9 +44,6 @@ dev = [
   "types-Markdown"
 ]
 doc = ["sphinx>=8.0.2"]
-
-[tool.setuptools.dynamic]
-dependencies = {file=["requirements.txt"]}
 
 [project.scripts]
 boxes = "boxes.scripts.boxes_main:main"

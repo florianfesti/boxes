@@ -370,38 +370,46 @@ class Boxes:
             "reproducible": False,  # If True output does not contain variable content like creation date.
         }
 
-        # Dummy attribute for static analytic tools. Will be overwritten by `argparser` at runtime.
-        self.thickness: float = 0.0
-
         self.argparser._action_groups[1].title = self.__class__.__name__ + " Settings"
         defaultgroup = self.argparser.add_argument_group(
                         "Default Settings")
+        # Dummy attribute for static analytic tools. Will be overwritten by `argparser` at runtime.
+        # Must be defined for every argument.
+        self.thickness: float = 3.0
         defaultgroup.add_argument(
             "--thickness", action="store", type=float, default=3.0,
             help="thickness of the material (in mm) [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#thickness)")
+        self.burn: float = 0.1
         defaultgroup.add_argument(
             "--burn", action="store", type=float, default=0.1,
             help='burn correction (in mm)(bigger values for tighter fit) [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#burn)')
+        self.format: str = "svg"
         defaultgroup.add_argument(
             "--format", action="store", type=str, default="svg",
             choices=self.formats.getFormats(),
             help="format of resulting file [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#format)")
+        self.labels: bool = True
         defaultgroup.add_argument(
             "--labels", action="store", type=boolarg, default=True,
             help="label the parts (where available)")
+        self.reference: float = 100.0
         defaultgroup.add_argument(
             "--reference", action="store", type=float, default=100.0,
             help="print reference rectangle with given length (in mm)(zero to disable) [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#reference)")
+        self.tabs: float = 0.0
         defaultgroup.add_argument(
             "--tabs", action="store", type=float, default=0.0,
             help="width of tabs holding the parts in place (in mm)(not supported everywhere) [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#tabs)")
+        self.qr_code: bool = False
         defaultgroup.add_argument(
             "--qr_code", action="store", type=boolarg, default=False,
             help="Add a QR Code with link or command line to the generated output")
+        self.inner_corners: str = "loop"
         defaultgroup.add_argument(
             "--inner_corners", action="store", type=str, default="loop",
             choices=["loop", "corner", "backarc"],
             help="style for inner corners [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#inner-corners)")
+        self.output: str = "box.svg"
         defaultgroup.add_argument(
             "--output", action="store", type=str, default="box.svg",
             help="name of resulting file")
@@ -410,9 +418,11 @@ class Boxes:
                 return (float(x), 0.)
             except ValueError:
                 return tuple(float(v.strip()) for v in x.split(":"))
+        self.spacing: float | tuple[float, ...] = 0.5
         defaultgroup.add_argument(
             "--spacing", action="store", type=spacing_type, default="0.5",
             help='spacing around parts (multiples of thickness [: extra space in mm]) [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#spacing)')
+        self.debug: bool = False
         defaultgroup.add_argument(
             "--debug", action="store", type=boolarg, default=False,
             help="print surrounding boxes for some structures [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#debug)")

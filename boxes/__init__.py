@@ -28,10 +28,11 @@ from argparse import ArgumentParser
 from contextlib import contextmanager
 from functools import wraps
 from shlex import quote
-from typing import Any
+from typing import Any, Callable
 from xml.sax.saxutils import quoteattr
 
 import qrcode
+from boxes.drawing import Context
 from shapely.geometry import *
 from shapely.ops import split
 
@@ -343,7 +344,7 @@ class Boxes:
 
     def __init__(self) -> None:
         self.formats = formats.Formats()
-        self.ctx = None
+        self.ctx: Context
         description: str = ""
         if self.__doc__:
             description = inspect.cleandoc(self.__doc__)
@@ -832,7 +833,7 @@ class Boxes:
     ### Turtle graphics commands
     ############################################################
 
-    def corner(self, degrees, radius=0, tabs=0):
+    def corner(self, degrees: float | tuple[float, float], radius: float = 0.0, tabs: int = 0) -> None:
         """
         Draw a corner
 
@@ -842,10 +843,9 @@ class Boxes:
         :param radius:  (Default value = 0)
         """
 
-        try:
+        # Unpack if degrees is tuple.
+        if isinstance(degrees, tuple) and len(degrees) == 2:
             degrees, radius = degrees
-        except:
-            pass
 
         rad = degrees * math.pi / 180
 
@@ -893,7 +893,7 @@ class Boxes:
 
         self._continueDirection(rad)
 
-    def edge(self, length, tabs=0):
+    def edge(self, length: float, tabs: int = 0) -> None:
         """
         Simple line
         :param length: length in mm
@@ -919,7 +919,7 @@ class Boxes:
             self.ctx.line_to(length, 0)
         self.ctx.translate(*self.ctx.get_current_point())
 
-    def step(self, out):
+    def step(self, out: float) -> None:
         """
         Create a parallel step perpendicular to the current direction
         Positive values move to the outside of the part
@@ -933,7 +933,7 @@ class Boxes:
             self.edge(-out)
             self.corner(-90)
 
-    def curveTo(self, x1, y1, x2, y2, x3, y3):
+    def curveTo(self, x1: float, y1: float, x2: float, y2: float, x3: float, y3: float) -> None:
         """control point 1, control point 2, end point
 
         :param x1:
@@ -949,7 +949,7 @@ class Boxes:
         rad = math.atan2(dy, dx)
         self._continueDirection(rad)
 
-    def polyline(self, *args):
+    def polyline(self, *args) -> None:
         """
         Draw multiple connected lines
 
@@ -970,7 +970,7 @@ class Boxes:
                 else:
                     self.edge(arg)
 
-    def bedBoltHole(self, length, bedBoltSettings=None, tabs=0):
+    def bedBoltHole(self, length: float, bedBoltSettings=None, tabs: int = 0) -> None:
         """
         Draw an edge with slot for a bed bolt
 
@@ -1004,7 +1004,7 @@ class Boxes:
         self.corner(90)
         self.edge((length - d) / 2.0, tabs=tabs-(tabs//2))
 
-    def edgeCorner(self, edge1, edge2, angle=90):
+    def edgeCorner(self, edge1, edge2, angle: float = 90) -> None:
         """Make a corner between two Edges. Take width of edges into account"""
         edge1 = self.edges.get(edge1, edge1)
         edge2 = self.edges.get(edge2, edge2)
@@ -1013,7 +1013,7 @@ class Boxes:
         self.corner(angle)
         self.edge(edge1.endWidth() * math.tan(math.radians(angle/2.)))
 
-    def regularPolygon(self, corners=3, radius=None, h=None, side=None):
+    def regularPolygon(self, corners: int = 3, radius: float | None = None, h: float | None = None, side: float | None = None) -> tuple[float, float, float]:
         """Give measures of a regular polygon
 
         :param corners: number of corners of the polygon
@@ -1031,11 +1031,13 @@ class Boxes:
         elif side:
             h = 0.5 * side * math.tan(math.radians(90-180./corners))
             radius = ((side/2.)**2+h**2)**0.5
+        else:
+            raise ValueError("regularPolygon: Missing radius, h or side.")
 
         return radius, h, side
 
     @restore
-    def regularPolygonAt(self, x, y, corners, angle=0, r=None, h=None, side=None):
+    def regularPolygonAt(self, x: float, y: float, corners: int, angle: float = 0, r=None, h=None, side=None) -> None:
         """Draw regular polygon"""
         self.moveTo(x, y, angle)
         r, h, side  = self.regularPolygon(corners, r, h, side)
@@ -1044,8 +1046,8 @@ class Boxes:
             self.edge(side)
             self.corner(360./corners)
 
-    def regularPolygonWall(self, corners=3, r=None, h=None, side=None,
-                           edges='e', hole=None, callback=None, move=None):
+    def regularPolygonWall(self, corners: int = 3, r: float | None = None, h: float | None = None, side: float | None = None,
+                           edges='e', hole: float | None = None, callback: Callable | None = None, move=None) -> None:
         """Create regular polygon as a wall
 
         :param corners: number of corners of the polygon
@@ -1097,7 +1099,7 @@ class Boxes:
 
         self.move(tw, th, move)
 
-    def grip(self, length, depth):
+    def grip(self, length: float, depth: float) -> None:
         """Corrugated edge useful as a gipping area
 
         :param length: length
@@ -1110,25 +1112,19 @@ class Boxes:
             self.corner(-180, depth)
             self.corner(90, depth)
 
-    def _latchHole(self, length):
-        """
-        :param length:
-        """
+    def _latchHole(self, length: float) -> None:
         self.edge(1.1 * self.thickness)
         self.corner(-90)
         self.edge(length / 2.0 + 0.2 * self.thickness)
         self.corner(-90)
         self.edge(1.1 * self.thickness)
 
-    def _latchGrip(self, length, extra_length=0.0):
-        """
-        :param length:
-        """
+    def _latchGrip(self, length: float, extra_length: float = 0.0) -> None:
         self.corner(90, self.thickness / 4.0)
         self.grip(length / 2.0 - self.thickness / 2.0 - 0.2 * self.thickness + extra_length, self.thickness / 2.0)
         self.corner(90, self.thickness / 4.0)
 
-    def latch(self, length, positive=True, reverse=False, extra_length=0.0):
+    def latch(self, length: float, positive: bool = True, reverse: bool = False, extra_length: float = 0.0) -> None:
         """Latch to fix a flex box door to the box
 
         :param length: length in mm
@@ -1152,7 +1148,7 @@ class Boxes:
             else:
                 self.corner(90)
 
-    def handle(self, x, h, hl, r=30):
+    def handle(self, x: float, h: float, hl: float, r: float = 30) -> None:
         """Creates an Edge with a handle
 
         :param x: width in mm
@@ -1184,7 +1180,7 @@ class Boxes:
 
     ### Navigation
 
-    def moveTo(self, x, y=0.0, degrees=0):
+    def moveTo(self, x: float, y: float = 0.0, degrees: float = 0) -> None:
         """
         Move coordinate system to given point
 
@@ -1197,7 +1193,7 @@ class Boxes:
         self.ctx.rotate(degrees * math.pi / 180.0)
         self.ctx.move_to(0, 0)
 
-    def moveArc(self, angle, r=0.0):
+    def moveArc(self, angle: float, r: float = 0.0) -> None:
         """
         :param angle:
         :param r: (Default value = 0.0)
@@ -1214,7 +1210,7 @@ class Boxes:
             self.moveTo(r*math.sin(-rad),
                         -r*(1-math.cos(rad)), angle)
 
-    def _continueDirection(self, angle=0):
+    def _continueDirection(self, angle: float=0) -> None:
         """
         Set coordinate system to current position (end point)
 
@@ -1317,7 +1313,7 @@ class Boxes:
         return dontdraw
 
     @restore
-    def circle(self, x, y, r):
+    def circle(self, x: float, y: float, r: float) -> None:
         """
         Draw a round disc
 
@@ -1327,7 +1323,7 @@ class Boxes:
         """
         r += self.burn
         self.moveTo(x + r, y)
-        a = 0
+        a = 0.0
         n = 10
         da = 2 * math.pi / n
         for i in range(n):
@@ -1381,7 +1377,7 @@ class Boxes:
 
     @restore
     @holeCol
-    def hole(self, x, y, r=0.0, d=0.0, tabs=0):
+    def hole(self, x: float, y: float, r: float = 0.0, d: float = 0.0, tabs: int = 0) -> None:
         """
         Draw a round hole
 
@@ -1400,7 +1396,7 @@ class Boxes:
 
     @restore
     @holeCol
-    def rectangularHole(self, x, y, dx, dy, r=0, center_x=True, center_y=True):
+    def rectangularHole(self, x: float, y: float, dx: float, dy: float, r: float = 0, center_x: bool = True, center_y: bool = True) -> None:
         """
         Draw a rectangular hole
 
@@ -1523,7 +1519,7 @@ class Boxes:
         self.edge(2 * rs, tabs)
 
     @restore
-    def text(self, text, x=0, y=0, angle=0, align="", fontsize=10, color=[0.0, 0.0, 0.0], font="Arial"):
+    def text(self, text, x: float = 0, y: float = 0, angle: float = 0, align: str = "", fontsize: float = 10, color: Any | None = None, font: str = "Arial"):
         """
         Draw text
 
@@ -1533,12 +1529,15 @@ class Boxes:
         :param angle:  (Default value = 0)
         :param align:  (Default value = "") string with combinations of (top|middle|bottom) and (left|center|right) separated by a space
         """
+        if color is None:
+            color = [0.0, 0.0, 0.0]
+
         self.moveTo(x, y, angle)
         text = text.split("\n")
 
         lines = len(text)
         height = lines * fontsize + (lines - 1) * 0.4 * fontsize
-        align = align.split()
+        align = align.split()  # type: ignore
         halign = "left"
         moves = {
             "top": -height,
@@ -1551,9 +1550,9 @@ class Boxes:
         for a in align:
             if a in moves:
                 if isinstance(moves[a], str):
-                    halign = moves[a]
+                    halign = moves[a]  # type: ignore
                 else:
-                    self.moveTo(0, moves[a])
+                    self.moveTo(0, moves[a])  # type: ignore
             else:
                 raise ValueError(f"Unknown alignment: {align}")
 
@@ -1561,7 +1560,7 @@ class Boxes:
             self.ctx.show_text(line, fs=fontsize, align=halign, rgb=color, font=font)
             self.moveTo(0, 1.4 * fontsize)
 
-    tx_sizes = {
+    tx_sizes: dict[int, float] = {
         1 : 0.61,
         2 : 0.70,
         3 : 0.82,
@@ -1585,11 +1584,11 @@ class Boxes:
         80 : 12.80,
         90 : 14.40,
         100 : 16.00,
-        }
+    }
 
     @restore
     @holeCol
-    def TX(self, size, x=0, y=0, angle=0):
+    def TX(self, size: int, x: float = 0, y: float = 0, angle: float = 0) -> None:
         """Draw a star pattern
 
         :param size: 1 to 100
@@ -1599,11 +1598,11 @@ class Boxes:
         """
         self.moveTo(x, y, angle)
 
-        size = self.tx_sizes.get(size, 0)
-        ri = 0.5 * size * math.tan(math.radians(30))
+        tx_size: float = self.tx_sizes.get(size, 0.0)
+        ri = 0.5 * tx_size * math.tan(math.radians(30))
         ro = ri * (2**0.5-1)
 
-        self.moveTo(size * 0.5 - self.burn, 0, -90)
+        self.moveTo(tx_size * 0.5 - self.burn, 0, -90)
         for i in range(6):
             self.corner(45, ri)
             self.corner(-150, ro)
@@ -1623,7 +1622,7 @@ class Boxes:
     }
 
     @restore
-    def NEMA(self, size, x=0, y=0, angle=0, screwholes=None):
+    def NEMA(self, size: int, x: float = 0, y: float = 0, angle: float = 0, screwholes=None) -> None:
         """Draw holes for mounting a NEMA stepper motor
 
         :param size: Nominal size in tenths of inches
@@ -1645,7 +1644,7 @@ class Boxes:
                           y * 0.5 * holedistance,
                           0.5 * diameter)
 
-    def drawPoints(self, lines, kerfdir=1, close=True):
+    def drawPoints(self, lines, kerfdir: int = 1, close: bool = True) -> None:
 
         if not lines:
             return
@@ -1663,7 +1662,7 @@ class Boxes:
             self.ctx.line_to(*lines[0])
         self.ctx.restore()
 
-    def qrcode(self, content: str, box_size: float = 1.0, color=Color.ETCHING, move: str | None = None):
+    def qrcode(self, content: str, box_size: float = 1.0, color=Color.ETCHING, move: str | None = None) -> None:
         q = qrcode.QRCode(image_factory=BoxesQrCodeFactory, box_size=box_size*10)
         q.add_data(content)
         m = q.get_matrix()
@@ -2037,7 +2036,7 @@ class Boxes:
         else:
            raise ValueError(f"fillHoles - unknown hole pattern: {pattern})")
 
-    def hexHolesRectangle(self, x, y, settings=None, skip=None):
+    def hexHolesRectangle(self, x: float, y: float, settings=None, skip=None) -> None:
         """Fills a rectangle with holes in a hex pattern.
 
         Settings have:
@@ -2077,21 +2076,20 @@ class Boxes:
                     continue
                 self.hole(px, py, r=r)
 
-    def __skipcircle(self, x, y, r, b, posx, posy):
+    def __skipcircle(self, x: float, y: float, r: float, b, posx: float, posy: float) -> bool:
         cx, cy = x / 2.0, y / 2.0
         return (dist(posx - cx, posy - cy) > (cx - r))
 
-    def hexHolesCircle(self, d, settings=None):
+    def hexHolesCircle(self, d: float, settings=None) -> None:
         """
         Fill circle with holes in a hex pattern
 
         :param d: diameter of the circle
         :param settings:  (Default value = None)
         """
-        d2 = d / 2.0
         self.hexHolesRectangle(d, d, settings=settings, skip=self.__skipcircle)
 
-    def hexHolesPlate(self, x, y, rc, settings=None):
+    def hexHolesPlate(self, x: float, y: float, rc: float, settings=None) -> None:
         """
         Fill a plate with holes in a hex pattern
 
@@ -2101,7 +2099,7 @@ class Boxes:
         :param settings:  (Default value = None)
         """
 
-        def skip(x, y, r, b, posx, posy):
+        def skip(x: float, y: float, r: float, b, posx: float, posy: float) -> bool:
             """
             :param x:
             :param y:
@@ -2117,7 +2115,7 @@ class Boxes:
             wy = 0.5 * y - rc - r
 
             if (posx <= wx) or (posy <= wx):
-                return 0
+                return False
             return dist(posx - wx, posy - wy) > rc
 
         self.hexHolesRectangle(x, y, settings, skip=skip)
@@ -2155,7 +2153,7 @@ class Boxes:
                 self.hole(j * 2 * w + i * w, i * 2 * dist, r)
                 self.hole(j * 2 * w + i * w, -i * 2 * dist, r)
 
-    def flex2D(self, x, y, width=1):
+    def flex2D(self, x: float, y: float, width: float = 1) -> None:
         """
         Fill a rectangle with a pattern allowing bending in both axis
 
@@ -2194,7 +2192,7 @@ class Boxes:
         self.ctx.stroke()
 
     @restore
-    def fingerHoleRectangle(self, dx, dy, x=0., y=0., angle=0., outside=False):
+    def fingerHoleRectangle(self, dx: float, dy: float, x: float = 0., y: float = 0., angle: float = 0., outside: bool = False) -> None:
         """
         Place finger holes for four walls - attaching a box on this plane
 
@@ -2219,7 +2217,7 @@ class Boxes:
     ### parts
     ##################################################
 
-    def _splitWall(self, pieces, side):
+    def _splitWall(self, pieces: int, side: int) -> bool:
         """helper for roundedPlate and surroundingWall
         figures out what sides to split
         """
@@ -3117,26 +3115,26 @@ class Boxes:
             for i in range(width):
                 part(*l, **kw)
 
-    def mirrorX(self, f, offset=0.0):
-        """Wrap a function to draw mirrored at the y axis
+    def mirrorX(self, f: Callable, offset: float = 0.0) -> Callable:
+        """Wrap a function to draw mirrored at the y-axis
 
         :param f: function to wrap
         :param offset: (default value = 0.0) axis to mirror at
         """
-        def r():
+        def r() -> None:
             self.moveTo(offset, 0)
             with self.saved_context():
                 self.ctx.scale(-1, 1)
                 f()
         return r
 
-    def mirrorY(self, f, offset=0.0):
-        """Wrap a function to draw mirrored at the x axis
+    def mirrorY(self, f: Callable, offset: float = 0.0) -> Callable:
+        """Wrap a function to draw mirrored at the x-axis
 
         :param f: function to wrap
         :param offset: (default value = 0.0) axis to mirror at
         """
-        def r():
+        def r() -> None:
             self.moveTo(0, offset)
             with self.saved_context():
                 self.ctx.scale(1, -1)

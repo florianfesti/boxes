@@ -14,3 +14,6 @@ class Color:
     ANNOTATIONS = RED
     ETCHING = GREEN
     ETCHING_DEEP = CYAN
+    CUT = [  # Even steps from INNER_CUT to OUTER_CUT
+        [0.0, 0.0, 1.0 - i/4.0] for i in range(5)
+    ]

@@ -13,7 +13,6 @@ repos:
       - id: check-yaml
       - id: check-toml
       - id: check-added-large-files
-      - id: requirements-txt-fixer
       - id: check-case-conflict
       - id: detect-private-key
       - id: check-executables-have-shebangs
@@ -38,13 +37,13 @@ repos:
         args: [ --py310-plus ]
 
   - repo: https://github.com/PyCQA/autoflake
-    rev: v2.3.3
+    rev: v2.4.0
     hooks:
       - id: autoflake
         args: [ --remove-all-unused-imports, --in-place, --ignore-pass-statements, ]
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.16.4
+    rev: v0.16.6
     hooks:
       - id: ruff-check
         types_or: [ python, pyproject ]

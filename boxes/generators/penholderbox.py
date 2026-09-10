@@ -85,7 +85,7 @@ class PenHolderBox(Boxes):
                 self.hole(cx, cy, r=r_pen)
 
                 self.ctx.save()
-                self.ctx.set_source_rgb(0, 0.6, 0)
+                self.ctx.set_source_rgb(0, 153, 0)
                 circle_steps = 60
                 for i in range(circle_steps + 1):
                     angle = 2 * math.pi * i / circle_steps

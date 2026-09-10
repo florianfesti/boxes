@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "boxes"
 version = "1.2"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 description = "Boxes generator for laser cutters"
 maintainers = [ { name = "Florian Festi", email="florian@festi.info" } ]
 readme = "README.rst"

@@ -894,20 +894,22 @@ Values:
         if abs(self.space + self.finger) < 0.1:
             raise ValueError("FingerJointSettings: space + finger must not be close to zero")
 
-    def edgeObjects(self, boxes, chars: str = "fFh", add: bool = True):
+    def edgeObjects(self, boxes, chars: str = "fFhƒ", add: bool = True):
         edges = [FingerJointEdge(boxes, self),
                  FingerJointEdgeCounterPart(boxes, self),
                  FingerHoleEdge(boxes, self),
+                 TriFingerJointEdge(boxes, self),
                  ]
         return self._edgeObjects(edges, boxes, chars, add)
 
 
 class FingerJointBase(ABC):
     """Abstract base class for finger joint."""
+    finger_factor = 1
 
     def calcFingers(self, length: float, bedBolts) -> tuple[int, float]:
         space, finger = self.settings.space, self.settings.finger  # type: ignore
-        fingers = int((length - (self.settings.surroundingspaces - 1) * space) // (space + finger))  # type: ignore
+        fingers = int((length - (self.settings.surroundingspaces - 1) * space) // (space + self.finger_factor * finger))  # type: ignore
         # shrink surrounding space up to half a thickness each side
         if fingers == 0 and length > finger + 1.0 * self.settings.thickness:  # type: ignore
             fingers = 1
@@ -915,7 +917,7 @@ class FingerJointBase(ABC):
             fingers = 0
         if bedBolts:
             fingers = bedBolts.numFingers(fingers)
-        leftover = length - fingers * (space + finger) + space
+        leftover = length - fingers * (space + self.finger_factor * finger) + space
 
         if fingers <= 0:
             fingers = 0
@@ -983,6 +985,20 @@ class FingerJointEdge(BaseEdge, FingerJointBase):
         else:
             self.polyline(0, 90, h, -90, f, -90, h, 90)
 
+    def addTriFingerSpace(self, i, fingers, pattern) -> bool:
+        # no double finger - no space
+        if self.finger_factor == 1:
+            return False
+        # ensure symmetric pattern
+        j = min(i, fingers - i - 1)
+        # check if space is needed
+        if (j % 2) == 0 and pattern == 'A':
+            return True
+        if (j % 2) == 1 and pattern == 'B':
+            return True
+        # otherwise no space
+        return False
+
     def __call__(self, length, bedBolts=None, bedBoltSettings=None, **kw):
 
         positive = self.positive
@@ -1025,8 +1041,12 @@ class FingerJointEdge(BaseEdge, FingerJointBase):
                     self.bedBoltHole(s, bedBoltSettings)
                 else:
                     self.edge(s)
+            if self.addTriFingerSpace(i, fingers, 'B'):
+                self.edge(f)
             self.draw_finger(f, h, style,
                              positive, i < fingers // 2)
+            if self.addTriFingerSpace(i, fingers, 'A'):
+                self.edge(f)
 
         self.edge(leftover / 2.0, tabs=1)
 
@@ -1088,14 +1108,14 @@ class FingerHoles(FingerJointBase):
                 self.ctx.rectangle(b, -self.settings.width / 2 + b,
                                    length - 2 * b, self.settings.width - 2 * b)
             for i in range(fingers):
-                pos = leftover / 2.0 + i * (s + f)
+                pos = leftover / 2.0 + i * (s + self.finger_factor * f)
 
                 if bedBolts and bedBolts.drawBolt(i):
                     d = (bedBoltSettings or self.boxes.bedBoltSettings)[0]
                     self.boxes.hole(pos - 0.5 * s, 0, d * 0.5)
 
-                self.boxes.rectangularHole(pos + 0.5 * f, 0,
-                                           f + p, self.settings.width + p)
+                self.boxes.rectangularHole(pos + 0.5 * self.finger_factor * f, 0,
+                                           self.finger_factor * f + p, self.settings.width + p)
 
 
 class FingerHoleEdge(BaseEdge):
@@ -1154,6 +1174,29 @@ class CrossingFingerHoleEdge(Edge):
 
     def startWidth(self) -> float:
         return self.outset
+
+
+# The TriFingerJoint can be used to join two edges from oposing sides into a
+# single wall. The holes in the wall have doubled length and the fingers have
+# two spaces (one space sized and on finger sizes). For each hole the order of
+# the fingers changes, to ensure a tight fit, if only one side is used. joint
+# will like like the following:
+# w = wall, l/r = fingers from left/right side
+# lr w rl w lr w ... w rl w lr
+# Note: the order of the pairs "lr" and "rl" is kepts symmetric. This causes a
+# rectangularWall() with two opposing TriFingerJointEdges to cover the left and
+# right sied, as the edges of an rectangularWall() are printed clockwise.
+class TriFingerJointEdge(FingerJointEdge):
+    """Tri finger joint edge"""
+    char = 'ƒ'
+    description = "Tri Finger Joint"
+    finger_factor = 2
+
+
+class TriFingerHoles(FingerHoles):
+    """Hole matching a tri finger joint edge"""
+    description = "Edge (parallel Tri Finger Joint Holes)"
+    finger_factor = 2
 
 
 #############################################################################

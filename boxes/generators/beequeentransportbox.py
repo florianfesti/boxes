@@ -105,7 +105,7 @@ class PathCutout(Cutout):
             ctx.stroke()
 
 class MultiPathCutout(PathCutout):
-    COLORS = [Color.INNER_CUT]
+    COLORS: list[RGB] = [Color.INNER_CUT]
     SCALE: tuple[float, float] = (1., 1.)
     DIMENSIONS: tuple[float, float] = (100., 100.)
     MULTI_SEGMENTS: Sequence[Sequence[tuple[str, tuple[float, ...]]]] = []
@@ -590,7 +590,7 @@ class QueenIconCutout(MultiPathCutout):
         ('C', (21.896767, -15.560055, 21.310425, -15.926777, 23.954018, -15.440171)),
         ('L', (24.060944, -15.416491))
     ]
-    COLORS = [Color.ETCHING_DEEP, Color.ETCHING_DEEP,  # Filled darker
+    COLORS: list[RGB] = [Color.ETCHING_DEEP, Color.ETCHING_DEEP,  # Filled darker
               Color.ETCHING, Color.ETCHING,  # Filled lighter
               Color.YELLOW, Color.YELLOW, Color.YELLOW, Color.YELLOW,  # Outlines
               Color.YELLOW, Color.YELLOW, Color.YELLOW

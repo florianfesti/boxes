@@ -9,6 +9,7 @@ from xml.etree import ElementTree as ET
 
 from affine import Affine
 
+from boxes.Color import RGB, ColorPalette
 from boxes.extents import Extents
 
 EPS = 1e-4
@@ -243,7 +244,7 @@ class Context:
         self._xy = (0, 0)
         self._mxy = self._m * self._xy
         self._lw = 0
-        self._rgb = (0, 0, 0)
+        self._rgb: RGB = ColorPalette.BLACK
         self._ff = "sans-serif"
         self._fs = 10
         self._last_path = None
@@ -282,8 +283,14 @@ class Context:
     def set_line_width(self, lw):
         self._lw = lw
 
-    def set_source_rgb(self, r, g, b):
-        self._rgb = (r, g, b)
+    def set_source_rgb(self, r: int, g: int, b: int):
+        if not (0 <= r <= 255):
+            raise ValueError("red must be 0–255")
+        if not (0 <= g <= 255):
+            raise ValueError("green must be 0–255")
+        if not (0 <= b <= 255):
+            raise ValueError("blue must be 0–255")
+        self._rgb = RGB(r, g, b)
 
     ## path methods
 
@@ -556,7 +563,7 @@ class SVGSurface(Surface):
                         fontweight = ("normal", "bold")[bool(bold)]
                         fontstyle = ("normal", "italic")[bool(italic)]
 
-                        style = f"font-family: {font} ; font-weight: {fontweight}; font-style: {fontstyle}; fill: {rgb_to_svg_color(*params['rgb'])}"
+                        style = f"font-family: {font} ; font-weight: {fontweight}; font-style: {fontstyle}; fill: {params['rgb'].as_css()}"
                         t = ET.SubElement(g, "text",
                                           #x=f"{x:.3f}", y=f"{y:.3f}",
                                           transform=f"matrix( {tm} )",
@@ -575,9 +582,9 @@ class SVGSurface(Surface):
                    points_equal(start[1], start[2], last[1], last[2]):
                     p.append("Z")
                 color = (
-                    random_svg_color()
+                    RGB.random().as_css()
                     if RANDOMIZE_COLORS
-                    else rgb_to_svg_color(*path.params["rgb"])
+                    else path.params["rgb"].as_css()
                 )
                 if p and p[-1][0] == "M":
                     p.pop()
@@ -704,7 +711,7 @@ class PSSurface(Surface):
                         m, text, params = c[3:]
                         tm = " ".join(f"{m[i]:.3f}" for i in (0, 3, 1, 4, 2, 5))
                         text = text.replace("(", r"\(").replace(")", r"\)")
-                        color = " ".join(f"{c:.2f}" for c in params["rgb"])
+                        color = " ".join(f"{c:.2f}" for c in params["rgb"].as_float_tuple())
                         align = params.get('align', 'left')
                         f.write(f"/{self.fonts[params['ff']]}-Latin1 findfont\n")
                         f.write(f"{params['fs']} scalefont\n")
@@ -729,13 +736,9 @@ class PSSurface(Surface):
                         f.write("setmatrix\n\n") # restore matrix
                     else:
                         print("Unknown", c)
-                color = (
-                    random_svg_color()
-                    if RANDOMIZE_COLORS
-                    else rgb_to_svg_color(*path.params["rgb"])
-                )
+
                 if p:  # todo: might be empty since text is not implemented yet
-                    color = " ".join(f"{c:.2f}" for c in path.params["rgb"])
+                    color = " ".join(f"{c:.2f}" for c in path.params["rgb"].as_float_tuple())
                     f.write("newpath\n")
                     f.write("\n".join(p))
                     f.write("\n")
@@ -841,7 +844,7 @@ class LBRN2Surface(Surface):
             children.tail = "\n"
 
             for j, path in enumerate(part.pathes):
-                myColor = self.lbrn2_colors[4*int(path.params["rgb"][0])+2*int(path.params["rgb"][1])+int(path.params["rgb"][2])]
+                myColor = self.lbrn2_colors[4*int(path.params["rgb"].as_float_tuple()[0])+2*int(path.params["rgb"].as_float_tuple()[1])+int(path.params["rgb"].as_float_tuple()[2])]
 
                 p = []
                 x, y = 0, 0
@@ -937,7 +940,7 @@ class LBRN2Surface(Surface):
                             f = self.fonts[font]
                         else:
                             f = params.get('font', 'Arial')
-                        fontColor = self.lbrn2_colors[4*int(params["rgb"][0])+2*int(params["rgb"][1])+int(params["rgb"][2])]
+                        fontColor = self.lbrn2_colors[4*int(params["rgb"].as_float_tuple()[0])+2*int(params["rgb"].as_float_tuple()[1])+int(params["rgb"].as_float_tuple()[2])]
 
                         #alignment can be left|middle|end
                         if params.get('align', 'left')=='middle':
@@ -1008,17 +1011,6 @@ class LBRN2Surface(Surface):
         tree.write(f, encoding="utf-8", xml_declaration=True, method="xml")
         f.seek(0)
         return f
-
-from random import random
-
-
-def random_svg_color():
-    r, g, b = random(), random(), random()
-    return f"rgb({r*255:.0f},{g*255:.0f},{b*255:.0f})"
-
-
-def rgb_to_svg_color(r, g, b):
-    return f"rgb({r*255:.0f},{g*255:.0f},{b*255:.0f})"
 
 
 def line_intersection(line1, line2):

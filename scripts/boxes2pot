@@ -16,14 +16,14 @@
 from __future__ import annotations
 
 import argparse
-import os.path
 import sys
+from pathlib import Path
 from typing import Any
 
 try:
     import boxes.generators
 except ImportError:
-    sys.path.append(os.path.dirname(__file__) + "/..")
+    sys.path.append(Path(__file__).resolve().parent.__str__())
     import boxes.generators
 from boxes import edges, lids
 
@@ -108,7 +108,7 @@ class Boxes2pot:
             self.addBoxParams(name, box, location)
 
     def writePOT(self, fn):
-        with open(fn, encoding="utf-8", mode="w") as f:
+        with Path(fn).open("w", encoding="utf-8") as f:
             f.write(r"""msgid ""
 msgstr ""
 "Project-Id-Version: boxes.py VERSION\n"

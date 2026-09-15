@@ -15,14 +15,14 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import argparse
-import os.path
 import sys
+from pathlib import Path
 from xml.sax.saxutils import quoteattr
 
 try:
     import boxes.generators
 except ImportError:
-    sys.path.append(os.path.dirname(__file__) + "/..")
+    sys.path.append(Path(__file__).resolve().parent.__str__())
     import boxes.generators
 
 
@@ -128,7 +128,8 @@ class Boxes2INX:
         return b''.join(s.encode("utf-8") for s in result)
 
     def writeINX(self, name, box, path):
-        with open(os.path.join(path, "boxes.py." + name + '.inx'), "wb") as f:
+        file_inx = Path(path) / f"boxes.py.{name}.inx"
+        with file_inx.open("wb") as f:
             f.write(self.generator2inx(name, box))
 
     def writeAllINX(self, path):

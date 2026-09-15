@@ -88,10 +88,14 @@ exclude = [
 ]
 lint.select = [
   "UP", # pyupgrade
+  "PTH", # flake8-use-pathlib
 ]
 lint.ignore = [
   # "UP031", # ToDo
 ]
 
 [tool.ruff.lint.per-file-ignores]
-#"boxes/scripts/boxesserver.py" = ["UP031"]
+"boxes/formats.py" = ["PTH"]
+"boxes/scripts/boxes_generator.py" = ["PTH"]
+"boxes/scripts/boxes_main.py" = ["PTH"]
+"boxes/scripts/boxesserver.py" = ["PTH"]

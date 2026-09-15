@@ -18,7 +18,7 @@ from typing import TextIO
 try:
     import boxes
 except ImportError:
-    sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), '../..'))
+    sys.path.append(Path(__file__).resolve().parent.parent.__str__())
     import boxes
 
 import boxes.generators

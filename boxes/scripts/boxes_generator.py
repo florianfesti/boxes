@@ -75,10 +75,10 @@ layout: |
 
 Currently there is no web front-end for this script.
 """
+from pathlib import Path
+
 import yaml
 import copy
-import os
-import sys
 import logging
 import argparse
 import sys
@@ -94,7 +94,7 @@ from svgpathtools import parse_path
 try:
     import boxes.generators
 except ImportError:
-    sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), "../.."))
+    sys.path.append(Path(__file__).resolve().parent.parent.__str__())
     import boxes.generators
 import boxes
 

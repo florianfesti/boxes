@@ -36,9 +36,10 @@ from shapely.geometry import *
 from shapely.ops import split
 
 from boxes import edges, formats, gears, parts, pulley
-from boxes.Color import *
+from boxes.Color import Color, RGB
 from boxes.qrcode_factory import BoxesQrCodeFactory
 from boxes.vectors import kerf
+from boxes.drawing import Context
 
 ### Helpers
 
@@ -343,7 +344,7 @@ class Boxes:
 
     def __init__(self) -> None:
         self.formats = formats.Formats()
-        self.ctx = None
+        self.ctx: Context | None = None
         description: str = ""
         if self.__doc__:
             description = inspect.cleandoc(self.__doc__)
@@ -429,11 +430,12 @@ class Boxes:
         finally:
             cr.restore()
 
-    def set_source_color(self, color):
+    def set_source_color(self, color: RGB) -> None:
         """
         Sets the color of the pen.
         """
-        self.ctx.set_source_rgb(*color)
+        if self.ctx is not None:
+            self.ctx.set_source_rgb(color.red, color.green, color.blue)
 
     def set_font(self, style, bold=False, italic=False):
         """
@@ -1523,10 +1525,11 @@ class Boxes:
         self.edge(2 * rs, tabs)
 
     @restore
-    def text(self, text, x=0, y=0, angle=0, align="", fontsize=10, color=[0.0, 0.0, 0.0], font="Arial"):
+    def text(self, text, x=0, y=0, angle=0, align="", fontsize=10, color: RGB = Color.BLACK, font="Arial"):
         """
         Draw text
 
+        :param color: (Default value = ColorPalette.BLACK)
         :param text: text to render
         :param x:  (Default value = 0)
         :param y:  (Default value = 0)
@@ -1558,7 +1561,8 @@ class Boxes:
                 raise ValueError(f"Unknown alignment: {align}")
 
         for line in reversed(text):
-            self.ctx.show_text(line, fs=fontsize, align=halign, rgb=color, font=font)
+            if self.ctx is not None:
+                self.ctx.show_text(line, fs=fontsize, align=halign, rgb=color, font=font)
             self.moveTo(0, 1.4 * fontsize)
 
     tx_sizes = {

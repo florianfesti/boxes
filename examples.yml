@@ -68,3 +68,33 @@ Boxes:
       x: 0
       y: 0
       m: 0
+  - box_type: ABox
+    name: ABox_flat_lid
+    args:
+      y: 60
+      Lid_style: flat
+  - box_type: ABox
+    name: ABox_chest_lid
+    args:
+      y: 60
+      Lid_style: chest
+  - box_type: ABox
+    name: ABox_overthetop_lid
+    args:
+      y: 60
+      Lid_style: overthetop
+  - box_type: ABox
+    name: ABox_ontop_lid
+    args:
+      y: 60
+      Lid_style: ontop
+  - box_type: ABox
+    name: ABox_flatbrim_lid
+    args:
+      y: 60
+      Lid_style: flatbrim
+  - box_type: ABox
+    name: ABox_fangbrim_lid
+    args:
+      y: 60
+      Lid_style: fangbrim

@@ -22,7 +22,7 @@ from xml.sax.saxutils import quoteattr
 try:
     import boxes.generators
 except ImportError:
-    sys.path.append(Path(__file__).resolve().parent.__str__())
+    sys.path.append(str(Path(__file__).resolve().parent.parent))
     import boxes.generators
 
 

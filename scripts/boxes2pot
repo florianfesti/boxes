@@ -23,7 +23,7 @@ from typing import Any
 try:
     import boxes.generators
 except ImportError:
-    sys.path.append(Path(__file__).resolve().parent.__str__())
+    sys.path.append(str(Path(__file__).resolve().parent.parent))
     import boxes.generators
 from boxes import edges, lids
 

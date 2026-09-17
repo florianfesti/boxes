@@ -67,3 +67,4 @@ See ClosedBox for variant without a base.
         self.rectangularWall(x, h, ["f", "F", tl, "F"], move="up", label="left")
         self.rectangularWall(x, h, ["f", "F", tr, "F"], move="up", label="right")
 
+

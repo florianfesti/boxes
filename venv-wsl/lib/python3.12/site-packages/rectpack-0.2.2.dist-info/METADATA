@@ -1,0 +1,23 @@
+Metadata-Version: 2.4
+Name: rectpack
+Version: 0.2.2
+Summary: 2D Rectangle packing library
+Home-page: https://github.com/secnot/rectpack/
+Author: SecNot
+License: Apache-2.0
+Keywords: knapsack,rectangle,packing 2D,bin,binpacking
+Classifier: Development Status :: 3 - Alpha
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: Apache Software License
+Dynamic: author
+Dynamic: classifier
+Dynamic: description
+Dynamic: home-page
+Dynamic: keywords
+Dynamic: license
+Dynamic: summary
+
+A collection of heuristic algorithms for solving the 2D knapsack problem,
+also known as the bin packing problem. In essence packing a set of rectangles into the
+smallest number of bins.

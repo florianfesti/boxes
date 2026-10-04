@@ -39,6 +39,7 @@ try:
     import boxes.generators
 except ImportError:
     sys.path.append(Path(__file__).resolve().parent.parent.__str__())
+    sys.path.append(Path(__file__).resolve().parent.parent.parent.__str__())
     import boxes.generators
 import boxes
 

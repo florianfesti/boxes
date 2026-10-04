@@ -15,6 +15,11 @@
 
 from boxes import *
 
+try:
+    from gettext import gettext as _
+except ImportError:
+    def _(message: str) -> str:
+        return message
 
 class DiceBox(Boxes):
     """Box with lid and integrated hinge for storing dice."""
@@ -93,6 +98,11 @@ class DiceBox(Boxes):
 
         hy = self.edges["O"].startWidth()
         hy2 = self.edges["P"].startWidth()
+
+        if hl - hy2 + t < 0:
+            raise ValueError(_("Lid not high enough to fit hinge"))
+        if h - hy + t < 0:
+            raise ValueError(_("Box not high enough to fit hinge"))
 
         e1 = edges.CompoundEdge(self, "eF", (hy-t, h-hy+t))
         e2 = edges.CompoundEdge(self, "Fe", (h-hy+t, hy-t))

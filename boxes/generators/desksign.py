@@ -78,7 +78,7 @@ Empty lines will affect the placement."""
 
         if label and fontsize:
             self.rectangularWall(width, height, "eheh", move="right", callback=[
-                lambda: self.text("%s" % label, width/2, height/2 + verticaltextoffset,
+                lambda: self.text(f"{label}", width/2, height/2 + verticaltextoffset,
                     fontsize = fontsize, align="middle center", color=Color.ETCHING)]) # add text
         else:
             self.rectangularWall(width, height, "eheh", move="right") # front

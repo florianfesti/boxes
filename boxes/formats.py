@@ -97,7 +97,7 @@ class Formats:
 
                     if result.returncode:
                         # XXX show stderr output
-                        raise ValueError("Conversion failed. pstoedit returned %i\n\n %s" % (result.returncode, result.stderr))
+                        raise ValueError(f"Conversion failed. pstoedit returned {result.returncode}\n\n {result.stderr}")
                     with open(outfile, 'rb') as ff:
                         data = io.BytesIO(ff.read())
                 finally:

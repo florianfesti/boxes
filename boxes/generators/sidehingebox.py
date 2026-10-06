@@ -61,7 +61,7 @@ but can't be inadvertently opened.
         t = self.thickness
         p = self.play * t
         hinge_radius = self.hinge_radius
-        hinge_center = self.hinge_center if self.hinge_center else 2*t + hinge_radius
+        hinge_center = self.hinge_center or 2*t + hinge_radius
         latches = self.cherrymx_latches
         self.mx_width = 15.4
         self.mx_length = t+16.4+2.8 #2.8 can be removed if the switch is trimmed flush

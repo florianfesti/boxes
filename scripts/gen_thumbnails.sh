@@ -1,7 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
-
+cd -- "$( dirname -- "${BASH_SOURCE[0]}" )"
 STATIC_DIR=../static/samples/
 THUMB_WIDTH=200
 THUMB_HEIGHT=10000 # height: auto;

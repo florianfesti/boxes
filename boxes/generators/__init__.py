@@ -9,7 +9,7 @@ from typing import Any
 
 import boxes
 
-ui_groups_by_name = {}
+ui_groups_by_name = {}  # type: ignore
 
 
 class UIGroup:

@@ -72,6 +72,8 @@ class TypeTray(_TopEdge):
         self.addSettingsArgs(LidSettings)
         self.buildArgParser("sx", "sy", "h", "hi", "outside", "bottom_edge",
                             "top_edge")
+        self.addSettingsArgs(FingerHoleEdgeSettings)
+
         self.argparser.add_argument(
             "--back_height",  action="store", type=float, default=0.0,
             help="additional height of the back wall - e top edge only")
@@ -117,21 +119,19 @@ class TypeTray(_TopEdge):
                 "--label_file", action="store", type=argparse.FileType('r'),
                 help="file with compartment labels. One line per compartment")
 
-        self.addSettingsArgs(FingerHoleEdgeSettings)
-
     @property
     def fingerholedepth(self):
-        if self.fingerhole == 'custom':
+        if self.fingerholes == 'custom':
             return self.fingerhole_depth
-        elif self.fingerhole == 'regular':
+        elif self.fingerholes == 'regular':
             a = self.h/4
             if a < 35:
                 return a
             else:
                 return 35
-        elif self.fingerhole == 'deep':
+        elif self.fingerholes == 'deep':
             return self.h-self.thickness-10
-        elif self.fingerhole == 'none':
+        elif self.fingerholes == 'none':
             return 0
 
     def xSlots(self):
@@ -197,7 +197,7 @@ class TypeTray(_TopEdge):
 
             # Generate text
             self.text(
-                "%s" % self.textcontent[self.textnumber],
+                f"{self.textcontent[self.textnumber]}",
                 textx,
                 texty,
                 0,
@@ -241,7 +241,7 @@ class TypeTray(_TopEdge):
 
         self.textcontent = []
         if hasattr(self, "label_text"):
-            self.textcontent = self.label_text.split("\r\n")
+            self.textcontent = self.label_text.splitlines()
         else:
             if self.label_file:
                 with Path(self.label_file).open() as f:

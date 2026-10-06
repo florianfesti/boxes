@@ -71,11 +71,11 @@ The actual sizes and all other settings can be entered in the second step."""
         r = []
 
         for i, x in enumerate(self.sx):
-            r.append(" |" * i + " ,> %.1fmm\n" % x)
+            r.append(" |" * i + f" ,> {x:.1f}mm\n")
 
         for hwalls, vwalls, floors, y in zip(self.hwalls, self.vwalls, self.floors, self.sy):
             r.append("".join("+" + " -"[h] for h in hwalls) + "+\n")
-            r.append("".join((" |"[v] + "X "[f] for v, f in zip(vwalls, floors))) + " |"[vwalls[-1]] + " %.1fmm\n" % y)
+            r.append("".join((" |"[v] + "X "[f] for v, f in zip(vwalls, floors))) + " |"[vwalls[-1]] + f" {y:.1f}mm\n")
         r.append("".join("+" + " -"[h] for h in self.hwalls[-1]) + "+\n")
 
         return "".join(r)
@@ -486,20 +486,20 @@ to remove the floor for this compartment.
                         elif c == ' ':
                             f.append(True)
                         else:
-                            raise ValueError("""Can't parse line %i in layout: expected " ", "x" or "X" for char #%i""" % (nr + 1, n + 1))
+                            raise ValueError(f"""Can't parse line {nr + 1} in layout: expected " ", "x" or "X" for char #{n + 1}""")
                     else:
                         if c == ' ':
                             w.append(False)
                         elif c == '|':
                             w.append(True)
                         else:
-                            raise ValueError("""Can't parse line %i in layout: expected " ", or "|" for char #%i""" % (nr + 1, n + 1))
+                            raise ValueError(f"""Can't parse line {nr + 1} in layout: expected " ", or "|" for char #{n + 1}""")
 
                 floors.append(f)
                 vwalls.append(w)
                 m = re.match(r"([ |][ xX])+[ |]\s*(\d*\.?\d+)\s*mm\s*", line)
                 if not m:
-                    raise ValueError("""Can't parse line %i in layout: Can read height of the row""" % (nr + 1))
+                    raise ValueError(f"""Can't parse line {nr + 1} in layout: Can read height of the row""")
                 else:
                     y.append(float(m.group(2)))
 
@@ -512,15 +512,15 @@ to remove the floor for this compartment.
         if ly == 0:
             raise ValueError("Need more than one wall in y direction")
         if len(hwalls) != ly + 1:
-            raise ValueError("Wrong number of horizontal wall lines: %i (%i expected)" % (len(hwalls), ly + 1))
+            raise ValueError(f"Wrong number of horizontal wall lines: {len(hwalls)} ({ly + 1} expected)")
         for nr, walls in enumerate(hwalls):
             if len(walls) != lx:
-                raise ValueError("Wrong number of horizontal walls in line %i: %i (%i expected)" % (nr, len(walls), lx))
+                raise ValueError(f"Wrong number of horizontal walls in line {nr}: {len(walls)} ({lx} expected)")
         if len(vwalls) != ly:
-            raise ValueError("Wrong number of vertical wall lines: %i (%i expected)" % (len(vwalls), ly))
+            raise ValueError(f"Wrong number of vertical wall lines: {len(vwalls)} ({ly} expected)")
         for nr, walls in enumerate(vwalls):
             if len(walls) != lx + 1:
-                raise ValueError("Wrong number of vertical walls in line %i: %i (%i expected)" % (nr, len(walls), lx + 1))
+                raise ValueError(f"Wrong number of vertical walls in line {nr}: {len(walls)} ({lx + 1} expected)")
 
         self.x = x
         self.y = y

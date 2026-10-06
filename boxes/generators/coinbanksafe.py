@@ -53,14 +53,13 @@ Leaving them unglued will allow you change the code, and to remove the pin from 
             "--handleclearance", action="store", type=float, default=1.5,
             help="Clearance of handle in multiples of thickness")
 
-    def drawNumbers(self, radius, cover):
+    def drawNumbers(self, radius: float, cover: float) -> None:
         fontsize = 0.8 * (radius - cover)
         for num in range(8):
             angle = num*45
             x = (cover + fontsize *0.4) * math.sin(math.radians(angle))
             y = (cover + fontsize *0.4) * math.cos(math.radians(angle))
-            self.text(str(num+1), align="center middle", fontsize=fontsize, angle=-angle, color=[1,0,0],
-                          y=y, x=x)
+            self.text(str(num+1), align="center middle", fontsize=fontsize, angle=-angle, color=Color.RED, y=y, x=x)
 
     def lockPin(self, layers, move=None):
         t = self.thickness

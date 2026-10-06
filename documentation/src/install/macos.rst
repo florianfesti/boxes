@@ -9,33 +9,33 @@ General
 
 1. Install Python 3 and other dependencies:
 
-   .. code::
+   .. code:: bash
 
       brew install python3 git
 
    Optional:
 
-   .. code::
+   .. code:: bash
 
       brew install pstoedit
 
 
 2. Install cairio:
 
-  .. code::
+  .. code:: bash
 
       brew install pkg-config
 
 
 3. Install required Python modules:
 
-   .. code::
+   .. code:: bash
 
       pip3 install Markdown affine shapely qrcode
 
 4. Download Boxes.py via Git:
 
-   .. code::
+   .. code:: bash
 
       git clone https://github.com/florianfesti/boxes.git
 
@@ -43,13 +43,13 @@ General
 
    Local web server on port 8000:
 
-   .. code::
+   .. code:: bash
 
       ./scripts/boxesserver
 
    Command line variant (CLI):
 
-   .. code::
+   .. code:: bash
 
       ./scripts/boxes
 
@@ -63,13 +63,13 @@ are required:
 1. Install Inkscape with Homebrew Cask
    (requires `XQuartz <https://www.xquartz.org/>`__):
 
-   .. code::
+   .. code:: bash
 
       brew install inkscape
 
 2. From the root directory of the repository, run:
 
-   .. code::
+   .. code:: bash
 
       ./setup.py install
 
@@ -107,13 +107,13 @@ A workaround is to edit the file at
 :code:`/Applications/Inkscape.app/Contents/Resources/bin/inkscape`.
 At line 79 there should be following code:
 
-.. code::
+.. code:: bash
 
    export PYTHONPATH="$TOP/lib/python$PYTHON_VERS/site-packages/"
 
 which needs to be changed to
 
-.. code::
+.. code:: bash
 
    #export PYTHONPATH="$TOP/lib/python$PYTHON_VERS/site-packages/"
 

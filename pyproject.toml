@@ -3,10 +3,9 @@ requires = ["setuptools >= 77.0.3"]
 build-backend = "setuptools.build_meta"
 
 [project]
-dynamic = ["dependencies"]
 name = "boxes"
 version = "1.2"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 description = "Boxes generator for laser cutters"
 maintainers = [ { name = "Florian Festi", email="florian@festi.info" } ]
 readme = "README.rst"
@@ -22,18 +21,29 @@ classifiers = [ # https://pypi.python.org/pypi?%3Aaction=list_classifiers
   "Topic :: Scientific/Engineering",
 ]
 
-[project.optional-dependencies]
+dependencies = [
+  "affine>=2.0",
+  "markdown",
+  "numpy",
+  "pillow",
+  "PyYAML",
+  "qrcode>=7.3.1",
+  "rectpack",
+  "shapely>=1.8.2",
+  "svgpathtools",
+  "typing_extensions>=4.5.0",
+]
+
+[dependency-groups]
 dev = [
   "lxml>=6.0.2",
-  "mypy>=1.20.0",
-  "pre-commit>=4.5.1",
+  "mypy>=2.1.0",
+  "pre-commit>=4.6.0",
   "pytest>=9.0.3",
+  "ruff",
   "types-Markdown"
 ]
 doc = ["sphinx>=8.0.2"]
-
-[tool.setuptools.dynamic]
-dependencies = {file=["requirements.txt"]}
 
 [project.scripts]
 boxes = "boxes.scripts.boxes_main:main"
@@ -51,10 +61,10 @@ ignore-words-list = "ded,te,pathes,reencode,ontop,alledges"
 [tool.mypy]
 extra_checks = true
 ignore_missing_imports = true
-strict_bytes = true
 strict_equality = true
 warn_redundant_casts = true
 #warn_return_any = true
+warn_no_return = true
 warn_unreachable = true
 warn_unused_configs = true
 warn_unused_ignores = true
@@ -66,3 +76,26 @@ ignore_directives = [
   "automethod",
   "automodule",
 ]
+ignore_messages = [
+  "File referenced in \"include\" directive not found: '.*generators\\.inc'",
+]
+
+[tool.ruff]
+exclude = [
+  "scripts/*ipynb", # Example
+  "scripts/boxes_proxy.py", # Symlink
+  "setup.py", # Needs refactoring so no fixes yet.
+]
+lint.select = [
+  "UP", # pyupgrade
+  "PTH", # flake8-use-pathlib
+]
+lint.ignore = [
+  # "UP031", # ToDo
+]
+
+[tool.ruff.lint.per-file-ignores]
+"boxes/formats.py" = ["PTH"]
+"boxes/scripts/boxes_generator.py" = ["PTH"]
+"boxes/scripts/boxes_main.py" = ["PTH"]
+"boxes/scripts/boxesserver.py" = ["PTH"]

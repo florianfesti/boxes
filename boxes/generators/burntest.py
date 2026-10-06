@@ -90,7 +90,7 @@ See also LBeam that can serve as compact BurnTest and FlexTest for testing flex 
 
         for cnt in range(self.pairs):
             for i in range(4):
-                self.text("%.3fmm" % self.burn, x / 2, t, **font)
+                self.text(f"{self.burn:.3f}mm", x / 2, t, **font)
                 if self.date and i == 3:
                     self.text(today, x / 2, 20, **font_meta)
                 if self.id and i == 1:
@@ -103,7 +103,7 @@ See also LBeam that can serve as compact BurnTest and FlexTest for testing flex 
             self.moveTo(x + 2 * t + self.spacing, -t)
 
             for i in range(4):
-                self.text("%.3fmm" % self.burn, x / 2, t, **font)
+                self.text(f"{self.burn:.3f}mm", x / 2, t, **font)
                 if self.date and i == 3:
                     self.text(today, x / 2, 20, **font_meta)
                 if self.id and i == 1:

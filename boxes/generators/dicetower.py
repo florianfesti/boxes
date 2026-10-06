@@ -21,9 +21,10 @@ class DiceTower(Boxes):
 
     ui_group = "Misc"
 
-    description = """Feel free to add a shallow ABox as a container for catching the dice so they don't scatter across the table.
-
+    description = """
 You can also configure the DiceTower and change the number and angle of the ramps.
+
+The dice catching tray can be put onto the front as a lid when not in use. Place the tower inside to avoid the dice rolling away.
 """
 
     def __init__(self):
@@ -42,6 +43,8 @@ You can also configure the DiceTower and change the number and angle of the ramp
             "--ramps",  action="store", type=int, default=3, help="number of ramps in the tower")
         self.argparser.add_argument(
             "--angle",  action="store", type=float, default=30.0, help="angle of the ramps in the tower")
+        self.argparser.add_argument(
+            "--tray_height", type=float, default=4.0, help="height of the dice catching tray in multiples of thickness (0 to omit tray)")
 
     def side(self):
         a = math.radians(self.angle)
@@ -71,6 +74,9 @@ You can also configure the DiceTower and change the number and angle of the ramp
 
 
     def render(self):
+
+        t = self. thickness
+
         if self.outside:
             self.width = self.adjustSize(self.width)
             self.depth = self.adjustSize(self.depth)
@@ -100,6 +106,12 @@ You can also configure the DiceTower and change the number and angle of the ramp
             self.rectangularWall(self.width, self.depth, "Efff", move="right", label="bottom")
 
         # ramps
-        self.rectangularWall(self.width, self.ramp_len, "efef", move="up", label="ramp")
-        for _ in range(self.ramps - 1):
-            self.rectangularWall(self.width, 0.5*self.ramp_len, "efef", move="up", label="ramp")
+        with self.saved_context():
+            self.rectangularWall(self.width, self.ramp_len, "efef", move="up", label="ramp")
+            for _ in range(self.ramps - 1):
+                self.rectangularWall(self.width, 0.5*self.ramp_len, "efef", move="up", label="ramp")
+        self.rectangularWall(self.width, self.ramp_len, "efef", move="right only", label="movement")
+
+        if self.tray_height:
+            lid = lids.Lid(self, lids.LidSettings(t, style="overthetop", height=self.tray_height))
+            lid(self.width, self.height - (t if self.bottom else 2*t), "e")

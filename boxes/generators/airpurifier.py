@@ -52,6 +52,9 @@ class AirPurifier(Boxes):
             choices=list(self.fan_holes.keys()),
             help="diameter of the fans (in mm)")
         self.argparser.add_argument(
+            "--fan_width",  action="store", type=float, default=25.,
+            help="width of the fans front to back (in mm)")
+        self.argparser.add_argument(
             "--filters",  action="store", type=int, default=2,
             choices=(1, 2),
             help="Filters on both sides or only one")
@@ -74,7 +77,7 @@ class AirPurifier(Boxes):
             "--screw_holes",  action="store", type=float, default=5.,
             help="diameter of the holes for screwing in the fans (in mm)")
 
-    def fanCB(self, n, h, l, fingerHoles=True, split_frames=False):
+    def fanCB(self, n, h, l, fingerHoles=True, split_frames=False, sides=10.):
         fh = self.filter_height
         t = self.thickness
         r = self.rim
@@ -92,7 +95,7 @@ class AirPurifier(Boxes):
                     else:
                         self.fingerHolesAt(0, h_, l, 0)
 
-            max_n = int((l-20) // (self.fan_diameter + 10))
+            max_n = int((l-2*sides) // (self.fan_diameter + 10))
             if n == -1:
                 n_ = max_n
             else:
@@ -100,8 +103,8 @@ class AirPurifier(Boxes):
 
             if n_ == 0:
                 return
-            w = (l-20) / n_
-            x = 10 + w / 2
+            w = (l-2*sides) / n_
+            x = sides + w / 2
             delta = self.fan_holes[self.fan_diameter] / 2
             if self.filters==2:
                 posy = h / 2
@@ -127,11 +130,16 @@ class AirPurifier(Boxes):
         fh = self.filter_height
         h = d + 2 + self.filters * (fh + t)
 
+        sides = self.fan_width if (
+            (self.fans_left or self.fans_right) and
+            (self.fans_top or self.fans_bottom)) else 10
 
         self.rectangularWall(x, d, "ffff", callback=[
-            self.fanCB(self.fans_top, d, x, False)], label="top", move="up")
+            self.fanCB(self.fans_top, d, x, False, sides=sides)],
+                             label="top", move="up")
         self.rectangularWall(x, h, "ffff", callback=[
-            self.fanCB(self.fans_bottom, h, x)], label="bottom", move="up")
+            self.fanCB(self.fans_bottom, h, x, sides=sides)],
+                             label="bottom", move="up")
 
         be = te = edges.CompoundEdge(self, "fff", (r, y - 2*r, r)) \
             if self.split_frames else "f"

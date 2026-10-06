@@ -658,7 +658,7 @@ class GroovedEdgeBase(BaseEdge):
                 angle = self.settings.tri_angle
                 self.groove_triangle(width, angle, inv)
             else:
-                raise ValueError("Unknown GroovedEdge style: %s)" % style)
+                raise ValueError(f"Unknown GroovedEdge style: {style})")
 
         # The final edge
         self.edge(margin, tabs=1)
@@ -1359,7 +1359,7 @@ class Hinge(BaseEdge):
         super().__init__(boxes, settings)
 
         if not (0 < layout <= 3):
-            raise ValueError("layout must be 1, 2 or 3 (got %i)" % layout)
+            raise ValueError(f"layout must be 1, 2 or 3 (got {layout})")
 
         self.layout = layout
         self.char = "eijk"[layout]
@@ -1394,7 +1394,7 @@ class Hinge(BaseEdge):
         )
 
         if _reversed:
-            hinge = reversed(hinge)  # type: ignore
+            hinge = reversed(hinge)
             self.polyline(*hinge)
             self.boxes.rectangularHole(-pos, -0.5 * t, pinl, self.settings.thickness)
         else:
@@ -1422,7 +1422,7 @@ class Hinge(BaseEdge):
         pinl = (self.settings.axle ** 2 - self.settings.thickness ** 2) ** 0.5 * self.settings.pinwidth
 
         if _reversed:
-            hinge = reversed(hinge)  # type: ignore
+            hinge = reversed(hinge)
             self.hole(0.5 * t + pos, -0.5 * t, 0.5 * self.settings.axle)
             self.boxes.rectangularHole(0.5 * t + pos, -0.5 * t, pinl, self.settings.thickness)
         else:
@@ -1455,7 +1455,7 @@ class HingePin(BaseEdge):
         super().__init__(boxes, settings)
 
         if not (0 < layout <= 3):
-            raise ValueError("layout must be 1, 2 or 3 (got %i)" % layout)
+            raise ValueError(f"layout must be 1, 2 or 3 (got {layout})")
 
         self.layout = layout
         self.char = "EIJK"[layout]
@@ -1504,7 +1504,7 @@ class HingePin(BaseEdge):
             pin += (pos - 0.5 * pinl,)  # type: ignore
 
         if _reversed:
-            pin = reversed(pin)  # type: ignore
+            pin = reversed(pin)
 
         self.polyline(*pin)
 
@@ -1543,7 +1543,7 @@ class HingePin(BaseEdge):
             )
 
         if _reversed:
-            pin = reversed(pin)  # type: ignore
+            pin = reversed(pin)
 
         self.polyline(*pin)
 

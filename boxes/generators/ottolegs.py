@@ -42,7 +42,7 @@ class OttoLegs(Boxes):
             help="diameter for hole for ankle bolts - leg side")
         self.argparser.add_argument(
             "--length",  action="store", type=float, default=34.0,
-	    help="length of legs (34mm min)")
+            help="length of legs (34mm min)")
 
     def foot(self, x, y, ly, l, r=5., move=None):
         if self.move(x, y, move, True):

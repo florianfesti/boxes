@@ -15,6 +15,11 @@
 
 from boxes import *
 
+try:
+    from gettext import gettext as _
+except ImportError:
+    def _(message: str) -> str:
+        return message
 
 class IntegratedHingeBox(Boxes):
     """Box with lid and integrated hinge."""
@@ -48,6 +53,11 @@ class IntegratedHingeBox(Boxes):
         e1 = edges.CompoundEdge(self, "Fe", (h-hy, hy))
         e2 = edges.CompoundEdge(self, "eF", (hy, h-hy))
         e_back = ("F", e1, "e", e2)
+
+        if hl - hy2 < 0:
+            raise ValueError(_("Lid not high enough to fit hinge"))
+        if h - hy < 0:
+            raise ValueError(_("Box not high enough to fit hinge"))
 
         self.rectangularWall(y, h-hy, "FfOf", ignore_widths=[2], move="up")
         self.rectangularWall(y, hl-hy2, "pfFf", ignore_widths=[1], move="up")

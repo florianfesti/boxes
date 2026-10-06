@@ -55,7 +55,7 @@ class UnevenHeightBox(Boxes):
 
         edge_types = self.edge_types
         if len(edge_types) != 4 or any(et not in "ezZ" for et in edge_types):
-            raise ValueError("Wrong edge_types style: %s)" % edge_types)
+            raise ValueError(f"Wrong edge_types style: {edge_types})")
 
         if self.outside:
             x = self.adjustSize(x)

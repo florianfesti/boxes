@@ -200,8 +200,8 @@ To remove the panel you have to press in the four tabs at the side. It is easies
         if self.move(tw, th, move, True):
             return
 
-        d1 = t * math.cos(math.radians(self.angle))
-        d2 = t * math.sin(math.radians(self.angle))
+        d1 = t * math.sin(math.radians(self.angle))
+        d2 = t * math.cos(math.radians(self.angle))
 
         self.moveTo(t, 0)
         bottom(borders[0])
@@ -232,12 +232,22 @@ To remove the panel you have to press in the four tabs at the side. It is easies
 
         self.move(tw, th, move, label=label)
 
+    def cornerCB(self):
+        self.ctx.stroke()
+        t = self.thickness
+        self.set_source_color(Color.ETCHING)
+        self.moveTo(0, 2*t, -90)
+        self.polyline(2*t, 90, 2*t)
+        self.moveTo(0, t, 180)
+        self.polyline(t, -90, t)
+        self.ctx.stroke()
+
     def render(self):
         x, y, h = self.x, self.y, self.h
         t = self.thickness
         bottom = self.edges.get(self.bottom_edge)
         back_top_edge = "e"
-        top_back_edge = "e"
+        top_back_edge = "E"
 
         if not self.removable_backwall:
             back_top_edge = "f"
@@ -248,8 +258,8 @@ To remove the panel you have to press in the four tabs at the side. It is easies
             self.y = y = self.adjustSize(y)
             self.h = h = self.adjustSize(h, bottom)
 
-        d1 = t * math.cos(math.radians(self.angle))
-        d2 = t * math.sin(math.radians(self.angle))
+        d1 = t * math.sin(math.radians(self.angle))
+        d2 = t * math.cos(math.radians(self.angle))
 
         self.latchpos = latchpos = 6*t
 
@@ -263,14 +273,17 @@ To remove the panel you have to press in the four tabs at the side. It is easies
             move="right", label="Front")
 
         if self.glued_panel:
-            self.rectangularWall(borders[4], x, "EEEE", move="right", label="Panel")
+            self.rectangularWall(
+                borders[4], x, "EEEE", move="right",
+                callback=[self.cornerCB]*4 if self.removable_panel else [],
+                label="Panel")
         elif self.removable_panel:
             self.rectangularWall(borders[4], x-2*t, "hEhE", move="right", label="Panel")
         else:
             self.rectangularWall(borders[4], x, "FEFE", move="right", label="Panel")
 
         if len(borders) == 10:
-            self.rectangularWall(borders[6]-d2, x, ("F", "E", "F", top_back_edge), move="right", label="Top")
+            self.rectangularWall(borders[6]-d2, x, ("F", "e", "F", top_back_edge), move="right", label="Top")
 
         if self.removable_backwall:
             self.rectangularWall(

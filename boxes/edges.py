@@ -414,6 +414,7 @@ class NoopEdge(BaseEdge):
 class MountingSettings(Settings):
     """Settings for Mounting Edge
 Values:
+
 * absolute_params
 
  * style : "straight edge, within" : edge style
@@ -859,18 +860,19 @@ class FingerJointSettings(Settings):
 Values:
 
 * absolute
-  * style : "rectangular" : style of the fingers
-  * surroundingspaces : 2.0 : space at the start and end in multiple of normal spaces
+
+ * style : "rectangular" : style of the fingers
+ * surroundingspaces : 2.0 : space at the start and end in multiple of normal spaces
 
 * relative (in multiples of thickness)
 
-  * space : 2.0 : space between fingers (multiples of thickness)
-  * finger : 2.0 : width of the fingers (multiples of thickness)
-  * width : 1.0 : width of finger holes (multiples of thickness)
-  * edge_width : 1.0 : space below holes of FingerHoleEdge (multiples of thickness)
-  * play : 0.0 : extra space to allow finger move in and out (multiples of thickness)
-  * extra_length : 0.0 : extra material to grind away burn marks (multiples of thickness)
-  * bottom_lip : 0.0 : height of the bottom lips sticking out  (multiples of thickness) FingerHoleEdge only!
+ * space : 2.0 : space between fingers (multiples of thickness)
+ * finger : 2.0 : width of the fingers (multiples of thickness)
+ * width : 1.0 : width of finger holes (multiples of thickness)
+ * edge_width : 1.0 : space below holes of FingerHoleEdge (multiples of thickness)
+ * play : 0.0 : extra space to allow finger move in and out (multiples of thickness)
+ * extra_length : 0.0 : extra material to grind away burn marks (multiples of thickness)
+ * bottom_lip : 0.0 : height of the bottom lips sticking out  (multiples of thickness) FingerHoleEdge only!
 """
 
     absolute_params = {
@@ -1311,11 +1313,13 @@ class HingeSettings(Settings):
 Values:
 
 * absolute_params
+
  * outset : False : have lid overlap at the sides (similar to OutSetEdge)
  * pinwidth : 1.0 : set to lower value to get disks surrounding the pins
  * grip_percentage" : 0 : percentage of the lid that should get grips
 
 * relative (in multiples of thickness)
+
  * hingestrength : 1 : thickness of the arc holding the pin in place (multiples of thickness)
  * axle : 2 : diameter of the pin hole (multiples of thickness)
  * grip_length : 0 : fixed length of the grips on he lids (multiples of thickness)
@@ -2477,6 +2481,7 @@ class FlexEdge(BaseEdge):
 class GearSettings(Settings):
     """Settings for rack (and pinion) edge
 Values:
+
 * absolute_params
 
  * dimension : 3.0 : modulus of the gear (in mm)

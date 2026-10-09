@@ -31,6 +31,25 @@ Use a vector graphics program (like Inkscape) to add any features."""
         self.addSettingsArgs(edges.DoveTailSettings, size=3, depth=.9, radius=.05, angle=40)
         self.buildArgParser("x", "y", "h", "outside")
         self.argparser.add_argument("--frame_thickness", type=float, default=15, help="Thickness of the frame pieces")
+        self.argparser.add_argument(
+            "--wall1", action="store", type=boolarg, default=True,
+            help="Is wall 1 frame or solid?")
+        self.argparser.add_argument(
+            "--wall2", action="store", type=boolarg, default=True,
+            help="Is wall 2 frame or solid?")
+        self.argparser.add_argument(
+            "--wall3", action="store", type=boolarg, default=True,
+            help="Is wall 3 frame or solid?")
+        self.argparser.add_argument(
+            "--wall4", action="store", type=boolarg, default=True,
+            help="Is wall 4 frame or solid?")
+        self.argparser.add_argument(
+            "--top", action="store", type=boolarg, default=True,
+            help="Is top frame or solid?")
+        self.argparser.add_argument(
+            "--bottom", action="store", type=boolarg, default=True,
+            help="Is bottom frame or solid?")
+
 
     def render(self):
         x, y, h = self.x, self.y, self.h
@@ -40,16 +59,22 @@ Use a vector graphics program (like Inkscape) to add any features."""
             y = self.adjustSize(y)
             h = self.adjustSize(h)
 
-        self.splitRectangularWall(x, h, "FFFF", move="right", label="Wall 1")
-        self.splitRectangularWall(y, h, "FfFf", move="up", label="Wall 2")
-        self.splitRectangularWall(y, h, "FfFf", label="Wall 4")
-        self.splitRectangularWall(x, h, "FFFF", move="left up", label="Wall 3")
-        self.splitRectangularWall(x, y, "ffff", move="right", label="Top")
-        self.splitRectangularWall(x, y, "ffff", label="Bottom")
+        if self.wall1: self.splitRectangularWall(x, h, "FFFF", move="right", label="Wall 1")
+        else: self.rectangularWall(x, h, "FFFF", move="right", label="Wall 1")
+        if self.wall2: self.splitRectangularWall(y, h, "FfFf", move="up", label="Wall 2", wallHeight= h+self.thickness+self.spacing if not self.wall1 else 0)
+        else: self.rectangularWall(y, h, "FfFf", move="up", label="Wall 2")
+        if self.wall4: self.splitRectangularWall(y, h, "FfFf", label="Wall 4")
+        else: self.rectangularWall(y, h, "FfFf", label="Wall 4")
+        if self.wall3: self.splitRectangularWall(x, h, "FFFF", move="left up", label="Wall 3", wallHeight= h+self.thickness+self.spacing if not self.wall4 else 0)
+        else: self.rectangularWall(x, h, "FFFF", move="left up", label="Wall 3")
+        if self.top: self.splitRectangularWall(x, y, "ffff", move="right", label="Top")
+        else: self.rectangularWall(x, y, "ffff", move="right", label="Top")
+        if self.bottom: self.splitRectangularWall(x, y, "ffff", label="Bottom")
+        else: self.rectangularWall(x, y, "ffff", label="Bottom")
 
-    def splitRectangularWall(self, w, h, edges, move=None, label=None):
+    def splitRectangularWall(self, w, h, edges, move=None, label=None, wallHeight=0):
         overallWidth = max(w,h) + self.thickness * 2
-        overallHeight = (self.frame_thickness + self.thickness + self.spacing/2) * 4
+        overallHeight = wallHeight or (self.frame_thickness + self.thickness + self.spacing/2) * 4
         if self.move(overallWidth, overallHeight, move,before=True): return
         edges = [self.edges.get(e, e) for e in edges]
         edges += edges  # append for wrapping around

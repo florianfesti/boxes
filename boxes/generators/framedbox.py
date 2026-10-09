@@ -45,11 +45,13 @@ Use a vector graphics program (like Inkscape) to add any features."""
             help="Is face 4 frame or solid?")
         self.argparser.add_argument(
             "--top", action="store", type=boolarg, default=True,
-            help="Is top frame or solid?")
+            help="Is top face frame or solid?")
         self.argparser.add_argument(
             "--bottom", action="store", type=boolarg, default=True,
-            help="Is bottom frame or solid?")
-
+            help="Is bottom face frame or solid?")
+        self.argparser.add_argument(
+            "--verbose_label", action="store", type=boolarg, default=True,
+            help="Label display")
 
     def render(self):
         x, y, h = self.x, self.y, self.h
@@ -59,18 +61,23 @@ Use a vector graphics program (like Inkscape) to add any features."""
             y = self.adjustSize(y)
             h = self.adjustSize(h)
 
-        if self.wall1: self.splitRectangularWall(x, h, "FFFF", move="right", label="1")
-        else: self.rectangularWall(x, h, "FFFF", move="right", label="1")
-        if self.wall2: self.splitRectangularWall(y, h, "FfFf", move="up", label="2", wallHeight= h+self.thickness+self.spacing if not self.wall1 else 0)
-        else: self.rectangularWall(y, h, "FfFf", move="up", label="2")
-        if self.wall4: self.splitRectangularWall(y, h, "FfFf", label="4")
-        else: self.rectangularWall(y, h, "FfFf", label="4")
-        if self.wall3: self.splitRectangularWall(x, h, "FFFF", move="left up", label="3", wallHeight= h+self.thickness+self.spacing if not self.wall4 else 0)
-        else: self.rectangularWall(x, h, "FFFF", move="left up", label="3")
-        if self.top: self.splitRectangularWall(x, y, "ffff", move="right", label="T")
-        else: self.rectangularWall(x, y, "ffff", move="right", label="T")
-        if self.bottom: self.splitRectangularWall(x, y, "ffff", label="B")
-        else: self.rectangularWall(x, y, "ffff", label="B")
+        prefix = 'Wall ' if self.verbose_label else ''
+
+        if self.wall1: self.splitRectangularWall(x, h, "FFFF", move="right", label=f"{prefix}1")
+        else: self.rectangularWall(x, h, "FFFF", move="right", label=f"{prefix}1")
+        if self.wall2: self.splitRectangularWall(y, h, "FfFf", move="up", label=f"{prefix}2", wallHeight= h+self.thickness+self.spacing if not self.wall1 else 0)
+        else: self.rectangularWall(y, h, "FfFf", move="up", label=f"{prefix}2")
+        if self.wall4: self.splitRectangularWall(y, h, "FfFf", label=f"{prefix}4")
+        else: self.rectangularWall(y, h, "FfFf", label=f"{prefix}4")
+        if self.wall3: self.splitRectangularWall(x, h, "FFFF", move="left up", label=f"{prefix}3", wallHeight= h+self.thickness+self.spacing if not self.wall4 else 0)
+        else: self.rectangularWall(x, h, "FFFF", move="left up", label=f"{prefix}3")
+
+        label = "Top" if self.verbose_label else "T"
+        if self.top: self.splitRectangularWall(x, y, "ffff", move="right", label=label)
+        else: self.rectangularWall(x, y, "ffff", move="right", label=label)
+        label = "Bottom" if self.verbose_label else "B"
+        if self.bottom: self.splitRectangularWall(x, y, "ffff", label=label)
+        else: self.rectangularWall(x, y, "ffff", label=label)
 
     def splitRectangularWall(self, w, h, edges, move=None, label=None, wallHeight=0):
         overallWidth = max(w,h) + self.thickness * 2
@@ -79,7 +86,7 @@ Use a vector graphics program (like Inkscape) to add any features."""
         edges = [self.edges.get(e, e) for e in edges]
         edges += edges  # append for wrapping around
         DOVE_TAIL_CHARS='dD'
-        faceLabel = ['B','R','T','L']#['bottom', 'right', 'top', 'left']
+        faceLabel = ['bottom', 'right', 'top', 'left'] if self.verbose_label else ['B','R','T','L'] 
         for i, l in enumerate((w, h, w, h)):
             self.pieceOfFrame(edges,i,l,self.frame_thickness,DOVE_TAIL_CHARS[i % 2],f"{label}-{faceLabel[i]}")
         self.move(overallWidth, overallHeight, move)

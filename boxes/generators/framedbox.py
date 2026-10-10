@@ -96,7 +96,7 @@ Use a vector graphics program (like Inkscape) to add any features."""
         edge = edges[i]
         sw = edges[i-1].endWidth()
         ew = edges[i+1].startWidth()
-        pieceWidth = l + sw + ew  
+        pieceWidth = l + sw + ew 
         pieceHeight = thickness
         char = edge.char
         if char == 'f': self.moveTo(0,self.thickness)

@@ -1,4 +1,4 @@
-FROM python:3.12-slim AS builder
+FROM python:3.13-slim AS builder
 
 WORKDIR /app
 
@@ -11,7 +11,7 @@ RUN mv scripts/boxesserver scripts/boxesserver.py
 
 # ---
 
-FROM python:3.12-slim
+FROM python:3.13-slim
 
 RUN apt update && \
   apt install -y pstoedit --no-install-recommends && \

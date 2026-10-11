@@ -41,7 +41,6 @@ See ClosedBox for variant without a base.
         t = self.thickness
 
         tl, tb, tr, tf = self.topEdges(self.top_edge)
-        ba = self.edges.get("F", self.edges["F"])
 
         if self.outside:
             x = self.adjustSize(x)
@@ -53,7 +52,7 @@ See ClosedBox for variant without a base.
             ignore_widths = [1, 3, 4, 6]
 
         self.rectangularWall(y, h, ["f", "f", tf, "f"], move="up", label="front")
-        self.rectangularWall(y, h, [ba, "f", tb, "f"], move="up", label="back")
+        self.rectangularWall(y, h, ["f", "f", tb, "f"], move="up", label="back")
 
         self.rectangularWall(x, y, "hhhh", move="up", label="base")
 

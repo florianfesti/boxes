@@ -1354,7 +1354,17 @@ class Boxes:
 
     @restore
     @holeCol
-    def regularPolygonHole(self, x, y, r=0.0, d=0.0, n=6, a=0.0, tabs=0, corner_radius=0.0):
+    def regularPolygonHole(
+        self,
+        x: float,
+        y: float,
+        r: float = 0.0,
+        d: float = 0.0,
+        n: int = 6,
+        a: float = 0.0,
+        tabs: int = 0,
+        corner_radius: float = 0.0,
+    ) -> None:
         """
         Draw a hole in shape of an n-edged regular polygon
 
@@ -1440,7 +1450,16 @@ class Boxes:
 
     @restore
     @holeCol
-    def dHole(self, x, y, r=None, d=None, w=None, rel_w=0.75, angle=0):
+    def dHole(
+        self,
+        x: float,
+        y: float,
+        r: float | None = None,
+        d: float | None = None,
+        w: float | None = None,
+        rel_w: float = 0.75,
+        angle: float = 0,
+    ) -> None:
         """
         Draw a hole for a shaft with flat edge - D shaped hole
 
@@ -1452,16 +1471,20 @@ class Boxes:
         :param rel_w: width in percent
         :param angle: orientation (rotation) of the flat side
         """
+        if r is None and d is None:
+            raise ValueError("You must specify either r or d.")
 
         if r is None:
-            r = d / 2.0
+            r = d / 2.0  # type: ignore[operator]
+
         if w is None:
             w = 2.0 * r * rel_w
         w -= r
         if r <= 0.0:
             return
         if abs(w) > r:
-            return self.hole(x, y, r)
+            self.hole(x, y, r)
+            return
 
         a = math.degrees(math.acos(w / r))
         self.moveTo(x, y, angle-a)
@@ -1472,7 +1495,16 @@ class Boxes:
 
     @restore
     @holeCol
-    def flatHole(self, x, y, r=None, d=None, w=None, rel_w=0.75, angle=0):
+    def flatHole(
+        self,
+        x: float,
+        y: float,
+        r: float | None = None,
+        d: float | None = None,
+        w: float | None = None,
+        rel_w: float = 0.75,
+        angle: float = 0,
+    ) -> None:
         """
         Draw a hole for a shaft with two opposed flat edges - ( ) shaped hole
 
@@ -1484,9 +1516,12 @@ class Boxes:
         :param rel_w: width in percent
         :param angle: orientation (rotation) of the flat sides
         """
+        if r is None and d is None:
+            raise ValueError("You must specify either r or d.")
 
         if r is None:
-            r = d / 2.0
+            r = d / 2.0  # type: ignore[operator]
+
         if w is None:
             w = r * rel_w
         else:
@@ -1495,7 +1530,8 @@ class Boxes:
         if r < 0.0:
             return
         if abs(w) > r:
-            return self.hole(x, y, r)
+            self.hole(x, y, r)
+            return
 
         a = math.degrees(math.acos(w / r))
         self.moveTo(x, y, angle-a)
@@ -1508,7 +1544,15 @@ class Boxes:
 
     @restore
     @holeCol
-    def mountingHole(self, x, y, d_shaft, d_head=0.0, angle=0, tabs=0):
+    def mountingHole(
+        self,
+        x: float,
+        y: float,
+        d_shaft: float,
+        d_head: float = 0.0,
+        angle: float = 0,
+        tabs: int = 0,
+    ) -> None:
         """
         Draw a pear shaped mounting hole for sliding over a screw head. Total height = 1.5* d_shaft + d_head
 
@@ -1520,7 +1564,7 @@ class Boxes:
         """
 
         if d_shaft < (2 * self.burn):
-            return  # no hole if diameter is smaller then the capabilities of the machine
+            return  # no hole if diameter is smaller than the capabilities of the machine
 
         if not d_head or d_head < (2 * self.burn): # if no head diameter is given
             self.hole(x, y ,d=d_shaft, tabs=tabs)  # only a round hole is generated
@@ -1697,7 +1741,7 @@ class Boxes:
         self.move(tw, th, move)
 
     @restore
-    def showBorderPoly(self,border,color=Color.ANNOTATIONS):
+    def showBorderPoly(self, border, color: RGB = Color.ANNOTATIONS) -> None:
         """
         draw border polygon (for debugging only)
 
@@ -2057,7 +2101,9 @@ class Boxes:
         else:
            raise ValueError(f"fillHoles - unknown hole pattern: {pattern})")
 
-    def hexHolesRectangle(self, x: float, y: float, settings=None, skip=None) -> None:
+    def hexHolesRectangle(
+        self, x: float, y: float, settings=None, skip: Callable | None = None
+    ) -> None:
         """Fills a rectangle with holes in a hex pattern.
 
         Settings have:
@@ -2141,7 +2187,7 @@ class Boxes:
 
         self.hexHolesRectangle(x, y, settings, skip=skip)
 
-    def hexHolesHex(self, h, settings=None, grow=None):
+    def hexHolesHex(self, h: float, settings=None, grow: str | None = None) -> None:
         """
         Fill a hexagon with holes in a hex pattern
 
@@ -2169,7 +2215,7 @@ class Boxes:
         self.moveTo(h / 2.0 - (cy // 2) * 2 * w, h / 2.0)
         for j in range(cy):
             self.hole(2 * j * w, 0, r)
-        for i in range(1, cy / 2 + 1):
+        for i in range(1, int(cy / 2 + 1)):
             for j in range(cy - i):
                 self.hole(j * 2 * w + i * w, i * 2 * dist, r)
                 self.hole(j * 2 * w + i * w, -i * 2 * dist, r)
@@ -2252,20 +2298,20 @@ class Boxes:
 
     def roundedPlate(
         self,
-        x,
-        y,
-        r,
+        x: float,
+        y: float,
+        r: float,
         edge="f",
-        callback=None,
+        callback: Callable | None = None,
         holesMargin=None,
         holesSettings=None,
         bedBolts=None,
         bedBoltSettings=None,
-        wallpieces=1,
-        extend_corners=True,
-        move=None,
-        label=None,
-    ):
+        wallpieces: int = 1,
+        extend_corners: bool = True,
+        move: str | None = None,
+        label: str | None = None,
+    ) -> None:
         """Plate with rounded corner fitting to .surroundingWall()
 
         For the callbacks the sides are counted depending on wallpieces
@@ -2349,9 +2395,11 @@ class Boxes:
 
         self.move(overallwidth, overallheight, move, label=label)
 
-    def surroundingWallPiece(self, cbnr, x, y, r, pieces=1):
+    def surroundingWallPiece(
+        self, cbnr: int, x: float, y: float, r: float, pieces: int = 1
+    ) -> tuple[bool, float, bool]:
         """
-        Return the geometry of a pices of surroundingWall with the given
+        Return the geometry of a piece of surroundingWall with the given
         callback number.
         :param cbnr: number of the callback corresponding to this part of the wall
         :param x: width of matching roundedPlate
@@ -2366,7 +2414,7 @@ class Boxes:
             if pieces > 0: # hack to get the right splits
                 pieces += 1
         else:
-            sides = (x/2-r, y - 2*r, x - 2*r, y - 2*r, x - 2*r)
+            sides = (x/2-r, y - 2*r, x - 2*r, y - 2*r, x - 2*r)  # type: ignore[assignment]
 
         wallcount = 0
         for nr, l in enumerate(sides):
@@ -2705,9 +2753,16 @@ class Boxes:
 
         self.move(overallwidth, overallheight, move, label=label)
 
-    def trapezoidWall(self, w, h0, h1, edges="eeee",
-                           callback=None, move=None,
-                           label=""):
+    def trapezoidWall(
+        self,
+        w: float,
+        h0: float,
+        h1: float,
+        edges="eeee",
+        callback: Callable | None = None,
+        move=None,
+        label: str = "",
+    ) -> None:
         """
         Rectangular trapezoidal wall
 
@@ -2749,9 +2804,17 @@ class Boxes:
 
         self.move(overallwidth, overallheight, move, label=label)
 
-    def trapezoidSideWall(self, w, h0, h1, edges="eeee",
-                          radius=0.0, callback=None, move=None,
-                          label=""):
+    def trapezoidSideWall(
+        self,
+        w: float,
+        h0: float,
+        h1: float,
+        edges="eeee",
+        radius: float = 0.0,
+        callback: Callable | None = None,
+        move=None,
+        label: str = "",
+    ) -> None:
         """
         Rectangular trapezoidal wall
 
@@ -2823,7 +2886,7 @@ class Boxes:
                 return ((target - start) % 360) <= sweep
             return ((start - target) % 360) <= -sweep
 
-        def checkpoint(ext, x, y):
+        def checkpoint(ext: list[float], x: float, y: float) -> None:
             ext[0] = min(ext[0], x)
             ext[1] = min(ext[1], y)
             ext[2] = max(ext[2], x)
@@ -2929,9 +2992,16 @@ class Boxes:
         #print(borders)
         return borders
 
-    def polygonWall(self, borders, edge="f", turtle=False,
-                    correct_corners=True,
-                    callback=None, move=None, label=""):
+    def polygonWall(
+        self,
+        borders,
+        edge="f",
+        turtle: bool = False,
+        correct_corners: bool = True,
+        callback: Callable | None = None,
+        move: str | None = None,
+        label: str = "",
+    ) -> None:
         """
         Polygon wall for all kind of multi-edged objects
 
@@ -2986,7 +3056,7 @@ class Boxes:
             self.move(tw, th, move, label=label)
 
     @restore
-    def polygonWalls(self, borders, h, bottom="F", top="F", symmetrical=True):
+    def polygonWalls(self, borders, h, bottom="F", top="F", symmetrical: bool = True) -> None:
         if not borders:
             return
 
@@ -3079,7 +3149,7 @@ class Boxes:
     ### Place Parts
     ##################################################
 
-    def partsMatrix(self, n, width, move, part, *l, **kw):
+    def partsMatrix(self, n: int, width: int, move: str | None, part: Callable, *l, **kw) -> None:
         """place many of the same part
 
         :param n: number of parts
@@ -3099,7 +3169,7 @@ class Boxes:
 
         if not move:
             move = ""
-        move = move.split()
+        move: list[str] = move.split()  # type: ignore[no-redef]
 
         #move down / left before
         for m in move:

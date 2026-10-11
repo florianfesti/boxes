@@ -162,10 +162,13 @@ to remove the floor for this compartment.
         self.polyline(length, 90, length)
 
     def prepare(self):
-        if self.layout:
+        # --layout defaults to "\n", so treat a blank layout as not given
+        # and fall back to the --input file (CLI only) or generate_layout().
+        layout_file = getattr(self, "input", None)
+        if self.layout and self.layout.strip():
             self.parse(self.layout.split('\n'))
-        elif Path(self.input).exists():
-            with Path(self.input).open() as input_file:
+        elif layout_file and Path(layout_file).exists():
+            with Path(layout_file).open() as input_file:
                 self.parse(input_file)
         elif callable(getattr(self, "generate_layout", None)):
             self.parse(self.generate_layout().split('\n'))

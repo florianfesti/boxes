@@ -104,7 +104,7 @@ You can replace the space characters representing the floor by a "X" to remove t
         self.addSettingsArgs(lids.LidSettings)
         self.buildArgParser("h", "hi", "outside", "sx", "sy")
         self.argparser.add_argument(
-            "--layout", action="store", type=str, default="\n",
+            "--layout", action="store", type=str, default="\n" if self.UI == "web" else "",
             help="""* Set **sx** and **sy** before editing this!
 * You can still change measurements afterwards
 * You can replace the hyphens and vertical bars representing the walls

@@ -6,13 +6,12 @@ from pathlib import Path
 import pytest
 
 try:
-    import boxes
+    from boxes.generators.gridfinitytraylayout import GridfinityTrayLayout
+    from boxes.generators.traylayout import TrayLayout
 except ImportError:
     sys.path.append(Path(__file__).resolve().parent.parent.__str__())
-    import boxes
-
-from boxes.generators.gridfinitytraylayout import GridfinityTrayLayout
-from boxes.generators.traylayout import TrayLayout
+    from boxes.generators.gridfinitytraylayout import GridfinityTrayLayout
+    from boxes.generators.traylayout import TrayLayout
 
 LAYOUT = """\
  ,> 50.00mm

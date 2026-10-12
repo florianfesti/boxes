@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import shlex
 import sys
 from pathlib import Path
 
@@ -57,6 +58,18 @@ def test_layout_argument_takes_precedence_over_input_file(tmp_path: Path) -> Non
     box = render(TrayLayout, [f"--input={layout_file}", f"--layout={LAYOUT}"])
 
     assert len(box.x) == len(box.y) == 3
+
+
+def test_command_line_from_svg_can_be_run_again() -> None:
+    # The "Command line" stored in the SVG writes the layout's newlines as a literal \n
+    box = render(TrayLayout, ["--sx=50*3", "--sy=50*3", f"--layout={LAYOUT}"])
+    stored_args = shlex.split(box.metadata["cli"])[2:]
+    assert any(arg.startswith("--layout=") and "\\n" in arg and "\n" not in arg for arg in stored_args)
+
+    rerun = render(TrayLayout, stored_args)
+
+    for attr in ("x", "y", "hwalls", "vwalls", "floors"):
+        assert getattr(rerun, attr) == getattr(box, attr)
 
 
 def test_missing_layout_and_input_file_raises(tmp_path: Path) -> None:

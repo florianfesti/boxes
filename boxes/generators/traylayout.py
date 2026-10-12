@@ -165,8 +165,14 @@ to remove the floor for this compartment.
         # --layout defaults to "\n", so treat a blank layout as not given
         # and fall back to the --input file (CLI only) or generate_layout().
         layout_file = getattr(self, "input", None)
-        if self.layout and self.layout.strip():
-            self.parse(self.layout.split('\n'))
+        layout = self.layout
+        if layout and "\n" not in layout and "\\n" in layout:
+            # The "Command line" stored in the SVG writes the layout's newlines
+            # as a literal \n (see cliQuote() in boxes/__init__.py); decode them
+            # so that command can be run again.
+            layout = layout.replace("\\n", "\n")
+        if layout and layout.strip():
+            self.parse(layout.split('\n'))
         elif layout_file and Path(layout_file).exists():
             with Path(layout_file).open() as input_file:
                 self.parse(input_file)

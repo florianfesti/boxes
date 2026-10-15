@@ -20,10 +20,12 @@ class RoundedTrapezoidBox(boxes.Boxes):
     """Trapezoid box with rounded vertical edges."""
 
     description = """
-The x and y measurements are for a trapazoid with sharp corners. The radii cut the corners so the actual width is smaller for all trapazoid except rectangles.
+The x and y measurements are for a trapazoid with sharp corners. The radii cut the corners so the actual width is smaller for all trapazoids except rectangles.
+
+![Two boxes side by side](static/samples/RoundedTrapezoidBox-2.jpg)
 """
 
-    ui_group = "Unstable" # "FlexBox"
+    ui_group = "FlexBox"
 
     def __init__(self) -> None:
         boxes.Boxes.__init__(self)

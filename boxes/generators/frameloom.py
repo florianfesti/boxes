@@ -56,18 +56,18 @@ piece pull together as you weave.
             "--warpthreads", action="store", type=int, default=38,
             help="Maximum number of threads in the warp (affects frame width)")
         self.argparser.add_argument(
-            "--warpspacing", action="store", type=float, default=3.5,
+            "--warpspacing", action="store", type=float, default=3,
             help="Millimeters per warp thread (2 - 5.5)")
         self.argparser.add_argument(
             "--outerframelength", action="store", type=float, default=235,
             help="Full length of the loom")
 
         self.argparser.add_argument(
-            "--includeframe", action="store", type=boolarg, default=True,
-            help="Whether or not to include the frame")
+            "--drawruler", action="store", type=boolarg, default=False,
+            help="Whether or not to draw a ruler along the work area")
         self.argparser.add_argument(
-            "--includeheddle", action="store", type=boolarg, default=True,
-            help="Whether or not to include the standard heddle")
+            "--extendwarp", action="store", type=boolarg, default=False,
+            help="Whether or not add additional pins to extend the warp")
         self.argparser.add_argument(
             "--include2by2heddle", action="store", type=boolarg, default=False,
             help="Whether or not to include the 2x2 pattern heddle")
@@ -75,14 +75,8 @@ piece pull together as you weave.
             "--includediamondheddle", action="store", type=boolarg, default=False,
             help="Whether or not to include the diamond pattern heddle")
         self.argparser.add_argument(
-            "--includeneedles", action="store", type=boolarg, default=True,
-            help="Whether or not to include the needles")
-        self.argparser.add_argument(
             "--combpins", action="store", type=int, default=12,
-            help="Number of pins on the comb;set 0 to skip the comb")
-        self.argparser.add_argument(
-            "--numshuttles", action="store", type=int, default=2,
-            help="how many shuttles to include")
+            help="Number of pins on the comb")
 
 
     def frame(self, pin_width, num_warp_threads, frame_thickness, outer_frame_length, foot_attachment_x_offset, move=None):
@@ -90,9 +84,9 @@ piece pull together as you weave.
         min_curve_radius = 0.5
         pin_tip_ratio = 1 / 2.5
         pin_base_radius = 0.5
-        pin_ease_radius = 4.0
-        pin_flank = 4.0
-        pin_shaft = 1.0
+        pin_ease_radius = 1.0
+        pin_flank = 0.5
+        pin_shaft = 0.5
         pin_tip_radius = max(min_curve_radius, pin_width * pin_tip_ratio / 2)
         _a = pin_base_radius - pin_ease_radius
         _b = pin_flank
@@ -125,19 +119,50 @@ piece pull together as you weave.
             self.edge(10)
             self.corner(90)
 
-        thread_holder_height = 0.33
+        def drawRuler(milimeters):
+            self.ctx.stroke()
+            self.set_source_color(Color.ETCHING_DEEP)
+            for idx in range(int(milimeters)+1):
+                with self.saved_context():
+                    self.edge(2)
+                    if idx%5 == 0:
+                        self.edge(1.5)
+                    if idx%10 == 0:
+                        self.edge(1.5)
+                        self.moveTo(1)
+                        self.text(f"{idx}", align="middle right", fontsize=2.5, color=Color.ETCHING, angle=180)
+                self.moveTo(0,-1)
+            self.ctx.stroke()
+
+        # main parameters
+        thread_holder_height = 0.25
 
         corner_radius = 8
-        corner_inner_radius = 4
+        corner_inner_radius = 1
         pin_area_height = 20
         pin_area_width = num_warp_threads*pin_width
 
-        heddle_easing = 50
+        heddle_easing = 54 - corner_inner_radius
         heddle_easing_shift_radius = 3
         inner_frame_easing = pin_width / 2
 
         tw = 2*frame_thickness + pin_area_width
         th = outer_frame_length
+
+        # cutout parameters
+        heddle_easing_angle = 45
+        heddle_easing_shift_sideways = 2 * heddle_easing_shift_radius * (1-math.cos(math.radians(heddle_easing_angle)))
+        heddle_easing_shift_vertical = 2 * heddle_easing_shift_radius * (math.sin(math.radians(heddle_easing_angle)))
+
+        length_bottom = pin_area_width + 2*inner_frame_easing - 2*corner_inner_radius
+        length_side = outer_frame_length - 2*pin_area_height - 2*corner_inner_radius
+        height_below_easing = length_side - heddle_easing
+        height_in_easing = heddle_easing - heddle_easing_shift_vertical
+        length_top = length_bottom + 2*heddle_easing_shift_sideways
+
+        lower_cutout_pin_side = (length_bottom - pin_area_width) / 2
+        upper_cutout_pin_side = (length_top - pin_area_width) / 2
+
         if self.move(tw, th, move, before=True):
             return
 
@@ -148,7 +173,7 @@ piece pull together as you weave.
             for idx in range(num_warp_threads):
                 drawPin()
                 with self.saved_context():
-                    self.moveTo(-pin_width/2, 8)
+                    self.moveTo(-pin_width/2, 4)
                     self.text(str(idx+1), align="center", fontsize=2, color=Color.ETCHING)
             self.edge(frame_thickness - corner_radius)
             self.corner(90, corner_radius)
@@ -160,13 +185,13 @@ piece pull together as you weave.
             self.corner(90, corner_radius)
             self.edge(frame_thickness - corner_radius)
 
-            for idx in  range(num_warp_threads):
+            for idx in range(num_warp_threads):
                 font_size = 2
                 if pin_width < 3:
                     font_size = 1.5
                 drawPin()
                 with self.saved_context():
-                    self.moveTo(-pin_width/2, 10)
+                    self.moveTo(-pin_width/2, 6)
                     self.text(str(num_warp_threads-idx), align="center", fontsize=font_size, color=Color.ETCHING, angle=180)
 
             self.edge(frame_thickness - corner_radius)
@@ -185,17 +210,16 @@ piece pull together as you weave.
             self.moveTo(0, pin_area_height)
             self.moveTo(-inner_frame_easing + corner_inner_radius, 0)
 
-            heddle_easing_angle = 45
-            heddle_easing_shift_sideways = 2 * heddle_easing_shift_radius * (1-math.cos(math.radians(heddle_easing_angle)))
-            heddle_easing_shift_vertical = 2 * heddle_easing_shift_radius * (math.sin(math.radians(heddle_easing_angle)))
-
-            length_bottom = pin_area_width + 2*inner_frame_easing - 2*corner_inner_radius
-            length_side = outer_frame_length - 2*pin_area_height - 2*corner_inner_radius
-            height_below_easing = length_side - heddle_easing
-            height_in_easing = heddle_easing - heddle_easing_shift_vertical
-            length_top = length_bottom + 2*heddle_easing_shift_sideways
-
-            self.edge(length_bottom)
+            if self.extendwarp:
+                with self.saved_context():
+                    self.moveTo(length_bottom,0,180)
+                    self.edge(lower_cutout_pin_side)
+                    for idx in range(num_warp_threads):
+                        drawPin()
+                    self.edge(lower_cutout_pin_side)
+                self.moveTo(length_bottom)
+            else:
+                self.edge(length_bottom)
             self.corner(90, corner_inner_radius)
             self.edge(height_below_easing)
 
@@ -205,7 +229,16 @@ piece pull together as you weave.
 
             self.edge(height_in_easing)
             self.corner(90, corner_inner_radius)
-            self.edge(length_top)
+            if self.extendwarp:
+                with self.saved_context():
+                    self.moveTo(length_top, 0, 180)
+                    self.edge(upper_cutout_pin_side)
+                    for idx in range(num_warp_threads):
+                        drawPin()
+                    self.edge(upper_cutout_pin_side)
+                self.moveTo(length_top)
+            else:
+                self.edge(length_top)
             self.corner(90, corner_inner_radius)
             self.edge(height_in_easing)
 
@@ -216,11 +249,16 @@ piece pull together as you weave.
             self.edge(height_below_easing)
             self.corner(90, corner_inner_radius)
 
+            if self.drawruler:
+                with self.saved_context():
+                    self.moveTo(-corner_inner_radius, self.thickness, 180)
+                    drawRuler(height_below_easing + heddle_easing_shift_vertical/2 - self.thickness + 1)
+
         # foot holes
         with self.saved_context():
             holex = self.thickness
             holey = 23
-            up = outer_frame_length - holey/2 - pin_area_height - corner_inner_radius/2
+            up = outer_frame_length - holey/2 - pin_area_height - 2
             self.rectangularHole(-foot_attachment_x_offset, up, holex, holey)
             self.rectangularHole(foot_attachment_x_offset+pin_area_width, up, holex, holey)
 
@@ -500,7 +538,7 @@ piece pull together as you weave.
     def comb(self, comb_num_pins, loom_pin_width, move=None):
 
         comb_pin_length = 10
-        comb_pin_radius = max(0.5, 0.2*loom_pin_width)
+        comb_pin_radius = max(0.5, 0.25*loom_pin_width)
         comb_gap_radius = (loom_pin_width - 2*comb_pin_radius)/2
         comb_handle_radius = 10
 
@@ -532,23 +570,20 @@ piece pull together as you weave.
         outer_frame_length = self.outerframelength
         frame_thickness = 15
 
+        min_shuttle_length = 90
+
         transverse_length = self.warpthreads * pin_width + 2*frame_thickness + 20
 
-        if self.includeframe:
-            self.frame(pin_width, num_warp_threads, frame_thickness, outer_frame_length, foot_attachment_x_offset, move="right")
-            with self.saved_context():
-                self.foot(foot_hole_radius, move="up")
-                self.foot(foot_hole_radius, move="up")
-                if self.combpins > 0:
-                    self.comb(self.combpins, pin_width, move="up")
-            self.foot(foot_hole_radius, move="right only")
-        else:
+        self.frame(pin_width, num_warp_threads, frame_thickness, outer_frame_length, foot_attachment_x_offset, move="right")
+        with self.saved_context():
+            self.foot(foot_hole_radius, move="up")
+            self.foot(foot_hole_radius, move="up")
             if self.combpins > 0:
-                self.comb(self.combpins, pin_width, move="right")
+                self.comb(self.combpins, pin_width, move="up")
+        self.foot(foot_hole_radius, move="right only")
 
-        if self.includeheddle:
-            right, left = FrameLoom.heddle_patterns([0,1], num_warp_threads, 1)
-            self.heddle(right, left, pin_width, num_warp_threads, foot_attachment_x_offset, foot_hole_radius, move="right")
+        right, left = FrameLoom.heddle_patterns([0,1], num_warp_threads, 1)
+        self.heddle(right, left, pin_width, num_warp_threads, foot_attachment_x_offset, foot_hole_radius, move="right")
 
         if self.include2by2heddle:
             right, left = FrameLoom.heddle_patterns(
@@ -593,12 +628,11 @@ piece pull together as you weave.
                         handle=False, clipons=True,
                         move="right")
 
-        if self.includeneedles:
-            self.needle(transverse_length, move="right")
-            self.needle(50, move="right")
+        self.needle(transverse_length, move="right")
+        self.needle(50, move="right")
 
-        for _ in range(self.numshuttles):
-            self.shuttle(transverse_length, move="right")
+        shuttle_length = max(transverse_length, min_shuttle_length)
+        self.shuttle(shuttle_length, move="right")
 
     @staticmethod
     def heddle_patterns(seed, length, shift):

@@ -76,29 +76,46 @@ Use a vector graphics program (like Inkscape) to add any features."""
         }
 
         label = f"{self.labels['left']} {postfix}"
-        if self.left: self.splitRectangularWall(x, h, "FFFF", move="right", label=label)
-        else: self.rectangularWall(x, h, "FFFF", move="right", label=label)
+        if self.left:
+            self.splitRectangularWall(x, h, "FFFF", move="right", label=label)
+        else:
+            self.rectangularWall(x, h, "FFFF", move="right", label=label)
+        
         label = f"{self.labels['front']} {postfix}"
-        if self.front: self.splitRectangularWall(y, h, "FfFf", move="up", label=label, wallHeight= h+self.thickness+self.spacing if not self.left else 0)
-        else: self.rectangularWall(y, h, "FfFf", move="up", label=label)
+        if self.front:
+            self.splitRectangularWall(y, h, "FfFf", move="up", label=label, wallHeight= h+self.thickness+self.spacing if not self.left else 0)
+        else:
+            self.rectangularWall(y, h, "FfFf", move="up", label=label)
+        
         label = f"{self.labels['back']} {postfix}"
-        if self.back: self.splitRectangularWall(y, h, "FfFf", label=label)
-        else: self.rectangularWall(y, h, "FfFf", label=label)
+        if self.back:
+            self.splitRectangularWall(y, h, "FfFf", label=label)
+        else:
+            self.rectangularWall(y, h, "FfFf", label=label)
+        
         label = f"{self.labels['right']} {postfix}"
-        if self.right: self.splitRectangularWall(x, h, "FFFF", move="left up", label=label, wallHeight= h+self.thickness+self.spacing if not self.back else 0)
-        else: self.rectangularWall(x, h, "FFFF", move="left up", label=label)
+        if self.right:
+            self.splitRectangularWall(x, h, "FFFF", move="left up", label=label, wallHeight= h+self.thickness+self.spacing if not self.back else 0)
+        else:
+            self.rectangularWall(x, h, "FFFF", move="left up", label=label)
 
         label = f"{self.labels['top']} {postfix}"
-        if self.top: self.splitRectangularWall(x, y, "ffff", move="right", label=label)
-        else: self.rectangularWall(x, y, "ffff", move="right", label=label)
+        if self.top:
+            self.splitRectangularWall(x, y, "ffff", move="right", label=label)
+        else:
+            self.rectangularWall(x, y, "ffff", move="right", label=label)
+        
         label = f"{self.labels['bottom']} {postfix}"
-        if self.bottom: self.splitRectangularWall(x, y, "ffff", label=label)
-        else: self.rectangularWall(x, y, "ffff", label=label)
+        if self.bottom:
+            self.splitRectangularWall(x, y, "ffff", label=label)
+        else:
+            self.rectangularWall(x, y, "ffff", label=label)
 
     def splitRectangularWall(self, w, h, edges, move=None, label=None, wallHeight=0):
         overallWidth = max(w,h) + self.thickness * 2
         overallHeight = wallHeight or (self.frame_thickness + self.thickness + self.spacing/2) * 4
-        if self.move(overallWidth, overallHeight, move,before=True): return
+        if self.move(overallWidth, overallHeight, move,before=True): 
+            return
         edges = [self.edges.get(e, e) for e in edges]
         edges += edges  # append for wrapping around
         DOVE_TAIL_CHARS='dD'
@@ -118,7 +135,8 @@ Use a vector graphics program (like Inkscape) to add any features."""
         pieceHeight = thickness
         next_char = next_edge.char
         char = edge.char
-        if char == 'f': self.moveTo(0,self.thickness)
+        if char == 'f': 
+            self.moveTo(0,self.thickness)
         diagonal = math.sqrt(2) * thickness
         top_length = pieceWidth - 2 * thickness
         delta = 45

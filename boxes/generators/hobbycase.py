@@ -44,14 +44,23 @@ Slots can be populated by:
         self.argparser.add_argument("--add_rails", action="store", type=boolarg, default=True, help="Should rails be generated for slots unpopulated by shelves?")
         self.argparser.add_argument("--add_cover", action="store", type=boolarg, default=True, help="Should cover for the case be generated?")
         self.argparser.add_argument("--inset_shelves", action="store", type=boolarg, default=True, help="Should the inner dividers and shelves be inset from the front edge?")
+        self.argparser.add_argument("--double_vertical_wall", action="store", type=boolarg, default=True, help="Use double vertical walls")
         self.addSettingsArgs(boxes.edges.StackableSettings, angle=90, width=0.0, height=2.0)
 
 
     def prepare(self):
+        # derive double_vertical_wall parameters
+        if self.double_vertical_wall:
+            self.wall_factor = 2
+            self.shelve_edge = "f"
+        else:
+            self.wall_factor = 1
+            self.shelve_edge = "ƒ"
+
         self.cols = len(self.unit_w)
 
         self.sum_w = sum(self.unit_w)
-        self.inside_w = self.sum_w + 2 * (self.cols - 1) * self.thickness
+        self.inside_w = self.sum_w + self.wall_factor * (self.cols - 1) * self.thickness
         self.outside_w = self.inside_w + 2 * self.thickness
 
         self.sum_h = self.rows * self.unit_h
@@ -86,7 +95,7 @@ Slots can be populated by:
 
         self.verticalWall(self.outside_depth, self.inside_h, label="left")
 
-        for i in range(2 * (self.cols - 1)):
+        for i in range(self.wall_factor * (self.cols - 1)):
             self.verticalWall(self.inside_depth, self.inside_h, label="vertical wall")
 
         self.verticalWall(self.outside_depth, self.inside_h, move="up", label="right")
@@ -98,7 +107,7 @@ Slots can be populated by:
         self.rectangularWall(x, y, edges, callback=[self.slotsHolesCallback], move=move, label=label)
 
     def slotsHolesCallback(self):
-        self.cut_shelve_holes_in_single_column(self.inside_depth, 0)
+        self.cut_shelve_side_holes_in_single_column(self.inside_depth, 0)
 
     # Cover
     def cover(self, move="up"):
@@ -120,7 +129,7 @@ Slots can be populated by:
             y = self.inside_depth
             self.partsMatrix(self.shelves_n[columnIndex], 0, move,
                              self.rectangularWall,
-                             x, y, "efff", label=f"shelf (column {columnIndex})\n({x}x{y})")
+                             x, y, "e" + self.shelve_edge + "f" + self.shelve_edge, label=f"shelf (column {columnIndex})\n({x}x{y})")
 
     # Rails
     def rails(self, move="up"):
@@ -130,9 +139,9 @@ Slots can be populated by:
 
     def railSet(self, sideLength, backLength, move=None):
         self.ctx.save()
-        self.rectangularWall( sideLength,0, "feSe", move="right")
+        self.rectangularWall( sideLength,0, self.shelve_edge + "eSe", move="right")
         self.rectangularWall( backLength - 8*self.thickness,0, "feSe", move="right")
-        self.rectangularWall( sideLength,0, "feSe", move="right")
+        self.rectangularWall( sideLength,0, self.shelve_edge + "eSe", move="right")
         self.move(2*sideLength+backLength, 3 * self.thickness, move)
 
     # Base plate
@@ -143,8 +152,8 @@ Slots can be populated by:
 
     def baseplate_callback(self):
         for col in range(self.cols):
-            posx = sum(self.unit_w[:col]) + col * 2 * self.thickness
-            self.cut_shelve_holes_in_single_column(self.unit_w[col], posx)
+            posx = sum(self.unit_w[:col]) + col * self.wall_factor * self.thickness
+            self.cut_shelve_back_holes_in_single_column(self.unit_w[col], posx)
         self.cut_double_wall_holes(self.inside_h)
 
     # Render
@@ -162,10 +171,21 @@ Slots can be populated by:
     # Helper functions
     def cut_double_wall_holes(self, length):
         for col in range(1, self.cols):
-            posx = self.thickness + sum(self.unit_w[:col]) + (col-1) * 2 * self.thickness
-            self.doubleFingerHolesAt(posx, 0, length, angle=90)
+            posx = 0.5 * self.wall_factor * self.thickness + sum(self.unit_w[:col]) + (col-1) * self.wall_factor * self.thickness
+            if self.double_vertical_wall:
+                self.doubleFingerHolesAt(posx, 0, length, angle=90)
+            else:
+                self.fingerHolesAt(posx, 0, length, angle=90)
 
-    def cut_shelve_holes_in_single_column(self, length, posx = 0):
+    def cut_shelve_back_holes_in_single_column(self, length, posx = 0):
         for row in range(1, self.rows):
             posy = 0.5 * self.thickness + row * self.unit_h + (row-1) * self.thickness
             self.fingerHolesAt(posx, posy, length, angle=0)
+
+    def cut_shelve_side_holes_in_single_column(self, length, posx = 0):
+        for row in range(1, self.rows):
+            posy = 0.5 * self.thickness + row * self.unit_h + (row-1) * self.thickness
+            if self.double_vertical_wall:
+                self.fingerHolesAt(posx, posy, length, angle=0)
+            else:
+                self.triFingerHolesAt(posx, posy, length, angle=0)

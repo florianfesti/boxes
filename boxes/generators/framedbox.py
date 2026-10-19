@@ -32,23 +32,23 @@ Use a vector graphics program (like Inkscape) to add any features."""
         self.buildArgParser("x", "y", "h", "outside")
         self.argparser.add_argument("--frame_thickness", type=float, default=16, help="Thickness of the frame pieces")
         self.argparser.add_argument(
-            "--wall1", action="store", type=boolarg, default=True,
-            help="Is face 1 frame or solid?")
+            "--left", action="store", type=boolarg, default=True,
+            help="Is the left face a frame or solid?")
         self.argparser.add_argument(
-            "--wall2", action="store", type=boolarg, default=True,
-            help="Is face 2 frame or solid?")
+            "--front", action="store", type=boolarg, default=True,
+            help="Is the front face a frame or solid?")
         self.argparser.add_argument(
-            "--wall3", action="store", type=boolarg, default=True,
-            help="Is face 3 frame or solid?")
+            "--right", action="store", type=boolarg, default=True,
+            help="Is the right face a frame or solid?")
         self.argparser.add_argument(
-            "--wall4", action="store", type=boolarg, default=True,
-            help="Is face 4 frame or solid?")
+            "--back", action="store", type=boolarg, default=True,
+            help="Is the bback face a frame or solid?")
         self.argparser.add_argument(
             "--top", action="store", type=boolarg, default=True,
-            help="Is top face frame or solid?")
+            help="Is the top face a frame or solid?")
         self.argparser.add_argument(
             "--bottom", action="store", type=boolarg, default=True,
-            help="Is bottom face frame or solid?")
+            help="Is the bottom face a frame or solid?")
         self.argparser.add_argument(
             "--verbose_label", action="store", type=boolarg, default=True,
             help="Label display")
@@ -65,21 +65,33 @@ Use a vector graphics program (like Inkscape) to add any features."""
         self.alfa = math.atan(self.frame_thickness/self.adjustedFrameThickness)*180/math.pi
         self.beta = 90-self.alfa
 
-        prefix = 'Wall ' if self.verbose_label else ''
+        postfix = 'wall' if self.verbose_label else ''
+        self.labels={
+            "right":'Right' if self.verbose_label else 'R',
+            "left":'Left' if self.verbose_label else 'L',
+            "top":'Top' if self.verbose_label else 'T',
+            "bottom":'Bottom' if self.verbose_label else 'B',
+            "front":'Front' if self.verbose_label else 'F',
+            "back":'Back' if self.verbose_label else 'B',
+        }
 
-        if self.wall1: self.splitRectangularWall(x, h, "FFFF", move="right", label=f"{prefix}1")
-        else: self.rectangularWall(x, h, "FFFF", move="right", label=f"{prefix}1")
-        if self.wall2: self.splitRectangularWall(y, h, "FfFf", move="up", label=f"{prefix}2", wallHeight= h+self.thickness+self.spacing if not self.wall1 else 0)
-        else: self.rectangularWall(y, h, "FfFf", move="up", label=f"{prefix}2")
-        if self.wall4: self.splitRectangularWall(y, h, "FfFf", label=f"{prefix}4")
-        else: self.rectangularWall(y, h, "FfFf", label=f"{prefix}4")
-        if self.wall3: self.splitRectangularWall(x, h, "FFFF", move="left up", label=f"{prefix}3", wallHeight= h+self.thickness+self.spacing if not self.wall4 else 0)
-        else: self.rectangularWall(x, h, "FFFF", move="left up", label=f"{prefix}3")
+        label = f"{self.labels['left']} {postfix}"
+        if self.left: self.splitRectangularWall(x, h, "FFFF", move="right", label=label)
+        else: self.rectangularWall(x, h, "FFFF", move="right", label=label)
+        label = f"{self.labels['front']} {postfix}"
+        if self.front: self.splitRectangularWall(y, h, "FfFf", move="up", label=label, wallHeight= h+self.thickness+self.spacing if not self.left else 0)
+        else: self.rectangularWall(y, h, "FfFf", move="up", label=label)
+        label = f"{self.labels['back']} {postfix}"
+        if self.back: self.splitRectangularWall(y, h, "FfFf", label=label)
+        else: self.rectangularWall(y, h, "FfFf", label=label)
+        label = f"{self.labels['right']} {postfix}"
+        if self.right: self.splitRectangularWall(x, h, "FFFF", move="left up", label=label, wallHeight= h+self.thickness+self.spacing if not self.back else 0)
+        else: self.rectangularWall(x, h, "FFFF", move="left up", label=label)
 
-        label = "Top" if self.verbose_label else "T"
+        label = f"{self.labels['top']} {postfix}"
         if self.top: self.splitRectangularWall(x, y, "ffff", move="right", label=label)
         else: self.rectangularWall(x, y, "ffff", move="right", label=label)
-        label = "Bottom" if self.verbose_label else "B"
+        label = f"{self.labels['bottom']} {postfix}"
         if self.bottom: self.splitRectangularWall(x, y, "ffff", label=label)
         else: self.rectangularWall(x, y, "ffff", label=label)
 
@@ -90,7 +102,7 @@ Use a vector graphics program (like Inkscape) to add any features."""
         edges = [self.edges.get(e, e) for e in edges]
         edges += edges  # append for wrapping around
         DOVE_TAIL_CHARS='dD'
-        faceLabel = ['bottom', 'right', 'top', 'left'] if self.verbose_label else ['B','R','T','L'] 
+        faceLabel = [self.labels['bottom'],self.labels['right'],self.labels['top'],self.labels['left']]
         for i, l in enumerate((w, h, w, h)):
             self.pieceOfFrame(edges,i,l,self.frame_thickness,DOVE_TAIL_CHARS[i % 2],f"{label}-{faceLabel[i]}")
         self.move(overallWidth, overallHeight, move)

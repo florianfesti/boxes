@@ -30,7 +30,7 @@ Use a vector graphics program (like Inkscape) to add any features."""
         self.addSettingsArgs(edges.FingerJointSettings)
         self.addSettingsArgs(edges.DoveTailSettings, size=3, depth=.9, radius=.05, angle=40)
         self.buildArgParser("x", "y", "h", "outside")
-        self.argparser.add_argument("--frame_thickness", type=float, default=15, help="Thickness of the frame pieces")
+        self.argparser.add_argument("--frame_thickness", type=float, default=16, help="Thickness of the frame pieces")
         self.argparser.add_argument(
             "--wall1", action="store", type=boolarg, default=True,
             help="Is face 1 frame or solid?")
@@ -60,6 +60,10 @@ Use a vector graphics program (like Inkscape) to add any features."""
             x = self.adjustSize(x)
             y = self.adjustSize(y)
             h = self.adjustSize(h)
+
+        self.adjustedFrameThickness = self.frame_thickness-self.thickness
+        self.alfa = math.atan(self.frame_thickness/self.adjustedFrameThickness)*180/math.pi
+        self.beta = 90-self.alfa
 
         prefix = 'Wall ' if self.verbose_label else ''
 
@@ -94,23 +98,42 @@ Use a vector graphics program (like Inkscape) to add any features."""
 
     def pieceOfFrame(self,edges,i,l,thickness,dove_tail_char,label):
         edge = edges[i]
-        sw = edges[i-1].endWidth()
-        ew = edges[i+1].startWidth()
+        prev_edge = edges[i-1]
+        next_edge = edges[i+1]
+        sw = prev_edge.endWidth()
+        ew = next_edge.startWidth()
         pieceWidth = l + sw + ew 
         pieceHeight = thickness
+        next_char = next_edge.char
         char = edge.char
         if char == 'f': self.moveTo(0,self.thickness)
+        diagonal = math.sqrt(2) * thickness
+        top_length = pieceWidth - 2 * thickness
+        delta = 45
+        if char == 'f' :
+            pieceHeight-=self.thickness
+            if next_char == 'f':
+                diagonal -= math.sqrt(2)*self.thickness
+                top_length += 2*self.thickness
+        if char != next_char:
+            if char == 'F':
+                top_length += 2*self.thickness
+                delta = self.alfa
+                adjustedHeight = self.frame_thickness
+            elif char == 'f':
+                delta = self.beta
+                adjustedHeight = self.adjustedFrameThickness
+            diagonal = adjustedHeight/math.sin(delta/180*math.pi)
         if self.move(pieceWidth, pieceHeight, 'up', before=True):
             return
-        diagonal = math.sqrt(2) * thickness
         self.edge(sw)
         edge(l)
         self.edge(ew)
-        self.corner(90+45)
+        self.corner(180-delta)
         self.edges[dove_tail_char](diagonal)
-        self.corner(90-45)
-        self.edges['e'](pieceWidth - 2 * thickness)
-        self.corner(90-45)
+        self.corner(delta)
+        self.edges['e'](top_length)
+        self.corner(delta)
         self.edges[dove_tail_char](diagonal)
-        self.corner(90+45)
+        self.corner(180-delta)
         self.move(pieceWidth, pieceHeight, 'up',label=f"{label}-{char}")

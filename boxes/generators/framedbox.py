@@ -65,7 +65,7 @@ Use a vector graphics program (like Inkscape) to add any features."""
         self.alfa = math.atan(self.frame_thickness/self.adjustedFrameThickness)*180/math.pi
         self.beta = 90-self.alfa
 
-        postfix = 'wall' if self.verbose_label else ''
+        postfix = ' wall' if self.verbose_label else ''
         self.labels={
             "right":'Right' if self.verbose_label else 'R',
             "left":'Left' if self.verbose_label else 'L',
@@ -75,7 +75,7 @@ Use a vector graphics program (like Inkscape) to add any features."""
             "back":'Back' if self.verbose_label else 'BK',
         }
 
-        label = f"{self.labels['left']} {postfix}"
+        label = f"{self.labels['left']}{postfix}"
         if self.left:
             self.splitRectangularWall(x, h, "FFFF", move="right", label=label)
         else:

@@ -72,7 +72,7 @@ Use a vector graphics program (like Inkscape) to add any features."""
             "top":'Top' if self.verbose_label else 'T',
             "bottom":'Bottom' if self.verbose_label else 'B',
             "front":'Front' if self.verbose_label else 'F',
-            "back":'Back' if self.verbose_label else 'B',
+            "back":'Back' if self.verbose_label else 'BK',
         }
 
         label = f"{self.labels['left']} {postfix}"

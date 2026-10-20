@@ -81,31 +81,31 @@ Use a vector graphics program (like Inkscape) to add any features."""
         else:
             self.rectangularWall(x, h, "FFFF", move="right", label=label)
         
-        label = f"{self.labels['front']} {postfix}"
+        label = f"{self.labels['front']}{postfix}"
         if self.front:
             self.splitRectangularWall(y, h, "FfFf", move="up", label=label, wallHeight= h+self.thickness+self.spacing if not self.left else 0)
         else:
             self.rectangularWall(y, h, "FfFf", move="up", label=label)
         
-        label = f"{self.labels['back']} {postfix}"
+        label = f"{self.labels['back']}{postfix}"
         if self.back:
             self.splitRectangularWall(y, h, "FfFf", label=label)
         else:
             self.rectangularWall(y, h, "FfFf", label=label)
         
-        label = f"{self.labels['right']} {postfix}"
+        label = f"{self.labels['right']}{postfix}"
         if self.right:
             self.splitRectangularWall(x, h, "FFFF", move="left up", label=label, wallHeight= h+self.thickness+self.spacing if not self.back else 0)
         else:
             self.rectangularWall(x, h, "FFFF", move="left up", label=label)
 
-        label = f"{self.labels['top']} {postfix}"
+        label = f"{self.labels['top']}{postfix}"
         if self.top:
             self.splitRectangularWall(x, y, "ffff", move="right", label=label)
         else:
             self.rectangularWall(x, y, "ffff", move="right", label=label)
         
-        label = f"{self.labels['bottom']} {postfix}"
+        label = f"{self.labels['bottom']}{postfix}"
         if self.bottom:
             self.splitRectangularWall(x, y, "ffff", label=label)
         else:

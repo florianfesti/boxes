@@ -98,3 +98,21 @@ Boxes:
     args:
       y: 60
       Lid_style: flatfang
+  - box_type: Frame
+    name: FrameThreeSided
+    args:
+      bottom: 0
+      top: 40
+      left: 25
+      right: 25
+  - box_type: Frame
+    name: FrameUnequal
+    args:
+      outside: 1
+      x: 200
+      y: 160
+      top: 40
+      bottom: 25
+      left: 20
+      right: 15
+      joint: none

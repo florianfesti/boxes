@@ -278,7 +278,7 @@ class GridfinityBase(Boxes):
             if (row == 0):
                 segment_pad_bottom = pad_y // 2
             if (row == segments_rows - 1):
-                segment_pad_top = pad_y // 2
+                segment_pad_top = pad_y - pad_y // 2
 
             with self.saved_context():
                 for col in range(segments_cols):
@@ -290,7 +290,7 @@ class GridfinityBase(Boxes):
                     if (col == 0):
                         segment_pad_left = pad_x // 2
                     if (col == segments_cols - 1):
-                        segment_pad_right = pad_x // 2
+                        segment_pad_right = pad_x - pad_x // 2
 
                     box_width = nx * self.pitch + segment_pad_left + segment_pad_right
                     box_height = ny * self.pitch + segment_pad_bottom + segment_pad_top
@@ -336,7 +336,7 @@ class GridfinityBase(Boxes):
                     if (row == 0):
                         segment_pad_bottom = pad_y // 2
                     if (row == segments_rows - 1):
-                        segment_pad_top = pad_y // 2
+                        segment_pad_top = pad_y - pad_y // 2
 
                     with self.saved_context():
                         for col in range(segments_cols):
@@ -349,7 +349,7 @@ class GridfinityBase(Boxes):
                                 segment_pad_left = pad_x // 2
                                 m = margin
                             if (col == segments_cols - 1):
-                                segment_pad_right = pad_x // 2
+                                segment_pad_right = pad_x - pad_x // 2
                                 m = margin
 
                             box_width = nx * pitch + segment_pad_left + segment_pad_right + m
@@ -389,18 +389,13 @@ class GridfinityBase(Boxes):
                     if (col == 0):
                         segment_pad_left = pad_x // 2
                     if (col == segments_cols - 1):
-                        segment_pad_right = pad_x // 2
+                        segment_pad_right = pad_x - pad_x // 2
                     box_width = nx * self.pitch + segment_pad_left + segment_pad_right
 
-                    if (col == 0):
-                        ee = [b, "f", "e", "f"]
-                        m = margin
-                    elif (col == (segments_cols-1)):
-                        ee = [b, "f", "e", "F"]
-                        m = margin
-                    else:
-                        ee = [b, "f", "e", "F"]
-                        m = 0
+                    left_edge = "F" if col == 0 else "D"
+                    right_edge = "F" if col == (segments_cols - 1) else "d"
+                    ee = [b, right_edge, "e", left_edge]
+                    m = margin if (col == 0 or col == (segments_cols - 1)) else 0
 
                     self.rectangularWall(box_width+m, h, ee,
                                         ignore_widths=[1, 6], move="right")
@@ -422,18 +417,13 @@ class GridfinityBase(Boxes):
                     if (row == 0):
                         segment_pad_bottom = pad_y // 2
                     if (row == segments_rows - 1):
-                        segment_pad_top = pad_y // 2
+                        segment_pad_top = pad_y - pad_y // 2
                     box_height = ny * pitch + segment_pad_bottom + segment_pad_top
 
-                    if (row == 0):
-                        ee = [b, "f", "e", "F"]
-                        m = margin
-                    elif (row == (segments_rows-1)):
-                        ee = [b, "F", "e", "F"]
-                        m = margin
-                    else:
-                        ee = [b, "f", "e", "F"]
-                        m = 0
+                    left_edge = "f" if row == 0 else "D"
+                    right_edge = "f" if row == (segments_rows - 1) else "d"
+                    ee = [b, right_edge, "e", left_edge]
+                    m = margin if (row == 0 or row == (segments_rows - 1)) else 0
                     self.rectangularWall(box_height+m, h, ee,
                                         ignore_widths=[1, 6], move="right")
 

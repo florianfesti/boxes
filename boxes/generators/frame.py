@@ -15,8 +15,6 @@
 
 from __future__ import annotations
 
-import math
-
 from boxes import Boxes, boolarg, edges
 
 
@@ -73,38 +71,6 @@ with biscuits, dowels or corner brackets.
             choices=["dovetail", "none"],
             help="how neighbouring bars are joined at the mitres")
 
-    def bar(self, inner: float, w: float, w_start: float, w_end: float,
-            slant_edge: str, label: str = "", move: str | None = None) -> None:
-        """Draw one bar of the frame.
-
-        The bar is drawn in the orientation it has in the top bar position:
-        the inner edge (the one facing the opening) at the bottom, going left
-        to right, and the body of the bar above it.
-
-        :param inner: length of the inner edge
-        :param w: width of this bar
-        :param w_start: width of the neighbouring bar at the start (left end) of the inner edge, 0 for none
-        :param w_end: width of the neighbouring bar at the end (right end) of the inner edge, 0 for none
-        :param slant_edge: edge type for the mitres
-        :param label: label of the part
-        :param move: where to move after drawing
-        """
-        # A mitre runs from the inner corner to the outer corner. Without a
-        # neighbour (width 0) it degrades to a square end of length w.
-        h_start = math.hypot(w_start, w)
-        h_end = math.hypot(w_end, w)
-        a_start = math.degrees(math.atan2(w, w_start))
-        a_end = math.degrees(math.atan2(w, w_end))
-        outer = inner + w_start + w_end
-
-        borders = [inner, a_end, h_end, 180 - a_end,
-                   outer, 180 - a_start, h_start, a_start]
-        edge_types = ["e",
-                      slant_edge if w_end else "e",
-                      "e",
-                      slant_edge if w_start else "e"]
-        self.polygonWall(borders, edge_types, move=move, label=label)
-
     def render(self):
         x, y = self.x, self.y
         widths = [getattr(self, side) for side in self.SIDES]
@@ -133,20 +99,20 @@ with biscuits, dowels or corner brackets.
         else:
             h_edge = v_edge = "e"
 
-        # Each bar is drawn as if it were the top bar. Turning it into its
+        # mitreBar() draws each bar as if it were the top bar. Turning it into its
         # position decides which neighbour is at which end:
         # bottom: turned by 180°, the right bar is at the start
         # left:   turned by 90° counter clockwise, the bottom bar is at the start
         # right:  turned by 90° clockwise, the top bar is at the start
         if top:
-            self.bar(x, top, left, right, h_edge,
-                     label=f"top {width:.0f}x{top:.0f}", move="up")
+            self.parts.mitreBar(x, top, left, right, h_edge,
+                                label=f"top {width:.0f}x{top:.0f}", move="up")
         if bottom:
-            self.bar(x, bottom, right, left, h_edge,
-                     label=f"bottom {width:.0f}x{bottom:.0f}", move="up")
+            self.parts.mitreBar(x, bottom, right, left, h_edge,
+                                label=f"bottom {width:.0f}x{bottom:.0f}", move="up")
         if left:
-            self.bar(y, left, bottom, top, v_edge,
-                     label=f"left {left:.0f}x{height:.0f}", move="up")
+            self.parts.mitreBar(y, left, bottom, top, v_edge,
+                                label=f"left {left:.0f}x{height:.0f}", move="up")
         if right:
-            self.bar(y, right, top, bottom, v_edge,
-                     label=f"right {right:.0f}x{height:.0f}", move="up")
+            self.parts.mitreBar(y, right, top, bottom, v_edge,
+                                label=f"right {right:.0f}x{height:.0f}", move="up")

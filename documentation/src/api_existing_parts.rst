@@ -25,3 +25,4 @@ More parts are available in a separate class. An instance is available as
 .. automethod:: boxes.parts.Parts.wavyKnob
 .. automethod:: boxes.parts.Parts.concaveKnob
 .. automethod:: boxes.parts.Parts.ringSegment
+.. automethod:: boxes.parts.Parts.mitreBar

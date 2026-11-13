@@ -69,10 +69,10 @@ class Surface:
 
         m = Affine.translation(-extents.xmin, -extents.ymin)
         if self.invert_y:
-            m = Affine.scale(self.scale, -self.scale) * m
-            m = Affine.translation(0, self.scale*extents.height) * m
+            m = Affine.scale(self.scale, -self.scale) @ m
+            m = Affine.translation(0, self.scale*extents.height) @ m
         else:
-            m = Affine.scale(self.scale, self.scale) * m
+            m = Affine.scale(self.scale, self.scale) @ m
 
         self.transform(self.scale, m, self.invert_y)
 
@@ -190,7 +190,7 @@ class Path:
                     }[align]
                 for x in (start*l, end*l):
                     for y in (0, h):
-                        x_, y_ = m * (x, y)
+                        x_, y_ = m @ (x, y)
                         e.add(x_, y_)
         return e
 
@@ -198,14 +198,14 @@ class Path:
         self.params["lw"] *= f
         for c in self.path:
             C = c[0]
-            c[1], c[2] = m * (c[1], c[2])
+            c[1], c[2] = m @ (c[1], c[2])
             if C == 'C':
-                c[3], c[4] = m * (c[3], c[4])
-                c[5], c[6] = m * (c[5], c[6])
+                c[3], c[4] = m @ (c[3], c[4])
+                c[5], c[6] = m @ (c[5], c[6])
             if C == "T":
-                c[3] = m * c[3]
+                c[3] = m @ c[3]
                 if invert_y:
-                    c[3] *= Affine.scale(1, -1)
+                    c[3] @= Affine.scale(1, -1)
 
     def faster_edges(self, inner_corners):
         if inner_corners == "backarc":
@@ -242,7 +242,7 @@ class Context:
         self._stack: list[Any] = []
         self._m = Affine.translation(0, 0)
         self._xy = (0, 0)
-        self._mxy = self._m * self._xy
+        self._mxy = self._m @ self._xy
         self._lw = 0
         self._rgb: RGB = ColorPalette.BLACK
         self._ff = "sans-serif"
@@ -271,14 +271,14 @@ class Context:
     ## transformations
 
     def translate(self, x, y):
-        self._m *= Affine.translation(x, y)
+        self._m @= Affine.translation(x, y)
         self._xy = (0, 0)
 
     def scale(self, sx, sy):
-        self._m *= Affine.scale(sx, sy)
+        self._m @= Affine.scale(sx, sy)
 
     def rotate(self, r):
-        self._m *= Affine.rotation(180 * r / math.pi)
+        self._m @= Affine.rotation(180 * r / math.pi)
 
     def set_line_width(self, lw):
         self._lw = lw
@@ -298,7 +298,7 @@ class Context:
         self._add_move()
         x1, y1 = self._mxy
         self._xy = x, y
-        x2, y2 = self._mxy = self._m * self._xy
+        x2, y2 = self._mxy = self._m @ self._xy
         if not points_equal(x1, y1, x2, y2):
             self._dwg.append("L", x2, y2)
 
@@ -307,7 +307,7 @@ class Context:
 
     def move_to(self, x, y):
         self._xy = (x, y)
-        self._mxy = self._m * self._xy
+        self._mxy = self._m @ self._xy
 
     def line_to(self, x, y):
         self._line_to(x, y)
@@ -332,11 +332,11 @@ class Context:
         x3 = xc + bx + k2 * by
         y3 = yc + by - k2 * bx
 
-        mx1, my1 = self._m * (x1, y1)
-        mx2, my2 = self._m * (x2, y2)
-        mx3, my3 = self._m * (x3, y3)
-        mx4, my4 = self._m * (x4, y4)
-        mxc, myc = self._m * (xc, yc)
+        mx1, my1 = self._m @ (x1, y1)
+        mx2, my2 = self._m @ (x2, y2)
+        mx3, my3 = self._m @ (x3, y3)
+        mx4, my4 = self._m @ (x4, y4)
+        mxc, myc = self._m @ (xc, yc)
 
         self._add_move()
         self._dwg.append("C", mx4, my4, mx2, my2, mx3, my3)
@@ -351,9 +351,9 @@ class Context:
 
     def curve_to(self, x1, y1, x2, y2, x3, y3):
         # mx0,my0 = self._m*self._xy
-        mx1, my1 = self._m * (x1, y1)
-        mx2, my2 = self._m * (x2, y2)
-        mx3, my3 = self._m * (x3, y3)
+        mx1, my1 = self._m @ (x1, y1)
+        mx2, my2 = self._m @ (x2, y2)
+        mx3, my3 = self._m @ (x3, y3)
         self._add_move()
         self._dwg.append("C", mx3, my3, mx1, my1, mx2, my2)  # destination first!
         self._xy = (x3, y3)
@@ -379,7 +379,7 @@ class Context:
     def show_text(self, text, **args):
         params = {"ff": self._ff, "fs": self._fs, "lw": self._lw, "rgb": self._rgb}
         params.update(args)
-        mx0, my0 = self._m * self._xy
+        mx0, my0 = self._m @ self._xy
         m = self._m
         self._dwg.append("T", mx0, my0, m, text, params)
 
@@ -557,7 +557,7 @@ class SVGSurface(Surface):
                         )
                     elif C == "T":
                         m, text, params = c[3:]
-                        m = m * Affine.translation(0, -params['fs'])
+                        m = m @ Affine.translation(0, -params['fs'])
                         tm = " ".join(f"{m[i]:.3f}" for i in (0, 3, 1, 4, 2, 5))
                         font, bold, italic = params['ff']
                         fontweight = ("normal", "bold")[bool(bold)]

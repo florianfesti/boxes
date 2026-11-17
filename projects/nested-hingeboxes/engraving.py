@@ -1,19 +1,22 @@
-"""The engraving on the boxes: the words, their sizes, and their outlines, plus
-the line-art Christmas tree and menorah either side of the bottom text.
+"""What is engraved on the boxes: the text (words, sizes, outlines), the line-art
+Christmas tree and menorah either side of the bottom text, and the lid artwork.
 
 Shared by engrave_boxes.py (the cut files) and make_model.py (the 3D model), so
 both show exactly the same outlines.  The text is set in Special Elite
 (fonts/SpecialElite-Regular.ttf, Apache License 2.0) and turned into paths, so
-the laser software doesn't need the font.
+the laser software doesn't need the font.  The artwork comes from an SVG in art/,
+scaled to fit the lid top.
 
-Coordinates are mm on the face that carries the text, origin at the top-left
+Coordinates are mm on the face that carries the engraving, origin at the top-left
 corner of the face's inner area, x to the right, y down (as in SVG).  The inner
-area of the front wall is x by h, of the bottom x by y.
+area of the front wall is x by h, of the bottom and the lid top x by y.
 """
 import math
+import xml.etree.ElementTree as ET
 from functools import cache
 from pathlib import Path
 
+import numpy as np
 from fontTools.pens.boundsPen import BoundsPen
 from fontTools.pens.svgPathPen import SVGPathPen
 from fontTools.pens.transformPen import TransformPen
@@ -22,8 +25,12 @@ from shapely import affinity
 from shapely.geometry import LineString, MultiPolygon, Point, Polygon
 from shapely.geometry.polygon import orient
 from shapely.ops import unary_union
+from svgpathtools import CubicBezier, Line, parse_path
+from svgpathtools.parser import parse_transform
+from svgpathtools.path import transform
 
 HERE = Path(__file__).resolve().parent
+SVG_NS = "http://www.w3.org/2000/svg"
 FONT = HERE / "fonts" / "SpecialElite-Regular.ttf"
 
 # Text on the front of each box and under its bottom, one tuple of lines per box.
@@ -38,6 +45,15 @@ BOTTOM_SIZE = 6.0   # mm, font size of the bottom text
 ART_H = 24.0        # mm, height of the menorah beside the bottom text (the tree is drawn to the same scale)
 ART_LINE = 0.7      # mm, line width of the tree and menorah outlines
 CANDLE_LINE = 0.55  # mm, line width of the candles
+
+# Artwork on the lid top, one SVG (or None) per box.  Only its filled shapes are
+# engraved: unfilled paths, such as a stock file's corner marks, are left out,
+# and white shapes are bare wood, cut out of whatever is painted below them.
+LID_ART = [HERE / "art" / "AdobeStock_2095995062.svg", HERE / "art" / "AdobeStock_939770434.svg",
+           None, None]
+LID_PAD = 8.0       # mm clear around the lid artwork
+LID_TOLERANCE = 0.02  # mm, how far flattened curves may stray, for art with white shapes
+WHITE = ("#ffffff", "#fff", "white")
 
 
 @cache
@@ -227,14 +243,91 @@ def bottom_art(ink, face):
                                           max(v[2] for v in b), max(v[3] for v in b))
 
 
-def box_text(faces_front, faces_bottom):
+@cache
+def _art_shapes(src):
+    """The filled shapes of an SVG in paint order, as (svgpathtools path in its user
+    units with the path's own transform applied, True if white), plus the ink box
+    of the shapes that aren't white."""
+    root = ET.parse(src).getroot()
+    shapes = []
+    for el in root.iter(f"{{{SVG_NS}}}path"):
+        fill = el.get("fill", "black").lower()
+        if fill == "none":
+            continue
+        p = parse_path(el.get("d"))
+        if el.get("transform"):
+            p = transform(p, parse_transform(el.get("transform")))
+        shapes.append((p, fill in WHITE))
+    boxes = [p.bbox() for p, white in shapes if not white]
+    ink = (min(b[0] for b in boxes), min(b[2] for b in boxes),
+           max(b[1] for b in boxes), max(b[3] for b in boxes))
+    return shapes, ink
+
+
+def _d(path):
+    """SVG path data of an svgpathtools path, to 0.01 mm."""
+    n = lambda z: f"{_num(z.real)} {_num(z.imag)}"  # noqa: E731
+    out = []
+    for sub in path.continuous_subpaths():
+        out.append(f"M{n(sub.start)}")
+        for seg in sub:
+            if isinstance(seg, CubicBezier):
+                out.append(f"C{n(seg.control1)} {n(seg.control2)} {n(seg.end)}")
+            else:   # pymupdf's SVG output has only lines and cubics
+                out.append(f"L{n(seg.end)}")
+        if sub.isclosed():
+            out.append("Z")
+    return "".join(out)
+
+
+def _region(path):
+    """The area a closed svgpathtools path fills, as a shapely geometry, curves
+    flattened to LID_TOLERANCE (path in mm).  Subpaths overlap even-odd, which
+    matches the nonzero rule for a shape whose holes don't cross its outline."""
+    region = Polygon()
+    for sub in path.continuous_subpaths():
+        pts = [sub.start]
+        for seg in sub:
+            n = 1 if isinstance(seg, Line) else max(2, math.ceil(math.sqrt(seg.length() / (8 * LID_TOLERANCE)) * 2))
+            pts += [seg.point(k / n) for k in range(1, n + 1)]
+        if len(pts) >= 4:
+            region = region.symmetric_difference(Polygon([(z.real, z.imag) for z in pts]).buffer(0))
+    return region
+
+
+def lid_art(src, w, h, at=(0.0, 0.0), pad=LID_PAD):
+    """The filled shapes of the SVG `src`, as large as fits a w x h face with `pad`
+    all round, centred on it (by ink), the face's top-left corner at `at`.
+    Returns a list of path data strings and the ink box.  Without white shapes,
+    one string per shape, curves kept (kept apart so that each keeps its own holes
+    under the nonzero fill rule).  With white shapes, the painted area is worked
+    out in paint order (dark shapes added, white ones cut out) and comes back as
+    one string per piece of it, curves flattened."""
+    shapes, (x0, y0, x1, y1) = _art_shapes(src)
+    s = min((w - 2 * pad) / (x1 - x0), (h - 2 * pad) / (y1 - y0))
+    ox = at[0] + w / 2 - s * (x0 + x1) / 2
+    oy = at[1] + h / 2 - s * (y0 + y1) / 2
+    fit = np.array([[s, 0, ox], [0, s, oy], [0, 0, 1]])
+    ink = (x0 * s + ox, y0 * s + oy, x1 * s + ox, y1 * s + oy)
+    if not any(white for _, white in shapes):
+        return [_d(transform(p, fit)) for p, _ in shapes], ink
+    dark = Polygon()
+    for p, white in shapes:
+        r = _region(transform(p, fit))
+        dark = dark.difference(r) if white else dark.union(r)
+    polys = getattr(dark, "geoms", [dark])
+    return [_path(q) for q in polys if q.geom_type == "Polygon" and not q.is_empty], ink
+
+
+def box_text(faces_front, faces_bottom, faces_lid):
     """All engravings: for each box a dict with the front and bottom outlines (the
-    bottom's include the tree and menorah).
-    faces_front / faces_bottom = [(x, y, w, h), ...] per box: where the face's
-    inner area starts and its size in mm."""
+    bottom's include the tree and menorah), and the lid artwork if it has one.
+    faces_front / faces_bottom / faces_lid = [(x, y, w, h), ...] per box: where the
+    face's inner area starts and its size in mm."""
     sizes = front_sizes([(t, w, h) for t, (_, _, w, h) in zip(FRONT_TEXT, faces_front)])
     out = []
-    for i, ((fx, fy, fw, fh), (bx, by, bw, bh)) in enumerate(zip(faces_front, faces_bottom)):
+    for i, ((fx, fy, fw, fh), (bx, by, bw, bh), (lx, ly, lw, lh)) in enumerate(
+            zip(faces_front, faces_bottom, faces_lid)):
         fd, fink = outlines(FRONT_TEXT[i], sizes[i], fw, fh, (fx, fy))
         bd, bink = outlines(BOTTOM_TEXT[i], BOTTOM_SIZE, bw, bh, (bx, by))
         ad, bink = bottom_art(bink, (bx, by, bw, bh))
@@ -243,4 +336,7 @@ def box_text(faces_front, faces_bottom):
             "front": {"lines": FRONT_TEXT[i], "size": sizes[i], "w": fw, "h": fh, "d": fd, "ink": fink},
             "bottom": {"lines": BOTTOM_TEXT[i], "size": BOTTOM_SIZE, "w": bw, "h": bh, "d": bd, "ink": bink},
         })
+        if LID_ART[i]:
+            ld, link = lid_art(LID_ART[i], lw, lh, (lx, ly))
+            out[-1]["lid"] = {"art": LID_ART[i].name, "w": lw, "h": lh, "d": ld, "ink": link}
     return out

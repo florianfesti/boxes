@@ -218,8 +218,9 @@ function size2(outline) {
 }
 const mm = v => (Math.round(v * 10) / 10).toString();
 
-// Engraved text: the outlines from engraving.py (the same as on the cut sheets),
-// in mm on the face, drawn white on a transparent canvas and tinted by the material.
+// Engraved text and lid artwork: the outlines from engraving.py (the same as on the
+// cut sheets), in mm on the face, drawn white on a transparent canvas and tinted by
+// the material.  The artwork's `d` is a list, one path per shape.
 const TEXT_PX_PER_MM = 8;
 const textLabels = [];
 
@@ -230,7 +231,7 @@ function drawLabels() {
     g.clearRect(0, 0, canvas.width, canvas.height);
     g.setTransform(TEXT_PX_PER_MM, 0, 0, TEXT_PX_PER_MM, 0, 0);
     g.fillStyle = "#fff";
-    g.fill(new Path2D(d));
+    for (const s of [].concat(d)) g.fill(new Path2D(s));
     map.needsUpdate = true;
   }
 }
@@ -293,9 +294,9 @@ const boxes = DATA.boxes.map((b, i) => {
     add(g, m, group, "pin", `hinge pin · ${mm(len)} mm × Ø3`);
   }
 
-  // Engraved text on an outer face: a w x h area, placed by `matrix` (u reading
-  // direction, v up the text, w out of the face).
-  const addText = (face, { lines, w, h, d }, matrix) => {
+  // Engraved text or artwork on an outer face: a w x h area, placed by `matrix`
+  // (u reading direction, v up the text, w out of the face), in `parent`.
+  const addText = (face, { lines, w, h, d }, matrix, parent = group) => {
     const canvas = document.createElement("canvas");
     canvas.width = Math.round(w * TEXT_PX_PER_MM);
     canvas.height = Math.round(h * TEXT_PX_PER_MM);
@@ -310,8 +311,9 @@ const boxes = DATA.boxes.map((b, i) => {
     const mesh = new THREE.Mesh(geom, mat);
     mesh.matrixAutoUpdate = false;
     mesh.matrix.copy(matrix);
-    mesh.userData = { box: i, kind: "text", label: `${face} text · “${lines.join(" ")}”` };
-    group.add(mesh);
+    mesh.userData = { box: i, kind: "text",
+                      label: lines ? `${face} text · “${lines.join(" ")}”` : `${face} artwork` };
+    parent.add(mesh);
     meshes.push({ mesh, edges: null, kind: "text" });
   };
   // Front: the outer face of the box's front wall (y = -t), the lid not included.
@@ -320,6 +322,11 @@ const boxes = DATA.boxes.map((b, i) => {
   // back to look underneath (front edge at the top), as when orbiting under it
   // from the front.
   if (b.text) addText("bottom", b.text.bottom, basis([1, 0, 0], [0, -1, 0], [0, 0, -1], [0, b.y, -t - 0.05]));
+  // Lid top: the outer face (z = h + lidheight + t), reading right way up from the
+  // front, its top towards the hinges.  It turns with the lid.
+  if (b.text && b.text.lid) {
+    addText("lid", b.text.lid, basis([1, 0, 0], [0, 1, 0], [0, 0, 1], [0, 0, b.h + b.lidheight + t + 0.05]), lid);
+  }
 
   // Extents of the closed box in its own frame (knuckles stick out e behind the back wall).
   const ext = { x0: -t, x1: b.x + t, y0: -t, y1: b.y + t + b.eye, z0: -t, z1: b.h + b.lidheight + t };

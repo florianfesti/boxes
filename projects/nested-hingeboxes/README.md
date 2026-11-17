@@ -6,7 +6,9 @@ Chrismukkah 2026 gifts. Each box is a stock boxes.py
 in 3 mm plywood, with a lid on two wooden hinges built from 7 interlocking pieces and
 a metal pin each. The front of each box is engraved with a title in the typewriter
 face Special Elite, and the bottom with the recipient's name and "Chrismukkah 2026"
-between a small Christmas tree and a menorah.
+between a small Christmas tree and a menorah. Box 1's lid top also carries an
+ink-sketch science illustration (microscope, DNA, heart, brain and lab glassware), and
+box 2's a row of black cat silhouettes.
 
 | Box | Outside (mm) | Front | Bottom |
 |---|---|---|---|
@@ -25,7 +27,8 @@ The project covers:
 * **[A 3D model](https://danfoygel.github.io/boxes/nested-hingeboxes/)** to rotate,
   nest and open the boxes in the browser ([section 4](#4-3d-model)).
 * **Engraved text** on the front and bottom of each box, with a tree and a menorah
-  beside the bottom text, in the cut files and the model ([section 5](#5-engraved-text)).
+  beside the bottom text, and **artwork** on the lids of boxes 1 and 2, in the cut
+  files and the model ([section 5](#5-engraved-text)).
 
 ## 3D model
 
@@ -94,12 +97,13 @@ hinge pieces, 75.6% utilization. Cut file:
 | `color_layouts.py` | Makes the colour-coded layout views in `layouts/` |
 | `compare.py` | Prints the comparison table of all layouts |
 | `render_previews.js` | Renders the SVGs to PNG previews and screenshots the 3D model (Playwright + Chromium) |
-| `engraving.py` | The engraving: the words, their sizes, and their outlines in Special Elite, plus the tree and menorah beside the bottom text |
+| `engraving.py` | The engraving: the words, their sizes, and their outlines in Special Elite, the tree and menorah beside the bottom text, and the lid artwork scaled to fit |
 | `engrave_boxes.py` | Adds the engraving to the box SVGs |
 | `fonts/` | Special Elite (`SpecialElite-Regular.ttf`, from Google Fonts) and its licence (Apache 2.0) |
+| `art/` | The lid artwork, converted from the Adobe Stock Illustrator EPS files to SVG: 2095995062 (box 1) and 939770434 (box 2) |
 | `make_model.py`, `model_template.html` | Build `model.html`, the interactive 3D model |
 | `model.html` | The four boxes in 3D: open it in a browser to rotate, nest and open them |
-| `boxes/box1.svg` … `box4.svg` | The four boxes, each from the stock HingeBox generator (7-piece hinges), plus their engraved text |
+| `boxes/box1.svg` … `box4.svg` | The four boxes, each from the stock HingeBox generator (7-piece hinges), plus their engraved text and lid artwork |
 | `sheets/sheetsN.svg` | N equal sheets, with spare hinge pieces: the cut files |
 | `layouts/sheetsN.svg` | The same layouts colour-coded by box, for reading, not cutting |
 | `previews/` | PNG renders of the cut files (`sheetsN.png`), layout views (`layout-sheetsN.png`) and 3D model (`model.png`) |
@@ -137,6 +141,9 @@ hinge pieces, 75.6% utilization. Cut file:
 12. *Add the text to the layouts and cut files.*
 13. *Add small engraved images of a Christmas tree and a menorah on the bottom:* line
     art, one either side of the text.
+14. *Add this as a raster to box 1 lid:* an Adobe Stock illustration (2095995062),
+    first converted from `.ai` to SVG.
+15. *Do the same with this file for box 2:* Adobe Stock 939770434.
 
 The single cutsheet (request 3) and the clustered layouts (request 4) have since been
 removed. The repository history has them.
@@ -320,8 +327,9 @@ from a CDN). Drag to orbit, scroll to zoom, right-drag to pan.
 * The lid slider turns the lids about their hinge pins, 0–110°.
 * Colour by box (the colours above, hinge pieces grey) or as plywood.
 * Hovering a piece names it, with its flat size.
-* Each box carries its engraved text (section 5) on its front and underneath. The
-  model draws the same outlines as the cut files.
+* Each box carries its engraved text (section 5) on its front and underneath, and
+  boxes 1 and 2 their artwork on the lid top. The model draws the same outlines as the
+  cut files.
 
 How `make_model.py` builds it:
 
@@ -399,6 +407,44 @@ size, so the sheet layouts are the same as before. On those two pieces the red
 * **Which panel is the bottom.** Each box has two identical x × y panels, the bottom
   and the lid top. The engraved one is the bottom.
 
+### Lid artwork
+
+The lid tops of boxes 1 and 2 are engraved with Adobe Stock illustrations. Both stock
+files are Illustrator EPS with a `.ai` extension. Each was turned into a PDF with
+Ghostscript and then into an SVG in `art/` with PyMuPDF.
+
+| Box | Artwork | Lid top (mm) | Engraved (mm) |
+|---|---|---|---|
+| 1 | Science and medical research in blue-ink sketch style (`AdobeStock_2095995062.svg`) | 154 × 74 | 100.3 × 58.0 |
+| 2 | Black cat silhouettes in 15 poses (`AdobeStock_939770434.svg`) | 162 × 89 | 146.0 × 55.0 |
+
+`engraving.py` scales each piece of art to the largest size that leaves 8 mm clear on
+the lid top, centred. Like the text, it is green filled outlines in the lid top's
+piece. To change the art or put art on another lid, set `LID_ART` in `engraving.py`.
+
+* **Only filled shapes.** Unfilled paths, such as the 4 corner marks in box 1's file,
+  are left out.
+* **White is bare wood.** Box 1's art is 923 shapes in one colour. Each stays its own
+  path, curves kept, so its holes come out right. Box 2's paints white over black:
+  the eye whites and fine contour lines, with the pupils painted black again on top.
+  Engraving the white too would fill the cats in solid. So `engraving.py` works out
+  the painted area in paint order (black shapes added, white ones cut out, curves
+  flattened to within 0.02 mm), giving 36 outlines with the white left unengraved.
+* **Which panel is the lid top.** On boxes 1 and 2 the two x × y panels are no longer
+  the same: the one with the artwork is the lid top, the one with the name is the
+  bottom.
+* **Which way round.** The lid top is symmetric too, so either long edge can go to
+  the hinges. Put the top of the picture towards the hinges, and it reads right way
+  up from the front of the closed box.
+* **Fine detail.** In box 1's art the main lines come out about 0.25 mm wide, but the
+  hatching inside the drawings is only 0.05–0.08 mm. Engrave at 300 DPI or finer, and
+  expect the hatching to soften into shading. In box 2's art the white contour lines
+  inside the cats are about 0.1 mm wide and may close up. The eyes are large enough
+  to come out clearly.
+* **Licence.** These are licensed stock images. Check that the licence allows
+  publishing them, here and in the published 3D model, before pushing them to a public
+  repository.
+
 ## Cutting notes
 
 * Colours follow boxes.py: black is the outline cut, blue the inner cuts (the hinge
@@ -406,7 +452,8 @@ size, so the sheet layouts are the same as before. On those two pieces the red
   a vector score: the font's rough outlines make a messy score) and skip red.
 * Engrave before cutting, so the pieces are still held in the sheet. A test on a
   scrap of the same plywood is worth it: grain and finish change how the 6 mm bottom
-  text and the menorah's small flames (about 1.6 × 2.3 mm) come out.
+  text, the menorah's small flames (about 1.6 × 2.3 mm) and the fine lines of the lid
+  artwork come out.
 * In the multi-sheet files the sheet cut lines come last, so the pieces are cut before
   the sheets come free. If your laser software reorders cuts, make sure the sheet
   lines go last.

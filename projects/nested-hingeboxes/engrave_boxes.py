@@ -4,13 +4,15 @@
 usage: engrave_boxes.py BOX1.svg BOX2.svg BOX3.svg BOX4.svg     (edits them in place)
 
 The n-th file gets the n-th box's text: on its front wall and on one of its two
-x by y panels, which becomes the bottom (the other is the lid top).  The text
-is filled outlines in boxes.py's etching colour (green), inside the piece's
-group, so it moves with the piece when the sheets are packed.
+x by y panels, which becomes the bottom.  If the box has lid artwork
+(engraving.LID_ART), it goes on the other x by y panel, which becomes the lid
+top.  Everything is filled outlines in boxes.py's etching colour (green), inside
+the piece's group, so it moves with the piece when the sheets are packed.
 
-Both pieces are symmetric (checked here), so either face can go outside: the
+The pieces are symmetric (checked here), so either face can go outside: the
 engraved face is the outside.  On the front wall the top of the text faces the
-open top edge.  On the bottom it faces whichever long edge becomes the front.
+open top edge.  On the bottom and the lid top it faces whichever long edge
+becomes the front (bottom) or the back (lid top).
 
 Running it again replaces the text it added before.
 """
@@ -84,7 +86,7 @@ def engrave(path):
     tallest = max(size(p.bounds)[1] for _, p in wide)
     panels = [(g, p) for g, p in wide if size(p.bounds)[1] == tallest]
     assert len(panels) == 2, f"{path}: expected two x by y panels, found {len(panels)}"
-    bottom = panels[0]
+    bottom, lid = panels
 
     # Inner face areas: the front's F edges add t left, right and below, the
     # bottom's f edges t all round; the outline is BURN larger on every side.
@@ -92,24 +94,36 @@ def engrave(path):
     front_face = (x0 + BURN + T, y0 + BURN, x1 - x0 - 2 * BURN - 2 * T, y1 - y0 - 2 * BURN - T)
     x0, y0, x1, y1 = bottom[1].bounds
     bottom_face = (x0 + BURN + T, y0 + BURN + T, x1 - x0 - 2 * BURN - 2 * T, y1 - y0 - 2 * BURN - 2 * T)
+    x0, y0, x1, y1 = lid[1].bounds
+    lid_face = (x0 + BURN + T, y0 + BURN + T, x1 - x0 - 2 * BURN - 2 * T, y1 - y0 - 2 * BURN - 2 * T)
     assert symmetric(front[1], "x"), f"{path}: front wall not left-right symmetric"
-    assert symmetric(bottom[1], "x") and symmetric(bottom[1], "y"), f"{path}: bottom not symmetric"
-    return tree, (front[0], front_face), (bottom[0], bottom_face)
+    for name, (_, poly) in (("bottom", bottom), ("lid top", lid)):
+        assert symmetric(poly, "x") and symmetric(poly, "y"), f"{path}: {name} not symmetric"
+    return tree, (front[0], front_face), (bottom[0], bottom_face), (lid[0], lid_face)
 
 
 def main(files):
     jobs = [engrave(f) for f in files]
-    text = engraving.box_text([j[1][1] for j in jobs], [j[2][1] for j in jobs])
-    for f, (tree, front, bottom), t in zip(files, jobs, text):
+    text = engraving.box_text(*([j[k][1] for j in jobs] for k in (1, 2, 3)))
+    for f, (tree, front, bottom, lid), t in zip(files, jobs, text):
         # coordinates written out in full (no transform): SvgMerge's bounding
-        # boxes, which pack_sheets.py uses, ignore transforms
-        for (g, _), key in ((front, "front"), (bottom, "bottom")):
-            ET.SubElement(g, f"{{{SVG_NS}}}path", {
-                "class": "engraving", "d": t[key]["d"], "stroke": GREEN, "fill": GREEN,
-                "stroke-width": "0.01"})
+        # boxes, which pack_sheets.py uses, ignore transforms.  The artwork is
+        # one path per shape (see engraving.lid_art).
+        for (g, _), key in ((front, "front"), (bottom, "bottom"), (lid, "lid")):
+            if key not in t:
+                continue
+            ds = t[key]["d"]
+            for d in [ds] if isinstance(ds, str) else ds:
+                ET.SubElement(g, f"{{{SVG_NS}}}path", {
+                    "class": "engraving", "d": d, "stroke": GREEN, "fill": GREEN,
+                    "stroke-width": "0.01"})
         tree.write(f, encoding="utf-8", xml_declaration=True)
-        print(f"{f}: front “{' '.join(t['front']['lines'])}” {t['front']['size']:.2f} mm, "
-              f"bottom “{' '.join(t['bottom']['lines'])}” {t['bottom']['size']:.2f} mm")
+        msg = (f"{f}: front “{' '.join(t['front']['lines'])}” {t['front']['size']:.2f} mm, "
+               f"bottom “{' '.join(t['bottom']['lines'])}” {t['bottom']['size']:.2f} mm")
+        if "lid" in t:
+            x0, y0, x1, y1 = t["lid"]["ink"]
+            msg += f", lid {t['lid']['art']} {x1 - x0:.1f} × {y1 - y0:.1f} mm"
+        print(msg)
 
 
 if __name__ == "__main__":

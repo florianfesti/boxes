@@ -1,8 +1,90 @@
 # Four nested HingeBoxes
 
-Four [HingeBox](https://boxes.hackerspace-bamberg.de/HingeBox) boxes
-(`boxes/generators/hingebox.py`) that nest inside each other. The folder holds the
-sizing analysis, the scripts that lay the pieces out, and the cut files they produced.
+A set of four laser-cut wooden boxes, each one sized to fit inside the next, made as
+Chrismukkah 2026 gifts. Each box is a stock boxes.py
+[HingeBox](https://boxes.hackerspace-bamberg.de/HingeBox) (`boxes/generators/hingebox.py`)
+in 3 mm plywood, with a lid on two wooden hinges built from 7 interlocking pieces and
+a metal pin each. The front of each box is engraved with a title in the typewriter
+face Special Elite, and the bottom with the recipient's name and "Chrismukkah 2026"
+between a small Christmas tree and a menorah.
+
+| Box | Outside (mm) | Front | Bottom |
+|---|---|---|---|
+| 1 (innermost) | 160 × 80 × 80 | Scientific Discoveries | Ember Barber |
+| 2 | 168 × 95 × 88 | Feline Facts | Leah Barber |
+| 3 | 176 × 110 × 96 | Problematic Data | Rina Foygel Barber |
+| 4 (outermost) | 184 × 125 × 104 | Exuberant Ideas | Mathew Barber |
+
+The project covers:
+
+* **Sizing.** Working out from the generator code how much smaller each box must be
+  to fit inside the next, hinges included ([sections 1–2](#1-how-much-smaller-the-inner-box-must-be)).
+* **Cut files.** Packing every piece of all four boxes onto N equal sheets that sit side
+  by side and are cut from one large sheet, so the cut sheets stack flat for travel.
+  Leftover space is filled with spare hinge pieces ([section 3](#3-n-equal-sheets-with-spare-hinge-pieces)).
+* **[A 3D model](https://danfoygel.github.io/boxes/nested-hingeboxes/)** to rotate,
+  nest and open the boxes in the browser ([section 4](#4-3d-model)).
+* **Engraved text** on the front and bottom of each box, with a tree and a menorah
+  beside the bottom text, in the cut files and the model ([section 5](#5-engraved-text)).
+
+## 3D model
+
+[Open the 3D model](https://danfoygel.github.io/boxes/nested-hingeboxes/) to rotate the
+boxes, nest them inside each other, open the lids and look underneath. It is
+[`model.html`](model.html), which you can also open locally in a browser. The GitHub
+Pages workflow publishes it with each push to `master`.
+
+![The four boxes side by side with their lids open, coloured by box](previews/model.png)
+
+## Layouts
+
+There are five layouts, with 6, 8, 9, 10 or 12 sheets. Each one holds every piece of
+all four boxes plus as many spare hinge pieces as fit. Every piece is at least 3 mm
+from its neighbours and 5 mm inside its sheet's cut line. The pictures below are the
+colour-coded views from `layouts/`: blue is box 1, orange box 2, aqua box 3, plum box 4,
+and grey the hinge pieces, which fit any box. Cut from the files in `sheets/`, which
+have the same layout in boxes.py's cut colours. [Section 3](#comparison-of-all-options)
+compares the options in full.
+
+### 6 sheets
+
+278 × 255 mm (10.94 × 10.04 in) each, in a 2 × 3 grid (556 × 765 mm overall). 18 spare
+hinge pieces, 79.3% utilization. Uses the least material. Cut file:
+[`sheets/sheets6.svg`](sheets/sheets6.svg).
+
+![6-sheet layout, colour-coded by box](previews/layout-sheets6.png)
+
+### 8 sheets
+
+190 × 287 mm (7.48 × 11.30 in) each, in a 4 × 2 grid (760 × 574 mm overall). 19 spare
+hinge pieces, 77.3% utilization. Cut file: [`sheets/sheets8.svg`](sheets/sheets8.svg).
+
+![8-sheet layout, colour-coded by box](previews/layout-sheets8.png)
+
+### 9 sheets
+
+256 × 189 mm (10.08 × 7.44 in) each, in a 3 × 3 grid (768 × 567 mm overall). 15 spare
+hinge pieces, 77.4% utilization. Cut file: [`sheets/sheets9.svg`](sheets/sheets9.svg).
+
+![9-sheet layout, colour-coded by box](previews/layout-sheets9.png)
+
+### 10 sheets
+
+222 × 197 mm (8.74 × 7.76 in) each, in a 2 × 5 grid (444 × 985 mm overall). 3 spare
+hinge pieces, 76.7% utilization. Cut file:
+[`sheets/sheets10.svg`](sheets/sheets10.svg).
+
+![10-sheet layout, colour-coded by box](previews/layout-sheets10.png)
+
+### 12 sheets
+
+188 × 198 mm (7.40 × 7.80 in) each, in a 4 × 3 grid (752 × 594 mm overall). 22 spare
+hinge pieces, 75.6% utilization. Cut file:
+[`sheets/sheets12.svg`](sheets/sheets12.svg).
+
+![12-sheet layout, colour-coded by box](previews/layout-sheets12.png)
+
+## Files
 
 | Path | What it is |
 |---|---|
@@ -11,7 +93,7 @@ sizing analysis, the scripts that lay the pieces out, and the cut files they pro
 | `check_layout.py` | Checks a multi-sheet file from the SVG alone: every gap ≥ 3 mm, every piece ≥ 5 mm inside its sheet |
 | `color_layouts.py` | Makes the colour-coded layout views in `layouts/` |
 | `compare.py` | Prints the comparison table of all layouts |
-| `render_previews.js` | Renders the SVGs to PNG previews (Playwright + Chromium) |
+| `render_previews.js` | Renders the SVGs to PNG previews and screenshots the 3D model (Playwright + Chromium) |
 | `engraving.py` | The engraving: the words, their sizes, and their outlines in Special Elite, plus the tree and menorah beside the bottom text |
 | `engrave_boxes.py` | Adds the engraving to the box SVGs |
 | `fonts/` | Special Elite (`SpecialElite-Regular.ttf`, from Google Fonts) and its licence (Apache 2.0) |
@@ -20,7 +102,7 @@ sizing analysis, the scripts that lay the pieces out, and the cut files they pro
 | `boxes/box1.svg` … `box4.svg` | The four boxes, each from the stock HingeBox generator (7-piece hinges), plus their engraved text |
 | `sheets/sheetsN.svg` | N equal sheets, with spare hinge pieces: the cut files |
 | `layouts/sheetsN.svg` | The same layouts colour-coded by box, for reading, not cutting |
-| `previews/` | PNG renders of the cut files (`sheetsN.png`) and layout views (`layout-sheetsN.png`) |
+| `previews/` | PNG renders of the cut files (`sheetsN.png`), layout views (`layout-sheetsN.png`) and 3D model (`model.png`) |
 
 ## The requests
 

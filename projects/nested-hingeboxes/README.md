@@ -28,8 +28,10 @@ The project covers:
 
 ## 3D model
 
-Open [`model.html`](model.html) in a browser to rotate the boxes, nest them inside each
-other, open the lids and look underneath.
+[Open the 3D model](https://danfoygel.github.io/boxes/nested-hingeboxes/) to rotate the
+boxes, nest them inside each other, open the lids and look underneath. It is
+[`model.html`](model.html), which you can also open locally in a browser. The GitHub
+Pages workflow publishes it with each push to `master`.
 
 ![The four boxes side by side with their lids open, coloured by box](previews/model.png)
 

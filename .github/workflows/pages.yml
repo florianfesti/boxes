@@ -36,6 +36,8 @@ jobs:
           cd ../build/ && ls && ls html/
           cp -r ../../static .
           ln -s ../static html/static
+          mkdir nested-hingeboxes
+          cp ../../projects/nested-hingeboxes/model.html nested-hingeboxes/index.html
           rm -rf doctrees
           touch .nojekyll
       - name: Upload artifact

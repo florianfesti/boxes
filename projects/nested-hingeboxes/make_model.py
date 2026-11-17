@@ -251,8 +251,9 @@ def main():
         box = build_box(x, y, h)
         box.update(name=f"Box {n}", color=COLORS[n - 1])
         boxes.append(box)
-    # Engraved text on each face's inner area, origin at its top-left corner
+    # Engraved text and lid artwork on each face's inner area, origin at its top-left corner
     text = engraving.box_text([(0, 0, b["x"], b["h"]) for b in boxes],
+                              [(0, 0, b["x"], b["y"]) for b in boxes],
                               [(0, 0, b["x"], b["y"]) for b in boxes])
     for b, t in zip(boxes, text):
         b["text"] = {face: {k: v for k, v in f.items() if k != "ink"} for face, f in t.items()}

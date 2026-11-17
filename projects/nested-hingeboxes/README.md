@@ -21,8 +21,8 @@ The project covers:
 * **Cut files.** Packing every piece of all four boxes onto N equal sheets that sit side
   by side and are cut from one large sheet, so the cut sheets stack flat for travel.
   Leftover space is filled with spare hinge pieces ([section 3](#3-n-equal-sheets-with-spare-hinge-pieces)).
-* **A 3D model** to rotate, nest and open the boxes in the browser
-  ([section 4](#4-3d-model)).
+* **[A 3D model](https://danfoygel.github.io/boxes/nested-hingeboxes/)** to rotate,
+  nest and open the boxes in the browser ([section 4](#4-3d-model)).
 * **Engraved text** on the front and bottom of each box, in the cut files and the
   model ([section 5](#5-engraved-text)).
 

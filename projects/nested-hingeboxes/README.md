@@ -7,8 +7,8 @@ in 3 mm plywood, with a lid on two wooden hinges built from 7 interlocking piece
 a metal pin each. The front of each box is engraved with a title in the typewriter
 face Special Elite, and the bottom with the recipient's name and "Chrismukkah 2026"
 between a small Christmas tree and a menorah. Box 1's lid top also carries an
-ink-sketch science illustration (microscope, DNA, heart, brain and lab glassware), and
-box 2's a row of black cat silhouettes.
+ink-sketch science illustration (microscope, DNA, heart, brain and lab glassware),
+box 2's a row of black cat silhouettes, and box 4's a brain bursting with ideas.
 
 | Box | Outside (mm) | Front | Bottom |
 |---|---|---|---|
@@ -27,7 +27,7 @@ The project covers:
 * **[A 3D model](https://danfoygel.github.io/boxes/nested-hingeboxes/)** to rotate,
   nest and open the boxes in the browser ([section 4](#4-3d-model)).
 * **Engraved text** on the front and bottom of each box, with a tree and a menorah
-  beside the bottom text, and **artwork** on the lids of boxes 1 and 2, in the cut
+  beside the bottom text, and **artwork** on the lids of boxes 1, 2 and 4, in the cut
   files and the model ([section 5](#5-engraved-text)).
 
 ## 3D model
@@ -92,7 +92,7 @@ hinge pieces, 75.6% utilization. Cut file:
 | Path | What it is |
 |---|---|
 | `generate.sh` | Regenerates every SVG in this folder |
-| `pack_sheets.py` | Packs all pieces onto N equal sheets laid out in a grid, with cut lines between sheets, and fills the leftover space with spare hinge pieces |
+| `pack_sheets.py` | Packs all pieces onto N equal sheets laid out in a grid, with cut lines between sheets, and fills the leftover space with spare hinge pieces; when only the engraving has changed it keeps the layout and updates the engraving |
 | `check_layout.py` | Checks a multi-sheet file from the SVG alone: every gap ≥ 3 mm, every piece ≥ 5 mm inside its sheet |
 | `color_layouts.py` | Makes the colour-coded layout views in `layouts/` |
 | `compare.py` | Prints the comparison table of all layouts |
@@ -100,7 +100,7 @@ hinge pieces, 75.6% utilization. Cut file:
 | `engraving.py` | The engraving: the words, their sizes, and their outlines in Special Elite, the tree and menorah beside the bottom text, and the lid artwork scaled to fit |
 | `engrave_boxes.py` | Adds the engraving to the box SVGs |
 | `fonts/` | Special Elite (`SpecialElite-Regular.ttf`, from Google Fonts) and its licence (Apache 2.0) |
-| `art/` | The lid artwork, converted from the Adobe Stock Illustrator EPS files to SVG: 2095995062 (box 1) and 939770434 (box 2) |
+| `art/` | The lid artwork: the Adobe Stock Illustrator EPS files converted to SVG, 2095995062 (box 1) and 939770434 (box 2), and `ideas.svg` (box 4), drawn by `draw_ideas.py` |
 | `make_model.py`, `model_template.html` | Build `model.html`, the interactive 3D model |
 | `model.html` | The four boxes in 3D: open it in a browser to rotate, nest and open them |
 | `boxes/box1.svg` … `box4.svg` | The four boxes, each from the stock HingeBox generator (7-piece hinges), plus their engraved text and lid artwork |
@@ -144,6 +144,10 @@ hinge pieces, 75.6% utilization. Cut file:
 14. *Add this as a raster to box 1 lid:* an Adobe Stock illustration (2095995062),
     first converted from `.ai` to SVG.
 15. *Do the same with this file for box 2:* Adobe Stock 939770434.
+16. *For box 4 lid, design an SVG that's inspired by this design* (a stock clip-art
+    brain bursting with a light bulb, gears and speech bubbles). *However, I want it to
+    have a wider aspect ratio to better fit the lid, and absolutely no text, just
+    graphics.*
 
 The single cutsheet (request 3) and the clustered layouts (request 4) have since been
 removed. The repository history has them.
@@ -328,7 +332,7 @@ from a CDN). Drag to orbit, scroll to zoom, right-drag to pan.
 * Colour by box (the colours above, hinge pieces grey) or as plywood.
 * Hovering a piece names it, with its flat size.
 * Each box carries its engraved text (section 5) on its front and underneath, and
-  boxes 1 and 2 their artwork on the lid top. The model draws the same outlines as the
+  boxes 1, 2 and 4 their artwork on the lid top. The model draws the same outlines as the
   cut files.
 
 How `make_model.py` builds it:
@@ -411,12 +415,14 @@ size, so the sheet layouts are the same as before. On those two pieces the red
 
 The lid tops of boxes 1 and 2 are engraved with Adobe Stock illustrations. Both stock
 files are Illustrator EPS with a `.ai` extension. Each was turned into a PDF with
-Ghostscript and then into an SVG in `art/` with PyMuPDF.
+Ghostscript and then into an SVG in `art/` with PyMuPDF. Box 4's is an original
+drawing, made for this lid.
 
 | Box | Artwork | Lid top (mm) | Engraved (mm) |
 |---|---|---|---|
 | 1 | Science and medical research in blue-ink sketch style (`AdobeStock_2095995062.svg`) | 154 × 74 | 100.3 × 58.0 |
 | 2 | Black cat silhouettes in 15 poses (`AdobeStock_939770434.svg`) | 162 × 89 | 146.0 × 55.0 |
+| 4 | A brain bursting with ideas, no text (`ideas.svg`) | 178 × 119 | 162.0 × 101.5 |
 
 `engraving.py` scales each piece of art to the largest size that leaves 8 mm clear on
 the lid top, centred. Like the text, it is green filled outlines in the lid top's
@@ -430,7 +436,7 @@ piece. To change the art or put art on another lid, set `LID_ART` in `engraving.
   Engraving the white too would fill the cats in solid. So `engraving.py` works out
   the painted area in paint order (black shapes added, white ones cut out, curves
   flattened to within 0.02 mm), giving 36 outlines with the white left unengraved.
-* **Which panel is the lid top.** On boxes 1 and 2 the two x × y panels are no longer
+* **Which panel is the lid top.** On boxes 1, 2 and 4 the two x × y panels are no longer
   the same: the one with the artwork is the lid top, the one with the name is the
   bottom.
 * **Which way round.** The lid top is symmetric too, so either long edge can go to
@@ -440,8 +446,29 @@ piece. To change the art or put art on another lid, set `LID_ART` in `engraving.
   hatching inside the drawings is only 0.05–0.08 mm. Engrave at 300 DPI or finer, and
   expect the hatching to soften into shading. In box 2's art the white contour lines
   inside the cats are about 0.1 mm wide and may close up. The eyes are large enough
-  to come out clearly.
-* **Licence.** These are licensed stock images. Check that the licence allows
+  to come out clearly. In box 4's art the outlines come out about 1.25 mm wide and the
+  detail lines 0.6–0.9 mm. Its finest parts are the bulb's filament and wires (about
+  0.3 mm) and the bubbles in the flask's liquid (about 0.6 mm across), which may fill
+  in; the rest engraves cleanly at any usual DPI.
+* **Box 4's drawing.** `art/draw_ideas.py` draws it: a brain in true side view, with
+  lines fanning out of its top between a light bulb, three meshing gears, a speech
+  bubble with a bubbling lab flask, a thought cloud, a speech bubble with a sparkle, a
+  signal, lightning, an atom, a paper plane, stars and confetti. It was drawn for the
+  lid's shape, about 1.6 : 1, from a stock clip-art idea, without any of its text.
+  * The brain's main grooves are where they are on a real brain (the lateral fissure,
+    the central sulcus and its neighbours, the frontal, temporal and intraparietal
+    sulci). The smaller folds are grown from the notches in its outline and then into
+    whatever room is left, from a fixed random seed, so every run gives the same
+    drawing.
+  * Outlines are an even 1.2 mm; inner detail is drawn with a brush that tapers to a
+    point, so it reads as inked by hand.
+  * Each burst line is shortened until it clears everything near it, the bulb's glow
+    lines that would touch something are left out, and the confetti goes only where
+    there is room.
+  * Shapes are built with shapely and written out as black filled outlines, one path
+    per piece, so `engraving.py` takes them as they are. To change the drawing, edit
+    and run `draw_ideas.py`, then `generate.sh`.
+* **Licence.** Boxes 1 and 2's artwork comes from licensed stock images. Check that the licence allows
   publishing them, here and in the published 3D model, before pushing them to a public
   repository.
 
@@ -481,7 +508,15 @@ python3 projects/nested-hingeboxes/compare.py
 node projects/nested-hingeboxes/render_previews.js
 ```
 
-Each multi-sheet layout takes about 3–8 minutes, and `generate.sh` runs them in
-parallel. The results are deterministic. To change sizes, thickness, lid height or
-hinge pieces, edit step 1 of `generate.sh`. To search sheet sizes from scratch instead
-of starting from the stored ones, drop `--sheet` in step 2 (10–15 minutes per layout).
+Each multi-sheet layout takes about 3–8 minutes to pack, and `generate.sh` runs them
+in parallel. The results are deterministic. Packing depends only on the pieces' cut
+lines and the packing settings, not on what is engraved inside them. So each sheet
+file records a fingerprint of those, and its pieces record which box piece each one
+is. When only the engraving has changed (new text or lid artwork), `pack_sheets.py`
+finds the same fingerprint, keeps the layout and just swaps in the new engraving and
+labels, and the whole of `generate.sh` takes seconds. Set `REPACK=1` to pack from
+scratch anyway.
+
+To change sizes, thickness, lid height or hinge pieces, edit step 1 of `generate.sh`.
+To search sheet sizes from scratch instead of starting from the stored ones, drop
+`--sheet` in step 2 (10–15 minutes per layout).

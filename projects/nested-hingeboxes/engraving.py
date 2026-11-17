@@ -50,7 +50,7 @@ CANDLE_LINE = 0.55  # mm, line width of the candles
 # engraved: unfilled paths, such as a stock file's corner marks, are left out,
 # and white shapes are bare wood, cut out of whatever is painted below them.
 LID_ART = [HERE / "art" / "AdobeStock_2095995062.svg", HERE / "art" / "AdobeStock_939770434.svg",
-           None, None]
+           None, HERE / "art" / "ideas.svg"]
 LID_PAD = 8.0       # mm clear around the lid artwork
 LID_TOLERANCE = 0.02  # mm, how far flattened curves may stray, for art with white shapes
 WHITE = ("#ffffff", "#fff", "white")

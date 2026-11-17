@@ -3,7 +3,14 @@
 side by side in a grid on one big panel, with cut lines between the sheets,
 then fill the leftover space with as many spare hinge pieces as fit.
 
-usage: pack_sheets.py [--sheet WxH] N OUT.svg BOX1.svg [BOX2.svg ...]
+usage: pack_sheets.py [--sheet WxH] [--repack] N OUT.svg BOX1.svg [BOX2.svg ...]
+
+* Packing only depends on the pieces' cut lines and the settings, not on what
+  is engraved inside them.  OUT records a fingerprint of both, and each piece
+  in it records which input piece it is.  If OUT already exists with the same
+  fingerprint, only the engraving (and the "Box N" label placed below it) is
+  brought up to date, in seconds, and the layout is kept.  Any other change, or
+  --repack, packs from scratch.
 
 * Every part stays at least EDGE mm inside its sheet's cut line (the frame
   that protects the parts when the sheets are stacked) and GAP mm from other
@@ -35,6 +42,7 @@ usage: pack_sheets.py [--sheet WxH] N OUT.svg BOX1.svg [BOX2.svg ...]
 """
 import argparse
 import copy
+import hashlib
 import itertools
 import json
 import math
@@ -330,32 +338,71 @@ def best_layout(parts, n_sheets, W, H, log, quick=False):
 
 # -------------------------------------------------------------------- output
 
-def write_svg(out, n_sheets, W, H, placed):
+def fingerprint(parts, settings):
+    """A short hash of everything the layout depends on: the settings and each
+    piece's bounding box and contents, engraving left out."""
+    h = hashlib.sha256(json.dumps(settings).encode())
+    for p in parts:
+        h.update(repr((p["box"], p["bbox"])).encode())
+        for c in p["g"]:
+            if c.get("class") != "engraving":
+                h.update(ET.tostring(c))
+    return h.hexdigest()[:16]
+
+
+def fill_piece(ng, p):
+    """Put piece p's contents into its group ng on the sheet, with its label."""
+    x0, y0, x1, y1 = p["bbox"]
+    for c in p["g"]:
+        ng.append(copy.deepcopy(c))
+    if p["box"] is None:
+        return
+    # The label goes in the middle of the piece, or, on a piece with engraved
+    # text (engrave_boxes.py), halfway between the text and the piece's edge below it.
+    ly = (y0 + y1) / 2
+    engraved = [c for c in p["g"] if c.get("class") == "engraving"]
+    if engraved:
+        ly = (max(parse_path(c.get("d")).bbox()[3] for c in engraved) + y1) / 2
+    lbl = ET.SubElement(ng, f"{{{SVG_NS}}}text", {
+        "x": f"{(x0 + x1) / 2:.2f}", "y": f"{ly:.2f}", "font-size": "5",
+        "font-family": "sans-serif", "fill": "rgb(255,0,0)", "text-anchor": "middle",
+        "dominant-baseline": "middle"})
+    lbl.text = f"Box {p['box']}"
+
+
+def reengrave(out, parts, fp):
+    """If `out` was packed from these same pieces with the same settings (its
+    fingerprint is fp), refill every piece in it, which brings the engraving and
+    labels up to date and keeps the layout, and return True.  Otherwise leave
+    it alone and return False."""
+    try:
+        tree = ET.parse(out)
+    except (FileNotFoundError, ET.ParseError):
+        return False
+    if tree.getroot().get("data-pack") != fp:
+        return False
+    for ng in tree.getroot().iter(f"{{{SVG_NS}}}g"):
+        if ng.get("data-part") is not None:
+            for c in list(ng):
+                ng.remove(c)
+            fill_piece(ng, parts[int(ng.get("data-part"))])
+    tree.write(out, encoding="utf-8", xml_declaration=True)
+    return True
+
+
+def write_svg(out, n_sheets, W, H, placed, parts, fp):
     grids = [(c, n_sheets // c) for c in range(1, n_sheets + 1) if n_sheets % c == 0]
     cols, rows = min(grids, key=lambda g: abs(math.log((g[0] * W) / (g[1] * H))))
     TW, TH = cols * W, rows * H
 
     svg = ET.Element(f"{{{SVG_NS}}}svg", {"width": f"{TW:.1f}mm", "height": f"{TH:.1f}mm",
-                                         "viewBox": f"0 0 {TW:.1f} {TH:.1f}"})
+                                         "viewBox": f"0 0 {TW:.1f} {TH:.1f}", "data-pack": fp})
+    index = {id(p): i for i, p in enumerate(parts)}
     for b, p, t, _ in placed:
-        x0, y0, x1, y1 = p["bbox"]
         t = f"translate({(b % cols) * W:.3f},{(b // cols) * H:.3f}) {t}"
-        ng = ET.SubElement(svg, f"{{{SVG_NS}}}g", {"transform": t, "style": p["g"].attrib.get("style", "")})
-        for c in p["g"]:
-            ng.append(copy.deepcopy(c))
-        if p["box"] is None:
-            continue
-        # The label goes in the middle of the piece, or, on a piece with engraved
-        # text (engrave_boxes.py), halfway between the text and the piece's edge below it.
-        ly = (y0 + y1) / 2
-        engraved = [c for c in p["g"] if c.get("class") == "engraving"]
-        if engraved:
-            ly = (max(parse_path(c.get("d")).bbox()[3] for c in engraved) + y1) / 2
-        lbl = ET.SubElement(ng, f"{{{SVG_NS}}}text", {
-            "x": f"{(x0 + x1) / 2:.2f}", "y": f"{ly:.2f}", "font-size": "5",
-            "font-family": "sans-serif", "fill": "rgb(255,0,0)", "text-anchor": "middle",
-            "dominant-baseline": "middle"})
-        lbl.text = f"Box {p['box']}"
+        ng = ET.SubElement(svg, f"{{{SVG_NS}}}g", {"transform": t, "style": p["g"].attrib.get("style", ""),
+                                                   "data-part": str(index[id(p)])})
+        fill_piece(ng, p)
     for b in range(n_sheets):        # sheet numbers in the frame margin
         t = ET.SubElement(svg, f"{{{SVG_NS}}}text", {
             "x": f"{(b % cols) * W + EDGE:.2f}", "y": f"{(b // cols) * H + EDGE / 2:.2f}",
@@ -378,6 +425,8 @@ def main():
     ap.add_argument("--sheet", help="sheet size WxH in mm to start from (skips the size "
                     "search); grown in 2 mm steps, smallest area first, only if the "
                     "required pieces do not fit")
+    ap.add_argument("--repack", action="store_true",
+                    help="pack from scratch even if OUT was packed from the same pieces")
     ap.add_argument("n_sheets", type=int)
     ap.add_argument("out")
     ap.add_argument("files", nargs="+")
@@ -387,6 +436,10 @@ def main():
         print(f"[{a.n_sheets} sheets] {msg}", file=sys.stderr, flush=True)
 
     parts = load_parts(a.files)
+    fp = fingerprint(parts, [a.n_sheets, a.sheet])
+    if not a.repack and reengrave(a.out, parts, fp):
+        log("same pieces and settings as before: engraving updated, layout kept")
+        return
     needed = sum(p["box"] is None for p in parts)
     if a.sheet:
         W, H = (float(v) for v in a.sheet.lower().split("x"))
@@ -403,7 +456,7 @@ def main():
                 best = best_layout(parts, a.n_sheets, W, H, log)
                 break
     strategy, hinges, placed = best
-    cols, rows, TW, TH = write_svg(a.out, a.n_sheets, W, H, placed)
+    cols, rows, TW, TH = write_svg(a.out, a.n_sheets, W, H, placed, parts, fp)
     print(json.dumps(dict(N=a.n_sheets, sheet=[W, H], grid=[cols, rows], overall=[TW, TH],
                           hinge_pieces=hinges, spare_hinge_pieces=hinges - needed,
                           strategy=strategy)))

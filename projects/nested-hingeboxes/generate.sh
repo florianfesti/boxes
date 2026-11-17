@@ -31,9 +31,11 @@ BOXES=(boxes/box1.svg boxes/box2.svg boxes/box3.svg boxes/box4.svg)
 # 2. N equal sheets, plus as many spare hinge pieces as fit (runs in parallel).
 #    Sheet sizes are kept from the earlier size search (done for 5-piece hinges)
 #    and grown only where the required pieces no longer fit.  Drop --sheet to
-#    run the size search from scratch.
+#    run the size search from scratch.  If only the engraving has changed, each
+#    sheet file keeps its layout and just gets the new engraving; set REPACK=1
+#    to pack from scratch anyway.
 while read -r n size; do
-  "$PY" pack_sheets.py --sheet "$size" "$n" "sheets/sheets$n.svg" "${BOXES[@]}" &
+  "$PY" pack_sheets.py --sheet "$size" ${REPACK:+--repack} "$n" "sheets/sheets$n.svg" "${BOXES[@]}" &
 done <<'SHEETS'
 6 278x255
 8 188x285

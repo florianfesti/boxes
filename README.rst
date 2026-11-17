@@ -1,6 +1,10 @@
 About Boxes.py
 ==============
 
+This fork adds `four nested HingeBoxes <projects/nested-hingeboxes/>`_, with an
+`interactive 3D model <https://danfoygel.github.io/boxes/nested-hingeboxes/>`_ you
+can rotate, nest and open in the browser.
+
 +----------------------------------------------+----------------------------------------------+----------------------------------------------+----------------------------------------------+----------------------------------------------+
 | .. image:: static/samples/NotesHolder.jpg    | .. image:: static/samples/OttoBody.jpg       | .. image:: static/samples/PaintStorage.jpg   | .. image:: static/samples/ShutterBox.jpg     | .. image:: static/samples/TwoPiece.jpg       |
 +----------------------------------------------+----------------------------------------------+----------------------------------------------+----------------------------------------------+----------------------------------------------+

@@ -5,9 +5,10 @@ Chrismukkah 2026 gifts. Each box is a stock boxes.py
 [HingeBox](https://boxes.hackerspace-bamberg.de/HingeBox) (`boxes/generators/hingebox.py`)
 in 3 mm plywood, with a lid on two wooden hinges built from 7 interlocking pieces and
 a metal pin each. The front of each box is engraved with a title in the typewriter
-face Special Elite, and the bottom with the recipient's name and "Chrismukkah 2026".
-Box 1's lid top also carries an ink-sketch science illustration (microscope, DNA,
-heart, brain and lab glassware), and box 2's a row of black cat silhouettes.
+face Special Elite, and the bottom with the recipient's name and "Chrismukkah 2026"
+between a small Christmas tree and a menorah. Box 1's lid top also carries an
+ink-sketch science illustration (microscope, DNA, heart, brain and lab glassware), and
+box 2's a row of black cat silhouettes.
 
 | Box | Outside (mm) | Front | Bottom |
 |---|---|---|---|
@@ -25,8 +26,9 @@ The project covers:
   Leftover space is filled with spare hinge pieces ([section 3](#3-n-equal-sheets-with-spare-hinge-pieces)).
 * **[A 3D model](https://danfoygel.github.io/boxes/nested-hingeboxes/)** to rotate,
   nest and open the boxes in the browser ([section 4](#4-3d-model)).
-* **Engraved text** on the front and bottom of each box, and **artwork** on the lids
-  of boxes 1 and 2, in the cut files and the model ([section 5](#5-engraved-text)).
+* **Engraved text** on the front and bottom of each box, with a tree and a menorah
+  beside the bottom text, and **artwork** on the lids of boxes 1 and 2, in the cut
+  files and the model ([section 5](#5-engraved-text)).
 
 ## 3D model
 
@@ -95,8 +97,8 @@ hinge pieces, 75.6% utilization. Cut file:
 | `color_layouts.py` | Makes the colour-coded layout views in `layouts/` |
 | `compare.py` | Prints the comparison table of all layouts |
 | `render_previews.js` | Renders the SVGs to PNG previews and screenshots the 3D model (Playwright + Chromium) |
-| `engraving.py` | What is engraved: the words, their sizes and outlines in Special Elite, and the lid artwork scaled to fit |
-| `engrave_boxes.py` | Adds the engraved text and lid artwork to the box SVGs |
+| `engraving.py` | The engraving: the words, their sizes, and their outlines in Special Elite, the tree and menorah beside the bottom text, and the lid artwork scaled to fit |
+| `engrave_boxes.py` | Adds the engraving to the box SVGs |
 | `fonts/` | Special Elite (`SpecialElite-Regular.ttf`, from Google Fonts) and its licence (Apache 2.0) |
 | `art/` | The lid artwork, converted from the Adobe Stock Illustrator EPS files to SVG: 2095995062 (box 1) and 939770434 (box 2) |
 | `make_model.py`, `model_template.html` | Build `model.html`, the interactive 3D model |
@@ -137,9 +139,11 @@ hinge pieces, 75.6% utilization. Cut file:
     Barber, Rina Foygel Barber, Mathew Barber), then "Chrismukkah 2026". Then: *try
     6 mm, and rotate it 180 degrees.* And then: *rotate it 180 degrees* again.
 12. *Add the text to the layouts and cut files.*
-13. *Add this as a raster to box 1 lid:* an Adobe Stock illustration (2095995062),
+13. *Add small engraved images of a Christmas tree and a menorah on the bottom:* line
+    art, one either side of the text.
+14. *Add this as a raster to box 1 lid:* an Adobe Stock illustration (2095995062),
     first converted from `.ai` to SVG.
-14. *Do the same with this file for box 2:* Adobe Stock 939770434.
+15. *Do the same with this file for box 2:* Adobe Stock 939770434.
 
 The single cutsheet (request 3) and the clustered layouts (request 4) have since been
 removed. The repository history has them.
@@ -374,11 +378,26 @@ when you orbit under the box from the front.
 | 3 | Rina Foygel Barber / Chrismukkah 2026 | 170 × 104 |
 | 4 | Mathew Barber / Chrismukkah 2026 | 178 × 119 |
 
-In the cut files the text is green (boxes.py's etching colour), filled outlines inside
+**Tree and menorah.** Beside the bottom text, a line-art Christmas tree on the left
+and a nine-branch menorah (the shamash raised in the middle) on the right, the same
+on all four boxes. Each is centred halfway between the text and the edge of the
+bottom's inner area, level with the text. They're drawn in `engraving.py` as lines
+and filled shapes and turned into outlines with shapely: 0.7 mm lines (0.55 mm for
+the candles), with the flames, the star and the ornaments filled. The menorah is
+19.8 × 24.4 mm and the tree 16.1 × 24.1 mm, at the same scale (`ART_H` sets it).
+
+| Box | Gap either side of the tree (mm) | Gap either side of the menorah (mm) |
+|---|---|---|
+| 1 | 16.7 | 14.9 |
+| 2 | 18.7 | 16.9 |
+| 3 | 19.7 | 17.9 |
+| 4 | 22.7 | 20.9 |
+
+In the cut files the text and art are green (boxes.py's etching colour), filled outlines inside
 the piece it belongs to. `engrave_boxes.py` adds it to the box SVGs from the generator,
 so it moves with its piece when the sheets are packed. Adding it changed no piece's
 size, so the sheet layouts are the same as before. On those two pieces the red
-"Box N" label moves down, between the text and the piece's lower edge.
+"Box N" label moves down, between the engraving and the piece's lower edge.
 
 * **The engraved face goes outside.** Engrave with the sheet as it lies; when you
   assemble, turn each engraved piece so its engraved face is outward. Both pieces are
@@ -433,7 +452,8 @@ piece. To change the art or put art on another lid, set `LID_ART` in `engraving.
   a vector score: the font's rough outlines make a messy score) and skip red.
 * Engrave before cutting, so the pieces are still held in the sheet. A test on a
   scrap of the same plywood is worth it: grain and finish change how the 6 mm bottom
-  text and the fine lines of the lid artwork come out.
+  text, the menorah's small flames (about 1.6 × 2.3 mm) and the fine lines of the lid
+  artwork come out.
 * In the multi-sheet files the sheet cut lines come last, so the pieces are cut before
   the sheets come free. If your laser software reorders cuts, make sure the sheet
   lines go last.

@@ -108,7 +108,7 @@ def main(files):
     for f, (tree, front, bottom, lid), t in zip(files, jobs, text):
         # coordinates written out in full (no transform): SvgMerge's bounding
         # boxes, which pack_sheets.py uses, ignore transforms.  The artwork is
-        # one path per shape (see engraving.art).
+        # one path per shape (see engraving.lid_art).
         for (g, _), key in ((front, "front"), (bottom, "bottom"), (lid, "lid")):
             if key not in t:
                 continue

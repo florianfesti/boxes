@@ -7,8 +7,8 @@ in 3 mm plywood, with a lid on two wooden hinges built from 7 interlocking piece
 a metal pin each. The front of each box is engraved with a title in the typewriter
 face Special Elite, and the bottom with the recipient's name and "Chrismukkah 2026"
 between a small Christmas tree and a menorah. Box 1's lid top also carries an
-ink-sketch science illustration (microscope, DNA, heart, brain and lab glassware), and
-box 2's a row of black cat silhouettes.
+ink-sketch science illustration (microscope, DNA, heart, brain and lab glassware),
+box 2's a row of black cat silhouettes, and box 3's three deliberately broken charts.
 
 | Box | Outside (mm) | Front | Bottom |
 |---|---|---|---|
@@ -27,7 +27,7 @@ The project covers:
 * **[A 3D model](https://danfoygel.github.io/boxes/nested-hingeboxes/)** to rotate,
   nest and open the boxes in the browser ([section 4](#4-3d-model)).
 * **Engraved text** on the front and bottom of each box, with a tree and a menorah
-  beside the bottom text, and **artwork** on the lids of boxes 1 and 2, in the cut
+  beside the bottom text, and **artwork** on the lids of boxes 1–3, in the cut
   files and the model ([section 5](#5-engraved-text)).
 
 ## 3D model
@@ -100,13 +100,14 @@ hinge pieces, 75.6% utilization. Cut file:
 | `engraving.py` | The engraving: the words, their sizes, and their outlines in Special Elite, the tree and menorah beside the bottom text, and the lid artwork scaled to fit |
 | `engrave_boxes.py` | Adds the engraving to the box SVGs |
 | `fonts/` | Special Elite (`SpecialElite-Regular.ttf`, from Google Fonts) and its licence (Apache 2.0) |
-| `art/` | The lid artwork, converted from the Adobe Stock Illustrator EPS files to SVG: 2095995062 (box 1) and 939770434 (box 2) |
+| `art/` | The lid artwork: the Adobe Stock Illustrator EPS files converted to SVG, 2095995062 (box 1) and 939770434 (box 2), and the broken charts (`broken-charts.svg`, box 3) |
+| `lid_charts.py` | Draws box 3's broken charts into `art/` |
 | `make_model.py`, `model_template.html` | Build `model.html`, the interactive 3D model |
 | `model.html` | The four boxes in 3D: open it in a browser to rotate, nest and open them |
 | `boxes/box1.svg` … `box4.svg` | The four boxes, each from the stock HingeBox generator (7-piece hinges), plus their engraved text and lid artwork |
 | `sheets/sheetsN.svg` | N equal sheets, with spare hinge pieces: the cut files |
 | `layouts/sheetsN.svg` | The same layouts colour-coded by box, for reading, not cutting |
-| `previews/` | PNG renders of the cut files (`sheetsN.png`), layout views (`layout-sheetsN.png`) and 3D model (`model.png`) |
+| `previews/` | PNG renders of the cut files (`sheetsN.png`), layout views (`layout-sheetsN.png`), 3D model (`model.png`) and box 3's lid art (`lid-box3.png`) |
 
 ## The requests
 
@@ -144,6 +145,12 @@ hinge pieces, 75.6% utilization. Cut file:
 14. *Add this as a raster to box 1 lid:* an Adobe Stock illustration (2095995062),
     first converted from `.ai` to SVG.
 15. *Do the same with this file for box 2:* Adobe Stock 939770434.
+16. *Make an SVG for the lid top of the "Problematic Data" box that shows a variety of
+    charts that are each broken in some way.* Then: *just do 3 graphs, and make the
+    dots more random.* And: *make it a wider aspect ratio.* Then: *add it, the same
+    way as the lid art on boxes 1 and 2.* Then the scatter became Anscombe's fourth
+    dataset (*let's do something like this*), with *the loop and arrow end a little
+    closer to the origin* and *the fit line dashed instead of solid.*
 
 The single cutsheet (request 3) and the clustered layouts (request 4) have since been
 removed. The repository history has them.
@@ -328,7 +335,7 @@ from a CDN). Drag to orbit, scroll to zoom, right-drag to pan.
 * Colour by box (the colours above, hinge pieces grey) or as plywood.
 * Hovering a piece names it, with its flat size.
 * Each box carries its engraved text (section 5) on its front and underneath, and
-  boxes 1 and 2 their artwork on the lid top. The model draws the same outlines as the
+  boxes 1–3 their artwork on the lid top. The model draws the same outlines as the
   cut files.
 
 How `make_model.py` builds it:
@@ -411,12 +418,14 @@ size, so the sheet layouts are the same as before. On those two pieces the red
 
 The lid tops of boxes 1 and 2 are engraved with Adobe Stock illustrations. Both stock
 files are Illustrator EPS with a `.ai` extension. Each was turned into a PDF with
-Ghostscript and then into an SVG in `art/` with PyMuPDF.
+Ghostscript and then into an SVG in `art/` with PyMuPDF. Box 3's lid gets three charts
+drawn by `lid_charts.py` (see [below](#box-3-broken-charts)).
 
 | Box | Artwork | Lid top (mm) | Engraved (mm) |
 |---|---|---|---|
 | 1 | Science and medical research in blue-ink sketch style (`AdobeStock_2095995062.svg`) | 154 × 74 | 100.3 × 58.0 |
 | 2 | Black cat silhouettes in 15 poses (`AdobeStock_939770434.svg`) | 162 × 89 | 146.0 × 55.0 |
+| 3 | Three broken charts (`broken-charts.svg`) | 170 × 104 | 154.0 × 37.2 |
 
 `engraving.py` scales each piece of art to the largest size that leaves 8 mm clear on
 the lid top, centred. Like the text, it is green filled outlines in the lid top's
@@ -430,7 +439,7 @@ piece. To change the art or put art on another lid, set `LID_ART` in `engraving.
   Engraving the white too would fill the cats in solid. So `engraving.py` works out
   the painted area in paint order (black shapes added, white ones cut out, curves
   flattened to within 0.02 mm), giving 36 outlines with the white left unengraved.
-* **Which panel is the lid top.** On boxes 1 and 2 the two x × y panels are no longer
+* **Which panel is the lid top.** On boxes 1–3 the two x × y panels are no longer
   the same: the one with the artwork is the lid top, the one with the name is the
   bottom.
 * **Which way round.** The lid top is symmetric too, so either long edge can go to
@@ -441,9 +450,25 @@ piece. To change the art or put art on another lid, set `LID_ART` in `engraving.
   expect the hatching to soften into shading. In box 2's art the white contour lines
   inside the cats are about 0.1 mm wide and may close up. The eyes are large enough
   to come out clearly.
-* **Licence.** These are licensed stock images. Check that the licence allows
-  publishing them, here and in the published 3D model, before pushing them to a public
-  repository.
+* **Licence.** Boxes 1 and 2's art are licensed stock images. Check that the licence
+  allows publishing them, here and in the published 3D model, before pushing them to a
+  public repository. Box 3's charts are drawn here.
+
+#### Box 3: broken charts
+
+Three small charts, each broken in its own way: a line graph whose line loops and runs
+off the chart, a bar chart whose bars lean, bend and wobble, and a scatter plot after
+the fourth of Anscombe's quartet (1973): every point but one shares the same x, so that
+one outlier alone sets the slope of a confident, dashed fit line.
+
+![Box 3's lid art, as it might look engraved](previews/lid-box3.png)
+
+`lid_charts.py` draws them with shapely as filled outlines (0.8 mm data lines, 0.7 mm
+axes, 2.6 mm dots, 2.4 mm dashes with 1.4 mm gaps) on a 170 × 104 mm face, box 3's lid
+top, and writes `art/broken-charts.svg` and the preview. The charts sit in a row, each with 45 × 32 mm
+axes. Their ink is drawn just inside the 8 mm pad, so `engraving.py` puts them on at
+full size. The fit line is the true least-squares line for the points, which runs
+through the outlier and the column's mean.
 
 ## Cutting notes
 

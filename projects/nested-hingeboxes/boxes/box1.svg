@@ -14,14 +14,14 @@ Then attach the hinges on the inside of the box and then connect them to lid.
 
 
 Created with Boxes.py (https://boxes.hackerspace-bamberg.de/)
-Creation date: 2026-11-17 12:00:45
+Creation date: 2026-11-17 14:09:40
 Command line (remove spaces between dashes): boxes HingeBox - -x - -y - -h - -CabinetHinge_eyes_per_hinge - -reference - -output
 -->
 <title>HingeBox</title>
 <metadata>
 <rdf:RDF><cc:Work>
 <dc:title>Box - HingeBox</dc:title>
-<dc:date>2026-11-17 12:00:45</dc:date>
+<dc:date>2026-11-17 14:09:40</dc:date>
 <dc:source>boxes HingeBox --x 160 --y 80 --h 60 --lidheight 20 --thickness 3 --CabinetHinge_eyes_per_hinge 7 --reference 0 --output boxes/box1.svg</dc:source>
 <dc:description>Box with lid attached by cabinet hinges
 

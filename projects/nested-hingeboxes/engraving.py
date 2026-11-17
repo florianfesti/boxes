@@ -42,7 +42,8 @@ BOTTOM_TEXT = [(name, "Chrismukkah 2026")
 PAD = 12.0          # mm clear around the front text on the box with the lowest front
 LEADING = 1.2       # line pitch, in font sizes
 BOTTOM_SIZE = 6.0   # mm, font size of the bottom text
-ART_H = 24.0        # mm, height of the menorah beside the bottom text (the tree is drawn to the same scale)
+ART_H = 20.0        # mm, height of the menorah beside the bottom text (the tree is drawn to the same scale)
+ART_GAP = 6.0       # mm clear between the bottom text and the tree or menorah
 ART_LINE = 0.7      # mm, line width of the tree and menorah outlines
 CANDLE_LINE = 0.55  # mm, line width of the candles
 
@@ -228,16 +229,15 @@ def _path(g):
 
 def bottom_art(ink, face):
     """SVG path data of the tree (left) and menorah (right) beside the bottom text
-    whose ink box is `ink`, on the face (x, y, w, h): each centred halfway between
-    the text and the face's edge, level with the text.  Also the ink box of text
-    and art together."""
+    whose ink box is `ink`, on the face (x, y, w, h): each ART_GAP clear of the
+    text, level with it.  Also the ink box of text and art together."""
     fx, _, fw, _ = face
     x0, y0, x1, y1 = ink
     cy = (y0 + y1) / 2
     tree, menorah = _art()
-    tree = affinity.translate(tree, (fx + x0) / 2, cy)
-    menorah = affinity.translate(menorah, (x1 + fx + fw) / 2, cy)
-    assert tree.bounds[2] < x0 and menorah.bounds[0] > x1, "no room beside the bottom text for the art"
+    tree = affinity.translate(tree, x0 - ART_GAP - tree.bounds[2], cy)
+    menorah = affinity.translate(menorah, x1 + ART_GAP - menorah.bounds[0], cy)
+    assert tree.bounds[0] > fx and menorah.bounds[2] < fx + fw, "no room beside the bottom text for the art"
     b = [g.bounds for g in (tree, menorah)] + [ink]
     return _path(tree) + _path(menorah), (min(v[0] for v in b), min(v[1] for v in b),
                                           max(v[2] for v in b), max(v[3] for v in b))

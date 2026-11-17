@@ -144,6 +144,8 @@ hinge pieces, 75.6% utilization. Cut file:
 14. *Add this as a raster to box 1 lid:* an Adobe Stock illustration (2095995062),
     first converted from `.ai` to SVG.
 15. *Do the same with this file for box 2:* Adobe Stock 939770434.
+16. *Make the tree and menorah on the bottom a little smaller, and bring them closer
+    to the text.*
 
 The single cutsheet (request 3) and the clustered layouts (request 4) have since been
 removed. The repository history has them.
@@ -380,18 +382,17 @@ when you orbit under the box from the front.
 
 **Tree and menorah.** Beside the bottom text, a line-art Christmas tree on the left
 and a nine-branch menorah (the shamash raised in the middle) on the right, the same
-on all four boxes. Each is centred halfway between the text and the edge of the
-bottom's inner area, level with the text. They're drawn in `engraving.py` as lines
+on all four boxes. Each sits 6 mm clear of the text (`ART_GAP`), level with it. They're drawn in `engraving.py` as lines
 and filled shapes and turned into outlines with shapely: 0.7 mm lines (0.55 mm for
 the candles), with the flames, the star and the ornaments filled. The menorah is
-19.8 × 24.4 mm and the tree 16.1 × 24.1 mm, at the same scale (`ART_H` sets it).
+16.5 × 20.4 mm and the tree 13.5 × 20.1 mm, at the same scale (`ART_H` sets it).
 
-| Box | Gap either side of the tree (mm) | Gap either side of the menorah (mm) |
+| Box | Tree to the bottom's left edge (mm) | Menorah to the bottom's right edge (mm) |
 |---|---|---|
-| 1 | 16.7 | 14.9 |
-| 2 | 18.7 | 16.9 |
-| 3 | 19.7 | 17.9 |
-| 4 | 22.7 | 20.9 |
+| 1 | 30.0 | 27.1 |
+| 2 | 34.0 | 31.1 |
+| 3 | 36.0 | 33.1 |
+| 4 | 42.0 | 39.1 |
 
 In the cut files the text and art are green (boxes.py's etching colour), filled outlines inside
 the piece it belongs to. `engrave_boxes.py` adds it to the box SVGs from the generator,
@@ -452,7 +453,7 @@ piece. To change the art or put art on another lid, set `LID_ART` in `engraving.
   a vector score: the font's rough outlines make a messy score) and skip red.
 * Engrave before cutting, so the pieces are still held in the sheet. A test on a
   scrap of the same plywood is worth it: grain and finish change how the 6 mm bottom
-  text, the menorah's small flames (about 1.6 × 2.3 mm) and the fine lines of the lid
+  text, the menorah's small flames (about 1.3 × 1.9 mm) and the fine lines of the lid
   artwork come out.
 * In the multi-sheet files the sheet cut lines come last, so the pieces are cut before
   the sheets come free. If your laser software reorders cuts, make sure the sheet

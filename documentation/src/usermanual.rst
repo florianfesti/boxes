@@ -87,6 +87,8 @@ much smaller it is than its nominal size. The burn value should be
 around half of the difference. To test the fit for several values at
 once you can use the **BurnTest** generator in the "Parts and Samples" section.
 
+When using a CNC router, set ``burn`` to ``0``. See :ref:`the FAQ on CNC routers <cnc-router>`.
+
 spacing
 .......
 
@@ -103,6 +105,9 @@ merge touching edges to avoid duplicate cuts), set ``burn`` to ``0`` and set
 absolute offset to the real kerf, e.g. ``0:0.1`` (meaning ``0 * thickness + 0.1 mm``).
 Make sure to enable the cut optimisation "Remove overlapping lines" in LightBurn
 with a distance at least as large as the kerf.
+
+For CNC routers the bit has to fit between the parts. Use an absolute
+offset a bit larger than the diameter of the bit, e.g. ``0:8`` for a 6mm bit.
 
 format
 ......
@@ -132,6 +137,9 @@ support this features but there may be some that don't.
 For plywood values of 0.2 to 0.3mm still allow getting the parts out
 by hand (Depending on you laser cutter and the exact material). With
 little more you will need a knife to cut them loose.
+
+Tabs are gaps in the outline. For CNC routers set ``tabs`` to ``0``
+and use the tabs of your CAM software instead.
 
 inner_corners
 .............

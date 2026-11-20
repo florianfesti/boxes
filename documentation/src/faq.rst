@@ -61,6 +61,26 @@ I really don't want those weird, tiny loops?
 
 You can set the ``inner_corners`` default setting to ``corner``
 
+.. _cnc-router:
+
+Can I use Boxes.py with a CNC router?
+-------------------------------------
+
+Yes, but Boxes.py is made for laser cutters and some of the default settings need to be changed. Boxes.py typically works by adding a radius to the intended shapes, to compensate for the laser's kerf. When preparing parts for CNC, you should draw the parts in their actual size and use your CAM software to manage the offset for the bit:
+
+* Set ``burn`` to ``0``. Your CAM is able to offset the tool path by the radius of the bit. If Boxes.py does the same the parts end up too big and won't fit. (Setting ``burn`` to the radius (*not* diameter) of the bit and cutting right on the line works, too.)
+* Set ``spacing`` so the bit fits between the parts. The default of half the material thickness is too small for most bits. ``0:8`` puts 8mm between the parts which is enough for a 6mm bit, about 0.25", but for tab placement, you may want more space.
+* ``tabs``: set to ``0`` and use the tabs of your CAM software. The tabs of Boxes.py are just small gaps in the outline. They are much too small for a router and leave the outline open.
+* Turn off the ``labels`` and set ``reference`` to ``0`` or make sure your CAM software ignores them.
+* Set ``inner_corners`` to ``corner``. A round bit leaves a radius in inner corners. If something has to fit into the corner - like the fingers of a finger joint - add dog bones in your CAM software.
+* Use SVG. The outline and every hole of a part are closed paths. DXF goes through ``pstoedit`` which turns arcs into lots of short lines.
+
+Black lines are outside cuts, blue lines are inside cuts.
+
+If the fit is too tight or too loose use the 'stock to leave' setting of your CAM software or the ``play`` setting of the finger joints.
+
+Some things don't work with a router bit at all or only with very small ones: holes and slots narrower than the bit, fingers narrower than the bit (by default they are twice the material thickness), flex cuts and the ``springs``, ``barbs`` and ``snap`` finger joint styles.
+
 What settings were used to generate a drawing?
 ----------------------------------------------
 

@@ -72,7 +72,7 @@ Yes, but Boxes.py is made for laser cutters and some of the default settings nee
 * Set ``spacing`` so the bit fits between the parts. The default of half the material thickness is too small for most bits. ``0:8`` puts 8mm between the parts which is enough for a 6mm bit, about 0.25", but for tab placement, you may want more space.
 * ``tabs``: set to ``0`` and use the tabs of your CAM software. The tabs of Boxes.py are just small gaps in the outline. They are much too small for a router and leave the outline open.
 * Turn off the ``labels`` and set ``reference`` to ``0`` or make sure your CAM software ignores them.
-* Set ``inner_corners`` to ``corner``. A round bit leaves a radius in inner corners. If something has to fit into the corner - like the fingers of a finger joint - add dog bones in your CAM software.
+* Set ``inner_corners`` to ``dogbone`` and ``bit_diameter`` to the diameter of your bit. A round bit leaves a radius in inner corners. The dog bones make room so things that have to fit into the corner - like the fingers of a finger joint - still fit. (You can also use ``corner`` and add dog bones in your CAM software.)
 * Use SVG. The outline and every hole of a part are closed paths. DXF goes through ``pstoedit`` which turns arcs into lots of short lines.
 
 Black lines are outside cuts, blue lines are inside cuts.

@@ -168,3 +168,35 @@ class Parts:
                 if n == 0:
                     break
             self.move(2*r_outside, 2*r_outside, move)
+
+    def mitreBar(self, inner: float, width: float, start_width: float = 0.0, end_width: float = 0.0,
+                 mitre_edge: str = "e", label: str = "", move: str = "") -> None:
+        """Straight bar with mitred ends, e.g. one side of a frame
+
+        The bar is drawn with the inner edge at the bottom, going from left
+        to right, and the body of the bar above it. Each mitre runs from the
+        inner corner to the outer corner, so it closes against the
+        neighbouring bar even if the two bars differ in width. A neighbour
+        width of 0 gives a square end.
+
+        :param inner: length of the inner edge
+        :param width: width of the bar
+        :param start_width: (Default value = 0.0) width of the neighbouring bar at the start (left end), 0 for none
+        :param end_width: (Default value = 0.0) width of the neighbouring bar at the end (right end), 0 for none
+        :param mitre_edge: (Default value = "e") edge type for the mitres, e.g. "d" or "D" for dove tails
+        :param label: (Default value = "")
+        :param move: (Default value = "")
+        """
+        h_start = hypot(start_width, width)
+        h_end = hypot(end_width, width)
+        a_start = degrees(atan2(width, start_width))
+        a_end = degrees(atan2(width, end_width))
+        outer = inner + start_width + end_width
+
+        borders = [inner, a_end, h_end, 180 - a_end,
+                   outer, 180 - a_start, h_start, a_start]
+        edge_types = ["e",
+                      mitre_edge if end_width else "e",
+                      "e",
+                      mitre_edge if start_width else "e"]
+        self.polygonWall(borders, edge_types, move=move, label=label)

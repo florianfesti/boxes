@@ -153,8 +153,31 @@ different options:
   radius untouched.
 * ``backarc`` naive implementation with inverted arcs connection the
   straight lines.
+* ``dogbone`` dog bones for CNC routers. The size depends on
+  ``bit_diameter``. Use with ``burn`` set to ``0``.
 
 See also :doc:`burn correction details <api_burn>`
+
+bit_diameter
+............
+
+Diameter of the router bit. Only used if ``inner_corners`` is set to
+``dogbone``.
+
+A router bit can't cut sharp inner corners. It leaves a radius of half
+its diameter. Dog bones cut a little further into the corner so the
+other part fits in. They are circles going through the corner with
+their center on the bisector. That way they cut away as little as
+possible - for a 90° corner about 0.3 times the bit radius into each
+side.
+
+They are drawn 0.1mm larger than the bit. Some CAM software silently
+skips holes that have exactly the size of the tool.
+
+If the dog bones of two corners overlap - e.g. in narrow slots - they
+are merged. If there is no room for a dog bone the corner is left as it
+is. Slots narrower than the bit can't be cut at all. You need a smaller
+bit for those.
 
 debug
 .....

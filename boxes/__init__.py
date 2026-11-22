@@ -42,7 +42,7 @@ from boxes import edges, formats, gears, parts, pulley
 from boxes.Color import Color, RGB
 from boxes.qrcode_factory import BoxesQrCodeFactory
 from boxes.vectors import kerf
-from boxes.drawing import Context
+from boxes.drawing import DOGBONE_CLEARANCE, Context
 
 ### Helpers
 
@@ -411,8 +411,12 @@ class Boxes:
         self.inner_corners: str = "loop"
         defaultgroup.add_argument(
             "--inner_corners", action="store", type=str, default="loop",
-            choices=["loop", "corner", "backarc"],
+            choices=["loop", "corner", "backarc", "dogbone"],
             help="style for inner corners [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#inner-corners)")
+        self.bit_diameter: float = 3.175
+        defaultgroup.add_argument(
+            "--bit_diameter", action="store", type=float, default=3.175,
+            help="diameter of the router bit for dogbone inner corners (in mm) [\U0001F6C8](https://florianfesti.github.io/boxes/html/usermanual.html#bit-diameter)")
         self.output: str = "box.svg"
         defaultgroup.add_argument(
             "--output", action="store", type=str, default="box.svg",
@@ -909,6 +913,12 @@ class Boxes:
             self.ctx.arc_negative(0, -(radius - self.burn), radius - self.burn,
                                   0.5 * math.pi, rad + 0.5 * math.pi)
         else:  # not rounded inner corner
+            if (self.inner_corners == "dogbone" and degrees < 0
+                    and abs(radius) < 1e-4 and self.bit_diameter > 0):
+                # Mark the corner. The dog bone is added when finishing the drawing
+                self.ctx.mark_inner_corner(
+                    0.5 * self.bit_diameter + DOGBONE_CLEARANCE,
+                    self.burn - radius > 1e-4)
             self.ctx.arc_negative(0, self.burn - radius, self.burn - radius,
                                   -0.5 * math.pi, -0.5 * math.pi + rad)
 
